@@ -1,0 +1,2920 @@
+{
+ "slug": "renzo-e-luciana",
+ "unit": "rule-modeler (U1)",
+ "base": "plan.md §3-5 (authoritative), test-shot r2 approved",
+ "time_base": {
+  "fps": 24,
+  "sec_per_fixture_minute": 5,
+  "frames_per_fixture_minute": 120,
+  "total_s": 72.0,
+  "total_frames": 1728,
+  "segments": [
+   {
+    "name": "A",
+    "t": [
+     0.0,
+     35.0
+    ],
+    "frames": [
+     0,
+     839
+    ],
+    "tau": "t"
+   },
+   {
+    "name": "slate",
+    "t": [
+     35.0,
+     37.0
+    ],
+    "frames": [
+     840,
+     887
+    ],
+    "u": "t - 35"
+   },
+   {
+    "name": "B",
+    "t": [
+     37.0,
+     72.0
+    ],
+    "frames": [
+     888,
+     1727
+    ],
+    "tau": "t - 37"
+   }
+  ],
+  "fixture_clock": "c(tau) = 12:00 + tau/5 min (tau = version-local seconds)"
+ },
+ "actors": {
+  "renzo": {
+   "role": "operaio",
+   "commitment": "Luciana",
+   "break": {
+    "A": [
+     0.0,
+     3.0,
+     "half-open"
+    ],
+    "B": [
+     0.0,
+     3.0,
+     "half-open"
+    ]
+   },
+   "break_clock": {
+    "A": "[12:00,12:03)",
+    "B": "[12:00,12:03)"
+   }
+  },
+  "luciana": {
+   "role": "operaia",
+   "commitment": "Renzo",
+   "break": {
+    "A": [
+     0.0,
+     4.0,
+     "half-open"
+    ],
+    "B": [
+     3.0,
+     7.0,
+     "half-open"
+    ]
+   },
+   "break_clock": {
+    "A": "[12:00,12:04)",
+    "B": "[12:03,12:07)"
+   }
+  },
+  "foreman": {
+   "role": "observer (InstitutionalRule)",
+   "facing": [
+    {
+     "interval": [
+      0.0,
+      1.0,
+      "half-open"
+     ],
+     "clock": "[12:00,12:01)",
+     "facing": "FLOOR"
+    },
+    {
+     "interval": [
+      1.0,
+      4.0,
+      "half-open"
+     ],
+     "clock": "[12:01,12:04)",
+     "facing": "OFFICE"
+    },
+    {
+     "interval": [
+      4.0,
+      7.0,
+      "closed"
+     ],
+     "clock": "[12:04,12:07]",
+     "facing": "FLOOR"
+    }
+   ]
+  }
+ },
+ "institutional_rule": {
+  "observer": "foreman",
+  "trigger": "facing = FLOOR and both actors in {to_corner, corner}",
+  "scope": "factory floor visible from the CAPOREPARTO doorway",
+  "visible_consequence": "the foreman's turn and gaze; a card pulled from the rack (never triggered)"
+ },
+ "corner_access": {
+  "interval": [
+   1.0,
+   4.0,
+   "half-open"
+  ],
+  "clock": "[12:01,12:04)"
+ },
+ "meeting_window": {
+  "A": {
+   "interval": [
+    1.0,
+    3.0,
+    "half-open"
+   ],
+   "clock": "[12:01,12:03)",
+   "formula": "break(R) ∩ break(L) ∩ access(corner) ∩ facing=OFFICE"
+  },
+  "B": {
+   "interval": null,
+   "clock": "empty",
+   "formula": "break(R) ∩ break(L) ∩ access(corner) ∩ facing=OFFICE"
+  }
+ },
+ "meeting_frames": {
+  "A": [
+   168,
+   343
+  ],
+  "A_seconds": [
+   7.0,
+   14.333333333333334
+  ],
+  "B": null
+ },
+ "locations": {
+  "A": {
+   "renzo": [
+    {
+     "tau": [
+      0,
+      0.4
+     ],
+     "t": [
+      0,
+      0.4
+     ],
+     "loc": "off"
+    },
+    {
+     "tau": [
+      0.4,
+      2.0
+     ],
+     "t": [
+      0.4,
+      2.0
+     ],
+     "loc": "entering"
+    },
+    {
+     "tau": [
+      2.0,
+      5.0
+     ],
+     "t": [
+      2.0,
+      5.0
+     ],
+     "loc": "open_right"
+    },
+    {
+     "tau": [
+      5.0,
+      6.0
+     ],
+     "t": [
+      5.0,
+      6.0
+     ],
+     "loc": "to_corner"
+    },
+    {
+     "tau": [
+      6.0,
+      14.3
+     ],
+     "t": [
+      6.0,
+      14.3
+     ],
+     "loc": "corner"
+    },
+    {
+     "tau": [
+      14.3,
+      15.0
+     ],
+     "t": [
+      14.3,
+      15.0
+     ],
+     "loc": "aisle"
+    },
+    {
+     "tau": [
+      15.0,
+      15.8
+     ],
+     "t": [
+      15.0,
+      15.8
+     ],
+     "loc": "clock"
+    },
+    {
+     "tau": [
+      15.8,
+      35
+     ],
+     "t": [
+      15.8,
+      35
+     ],
+     "loc": "station"
+    }
+   ],
+   "luciana": [
+    {
+     "tau": [
+      0,
+      1.0
+     ],
+     "t": [
+      0,
+      1.0
+     ],
+     "loc": "off"
+    },
+    {
+     "tau": [
+      1.0,
+      2.6
+     ],
+     "t": [
+      1.0,
+      2.6
+     ],
+     "loc": "entering"
+    },
+    {
+     "tau": [
+      2.6,
+      5.0
+     ],
+     "t": [
+      2.6,
+      5.0
+     ],
+     "loc": "open_left"
+    },
+    {
+     "tau": [
+      5.0,
+      7.0
+     ],
+     "t": [
+      5.0,
+      7.0
+     ],
+     "loc": "to_corner"
+    },
+    {
+     "tau": [
+      7.0,
+      19.0
+     ],
+     "t": [
+      7.0,
+      19.0
+     ],
+     "loc": "corner"
+    },
+    {
+     "tau": [
+      19.0,
+      19.6
+     ],
+     "t": [
+      19.0,
+      19.6
+     ],
+     "loc": "aisle"
+    },
+    {
+     "tau": [
+      19.6,
+      20.6
+     ],
+     "t": [
+      19.6,
+      20.6
+     ],
+     "loc": "clock"
+    },
+    {
+     "tau": [
+      20.6,
+      35
+     ],
+     "t": [
+      20.6,
+      35
+     ],
+     "loc": "station"
+    }
+   ]
+  },
+  "B": {
+   "renzo": [
+    {
+     "tau": [
+      0,
+      0.4
+     ],
+     "t": [
+      37,
+      37.4
+     ],
+     "loc": "off"
+    },
+    {
+     "tau": [
+      0.4,
+      2.0
+     ],
+     "t": [
+      37.4,
+      39.0
+     ],
+     "loc": "entering"
+    },
+    {
+     "tau": [
+      2.0,
+      5.0
+     ],
+     "t": [
+      39.0,
+      42.0
+     ],
+     "loc": "open_right"
+    },
+    {
+     "tau": [
+      5.0,
+      6.0
+     ],
+     "t": [
+      42.0,
+      43.0
+     ],
+     "loc": "to_corner"
+    },
+    {
+     "tau": [
+      6.0,
+      14.3
+     ],
+     "t": [
+      43.0,
+      51.3
+     ],
+     "loc": "corner"
+    },
+    {
+     "tau": [
+      14.3,
+      15.0
+     ],
+     "t": [
+      51.3,
+      52.0
+     ],
+     "loc": "aisle"
+    },
+    {
+     "tau": [
+      15.0,
+      15.4
+     ],
+     "t": [
+      52.0,
+      52.4
+     ],
+     "loc": "clock"
+    },
+    {
+     "tau": [
+      15.4,
+      16.5
+     ],
+     "t": [
+      52.4,
+      53.5
+     ],
+     "loc": "aisle"
+    },
+    {
+     "tau": [
+      16.5,
+      35
+     ],
+     "t": [
+      53.5,
+      72
+     ],
+     "loc": "station"
+    }
+   ],
+   "luciana": [
+    {
+     "tau": [
+      0,
+      15.0
+     ],
+     "t": [
+      37,
+      52.0
+     ],
+     "loc": "off"
+    },
+    {
+     "tau": [
+      15.0,
+      15.6
+     ],
+     "t": [
+      52.0,
+      52.6
+     ],
+     "loc": "entering"
+    },
+    {
+     "tau": [
+      15.6,
+      16.5
+     ],
+     "t": [
+      52.6,
+      53.5
+     ],
+     "loc": "aisle"
+    },
+    {
+     "tau": [
+      16.5,
+      19.2
+     ],
+     "t": [
+      53.5,
+      56.2
+     ],
+     "loc": "corner"
+    },
+    {
+     "tau": [
+      19.2,
+      19.8
+     ],
+     "t": [
+      56.2,
+      56.8
+     ],
+     "loc": "aisle"
+    },
+    {
+     "tau": [
+      19.8,
+      34.3
+     ],
+     "t": [
+      56.8,
+      71.3
+     ],
+     "loc": "open_left"
+    },
+    {
+     "tau": [
+      34.3,
+      35
+     ],
+     "t": [
+      71.3,
+      72
+     ],
+     "loc": "clock"
+    }
+   ]
+  }
+ },
+ "pile_zone": [
+  "corner",
+  "to_corner"
+ ],
+ "heads": {
+  "A": {
+   "renzo": [
+    {
+     "tau": 0.4,
+     "t": 0.4,
+     "frame": 10,
+     "state": "walk"
+    },
+    {
+     "tau": 2.0,
+     "t": 2.0,
+     "frame": 48,
+     "state": "clock"
+    },
+    {
+     "tau": 3.5,
+     "t": 3.5,
+     "frame": 84,
+     "state": "door"
+    },
+    {
+     "tau": 4.4,
+     "t": 4.4,
+     "frame": 106,
+     "state": "clock"
+    },
+    {
+     "tau": 5.0,
+     "t": 5.0,
+     "frame": 120,
+     "state": "door"
+    },
+    {
+     "tau": 5.6,
+     "t": 5.6,
+     "frame": 134,
+     "state": "her"
+    },
+    {
+     "tau": 8.0,
+     "t": 8.0,
+     "frame": 192,
+     "state": "forward"
+    },
+    {
+     "tau": 9.0,
+     "t": 9.0,
+     "frame": 216,
+     "state": "clock"
+    },
+    {
+     "tau": 10.6,
+     "t": 10.6,
+     "frame": 254,
+     "state": "her"
+    },
+    {
+     "tau": 12.4,
+     "t": 12.4,
+     "frame": 298,
+     "state": "forward"
+    },
+    {
+     "tau": 13.5,
+     "t": 13.5,
+     "frame": 324,
+     "state": "clock"
+    },
+    {
+     "tau": 14.0,
+     "t": 14.0,
+     "frame": 336,
+     "state": "lid"
+    },
+    {
+     "tau": 14.3,
+     "t": 14.3,
+     "frame": 343,
+     "state": "walk"
+    },
+    {
+     "tau": 15.0,
+     "t": 15.0,
+     "frame": 360,
+     "state": "clock"
+    }
+   ],
+   "luciana": [
+    {
+     "tau": 1.0,
+     "t": 1.0,
+     "frame": 24,
+     "state": "walk"
+    },
+    {
+     "tau": 2.6,
+     "t": 2.6,
+     "frame": 62,
+     "state": "pail"
+    },
+    {
+     "tau": 4.0,
+     "t": 4.0,
+     "frame": 96,
+     "state": "door"
+    },
+    {
+     "tau": 5.6,
+     "t": 5.6,
+     "frame": 134,
+     "state": "him"
+    },
+    {
+     "tau": 10.6,
+     "t": 10.6,
+     "frame": 254,
+     "state": "forward"
+    },
+    {
+     "tau": 11.5,
+     "t": 11.5,
+     "frame": 276,
+     "state": "him"
+    },
+    {
+     "tau": 15.0,
+     "t": 15.0,
+     "frame": 360,
+     "state": "pail"
+    },
+    {
+     "tau": 19.0,
+     "t": 19.0,
+     "frame": 456,
+     "state": "walk"
+    },
+    {
+     "tau": 19.6,
+     "t": 19.6,
+     "frame": 470,
+     "state": "clock"
+    }
+   ],
+   "foreman": [
+    {
+     "tau": 0.0,
+     "t": 0.0,
+     "frame": 0,
+     "state": "front_pan_left"
+    },
+    {
+     "tau": 1.6,
+     "t": 1.6,
+     "frame": 38,
+     "state": "front_pan_centre"
+    },
+    {
+     "tau": 3.2,
+     "t": 3.2,
+     "frame": 77,
+     "state": "front_pan_right"
+    },
+    {
+     "tau": 4.4,
+     "t": 4.4,
+     "frame": 106,
+     "state": "front_pan_centre"
+    },
+    {
+     "tau": 5.0,
+     "t": 5.0,
+     "frame": 120,
+     "state": "back_reading"
+    },
+    {
+     "tau": 20.0,
+     "t": 20.0,
+     "frame": 480,
+     "state": "front_pan_right"
+    },
+    {
+     "tau": 22.0,
+     "t": 22.0,
+     "frame": 528,
+     "state": "front_pan_centre"
+    },
+    {
+     "tau": 24.5,
+     "t": 24.5,
+     "frame": 588,
+     "state": "front_pan_left"
+    },
+    {
+     "tau": 26.0,
+     "t": 26.0,
+     "frame": 624,
+     "state": "front_pan_centre"
+    },
+    {
+     "tau": 28.0,
+     "t": 28.0,
+     "frame": 672,
+     "state": "front_pan_right"
+    },
+    {
+     "tau": 31.0,
+     "t": 31.0,
+     "frame": 744,
+     "state": "front_pan_centre"
+    },
+    {
+     "tau": 33.5,
+     "t": 33.5,
+     "frame": 804,
+     "state": "front_pan_left"
+    }
+   ]
+  },
+  "B": {
+   "renzo": [
+    {
+     "tau": 0.4,
+     "t": 37.4,
+     "frame": 898,
+     "state": "walk"
+    },
+    {
+     "tau": 2.0,
+     "t": 39.0,
+     "frame": 936,
+     "state": "clock"
+    },
+    {
+     "tau": 3.5,
+     "t": 40.5,
+     "frame": 972,
+     "state": "door"
+    },
+    {
+     "tau": 4.4,
+     "t": 41.4,
+     "frame": 994,
+     "state": "clock"
+    },
+    {
+     "tau": 5.0,
+     "t": 42.0,
+     "frame": 1008,
+     "state": "door"
+    },
+    {
+     "tau": 5.6,
+     "t": 42.6,
+     "frame": 1022,
+     "state": "empty_place"
+    },
+    {
+     "tau": 6.0,
+     "t": 43.0,
+     "frame": 1032,
+     "state": "clock"
+    },
+    {
+     "tau": 8.0,
+     "t": 45.0,
+     "frame": 1080,
+     "state": "door"
+    },
+    {
+     "tau": 10.0,
+     "t": 47.0,
+     "frame": 1128,
+     "state": "empty_place"
+    },
+    {
+     "tau": 11.7,
+     "t": 48.7,
+     "frame": 1169,
+     "state": "clock"
+    },
+    {
+     "tau": 13.0,
+     "t": 50.0,
+     "frame": 1200,
+     "state": "door"
+    },
+    {
+     "tau": 13.6,
+     "t": 50.6,
+     "frame": 1214,
+     "state": "empty_place"
+    },
+    {
+     "tau": 14.0,
+     "t": 51.0,
+     "frame": 1224,
+     "state": "forward"
+    },
+    {
+     "tau": 14.3,
+     "t": 51.3,
+     "frame": 1231,
+     "state": "walk"
+    },
+    {
+     "tau": 15.0,
+     "t": 52.0,
+     "frame": 1248,
+     "state": "clock"
+    },
+    {
+     "tau": 15.4,
+     "t": 52.4,
+     "frame": 1258,
+     "state": "her"
+    }
+   ],
+   "luciana": [
+    {
+     "tau": 15.0,
+     "t": 52.0,
+     "frame": 1248,
+     "state": "walk"
+    },
+    {
+     "tau": 15.6,
+     "t": 52.6,
+     "frame": 1262,
+     "state": "him"
+    },
+    {
+     "tau": 16.5,
+     "t": 53.5,
+     "frame": 1284,
+     "state": "pail"
+    },
+    {
+     "tau": 18.0,
+     "t": 55.0,
+     "frame": 1320,
+     "state": "forward"
+    },
+    {
+     "tau": 18.6,
+     "t": 55.6,
+     "frame": 1334,
+     "state": "pail"
+    },
+    {
+     "tau": 20.0,
+     "t": 57.0,
+     "frame": 1368,
+     "state": "door"
+    },
+    {
+     "tau": 21.0,
+     "t": 58.0,
+     "frame": 1392,
+     "state": "forward"
+    },
+    {
+     "tau": 23.0,
+     "t": 60.0,
+     "frame": 1440,
+     "state": "pail"
+    },
+    {
+     "tau": 34.3,
+     "t": 71.3,
+     "frame": 1711,
+     "state": "clock"
+    }
+   ],
+   "foreman": [
+    {
+     "tau": 0.0,
+     "t": 37.0,
+     "frame": 888,
+     "state": "front_pan_left"
+    },
+    {
+     "tau": 1.6,
+     "t": 38.6,
+     "frame": 926,
+     "state": "front_pan_centre"
+    },
+    {
+     "tau": 3.2,
+     "t": 40.2,
+     "frame": 965,
+     "state": "front_pan_right"
+    },
+    {
+     "tau": 4.4,
+     "t": 41.4,
+     "frame": 994,
+     "state": "front_pan_centre"
+    },
+    {
+     "tau": 5.0,
+     "t": 42.0,
+     "frame": 1008,
+     "state": "back_reading"
+    },
+    {
+     "tau": 20.0,
+     "t": 57.0,
+     "frame": 1368,
+     "state": "front_pan_right"
+    },
+    {
+     "tau": 20.5,
+     "t": 57.5,
+     "frame": 1380,
+     "state": "front_on_luciana"
+    }
+   ]
+  }
+ },
+ "apple": {
+  "A": [
+   {
+    "tau": 0.0,
+    "t": 0.0,
+    "frame": 0,
+    "state": null,
+    "attached_to": "in_L_pail"
+   },
+   {
+    "tau": 2.8,
+    "t": 2.8,
+    "frame": 67,
+    "state": "apple0",
+    "attached_to": "L_wrist"
+   },
+   {
+    "tau": 8.5,
+    "t": 8.5,
+    "frame": 204,
+    "state": "apple1",
+    "attached_to": "L_wrist"
+   },
+   {
+    "tau": 11.0,
+    "t": 11.0,
+    "frame": 264,
+    "state": "apple2",
+    "attached_to": "L_wrist"
+   },
+   {
+    "tau": 13.0,
+    "t": 13.0,
+    "frame": 312,
+    "state": "apple3",
+    "attached_to": "L_wrist"
+   },
+   {
+    "tau": 13.2,
+    "t": 13.2,
+    "frame": 317,
+    "state": "apple3",
+    "attached_to": "R_hand"
+   },
+   {
+    "tau": 14.0,
+    "t": 14.0,
+    "frame": 336,
+    "state": "apple3",
+    "attached_to": "R_lid"
+   }
+  ],
+  "B": [
+   {
+    "tau": 0.0,
+    "t": 37.0,
+    "frame": 888,
+    "state": "apple0",
+    "attached_to": "R_pocket"
+   },
+   {
+    "tau": 6.5,
+    "t": 43.5,
+    "frame": 1044,
+    "state": "apple0",
+    "attached_to": "R_hand"
+   },
+   {
+    "tau": 14.0,
+    "t": 51.0,
+    "frame": 1224,
+    "state": "apple1",
+    "attached_to": "R_hand"
+   },
+   {
+    "tau": 16.0,
+    "t": 53.0,
+    "frame": 1272,
+    "state": "apple1",
+    "attached_to": "L_lid"
+   },
+   {
+    "tau": 17.2,
+    "t": 54.2,
+    "frame": 1301,
+    "state": "apple1",
+    "attached_to": "L_wrist"
+   },
+   {
+    "tau": 18.0,
+    "t": 55.0,
+    "frame": 1320,
+    "state": "apple2",
+    "attached_to": "L_wrist"
+   }
+  ]
+ },
+ "bites": {
+  "A": [
+   {
+    "tau": 8.5,
+    "t": 8.5,
+    "frame": 204,
+    "who": "renzo",
+    "substitution": "apple0->apple1"
+   },
+   {
+    "tau": 11.0,
+    "t": 11.0,
+    "frame": 264,
+    "who": "luciana",
+    "substitution": "apple1->apple2"
+   },
+   {
+    "tau": 13.0,
+    "t": 13.0,
+    "frame": 312,
+    "who": "renzo",
+    "substitution": "apple2->apple3 (core)"
+   }
+  ],
+  "B": [
+   {
+    "tau": 14.0,
+    "t": 51.0,
+    "frame": 1224,
+    "who": "renzo",
+    "substitution": "apple0->apple1 (his one bite, for her)"
+   },
+   {
+    "tau": 18.0,
+    "t": 55.0,
+    "frame": 1320,
+    "who": "luciana",
+    "substitution": "apple1->apple2"
+   }
+  ]
+ },
+ "camera": {
+  "stage_px": [
+   1296,
+   729
+  ],
+  "WIDE": {
+   "zoom": 1.0,
+   "centre": [
+    648.0,
+    364.5
+   ]
+  },
+  "MEDIUM": {
+   "zoom": 1.35,
+   "centre": [
+    540.0,
+    290.0
+   ],
+   "note": "editor may raise zoom (<=1.6) so the couple reaches ~50% frame height, provided the door jamb and clock stay in frame"
+  },
+  "states": {
+   "A": [
+    {
+     "tau": [
+      0.0,
+      5.0
+     ],
+     "t": [
+      0.0,
+      5.0
+     ],
+     "state": "WIDE"
+    },
+    {
+     "tau": [
+      5.0,
+      7.0
+     ],
+     "t": [
+      5.0,
+      7.0
+     ],
+     "state": "PUSH"
+    },
+    {
+     "tau": [
+      7.0,
+      14.3
+     ],
+     "t": [
+      7.0,
+      14.3
+     ],
+     "state": "MEDIUM"
+    },
+    {
+     "tau": [
+      14.3,
+      16.3
+     ],
+     "t": [
+      14.3,
+      16.3
+     ],
+     "state": "PULL"
+    },
+    {
+     "tau": [
+      16.3,
+      35.0
+     ],
+     "t": [
+      16.3,
+      35.0
+     ],
+     "state": "WIDE"
+    }
+   ],
+   "B": [
+    {
+     "tau": [
+      0.0,
+      5.0
+     ],
+     "t": [
+      37.0,
+      42.0
+     ],
+     "state": "WIDE"
+    },
+    {
+     "tau": [
+      5.0,
+      7.0
+     ],
+     "t": [
+      42.0,
+      44.0
+     ],
+     "state": "PUSH"
+    },
+    {
+     "tau": [
+      7.0,
+      14.3
+     ],
+     "t": [
+      44.0,
+      51.3
+     ],
+     "state": "MEDIUM"
+    },
+    {
+     "tau": [
+      14.3,
+      16.3
+     ],
+     "t": [
+      51.3,
+      53.3
+     ],
+     "state": "PULL"
+    },
+    {
+     "tau": [
+      16.3,
+      35.0
+     ],
+     "t": [
+      53.3,
+      72.0
+     ],
+     "state": "WIDE"
+    }
+   ]
+  },
+  "rule": "same tau-schedule in A and B (equivalent replay); door jamb and clock stay in frame at MEDIUM"
+ },
+ "clock_function": {
+  "minute_deg": "6 * tau / 5 (clockwise from 12)",
+  "hour_deg": "0.5 * tau / 5",
+  "python": "rules.clock_angles(t) -> (minute_deg, hour_deg) or None on the slate",
+  "checks": {
+   "t=0": "12:00:00",
+   "t=10": "12:02:00",
+   "t=34.99": "12:06:59",
+   "t=37": "12:00:00",
+   "t=47": "12:02:00",
+   "t=71.99": "12:06:59"
+  }
+ },
+ "layers_back_to_front": [
+  "wall_plate",
+  "door_frame",
+  "foreman",
+  "door_leaf",
+  "luciana_body",
+  "luciana_head",
+  "renzo_body",
+  "renzo_head",
+  "apple",
+  "luciana_forearm",
+  "pail_pile_occluder",
+  "pail_lids",
+  "lid_props",
+  "clock_hands"
+ ],
+ "layer_notes": {
+  "apple": "drawn under Luciana's forearm while on L_wrist (fingers pinch in front); above the occluder when on a lid",
+  "B_crossing": "at the B near-miss Luciana passes behind the pail-lid line, Renzo in front of it: order L < occluder < R for tau [15.0,16.5)"
+ },
+ "exposure_beats": [
+  {
+   "version": "A",
+   "t": [
+    0.0,
+    0.4
+   ],
+   "frames": [
+    0,
+    9
+   ],
+   "fixture": [
+    "12:00:00",
+    "12:00:04"
+   ],
+   "action": "Bell. Clock 12:00. Foreman in the doorway facing FLOOR.",
+   "exposure_at_mid": {
+    "foreman_facing": "FLOOR",
+    "foreman_sees": [],
+    "renzo_sees_luciana": false,
+    "luciana_sees_renzo": false,
+    "couple_sees_foreman_facing": true,
+    "hidden_from_foreman": [],
+    "apple": {
+     "state": null,
+     "at": "in_L_pail"
+    },
+    "carried_forward": [],
+    "exposure_state": "clear"
+   },
+   "camera_at_mid": "WIDE"
+  },
+  {
+   "version": "A",
+   "t": [
+    0.4,
+    5.0
+   ],
+   "frames": [
+    10,
+    119
+   ],
+   "fixture": [
+    "12:00:04",
+    "12:00:59"
+   ],
+   "action": "R enters right, sits at the open right end, head to the clock. L enters, sits apart at the open left end, opens her pail: apple0. Two co-workers, not a couple.",
+   "exposure_at_mid": {
+    "foreman_facing": "FLOOR",
+    "foreman_sees": [
+     "luciana",
+     "renzo"
+    ],
+    "renzo_sees_luciana": true,
+    "luciana_sees_renzo": true,
+    "couple_sees_foreman_facing": true,
+    "hidden_from_foreman": [],
+    "apple": {
+     "state": null,
+     "at": "in_L_pail"
+    },
+    "carried_forward": [],
+    "exposure_state": "clear"
+   },
+   "camera_at_mid": "WIDE"
+  },
+  {
+   "version": "A",
+   "t": [
+    5.0,
+    7.0
+   ],
+   "frames": [
+    120,
+    167
+   ],
+   "fixture": [
+    "12:01:00",
+    "12:01:23"
+   ],
+   "action": "Foreman turns to OFFICE (back photograph). L slides along behind the pile to the corner; R tips toward her on his hip pin. Push to MEDIUM.",
+   "exposure_at_mid": {
+    "foreman_facing": "OFFICE",
+    "foreman_sees": [],
+    "renzo_sees_luciana": true,
+    "luciana_sees_renzo": true,
+    "couple_sees_foreman_facing": true,
+    "hidden_from_foreman": [
+     "luciana",
+     "renzo"
+    ],
+    "apple": {
+     "state": "apple0",
+     "at": "L_wrist"
+    },
+    "carried_forward": [],
+    "exposure_state": "clear"
+   },
+   "camera_at_mid": "PUSH"
+  },
+  {
+   "version": "A",
+   "t": [
+    7.0,
+    14.3
+   ],
+   "frames": [
+    168,
+    342
+   ],
+   "fixture": [
+    "12:01:24",
+    "12:02:51"
+   ],
+   "action": "MEETING (inside MeetingWindow [12:01,12:03)). She feeds, he guards: bite R 8.5, defining frame 10.0 (head to clock, apple at his mouth), bite L 11.0, bite R 13.0, core into his lid 14.0.",
+   "exposure_at_mid": {
+    "foreman_facing": "OFFICE",
+    "foreman_sees": [],
+    "renzo_sees_luciana": true,
+    "luciana_sees_renzo": true,
+    "couple_sees_foreman_facing": true,
+    "hidden_from_foreman": [
+     "luciana",
+     "renzo"
+    ],
+    "apple": {
+     "state": "apple1",
+     "at": "L_wrist"
+    },
+    "carried_forward": [],
+    "exposure_state": "clear"
+   },
+   "camera_at_mid": "MEDIUM"
+  },
+  {
+   "version": "A",
+   "t": [
+    14.3,
+    16.3
+   ],
+   "frames": [
+    343,
+    390
+   ],
+   "fixture": [
+    "12:02:51",
+    "12:03:15"
+   ],
+   "action": "R rises, walks to the clock, punches at 15.0 (12:03). Pull back to WIDE.",
+   "exposure_at_mid": {
+    "foreman_facing": "OFFICE",
+    "foreman_sees": [],
+    "renzo_sees_luciana": true,
+    "luciana_sees_renzo": true,
+    "couple_sees_foreman_facing": true,
+    "hidden_from_foreman": [
+     "luciana",
+     "renzo"
+    ],
+    "apple": {
+     "state": "apple3",
+     "at": "R_lid"
+    },
+    "carried_forward": [
+     "apple core (3 bites) in Renzo's pail lid"
+    ],
+    "exposure_state": "clear"
+   },
+   "camera_at_mid": "PULL"
+  },
+  {
+   "version": "A",
+   "t": [
+    16.3,
+    20.0
+   ],
+   "frames": [
+    391,
+    479
+   ],
+   "fixture": [
+    "12:03:15",
+    "12:03:59"
+   ],
+   "action": "L alone in the corner wipes her hand, closes her pail (18.0), walks to the clock, punches at 20.0 (12:04).",
+   "exposure_at_mid": {
+    "foreman_facing": "OFFICE",
+    "foreman_sees": [],
+    "renzo_sees_luciana": false,
+    "luciana_sees_renzo": false,
+    "couple_sees_foreman_facing": true,
+    "hidden_from_foreman": [
+     "luciana"
+    ],
+    "apple": {
+     "state": "apple3",
+     "at": "R_lid"
+    },
+    "carried_forward": [
+     "apple core (3 bites) in Renzo's pail lid"
+    ],
+    "exposure_state": "clear"
+   },
+   "camera_at_mid": "WIDE"
+  },
+  {
+   "version": "A",
+   "t": [
+    20.0,
+    35.0
+   ],
+   "frames": [
+    480,
+    839
+   ],
+   "fixture": [
+    "12:04:00",
+    "12:06:59"
+   ],
+   "action": "Foreman turns back to FLOOR; his gaze passes over the core in the lid without stopping (26.0). Empty pails to 12:07.",
+   "exposure_at_mid": {
+    "foreman_facing": "FLOOR",
+    "foreman_sees": [],
+    "renzo_sees_luciana": false,
+    "luciana_sees_renzo": false,
+    "couple_sees_foreman_facing": true,
+    "hidden_from_foreman": [],
+    "apple": {
+     "state": "apple3",
+     "at": "R_lid"
+    },
+    "carried_forward": [
+     "apple core (3 bites) in Renzo's pail lid"
+    ],
+    "exposure_state": "foreman sees the core in the lid; it reads as litter (unread evidence)"
+   },
+   "camera_at_mid": "WIDE"
+  },
+  {
+   "version": "slate",
+   "t": [
+    35.0,
+    37.0
+   ],
+   "frames": [
+    840,
+    887
+   ],
+   "fixture": null,
+   "action": "Handmade slate: 'B · la campanella suona in ritardo'; L's strip slides; the light column through all three slots closes.",
+   "exposure_at_mid": null,
+   "camera_at_mid": null
+  },
+  {
+   "version": "B",
+   "t": [
+    37.0,
+    42.0
+   ],
+   "frames": [
+    888,
+    1007
+   ],
+   "fixture": [
+    "12:00:00",
+    "12:00:59"
+   ],
+   "action": "Same WIDE frame. Single bell (R only). R enters and sits in the open. L absent.",
+   "exposure_at_mid": {
+    "foreman_facing": "FLOOR",
+    "foreman_sees": [
+     "renzo"
+    ],
+    "renzo_sees_luciana": false,
+    "luciana_sees_renzo": false,
+    "couple_sees_foreman_facing": true,
+    "hidden_from_foreman": [],
+    "apple": {
+     "state": "apple0",
+     "at": "R_pocket"
+    },
+    "carried_forward": [],
+    "exposure_state": "clear"
+   },
+   "camera_at_mid": "WIDE"
+  },
+  {
+   "version": "B",
+   "t": [
+    42.0,
+    51.3
+   ],
+   "frames": [
+    1008,
+    1230
+   ],
+   "fixture": [
+    "12:01:00",
+    "12:02:51"
+   ],
+   "action": "Foreman turns to OFFICE (identical frames to A 5.0). R alone in the corner, apple out but uneaten; head clock -> door -> empty place, tightening. Counterpart frame 47.0. Bite for her at 51.0.",
+   "exposure_at_mid": {
+    "foreman_facing": "OFFICE",
+    "foreman_sees": [],
+    "renzo_sees_luciana": false,
+    "luciana_sees_renzo": false,
+    "couple_sees_foreman_facing": true,
+    "hidden_from_foreman": [
+     "renzo"
+    ],
+    "apple": {
+     "state": "apple0",
+     "at": "R_hand"
+    },
+    "carried_forward": [],
+    "exposure_state": "clear"
+   },
+   "camera_at_mid": "MEDIUM"
+  },
+  {
+   "version": "B",
+   "t": [
+    51.3,
+    53.5
+   ],
+   "frames": [
+    1231,
+    1283
+   ],
+   "fixture": [
+    "12:02:51",
+    "12:03:17"
+   ],
+   "action": "R walks to the clock, punches at 52.0 as the LATE BELL rings. NEAR-MISS: L enters left, they pass at the pile (<= 1.5 s, she behind the lid line, he in front); he sets the bitten apple on her lid (53.0) and goes.",
+   "exposure_at_mid": {
+    "foreman_facing": "OFFICE",
+    "foreman_sees": [],
+    "renzo_sees_luciana": true,
+    "luciana_sees_renzo": true,
+    "couple_sees_foreman_facing": true,
+    "hidden_from_foreman": [
+     "luciana",
+     "renzo"
+    ],
+    "apple": {
+     "state": "apple1",
+     "at": "R_hand"
+    },
+    "carried_forward": [],
+    "exposure_state": "clear"
+   },
+   "camera_at_mid": "PULL"
+  },
+  {
+   "version": "B",
+   "t": [
+    53.5,
+    57.0
+   ],
+   "frames": [
+    1284,
+    1367
+   ],
+   "fixture": [
+    "12:03:18",
+    "12:03:59"
+   ],
+   "action": "L alone in the corner picks up the apple (54.2), takes bite 2 (55.0), moves to the open left end (56.2-56.8).",
+   "exposure_at_mid": {
+    "foreman_facing": "OFFICE",
+    "foreman_sees": [],
+    "renzo_sees_luciana": false,
+    "luciana_sees_renzo": false,
+    "couple_sees_foreman_facing": true,
+    "hidden_from_foreman": [
+     "luciana"
+    ],
+    "apple": {
+     "state": "apple2",
+     "at": "L_wrist"
+    },
+    "carried_forward": [
+     "two-bite apple (one his, one hers) in Luciana's hand"
+    ],
+    "exposure_state": "clear"
+   },
+   "camera_at_mid": "WIDE"
+  },
+  {
+   "version": "B",
+   "t": [
+    57.0,
+    72.0
+   ],
+   "frames": [
+    1368,
+    1727
+   ],
+   "fixture": [
+    "12:04:00",
+    "12:06:59"
+   ],
+   "action": "Foreman turns back to FLOOR and his gaze settles on L (57.5, held). She eats the two-bite apple in full view, legal and alone. Punches in at 71.5. End.",
+   "exposure_at_mid": {
+    "foreman_facing": "FLOOR",
+    "foreman_sees": [
+     "luciana"
+    ],
+    "renzo_sees_luciana": false,
+    "luciana_sees_renzo": false,
+    "couple_sees_foreman_facing": true,
+    "hidden_from_foreman": [],
+    "apple": {
+     "state": "apple2",
+     "at": "L_wrist"
+    },
+    "carried_forward": [
+     "two-bite apple (one his, one hers) in Luciana's hand"
+    ],
+    "exposure_state": "foreman sees Luciana with Renzo's token (legal, alone, carried to the end)"
+   },
+   "camera_at_mid": "WIDE"
+  }
+ ],
+ "carried_forward": {
+  "A": {
+   "from_t": 14.0,
+   "prop": "apple core (3 bites) in Renzo's pail lid",
+   "seen_by_foreman_from_t": 20.0,
+   "reading": "unread evidence: his gaze passes over the lid at t 26 without stopping"
+  },
+  "B": {
+   "from_t": 55.0,
+   "prop": "two-bite apple (one his, one hers) in Luciana's hand",
+   "seen_by_foreman_from_t": 57.0,
+   "reading": "observer sees L with R's token; gaze held on her to the end"
+  }
+ },
+ "knowledge": {
+  "A": {
+   "renzo": "L's break is [12:00,12:04)",
+   "luciana": "R's break is [12:00,12:03)"
+  },
+  "B_before_12:03": {
+   "renzo": "expects L at 12:00 as usual (does not know of the late bell)",
+   "luciana": "held at her station; her bell has not rung"
+  },
+  "B_from_12:03": {
+   "renzo": "learns at the late bell (12:03) that her break was moved; his own has ended",
+   "luciana": "released at 12:03; finds his token on her lid"
+  }
+ },
+ "replay": {
+  "equivalent": [
+   "camera schedule",
+   "foreman frames and facing on every tau",
+   "R's blocking on tau [0,14.3)",
+   "clock"
+  ],
+  "diverge": [
+   "from 12:00: Luciana absent in B",
+   "12:03: late bell + crossing",
+   "after 12:04: gaze held on L (B) vs pan (A)"
+  ]
+ },
+ "cues": [
+  {
+   "t": 0.0,
+   "frame": 0,
+   "kind": "bell",
+   "what": "work bell: both breaks begin (one ring ~2 s)",
+   "dur": 2.0,
+   "end_frame": 48,
+   "fixture": "12:00:00",
+   "sound": "work_bell"
+  },
+  {
+   "t": 0.0,
+   "frame": 0,
+   "kind": "sfx",
+   "what": "room tone bed (whole version)",
+   "dur": 35.0,
+   "end_frame": 840,
+   "fixture": "12:00:00",
+   "sound": "room_tone"
+  },
+  {
+   "t": 0.0,
+   "frame": 0,
+   "kind": "sfx",
+   "what": "clock tick bed",
+   "dur": 35.0,
+   "end_frame": 840,
+   "fixture": "12:00:00",
+   "sound": "clock_tick"
+  },
+  {
+   "t": 0.0,
+   "frame": 0,
+   "kind": "sub",
+   "what": "foreman head -> front_pan_left",
+   "fixture": "12:00:00",
+   "who": "foreman",
+   "state": "front_pan_left"
+  },
+  {
+   "t": 0.0,
+   "frame": 0,
+   "kind": "version",
+   "what": "version A begins (12:00:00), camera WIDE",
+   "fixture": "12:00:00"
+  },
+  {
+   "t": 0.4,
+   "frame": 10,
+   "kind": "steps",
+   "what": "foreman pacing in the doorway (FLOOR)",
+   "dur": 4.6,
+   "end_frame": 120,
+   "fixture": "12:00:04",
+   "sound": "footsteps_foreman",
+   "pan": -0.6
+  },
+  {
+   "t": 0.4,
+   "frame": 10,
+   "kind": "steps",
+   "what": "Renzo walks on from the right",
+   "dur": 1.6,
+   "end_frame": 48,
+   "fixture": "12:00:04",
+   "sound": "footsteps",
+   "pan": 0.6
+  },
+  {
+   "t": 0.4,
+   "frame": 10,
+   "kind": "sub",
+   "what": "renzo head -> walk",
+   "fixture": "12:00:04",
+   "who": "renzo",
+   "state": "walk"
+  },
+  {
+   "t": 1.0,
+   "frame": 24,
+   "kind": "steps",
+   "what": "Luciana walks on from the left",
+   "dur": 1.6,
+   "end_frame": 62,
+   "fixture": "12:00:12",
+   "sound": "footsteps",
+   "pan": -0.3
+  },
+  {
+   "t": 1.0,
+   "frame": 24,
+   "kind": "sub",
+   "what": "luciana head -> walk",
+   "fixture": "12:00:12",
+   "who": "luciana",
+   "state": "walk"
+  },
+  {
+   "t": 1.6,
+   "frame": 38,
+   "kind": "sub",
+   "what": "foreman head -> front_pan_centre",
+   "fixture": "12:00:19",
+   "who": "foreman",
+   "state": "front_pan_centre"
+  },
+  {
+   "t": 2.0,
+   "frame": 48,
+   "kind": "sub",
+   "what": "renzo head -> clock",
+   "fixture": "12:00:24",
+   "who": "renzo",
+   "state": "clock"
+  },
+  {
+   "t": 2.6,
+   "frame": 62,
+   "kind": "sub",
+   "what": "luciana head -> pail",
+   "fixture": "12:00:31",
+   "who": "luciana",
+   "state": "pail"
+  },
+  {
+   "t": 2.8,
+   "frame": 67,
+   "kind": "prop",
+   "what": "L_lid open",
+   "fixture": "12:00:33",
+   "sound": "lid_tin"
+  },
+  {
+   "t": 3.2,
+   "frame": 77,
+   "kind": "sub",
+   "what": "foreman head -> front_pan_right",
+   "fixture": "12:00:38",
+   "who": "foreman",
+   "state": "front_pan_right"
+  },
+  {
+   "t": 3.5,
+   "frame": 84,
+   "kind": "sub",
+   "what": "renzo head -> door",
+   "fixture": "12:00:42",
+   "who": "renzo",
+   "state": "door"
+  },
+  {
+   "t": 4.0,
+   "frame": 96,
+   "kind": "sub",
+   "what": "luciana head -> door",
+   "fixture": "12:00:48",
+   "who": "luciana",
+   "state": "door"
+  },
+  {
+   "t": 4.4,
+   "frame": 106,
+   "kind": "sub",
+   "what": "renzo head -> clock",
+   "fixture": "12:00:52",
+   "who": "renzo",
+   "state": "clock"
+  },
+  {
+   "t": 4.4,
+   "frame": 106,
+   "kind": "sub",
+   "what": "foreman head -> front_pan_centre",
+   "fixture": "12:00:52",
+   "who": "foreman",
+   "state": "front_pan_centre"
+  },
+  {
+   "t": 5.0,
+   "frame": 120,
+   "kind": "cam",
+   "what": "camera WIDE -> MEDIUM (push 1.35x)",
+   "dur": 2.0,
+   "end_frame": 168,
+   "fixture": "12:01:00"
+  },
+  {
+   "t": 5.0,
+   "frame": 120,
+   "kind": "sub",
+   "what": "renzo head -> door",
+   "fixture": "12:01:00",
+   "who": "renzo",
+   "state": "door"
+  },
+  {
+   "t": 5.0,
+   "frame": 120,
+   "kind": "sub",
+   "what": "foreman head -> back_reading",
+   "fixture": "12:01:00",
+   "who": "foreman",
+   "state": "back_reading"
+  },
+  {
+   "t": 5.0,
+   "frame": 120,
+   "kind": "turn",
+   "what": "FOREMAN TURNS to OFFICE: substitution front -> back photograph (12:01)",
+   "fixture": "12:01:00",
+   "sound": "paper_rustle",
+   "pan": -0.6
+  },
+  {
+   "t": 5.6,
+   "frame": 134,
+   "kind": "sub",
+   "what": "renzo head -> her",
+   "fixture": "12:01:07",
+   "who": "renzo",
+   "state": "her"
+  },
+  {
+   "t": 5.6,
+   "frame": 134,
+   "kind": "sub",
+   "what": "luciana head -> him",
+   "fixture": "12:01:07",
+   "who": "luciana",
+   "state": "him"
+  },
+  {
+   "t": 8.0,
+   "frame": 192,
+   "kind": "sub",
+   "what": "renzo head -> forward",
+   "fixture": "12:01:36",
+   "who": "renzo",
+   "state": "forward"
+  },
+  {
+   "t": 8.5,
+   "frame": 204,
+   "kind": "bite",
+   "what": "renzo bites: apple0->apple1",
+   "fixture": "12:01:42",
+   "sound": "bite_crunch",
+   "tol_frames": 1
+  },
+  {
+   "t": 9.0,
+   "frame": 216,
+   "kind": "sub",
+   "what": "renzo head -> clock",
+   "fixture": "12:01:48",
+   "who": "renzo",
+   "state": "clock"
+  },
+  {
+   "t": 10.6,
+   "frame": 254,
+   "kind": "sub",
+   "what": "renzo head -> her",
+   "fixture": "12:02:07",
+   "who": "renzo",
+   "state": "her"
+  },
+  {
+   "t": 10.6,
+   "frame": 254,
+   "kind": "sub",
+   "what": "luciana head -> forward",
+   "fixture": "12:02:07",
+   "who": "luciana",
+   "state": "forward"
+  },
+  {
+   "t": 11.0,
+   "frame": 264,
+   "kind": "bite",
+   "what": "luciana bites: apple1->apple2",
+   "fixture": "12:02:12",
+   "sound": "bite_crunch",
+   "tol_frames": 1
+  },
+  {
+   "t": 11.5,
+   "frame": 276,
+   "kind": "sub",
+   "what": "luciana head -> him",
+   "fixture": "12:02:18",
+   "who": "luciana",
+   "state": "him"
+  },
+  {
+   "t": 12.0,
+   "frame": 288,
+   "kind": "sfx",
+   "what": "foreman turns a time sheet",
+   "fixture": "12:02:24",
+   "sound": "paper_rustle",
+   "pan": -0.6
+  },
+  {
+   "t": 12.4,
+   "frame": 298,
+   "kind": "sub",
+   "what": "renzo head -> forward",
+   "fixture": "12:02:28",
+   "who": "renzo",
+   "state": "forward"
+  },
+  {
+   "t": 13.0,
+   "frame": 312,
+   "kind": "bite",
+   "what": "renzo bites: apple2->apple3 (core)",
+   "fixture": "12:02:36",
+   "sound": "bite_crunch",
+   "tol_frames": 1
+  },
+  {
+   "t": 13.2,
+   "frame": 317,
+   "kind": "prop",
+   "what": "Luciana gives Renzo the core",
+   "fixture": "12:02:38"
+  },
+  {
+   "t": 13.5,
+   "frame": 324,
+   "kind": "sub",
+   "what": "renzo head -> clock",
+   "fixture": "12:02:42",
+   "who": "renzo",
+   "state": "clock"
+  },
+  {
+   "t": 13.6,
+   "frame": 326,
+   "kind": "prop",
+   "what": "R_lid open",
+   "fixture": "12:02:43",
+   "sound": "lid_tin"
+  },
+  {
+   "t": 14.0,
+   "frame": 336,
+   "kind": "prop",
+   "what": "Renzo sets the core in his pail lid (persists to 12:07)",
+   "fixture": "12:02:48",
+   "sound": "tap_small"
+  },
+  {
+   "t": 14.0,
+   "frame": 336,
+   "kind": "sub",
+   "what": "renzo head -> lid",
+   "fixture": "12:02:48",
+   "who": "renzo",
+   "state": "lid"
+  },
+  {
+   "t": 14.3,
+   "frame": 343,
+   "kind": "cam",
+   "what": "camera MEDIUM -> WIDE (pull back)",
+   "dur": 2.0,
+   "end_frame": 391,
+   "fixture": "12:02:51"
+  },
+  {
+   "t": 14.3,
+   "frame": 343,
+   "kind": "steps",
+   "what": "Renzo rises and walks to the clock",
+   "dur": 0.7,
+   "end_frame": 360,
+   "fixture": "12:02:51",
+   "sound": "footsteps"
+  },
+  {
+   "t": 14.3,
+   "frame": 343,
+   "kind": "sub",
+   "what": "renzo head -> walk",
+   "fixture": "12:02:51",
+   "who": "renzo",
+   "state": "walk"
+  },
+  {
+   "t": 15.0,
+   "frame": 360,
+   "kind": "punch",
+   "what": "Renzo punches in (12:03, end of his break); his card drops a slot",
+   "fixture": "12:03:00",
+   "sound": "timeclock_punch",
+   "tol_frames": 1
+  },
+  {
+   "t": 15.0,
+   "frame": 360,
+   "kind": "sub",
+   "what": "renzo head -> clock",
+   "fixture": "12:03:00",
+   "who": "renzo",
+   "state": "clock"
+  },
+  {
+   "t": 15.0,
+   "frame": 360,
+   "kind": "sub",
+   "what": "luciana head -> pail",
+   "fixture": "12:03:00",
+   "who": "luciana",
+   "state": "pail"
+  },
+  {
+   "t": 18.0,
+   "frame": 432,
+   "kind": "prop",
+   "what": "L_lid closed",
+   "fixture": "12:03:36",
+   "sound": "lid_tin"
+  },
+  {
+   "t": 19.0,
+   "frame": 456,
+   "kind": "steps",
+   "what": "Luciana walks from the corner to the clock",
+   "dur": 0.6,
+   "end_frame": 470,
+   "fixture": "12:03:48",
+   "sound": "footsteps",
+   "pan": -0.4
+  },
+  {
+   "t": 19.0,
+   "frame": 456,
+   "kind": "sub",
+   "what": "luciana head -> walk",
+   "fixture": "12:03:48",
+   "who": "luciana",
+   "state": "walk"
+  },
+  {
+   "t": 19.6,
+   "frame": 470,
+   "kind": "sub",
+   "what": "luciana head -> clock",
+   "fixture": "12:03:55",
+   "who": "luciana",
+   "state": "clock"
+  },
+  {
+   "t": 20.0,
+   "frame": 480,
+   "kind": "punch",
+   "what": "Luciana punches in (12:04, end of her break)",
+   "fixture": "12:04:00",
+   "sound": "timeclock_punch",
+   "tol_frames": 1
+  },
+  {
+   "t": 20.0,
+   "frame": 480,
+   "kind": "steps",
+   "what": "foreman pacing resumes, fading",
+   "dur": 15.0,
+   "end_frame": 840,
+   "fixture": "12:04:00",
+   "sound": "footsteps_foreman",
+   "pan": -0.6
+  },
+  {
+   "t": 20.0,
+   "frame": 480,
+   "kind": "sub",
+   "what": "foreman head -> front_pan_right",
+   "fixture": "12:04:00",
+   "who": "foreman",
+   "state": "front_pan_right"
+  },
+  {
+   "t": 20.0,
+   "frame": 480,
+   "kind": "turn",
+   "what": "FOREMAN TURNS back to FLOOR: substitution back -> front photograph (12:04)",
+   "fixture": "12:04:00",
+   "sound": "footsteps_foreman",
+   "pan": -0.6
+  },
+  {
+   "t": 22.0,
+   "frame": 528,
+   "kind": "sub",
+   "what": "foreman head -> front_pan_centre",
+   "fixture": "12:04:24",
+   "who": "foreman",
+   "state": "front_pan_centre"
+  },
+  {
+   "t": 24.5,
+   "frame": 588,
+   "kind": "sub",
+   "what": "foreman head -> front_pan_left",
+   "fixture": "12:04:54",
+   "who": "foreman",
+   "state": "front_pan_left"
+  },
+  {
+   "t": 26.0,
+   "frame": 624,
+   "kind": "sub",
+   "what": "foreman head -> front_pan_centre",
+   "fixture": "12:05:12",
+   "who": "foreman",
+   "state": "front_pan_centre"
+  },
+  {
+   "t": 28.0,
+   "frame": 672,
+   "kind": "sub",
+   "what": "foreman head -> front_pan_right",
+   "fixture": "12:05:36",
+   "who": "foreman",
+   "state": "front_pan_right"
+  },
+  {
+   "t": 31.0,
+   "frame": 744,
+   "kind": "sub",
+   "what": "foreman head -> front_pan_centre",
+   "fixture": "12:06:12",
+   "who": "foreman",
+   "state": "front_pan_centre"
+  },
+  {
+   "t": 33.5,
+   "frame": 804,
+   "kind": "sub",
+   "what": "foreman head -> front_pan_left",
+   "fixture": "12:06:42",
+   "who": "foreman",
+   "state": "front_pan_left"
+  },
+  {
+   "t": 34.9583,
+   "frame": 839,
+   "kind": "version",
+   "what": "version A last frame (clock 12:06:57.5 ≈ 12:07)",
+   "fixture": "12:06:59"
+  },
+  {
+   "t": 35.0,
+   "frame": 840,
+   "kind": "slate",
+   "what": "SLATE: handmade typed card + light box; whoosh as the card is set down",
+   "dur": 2.0,
+   "end_frame": 888,
+   "fixture": null,
+   "sound": "whoosh"
+  },
+  {
+   "t": 35.25,
+   "frame": 846,
+   "kind": "slate",
+   "what": "Luciana's strip slides 3 minutes right (12:00-12:04 -> 12:03-12:07)",
+   "dur": 1.5,
+   "end_frame": 882,
+   "fixture": null,
+   "sound": "card_slide"
+  },
+  {
+   "t": 37.0,
+   "frame": 888,
+   "kind": "bell",
+   "what": "work bell: Renzo's break only (single ring)",
+   "dur": 1.2,
+   "end_frame": 917,
+   "fixture": "12:00:00",
+   "sound": "work_bell"
+  },
+  {
+   "t": 37.0,
+   "frame": 888,
+   "kind": "sfx",
+   "what": "room tone bed (whole version)",
+   "dur": 35.0,
+   "end_frame": 1728,
+   "fixture": "12:00:00",
+   "sound": "room_tone"
+  },
+  {
+   "t": 37.0,
+   "frame": 888,
+   "kind": "sfx",
+   "what": "clock tick bed (rises 12:01-12:03)",
+   "dur": 35.0,
+   "end_frame": 1728,
+   "fixture": "12:00:00",
+   "sound": "clock_tick"
+  },
+  {
+   "t": 37.0,
+   "frame": 888,
+   "kind": "sub",
+   "what": "foreman head -> front_pan_left",
+   "fixture": "12:00:00",
+   "who": "foreman",
+   "state": "front_pan_left"
+  },
+  {
+   "t": 37.0,
+   "frame": 888,
+   "kind": "version",
+   "what": "version B begins (12:00:00), camera WIDE",
+   "fixture": "12:00:00"
+  },
+  {
+   "t": 37.4,
+   "frame": 898,
+   "kind": "steps",
+   "what": "foreman pacing in the doorway (FLOOR)",
+   "dur": 4.6,
+   "end_frame": 1008,
+   "fixture": "12:00:04",
+   "sound": "footsteps_foreman",
+   "pan": -0.6
+  },
+  {
+   "t": 37.4,
+   "frame": 898,
+   "kind": "steps",
+   "what": "Renzo walks on from the right",
+   "dur": 1.6,
+   "end_frame": 936,
+   "fixture": "12:00:04",
+   "sound": "footsteps",
+   "pan": 0.6
+  },
+  {
+   "t": 37.4,
+   "frame": 898,
+   "kind": "sub",
+   "what": "renzo head -> walk",
+   "fixture": "12:00:04",
+   "who": "renzo",
+   "state": "walk"
+  },
+  {
+   "t": 38.6,
+   "frame": 926,
+   "kind": "sub",
+   "what": "foreman head -> front_pan_centre",
+   "fixture": "12:00:19",
+   "who": "foreman",
+   "state": "front_pan_centre"
+  },
+  {
+   "t": 39.0,
+   "frame": 936,
+   "kind": "sub",
+   "what": "renzo head -> clock",
+   "fixture": "12:00:24",
+   "who": "renzo",
+   "state": "clock"
+  },
+  {
+   "t": 40.2,
+   "frame": 965,
+   "kind": "sub",
+   "what": "foreman head -> front_pan_right",
+   "fixture": "12:00:38",
+   "who": "foreman",
+   "state": "front_pan_right"
+  },
+  {
+   "t": 40.5,
+   "frame": 972,
+   "kind": "sub",
+   "what": "renzo head -> door",
+   "fixture": "12:00:42",
+   "who": "renzo",
+   "state": "door"
+  },
+  {
+   "t": 41.4,
+   "frame": 994,
+   "kind": "sub",
+   "what": "renzo head -> clock",
+   "fixture": "12:00:52",
+   "who": "renzo",
+   "state": "clock"
+  },
+  {
+   "t": 41.4,
+   "frame": 994,
+   "kind": "sub",
+   "what": "foreman head -> front_pan_centre",
+   "fixture": "12:00:52",
+   "who": "foreman",
+   "state": "front_pan_centre"
+  },
+  {
+   "t": 42.0,
+   "frame": 1008,
+   "kind": "cam",
+   "what": "camera WIDE -> MEDIUM (push 1.35x)",
+   "dur": 2.0,
+   "end_frame": 1056,
+   "fixture": "12:01:00"
+  },
+  {
+   "t": 42.0,
+   "frame": 1008,
+   "kind": "sub",
+   "what": "renzo head -> door",
+   "fixture": "12:01:00",
+   "who": "renzo",
+   "state": "door"
+  },
+  {
+   "t": 42.0,
+   "frame": 1008,
+   "kind": "sub",
+   "what": "foreman head -> back_reading",
+   "fixture": "12:01:00",
+   "who": "foreman",
+   "state": "back_reading"
+  },
+  {
+   "t": 42.0,
+   "frame": 1008,
+   "kind": "turn",
+   "what": "FOREMAN TURNS to OFFICE: substitution front -> back photograph (12:01)",
+   "fixture": "12:01:00",
+   "sound": "paper_rustle",
+   "pan": -0.6
+  },
+  {
+   "t": 42.6,
+   "frame": 1022,
+   "kind": "sub",
+   "what": "renzo head -> empty_place",
+   "fixture": "12:01:07",
+   "who": "renzo",
+   "state": "empty_place"
+  },
+  {
+   "t": 43.0,
+   "frame": 1032,
+   "kind": "sub",
+   "what": "renzo head -> clock",
+   "fixture": "12:01:12",
+   "who": "renzo",
+   "state": "clock"
+  },
+  {
+   "t": 43.5,
+   "frame": 1044,
+   "kind": "prop",
+   "what": "Renzo takes the apple out of his pocket (does not eat)",
+   "fixture": "12:01:18"
+  },
+  {
+   "t": 45.0,
+   "frame": 1080,
+   "kind": "sub",
+   "what": "renzo head -> door",
+   "fixture": "12:01:36",
+   "who": "renzo",
+   "state": "door"
+  },
+  {
+   "t": 47.0,
+   "frame": 1128,
+   "kind": "sub",
+   "what": "renzo head -> empty_place",
+   "fixture": "12:02:00",
+   "who": "renzo",
+   "state": "empty_place"
+  },
+  {
+   "t": 48.7,
+   "frame": 1169,
+   "kind": "sub",
+   "what": "renzo head -> clock",
+   "fixture": "12:02:20",
+   "who": "renzo",
+   "state": "clock"
+  },
+  {
+   "t": 49.0,
+   "frame": 1176,
+   "kind": "sfx",
+   "what": "foreman turns a time sheet",
+   "fixture": "12:02:24",
+   "sound": "paper_rustle",
+   "pan": -0.6
+  },
+  {
+   "t": 50.0,
+   "frame": 1200,
+   "kind": "sub",
+   "what": "renzo head -> door",
+   "fixture": "12:02:36",
+   "who": "renzo",
+   "state": "door"
+  },
+  {
+   "t": 50.6,
+   "frame": 1214,
+   "kind": "sub",
+   "what": "renzo head -> empty_place",
+   "fixture": "12:02:43",
+   "who": "renzo",
+   "state": "empty_place"
+  },
+  {
+   "t": 51.0,
+   "frame": 1224,
+   "kind": "bite",
+   "what": "renzo bites: apple0->apple1 (his one bite, for her)",
+   "fixture": "12:02:48",
+   "sound": "bite_crunch",
+   "tol_frames": 1
+  },
+  {
+   "t": 51.0,
+   "frame": 1224,
+   "kind": "sub",
+   "what": "renzo head -> forward",
+   "fixture": "12:02:48",
+   "who": "renzo",
+   "state": "forward"
+  },
+  {
+   "t": 51.3,
+   "frame": 1231,
+   "kind": "cam",
+   "what": "camera MEDIUM -> WIDE (pull back)",
+   "dur": 2.0,
+   "end_frame": 1279,
+   "fixture": "12:02:51"
+  },
+  {
+   "t": 51.3,
+   "frame": 1231,
+   "kind": "steps",
+   "what": "Renzo rises and walks to the clock",
+   "dur": 0.7,
+   "end_frame": 1248,
+   "fixture": "12:02:51",
+   "sound": "footsteps"
+  },
+  {
+   "t": 51.3,
+   "frame": 1231,
+   "kind": "sub",
+   "what": "renzo head -> walk",
+   "fixture": "12:02:51",
+   "who": "renzo",
+   "state": "walk"
+  },
+  {
+   "t": 52.0,
+   "frame": 1248,
+   "kind": "bell",
+   "what": "LATE BELL (higher): Luciana's break begins 12:03",
+   "dur": 1.6,
+   "end_frame": 1286,
+   "fixture": "12:03:00",
+   "sound": "late_bell",
+   "tol_frames": 1
+  },
+  {
+   "t": 52.0,
+   "frame": 1248,
+   "kind": "punch",
+   "what": "Renzo punches in (12:03), same frame as the late bell",
+   "fixture": "12:03:00",
+   "sound": "timeclock_punch",
+   "tol_frames": 1
+  },
+  {
+   "t": 52.0,
+   "frame": 1248,
+   "kind": "steps",
+   "what": "Luciana walks on from the left (NEAR-MISS begins)",
+   "dur": 1.5,
+   "end_frame": 1284,
+   "fixture": "12:03:00",
+   "sound": "footsteps",
+   "pan": -0.5
+  },
+  {
+   "t": 52.0,
+   "frame": 1248,
+   "kind": "sub",
+   "what": "renzo head -> clock",
+   "fixture": "12:03:00",
+   "who": "renzo",
+   "state": "clock"
+  },
+  {
+   "t": 52.0,
+   "frame": 1248,
+   "kind": "sub",
+   "what": "luciana head -> walk",
+   "fixture": "12:03:00",
+   "who": "luciana",
+   "state": "walk"
+  },
+  {
+   "t": 52.4,
+   "frame": 1258,
+   "kind": "steps",
+   "what": "Renzo walks back past the pile to his station",
+   "dur": 1.1,
+   "end_frame": 1284,
+   "fixture": "12:03:04",
+   "sound": "footsteps",
+   "pan": 0.3
+  },
+  {
+   "t": 52.4,
+   "frame": 1258,
+   "kind": "sub",
+   "what": "renzo head -> her",
+   "fixture": "12:03:04",
+   "who": "renzo",
+   "state": "her"
+  },
+  {
+   "t": 52.6,
+   "frame": 1262,
+   "kind": "sub",
+   "what": "luciana head -> him",
+   "fixture": "12:03:07",
+   "who": "luciana",
+   "state": "him"
+  },
+  {
+   "t": 53.0,
+   "frame": 1272,
+   "kind": "prop",
+   "what": "Renzo sets the once-bitten apple on Luciana's pail lid (wood tap)",
+   "fixture": "12:03:12",
+   "sound": "tap_small"
+  },
+  {
+   "t": 53.5,
+   "frame": 1284,
+   "kind": "sfx",
+   "what": "NEAR-MISS ends: Renzo off right, Luciana in the corner",
+   "fixture": "12:03:18"
+  },
+  {
+   "t": 53.5,
+   "frame": 1284,
+   "kind": "sub",
+   "what": "luciana head -> pail",
+   "fixture": "12:03:18",
+   "who": "luciana",
+   "state": "pail"
+  },
+  {
+   "t": 54.0,
+   "frame": 1296,
+   "kind": "prop",
+   "what": "L_lid open",
+   "fixture": "12:03:24",
+   "sound": "lid_tin"
+  },
+  {
+   "t": 54.2,
+   "frame": 1301,
+   "kind": "prop",
+   "what": "Luciana picks up the apple",
+   "fixture": "12:03:26"
+  },
+  {
+   "t": 55.0,
+   "frame": 1320,
+   "kind": "bite",
+   "what": "luciana bites: apple1->apple2",
+   "fixture": "12:03:36",
+   "sound": "bite_crunch",
+   "tol_frames": 1
+  },
+  {
+   "t": 55.0,
+   "frame": 1320,
+   "kind": "sub",
+   "what": "luciana head -> forward",
+   "fixture": "12:03:36",
+   "who": "luciana",
+   "state": "forward"
+  },
+  {
+   "t": 55.6,
+   "frame": 1334,
+   "kind": "sub",
+   "what": "luciana head -> pail",
+   "fixture": "12:03:43",
+   "who": "luciana",
+   "state": "pail"
+  },
+  {
+   "t": 56.2,
+   "frame": 1349,
+   "kind": "steps",
+   "what": "Luciana moves to the open left end",
+   "dur": 0.6,
+   "end_frame": 1363,
+   "fixture": "12:03:50",
+   "sound": "footsteps",
+   "pan": -0.3
+  },
+  {
+   "t": 57.0,
+   "frame": 1368,
+   "kind": "steps",
+   "what": "foreman pacing resumes, fading",
+   "dur": 15.0,
+   "end_frame": 1728,
+   "fixture": "12:04:00",
+   "sound": "footsteps_foreman",
+   "pan": -0.6
+  },
+  {
+   "t": 57.0,
+   "frame": 1368,
+   "kind": "sub",
+   "what": "luciana head -> door",
+   "fixture": "12:04:00",
+   "who": "luciana",
+   "state": "door"
+  },
+  {
+   "t": 57.0,
+   "frame": 1368,
+   "kind": "sub",
+   "what": "foreman head -> front_pan_right",
+   "fixture": "12:04:00",
+   "who": "foreman",
+   "state": "front_pan_right"
+  },
+  {
+   "t": 57.0,
+   "frame": 1368,
+   "kind": "turn",
+   "what": "FOREMAN TURNS back to FLOOR: substitution back -> front photograph (12:04)",
+   "fixture": "12:04:00",
+   "sound": "footsteps_foreman",
+   "pan": -0.6
+  },
+  {
+   "t": 57.5,
+   "frame": 1380,
+   "kind": "sub",
+   "what": "foreman's gaze settles on Luciana (head substitution held to 12:07)",
+   "fixture": "12:04:05"
+  },
+  {
+   "t": 57.5,
+   "frame": 1380,
+   "kind": "sub",
+   "what": "foreman head -> front_on_luciana",
+   "fixture": "12:04:05",
+   "who": "foreman",
+   "state": "front_on_luciana"
+  },
+  {
+   "t": 58.0,
+   "frame": 1392,
+   "kind": "sub",
+   "what": "luciana head -> forward",
+   "fixture": "12:04:12",
+   "who": "luciana",
+   "state": "forward"
+  },
+  {
+   "t": 60.0,
+   "frame": 1440,
+   "kind": "sub",
+   "what": "luciana head -> pail",
+   "fixture": "12:04:36",
+   "who": "luciana",
+   "state": "pail"
+  },
+  {
+   "t": 71.3,
+   "frame": 1711,
+   "kind": "sub",
+   "what": "luciana head -> clock",
+   "fixture": "12:06:51",
+   "who": "luciana",
+   "state": "clock"
+  },
+  {
+   "t": 71.5,
+   "frame": 1716,
+   "kind": "punch",
+   "what": "Luciana punches in (end of her late break, 12:06:54)",
+   "fixture": "12:06:54",
+   "sound": "timeclock_punch",
+   "tol_frames": 1
+  },
+  {
+   "t": 71.9583,
+   "frame": 1727,
+   "kind": "version",
+   "what": "version B last frame (clock 12:06:57.5 ≈ 12:07)",
+   "fixture": "12:06:59"
+  }
+ ],
+ "asserts": {
+  "module": "films/swarm/renzo-e-luciana/rules.py",
+  "functions": [
+   "assert_frame(k, minute_deg=None, meet_drawn=None)",
+   "assert_one_clock(k, measured_minute_deg, tol=0.5)",
+   "assert_rule(k)",
+   "assert_meeting(k, meet_drawn)",
+   "assert_layer_order(order)",
+   "check_all()"
+  ],
+  "self_test": {
+   "frames": 1728,
+   "per_frame": "pass",
+   "meet_frames_A": [
+    168,
+    343
+   ],
+   "meet_seconds_A": [
+    7.0,
+    14.333333333333334
+   ],
+   "meet_frames_B": 0,
+   "B_copresence_frames": 36,
+   "clock_checks": {
+    "t=0": "12:00:00",
+    "t=10": "12:02:00",
+    "t=34.99": "12:06:59",
+    "t=37": "12:00:00",
+    "t=47": "12:02:00",
+    "t=71.99": "12:06:59"
+   }
+  }
+ },
+ "slate": {
+  "file": "films/swarm/renzo-e-luciana/slate.png",
+  "callable": "rules.slate_frame(u), 0 <= u < 2",
+  "frames_dir": "films/sources/renzo-e-luciana/rule-modeler/slate/",
+  "t": [
+   35.0,
+   37.0
+  ],
+  "strips": {
+   "renzo": [
+    0,
+    3
+   ],
+   "luciana_from": [
+    0,
+    4
+   ],
+   "luciana_to": [
+    3,
+    7
+   ],
+   "corner": [
+    1,
+    4
+   ]
+  },
+  "slide": "u 0.25 -> 1.75 s, eased, +3 minutes (240 px)",
+  "light_column": {
+   "u=0": [
+    1.0,
+    3.0,
+    "half-open"
+   ],
+   "u=2": null
+  },
+  "made_of": "HANDMADE with kit.Ink: typed card (IBM Plex Mono, per-key strike weight), three card strips with scissor-cut slots on a light box, typed ruler and paper labels; card-fibre texture; drop shadow from upper left"
+ },
+ "frames_file": "films/swarm/renzo-e-luciana/rules-frames.json"
+}
