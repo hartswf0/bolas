@@ -97,8 +97,8 @@ def poly_alpha(W, H, polys, rough_seed=None, amt=1.2):
     if rough_seed is not None:                       # torn/scissored card edge
         r = np.random.default_rng(rough_seed)
         nz = cv2.resize(r.normal(0, 1, (H // 5 + 1, W // 5 + 1)).astype(np.float32), (W, H))
-        a = np.clip((gblur(a, 1.1) - 128 + nz * 22 * amt) * 3 + 128, 0, 255)
-    return gblur(a, 0.6)
+        a = np.clip((gblur(a, 1.1) - 128 + nz * 22 * amt) * 6 + 128, 0, 255)
+    return gblur(a, 0.45)
 
 
 def card_piece(canvas, polys, tone, mud=0.0, seed=0, shadow=5, sweat=(), creases=0.0):
@@ -276,18 +276,19 @@ def draw_puppet(canvas, J, s, tones, who, mud=1.0, facing=1, front_hand_cb=None,
     fx, fy = -uy * facing, ux * facing                                                   # facing axis
     P = lambda a, b: (hc[0] + fx * a * s + ux * b * s, hc[1] + fy * a * s + uy * b * s)
     card_piece(canvas, [[P(14, 6), P(23, -4), P(14, -6)]], tones["skin"] * 1.02, mud, seed=sd + 15, shadow=2)
-    pencil(canvas, [P(5, 5), P(11, 4)], max(2, s * .9), 35, 0.9, sd + 4)                  # eye
-    pencil(canvas, [P(3, 10), P(13, 9.5)], max(2, s * 1.1), 55, 0.8, sd + 5)              # brow
-    pencil(canvas, [P(9, -11), P(15, -10)], max(1.5, s * .7), 50, 0.8, sd + 6)            # mouth
+    pencil(canvas, [P(4, 5), P(11, 4.5)], max(2, s * 1.2), 30, 1.0, sd + 4)                  # eye
+    pencil(canvas, [P(2, 10), P(13, 10)], max(2, s * 1.3), 45, 1.0, sd + 5)              # brow
+    pencil(canvas, [P(8, -11), P(15, -10)], max(1.5, s * .9), 45, 1.0, sd + 6)            # mouth
     card_piece(canvas, [ell(*P(-3, 0), 4.5 * s, 6.5 * s, hrot)], tones["skin"] * .86, mud, seed=sd + 16, shadow=1)
     if who == "B":
         strands = []
         for k in range(9):
-            a0 = P(-14 + 3.2 * k, 20 - abs(k - 4) * .6)
-            a1 = P(-24 + 2.5 * k + (k % 2) * 3, -6 - (k % 3) * 7 - (4 if k < 3 else 0))
-            strands.append(capsule(a0, a1, 3.2 * s, 1.1 * s, 6))
-        card_piece(canvas, [ell(*P(-3, 13), 19 * s, 10 * s, hrot)] + strands, tones["hair"], 0.5, seed=sd + 21, shadow=2,
-                   sweat=[(P(2, 15)[0], P(2, 15)[1], 6 * s, 1.4 * s, hrot, 225)])
+            a0 = P(-19 + 1.3 * k, 15 - abs(k - 4) * 1.2)
+            ln = (20 + (k % 3) * 8) * s
+            a1 = (a0[0] - facing * (10 + 2 * (k % 4)) * s, a0[1] + ln)        # wet strands hang under gravity
+            strands.append(capsule(a0, a1, 3.0 * s, 1.0 * s, 6))
+        card_piece(canvas, [ell(*P(-7, 15), 13 * s, 8 * s, hrot)] + strands, tones["hair"], 0.5, seed=sd + 21, shadow=2,
+                   sweat=[(P(-2, 17)[0], P(-2, 17)[1], 6 * s, 1.4 * s, hrot, 225)])
     if who == "C":   # dark hair cap + patterned headband with a pencilled meander
         card_piece(canvas, [ell(*P(-4, 10), 18 * s, 12 * s, hrot)], tones["hair"], 0.3, seed=sd + 22, shadow=1)
         band = [P(-17, 9), P(17, 9), P(17, 2), P(-17, 1)]
@@ -308,8 +309,8 @@ def draw_puppet(canvas, J, s, tones, who, mud=1.0, facing=1, front_hand_cb=None,
         brad(canvas, *J[b][0], max(3, 2.2 * s))
 
 
-TONES_B = dict(shirt=196, skin=168, leg=150, hair=206)
-TONES_C = dict(shirt=118, skin=140, leg=96, hair=52, band=168)
+TONES_B = dict(shirt=192, skin=160, leg=104, hair=206)
+TONES_C = dict(shirt=92, skin=128, leg=70, hair=44, band=170)
 
 
 def bag_piece(canvas, x, y, s, ang=0, seed=500):
@@ -403,6 +404,7 @@ def water_plane(canvas, top, t, x_cam, scale=1.0, lift=0):
 P0 = load_cut("P0_far", 0.78, blur=1.1)
 P1 = load_cut("P1_flange", 0.62, blur=0.7)
 P3 = load_cut("P3_leaves", 0.58, blur=2.6)
+P3[..., :3] *= 0.80                                         # leaves under the canopy: a stop under the plank light
 P4R = load_cut("P1_flange", 0.55, blur=3.5, rot=-24)       # foreground root diagonal, low left
 # fern: GrabCut matte x graphite-dark pinnae (the light leaves behind the fern drop out)
 _f = np.asarray(Image.open(CUT / "P4_fern.png").convert("RGBA"), np.float32)
@@ -415,7 +417,7 @@ _a = np.maximum(_a, 255 * ((((xx - wF * .39) / (wF * .1)) ** 2 + ((yy - hF * .43
 _f[..., 3] = _a
 FERN = np.asarray(Image.fromarray(_f.astype(np.uint8), "RGBA").resize((int(wF * .5), int(hF * .5)), Image.LANCZOS), np.float32)
 _al = FERN[..., 3:] / 255
-FERN = np.dstack([gblur(FERN[..., :3] * _al, 3.0) / np.maximum(gblur(_al[..., 0], 3.0)[..., None], 1e-3), gblur(_al[..., 0], 3.0)[..., None] * 255])
+FERN = np.dstack([gblur(FERN[..., :3] * _al, 1.6) / np.maximum(gblur(_al[..., 0], 1.6)[..., None], 1e-3), gblur(_al[..., 0], 1.6)[..., None] * 255])
 
 
 def bank(canvas, cam, top=470, seed=600):
@@ -424,7 +426,7 @@ def bank(canvas, cam, top=470, seed=600):
     pts = [(-40 - cam, top + 18), (120 - cam, top - 4), (300 - cam, top + 4), (470 - cam, top + 14), (560 - cam, top + 40),
            (600 - cam, H + 20), (-40 - cam, H + 20)]
     roots = [capsule((420 + 40 * k - cam, top + 20), (520 + 46 * k - cam, top + 70 + 10 * k), 9, 3) for k in range(3)]
-    card_piece(canvas, [pts] + roots, 72, 1.4, seed=seed, shadow=6)
+    card_piece(canvas, [pts] + roots, 56, 1.4, seed=seed, shadow=6)
 
 
 def plank(canvas, p0, p1, thick, deflect_at=None, defl=0.0, seed=700, tone=172):
@@ -573,8 +575,8 @@ def script_line(canvas, parts, x, y, scale, upto, seed):
                 cv2.circle(mask, (int(cx + 16), int(y - 10)), 4, 1.0, -1, cv2.LINE_AA)   # the middle dot
             cx += 34
     tooth = np.clip((FIB[seed:seed + canvas.shape[0], seed:seed + canvas.shape[1]] - 0.96) * 14, 0.35, 1)
-    m = gblur(mask, 0.6) * tooth * 0.85
-    canvas[:] = canvas * (1 - m[..., None]) + 58 * m[..., None]
+    m = np.clip(gblur(mask, 0.6) * tooth * 1.1, 0, 1)
+    canvas[:] = canvas * (1 - m[..., None]) + 48 * m[..., None]
     return cx, ends
 
 
@@ -584,11 +586,12 @@ def nchars(parts): return sum(len(p) for p in parts)
 def ledger_frame(t):
     u = t - CLOSE_END
     C = np.zeros((PH, PW, 3), np.float32)
-    over(C, P0, -320 - u * 3, -330)
-    bank(C, 0, top=60, seed=610)
+    C += 60
+    bank(C, 0, top=-30, seed=610)
+    over(C, P1, -200 - u * 4, 330)
     card = [(70, 120), (420, 104), (735, 128), (748, 300), (720, 420), (360, 436), (60, 418), (52, 260)]
     card_piece(C, [card], 178, 0.45, seed=620, shadow=9)
-    xend, _ = script_line(C, LINE1, 110, 225, 1.55, 99, 3)
+    xend, _ = script_line(C, LINE1, 120, 225, 1.3, 99, 3)
     # strike: 8 frames (0.33 s) from u=0.30
     sk = min(max((u - 0.30) / (8 / FPS), 0), 1)
     if sk > 0:
@@ -597,14 +600,15 @@ def ledger_frame(t):
     # rewrite: from u=0.75 to 1.9, letter by letter
     n2 = nchars(LINE2)
     up = (u - 0.75) / 1.15 * n2
-    if up > 0: script_line(C, LINE2, 110, 340, 1.55, up, 5)
+    if up > 0: script_line(C, LINE2, 120, 340, 1.3, up, 5)
     # mud thumbprints on the card from B's hand (deposit)
-    over(C, P3, 430 - u * 6, -330)
+    over(C, P3, 600 - u * 6, -420)
+    over(C, FERN, -300 + u * 8, 400)
     return C, dict(ledger="1 A · 2 B (sac) · 3 C" if up <= 0 else ("1 A · 2 C (sac) · 3 B" if up >= n2 else "rewriting"))
 
 
 # ------------------------------------------------------------------ beat 3: L-S8 excerpt, B crosses last
-S3 = 1.45
+S3 = 1.15
 
 
 def walk_pose(phase, carrying=True):
@@ -612,7 +616,7 @@ def walk_pose(phase, carrying=True):
     sw = math.sin(phase * 2 * math.pi)
     th_f = 90 - 24 * sw; th_n = 90 + 24 * sw
     kb_f = 20 * max(0, math.cos(phase * 2 * math.pi)); kb_n = 20 * max(0, -math.cos(phase * 2 * math.pi))
-    return pose_abs(-86, -70, (118, 170, 210), (-120, -100, -95),     # far arm: shoe at chest; near arm: up on the liana
+    return pose_abs(-86, -70, (96, -40, -60), (-120, -100, -95),     # far arm: shoe held to her chest; near arm: up on the liana
                     (th_f, th_f + kb_f, 0), (th_n, th_n + kb_n, 0))
 
 
@@ -621,22 +625,23 @@ def cross_frame(t):
     cam = 70 * smoothstep(u / 2.8)
     C = np.zeros((PH, PW, 3), np.float32) + 90
     over(C, P0, -60 - cam * .15, -260)
-    over(C, P1, 380 - cam * .35, 250)
-    lift = int(6 + 8 * smoothstep(u / 2.8))   # water still rising
-    WL = 420
-    water_plane(C, WL, t, 80 + cam, lift=lift)
-    bank(C, cam + 260, top=405, seed=630)
+    over(C, P1, 420 - cam * .35, 160)
+    WL = 430
+    bank(C, cam + 260, top=447, seed=630)
     # B: steps along the plank; feet-on-plank position x(t)
     px0, px1 = 150 - cam, 980 - cam
     bx = 250 + 150 * smoothstep(u / 2.8) - cam
     ufrac = (bx - px0) / (px1 - px0)
-    plank_y0 = 404
-    defl = 9 * math.sin(math.pi * min(max(ufrac, 0), 1)) * 1.0
+    plank_y0 = 446
+    defl = 9 * math.sin(math.pi * min(max(ufrac, 0), 1))
+    ptop_b = plank_y0 - 10 * ufrac + defl
+    clearance = int(round(14 - 10 * smoothstep(u / 2.2)))     # water rises to 4 px under her feet (highest water)
+    water_y = ptop_b + clearance
+    water_plane(C, int(water_y), t, 80 + cam)
     top = plank(C, (px0, plank_y0), (px1, plank_y0 - 10), 16, deflect_at=ufrac, defl=defl)
+    wet = np.zeros(C.shape[:2], np.float32); wet[int(water_y):int(water_y) + 20] = 0.55   # water laps over the plank's lower edge
+    C[:] = C * (1 - wet[..., None]) + 70 * wet[..., None]
     plank_top_at_b = top[1][1]
-    water_y = WL - lift
-    clearance = (water_y) - (plank_top_at_b + 16)        # gap between plank underside and water at her position
-    clearance = max(int(round(-clearance if clearance < 0 else clearance)), 0)
     # liana: twisted paper cord from canopy, her near hand rides it
     phase = (u / 1.4) % 1
     pz = walk_pose(phase)
@@ -645,9 +650,16 @@ def cross_frame(t):
     root = (bx, plank_top_at_b - leg + 8 + hip_drop)
     J = fk(root, to_local({b: round(v) for b, v in pz.items()}), S3); check_bones(J, S3)
     hand = J["hand_n"][1]
-    lp = [(hand[0] - 300 - cam * .2, -10), (hand[0] - 120, hand[1] - 80), hand, (hand[0] + 260, hand[1] - 20), (hand[0] + 520, -10)]
-    for k in range(2):
-        pencil(C, lp, 7 - 3 * k, 46 + 30 * k, 0.95, 40 + k)
+    lp = [(hand[0] - 420, -20), (hand[0] - 200, hand[1] - 40), hand, (hand[0] + 260, hand[1] - 30), (hand[0] + 560, -20)]
+    pts = []
+    for i in range(len(lp) - 1):
+        for q in np.linspace(0, 1, 8, endpoint=False):
+            pts.append((lp[i][0] + (lp[i + 1][0] - lp[i][0]) * q, lp[i][1] + (lp[i + 1][1] - lp[i][1]) * q))
+    pts.append(lp[-1])
+    card_piece(C, [capsule(pts[i], pts[i + 1], 5, 5, 4) for i in range(len(pts) - 1)], 62, 0.6, seed=650, shadow=4)
+    for i in range(0, len(pts) - 1):                        # the twist, pencilled
+        a, b = pts[i], pts[i + 1]
+        pencil(C, [(a[0], a[1] - 4), (b[0], b[1] + 4)], 1.5, 120, 0.6, 660 + i)
     def shoe_cb(canvas):
         p0, p1, ang = J["hand_f"]; s = shoe_img(80, -ang + 180)
         h, w = s.shape[:2]; over(canvas, s, p1[0] - w * .5, p1[1] - h * .5)
@@ -663,8 +675,8 @@ def cross_frame(t):
             C[:] = C * (1 - m[..., None] * .8) + 212 * m[..., None] * .8
     over(C, P3, 470 - cam * 1.5, -400)
     over(C, P3[:, ::-1], -360 - cam * 1.5, -470)
-    over(C, FERN, 620 - cam * 2.0, 130)
-    over(C, P4R, -220 - cam * 2.0, 380)
+    over(C, FERN, 660 - cam * 2.0, 60)
+    over(C, P4R, -260 - cam * 2.0, 400)
     return C, dict(plank_occupant="B", hands_B=["liana", "shoe"], bag="C", shoe="B", clearance_px=clearance)
 
 

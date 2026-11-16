@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "/home/user/bolas/paeleo/scion/oulipo/films/swarm/la-mort-en-ce-jardin/test-shot-build/shot.py", line 759, in <module>
+    film.render(out_dir=SWARM)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/user/bolas/paeleo/scion/oulipo/films/kit.py", line 593, in render
+    self._sound(mix)
+    ~~~~~~~~~~~^^^^^
+  File "/home/user/bolas/paeleo/scion/oulipo/films/swarm/la-mort-en-ce-jardin/test-shot-build/shot.py", line 715, in sound
+    bed = load_audio(A / "stream.wav", 12.0, DUR + 0.5)
+  File "/home/user/bolas/paeleo/scion/oulipo/films/swarm/la-mort-en-ce-jardin/test-shot-build/shot.py", line 707, in load_audio
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", str(start), "-t", str(dur), "-i", str(path), "-ac", "1",
+          ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                          "-ar", "44100", "-f", "f32le", "-"], capture_output=True, check=True).stdout
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['ffmpeg', '-v', 'error', '-ss', '12.0', '-t', '8.9', '-i', '/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/test-shot/audio/stream.wav', '-ac', '1', '-ar', '44100', '-f', 'f32le', '-']' returned non-zero exit status 183.
+
+real	0m1.188s
+user	0m1.290s
+sys	0m0.419s
