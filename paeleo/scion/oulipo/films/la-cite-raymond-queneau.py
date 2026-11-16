@@ -1,323 +1,362 @@
-"""La Cité Raymond Queneau — one locked 25 s picture edit of the station below the housing blocks,
-played twice: MIX A scores it as a welcoming place, MIX B as a watched one. Same frames, same loudness."""
+"""La Cité Raymond Queneau: screening reel. One locked 30 s picture of a cut-paper cité, played twice.
+
+The picture is the locked master of the swarm build (films/swarm/la-cite-raymond-queneau/out/master.mp4,
+built by picture/maquette.py from foraged paper scans). It is decoded once and pasted pixel-exact into
+rows 0-463 of each pass; rows 464-539 are a paper band that carries ONLY transcripts of real recorded speech heard in
+that pass (out/<ed>-speech.vtt), so a blind reading of the two passes can only come from the sound. The written caption
+editions (sound-A/A.vtt, sound-B/B.vtt, fiction) travel in the edition files and are quoted on the end table.
+Sound: the editor's level-matched edition mixes (editor/mix.py), placed with place(); kit's master gain
+is applied equally to both passes, so they stay level with each other.
+
+  python3 films/la-cite-raymond-queneau.py                -> assets/films/la-cite-raymond-queneau.mp4 (A first)
+  python3 films/la-cite-raymond-queneau.py --order BA     -> films/swarm/la-cite-raymond-queneau/out/reel-BA.mp4
+  python3 films/la-cite-raymond-queneau.py --stills 5 25  -> films/stills/la-cite-raymond-queneau/
+  python3 films/la-cite-raymond-queneau.py --verify       -> decoded-reel PSNR + pass loudness into out/identity-report.json
+"""
 import hashlib
+import json
 import math
-from kit_cinema_b import *
+import os
+import re
+import subprocess
+import sys
+import wave
+from pathlib import Path
 
-PIC = 25.0
-SC = Score([(0, 3.0, "title"), (3.0, 5.5, "cardA"), (5.5, 5.5 + PIC, "A"), (5.5 + PIC, 8.0 + PIC, "cardB"),
-            (8.0 + PIC, 8.0 + 2 * PIC, "B"), (8.0 + 2 * PIC, 14.0 + 2 * PIC, "end")])
-SHOTS = [(0, 4.5, "blocks"), (4.5, 9.0, "arrive"), (9.0, 11.0, "bell"), (11.0, 15.5, "open"),
-         (15.5, 19.0, "window"), (19.0, 23.0, "leave"), (23.0, 25.0, "door")]
-KEY_CUT = 15.5
-TARGET_DB = -23.0   # LUFS, K-weighted, gated (BS.1770 style)
-HASHES = {"A": {}, "B": {}}
+import numpy as np
+from PIL import Image, ImageDraw
+
+from kit_cinema_b import *  # noqa: F401,F403  (kit: Film, Ink, font, colours; Score, place, lufs)
+
+SLUG = "la-cite-raymond-queneau"
+SW = HERE / "swarm" / SLUG
+SWOUT = SW / "out"
+EDSRC = HERE / "sources" / SLUG / "editor"
+RAW = EDSRC / "master.rgb24"
+PW, PH, NFR = 960, 464, 720
+PIC = NFR / FPS                                   # 30.000 s
+
+ORDER = "AB"
+if "--order" in sys.argv:
+    i = sys.argv.index("--order"); ORDER = sys.argv[i + 1].upper(); del sys.argv[i:i + 2]
+assert ORDER in ("AB", "BA")
+VERIFY = "--verify" in sys.argv
+if VERIFY:
+    sys.argv.remove("--verify")
+
+SC = Score([(0.0, 2.5, "title"), (2.5, 4.0, "card1"), (4.0, 34.0, "pass1"), (34.0, 35.5, "card2"),
+            (35.5, 65.5, "pass2"), (65.5, 72.0, "end"), (72.0, 75.0, "credits")])
+PASS_ED = {"pass1": ORDER[0], "pass2": ORDER[1]}
+HASHES = {"pass1": {}, "pass2": {}}
+MASTER_SHA = {}
 LOUD = {}
-V_COAT = (86, 72, 98)
+TXT = (36, 32, 29)
 
 
-class LockedFilm(Film):
-    """Picture passes are drawn from the same master: local time AND local frame index,
-    so boil, grain and jitter repeat exactly in both passes."""
+def jload(p, default=None):
+    try:
+        return json.load(open(p))
+    except Exception:
+        return default
+
+
+# ---------------------------------------------------------------- master frames ---
+
+def master_frames():
+    if not RAW.exists() or RAW.stat().st_size != PW * PH * 3 * NFR:
+        RAW.parent.mkdir(parents=True, exist_ok=True)
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(SWOUT / "master.mp4"), "-f", "rawvideo", "-pix_fmt", "rgb24", str(RAW)], check=True)
+    return np.memmap(RAW, np.uint8, "r", shape=(NFR, PH, PW, 3))
+
+
+MF = master_frames()
+
+
+# ---------------------------------------------------------------- captions ---
+
+def read_vtt(p):
+    cues = []
+    for blk in open(p, encoding="utf-8").read().split("\n\n"):
+        lines = [ln for ln in blk.strip().split("\n") if ln]
+        for j, ln in enumerate(lines):
+            m = re.match(r"(\d+):(\d+):([\d.]+)\s+-->\s+(\d+):(\d+):([\d.]+)", ln)
+            if m:
+                a = int(m[1]) * 3600 + int(m[2]) * 60 + float(m[3])
+                b = int(m[4]) * 3600 + int(m[5]) * 60 + float(m[6])
+                body = lines[j + 1:]
+                fr = body[0] if body else ""
+                gl = re.sub(r"</?i>", "", body[1]) if len(body) > 1 else ""
+                cues.append((a, b, fr, gl))
+    return cues
+
+
+VTT = {e: read_vtt(SWOUT / f"{e}-speech.vtt") if (SWOUT / f"{e}-speech.vtt").exists() else [] for e in "AB"}   # speech only
+WRITTEN = {e: read_vtt(SW / f"sound-{e}" / f"{e}.vtt") for e in "AB"}                                                 # end table only
+SPEECH_ANY = any(VTT.values())
+
+
+def band(img, ed, t, label):
+    """Paper band below the picture (rows 464-539): transcripts of recorded speech only (Instrument Serif French, sans gloss)."""
+    d = ImageDraw.Draw(img, "RGBA")
+    d.rectangle([0, PH, W, H], fill=PAPER)
+    d.line([(0, PH), (W, PH)], fill=RULE, width=1)
+    d.text((16, H - 14), label, font=font("mono", 11), fill=MUTED + (200,), anchor="ls")
+    for a, b, fr, gl in VTT[ed]:
+        if a - 0.01 <= t < b:
+            al = min(1.0, (t - a) / 0.15 + 0.001, (b - t) / 0.15)
+            al = max(0.0, al)
+            d.text((W / 2, PH + 29), fr, font=font("serif", 24), fill=TXT + (int(255 * al),), anchor="mm")
+            d.text((W / 2, PH + 57), gl, font=font("sans", 14), fill=MUTED + (int(255 * al),), anchor="mm")
+
+
+# ---------------------------------------------------------------- film ---
+
+class ReelFilm(Film):
+    """Pass frames are the decoded master, pasted untouched (no grain, no jitter) into rows 0-463."""
 
     def frame(self, k):
         t = k / self.fps
         name, local, a, b = SC.at(t)
-        if name in ("A", "B"):
+        if name in ("pass1", "pass2"):
             kl = k - int(round(a * self.fps))
-            ink = Ink(kl / self.fps, kl, self.size, self.boil, self.wobble, self.seed)
-            ink.paper()
-            master(kl / self.fps, ink)
-            img = ink.finish()
-            HASHES[name][kl] = hashlib.sha1(img.tobytes()).hexdigest()
+            kl = min(max(kl, 0), NFR - 1)
+            img = Image.new("RGB", (W, H), PAPER)
+            img.paste(Image.fromarray(np.asarray(MF[kl])), (0, 0))
+            band(img, PASS_ED[name], kl / self.fps, "1" if name == "pass1" else "2")
+            pic = img.tobytes()[: PW * PH * 3]
+            HASHES[name][kl] = hashlib.sha1(pic).hexdigest()
+            if kl not in MASTER_SHA:
+                MASTER_SHA[kl] = hashlib.sha1(np.ascontiguousarray(MF[kl]).tobytes()).hexdigest()
             return img
         return super().frame(k)
 
 
-film = LockedFilm("la-cite-raymond-queneau", seconds=SC.total, boil=6, wobble=1.1, seed=12)
-film.poster_at = SC.start("A") + 17.0
+    def render(self, out_dir=OUT, preview=None):
+        """kit.Film.render with one change: the encoder settings. kit's CRF lets the differing caption band move each
+        frame's QP, so the two passes encode differently. Here: constant QP, a fixed B-frame pattern, no scene-cut
+        keyframes, and IDR frames forced every 48 frames from each pass start, so both passes see the same GOP."""
+        out_dir.mkdir(parents=True, exist_ok=True)
+        if preview is None and len(sys.argv) > 1 and sys.argv[1] == "--stills":
+            return Film.render(self, out_dir)
+        import tempfile
+        total = int(round(self.seconds * self.fps))
+        k1, k2 = int(SC.start("pass1") * FPS), int(SC.start("pass2") * FPS)
+        kf = f"expr:gte(n,{k1})*lte(n,{k1 + NFR - 1})*eq(mod(n-{k1},48),0)+gte(n,{k2})*lte(n,{k2 + NFR - 1})*eq(mod(n-{k2},48),0)+eq(n,0)+eq(n,{k1 + NFR})+eq(n,{k2 + NFR})"
+        with tempfile.TemporaryDirectory() as tmp:
+            wav = Path(tmp) / "a.wav"
+            mix = Mix(self.seconds, seed=self.seed)
+            self._sound(mix)
+            pcm = mix.master()
+            with wave.open(str(wav), "wb") as wf:
+                wf.setnchannels(2); wf.setsampwidth(2); wf.setframerate(RATE); wf.writeframes(pcm.tobytes())
+            mp4 = out_dir / f"{self.slug}.mp4"
+            cmd = ["ffmpeg", "-y", "-loglevel", "error",
+                   "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{self.size[0]}x{self.size[1]}", "-r", str(self.fps), "-i", "-",
+                   "-i", str(wav),
+                   "-c:v", "libx264", "-preset", "slow", "-qp", str(QP), "-pix_fmt", "yuv420p", "-tune", "animation",
+                   "-x264-params", "scenecut=0:b-adapt=0:bframes=3:keyint=480:min-keyint=1:open-gop=0",
+                   "-force_key_frames", kf,
+                   "-c:a", "aac", "-b:a", "96k", "-shortest", "-movflags", "+faststart", str(mp4)]
+            proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
+            poster_k = int(self.poster_at * self.fps)
+            for k in range(total):
+                img = self.frame(k)
+                if k == poster_k:
+                    img.save(out_dir / f"{self.slug}.webp", quality=82)
+                proc.stdin.write(img.tobytes())
+                if k % (self.fps * 10) == 0:
+                    print(f"  {self.slug}: {k / self.fps:5.1f}s / {self.seconds}s", flush=True)
+            proc.stdin.close()
+            if proc.wait() != 0:
+                raise SystemExit("ffmpeg failed")
+        print(f"wrote {mp4} ({mp4.stat().st_size / 1e6:.2f} MB)")
 
 
-# ---------------------------------------------------------------- picture master ---
-
-def sky(ink, top=(206, 196, 196), bottom=(240, 224, 204)):
-    for y in range(0, H, 6):
-        ink.d.rectangle([0, y, W, y + 6], fill=mix_color(top, bottom, y / H))
+QP = 28
+film = ReelFilm(SLUG if ORDER == "AB" else "reel-BA", seconds=SC.total, boil=0, wobble=0.0, seed=7)
+film.poster_at = SC.start("pass1") + 21.0
 
 
-def blocks(ink, t, dx=0.0, lit_seed=3):
-    rng = random.Random(lit_seed)
-    for bx, bw, bh, col in ((60, 250, 300, (196, 186, 172)), (360, 300, 360, (186, 178, 166)), (700, 220, 280, (200, 190, 176))):
-        x0 = bx + dx
-        ink.rect(x0, 420 - bh, x0 + bw, 420, fill=col, color=INK, width=2)
-        for r in range(int((bh - 30) / 34)):
-            for c in range(int((bw - 20) / 30)):
-                wx, wy = x0 + 14 + c * 30, 420 - bh + 18 + r * 34
-                lit = rng.random() < 0.28
-                ink.rect(wx, wy, wx + 18, wy + 22, fill=(246, 214, 140) if lit else (120, 124, 132), color=INK, width=1, rough=False)
+def card_number(ink, s):
+    ink.fill(PAPER)
+    ink.text((W / 2, H / 2 - 8), s, "serif", 96, TXT, anchor="mm")
 
 
-def shot_blocks(ink, t):
-    sky(ink)
-    blocks(ink, t, dx=-18 * t / 4.5)
-    # footbridge and platform canopy in front
-    ink.d.rectangle([0, 420, W, H], fill=(150, 142, 130))
-    ink.rect(-10, 380, W + 10, 396, fill=(110, 104, 98), color=INK, width=2)
-    for x in range(20, W, 90):
-        ink.line([(x - 8 * t / 4.5, 396), (x - 8 * t / 4.5, 470)], INK, 3)
-    ink.line([(0, 470), (W, 470)], INK, 2)
+def end_table(ink):
+    ident = jload(SWOUT / "identity-report.json", {})
+    mixr = jload(SWOUT / "mix.json", {})
+    rev = ident.get("master_revision", "?")[:12]
+    n = sum(1 for k, h in HASHES["pass1"].items() if HASHES["pass2"].get(k) == h)
+    same = f"{n} / {NFR} picture frames identical in both passes (sha1, before encoding)" if HASHES["pass2"] else \
+        "reel passes: sha1 compared during the render"
+    eds = ident.get("editions", {})
+    md5 = " · ".join(f"{e} {eds[e]['match']}/{eds[e]['of']}" for e in ("A", "B", "X", "silent") if e in eds)
+    me = mixr.get("editions", {})
+    la = me.get("A", {}).get("integrated_lufs_final_mp4", -23.0)
+    lb = me.get("B", {}).get("integrated_lufs_final_mp4", -23.0)
+    ta = me.get("A", {}).get("true_peak_dbtp_final_mp4", 0)
+    tb = me.get("B", {}).get("true_peak_dbtp_final_mp4", 0)
+    name = {"A": "A · domestic: someone coming home", "B": "B · surveillance: someone being logged"}
+    cA = json.load(open(SW / "sound-A" / "cues-A.json")); cB = json.load(open(SW / "sound-B" / "cues-B.json"))
+    def at(cues, f0, f1):
+        own = ("16", "silhouette_rise", "head_turn", "curtain_slide")          # window 16's own events only
+        return [c for c in sorted(cues, key=lambda c: c["t_sound"]) if f0 <= c["frame"] <= f1 and c.get("source_ledger_id")
+                and any(o in c["picture_event_id"] for o in own)]
+    def lab(c):
+        return f'f{c["frame"]} ' + c["sound_event"].split(" (")[0].split(",")[0]
+    a16 = " · ".join(dict.fromkeys(lab(c) for c in at(cA, 492, 566)))
+    b16 = " · ".join(dict.fromkeys(lab(c) for c in at(cB, 492, 566)))
+    if not any("held silence" in x for x in b16.split(" · ")):
+        b16 = b16.replace("f566", "silence f538–565 · f566")
+    ink.fill(PAGE)
+    ink.text((W / 2, 46), "what changed, and what did not", "serif", 30, TXT, anchor="mm")
+    rows = [("pass 1 was", name[ORDER[0]]),
+            ("pass 2 was", name[ORDER[1]]),
+            ("picture", same),
+            ("editions", f"framemd5 vs master ({rev}): {md5}"),
+            ("loudness", f"A {la:.1f} LUFS, TP {ta:.1f} dBTP  ·  B {lb:.1f} LUFS, TP {tb:.1f} dBTP  (ebur128)"),
+            ("window 16, f492–566", "A: " + a16),
+            ("", "B: " + b16),
+            ("written editions", "A « " + WRITTEN["A"][-1][2].strip(" .") + " »   ·   B « " + WRITTEN["B"][-1][2].strip(" .") + " »  (in the files, not shown above)")]
+    y = 96
+    for lab, s_ in rows:
+        ink.text((48, y + 4), lab, "mono", 12, MUTED)
+        ink.text((222, y), s_, "serif", 20 if len(s_) < 74 else (17 if len(s_) < 92 else 14), TXT)
+        y += 48 if lab.startswith("pass 2") or lab == "editions" else 42
+    ink.text((W / 2, H - 30), "fiction: a paper model; names and log entries invented · attribution on the next card and in the notes",
+             "mono", 11, MUTED, anchor="mm")
 
 
-def station_wide(ink, t, visitor=None, key_on_bench=False, env_on_bench=False):
-    ink.d.rectangle([0, 0, W, H], fill=(226, 220, 206))
-    # the blocks seen behind the platform wall
-    ink.d.rectangle([0, 0, W, 150], fill=(206, 198, 196))
-    for k in range(9):
-        x = 30 + k * 110
-        ink.rect(x, 40, x + 80, 150, fill=(190, 182, 172), color=MUTED, width=1.2)
-        for r in range(3):
-            for c in range(3):
-                ink.d.rectangle([x + 8 + c * 24, 50 + r * 32, x + 22 + c * 24, 68 + r * 32], fill=(130, 132, 138) if (k + r + c) % 5 else (240, 210, 140))
-    ink.line([(0, 150), (W, 150)], INK, 2)
-    platform(ink, 330)
-    door(ink, 820, 330, w=80, h=170, sign="SERVICE")
-    bench(ink, 430, 350, w=230)
-    clock(ink, 150, 220, 34, 12.0 + t / 600)
-    if env_on_bench:
-        envelope(ink, 470, 350 - 52, 40, 26, open_=1)
-    if key_on_bench:
-        key_shape(ink, 390, 350 - 50, 0.8, angle=0.1)
-        bench_key_glint(ink, 400, 290, t)
-    if visitor:
-        x, pose, arm, env = visitor
-        p = figure(ink, x, 352 if pose != "sit" else 350, 1.5, pose, x / 60, 1, coat=V_COAT, hat=True, arm=arm)
-        if env:
-            h = p["hands"][0]
-            envelope(ink, h[0] + 6, h[1] - 2, 40, 26)
+def credits_card(ink):
+    cr = jload(HERE / "credits" / f"{SLUG}.json", [])
+    by = [c for c in cr if c["license"].upper().startswith("CC BY")]
+    ink.fill(PAPER)
+    ink.text((W / 2, 40), "attribution (CC BY / CC BY-SA)", "serif", 24, TXT, anchor="mm")
+    y = 78
+    for c in by:
+        t = re.sub(r"\.(ogg|wav|mp3|jpg|png)$", "", c["title"].split(":")[0])
+        ink.text((60, y), f"{t} · {c['author']} · {c['license']}", "sans", 13 if len(by) < 12 else 12, TXT)
+        ink.text((60, y + 16), c["source_url"], "mono", 9, MUTED)
+        y += 34 if len(by) < 11 else 30
+    pd_n = len(cr) - len(by)
+    ink.text((60, y + 6), f"and {pd_n} public-domain / CC0 / no-known-restriction items: full list in credits/{SLUG}.json and the notes",
+             "sans", 12, MUTED)
+    ink.text((W / 2, H - 52), "soundtracks of editions B and C and of this reel: CC BY-SA 4.0 (they adapt W.carter's CC BY-SA wind)",
+             "mono", 11, TXT, anchor="mm")
+    ink.text((W / 2, H - 32), "picture: cut-paper model by the film, from foraged scans incl. Library of Congress, Music Division, Federal Theatre Project Collection",
+             "mono", 10, MUTED, anchor="mm")
 
-
-def shot_arrive(ink, t):
-    f = ramp(t, 0, 3.4)
-    x = lerp(-40, 400, f)
-    pose = "walk" if f < 1 else "sit"
-    station_wide(ink, t, (x, pose, 60 if pose == "sit" else None, True))
-
-
-def shot_bell(ink, t):
-    ink.d.rectangle([0, 0, W, H], fill=(214, 208, 196))
-    ink.hatch(0, 0, W, H, gap=18, angle=80, color=(190, 184, 172), width=1, alpha=120)
-    ink.rect(380, 60, 580, 90, fill=(110, 100, 90), color=INK, width=3)
-    sw = math.sin(max(0, t - 0.3) * 9) * 0.45 * math.exp(-max(0, t - 0.3) * 1.3) if t > 0.3 else 0
-    cx, cy = 480, 100
-    ca, sa = math.cos(sw), math.sin(sw)
-    shape = [(-22, 0), (22, 0), (34, 90), (70, 150), (-70, 150), (-34, 90)]
-    pts = [(cx + px * ca - py * sa, cy + px * sa + py * ca) for px, py in shape]
-    ink.poly(pts, fill=BRASS, color=INK, width=3)
-    clap = (cx - 160 * sa, cy + 160 * ca)
-    ink.circle(clap[0], clap[1], 14, fill=(90, 70, 40), color=INK, width=2)
-    ink.line([(cx, cy), clap], INK, 3)
-
-
-def shot_open(ink, t):
-    ink.d.rectangle([0, 0, W, H], fill=(200, 170, 130))
-    # bench slats close up
-    for k in range(4):
-        y = 300 + k * 60
-        ink.rect(-10, y, W + 10, y + 46, fill=(160, 120, 80), color=INK, width=2.5)
-    o = ease(t, 0.8, 1.8)
-    envelope(ink, 480, 320, 300, 190, open_=o)
-    # hands
-    for sx in (-1, 1):
-        hx = 480 + sx * 170
-        ink.ellipse(hx, 360, 40, 26, fill=(232, 200, 170), color=INK, width=2.2)
-        ink.line([(hx + sx * 30, 360), (hx + sx * 140, 470)], V_COAT, 26)
-    if t > 1.8:
-        y = lerp(300, 170, ease(t, 1.8, 3.0))
-        key_shape(ink, 400, y, 4.0, angle=0.05)
-        if t > 3.0:
-            bench_key_glint(ink, 560, y - 10, t)
-
-
-def shot_window(ink, t):
-    ink.d.rectangle([0, 0, W, H], fill=(186, 178, 166))
-    ink.hatch(0, 0, W, H, gap=10, angle=0, color=(170, 162, 150), width=1, alpha=120)
-    ink.rect(280, 70, 680, 470, fill=(246, 222, 160), color=INK, width=4)
-    ink.line([(480, 70), (480, 470)], INK, 3)
-    ink.line([(280, 270), (680, 270)], INK, 3)
-    # silhouette behind the glass
-    ink.circle(470, 220, 44, fill=(70, 60, 64), color=(70, 60, 64), width=1)
-    ink.poly([(400, 470), (400, 320), (430, 280), (510, 280), (540, 320), (540, 470)], fill=(70, 60, 64), color=(70, 60, 64), width=1)
-    raise_ = ease(t, 0.9, 1.6)
-    if raise_ > 0:
-        ax, ay = lerp(540, 600, raise_), lerp(400, 190, raise_)
-        ink.line([(530, 320), (ax, ay)], (70, 60, 64), 24)
-        ink.circle(ax, ay - 10, 18, fill=(70, 60, 64), color=(70, 60, 64), width=1)
-    # curtain parts
-    c = ease(t, 0.0, 0.8)
-    for side in (-1, 1):
-        x_in = 480 + side * lerp(10, 170, c)
-        x_out = 480 + side * 200
-        ink.poly([(x_out, 70), (x_in, 70), (x_in + side * 12, 470), (x_out, 470)], fill=(236, 232, 222, 235), color=INK, width=1.6)
-        for k in range(4):
-            xx = lerp(x_in, x_out, (k + 1) / 5)
-            ink.line([(xx, 75), (xx + side * 6, 465)], (200, 194, 180), 1.4)
-    ink.rect(250, 470, 710, 490, fill=(160, 150, 140), color=INK, width=2.5)
-
-
-def shot_leave(ink, t):
-    if t < 1.2:
-        station_wide(ink, t, (400, "sit", 30, False), key_on_bench=t > 0.6, env_on_bench=True)
-    else:
-        x = lerp(420, 1010, ease(t, 1.2, 4.0))
-        station_wide(ink, t, (x, "walk", None, False), key_on_bench=True, env_on_bench=True)
-
-
-def shot_door(ink, t):
-    ink.d.rectangle([0, 0, W, H], fill=(214, 206, 192))
-    ink.hatch(0, 0, W, 420, gap=34, angle=0, color=(190, 184, 172), width=1.4, alpha=160)
-    door(ink, 560, 470, w=220, h=380, sign=None)
-    ink.rect(500, 50, 620, 80, fill=PAGE, color=INK, width=2)
-    ink.label((560, 65), "SERVICE", 16, INK, anchor="mm")
-    ink.circle(560, 30, 12, fill=(250, 240, 200), color=INK, width=2)
-    ink.d.rectangle([0, 470, W, H], fill=(160, 120, 80))
-    key_shape(ink, 140, 500, 2.2, angle=-0.1)
-    bench_key_glint(ink, 240, 490, t)
-
-
-SHOT_FN = {"blocks": shot_blocks, "arrive": shot_arrive, "bell": shot_bell, "open": shot_open,
-           "window": shot_window, "leave": shot_leave, "door": shot_door}
-
-
-def master(t, ink):
-    for a, b, name in SHOTS:
-        if a <= t < b:
-            SHOT_FN[name](ink, t - a)
-            return
-    SHOT_FN["door"](ink, t - 23.0)
-
-
-# ---------------------------------------------------------------- cards ---
 
 @film.picture
 def frame(t, ink):
     name, local, a, b = SC.at(t)
     if name == "title":
-        section_card(ink, "AFTER LA CITÉ RAYMOND QUENEAU · AZAM / FIRODE 1998", "One picture, two accounts",
-                     "a 25 s locked edit · played twice · two synthesized soundtracks at one loudness")
-    elif name == "cardA":
-        section_card(ink, "PASS 1 · MIX A", "A welcoming place", f"same picture master · loudness {LOUD.get('A', TARGET_DB):.1f} LUFS")
-    elif name == "cardB":
-        section_card(ink, "PASS 2 · MIX B", "A watched place", f"same picture master · loudness {LOUD.get('B', TARGET_DB):.1f} LUFS")
+        ink.fill(PAPER)
+        ink.text((W / 2, H / 2 - 54), "after La Cité Raymond Queneau, Azam & Firode 1998", "mono", 14, MUTED, anchor="mm")
+        ink.text((W / 2, H / 2 + 2), "one picture, two soundtracks", "serif", 46, TXT, anchor="mm")
+        ink.text((W / 2, H / 2 + 52), "a 30 s cut-paper cité, played twice", "sans", 15, MUTED, anchor="mm")
+        ink.text((W / 2, H / 2 + 92), "fiction: a paper model, not the real estate; any names and logs are invented", "mono", 12, MUTED, anchor="mm")
+        ink.text((W / 2, H / 2 + 112), ("words under the picture transcribe real recorded voices only" if SPEECH_ANY else
+                                        "no voice is recorded: the passes carry no captions; listen"), "mono", 12, MUTED, anchor="mm")
+    elif name == "card1":
+        card_number(ink, "1")
+    elif name == "card2":
+        card_number(ink, "2")
+    elif name == "end":
+        end_table(ink)
     else:
-        ink.fill(PAGE)
-        ink.label((W / 2, 60), "WHAT WAS HELD AND WHAT CHANGED", 15, ACCENT, anchor="mm")
-        n = sum(1 for k, h in HASHES["A"].items() if HASHES["B"].get(k) == h)
-        tot = int(PIC * FPS)
-        same = f"{n} / {tot} frames identical before encoding" if HASHES["B"] else "(frame check runs during the render)"
-        rows = [("picture", same),
-                ("order / cadence", f"{len(SHOTS)} shots · 24 fps · 960×540 · cuts at 4.5 9 11 15.5 19 23 s"),
-                ("loudness", f"A {LOUD.get('A', 0):.1f} LUFS  ·  B {LOUD.get('B', 0):.1f} LUFS  (K-weighted, gated)"),
-                ("bell", "A: a soft high chime  ·  B: a low clang with a held hum"),
-                ("key cut 15.5 s", "A: music only — the melody answers the wave"),
-                ("", "B: voice only — a filtered radio murmur and a shutter click"),
-                ("departure", "A: one set of steps · B: a second set follows")]
-        for k, (lab, s) in enumerate(rows):
-            y = 110 + k * 50
-            ink.text((70, y), lab, "mono", 15, MUTED)
-            ink.text((250, y - 4), s, "serif", 23, INK)
-        ink.label((W / 2, 480), "the event record does not change: arrive · bell · open · key on bench · leave · door shut", 13, MUTED, anchor="mm")
-    edge_fade(ink, t, a, b, 0.3)
+        credits_card(ink)
 
 
-# ---------------------------------------------------------------- sound ---
-
-def mix_a(m):
-    """Welcoming: courtyard voices, birds, a melody, a soft bell. Music-only at the key cut."""
-    m.room(0, PIC, 0.02)
-    # children / neighbours far off (non-verbal murmurs), cut out under the key cut
-    for k, (at, d, p) in enumerate([(0.3, 3.0, 260), (2.6, 2.4, 300), (5.0, 3.2, 230), (11.5, 3.0, 280), (19.5, 3.0, 250)]):
-        m.murmur(at, d, 0.05, p, (-0.6, 0.6)[k % 2], seed=40 + k)
-    for k in range(18):
-        at = 0.4 + k * 1.3 + m.rs.uniform(0, 0.4)
-        if KEY_CUT <= at < 19:
-            continue
-        t = m.t(0.12)
-        sig = np.sin(2 * np.pi * (3200 + 1800 * t / 0.12) * t) * np.hanning(len(t))
-        m.add(sig, at, 0.05, m.rs.uniform(-0.8, 0.8))
-    m.steps(4.5, 7.9, 0.48, 0.12, "stone", -0.6, 0.0)
-    m.steps(20.2, 23.0, 0.5, 0.1, "stone", 0.1, 0.8)
-    # melody: a simple major tune in plucks, thinned in the bell shot
-    tune = [(0, 392), (0.5, 440), (1.0, 494), (1.5, 587), (2.5, 494), (3.0, 440), (3.5, 392)]
-    for base in (0.5, 4.8, 11.3, 19.2):
-        for dt, f in tune:
-            m.pluck(base + dt, f, 1.0, 0.11, 0.2)
-    # key cut, music only: the phrase answers the raised hand
-    for dt, f in [(0.0, 587), (0.4, 659), (0.8, 784), (1.6, 740), (2.0, 784), (2.6, 988)]:
-        m.pluck(KEY_CUT + dt, f, 1.4, 0.15, 0.0)
-        m.note(KEY_CUT + dt, f / 2, 0.7, 0.05, 0, "tri")
-    m.bell(9.3, 880, 3.0, 0.22, 0.0)
-    m.bell(23.2, 660, 2.0, 0.12, 0.0)
-    for f in (196, 247, 294):
-        m.note(23.0, f, 2.0, 0.05, 0, "tri", 0.3, 0.6, 0.6)
-
-
-def mix_b(m):
-    """Watched: hum, low drone, a clanging bell, doubled steps. Voice-only at the key cut."""
-    t = m.t(PIC)
-    hum = (np.sin(2 * np.pi * 100 * t) + 0.4 * np.sin(2 * np.pi * 200 * t) + 0.2 * np.sign(np.sin(2 * np.pi * 100 * t))) * 0.25
-    gate = np.ones_like(t)
-    a, b = int(KEY_CUT * RATE), int(19.0 * RATE)
-    gate[a:b] = 0.0
-    sm = np.convolve(gate, np.ones(2000) / 2000, "same")
-    m.add(hum * sm, 0, 0.05, 0.3)
-    drone = sum(m.tone(f, PIC, "sine", 0.003) for f in (41, 43.5, 82)) * sm
-    m.add(drone, 0, 0.08, 0)
-    m.steps(4.5, 7.9, 0.48, 0.12, "stone", -0.6, 0.0)
-    m.steps(4.75, 8.1, 0.48, 0.07, "gravel", -0.9, -0.5)    # someone else's steps, a beat behind
-    m.steps(20.2, 23.0, 0.5, 0.1, "stone", 0.1, 0.8)
-    m.steps(20.5, 23.5, 0.5, 0.08, "gravel", -0.8, 0.2)
-    m.bell(9.3, 233, 4.0, 0.32, 0.0)
-    m.bell(9.32, 247, 4.0, 0.2, 0.0)
-    for k in range(3):
-        m.click(11.2 + k * 1.1, 0.05, 0.7, 2000)  # relay ticks
-    # key cut, voice only: a filtered radio murmur and one shutter click
-    r = Mix(3.5, seed=77)
-    r.murmur(0, 3.4, 1.0, 150, 0, seed=78)
-    v = r.band(r.L, 400, 2600)
-    v = np.tanh(v * 3) * 0.6
-    m.add(v, KEY_CUT + 0.05, 0.25, 0.5)
-    m.click(KEY_CUT + 1.3, 0.35, 0.6, 9000, 0.02)
-    m.click(KEY_CUT + 1.38, 0.25, 0.6, 5000, 0.04)
-    # door: the hum swells and cuts
-    m.drone(23.0, 2.0, (55, 58), 0.08, 0, 0.5, 0.05)
+def read_mix(ed):
+    p = HERE / jload(SWOUT / "mix.json")["editions"][ed]["wav"]
+    w = wave.open(str(p))
+    x = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(np.float64) / 32768
+    return x.reshape(-1, 2)
 
 
 @film.sound
 def sound(mix):
-    stA = sub_mix(PIC, mix_a, seed=1)
-    stB = sub_mix(PIC, mix_b, seed=2)
-    gA = 10 ** ((TARGET_DB - lufs(stA)) / 20)
-    gB = 10 ** ((TARGET_DB - lufs(stB)) / 20)
-    stA, stB = stA * gA, stB * gB
-    place(mix, stA, SC.start("A"))
-    place(mix, stB, SC.start("B"))
-    mix.bell(SC.start("cardA") + 0.1, 523, 1.8, 0.05)
-    mix.bell(SC.start("cardB") + 0.1, 523, 1.8, 0.05)
-    # replicate kit.Mix.master's single overall gain so the cards report what is actually heard
-    st = np.stack([mix.L, mix.R], 1)
-    peak = np.abs(st).max()
+    st = {e: read_mix(e) for e in "AB"}
+    place(mix, st[ORDER[0]], SC.start("pass1"))
+    place(mix, st[ORDER[1]], SC.start("pass2"))
+    # replicate kit.Mix.master's one overall gain, so both passes are reported as heard (equal gain on both)
+    full = np.stack([mix.L, mix.R], 1)
+    peak = np.abs(full).max()
     g = 0.89 / max(peak, 1.0)
-    st2 = st * g
-    if peak * g < 0.25 * 0.89 / 0.89 and peak < 0.25:
-        rms = math.sqrt((st2 ** 2).mean())
-        g *= min(4.0, 0.2 / max(rms, 1e-6), 0.89 / max(np.abs(st2).max(), 1e-9))
-    LOUD["A"], LOUD["B"] = lufs(stA * g), lufs(stB * g)
-    print(f"  loudness A {LOUD['A']:.2f} LUFS · B {LOUD['B']:.2f} LUFS (stem gains {gA:.2f}, {gB:.2f}; master {g:.2f})")
+    if peak < 0.25:
+        rms = math.sqrt(((full * g) ** 2).mean())
+        g *= min(4.0, 0.2 / max(rms, 1e-6), 0.89 / max(np.abs(full * g).max(), 1e-9))
+    for e in "AB":
+        LOUD[e] = lufs(st[e] * g)
+    LOUD["master_gain_db"] = 20 * math.log10(g)
+    print(f"  reel passes after kit master gain {LOUD['master_gain_db']:+.2f} dB: A {LOUD['A']:.2f} · B {LOUD['B']:.2f} LUFS (kit lufs)")
+    assert abs(LOUD["A"] - LOUD["B"]) <= 0.5
+
+
+# ---------------------------------------------------------------- verify ---
+
+def decode_pass(mp4, k0):
+    return subprocess.Popen(["ffmpeg", "-v", "error", "-i", str(mp4), "-vf", f"select='between(n\\,{k0}\\,{k0 + NFR - 1})'",
+                             "-fps_mode", "passthrough", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], stdout=subprocess.PIPE)
+
+
+def ebur(mp4, a, b):
+    r = subprocess.run(["ffmpeg", "-hide_banner", "-nostats", "-i", str(mp4), "-af", f"atrim={a}:{b},ebur128=peak=true", "-f", "null", "-"],
+                       capture_output=True, text=True)
+    s = r.stderr[r.stderr.rfind("Summary:"):]
+    return float(re.search(r"I:\s+(-?[\d.]+) LUFS", s)[1]), float(re.search(r"Peak:\s+(-?[\d.]+) dBFS", s)[1])
+
+
+def verify():
+    rep = jload(SWOUT / "identity-report.json", {})
+    reels = {}
+    for tag, mp4, order in (("AB", OUT / f"{SLUG}.mp4", "AB"), ("BA", SWOUT / "reel-BA.mp4", "BA")):
+        if not mp4.exists():
+            continue
+        k1, k2 = int(SC.start("pass1") * FPS), int(SC.start("pass2") * FPS)
+        p1, p2 = decode_pass(mp4, k1), decode_pass(mp4, k2)
+        fs = W * H * 3
+        ps, n = [], 0
+        while True:
+            a, b = p1.stdout.read(fs), p2.stdout.read(fs)
+            if len(a) < fs or len(b) < fs:
+                break
+            x = np.frombuffer(a, np.uint8).reshape(H, W, 3)[:PH].astype(np.float32)
+            y = np.frombuffer(b, np.uint8).reshape(H, W, 3)[:PH].astype(np.float32)
+            mse = float(((x - y) ** 2).mean())
+            ps.append(99.0 if mse == 0 else 10 * math.log10(255 ** 2 / mse))
+            n += 1
+        p1.wait(); p2.wait()
+        ps = np.array(ps)
+        la = ebur(mp4, SC.start("pass1"), SC.start("pass1") + PIC)
+        lb = ebur(mp4, SC.start("pass2"), SC.start("pass2") + PIC)
+        pr = json.loads(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration,size", "-of", "json", str(mp4)],
+                                       capture_output=True, text=True).stdout)["format"]
+        reels[tag] = {"path": str(mp4.relative_to(HERE.parent)), "order": order, "duration_s": float(pr["duration"]), "bytes": int(pr["size"]),
+                      "picture_region_frames_compared": n, "psnr_db_min": round(float(ps.min()), 2), "psnr_db_mean": round(float(ps.mean()), 2),
+                      "psnr_db_p5": round(float(np.percentile(ps, 5)), 2), "frames_below_45db": int((ps < 45).sum()),
+                      "pass_psnr_ge_45": bool(ps.min() >= 45),
+                      "pass1_lufs_tp": la, "pass2_lufs_tp": lb, "pass_lu_difference": round(abs(la[0] - lb[0]), 2),
+                      "sha1_before_encoding": jload(SWOUT / f"reel-{tag}-sha1.json", {})}
+        print(tag, reels[tag])
+    rep["reels"] = reels
+    rep["reel_note"] = "presentation derivative, not the fixture: pass pictures sha1-identical before encoding; after lossy encoding compared by PSNR on rows 0-463"
+    json.dump(rep, open(SWOUT / "identity-report.json", "w"), indent=1)
 
 
 if __name__ == "__main__":
-    import sys
-    if len(sys.argv) > 1 and sys.argv[1] == "--stills":
-        # stills of the master use picture time
-        pass
-    film.render()
+    if VERIFY:
+        verify()
+        raise SystemExit
+    stills = len(sys.argv) > 1 and sys.argv[1] == "--stills"
+    film.render(out_dir=OUT if ORDER == "AB" else SWOUT)
+    if not stills:
+        eq = sum(1 for k, h in HASHES["pass1"].items() if HASHES["pass2"].get(k) == h)
+        em = sum(1 for k, h in HASHES["pass1"].items() if MASTER_SHA.get(k) == h)
+        res = {"order": ORDER, "frames_pass1": len(HASHES["pass1"]), "frames_pass2": len(HASHES["pass2"]),
+               "pass1_eq_pass2": eq, "pass1_eq_decoded_master": em, "of": NFR, "pass": eq == NFR and em == NFR,
+               "loudness_kit_lufs_after_master_gain": LOUD}
+        json.dump(res, open(SWOUT / f"reel-{ORDER}-sha1.json", "w"), indent=1)
+        print("reel picture identity:", res)
+        assert res["pass"], "reel passes differ"

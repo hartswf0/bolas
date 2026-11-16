@@ -219,10 +219,10 @@ PLAN = {0: ("latch_close", 260, "a far window latched: someone shutting out the 
         9: ("spoon", 350, "a cup set down"),
         10: ("cupboard", 240, "a cupboard shut"),
         11: ("musicbox", 210, "a music box answers the cut: a child's room"),
-        12: ("musicbox_note", 120, "the music box's next note lands on the next window"),
-        13: ("radio", 310, "a radio switched on in a flat"),
+        12: ("radio", 120, "a radio comes on through a wall, mid-tune: a family's evening"),
+        13: ("creak", 310, "a door handle: someone stepping out onto a landing"),
         14: ("tap", 170, "water for the washing-up"),
-        15: ("latch_close", 260, "someone else coming home, far up the block"),
+        15: ("door_close", 260, "someone else coming home, far up the block"),
         16: ("latch_open", 150, "the flat door is opened for the walker who went in"),
         17: ("spoon", 380, "tea things set out next door"),
         18: ("latch_close", 120, "a soft latch: a neighbour turning in"),
@@ -292,24 +292,22 @@ else:
     HANDMADE.append("music: synthesized music-box phrase 16.21-17.5 s (sine tines with inharmonic 3.9x partial)")
 CUES.append(dict(sound_event="music-box phrase (crossover: music only)", source_ledger_id=("HANDMADE:" if mb_hand else "") + mb_key, stem="music",
                  t_sound=16.21, picture_event_id="window_on:47", frame=384, offset_ms=210, reading="domestic", claim=PLAN[11][2], pan=0.15, depth="mid, dry"))
-CUES.append(dict(sound_event="music-box note continues the phrase", source_ledger_id=("HANDMADE:" if mb_hand else "") + mb_key, stem="music",
-                 t_sound=round(406 / 24 + 0.12, 4), picture_event_id="window_on:60", frame=406, offset_ms=120, reading="domestic", claim=PLAN[12][2], pan=0.15, depth="mid, dry"))
 
-# ------------------------------------------------------------------ radio: switched on at f427 (+310 ms), heard faintly; song again in S4
+# ------------------------------------------------------------------ radio: comes on at f406 (+120 ms, inside the crossover: music stem only, no click), song again in S4
 rad = S["radio_song"]
 if rad is not None:
     body = loudest(rad, 12.0)
     def radio(x): return bp(x, 280, 3200) * 0.9 + 0.1 * np.tanh(3 * bp(x, 280, 3200))
     on = radio(body[: int(1.6 * RATE)]); f = int(0.05 * RATE); on[:f] *= np.linspace(0, 1, f); on[-int(0.9 * RATE):] *= np.linspace(1, 0, int(0.9 * RATE))
     click = lp(M.noise(0.015) * np.exp(-np.linspace(0, 8, int(0.015 * RATE))), 2500)
-    t_on = 427 / 24 + 0.31
-    fx.add(click, t_on, 0.25, win_pan(73)); music.add(lp(on, 2400), t_on + 0.02, 0.16, win_pan(73))
-    CUES.append(dict(sound_event="radio switched on, a song through a wall", source_ledger_id="radio_song", stem="music+fx",
-                     t_sound=round(t_on, 4), picture_event_id="window_on:73", frame=427, offset_ms=310, reading="domestic",
-                     claim=PLAN[13][2], pan=round(win_pan(73), 2), depth="through a wall: BP 280-3200, LP 2.4 kHz"))
+    t_on = 406 / 24 + 0.12
+    music.add(lp(on, 2400), t_on, 0.16, win_pan(60))          # crossover: music stem only, so no switch click
+    CUES.append(dict(sound_event="radio through a wall, an orchestral 78 mid-tune", source_ledger_id="radio_song", stem="music",
+                     t_sound=round(t_on, 4), picture_event_id="window_on:60", frame=406, offset_ms=120, reading="domestic",
+                     claim=PLAN[12][2], pan=round(win_pan(60), 2), depth="through a wall: BP 280-3200, LP 2.4 kHz"))
     s4 = radio(body[int(4 * RATE):int(8.4 * RATE)]); s4[: int(0.8 * RATE)] *= np.linspace(0, 1, int(0.8 * RATE)); s4[-int(0.2 * RATE):] *= np.linspace(1, 0, int(0.2 * RATE))
     music.add(lp(s4, 2000), 25.7, 0.17, 0.55)
-    CUES.append(dict(sound_event="distant radio song from an open window (S4)", source_ledger_id="radio_song", stem="music",
+    CUES.append(dict(sound_event="distant radio from an open window, the orchestral 78 (S4)", source_ledger_id="radio_song", stem="music",
                      t_sound=25.7, picture_event_id="cut:S4", frame=624, offset_ms=-300, reading="domestic",
                      claim="the cité at night still has music in it", pan=0.55, depth="far: BP 280-3200, LP 2 kHz"))
 
@@ -329,14 +327,15 @@ for k, (fr, pid) in enumerate(contacts):
     fx.add(bag_rustle(0.18 + 0.05 * (k % 3)), t + 4 / FPS, 0.05 + 0.03 * prog, pan + 0.05)   # bag swing: 4-frame lag (#41)
 HANDMADE.append("fx: shopping-bag rustle on every step, 4 frames after contact (band-passed noise 1.8-7 kHz, AM)")
 if S["bonsoir"] is None: pass
-# door: latch + creak at f334, shut at f370
+# door: latch + creak at f334, shut on the edl door_close frame (editor re-alignment: was f370, edl says 374)
+DOOR_SHUT = next((int(x["frame"]) for x in json.load(open(EDL))["events"] if x.get("kind") == "door_close"), 370) if os.path.exists(EDL) else 370
 x, key = lo(); claim(fx, "street door latch", key, x, 334, 0, 0.32, 0.45, "door_open:C", "she lets herself in with her own key")
 cr = S["squeaky_door"]; ck = "squeaky_door"
 if cr is None: cr = S["handle_creak"]; ck = "handle_creak"
 cr = cr[onset(cr, 0.1):][: int(1.0 * RATE)]; cr[-int(0.2 * RATE):] *= np.linspace(1, 0, int(0.2 * RATE))
 claim(fx, "door creak (opening)", ck, cr, 334, 90, 0.3, 0.45, "door_open:C", "the old street door swings open")
 x, key = dc(); x = x.copy(); x[-int(0.15 * RATE):] *= np.linspace(1, 0, int(0.15 * RATE))
-claim(fx, "street door shuts", key, x, 370, 0, 0.42, 0.45, "door_close:C", "home: the door closes behind her, not slammed")
+claim(fx, "street door shuts", key, x, DOOR_SHUT, 0, 0.42, 0.45, "door_close:C", "home: the door closes behind her, not slammed")
 
 # ------------------------------------------------------------------ the defining beat (window 16)
 ke = S["kettle"]
@@ -402,9 +401,10 @@ json.dump(mixrep, open(f"{OUT}/mix-A.json", "w"), indent=1)
 CUES.sort(key=lambda c: c["t_sound"])
 win = [c for c in CUES if c["picture_event_id"].startswith("window_on:")]
 offs = [c["offset_ms"] for c in win]
-seq = [c["sound_event"] for c in sorted(win, key=lambda c: c["frame"])]
+seq = [c["source_ledger_id"] for c in sorted(win, key=lambda c: c["frame"])]   # the SOUND (source), not its label
 summary = dict(window_cues=len(win), offset_std_ms=round(float(np.std(offs)), 1), offset_range_ms=[min(offs), max(offs)],
-               consecutive_repeat=any(a == b for a, b in zip(seq, seq[1:])), contacts_source=csrc, handmade=HANDMADE,
+               consecutive_repeat=any(a == b for a, b in zip(seq, seq[1:])), repeat_check_on="source_ledger_id, window cues sorted by frame",
+               window_sequence=[[c["frame"], c["source_ledger_id"]] for c in sorted(win, key=lambda c: c["frame"])], contacts_source=csrc, handmade=HANDMADE,
                foraged_used={k: os.path.relpath(v, FILMS) for k, v in USED.items()})
 json.dump(CUES, open(f"{OUT}/cues-A.json", "w"), indent=1, ensure_ascii=False)
 json.dump(summary, open(f"{OUT}/cues-A.summary.json", "w"), indent=1, ensure_ascii=False)

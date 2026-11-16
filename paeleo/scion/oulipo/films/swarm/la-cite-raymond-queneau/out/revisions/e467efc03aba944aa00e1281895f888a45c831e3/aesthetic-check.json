@@ -1,0 +1,55 @@
+{
+ "frame": 96,
+ "t": 4.0,
+ "method": "regions from the model geometry: sky = rows 4-40, x 10-250 (open sky above the far blocks); facade = near-block facade polygon, cream pixels (luma>140, max-min<40); roof = near-block quarter-cylinder band, luma 40-150",
+ "sky_median": [
+  241.0,
+  233.0,
+  239.0
+ ],
+ "facade_cream_median": [
+  176.0,
+  177.0,
+  165.0
+ ],
+ "roof_median": [
+  79.0,
+  89.0,
+  94.0
+ ],
+ "roof_luma": 86.6,
+ "luma_p2_p50_p98": [
+  50.8,
+  114.7,
+  236.1
+ ],
+ "mean_saturation": 16.7,
+ "reference": {
+  "luma_p2_p50_p98": [
+   51.4,
+   133.8,
+   239.7
+  ],
+  "mean_saturation": 19.6
+ },
+ "tests": {
+  "sky_within_12_of_(240,230,240)": true,
+  "facade_R_minus_B_le_20": true,
+  "facade_within_25_of_(175,178,163)": true,
+  "roof_B_ge_R": true,
+  "roof_luma_75_130": true,
+  "luma_p50_115_170": false,
+  "mean_sat_le_30": true
+ },
+ "passed": false,
+ "source": "decoded out/master.mp4 (yuv420p -> rgb24 by ffmpeg), frame 96; masks from picture/aesthetic.py",
+ "model_render_result": {
+  "sky_within_12_of_(240,230,240)": true,
+  "facade_R_minus_B_le_20": true,
+  "facade_within_25_of_(175,178,163)": true,
+  "roof_B_ge_R": true,
+  "roof_luma_75_130": true,
+  "luma_p50_115_170": true,
+  "mean_sat_le_30": true
+ }
+}

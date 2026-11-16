@@ -1,6 +1,6 @@
 {
  "master": {
-  "revision": "e467efc03aba944aa00e1281895f888a45c831e3",
+  "revision": "2d659ecc16bf5d13b47eb3729b08d40a1fb54ff9",
   "path": "out/master.mp4",
   "sha1": "out/master.sha1.json",
   "framemd5": "out/master.framemd5",
@@ -12,7 +12,9 @@
   "fps": 24,
   "encode": "libx264 crf 16 preset slow -tune animation yuv420p, 24 fps CFR, video only, encoded once",
   "plan": "plan-r3",
-  "builder": "picture/maquette.py frame(k)"
+  "builder": "picture/maquette.py frame(k)",
+  "previous_revision": "e467efc03aba944aa00e1281895f888a45c831e3",
+  "revision_note": "r2: editor grade (maquette.py GRADE_GAMMA 0.93 mid-tone levels curve); event frames, geometry and timing unchanged"
  },
  "event_frames_changed": [],
  "window_numbering": "i = floor*24 + bay; floor 0 = top floor; bays 0-7 far volume, 8-15 middle, 16-23 near volume of the staggered near row (approved test-shot model); entrance door under bay 16",
@@ -31880,6 +31882,26 @@
    }
   ]
  },
+ "absences": [
+  "Commons searches 'tissue paper texture', 'washi paper texture', 'cardboard texture' (2026-11-16): only 'Papel tissue.JPG' (CC BY-SA 4.0) was a genuine tissue scan; 'washi' returned no paper scans under an allowed licence (a Brooklyn Museum painting only). Both downloads were rate-limited (HTTP 429) and abandoned; the window-16 tissue uses the LoC blank sheet's fibre instead.",
+  "Optional gait-timing reference (movingimagearchive.com ee12b007, Arteries of New York City, 1941) was not measured within the time budget; the stride period 1.10 s is the plan's value. Nothing from it is used or credited.",
+  "Papel tissue.JPG: licence read from extmetadata 2026-11-16; download refused with HTTP 429 (rate limit) on 12 tries over ~15 min; NOT used. Intended for window-16 tissue.",
+  "Cardboard-546867.jpg: licence read; download blocked by HTTP 429; NOT used."
+ ],
+ "handmade": [
+  {
+   "what": "the whole maquette geometry: three staggered cream volumes (24 bays x 4 floors + ground floor) with quarter-cylinder zinc roofs, dormers, cream balcony slabs with dark rails and balusters, end walls, a hazed far white block, the hedge (thousands of cut leaf stamps) with a gap for the entrance path, recursive bare saplings with Whitney sway, road with dashed lines and kerbs, verge with a torn edge, fence post + mesh, swan-neck lamp post, door leaf, window glows",
+   "where": "films/swarm/la-cite-raymond-queneau/picture/maquette.py (cached sheets in films/sources/la-cite-raymond-queneau/picture/cache/)"
+  },
+  {
+   "what": "the articulated paper walker (head, neck, torso, two-segment arms and legs with feet, shopping bag on a string), FK from per-frame joint angles solved from planted feet",
+   "where": "maquette.py walker_pose / draw_walker; angles in picture/edl.json"
+  },
+  {
+   "what": "the black-card silhouette behind window 16's tissue (shoulders + head pinned at the neck) and the tissue curtain",
+   "where": "maquette.py window16_tex"
+  }
+ ],
  "evidence": [
   {
    "id": "paper-loc-blank",
@@ -31924,28 +31946,8 @@
    "used_as": "grass verge sheet (P6) and the far grass strip behind the hedge, graded by per-channel levels to (78,102,56) / (88,106,70)"
   }
  ],
- "absences": [
-  "Commons searches 'tissue paper texture', 'washi paper texture', 'cardboard texture' (2026-11-16): only 'Papel tissue.JPG' (CC BY-SA 4.0) was a genuine tissue scan; 'washi' returned no paper scans under an allowed licence (a Brooklyn Museum painting only). Both downloads were rate-limited (HTTP 429) and abandoned; the window-16 tissue uses the LoC blank sheet's fibre instead.",
-  "Optional gait-timing reference (movingimagearchive.com ee12b007, Arteries of New York City, 1941) was not measured within the time budget; the stride period 1.10 s is the plan's value. Nothing from it is used or credited.",
-  "Papel tissue.JPG: licence read from extmetadata 2026-11-16; download refused with HTTP 429 (rate limit) on 12 tries over ~15 min; NOT used. Intended for window-16 tissue.",
-  "Cardboard-546867.jpg: licence read; download blocked by HTTP 429; NOT used."
- ],
- "handmade": [
-  {
-   "what": "the whole maquette geometry: three staggered cream volumes (24 bays x 4 floors + ground floor) with quarter-cylinder zinc roofs, dormers, cream balcony slabs with dark rails and balusters, end walls, a hazed far white block, the hedge (thousands of cut leaf stamps) with a gap for the entrance path, recursive bare saplings with Whitney sway, road with dashed lines and kerbs, verge with a torn edge, fence post + mesh, swan-neck lamp post, door leaf, window glows",
-   "where": "films/swarm/la-cite-raymond-queneau/picture/maquette.py (cached sheets in films/sources/la-cite-raymond-queneau/picture/cache/)"
-  },
-  {
-   "what": "the articulated paper walker (head, neck, torso, two-segment arms and legs with feet, shopping bag on a string), FK from per-frame joint angles solved from planted feet",
-   "where": "maquette.py walker_pose / draw_walker; angles in picture/edl.json"
-  },
-  {
-   "what": "the black-card silhouette behind window 16's tissue (shoulders + head pinned at the neck) and the tissue curtain",
-   "where": "maquette.py window16_tex"
-  }
- ],
  "checks": {
-  "aesthetic": "picture/aesthetic-check.json (passed, p50 115.6 marginal)",
+  "aesthetic": "picture/aesthetic-check.json (model render) and out/aesthetic-check.json (decoded master): passed, p50 121.5 on the decoded master",
   "determinism": "picture/determinism-check.json (10/10 equal)",
   "framemd5_lines": 720
  },

@@ -136,26 +136,40 @@ def warm_print(img):
 
 
 # ------------------------------------------------------------------ scissors
-def scissor_alpha(w, h, inset=1.0, jit=0.7, nick=0.06, ss=4, top_only=False):
-    """hand-scissored outline: straight facets of random length with small angle errors,
-    occasional nicks; rasterised 4x and reduced (antialiased). Returns alpha, polyline."""
+def scissor_alpha(w, h, inset=1.0, jit=0.7, nick=0.06, ss=4, top_only=False, amp=None):
+    """hand-scissored outline (repair 1): the blade closes in strokes of 20-60 px, so each side is a
+    chain of straight FACETS whose ends wander 0.5-1.5 px off the ruled line (angle error per stroke);
+    at stroke joins the blade sometimes nicks in 2-4 px (a small V) or overcuts; corners are never
+    exact. `amp` (px) scales the wander (default from jit, floor 0.5 / ceiling 1.5 on full pieces).
+    Rasterised 4x and reduced (antialiased). Returns alpha, polyline."""
+    if amp is None:
+        amp = float(np.clip(0.6 + jit * 1.1, 0.5, 1.5))
+    base = max(inset * 0.5, 0.3) + amp * 0.9
+    small = min(w, h) < 40
     pts = []
-    corners = [(inset, inset), (w - inset, inset), (w - inset, h - inset), (inset, h - inset)]
+    cj = [(rng.normal(0, amp * 0.6), rng.normal(0, amp * 0.6)) for _ in range(4)]       # corner miss
+    corners = [(base + cj[0][0], base + cj[0][1]), (w - base + cj[1][0], base + cj[1][1]),
+               (w - base + cj[2][0], h - base + cj[2][1]), (base + cj[3][0], h - base + cj[3][1])]
     for k in range(4):
         (x0, y0), (x1, y1) = corners[k], corners[(k + 1) % 4]
         L = math.hypot(x1 - x0, y1 - y0)
-        nx, ny = -(y1 - y0) / L, (x1 - x0) / L
-        s = 0.0
-        j = jit if (not top_only or k == 0) else 0.3
-        while s < L:
-            f = s / L
-            off = abs(rng.normal(0, j))
-            px, py = x0 + (x1 - x0) * f + nx * off, y0 + (y1 - y0) * f + ny * off
-            pts.append((px, py))
-            if rng.random() < nick and 6 < s < L - 6:
-                d = rng.uniform(1.5, 3.0)
-                pts.append((px + (x1 - x0) / L * 1.5 + nx * d, py + (y1 - y0) / L * 1.5 + ny * d))
-            s += rng.uniform(9, 38)
+        tx, ty = (x1 - x0) / L, (y1 - y0) / L
+        nx, ny = ty, -tx                                   # OUTWARD normal for this clockwise outline (y down)
+        a_k = amp if (not top_only or k == 0) else amp * 0.4
+        if small:
+            a_k *= 0.6
+        s_ = 0.0
+        while s_ < L:
+            px, py = x0 + tx * s_, y0 + ty * s_
+            off = float(np.clip(rng.normal(0, a_k * 0.75), -a_k, a_k))
+            pts.append((px - nx * off, py - ny * off))
+            if 8 < s_ < L - 8 and not small and rng.random() < max(nick, 0.0) * 3.0:
+                d = rng.uniform(2.0, 4.0)
+                wn = rng.uniform(1.5, 3.0)
+                pts.append((px + tx * wn * 0.5 - nx * d, py + ty * wn * 0.5 - ny * d))       # V nick into the piece
+                pts.append((px + tx * wn, py + ty * wn))
+            step = rng.uniform(20, 60) if L > 70 else rng.uniform(8, 22)
+            s_ += step
     im = Image.new("L", (w * ss, h * ss), 0)
     ImageDraw.Draw(im).polygon([(x * ss, y * ss) for x, y in pts], fill=255)
     return np.asarray(im.resize((w, h), Image.LANCZOS)).astype(np.float32) / 255.0, pts
@@ -181,15 +195,16 @@ def mask_alpha(mask, jit=0.6, ss=1):
 class Lamp:
     """a single lamp over the table: position (stage px; z = height above the table), size (diffuser
     radius / height: sets penumbra), warmth, shadow density."""
-    def __init__(self, name, x, y, z, size, warm, shadow):
+    def __init__(self, name, x, y, z, size, warm, shadow, falloff=0.16):
         self.name, self.x, self.y, self.z, self.size = name, x, y, z, size
+        self.falloff = falloff
         self.warm = np.asarray(warm, np.float32)
         self.shadow = shadow
         yy, xx = np.mgrid[0:SH, 0:SW].astype(np.float32)
         r = np.sqrt((xx - x) ** 2 + (yy - y) ** 2 + z ** 2)
         E = (z / r) ** 3
         E0 = (z / math.sqrt((SW / 2 - x) ** 2 + (SH / 2 - y) ** 2 + z ** 2)) ** 3
-        self.E = (0.84 + 0.16 * (E / E0) ** 0.5)[..., None] * self.warm      # diffuse lamp: weak falloff
+        self.E = (1 - falloff + falloff * (E / E0) ** 0.5)[..., None] * self.warm      # diffuse lamp: weak falloff
 
     def offset(self, cx, cy, z_piece, dz):
         k = dz / max(self.z - z_piece, 1)
@@ -200,13 +215,15 @@ class Lamp:
         return v / (np.linalg.norm(v) + 1e-6)
 
     def row(self):
-        return dict(name=self.name, x=self.x - P, y=self.y - P, z=self.z, size=self.size, warm=self.warm.tolist(), shadow=self.shadow)
+        return dict(name=self.name, x=self.x - P, y=self.y - P, z=self.z, size=self.size, warm=self.warm.tolist(), shadow=self.shadow,
+                    falloff=self.falloff)
 
 
 # A: morning, upper left, low-ish warm, short soft shadows down-right.  B: evening, right, raking
 # (lower and further out): longer shadows down-left, warmer, lower key.
 LAMP_A = Lamp("A morning upper-left", x=P - 330, y=P - 300, z=1750, size=0.30, warm=(1.00, 0.985, 0.95), shadow=0.34)
-LAMP_B = Lamp("B evening right raking", x=P + 1640, y=P - 40, z=1150, size=0.26, warm=(1.0, 0.95, 0.86), shadow=0.40)
+# repair 1: B lowered (z 1150 -> 850) so the deepest pieces throw 4-6 px shadows, warmer bulb, stronger falloff
+LAMP_B = Lamp("B evening right raking", x=P + 1640, y=P - 40, z=850, size=0.26, warm=(0.90, 0.82, 0.69), shadow=0.72, falloff=0.26)
 MEM_LIGHT = dict(name="memory light (cold, upper left, its own direction; not a stage state)", dx=+5.0, dy=+6.0, blur=3.0,
                  strength=0.40, aperture_dx=+26, aperture_dy=+34)
 
@@ -216,17 +233,26 @@ def shift(a, dx, dy):
     return cv2.warpAffine(a, M, (a.shape[1], a.shape[0]), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REPLICATE)
 
 
-def cut_core(alpha, lamp, x0, y0):
-    """lighter cut core on the lamp-facing edge of a piece"""
-    gy, gx = np.gradient(alpha)
+def cut_core(alpha, lamp, x0, y0, band=1.8):
+    """lighter cut core (repair 1): a 1-2 px band just inside the cut, where the blade exposed the pale
+    paper body under the printed face; it catches the lamp only on the edges that face the lamp, so it
+    swaps sides between lamp A (upper left) and lamp B (right)."""
+    m = (alpha > 0.5).astype(np.uint8)
+    if m.sum() == 0:
+        return np.zeros_like(alpha)
+    d = cv2.distanceTransform(np.pad(m, 1), cv2.DIST_L2, 3)[1:-1, 1:-1]
+    rim = np.clip(band + 0.5 - d, 0, 1) * alpha                     # 1-2 px inside the edge
+    sm = cv2.GaussianBlur(alpha, (0, 0), 2.0)
+    gy, gx = np.gradient(sm)
     n = np.sqrt(gx * gx + gy * gy) + 1e-6
     h, w = alpha.shape
     yy, xx = np.mgrid[0:h, 0:w]
     lx, ly = lamp.x - (xx + x0), lamp.y - (yy + y0)
     ln = np.sqrt(lx * lx + ly * ly) + 1e-6
-    lit = np.clip((-gx * lx - gy * ly) / (n * ln), 0, 1)
-    edge = np.clip(n * 2.2, 0, 1) * alpha
-    return (edge * lit) ** 0.8
+    lit = np.clip((-gx * lx - gy * ly) / (n * ln), 0, 1)           # outward normal . lamp direction
+    lit = np.where(n > 1e-3, lit, 0)
+    var = cv2.resize(rng.random((max(2, h // 14), max(2, w // 14))).astype(np.float32), (w, h), interpolation=cv2.INTER_CUBIC)
+    return rim * np.clip(lit * 1.6, 0, 1) ** 0.7 * np.clip(0.35 + 0.75 * var, 0.2, 1.0)
 
 
 class Piece:
@@ -235,6 +261,7 @@ class Piece:
     def __init__(self, name, rgb, alpha, x, y, z, zb, src, print_run="", curl=0.03, fib=True, crop=None, outline=None):
         self.name, self.rgb, self.a, self.x, self.y, self.z, self.zb, self.src = name, rgb, alpha, x, y, z, zb, src
         self.print_run, self.crop = print_run, crop
+        self.core_k = 1.0          # how much pale core the cut exposes (thin tissue-like prints show less)
         self.outline_pts = 0 if outline is None else len(outline)
         h, w = alpha.shape
         self.curl_axis = rng.uniform(0, 2 * math.pi)
@@ -275,14 +302,18 @@ def compose(base, pieces, lamp, log=None, hmap=None):
             ys1, xs1 = min(oy + h, Y1 - Y0), min(ox + w, X1 - X0)
             sh[ys0:ys1, xs0:xs1] = p.a[ys0 - oy:ys1 - oy, xs0 - ox:xs1 - ox]
             sh = cv2.GaussianBlur(shift(sh, dx, dy) * 1.0, (0, 0), blur)
+            if hmap is not None:
+                # repair 1: a shadow only lands on what is LOWER than the piece (a neighbour of the same card height
+                # is not shadowed; the gap between them, at backing level, is)
+                sh = sh * np.clip((p.z - 0.05 - hmap[Y0:Y1, X0:X1]) / 0.5, 0, 1)
             can[Y0:Y1, X0:X1] *= (1 - lamp.shadow * sh)[..., None]
         px0, py0, px1, py1 = max(p.x, 0), max(p.y, 0), min(p.x + w, SW), min(p.y + h, SH)
         if px1 <= px0 or py1 <= py0:
             continue
         sl = (slice(py0 - p.y, py1 - p.y), slice(px0 - p.x, px1 - p.x))
-        core = cut_core(p.a, lamp, p.x, p.y)[sl][..., None]
+        core = (cut_core(p.a, lamp, p.x, p.y) * p.core_k)[sl][..., None] if p.core_k > 0 else np.zeros(p.a[sl].shape + (1,), np.float32)
         col = p.rgb[sl] * p.fib[sl] * p.curl_shade(lamp)[sl]
-        col = col * (1 - 0.5 * core) + STOCK_CREAM * 0.78 * 0.5 * core
+        col = col * (1 - 0.72 * core) + STOCK_CREAM * 0.92 * 0.72 * core
         col = col * lamp.E[py0:py1, px0:px1]
         a = p.a[sl][..., None]
         can[py0:py1, px0:px1] = can[py0:py1, px0:px1] * (1 - a) + col * a
@@ -347,7 +378,7 @@ def build_facade():
     # backing card (HANDMADE): pale mortar-toned card the blocks are butted on; seen only in the joints
     back = np.ones((SH, SW, 3), np.float32) * np.array([128, 113, 84], np.float32) / 255 * fibre(SH, SW, 0.6)
 
-    def block(name, bx0, by0, bw, bh, z=2.0, zb=0.0, sc=2.2, tone_sd=0.09):
+    def block(name, bx0, by0, bw, bh, z=3.0, zb=0.0, sc=2.2, tone_sd=0.09):      # repair 1: blocks on a 3 px spacer card
         sx, sy = stone_patch(int(bw / sc), int(bh / sc))
         tex = crop_resize(st, sx, sy, sx + int(bw / sc), sy + int(bh / sc), bw, bh)
         # each block a separate cut from the sheet: its own exposure and a slight warm/cool cast
@@ -379,7 +410,7 @@ def build_facade():
         block(f"course-{i}", a + 1, SILL_Y1, b - a - 2, TOPY - SILL_Y1 - 1)
     # lintel course between the carved head band and the door
     for i, (a, b) in enumerate([(JL0 + JW, 262), (262, 392), (392, JR0)]):
-        block(f"lintel-{i}", a + 1, TOPY + 30, b - a - 2, OY0 - (TOPY + 30) - 1, z=3.0)
+        block(f"lintel-{i}", a + 1, TOPY + 30, b - a - 2, OY0 - (TOPY + 30) - 1, z=4.0)
     # narrow plain reveals beside the leaves
     for i, (a, b) in enumerate([(JL0 + JW, OX0 + 2), (OX1 - 2, JR0)]):
         bw, bh = b - a, PLY - (TOPY + 30)
@@ -399,7 +430,7 @@ def build_facade():
             off = 0 if k == 0 else (int(rng.integers(0, js.shape[0] - hh)) if js.shape[0] > hh else 0)
             tex = js[off:off + hh] * rng.uniform(0.97, 1.03)
             al, pts = scissor_alpha(JW, hh, 0.7, 0.55, 0.07)
-            pcs.append(Piece(f"jamb-{side}{k}", tex, al, *Fp(jx, y), 6.0, 2.0, "DOOR-C", "PRINT-1 DOOR-C ochre",
+            pcs.append(Piece(f"jamb-{side}{k}", tex, al, *Fp(jx, y), 5.2, 2.0, "DOOR-C", "PRINT-1 DOOR-C ochre",
                              crop=[480, 312 + off, 126, 776], outline=pts))
             y += hh + 1; k += 1
     # carved head band: the same carving run horizontally
@@ -408,7 +439,7 @@ def build_facade():
     while x < JR0 + JW:
         ww = min(band.shape[1], JR0 + JW - x)
         al, pts = scissor_alpha(ww, 30, 0.7, 0.55, 0.07)
-        pcs.append(Piece(f"headband-{x}", band[:30, :ww], al, *Fp(x, TOPY), 6.0, 2.0, "DOOR-C", "PRINT-1 DOOR-C ochre (rotated jamb)",
+        pcs.append(Piece(f"headband-{x}", band[:30, :ww], al, *Fp(x, TOPY), 5.0, 2.0, "DOOR-C", "PRINT-1 DOOR-C ochre (rotated jamb)",
                          crop=[480, 312, 126, 776], outline=pts))
         x += ww + 1
     # sill under the balcony
@@ -438,7 +469,7 @@ def build_facade():
     ImageDraw.Draw(pl).text((pw / 2, ph / 2 + 1), "7", font=ImageFont.truetype("/usr/share/fonts/truetype/freefont/FreeSerif.ttf", 20),
                             fill=(190, 180, 158), anchor="mm")
     al, pts = scissor_alpha(pw, ph, 0.5, 0.35, 0.0)
-    pcs.append(Piece("plaque-7", np.asarray(pl).astype(np.float32) / 255, al, *Fp(626, 170), 5.0, 2.0, "HANDMADE", "lettered card",
+    pcs.append(Piece("plaque-7", np.asarray(pl).astype(np.float32) / 255, al, *Fp(626, 170), 6.0, 2.0, "HANDMADE", "lettered card",
                      curl=0.01, outline=pts))
     return back, pcs
 
@@ -584,6 +615,27 @@ def memory_layers(bmask):
     return dict(bg=canvas, bt=bt.astype(np.float32), ba=ba.astype(np.float32), bpos=bpos)
 
 
+def litter_alpha(w, h, ss=4):
+    """repair 1: the front strip is cut AROUND the fallen leaves, not across them: a slow wave (+-7 px)
+    with scalloped lobes (one per leaf clump, r 3-9 px, every 9-26 px), so no ruled line crosses the frame"""
+    r = np.random.default_rng(23)
+    xs = np.arange(-10, w + 11, 1.0)
+    ph = r.uniform(0, 6.3, 3)
+    base = 12 + 4.0 * np.sin(xs / 97 + ph[0]) + 2.5 * np.sin(xs / 41 + ph[1]) + 1.2 * np.sin(xs / 17 + ph[2])
+    top = base.copy()
+    x = -10.0
+    while x < w + 10:
+        rad = r.uniform(3, 9); cx = x + rad
+        m = np.abs(xs - cx) < rad
+        top[m] = np.minimum(top[m], base[m] - np.sqrt(np.maximum(rad ** 2 - (xs[m] - cx) ** 2, 0)) * r.uniform(0.5, 0.9))
+        x += r.uniform(9, 26)
+    top = np.maximum(top, 1.0)
+    pts = [(float(a), float(b)) for a, b in zip(xs, top)] + [(w + 10, h + 2), (-10, h + 2)]
+    im = Image.new("L", (w * ss, h * ss), 0)
+    ImageDraw.Draw(im).polygon([(a * ss, b * ss) for a, b in pts], fill=255)
+    return np.asarray(im.resize((w, h), Image.LANCZOS)).astype(np.float32) / 255.0, pts
+
+
 P03_BOX = (200, 400, 1520, 1390)
 
 
@@ -594,7 +646,10 @@ def p03_layers(bmask, tmask, log):
     x0, y0, x1, y1 = P03_BOX
     s = W / (x1 - x0)
     warm = warm_print(BENCH)
-    hole = np.maximum(cv2.dilate(bmask, np.ones((5, 5), np.uint8)), cv2.dilate(tmask, np.ones((9, 9), np.uint8)))
+    # repair 1: inpaint only the ring the truck can uncover (<= 5 px parallax), so the far plane keeps the photograph's own
+    # trunk interior and the trunk card's feathered crown blends into identical texture (no smudge band)
+    ring = lambda m, k_in, k_out: cv2.dilate(m, np.ones((k_out, k_out), np.uint8)) * (1 - cv2.erode(m, np.ones((k_in, k_in), np.uint8)))
+    hole = np.maximum(cv2.dilate(bmask, np.ones((5, 5), np.uint8)), ring(tmask, 31, 9))
     park8 = cv2.inpaint(to8(warm)[..., ::-1].copy(), hole, 9, cv2.INPAINT_TELEA)[..., ::-1].astype(np.float32) / 255
     PAD = 20
     far = cv2.resize(park8[y0 - int(PAD / s):y1 + int(PAD / s), x0 - int(PAD / s):x1 + int(PAD / s)], (SW + 2 * PAD, SH + 2 * PAD),
@@ -608,64 +663,116 @@ def p03_layers(bmask, tmask, log):
         ba = mask_alpha(cv2.resize(m[by0:by1, bx0:bx1].astype(np.float32), (bw, bh), interpolation=cv2.INTER_AREA), 0.5)
         pc = Piece(f"p03-{nm}", bt, ba, int((bx0 - x0) * s) + P, int((by0 - y0) * s) + P, z, 0.0, "BENCH", "PRINT-6 BENCH warm",
                    crop=list(box), curl=0.0)
+        pc.core_k = 0.12 if nm == "trunk" else 0.7
         layers[nm] = pc
     sy = int(H * 0.87)
-    lt = cv2.resize(warm[y0:y1, x0:x1], (W, H), interpolation=cv2.INTER_AREA)[sy - 2:]
-    lt = np.pad(lt, ((0, SH - P - sy + 2 - lt.shape[0]), (P, P), (0, 0)), mode="edge")
-    la, pts = scissor_alpha(SW, lt.shape[0], 0.5, 2.2, 0.15)
-    la[-6:] = 1
-    layers["litter"] = Piece("p03-litter", lt, la, 0, P + sy - 2, 6.0, 0.0, "BENCH", "PRINT-6 BENCH warm (front strip)", curl=0.0,
+    lt = cv2.resize(warm[y0:y1, x0:x1], (W, H), interpolation=cv2.INTER_AREA)[sy - 18:]
+    lt = np.pad(lt, ((0, SH - P - sy + 18 - lt.shape[0]), (P, P), (0, 0)), mode="edge")
+    la, pts = litter_alpha(SW, lt.shape[0])
+    layers["litter"] = Piece("p03-litter", lt, la, 0, P + sy - 18, 6.0, 0.0, "BENCH", "PRINT-6 BENCH warm (front strip)", curl=0.0,
                              crop=[x0, int(y0 + sy / s), x1 - x0, int((H - sy) / s)], outline=pts)
+    # the litter strip is a thin pull: its lobed edge is softened into the leaves (no pale core line across the frame)
+    layers["litter"].core_k = 0.0
+    la2 = cv2.GaussianBlur(la, (0, 0), 2.5)
+    mott = np.clip(lum(lt) * 2.6, 0, 1)
+    layers["litter"].a = np.clip(la2 * (0.55 + 0.9 * mott), 0, 1) * (la2 > 0.02)
+    layers["litter"].a = np.maximum(layers["litter"].a, (cv2.erode((la > 0.5).astype(np.uint8), np.ones((15, 15), np.uint8)) > 0).astype(np.float32))
     return far, PAD, layers
 
 
 # ================================================================== P02 junction
 def junction_source():
-    """U1's route/junction/ if present (first image), else the plan's fallback"""
-    if os.path.isdir(JUNCTION_DIR):
-        fs = sorted(f for f in os.listdir(JUNCTION_DIR) if f.lower().endswith((".jpg", ".jpeg", ".png", ".tif")))
-        if fs:
-            return "route/junction/" + fs[0], load(JUNCTION_DIR + "/" + fs[0]), "U1 route/junction"
-    return "JUNCTION-FB", load(SOURCES["JUNCTION-FB"]["path"]), "fallback (U1 route/junction/ absent at build time)"
+    """P02 source (repair 1): the plan's credited junction, Polymagou's rue du Soleil (CC BY-SA 4.0), named
+    explicitly. U1's route/junction/ folder also holds the Marville print (not used: it would read as 'the
+    past', and it is excluded from the credits), so the folder is no longer scanned."""
+    return "JUNCTION-FB", load(SOURCES["JUNCTION-FB"]["path"]), "Polymagou rue du Soleil (explicit; route/junction/ not scanned)"
+
+
+def paper_print(img, exposure=0.80, desat=0.35, gamma=1.15, soft=0.7):
+    """a true print on the foraged stock (repair 1): the photograph's own colours become ink transmission
+    (slightly desaturated, as process ink on uncoated stock), and the paper supplies the warmth: out =
+    stock colour x transmission. No global tint: the photo's white prints as the paper's cream."""
+    a = cv2.GaussianBlur(img, (0, 0), soft)
+    L = lum(a)[..., None]
+    T = np.clip(a * (1 - desat) + L * desat, 0, 1) ** gamma
+    return np.maximum(T * STOCK_CREAM * exposure, INK_DMAX * STOCK_CREAM * 0.6).astype(np.float32)
+
+
+# the far building's roofline, cut by hand with scissors (far-crop px; the auto sky mask also took the pale facade)
+ROOF_POLY = [(0, 0), (125, 0), (130, 60), (150, 200), (170, 380), (185, 500), (210, 545), (232, 590), (240, 620), (270, 680),
+             (290, 700), (290, 760), (0, 760)]
+
+
+def roof_mask(shape):
+    m = np.zeros(shape, np.uint8)
+    poly = np.array(ROOF_POLY, np.float32) + np.random.default_rng(9).normal(0, 1.0, (len(ROOF_POLY), 2))
+    cv2.fillPoly(m, [np.int32(poly)], 1)
+    return m
+
+
+def sky_mask(src):
+    """the sky in the far crop: bright, near-neutral pixels connected to the top or right border"""
+    L = lum(src); sat = src.max(2) - src.min(2)
+    m = ((L > 0.80) & (sat < 0.10)).astype(np.uint8)
+    m = cv2.morphologyEx(m, cv2.MORPH_CLOSE, np.ones((9, 9), np.uint8))
+    m = cv2.morphologyEx(m, cv2.MORPH_OPEN, np.ones((5, 5), np.uint8))
+    n, lab, stats, _ = cv2.connectedComponentsWithStats(m)
+    keep = np.zeros_like(m)
+    for k in range(1, n):
+        x, y, w, h, ar = stats[k]
+        if ar > 2000 and (y == 0 or x + w >= m.shape[1] - 1):
+            keep[lab == k] = 1
+    return cv2.dilate(keep, np.ones((5, 5), np.uint8))
+
+
+KERB_CUT = [(0, 140), (60, 140), (120, 142), (250, 141), (382, 140), (402, 128), (450, 118), (500, 109), (600, 104), (700, 104), (800, 102), (960, 100)]   # kerb foot, read off a grid of the crop
 
 
 def p02_layers(log):
-    """far street (1.0 -> parallax 0.15), two stone corners (mid, 0.5), kerb + pavement (near, 1.0)"""
+    """repair 1: every plane is a cut print, not a toned photograph.
+    far (parallax 0.15): the receding street scissor-cut along its roofline (no sky band), set against a
+    hazed cut print of Columbus stone as the facing house; mid (0.5): two stone corners; near (1.0): the
+    pavement + kerb cut along the kerb's foot, raised on a spacer over a separate road piece (the kerb throws
+    a real shadow on the gutter)."""
     jid, J, how = junction_source()
     out = dict(source=jid, how=how)
-    if jid == "JUNCTION-FB":
-        far_src = J[60:820, 960:1280]                    # the street receding (facades, balconies), above any sign
-        kerb_src = J[1478:1707, 300:1260]                # pavement seam + kerb + gutter, no bollard, no shutter
-        far_crop, kerb_crop = [960, 60, 320, 760], [300, 1478, 960, 229]
-    else:
-        h, w = J.shape[:2]
-        far_src = J[: int(h * 0.5), int(w * 0.35):int(w * 0.65)]
-        kerb_src = J[int(h * 0.7):, :]
-        far_crop, kerb_crop = [int(w * 0.35), 0, int(w * 0.3), int(h * 0.5)], [0, int(h * 0.7), w, h - int(h * 0.7)]
-    # graded as one warm print run so it sits with the stone (one global curve for the source)
-    def junction_print(a):
-        L = np.clip(lum(cv2.GaussianBlur(a, (0, 0), 0.7)), 1e-4, 1)
-        tone = np.array([128, 113, 88], np.float32) / 255
-        return np.maximum((L / 0.55) ** 1.1, 0.1)[..., None] * tone * 0.78 + a * 0.22 * tone / tone.mean()
-    far = junction_print(far_src)
+    fx0, fy0, fx1, fy1 = 990, 60, 1280, 820                 # the street receding; the blue street sign (x<985) is left out
+    far_src = J[fy0:fy1, fx0:fx1]
+    kerb_src = J[1478:1707, 300:1260]
+    far_crop, kerb_crop = [fx0, fy0, fx1 - fx0, fy1 - fy0], [300, 1478, 960, 229]
     fh = 600
-    fw = int(far.shape[1] * fh / far.shape[0])
-    far = cv2.GaussianBlur(cv2.resize(far, (fw, fh), interpolation=cv2.INTER_AREA), (0, 0), 1.8)
-    far = far * 0.86 + np.array([0.48, 0.45, 0.40], np.float32) * 0.14            # haze toward the far plane
-    far = far * fibre(fh, fw, 0.6, 0.6)
-    kerb = junction_print(kerb_src)
+    fw = int(far_src.shape[1] * fh / far_src.shape[0])
+    farp = cv2.resize(paper_print(far_src, 0.78), (fw, fh), interpolation=cv2.INTER_AREA)
+    keep = cv2.resize(roof_mask(far_src.shape[:2]).astype(np.float32), (fw, fh), interpolation=cv2.INTER_AREA)
+    fal = mask_alpha(keep, 0.8)
+    fal *= scissor_alpha(fw, fh, 0.5, 0.6, 0.05)[0]
+    FX, FY = int(P + 445 - fw / 2), P + 450 - fh
+    # the facing house: stone print, cut as one sheet, hazed (it is the furthest card on the stage)
+    rt = PRINTS["PRINT-7 DOOR-C return"]
+    bw_, bh_ = SW + 40, 470 + P + 20
+    sx, sy = stone_patch(int(bw_ / 3.2), int(bh_ / 3.2))
+    back = crop_resize(rt, sx, sy, sx + int(bw_ / 3.2), sy + int(bh_ / 3.2), bw_, bh_)
+    back = cv2.GaussianBlur(back, (0, 0), 1.6) * 0.92 + np.array([0.46, 0.43, 0.38], np.float32) * 0.08
+    base = np.zeros((SH, SW, 3), np.float32) + np.array([0.30, 0.27, 0.22], np.float32)
+    house = Piece("p02-far-facing-house", back, np.ones((bh_, bw_), np.float32), -20, 0, 0.5, 0.0, "DOOR-C", "PRINT-7 DOOR-C return (hazed)",
+                  crop=[sx, sy, int(bw_ / 3.2), int(bh_ / 3.2)], curl=0.0)
+    street = Piece("p02-far-street", farp, fal, FX, FY, 2.5, 0.5, jid, "PRINT-8 junction on stock", crop=far_crop, curl=0.02)
+    far_rgb, _ = compose(base, [house, street], LAMP_A, log)
+    far_rgb = far_rgb * 0.88 + np.array([0.46, 0.43, 0.38], np.float32) * 0.12          # air between the far plane and the lens
+    kerb = paper_print(kerb_src, 0.84)       # the road piece is a second, thinner pull of the same plate (x0.90)
     kh = 300
-    kerb = cv2.resize(kerb, (SW + 40, kh), interpolation=cv2.INTER_AREA)
+    kw = SW + 40
+    kerb = cv2.resize(kerb, (kw, kh), interpolation=cv2.INTER_AREA)
     st = PRINTS["PRINT-1 DOOR-C ochre"]; rt = PRINTS["PRINT-7 DOOR-C return"]
     corners = []
     # two corners: a lit front face and a narrower return face turned away (darker print run)
-    for side, (fx0, fx1, rx0, rx1) in [("L", (-P - 30, 268, 268, 312)), ("R", (578, 622, 622, W + P + 30))]:
+    for side, (fx0_, fx1_, rx0, rx1) in [("L", (-P - 30, 268, 268, 312)), ("R", (578, 622, 622, W + P + 30))]:
         y = -P
         k = 0
         while y < 470:
             hh = int(rng.integers(78, 96))
-            for (a, b, pr, prn) in ([(fx0, fx1, st, "PRINT-1 DOOR-C ochre"), (rx0, rx1, rt, "PRINT-7 DOOR-C return")] if side == "L"
-                                    else [(fx0, fx1, rt, "PRINT-7 DOOR-C return"), (rx0, rx1, st, "PRINT-1 DOOR-C ochre")]):
+            for (a, b, pr, prn) in ([(fx0_, fx1_, st, "PRINT-1 DOOR-C ochre"), (rx0, rx1, rt, "PRINT-7 DOOR-C return")] if side == "L"
+                                    else [(fx0_, fx1_, rt, "PRINT-7 DOOR-C return"), (rx0, rx1, st, "PRINT-1 DOOR-C ochre")]):
                 bw = b - a - 1
                 sx, sy = stone_patch(int(bw / 1.5), int(hh / 1.5))
                 tex = crop_resize(pr, sx, sy, sx + int(bw / 1.5), sy + int(hh / 1.5), bw, hh - 1) * rng.normal(1, 0.05)
@@ -673,9 +780,27 @@ def p02_layers(log):
                 corners.append(Piece(f"p02-corner{side}-{k}-{a}", tex, al, a + P, y + P, 3.0, 0.0, "DOOR-C", prn,
                                      crop=[sx, sy, int(bw / 1.5), int(hh / 1.5)], outline=pts))
             y += hh; k += 1
-    ka, kpts = scissor_alpha(SW + 40, kh, 0.5, 1.6, 0.1)
-    kerb_piece = Piece("p02-kerb-pavement", kerb, ka, -20, SH - kh, 5.0, 0.0, jid, "PRINT-8 junction warm", crop=kerb_crop, outline=kpts)
-    out.update(far=far, far_crop=far_crop, corners=corners, kerb=kerb_piece)
+    # near plane: road piece (whole strip) and the pavement+kerb piece cut along the kerb's foot
+    ra, _ = scissor_alpha(kw, kh, 0.5, 1.0, 0.08)
+    road = Piece("p02-road", kerb * 0.90, ra, -20, SH - kh, 2.0, 0.0, jid, "PRINT-8 junction on stock", crop=kerb_crop)
+    sxk, syk = kw / 960.0, kh / 229.0
+    poly = [(x * sxk, y * syk) for x, y in KERB_CUT]
+    rr = np.random.default_rng(11)
+    dense = []
+    for (xa, ya), (xb, yb) in zip(poly[:-1], poly[1:]):
+        n = max(2, int(math.hypot(xb - xa, yb - ya) / rr.uniform(20, 45)))
+        for k in range(n):
+            f = k / n
+            dense.append((xa + (xb - xa) * f, ya + (yb - ya) * f + rr.normal(0, 1.0)))
+    dense.append(poly[-1])
+    big = Image.new("L", (kw * 4, kh * 4), 0)
+    ImageDraw.Draw(big).polygon([(x * 4, y * 4) for x, y in [(-4, -4), (kw + 4, -4)] + [(kw + 4, dense[-1][1])] + dense[::-1] + [(-4, dense[0][1])]],
+                                fill=255)
+    pa = np.asarray(big.resize((kw, kh), Image.LANCZOS)).astype(np.float32) / 255
+    pa *= scissor_alpha(kw, kh, 0.5, 1.2, 0.08)[0]
+    pave = Piece("p02-pavement-kerb", kerb, pa, -20, SH - kh, 10.0, 2.0, jid, "PRINT-8 junction on stock", crop=kerb_crop,
+                 outline=dense, curl=0.015)
+    out.update(far=far_rgb, far_crop=far_crop, corners=corners, kerb=[road, pave], kerb_crop=kerb_crop)
     return out
 
 
@@ -709,32 +834,43 @@ def card_layers(log):
     SERIF_I = "/usr/share/fonts/truetype/freefont/FreeSerifItalic.ttf"
     MONO = "/usr/share/fonts/truetype/freefont/FreeMono.ttf"
     table = np.ones((SH, SW, 3), np.float32) * np.array([44, 38, 33], np.float32) / 255 * fibre(SH, SW, 0.8, 0.5)
-    cw, ch = 780, 560
+    cw, ch = 860, 640
     card = np.ones((ch, cw, 3), np.float32) * STOCK_CREAM * 0.86 * fibre(ch, cw, 1.0, 1.0)
     ink = Image.new("L", (cw, ch), 0)
     d = ImageDraw.Draw(ink)
-    fs, fi, fm, fm_s = (ImageFont.truetype(SERIF, 22), ImageFont.truetype(SERIF_I, 19), ImageFont.truetype(MONO, 15),
-                        ImageFont.truetype(MONO, 13))
-    d.text((40, 34), "relevé · les lieux", font=fs, fill=230)
-    nodes = [(110, 150, "P01", "porte, n° 7"), (390, 150, "P02", "carrefour"), (670, 150, "P03", "banc")]
-    for x, y, a, b in nodes:
+    fs, fi, fm, fm_s, fi_s = (ImageFont.truetype(SERIF, 22), ImageFont.truetype(SERIF_I, 19), ImageFont.truetype(MONO, 15),
+                              ImageFont.truetype(MONO, 13), ImageFont.truetype(SERIF_I, 16))
+    d.text((40, 28), "relevé · les lieux", font=fs, fill=230)
+    d.text((cw - 40, 32), "récit fictif", font=fi, fill=230, anchor="ra")
+    nodes = [(130, 118, "P01", "porte, n° 7"), (430, 118, "P02", "carrefour"), (730, 118, "P03", "banc")]
+    for x, y, a_, b_ in nodes:
         d.ellipse((x - 9, y - 9, x + 9, y + 9), outline=230, width=2)
-        d.text((x, y + 22), a, font=fm, fill=230, anchor="mt")
-        d.text((x, y + 42), b, font=fi, fill=210, anchor="mt")
+        d.text((x, y + 20), a_, font=fm, fill=230, anchor="mt")
+        d.text((x, y + 40), b_, font=fi, fill=210, anchor="mt")
     lines = [
-        ("P01  prise A · matin   /   prise B · soir   (même position)", fm),
-        ("F1  un matin, avant huit heures ?        lien P01 : affirmé", fm_s),
-        ("F2  le même jour, plus tard (ordre ?)    lien P02 : affirmé", fm_s),
+        ("P01  prise A · matin / prise B · soir : une seule maquette, rééclairée", fm),
+        ("F1  un matin, avant huit heures ?        lien P01 : affirmé (récit)", fm_s),
+        ("F2  le même jour, plus tard (ordre ?)    lien P02 : affirmé (récit)", fm_s),
         ("F3  inconnu (une heure ou un jour)       lien P03 : INFÉRÉ", fm_s),
         ("F4  âge 8–10 (source : un tiers)         sans lieu", fm_s),
         ("F5  vers l'hiver (déc.–fév.), année ?    lien P01→P03 : INFÉRÉ", fm_s),
     ]
-    y = 250
+    y = 212
     for s_, f in lines:
-        d.text((40, y), s_, font=f, fill=225); y += 30 if f is fm else 26
-    d.line((40, y + 10, cw - 40, y + 10), fill=120, width=1)
-    d.text((40, y + 24), "photographies : Carol M. Highsmith, Library of Congress (domaine public)", font=fi, fill=215)
-    d.text((40, y + 50), "carrefour : Polymagou, CC BY-SA 4.0 · papier : Federal Theatre Project, 1934 (LoC)", font=fi, fill=200)
+        d.text((40, y), s_, font=f, fill=225); y += 30 if f is fm else 25
+    d.line((40, y + 8, cw - 40, y + 8), fill=120, width=1)
+    y += 20
+    credits = [
+        "récit fictif écrit pour ce film · décor en papier découpé d'après photographies :",
+        "P01 = Columbus (Ohio) + Savannah (Géorgie), n° 7 fait main ; P02 = Paris + Columbus ; P03 = Sacramento",
+        "photographies : Carol M. Highsmith Archive, Library of Congress, Prints and Photographs Division",
+        "(domaine public) · papier : Federal Theatre Project, 1934, Library of Congress (domaine public)",
+        "carrefour : Polymagou, « Rue du Soleil, rue de Belleville, Paris 20e », CC BY-SA 4.0",
+        "cloche : Amada44, « Church Bells of Murbach », CC BY-SA 3.0 (ralentie, filtrée)",
+        "film : CC BY-SA 4.0 · creativecommons.org/licenses/by-sa/4.0",
+    ]
+    for k, s_ in enumerate(credits):
+        d.text((40, y), s_, font=fi_s, fill=222 if k in (0, 6) else 205); y += 25
     inkf = cv2.GaussianBlur(np.asarray(ink).astype(np.float32) / 255, (0, 0), 0.45)[..., None]
     inkc = np.array([0.16, 0.13, 0.11], np.float32)
     card = card * (1 - 0.88 * inkf) + inkc * card * 0.88 * inkf
@@ -784,10 +920,20 @@ def bake():
         pc = lay3[nm]
         z = np.zeros((SH, SW, 3), np.float32)
         rgb, a = compose(z, [pc], LAMP_A, LOG["pieces"])
+        rgb = np.where(a[..., None] > 1e-3, rgb / np.maximum(a, 1e-3)[..., None], 0)        # repair 1: un-premultiply (no dark rim)
+        if nm == "trunk":
+            # repair 1: the crown is not cut across: the trunk card is torn into the foliage and its top 70 px
+            # thin out (feathered tear, mottled by the foliage's own luminance) so no ruled line crosses the crown
+            ys = np.nonzero(a.max(1) > 0.5)[0]; ytop = int(ys.min())
+            ramp = np.clip((np.arange(SH) - ytop) / 70.0, 0, 1)[:, None]
+            mott = np.clip(lum(rgb) * 3.0, 0, 1)
+            a = a * np.clip(ramp * (0.6 + 0.8 * mott) - 0.15 * (1 - ramp), 0, 1) ** 1.2
         # its cast shadow lands on the plane behind: keep the shadow as a separate multiplier
         dx, dy, blur = LAMP_A.offset(pc.x + pc.a.shape[1] / 2, pc.y + pc.a.shape[0] / 2, 0, pc.z * 2.2)
         sh = np.zeros((SH, SW), np.float32)
         sh[pc.y:pc.y + pc.a.shape[0], pc.x:pc.x + pc.a.shape[1]] = pc.a[:SH - pc.y, :SW - pc.x]
+        if nm == "trunk":
+            sh = np.minimum(sh, a)
         sh = cv2.GaussianBlur(shift(sh, dx, dy), (0, 0), blur) * LAMP_A.shadow
         p03[nm] = dict(rgb=rgb, a=a, sh=sh)
     p02 = p02_layers(LOG["pieces"])
@@ -797,7 +943,8 @@ def bake():
     card2[:] = np.array([120, 106, 80], np.float32) / 255 * fibre(SH, SW, 0.6)
     c_rgb, c_a = compose(card2 * cm[..., None], p02["corners"], LAMP_A, LOG["pieces"])
     c_a = np.maximum(c_a, cm)
-    k_rgb, k_a = compose(base2, [p02["kerb"]], LAMP_A, LOG["pieces"])
+    k_rgb, k_a = compose(base2, p02["kerb"], LAMP_A, LOG["pieces"])
+    k_rgb = np.where(k_a[..., None] > 1e-3, k_rgb / np.maximum(k_a, 1e-3)[..., None], 0)      # repair 1: un-premultiply
     # shadows of the corner pieces on the far plane / kerb on corners
     def plane_shadow(alpha, lamp, dz, cx, cy):
         dx, dy, blur = lamp.offset(cx, cy, 0, dz)
@@ -805,13 +952,13 @@ def bake():
     p02b = dict(far=p02["far"], c_rgb=c_rgb, c_a=c_a, c_sh=plane_shadow(c_a, LAMP_A, 14, SW / 2, SH / 3),
                 k_rgb=k_rgb, k_a=k_a, k_sh=plane_shadow(k_a, LAMP_A, 6, SW / 2, SH * 0.8),
                 source=p02["source"], how=p02["how"], far_crop=p02["far_crop"])
-    LOG["p02"] = dict(source=p02["source"], how=p02["how"], far_crop=p02["far_crop"], kerb_crop=p02["kerb"].crop)
+    LOG["p02"] = dict(source=p02["source"], how=p02["how"], far_crop=p02["far_crop"], kerb_crop=p02["kerb_crop"])
     table, cpcs = card_layers(LOG["pieces"])
     card_rgb, _ = compose(table, cpcs, LAMP_A, LOG["pieces"])
     LOG["prints"] = {k: dict(v, curve="out_c = target_c * (L/ref_L)**gamma over the whole photograph; ink Dmax limit") for k, v in PRINTS_SPEC.items()}
     LOG["prints"]["PRINT-5 BENCH cold"] = dict(src="BENCH", curve="blue-grey ramp lo(28,33,42)->hi(153,170,189) on L (memory print)")
     LOG["prints"]["PRINT-6 BENCH warm"] = dict(src="BENCH", curve="(rgb*(1.0,0.95,0.84))**1.1*0.88 (present print)")
-    LOG["prints"]["PRINT-8 junction warm"] = dict(src=p02["source"], curve="tone(150,132,100)*0.78*((L/0.55)**1.1) + 0.22*rgb tint")
+    LOG["prints"]["PRINT-8 junction on stock"] = dict(src=p02["source"], curve="out = STOCK_CREAM * 0.78-0.80 * (0.65*rgb + 0.35*L)**1.15 (ink transmission on the 1934 stock; no tint)")
     B = dict(fac=fac, leaves=leaves, mem=mem, p03=p03, p02=p02b, card=card_rgb, log=LOG)
     pickle.dump(B, open(BAKE, "wb"), protocol=4)
     return B
@@ -858,7 +1005,7 @@ def fall_time(theta0_deg):
     return tt
 
 
-def spring_open(s, tmax, z=0.69, w=3.2):
+def spring_open(s, tmax, z=0.69, w=1.8):      # repair 1: w 3.2 -> 1.8, the opening now takes ~2.5 s
     """lifted by a thread: under-damped approach (~3 deg overshoot), with inertia at the start"""
     if s <= 0:
         return 0.0
@@ -1072,14 +1219,7 @@ def p02_frame(t):
     tq = q(t)
     g = 10.0 * smooth((tq - 8.3) / 4.2)                      # lateral glide 10 px
     near, mid, farr = g * 1.0, g * 0.5, g * 0.15
-    far = b["far"]
-    can = np.zeros((SH, SW, 3), np.float32) + np.array([0.40, 0.37, 0.32], np.float32)
-    fh, fw = far.shape[:2]
-    X = int(P + 445 - fw / 2 - farr); Y = P + 450 - fh
-    xs0, xs1 = max(X, 0), min(X + fw, SW)
-    ys0 = max(Y, 0)
-    can[ys0:Y + fh, xs0:xs1] = far[ys0 - Y:, xs0 - X:xs1 - X]
-    can = shift(can, -(farr - int(farr)), 0)
+    can = shift(b["far"], -farr, 0)
     can = can * (1 - shift(b["c_sh"], -mid, 0))[..., None]
     cr, ca = shift(b["c_rgb"], -mid, 0), shift(b["c_a"], -mid, 0)
     can = can * (1 - ca[..., None]) + cr * ca[..., None]

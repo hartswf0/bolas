@@ -1154,7 +1154,13 @@ def frame(k):
             can = over(can, arr(place(bulb, k, "P7")))
     can = over(can, plane("fence"))
     out = Image.fromarray(np.clip(can, 0, 255).astype(np.uint8))
-    return out.resize((PW, PH), Image.LANCZOS)
+    return out.resize((PW, PH), Image.LANCZOS).point(GRADE_LUT * 3)
+
+# r2 grade (editor, master revision 2): one global mid-tone levels curve, gamma 0.93 per channel, end points fixed.
+# r1 (e467efc...) measured luma p50 114.7 on the DECODED master at 4.0 s, under plan 9.6's floor of 115; this lifts
+# the mid-tones toward the reference (p50 131) without touching geometry, timing or any event frame.
+GRADE_GAMMA = 0.93
+GRADE_LUT = [int(round(255 * (v / 255.0) ** GRADE_GAMMA)) for v in range(256)]
 
 # ============================================================ window 16 ===
 def rise_y(k):

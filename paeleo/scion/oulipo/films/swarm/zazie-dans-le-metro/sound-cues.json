@@ -394,7 +394,7 @@
     "purpose": "bed",
     "event": "gag-route f240 push-in",
     "file": "sound/trim/bed_tunnel.wav",
-    "source": "MIA-VALLEYTOWN"
+    "source": "synth"
    },
    {
     "t": 10.5833,
@@ -1641,7 +1641,7 @@
      "cue": "syllable tile click DOU (pitch x1.0)",
      "onset_s": 10.5831,
      "error_frames": -0.005,
-     "mix_flux_peak_s": 10.5827,
+     "mix_flux_peak_s": 10.5828,
      "mix_flux_error_frames": -0.01,
      "pass": true
     },
@@ -1650,8 +1650,8 @@
      "cue": "syllable tile click KI (pitch x1.19)",
      "onset_s": 10.7915,
      "error_frames": -0.005,
-     "mix_flux_peak_s": 10.7919,
-     "mix_flux_error_frames": 0.01,
+     "mix_flux_peak_s": 10.7911,
+     "mix_flux_error_frames": -0.01,
      "pass": true
     },
     {
@@ -1659,8 +1659,8 @@
      "cue": "syllable tile click PU (pitch x1.12)",
      "onset_s": 10.9998,
      "error_frames": -0.005,
-     "mix_flux_peak_s": 10.9995,
-     "mix_flux_error_frames": -0.01,
+     "mix_flux_peak_s": 11.0003,
+     "mix_flux_error_frames": 0.01,
      "pass": true
     },
     {
@@ -1677,8 +1677,8 @@
      "cue": "syllable tile click TAN (pitch x1.33)",
      "onset_s": 11.4581,
      "error_frames": -0.005,
-     "mix_flux_peak_s": 11.4584,
-     "mix_flux_error_frames": 0.0,
+     "mix_flux_peak_s": 11.4577,
+     "mix_flux_error_frames": -0.01,
      "pass": true
     },
     {
@@ -1686,8 +1686,8 @@
      "cue": "jaw drop on TAN (soft card thud)",
      "onset_s": 11.4583,
      "error_frames": -0.0,
-     "mix_flux_peak_s": 11.4584,
-     "mix_flux_error_frames": 0.0,
+     "mix_flux_peak_s": 11.4577,
+     "mix_flux_error_frames": -0.01,
      "pass": true
     },
     {
@@ -1695,8 +1695,8 @@
      "cue": "tile T8 releases (clatter cascade 1/7)",
      "onset_s": 11.708,
      "error_frames": -0.006,
-     "mix_flux_peak_s": 11.71,
-     "mix_flux_error_frames": 0.04,
+     "mix_flux_peak_s": 11.708,
+     "mix_flux_error_frames": -0.01,
      "pass": true
     },
     {
@@ -1704,8 +1704,8 @@
      "cue": "tile T9 releases (clatter cascade 2/7)",
      "onset_s": 11.7499,
      "error_frames": -0.003,
-     "mix_flux_peak_s": 11.71,
-     "mix_flux_error_frames": -0.96,
+     "mix_flux_peak_s": 11.7119,
+     "mix_flux_error_frames": -0.91,
      "pass": true
     },
     {
@@ -1767,8 +1767,8 @@
      "cue": "tile T9 lands on jaw floor",
      "onset_s": 11.9998,
      "error_frames": -0.005,
-     "mix_flux_peak_s": 12.0004,
-     "mix_flux_error_frames": 0.01,
+     "mix_flux_peak_s": 11.959,
+     "mix_flux_error_frames": -0.98,
      "pass": true
     },
     {
@@ -1776,8 +1776,8 @@
      "cue": "tile T10 lands on jaw floor",
      "onset_s": 12.0414,
      "error_frames": -0.007,
-     "mix_flux_peak_s": 12.0411,
-     "mix_flux_error_frames": -0.01,
+     "mix_flux_peak_s": 12.0453,
+     "mix_flux_error_frames": 0.09,
      "pass": true
     },
     {
@@ -1785,8 +1785,8 @@
      "cue": "tile T11 lands on jaw floor",
      "onset_s": 12.0832,
      "error_frames": -0.004,
-     "mix_flux_peak_s": 12.0447,
-     "mix_flux_error_frames": -0.93,
+     "mix_flux_peak_s": 12.0453,
+     "mix_flux_error_frames": -0.91,
      "pass": true
     },
     {
@@ -1794,8 +1794,8 @@
      "cue": "tile T12 lands on jaw floor",
      "onset_s": 12.1247,
      "error_frames": -0.007,
-     "mix_flux_peak_s": 12.1244,
-     "mix_flux_error_frames": -0.01,
+     "mix_flux_peak_s": 12.1269,
+     "mix_flux_error_frames": 0.05,
      "pass": true
     },
     {
@@ -1803,7 +1803,7 @@
      "cue": "tile T13 lands on jaw floor",
      "onset_s": 12.1665,
      "error_frames": -0.006,
-     "mix_flux_peak_s": 12.1725,
+     "mix_flux_peak_s": 12.1724,
      "mix_flux_error_frames": 0.14,
      "pass": true
     },
@@ -2440,11 +2440,7 @@
    "processing": "band 90-1800 Hz (softer breeze)"
   },
   "trim/bed_tunnel.wav": {
-   "source": "MIA-VALLEYTOWN",
-   "from": "mia/valley_town_1940_a11ba534.wav",
-   "ss": 0.0,
-   "t": 3.67,
-   "processing": "band 40-380 Hz, 5-tap comb at 98 Hz (tunnel throat)"
+   "synth": "kit Mix brown+pink noise, band 40-380 Hz, 5-tap comb at 98 Hz (tunnel throat); replaces MIA-VALLEYTOWN (repair round 1)"
   },
   "trim/bed_royale.wav": {
    "synth": "kit Mix.room (no street recording downloaded)"
@@ -2582,6 +2578,7 @@
   "trim/bed_clichy.wav",
   "trim/bed_royale.wav",
   "trim/bed_royale_cont.wav",
+  "trim/bed_tunnel.wav",
   "trim/bell_tram_1.wav",
   "trim/bell_tram_2.wav",
   "trim/bell_tram_3.wav",
@@ -2631,19 +2628,6 @@
    "what_it_shows": "Strong wind before rain (audio track of a 5.6 s video); broadband wind, no voices (spectrogram checked).",
    "verified_date_or_place": "2023-04-04 (Commons); reused from the approved test shot, licence re-read from the test-shot ledger",
    "used_as": "trim/breeze_ride.wav; trim/wind_gust.wav"
-  },
-  {
-   "id": "MIA-VALLEYTOWN",
-   "title": "Valley Town (1940)",
-   "author": "via movingimagearchive.com",
-   "license": "Rights as listed by movingimagearchive.com (largely public domain); not independently verified",
-   "license_url": "",
-   "source_url": "https://www.movingimagearchive.com/sources/valley-town-9978c98d?clip=a11ba534-ceca-5859-a69f-9d622f30c4e7",
-   "file_url": "",
-   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/sound/mia/valley_town_1940_a11ba534.wav",
-   "what_it_shows": "Source sound of a factory roof shot (steam vent/whistle stack), source time 1130.30-1133.97 s: a steady broadband industrial roar, no speech or music (spectrogram checked).",
-   "verified_date_or_place": "1940 per archive index; unverified place",
-   "used_as": "trim/bed_tunnel.wav"
   }
  ],
  "handmade": [
@@ -2659,7 +2643,7 @@
   },
   {
    "what": "tunnel throat resonance",
-   "how": "MIA Valley Town roar low-passed 380 Hz with a 98 Hz comb",
+   "how": "synthesized brown/pink noise low-passed 380 Hz with a 98 Hz comb (kit Mix)",
    "where": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/sound/trim/bed_tunnel.wav"
   },
   {
@@ -2671,7 +2655,7 @@
  "absences": [
   {
    "searched": "Moving Image Archive cache: clips with source sound whose title/queries match street|traffic|city|horse|tram|trolley|bell|crowd|paris|bus|carriage|paper|market|square|town (47 hits), plus every pre-1964 'sound'-kind clip ranked by spectral flatness (40)",
-   "result": "spectrograms checked: nearly all carry narration, music or crowd speech (Formations 1936, Coney Island, Uruguay 1949, Golden Gate City, This Is My Railroad 1940, Day at the Fair 1947, Boulder Dam, Look to Lockheed 1940...). Only Valley Town (1940) a11ba534 is a clean non-vocal roar (used for the tunnel). Third Avenue El (14c8b94b) is a clean train rumble but its year/rights are not in the index and the film (1955) is not known to be PD: rejected."
+   "result": "spectrograms checked: nearly all carry narration, music or crowd speech (Formations 1936, Coney Island, Uruguay 1949, Golden Gate City, This Is My Railroad 1940, Day at the Fair 1947, Boulder Dam, Look to Lockheed 1940...). Only Valley Town (1940) a11ba534 is a clean non-vocal roar; it was used for the tunnel in round 3 but dropped in repair round 1 (clip identity vs the PD Prelinger item not confirmable) and replaced by synthesis. Third Avenue El (14c8b94b) is a clean train rumble but its year/rights are not in the index and the film (1955) is not known to be PD: rejected."
   },
   {
    "searched": "Commons audio: 'Paris street ambience', 'place Paris ambiance', 'city square soundscape', 'street ambience'",
@@ -2846,10 +2830,11 @@
    "license_url": "",
    "source_url": "https://www.movingimagearchive.com/sources/valley-town-9978c98d?clip=a11ba534-ceca-5859-a69f-9d622f30c4e7",
    "file_url": "",
+   "status_note": "NOT USED (repair round 1): clip identity vs the PD Prelinger item archive.org/details/ValleyTo1940 not confirmable (movingimagearchive page 403); replaced by synthesis",
    "what_it_shows": "Source sound of a factory roof shot (steam vent/whistle stack), source time 1130.30-1133.97 s: a steady broadband industrial roar, no speech or music (spectrogram checked).",
    "verified_date_or_place": "1940 per archive index; unverified place",
    "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/sound/mia/valley_town_1940_a11ba534.wav",
-   "status": "in use"
+   "status": "downloaded, not used"
   }
  ],
  "pending_downloads": [

@@ -220,8 +220,11 @@ claim("relay click (same sample)", "click_heating", T(696), "win16_off", 696,
 
 # 6. voice: radio 'quarante-sept' on 384, key-off squelch on 406
 qs = None
-for cand in ("LL-Q150_fra-Poslovitch-quarante-sept.dec.wav", "LL-Q150_fra-Estrie-quarante-sept.dec.wav"):
-    if have(cand): qs = cand; break
+for cand in ("LL-Q150_fra-Poslovitch-quarante-sept", "LL-Q150_fra-Estrie-quarante-sept"):
+    if have(cand + ".wav") and not have(cand + ".dec.wav"):     # decode the download with ffmpeg only
+        subprocess.run(["ffmpeg", "-nostdin", "-loglevel", "error", "-y", "-i", os.path.join(RAW, cand + ".wav"),
+                        "-ac", "1", "-ar", str(R), "-c:a", "pcm_s16le", os.path.join(RAW, cand + ".dec.wav")], check=True)
+    if have(cand + ".dec.wav"): qs = cand + ".dec.wav"; break
 if qs:
     sp = load(qs); on = onset(sp, 20); sp = sp[max(0, on - I(0.01)):]; sp = sp[: I(1.3)]
     sp[-I(0.05):] *= np.linspace(1, 0, I(0.05))
@@ -230,6 +233,10 @@ if qs:
     voice.add(squelch(0.05, 1) * 0.25, T(384) - 0.07)
     claim("radio voice 'quarante-sept' (300-3000 Hz, saturated)", "LL:" + qs.split("-")[2], T(384), "win47_on", 384,
           "window 47 is named aloud by number over a radio: the lit window is an address being called in")
+if not qs:   # gap: no Lingua Libre download got through (HTTP 429); the radio channel still opens on the cut
+    voice.add(norm_peak(squelch(0.22, 4), -15), T(384), 0.0)
+    claim("radio squelch opening (fallback: 'quarante-sept' recording not obtained)", "HM:squelch", T(384), "win47_on", 384,
+          "the radio channel opens on the cut frame as window 47 lights: the lights are being reported to someone")
 voice.add(norm_peak(squelch(0.18, 2), -18), T(406), 0.0)
 claim("radio key-off squelch", "HM:squelch", T(406), "win60_on", 406,
       "the next light coincides with the transmission closing: the radio is answering the windows")

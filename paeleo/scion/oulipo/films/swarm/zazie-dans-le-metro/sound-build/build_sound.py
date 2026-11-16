@@ -374,6 +374,7 @@ LEDGER = [
          license="Rights as listed by movingimagearchive.com (largely public domain); not independently verified", license_url="",
          source_url="https://www.movingimagearchive.com/sources/valley-town-9978c98d?clip=a11ba534-ceca-5859-a69f-9d622f30c4e7", file_url="",
          local="mia/valley_town_1940_a11ba534.wav",
+         status_note="NOT USED (repair round 1): clip identity vs the PD Prelinger item archive.org/details/ValleyTo1940 not confirmable (movingimagearchive page 403); replaced by synthesis",
          what_it_shows="Source sound of a factory roof shot (steam vent/whistle stack), source time 1130.30-1133.97 s: a steady broadband industrial roar, no speech or music (spectrogram checked).",
          verified_date_or_place="1940 per archive index; unverified place"),
 ]
@@ -410,15 +411,18 @@ def build_trims():
     put("wind_gust.wav", g, trim_with("SND1", W, 0.2, 1.1, "highpass 120 Hz, peak -2 dB, 0.12 s rise"))
     b = norm(lowpass(highpass(w[int(1.6 * SR):int(4.4 * SR)], 90), 1800), 0.6)
     put("breeze_ride.wav", fade(b, 0.3, 0.3), trim_with("SND1", W, 1.6, 2.8, "band 90-1800 Hz (softer breeze)"))
-    # -- tunnel resonance: MIA Valley Town roar, low-passed + comb (paper throat) ----
-    v = load(SND / "mia/valley_town_1940_a11ba534.wav")
+    # -- tunnel resonance (repair round 1): SYNTH. The MIA Valley Town roar was dropped because the identity of the
+    #    movingimagearchive clip with the PD Prelinger item could not be confirmed; brown noise through the same
+    #    40-380 Hz band and 98 Hz comb (paper throat) replaces it.
+    v = kit.Mix(3.67, seed=98).noise(3.67, "brown")
+    v = v + 0.35 * kit.Mix(3.67, seed=99).noise(3.67, "pink")
     v = lowpass(highpass(v, 40), 380)
     d = int(SR / 98)  # throat resonance ~98 Hz
     y = v.copy()
     for k in range(1, 6):
         y[k * d:] += (0.55 ** k) * v[:-k * d]
     put("bed_tunnel.wav", fade(norm(y, 0.7), 0.05, 0.05),
-        trim_with("MIA-VALLEYTOWN", "mia/valley_town_1940_a11ba534.wav", 0.0, 3.67, "band 40-380 Hz, 5-tap comb at 98 Hz (tunnel throat)"))
+        {"synth": "kit Mix brown+pink noise, band 40-380 Hz, 5-tap comb at 98 Hz (tunnel throat); replaces MIA-VALLEYTOWN (repair round 1)"})
     build_street()
     build_bells()
     build_paper()
@@ -595,7 +599,7 @@ def build_steps():
 
 ABSENCES = [
     {"searched": "Moving Image Archive cache: clips with source sound whose title/queries match street|traffic|city|horse|tram|trolley|bell|crowd|paris|bus|carriage|paper|market|square|town (47 hits), plus every pre-1964 'sound'-kind clip ranked by spectral flatness (40)",
-     "result": "spectrograms checked: nearly all carry narration, music or crowd speech (Formations 1936, Coney Island, Uruguay 1949, Golden Gate City, This Is My Railroad 1940, Day at the Fair 1947, Boulder Dam, Look to Lockheed 1940...). Only Valley Town (1940) a11ba534 is a clean non-vocal roar (used for the tunnel). Third Avenue El (14c8b94b) is a clean train rumble but its year/rights are not in the index and the film (1955) is not known to be PD: rejected."},
+     "result": "spectrograms checked: nearly all carry narration, music or crowd speech (Formations 1936, Coney Island, Uruguay 1949, Golden Gate City, This Is My Railroad 1940, Day at the Fair 1947, Boulder Dam, Look to Lockheed 1940...). Only Valley Town (1940) a11ba534 is a clean non-vocal roar; it was used for the tunnel in round 3 but dropped in repair round 1 (clip identity vs the PD Prelinger item not confirmable) and replaced by synthesis. Third Avenue El (14c8b94b) is a clean train rumble but its year/rights are not in the index and the film (1955) is not known to be PD: rejected."},
     {"searched": "Commons audio: 'Paris street ambience', 'place Paris ambiance', 'city square soundscape', 'street ambience'", "result": "only La rue Soufflot (Paris) fits (CC BY-SA 3.0); no pre-1964 Paris street recording under an allowed licence was found. Clichy's 'busier square' is built from two real recordings (Soufflot + Vienna fiaker stand)."},
     {"searched": "Commons audio: 'tram bell', 'streetcar bell', 'hand bell', 'tram Glocke'", "result": "no horse-tram or Paris tram bell; used a modern Sydney tram warning bell (CC BY-SA 4.0) and kept the 19th-c. horse-drawn fire-engine hand bell (CC BY 4.0) as alternate. De-Handglocke.ogg rejected: it is a spoken pronunciation (voice)."},
     {"searched": "Commons audio: 'domino', 'wooden blocks', 'playing cards', 'cardboard', 'paper tearing'", "result": "no domino/card-tile clack recording under an allowed licence; domino ticks and tile clicks are pitched copies of one real paper transient (scissor snip / page edge)."},
@@ -643,7 +647,7 @@ def write_output(out):
         "handmade": [
             {"what": "pitched tile-click set (DOU KI PU DONK TAN) and 7 rising domino ticks", "how": "one real paper transient re-pitched by tape-speed resampling", "where": str(TRIM)},
             {"what": "hollow card-step set", "how": "real footsteps band-passed with a 420 Hz 4-tap comb (card box)", "where": str(TRIM)},
-            {"what": "tunnel throat resonance", "how": "MIA Valley Town roar low-passed 380 Hz with a 98 Hz comb", "where": str(TRIM / "bed_tunnel.wav")},
+            {"what": "tunnel throat resonance", "how": "synthesized brown/pink noise low-passed 380 Hz with a 98 Hz comb (kit Mix)", "where": str(TRIM / "bed_tunnel.wav")},
             {"what": "the mix and its gates", "how": "kit.Mix, build_sound.py", "where": str(SND / "soundbed-preview.wav")},
         ],
         "absences": ABSENCES,

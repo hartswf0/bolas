@@ -66,7 +66,7 @@ absences = [
  dict(searched="Commons: teleprinter / teletype mechanical sound", result="only radio-mode recordings (AMTOR, MT63, PSK31, Radiofax) and a spoken word 'teleprinter'; no mechanical teleprinter. Substituted real typewriter keystrokes re-sequenced at 9 strokes/s (labelled as such)"),
  dict(searched="Commons: door buzzer / electric strike", result="no electric door-strike recording found; used the real door buzzer inside WWS Metro.ogg (CC BY 4.0) instead"),
  dict(searched="Commons: fluorescent buzz, light breeze, Lingua Libre 'soixante'", result="search rate-limited (HTTP 429) and not completed; window 60 (f406, inside the voice-only crossover) is carried by a handmade radio key-off squelch instead"),
- dict(searched="Commons: LL-Q150 (fra) Poslovitch quarante-sept (CC0)", result="download rate-limited (HTTP 429) after six retries" if not os.path.exists(os.path.join(RAW, "LL-Q150_fra-Poslovitch-quarante-sept.wav")) else "downloaded"),
+ dict(searched="Commons: LL-Q150 (fra) Poslovitch and Estrie quarante-sept (both CC0; licences read from extmetadata)", result="both downloads from upload.wikimedia.org rate-limited (HTTP 429) over ~25 min of spaced retries; voice stem uses a handmade radio squelch on f384 instead. build_B.py decodes and uses the word automatically if either file is placed in sound-B/raw/" if not os.path.exists(os.path.join(RAW, "LL-Q150_fra-Poslovitch-quarante-sept.wav")) else "downloaded"),
 ]
 handmade = json.load(open(os.path.join(HERE, "handmade-B.json")))
 json.dump(dict(foraged=items, handmade=handmade, absences=absences), open(os.path.join(HERE, "ledger.json"), "w"), indent=1, ensure_ascii=False)

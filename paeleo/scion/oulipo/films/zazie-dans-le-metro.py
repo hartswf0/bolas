@@ -1,12 +1,12 @@
 """Zazie dans le métro — a 22 s cut-paper chase (SCION round 3, direction 2 'Zazie en papier' + 3 'Bouche de métro').
 
 A paper girl wants the tram (the métro is on strike). Paris rewrites the chase three times: a jump cut moves her
-two kilometres while she laughs (8.000 s); her own word "Doukipudonktan", cut from paper as her teeth, falls out and
+about two kilometres while she laughs (8.000 s); her own word "Doukipudonktan", cut from paper as her teeth, falls out and
 becomes the queue that blocks her (match cut 12.4 s); the queue topples into the stairs onto the tram's top deck.
 
 FORAGED: Library of Congress Photochrom plates of Paris (Detroit Publishing Co., c.1890-1900, no known restrictions),
 the tram V cut from the Place Clichy plate, real paper scans (Commons PD/CC0) that fill every puppet piece, a Commons
-wind recording (CC BY-SA 4.0) and a Valley Town (1940) factory roar for the tunnel. HANDMADE: the articulated puppet,
+wind recording (CC BY-SA 4.0). HANDMADE: the articulated puppet,
 the 14 letter tiles, signs, plaques, tunnel, commuters, captions; synthesized clicks/impacts where nothing was found.
 
 Run from the project root:
@@ -33,6 +33,26 @@ sys.path.insert(0, str(FILMS)); sys.path.insert(0, str(PUP)); sys.path.insert(0,
 import kit                                       # noqa: E402  (read-only use)
 import puppet as pp                              # noqa: E402  U3 rig + sprite builders
 import test_shot as TS                           # noqa: E402  U3 approved S3/S4 (exposure sheet, hair sim, compose)
+
+# ---- repair round 1 (A7): two fringe strands re-rested so the lock lies across the viewer's right eye, as in the
+# reference. They stay SCION #41 spring strands (same solver, k, zeta, wind gain): only their rest pose changes.
+_ORIG_MAKE_FRINGE = pp.make_fringe
+LOCK = {6: (902, 716), 7: (982, 704)}            # strand index -> rest tip (2x head coords); right eye is at (866, 662)
+
+
+def make_fringe_lock(seed=1960):
+    strands, slivers = _ORIG_MAKE_FRINGE(seed)
+    for i, (tx, ty) in LOCK.items():
+        s = strands[i]; rx, ry = s.root0
+        a0 = math.atan2(ty - ry, tx - rx)
+        s.rest = np.array([a0 - math.radians(16), a0 + math.radians(2), a0 + math.radians(12)])
+        s.L = math.hypot(tx - rx, ty - ry) * 1.05 / s.NSEG
+        s.phi = s.rest.copy(); s.om = np.zeros(s.NSEG)
+        s.wind_gain = 0.6                         # a heavier lock: it lies across the eye and only stirs in the gust
+    return strands, slivers
+
+
+pp.make_fringe = make_fringe_lock
 
 FPS = 24
 NF = 528
@@ -240,16 +260,119 @@ def ik_climb(near, far, k):
 
 # ============================================================ CU head (U3 draw_puppet, reused via its exposure-sheet hook)
 _ROWS = {}
-_ORIG_ROW = TS.sheet_row
+_U3_ROW = TS.sheet_row
+LAUGH8 = [5, 4, 6, 4, 5, 4, 6, 7]                # laugh cycle, 4 frames per mouth (ha-ha-ha-ho)
+
+
+def s3_sheet_row(f):
+    """Repair round 1 (A4): the S3/S4 exposure sheet. The laugh starts on the first frame of the shot (f144: crescent
+    eyes, mouth 5), drawings change on twos straight through the 8.000 s jump cut (no held pose), and the mouth
+    cycle is phased so the drawings either side of the cut (local 46 | 48) both carry mouth 5. From local 72 on
+    (9.0 s, she sees the tram) U3's approved sheet is used unchanged."""
+    g = f - (f % 2)
+    if g >= 72:
+        row = _U3_ROW(f); row["drawing"] = g
+        return row
+    row = dict(f=f, film_frame=f + 144, drawing=g, plate="P1" if f < TS.CUT else "P2")
+    row.update(mouth=LAUGH8[((g + 2) // 4) % 8], eyes="squeeze", laugh=1.0)
+    return row
+
+
+def s3_head_motion(f):
+    row = TS.sheet_row(f); g = row["drawing"]; lg = row["laugh"]
+    if g < 72:
+        tipped = min(1.0, (g + 4) / 12)
+    else:
+        tipped = max(0.0, 1 - (g - 72) / 6)
+    if g >= 98:
+        tipped = min(1.0, (g - 98) / 8) * 0.7
+    dy = -14 * tipped; ang = math.radians(-3.0) * tipped * 0.4; dx = 0.0
+    rock = math.radians(3.5) * math.sin(2 * math.pi * (g - 12) / 16) * lg
+    shake = (1 if ((g + 2) // 4) % 2 == 0 else -1) * lg         # 4-frame alternation, in phase with the mouths
+    ang += rock + math.radians(1.0) * shake; dy += 6 * shake
+    if row["eyes"] == "open_r" and g >= 72:
+        dx += 10 * min(1, (g - 72) / 4)
+    return ang, dx, dy
+
+
+def s3_simulate():
+    """One HairSolver stepped every frame of S3/S4, through the cut: the spring state is carried, never reset."""
+    hs = pp.HairSolver(); states = {}; log = []
+    for f in range(TS.N):
+        ang, dx, dy = s3_head_motion(f)
+        X = TS.make_xform(ang, dx, dy); W = TS.wind_at(f / FPS)
+        hs.step(ang, X(pp.CROWN), W, X)
+        st, sl = hs.points(X)
+        states[f] = dict(X=(ang, dx, dy), strands=st, slivers=sl, wind=W,
+                         strand_phi=[list(map(float, s_.phi)) for s_ in hs.strands])
+        log.append(dict(f=f, held=False, e=hs.energy(ang), wind=W))
+    return hs.strands, hs.slivers, states, log
 
 
 def _row_hook(f):
-    return _ROWS[f] if f in _ROWS else _ORIG_ROW(f)
+    return _ROWS[f] if f in _ROWS else s3_sheet_row(f)
 
 
 TS.sheet_row = _row_hook
-TS_STR, TS_SL, TS_ST, TS_LOG = TS.simulate()
+TS.head_motion = s3_head_motion
+TS_STR, TS_SL, TS_ST, TS_LOG = s3_simulate()
 TS.STRANDS[:] = [TS_STR, TS_SL]
+
+# ---- repair round 1 (A3): the Clichy tram on a nearer, less defocused card at its native place in P2 (upper right),
+# readable from the cut frame (f192), not only after the rack focus at 9.5 s. The card is U2's cutout of the same
+# tram from the same plate (V), graded with the plate's own Clichy grade.
+_VTS = {}
+
+
+def ts_tram(blur):
+    k = round(blur, 1)
+    if k not in _VTS:
+        im = Image.open(FOR / "V_tram_graded.png").convert("RGBA").resize((600, 245), Image.LANCZOS)
+        a = np.asarray(im).astype(np.float32); rgb = a[..., :3]; gy = rgb.mean(2, keepdims=True)
+        rgb = gy + (rgb - gy) * TS.P2_DESAT; rgb = rgb * np.array([0.99, 0.99, 1.02]) * 0.92
+        a[..., :3] = np.clip(rgb, 0, 255); im = Image.fromarray(a.astype(np.uint8), "RGBA")
+        _VTS[k] = im.filter(ImageFilter.GaussianBlur(k)) if k > 0.2 else im
+    return _VTS[k]
+
+
+TRAM_IN_P2 = (992, 528)                         # tram top-left in the 2x P2 plate (template match of V, ccoeff 0.70)
+
+
+def ts_plate(f, g, ang, dx, dy, name):
+    bl = TS.plate_blur(g); P = TS.plate(name, bl)
+    base = (P.width - TS.PW) / 2 if name == "P1" else 12.0
+    ox = base - 0.25 * (dx + 300 * ang) - (6 * (g / FPS) if name == "P1" else -4 * ((g - TS.CUT) / FPS))
+    oy = (P.height - TS.PH) / 2 - 0.25 * dy * 0.3
+    pic = P.crop((int(ox), int(oy), int(ox) + TS.PW, int(oy) + TS.PH)).convert("RGBA")
+    if name == "P2":
+        pic.alpha_composite(ts_tram(min(bl, 7.0)), (int(TRAM_IN_P2[0] - int(ox)), int(TRAM_IN_P2[1] - int(oy))))
+    return pic
+
+
+def ts_compose(f, states):
+    """TS.compose with the tram card inserted between plate and puppet (otherwise U3's compose, unchanged)."""
+    row = TS.sheet_row(f); g = row["drawing"]; ang, dx, dy = states[g]["X"]; name = row["plate"]
+    pic = ts_plate(f, g, ang, dx, dy, name)
+    if name == "P2" and f >= 52:
+        if TS.PLAQUE is None:
+            TS.PLAQUE = pp.plaque("PLACE", "DE CLICHY", "17e ARRt")
+        k = f - 52; sc = [0.55, 1.14, 0.96, 1.03, 1.0][min(k, 4)]
+        pl = TS.PLAQUE.resize((int(TS.PLAQUE.width * sc), int(TS.PLAQUE.height * sc)), Image.LANCZOS)
+        sh = pl.getchannel("A").filter(ImageFilter.GaussianBlur(7)).point(lambda v: int(v * 0.45))
+        dark = Image.new("RGBA", pl.size, (20, 10, 4, 0)); dark.putalpha(sh)
+        cxp, cyp = 1250, 120
+        pic.alpha_composite(dark, (int(cxp - pl.width / 2 + 9), int(cyp - pl.height / 2 + 11)))
+        pic.alpha_composite(pl, (int(cxp - pl.width / 2), int(cyp - pl.height / 2)))
+    pup = TS.draw_puppet(f, states); pb = TS.puppet_blur(g)
+    if pb > 0.2:
+        pup = pup.filter(ImageFilter.GaussianBlur(pb))
+    pic.alpha_composite(pup)
+    a = np.asarray(pic.convert("RGB").resize((720, 540), Image.LANCZOS)).astype(np.float32)
+    L = a.mean(2, keepdims=True); Lt = np.interp(L, np.arange(256), TS.TONE)
+    return Image.fromarray(np.clip(a * (Lt / np.maximum(L, 1.0)), 0, 255).astype(np.uint8))
+
+
+TS.compose = ts_compose
 
 
 def cu_simulate(key0, frames, motion, wind):
@@ -340,6 +463,39 @@ def lower_tile_states():
 
 
 LOWER_ST = lower_tile_states()
+BACK_Y = ROW_Y - 50                               # repair round 1 (A6): the back row of the queue (DOUKIPU)
+BACK_X = [x + 32 for x in LOWER_X]                # half a tile behind the gaps of the front row
+
+
+def upper_tile_states():
+    """Repair round 1 (A6): the upper teeth DOUK IPU fall out too, one per frame f282-288, under gravity with the
+    same rotation spring, x drifting to the back row; upright on the floor of the mouth (y BACK_Y) by f296.
+    Returns {f: [(cx, base_y, rot, reading) x7]}."""
+    out = {}; g = 5.33; v0 = 8.0
+    rot = [0.0] * 7; om = [0.0] * 7
+    for f in range(240, 298):
+        row = []
+        for i in range(7):
+            rel = 282 + i; x = UPPER_X[i]; base = UP_BASE + tile_pop(f, "T%d" % (1 + i)); rd = "teeth"
+            if 276 <= f < rel:                                   # loosened by TAN: they rattle before they drop
+                rot[i] = 4.0 * math.sin(math.pi * (f - 276) / 3 + i)
+            if f >= rel:
+                t = f - rel
+                drop = min(BACK_Y - UP_BASE, v0 * t + 0.5 * g * t * t)
+                u = drop / (BACK_Y - UP_BASE)
+                base = UP_BASE + drop; x = UPPER_X[i] + (BACK_X[i] - UPPER_X[i]) * u
+                if t == 0:
+                    om[i] = (-1 if i % 2 == 0 else 1) * (6.0 + 2 * (i % 3))
+                om[i] += -0.30 * rot[i] - 0.5 * om[i]; rot[i] += om[i]
+                rd = "falling" if u < 1 or abs(rot[i]) > 0.5 else "row2"
+                if f >= 296:
+                    rot[i] = 0.0; om[i] = 0.0; rd = "row2"
+            row.append((x, base, rot[i], rd))
+        out[f] = row
+    return out
+
+
+UPPER_ST = upper_tile_states()
 _ECU = {}
 
 
@@ -387,11 +543,8 @@ def ecu_layer(f):
     inner.putalpha(m)
     sheet.img.alpha_composite(inner)
     sheet.lay(E["gum_up"], shadow=False, clip=m)
-    for i in range(7):                                        # upper teeth DOUK · IPU (gap between K and I)
-        tid = "T%d" % (1 + i)
-        im, (px, py) = tile_sprite(i, False, TILE_S2)
-        x = UPPER_X[i] * S; base = (UP_BASE + tile_pop(f, tid)) * S
-        put(sheet.img, im, (x - px, base - TH * S / 2 - py))
+    for i, (x, base, rot, rd) in enumerate(UPPER_ST[f]):     # upper teeth DOUK · IPU (gap between K and I); they fall too
+        tile_at(sheet.img, i, False, TILE_S2, (x * S, (base - TH / 2) * S), rot)
     sheet.lay(E["gum_lo"], 0, jd, shadow=True, sh_off=(6, -8))
     for i, (x, base, rot, rd) in enumerate(LOWER_ST[f]):     # lower teeth DONKTAN
         tile_at(sheet.img, 7 + i, False, TILE_S2, (x * S, (base - TH / 2) * S), rot)
@@ -514,7 +667,7 @@ def title_layer(f):
         im = it["im"]; put(pic, im, (it["x"] - im.width / 2, it["y"] - im.height * 0.73 + dy))
     if f >= 494:
         d = ImageDraw.Draw(pic, "RGBA"); al = int(255 * min(1, (f - 494) / 6))
-        d.text((360, 470), "d'après Queneau — plaques : Library of Congress, Detroit Publishing Co. (domaine public)",
+        d.text((360, 470), "d'après Queneau — photochromes de Paris v. 1890-1900, Library of Congress (domaine public)",
                font=kit.font("serif", 17), fill=(214, 200, 172, al), anchor="mm")
         d.text((360, 494), "papiers : Wikimedia Commons (PD/CC0) · vent : SAgbley, CC BY-SA 4.0", font=kit.font("serif", 15),
                fill=(190, 176, 150, al), anchor="mm")
@@ -531,33 +684,45 @@ V_L3 = dict(x=560, top=200, s=1.0)
 GROUND_Y = 460
 
 
+BACK_OFF = (20, -16)                               # back row: one tile deeper in every stair slot
+
+
 def queue_tiles(f):
-    """T8..T14 in L3 (cut A): queue -> obstacle (wobble after the contact) -> domino flips into the stair."""
+    """All 14 tiles in L3 (cut A). Front row T8..T14 (DONKTAN) and back row T1..T7 (DOUKIPU, up-stage, half a tile
+    over): queue -> obstacle (the bump from the collision runs down both rows) -> domino flips into a stair two tiles
+    deep (each back tile lands one frame after its front partner, behind it). T14 is kicked loose at f418."""
     out = []
-    for i in range(7):
-        cx = LOWER_X[i]; c0 = (cx, ROW_Y - TH / 2); rot = 0.0; rd = "queue"; pos = c0
-        if f >= 326 + 2 * i:                                     # bump from the collision runs down the queue
-            t = f - 326 - 2 * i
-            rot = (7.0 - 0.8 * i) * math.exp(-t / 5.0) * math.sin(t * 0.9)
-            rd = "obstacle"
-        launch = 335 + 3 * i; land = launch + 6
-        if f >= launch:
-            ex, ey, er = SLOTS[i]
-            u = min(1.0, (f - launch) / 6)
-            x = c0[0] + (ex - c0[0]) * u
-            apex = min(c0[1], ey) - 70
-            y = (1 - u) ** 2 * c0[1] + 2 * (1 - u) * u * apex + u * u * ey
-            r = er * u
-            if f >= land:                                        # settle: small overshoot, decays
-                t = f - land; r = er + 5.0 * math.exp(-t / 2.5) * math.cos(t * 1.3)
-                if t > 10:
-                    r = er
-            pos = (x, y); rot = r; rd = "tipping" if f < land else "steps"
-        if i == 6 and f >= 418:                                  # T14 kicked loose as she steps onto the deck
-            t = f - 418; ex, ey, _ = SLOTS[6]
-            u = min(1.0, t / 10)
-            pos = (ex + 70 * u, ey + (GROUND_Y - 30 - ey) * u * u); rot = 360 + 200 * u; rd = "loose"
-        out.append(dict(id="T%d" % (8 + i), centre=pos, rot=rot, reading=rd))
+    for row in ("front", "back"):
+        for i in range(7):
+            back = row == "back"
+            tid = "T%d" % ((1 if back else 8) + i)
+            cx = BACK_X[i] if back else LOWER_X[i]
+            c0 = (cx, (BACK_Y if back else ROW_Y) - TH / 2); rot = 0.0; rd = "queue"; pos = c0
+            hit = 326 + 2 * i + (3 if back else 0)
+            if f >= hit:                                         # bump from the collision runs down the queue
+                t = f - hit
+                rot = (7.0 - 0.8 * i) * (0.7 if back else 1.0) * math.exp(-t / 5.0) * math.sin(t * 0.9)
+                rd = "obstacle"
+            launch = 335 + 3 * i + (1 if back else 0); land = launch + 6
+            if f >= launch:
+                ex, ey, er = SLOTS[i]
+                if back:
+                    ex, ey = ex + BACK_OFF[0], ey + BACK_OFF[1]
+                u = min(1.0, (f - launch) / 6)
+                x = c0[0] + (ex - c0[0]) * u
+                apex = min(c0[1], ey) - 70
+                y = (1 - u) ** 2 * c0[1] + 2 * (1 - u) * u * apex + u * u * ey
+                r = er * u
+                if f >= land:                                    # settle: small overshoot, decays
+                    t = f - land; r = er + 5.0 * math.exp(-t / 2.5) * math.cos(t * 1.3)
+                    if t > 10:
+                        r = er
+                pos = (x, y); rot = r; rd = "tipping" if f < land else "steps"
+            if tid == "T14" and f >= 418:                        # T14 kicked loose as she steps onto the deck
+                t = f - 418; ex, ey, _ = SLOTS[6]
+                u = min(1.0, t / 10)
+                pos = (ex + 70 * u, ey + (GROUND_Y - 30 - ey) * u * u); rot = 360 + 200 * u; rd = "loose"
+            out.append(dict(id=tid, centre=pos, rot=rot, reading=rd, row=row))
     return out
 
 
@@ -591,7 +756,7 @@ def plan_cut(cut):
                      V=dict(native=row["plate"] == "P2", visible=row["plate"] == "P2"), mouth=row["mouth"], eye=row["eyes"], energy=e)
         elif cut == "A" and f < 298:                                         # S5 push + ECU
             p.update(kind="S5push" if f < 252 else "S5ecu", plate="P2", mouth=6 if f < 252 else "ECU", eye="squeeze",
-                     tiles=[dict(id="T%d" % (1 + i), centre=(UPPER_X[i], UP_BASE - TH / 2), rot=0.0, reading="teeth") for i in range(7)]
+                     tiles=[dict(id="T%d" % (1 + i), centre=(x, b - TH / 2), rot=r, reading=rd) for i, (x, b, r, rd) in enumerate(UPPER_ST[f])]
                      + [dict(id="T%d" % (8 + i), centre=(x, b - TH / 2), rot=r, reading=rd) for i, (x, b, r, rd) in enumerate(LOWER_ST[f])])
         elif cut == "A" and f < 432:                                         # S6 / S7
             tiles = queue_tiles(f); Z = None
@@ -717,7 +882,12 @@ def render_full(p, with_puppet=True):
             if "top" in V:
                 put(pic, vcard(V["s"]), (V["x"], V["top"]))
             else:
-                im = vcard(V["s"], V.get("blur", 0)); put(pic, im, (V["x"], V["bottom"] - im.height))
+                im = vcard(V["s"], V.get("blur", 0))
+                cs = Image.new("RGBA", (int(im.width * 1.04), max(8, int(im.height * 0.09))), (0, 0, 0, 0))
+                ImageDraw.Draw(cs).ellipse((0, 0, cs.width - 1, cs.height - 1), fill=(18, 12, 6, 110))
+                put(pic, cs.filter(ImageFilter.GaussianBlur(max(2, cs.height / 3))),
+                    (V["x"] - im.width * 0.02 + 3, V["bottom"] - cs.height * 0.55))     # contact shadow on the street
+                put(pic, im, (V["x"], V["bottom"] - im.height))
     def draw_z():
         if Z and with_puppet:
             if not Z.get("pin"):
@@ -733,12 +903,14 @@ def render_full(p, with_puppet=True):
     else:
         draw_v()
         if p.get("tiles"):
+            feet = f >= 300                                  # the feet sprout two frames after the match cut
             for t in p["tiles"]:
                 if t["reading"] in ("queue", "obstacle"):
                     sh = Image.new("RGBA", (64, 12), (0, 0, 0, 0)); ImageDraw.Draw(sh).ellipse((0, 0, 63, 11), fill=(20, 12, 6, 80))
-                    put(pic, sh.filter(ImageFilter.GaussianBlur(2)), (t["centre"][0] - 28, GROUND_Y - 4))
-            for t in sorted(p["tiles"], key=lambda t: -t["centre"][1]):
-                tile_at(pic, int(t["id"][1:]) - 1, True, TILE_S1, t["centre"], t["rot"])
+                    gy = GROUND_Y - 4 - (50 if t.get("row") == "back" else 0) - (0 if feet else 8)
+                    put(pic, sh.filter(ImageFilter.GaussianBlur(2)), (t["centre"][0] - 28, gy))
+            for t in sorted(p["tiles"], key=lambda t: (t.get("row") != "back", -t["centre"][1])):
+                tile_at(pic, int(t["id"][1:]) - 1, feet, TILE_S1, t["centre"], t["rot"])
         draw_z()
     if p["kind"] == "S2":                            # foreground plane trees (foraged cutout), 1.4x
         fg = _fg()
@@ -751,11 +923,7 @@ def render_ts(p, with_puppet=True):
     if with_puppet:
         return TS.compose(loc, TS_ST), True
     row = TS.sheet_row(loc); g = row["drawing"]; ang, dx, dy = TS_ST[g]["X"]; name = row["plate"]
-    P = TS.plate(name, TS.plate_blur(g))
-    base = (P.width - TS.PW) / 2 if name == "P1" else 12.0
-    ox = base - 0.25 * (dx + 300 * ang) - (6 * (g / FPS) if name == "P1" else -4 * ((g - TS.CUT) / FPS))
-    oy = (P.height - TS.PH) / 2 - 0.25 * dy * 0.3
-    pic = P.crop((int(ox), int(oy), int(ox) + TS.PW, int(oy) + TS.PH)).convert("RGB").resize((720, 540), Image.LANCZOS)
+    pic = ts_plate(loc, g, ang, dx, dy, name).convert("RGB").resize((720, 540), Image.LANCZOS)
     return pic, True
 
 
@@ -791,7 +959,7 @@ def render_push(p):
     c = (382 + (MC1[0] - 382) * u, 443 + (MC1[1] - 443) * u)
     pic = affine_into(P["plate"], 1 + 0.6 * u, (382, 443), (382, 443)).convert("RGBA")
     pic.alpha_composite(affine_into(P["pup"], k, (382, 443), c))
-    al = ramp(f, 244, 250)
+    al = ramp(f, 239, 246)                            # repair round 1: the teeth are in frame from f240 (10.0 s)
     if al > 0:
         L = ecu_layer(f)
         L = affine_into(L, k / 4.5, MC1, c)
@@ -962,10 +1130,20 @@ def preconditions(frames_a, frames_b):
     c191, c192 = alpha_centroid(TS.draw_puppet(47, TS_ST)), alpha_centroid(TS.draw_puppet(48, TS_ST))
     X1, X2 = TS_ST[r191["drawing"]]["X"], TS_ST[r192["drawing"]]["X"]
     h1, h2 = collar_hue(frames_a[191]), collar_hue(frames_a[192])
-    hair_same = TS_ST[r191["drawing"]]["strand_phi"] == TS_ST[r192["drawing"]]["strand_phi"]
+    # hair: one solver stepped through the cut (s3_simulate), so the state is carried; measure how far the fringe
+    # tips move between the two drawings either side of the cut (a continuation, not a reset)
+    tips1 = [s_[-1] for s_ in TS_ST[r191["drawing"]]["strands"]]; tips2 = [s_[-1] for s_ in TS_ST[r192["drawing"]]["strands"]]
+    tip_move = max(math.dist(a, b) for a, b in zip(tips1, tips2)) / 2
+    def _tm(g1, g2):
+        return max(math.dist(a, b) for a, b in zip([s_[-1] for s_ in TS_ST[g1]["strands"]], [s_[-1] for s_ in TS_ST[g2]["strands"]])) / 2
+    typical = sorted(_tm(g, g + 2) for g in range(30, 62, 2) if g != 46)
+    tip_typ = typical[len(typical) // 2]
+    hair_same = tip_move <= 1.5 * tip_typ            # the cut moves the hair no more than any other drawing change does
     res["pre3_anchor"] = dict(alpha_centroid_191=c191, alpha_centroid_192=c192, centroid_delta_px=math.dist(c191, c192),
-                              scale_delta=0.0 if X1 == X2 else abs(1 - 1), root_xform_191=X1, root_xform_192=X2,
-                              mouth_191=r191["mouth"], mouth_192=r192["mouth"], hair_state_carried=bool(hair_same),
+                              scale_delta=0.0, root_xform_191=X1, root_xform_192=X2, drawing_191=r191["drawing"], drawing_192=r192["drawing"],
+                              mouth_191=r191["mouth"], mouth_192=r192["mouth"], hair_state_carried="one solver, no reset across the cut",
+                              fringe_tip_move_px_720=round(tip_move, 2), fringe_tip_move_median_other_drawings_30_62=round(tip_typ, 2),
+                              hair_rule="cut-frame tip move <= 1.5 x the median move between neighbouring drawings (no reset, no extra jump)",
                               collar_hue_191=h1, collar_hue_192=h2,
                               collar_hue_delta=None if (h1 is None or h2 is None) else abs(h1 - h2))
     a3 = res["pre3_anchor"]
@@ -976,27 +1154,41 @@ def preconditions(frames_a, frames_b):
     # 5 V within 24 f
     res["pre5_V"] = dict(V_visible_from=next(p["f"] for p in PA[192:] if p.get("V") and p["V"].get("visible")), ok=True)
     # match cut tile row 297 -> 298 (model + measured)
-    t297 = [t for t in PA[297]["tiles"] if int(t["id"][1:]) >= 8]; t298 = PA[298]["tiles"]
+    t297 = [t for t in PA[297]["tiles"] if int(t["id"][1:]) >= 8]; t298 = [t for t in PA[298]["tiles"] if int(t["id"][1:]) >= 8]
+    b297 = [t for t in PA[297]["tiles"] if int(t["id"][1:]) < 8]; b298 = [t for t in PA[298]["tiles"] if int(t["id"][1:]) < 8]
+    back_d = max(math.dist(a["centre"], b["centre"]) for a, b in zip(b297, b298))
     m297 = [(t["centre"][0], t["centre"][1] + TH / 2) for t in t297]; m298 = [(t["centre"][0], t["centre"][1] + TH / 2) for t in t298]
     dy = max(abs(a[1] - b[1]) for a, b in zip(m297, m298)); dx = max(abs(a[0] - b[0]) for a, b in zip(m297, m298))
     sp297 = np.diff([a[0] for a in m297]); sp298 = np.diff([a[0] for a in m298])
-    meas297, meas298 = tile_row_measure(frames_a[297]), tile_row_measure(frames_a[298])
+    meas297, meas298 = tile_row_measure(frames_a[297], 420, 470), tile_row_measure(frames_a[298], 420, 470)
+    mb = (max(abs(a[1] - b[1]) for a, b in zip(meas297, meas298)) if len(meas297) == len(meas298) == 7 else 999)
+    ms = (float(np.abs(np.diff([a[0] for a in meas297]) - np.diff([a[0] for a in meas298])).max()) if mb < 999 else 999)
     res["match_297_298"] = dict(model_row_y_297=[a[1] for a in m297], model_row_y_298=[a[1] for a in m298], max_dy=dy, max_dx=dx,
                                 spacing_297=sp297.tolist(), spacing_298=sp298.tolist(),
                                 glyphs_297=[pp.WORD[int(t["id"][1:]) - 1] for t in t297], glyphs_298=[pp.WORD[int(t["id"][1:]) - 1] for t in t298],
-                                measured_297=meas297, measured_298=meas298,
-                                ok=bool(dy <= 6 and np.abs(sp297 - sp298).max() <= 6 and dx <= 6))
+                                measured_297=meas297, measured_298=meas298, measured_baseline_max_dy=mb, measured_spacing_max_d=ms,
+                                measured_note="image measurement of the cream tile bodies, band y 420-470 (front row only; the back row ends at y 402); feet sprout at f300, after the cut",
+                                back_row_DOUKIPU_max_centre_move=round(back_d, 2),
+                                ok=bool(dy <= 6 and np.abs(sp297 - sp298).max() <= 6 and dx <= 6 and mb <= 6 and ms <= 6 and back_d <= 6))
     # tile count 14 from 10 s
-    counts = {}
-    for p in PA[240:480]:
-        ids = set()
-        if p.get("tiles"):
-            ids |= {t["id"] for t in p["tiles"]}
-        if p["kind"] in ("S6", "S7", "S8"):
-            ids |= {"T%d" % k for k in range(1, 8)}            # upper row stays in her mouth (counted, off screen)
-            ids |= {"T14"}
-        counts[p["f"]] = len(ids)
-    res["tile_count_from_10s"] = dict(min=min(counts.values()), max=max(counts.values()), ok=min(counts.values()) == max(counts.values()) == 14)
+    counts = {}                                                # derived from the drawn tile list, never asserted
+    for p in PA[240:432]:
+        counts[p["f"]] = len({t["id"] for t in (p.get("tiles") or [])})
+    res["tile_count_from_10s"] = dict(window="f240-431 (10.0-18.0 s: every shot in which the prop is in frame; S8 is a close-up on the deck)",
+                                      min=min(counts.values()), max=max(counts.values()),
+                                      ok=min(counts.values()) == max(counts.values()) == 14)
+    # A4 laugh: mouths, eyes, pose change every <= 2 frames through 6.0-8.0 s, cheek raise measured on the rig piece
+    mouths = sorted({TS.sheet_row(l)["mouth"] for l in range(48)}); eyes = sorted({TS.sheet_row(l)["eyes"] for l in range(48)})
+    diffs = [float(np.abs(np.asarray(frames_a[f], np.float32) - np.asarray(frames_a[f + 1], np.float32)).mean()) for f in range(144, 192)]
+    maxrun = 0; run = 0
+    for d_ in diffs:
+        run = run + 1 if d_ < 0.8 else 0; maxrun = max(maxrun, run)
+    c0 = pp.cheeks(0.0)[0]; c1 = pp.cheeks(1.0)[0]
+    cy = lambda pc: pc.oy + float(np.nonzero(np.asarray(pc.img.getchannel("A")) > 60)[0].mean())
+    raise_px = (cy(c0) - cy(c1)) / 2
+    res["A4_laugh_6_8s"] = dict(mouth_ids=mouths, eye_sets=eyes, frame_diff_min=round(min(diffs), 2),
+                                longest_run_of_unchanged_frames=maxrun + 1, cheek_raise_px_720=round(raise_px, 1),
+                                ok=len(mouths) >= 4 and eyes == ["squeeze"] and maxrun + 1 <= 2 and raise_px >= 5)
     # A/B shared frames
     diffs = [float(np.abs(np.asarray(frames_a[f], np.float32) - np.asarray(frames_b[f], np.float32)).mean()) for f in range(192)]
     res["AB_shared_0_191"] = dict(max_mean_abs_diff=max(diffs), ok=max(diffs) < 1.0)
@@ -1025,10 +1217,12 @@ def ledger(cut, frames, counts):
         elif p["kind"] == "S5b":
             rec["strand_energy"] = round(S5B_EN[f], 5); r = s5b_row(f); rec["mouth"] = r["mouth"]; rec["eye"] = r["eyes"]
         if p.get("tiles"):
-            rec["tiles"] = [dict(id=t["id"], cx=round(t["centre"][0], 1), base_y=round(t["centre"][1] + TH / 2, 1), rot=round(t["rot"], 1),
-                                 reading=t["reading"]) for t in p["tiles"]]
-        if cut == "A":
-            rec["tile_count"] = counts.get(f) if f >= 240 else (0 if f < 240 else None)
+            rec["tiles"] = [dict(id=t["id"], glyph=pp.WORD[int(t["id"][1:]) - 1], cx=round(t["centre"][0], 1), base_y=round(t["centre"][1] + TH / 2, 1),
+                                 rot=round(t["rot"], 1), reading=t["reading"]) for t in p["tiles"]]
+        if p.get("tiles"):
+            rec["tile_count"] = len({t["id"] for t in p["tiles"]})          # derived from the drawn list
+        elif p["kind"] in ("S8", "tail"):
+            rec["tile_count"] = None; rec["tiles_note"] = "prop not in frame (close-up on the deck / title)"
         if p.get("V"):
             rec["V"] = dict(visible=bool(p["V"].get("visible")), native=bool(p["V"].get("native", False)))
         out.append(rec)
@@ -1052,7 +1246,11 @@ def metrics_cu(pic, alpha):
     hair = px[(dh < ds) & (px.mean(1) < 120) & (px[:, 0] - px[:, 2] > 12)]
     skin = px[(ds < dh) & (px[:, 0] > 140) & (px[:, 0] - px[:, 2] > 40)]
     hm, sm = hair.mean(0), skin.mean(0)
-    q = (hair // 12).astype(int); tones = len({tuple(v) for v in q if (q == v).all(1).sum() > 0.02 * len(q)}) if len(q) else 0
+    q = (hair // 12).astype(int)
+    if len(q):
+        _, cnt = np.unique(q, axis=0, return_counts=True); tones = int((cnt > 0.02 * len(q)).sum())
+    else:
+        tones = 0
     return dict(head_w=round((cols.max() - cols.min()) / 720, 3) if len(cols) else None,
                 crown_y=round(rows.min() / 540, 3) if len(rows) else None,
                 p5=round(float(np.percentile(L, 5)), 1), p50=round(float(np.percentile(L, 50)), 1), p95=round(float(np.percentile(L, 95)), 1),
@@ -1091,7 +1289,7 @@ def compare_sheet(frames_a):
             lines.append("A7 head_w %.3f [0.45-0.55]  crown_y %.3f [0.18-0.30]" % (m["head_w"] or 0, m["crown_y"] or 0))
             lines.append("A8 luma p5 %.0f p50 %.0f [75-105] p95 %.0f [<=175]  >235 %.2f%% [<0.5]" % (m["p5"], m["p50"], m["p95"], m["over235"]))
             lines.append("   plate HSV-S %.0f [<=110]  hair %s dE %.1f [<=18]  skin %s dE %.1f [<=18]" % (m["plate_sat"], m["hair_mean"], m["dE_hair"], m["skin_mean"], m["dE_skin"]))
-            lines.append("   hair tones (12-level bins >2%%): %d [>=5]   ears+lips: rig pieces head_ear_l/r, lips in mouth set" % m["hair_tones"])
+            lines.append("   hair tones (12-level bins >2%%): %d [>=5]   ears + lips: visible rig pieces" % m["hair_tones"])
         for n_, s in enumerate(lines):
             d.text((x, y + 574 + 20 * n_), s, font=fm, fill=(200, 190, 170))
     sheet.save(SW / "compare-ref.jpg", quality=88)
