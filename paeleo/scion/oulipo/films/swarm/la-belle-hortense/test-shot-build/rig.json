@@ -1,0 +1,68 @@
+{
+ "source": {
+  "id": "LoC 2017844115",
+  "file": "films/sources/la-machine-a-tuer-le-temps/loc_2017844115.jpg",
+  "crop_box": [
+   368,
+   285,
+   680,
+   1000
+  ],
+  "licence": "Public domain (US government work, FSA/OWI; LoC: no known restrictions)"
+ },
+ "method": "cv2.grabCut, GC_INIT_WITH_MASK, 6 iters; seeds: density<0.30 (PR_FGD), eroded core (FGD), scribble ellipses for face/collar/hand/paper/cap (FGD), wall rectangles (BGD), outside scissor polygon (BGD)",
+ "islands_removed": 1,
+ "pieces": {
+  "body": {
+   "parent": null,
+   "pivot_hip": [
+    172,
+    636
+   ],
+   "mask": "cut/body.png",
+   "note": "forearm hole inpainted (TELEA r=7)"
+  },
+  "forearm": {
+   "parent": "body",
+   "pivot_elbow": [
+    246,
+    292
+   ],
+   "limits_deg": [
+    -14,
+    10
+   ],
+   "mask": "cut/forearm.png"
+  },
+  "shinN": {
+   "parent": "body",
+   "pivot_hem": [
+    172,
+    636
+   ],
+   "limits_deg": [
+    -38,
+    38
+   ],
+   "stretch_y": 1.5,
+   "mask": "cut/shinN.png"
+  },
+  "shinF": {
+   "parent": "body",
+   "pivot_hem": [
+    118,
+    636
+   ],
+   "limits_deg": [
+    -38,
+    38
+   ],
+   "stretch_y": 1.5,
+   "shade": 0.55,
+   "mask": "cut/shinF.png"
+  }
+ },
+ "dye": {
+  "coat": "#e2011b stencil (mask cut/coat_dye.png) multiplied over the monochrome print, re-printed light"
+ }
+}
