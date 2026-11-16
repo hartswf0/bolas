@@ -1,5 +1,5 @@
 {
- "status": "NOT RUN: this editor is an automated agent and had no fresh human viewers. No reading is recorded or invented.",
+ "status": "NOT RUN: this editor is an automated agent and had no fresh human viewers. No reading is recorded or invented. Materials rebuilt on master r3 90f1417b (repair round 2).",
  "protocol": {
   "materials": [
    "out/screening-S-A-B.mp4 (silent control, then A, then B; no captions, no labels)",
@@ -8,11 +8,13 @@
   ],
   "assignment": "viewer 1 -> S-A-B, viewer 2 -> S-B-A (counterbalanced); each viewer has not seen the plan, reel or captions",
   "questions": [
-   "After the silent control: what is happening in this cit\u00e9? (free text)",
+   "After the silent control: what is happening in this cité? (free text)",
    "After each sounded pass: what is happening, who is in window 16, and what made you think so? Name the sound.",
    "After X: what changed at 16.0 s?"
   ],
-  "pass_condition": "both viewers give a domestic reading for A and a watching/surveillance reading for B (or vice versa consistently with the sound), and each names a heard cue (not a caption) at window 16"
+  "pass_condition": "both viewers give a domestic reading for A and a watching/surveillance reading for B (or vice versa consistently with the sound), and each names a heard cue (not a caption) at window 16",
+  "note": "The reel's end card no longer names a reading (only 'soundtrack A / B'); the readings live only in this file and the plan, so a repeat viewer is not primed."
  },
- "readings": []
+ "readings": [],
+ "master_revision": "90f1417b48de31c0113ca2ec2e874d1bf3f9d2ec"
 }

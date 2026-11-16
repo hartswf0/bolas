@@ -240,9 +240,15 @@ def credits_card(ink):
         y += 31
     vic = next((c for c in cr if "Victor-73522a" in c["source_url"]), None)
     if vic:
-        ink.text((48, y + 2), "radio 78 (public domain): « O, du himmelblauer See », " + vic["author"].replace("; via", " · via"), "sans", 11, TXT)
+        ink.text((48, y + 2), "radio 78 (public domain): « O, du himmelblauer See », Victor 73522-A, recorded 11 Sep 1922", "sans", 11, TXT)
+        ink.text((48, y + 17), vic["author"].split("; recorded")[0], "sans", 11, TXT)
+        y += 36
+    loc = next((c for c in cr if "jukebox" in c["source_url"]), None)
+    if loc:
+        ink.text((48, y + 2), "radio voice (public domain): " + loc["title"].split(" (")[0] + ", A. G. H. Spiers and R. Werrenrath, Victor 1917 · Library of Congress, National Jukebox",
+                 "sans", 11, TXT)
         y += 20
-    pd_n = len(cr) - len(by) - (1 if vic else 0)
+    pd_n = len(cr) - len(by) - (1 if vic else 0) - (1 if loc else 0)
     ink.text((48, y + 4), f"and {pd_n} more public-domain / CC0 items: full list in credits/{SLUG}.json and the notes", "sans", 11, MUTED)
     ink.text((W / 2, H - 66), "typefaces: Instrument Serif, Instrument Sans (The Instrument Project Authors), IBM Plex Mono (IBM Corp.): SIL Open Font License 1.1",
              "mono", 9, MUTED, anchor="mm")

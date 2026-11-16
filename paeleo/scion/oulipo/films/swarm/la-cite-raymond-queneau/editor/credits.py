@@ -76,7 +76,7 @@ def main():
         c["used_as"] = c["used_as"].replace("a song through a wall", "an orchestral 78 through a wall").replace("radio song", "radio (orchestral 78)")
     for c in merged:
         u = c["used_as"].lower()
-        if c["source_url"].startswith("https://www.loc.gov") or "picture (paper model sheet)" in u:
+        if "picture (paper model sheet)" in u:
             c["modified"] = "adapted: cropped, cut into shapes, warped, levels-graded per channel"
         else:
             c["modified"] = "adapted: cut, filtered, levelled (and where stated slowed, looped or re-timed)"

@@ -328,5 +328,78 @@
    "bytes": 17197631,
    "note": "90 s blind sequence: silent control, then two unlabelled passes; md5 per frame equal to the master in each segment"
   }
- }
+ },
+ "reels": {
+  "AB": {
+   "path": "assets/films/la-cite-raymond-queneau.mp4",
+   "order": "AB",
+   "duration_s": 75.0,
+   "bytes": 4125981,
+   "picture_region_frames_compared": 720,
+   "psnr_db_min": 78.38,
+   "psnr_db_mean": 98.93,
+   "psnr_db_p5": 99.0,
+   "frames_below_45db": 0,
+   "pass_psnr_ge_45": true,
+   "pass1_lufs_tp": [
+    -24.0,
+    -3.4
+   ],
+   "pass2_lufs_tp": [
+    -24.0,
+    -2.5
+   ],
+   "pass_lu_difference": 0.0,
+   "sha1_before_encoding": {
+    "order": "AB",
+    "frames_pass1": 720,
+    "frames_pass2": 720,
+    "pass1_eq_pass2": 720,
+    "pass1_eq_decoded_master": 720,
+    "of": 720,
+    "pass": true,
+    "loudness_kit_lufs_after_master_gain": {
+     "A": -24.01246511668826,
+     "B": -24.012464979055895,
+     "master_gain_db": -1.012199867101744
+    }
+   }
+  },
+  "BA": {
+   "path": "films/swarm/la-cite-raymond-queneau/out/reel-BA.mp4",
+   "order": "BA",
+   "duration_s": 75.0,
+   "bytes": 4134510,
+   "picture_region_frames_compared": 720,
+   "psnr_db_min": 78.38,
+   "psnr_db_mean": 98.93,
+   "psnr_db_p5": 99.0,
+   "frames_below_45db": 0,
+   "pass_psnr_ge_45": true,
+   "pass1_lufs_tp": [
+    -24.0,
+    -4.9
+   ],
+   "pass2_lufs_tp": [
+    -24.0,
+    -3.7
+   ],
+   "pass_lu_difference": 0.0,
+   "sha1_before_encoding": {
+    "order": "BA",
+    "frames_pass1": 720,
+    "frames_pass2": 720,
+    "pass1_eq_pass2": 720,
+    "pass1_eq_decoded_master": 720,
+    "of": 720,
+    "pass": true,
+    "loudness_kit_lufs_after_master_gain": {
+     "A": -24.01246511668826,
+     "B": -24.012464979055895,
+     "master_gain_db": -1.012199867101744
+    }
+   }
+  }
+ },
+ "reel_note": "presentation derivative, not the fixture: pass pictures sha1-identical before encoding; after lossy encoding compared by PSNR on rows 0-463"
 }
