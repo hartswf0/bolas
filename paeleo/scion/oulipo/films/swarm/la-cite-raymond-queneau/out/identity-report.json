@@ -1,5 +1,5 @@
 {
- "master_revision": "2d659ecc16bf5d13b47eb3729b08d40a1fb54ff9",
+ "master_revision": "90f1417b48de31c0113ca2ec2e874d1bf3f9d2ec",
  "master": {
   "path": "out/master.mp4",
   "frames": 720,
@@ -28,8 +28,8 @@
    "path": "out/edition-A.mp4",
    "dimensions": "960x464",
    "timebase": "1/24",
-   "subtitle_track": true,
-   "captions": "out/A.vtt",
+   "subtitle_streams": [],
+   "written_edition_sidecar": "out/edition-A.written-fiction.vtt",
    "streams": [
     {
      "index": 0,
@@ -48,17 +48,9 @@
      "r_frame_rate": "0/0",
      "time_base": "1/44100",
      "nb_frames": "1293"
-    },
-    {
-     "index": 2,
-     "codec_name": "mov_text",
-     "codec_type": "subtitle",
-     "r_frame_rate": "0/0",
-     "time_base": "1/1000000",
-     "nb_frames": "11"
     }
    ],
-   "bytes": 7639766,
+   "bytes": 5937432,
    "audio": {
     "integrated_lufs_aac": -23.0,
     "true_peak_dbtp_aac": -2.1,
@@ -74,8 +66,20 @@
    "path": "out/edition-B.mp4",
    "dimensions": "960x464",
    "timebase": "1/24",
-   "subtitle_track": true,
-   "captions": "out/B.vtt",
+   "subtitle_streams": [
+    {
+     "index": 2,
+     "codec_name": "mov_text",
+     "disposition": {
+      "default": 1
+     },
+     "tags": {
+      "language": "fre",
+      "handler_name": "transcript of recorded speech only"
+     }
+    }
+   ],
+   "written_edition_sidecar": "out/edition-B.written-fiction.vtt",
    "streams": [
     {
      "index": 0,
@@ -101,14 +105,14 @@
      "codec_type": "subtitle",
      "r_frame_rate": "0/0",
      "time_base": "1/1000000",
-     "nb_frames": "12"
+     "nb_frames": "3"
     }
    ],
-   "bytes": 7613285,
+   "bytes": 5928732,
    "audio": {
     "integrated_lufs_aac": -23.0,
-    "true_peak_dbtp_aac": -2.9,
-    "lra_lu": 4.8,
+    "true_peak_dbtp_aac": -3.6,
+    "lra_lu": 6.5,
     "pass": true
    }
   },
@@ -120,8 +124,20 @@
    "path": "out/edition-X.mp4",
    "dimensions": "960x464",
    "timebase": "1/24",
-   "subtitle_track": true,
-   "captions": "out/X.vtt",
+   "subtitle_streams": [
+    {
+     "index": 2,
+     "codec_name": "mov_text",
+     "disposition": {
+      "default": 1
+     },
+     "tags": {
+      "language": "fre",
+      "handler_name": "transcript of recorded speech only"
+     }
+    }
+   ],
+   "written_edition_sidecar": "out/edition-X.written-fiction.vtt",
    "streams": [
     {
      "index": 0,
@@ -147,14 +163,14 @@
      "codec_type": "subtitle",
      "r_frame_rate": "0/0",
      "time_base": "1/1000000",
-     "nb_frames": "12"
+     "nb_frames": "3"
     }
    ],
-   "bytes": 7643361,
+   "bytes": 5943280,
    "audio": {
     "integrated_lufs_aac": -23.1,
-    "true_peak_dbtp_aac": -2.1,
-    "lra_lu": 7.0,
+    "true_peak_dbtp_aac": -2.8,
+    "lra_lu": 9.5,
     "pass": true
    }
   },
@@ -166,8 +182,8 @@
    "path": "out/edition-C.mp4",
    "dimensions": "960x464",
    "timebase": "1/24",
-   "subtitle_track": false,
-   "captions": null,
+   "subtitle_streams": [],
+   "written_edition_sidecar": null,
    "streams": [
     {
      "index": 0,
@@ -188,10 +204,10 @@
      "nb_frames": "1293"
     }
    ],
-   "bytes": 7481472,
+   "bytes": 5780040,
    "audio": {
-    "integrated_lufs_aac": -23.1,
-    "true_peak_dbtp_aac": -3.9,
+    "integrated_lufs_aac": -23.0,
+    "true_peak_dbtp_aac": -3.8,
     "lra_lu": 13.2,
     "pass": true
    }
@@ -204,8 +220,8 @@
    "path": "out/control-silent.mp4",
    "dimensions": "960x464",
    "timebase": "1/24",
-   "subtitle_track": false,
-   "captions": null,
+   "subtitle_streams": [],
+   "written_edition_sidecar": null,
    "streams": [
     {
      "index": 0,
@@ -226,7 +242,7 @@
      "nb_frames": "1293"
     }
    ],
-   "bytes": 7035575,
+   "bytes": 5334453,
    "audio": {
     "decoded_samples_per_channel": 1323008,
     "max_abs_sample": 0,
@@ -292,7 +308,7 @@
     720
    ],
    "frames": 2160,
-   "bytes": 22283703,
+   "bytes": 17197631,
    "note": "90 s blind sequence: silent control, then two unlabelled passes; md5 per frame equal to the master in each segment"
   },
   "S-B-A": {
@@ -309,81 +325,8 @@
     720
    ],
    "frames": 2160,
-   "bytes": 22283703,
+   "bytes": 17197631,
    "note": "90 s blind sequence: silent control, then two unlabelled passes; md5 per frame equal to the master in each segment"
   }
- },
- "reels": {
-  "AB": {
-   "path": "assets/films/la-cite-raymond-queneau.mp4",
-   "order": "AB",
-   "duration_s": 75.0,
-   "bytes": 5038736,
-   "picture_region_frames_compared": 720,
-   "psnr_db_min": 99.0,
-   "psnr_db_mean": 99.0,
-   "psnr_db_p5": 99.0,
-   "frames_below_45db": 0,
-   "pass_psnr_ge_45": true,
-   "pass1_lufs_tp": [
-    -24.0,
-    -3.4
-   ],
-   "pass2_lufs_tp": [
-    -24.0,
-    -2.4
-   ],
-   "pass_lu_difference": 0.0,
-   "sha1_before_encoding": {
-    "order": "AB",
-    "frames_pass1": 720,
-    "frames_pass2": 720,
-    "pass1_eq_pass2": 720,
-    "pass1_eq_decoded_master": 720,
-    "of": 720,
-    "pass": true,
-    "loudness_kit_lufs_after_master_gain": {
-     "A": -24.01246511668826,
-     "B": -24.012463579513327,
-     "master_gain_db": -1.012199867101744
-    }
-   }
-  },
-  "BA": {
-   "path": "films/swarm/la-cite-raymond-queneau/out/reel-BA.mp4",
-   "order": "BA",
-   "duration_s": 75.0,
-   "bytes": 5042403,
-   "picture_region_frames_compared": 720,
-   "psnr_db_min": 99.0,
-   "psnr_db_mean": 99.0,
-   "psnr_db_p5": 99.0,
-   "frames_below_45db": 0,
-   "pass_psnr_ge_45": true,
-   "pass1_lufs_tp": [
-    -24.0,
-    -4.0
-   ],
-   "pass2_lufs_tp": [
-    -24.0,
-    -3.7
-   ],
-   "pass_lu_difference": 0.0,
-   "sha1_before_encoding": {
-    "order": "BA",
-    "frames_pass1": 720,
-    "frames_pass2": 720,
-    "pass1_eq_pass2": 720,
-    "pass1_eq_decoded_master": 720,
-    "of": 720,
-    "pass": true,
-    "loudness_kit_lufs_after_master_gain": {
-     "A": -24.01246511668826,
-     "B": -24.012463579513327,
-     "master_gain_db": -1.012199867101744
-    }
-   }
-  }
- },
- "reel_note": "presentation derivative, not the fixture: pass pictures sha1-identical before encoding; after lossy encoding compared by PSNR on rows 0-463"
+ }
 }

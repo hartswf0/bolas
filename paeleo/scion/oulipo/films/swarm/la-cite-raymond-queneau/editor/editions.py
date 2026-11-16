@@ -75,8 +75,8 @@ def speech_in(ed):
 
 def drop_crossover_if_unspoken(txt, ed):
     """repair 2: a written line at 16.0-17.5 s implies speech there; keep it only if real speech is heard in that edition."""
-    if speech_in(ed):
-        return txt
+    # the only caption allowed at the key cut is the transcript of what is actually heard (out/<ed>-speech.vtt);
+    # a written line there would put words in a voice that does not say them, so it is always dropped
     blocks = txt.split("\n\n")
     keep = [b for b in blocks if not ("-->" in b and b.split("-->")[0].strip().split("\n")[-1].startswith("00:00:16."))]
     return "\n\n".join(keep)
