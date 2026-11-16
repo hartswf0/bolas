@@ -72,7 +72,7 @@ def glow(i, k):
     return a * (1.0 + 0.005 * math.sin(2 * math.pi * (k / FPS) / 3.1 + 2 * math.pi * i / 96))
 
 # ================================================================= shots ===
-SHOTS = [dict(id="S1", k0=0, k1=191, cam="wide"), dict(id="S2", k0=192, k1=383, cam="wide"),
+SHOTS = [dict(id="S1", k0=0, k1=191, cam="wide"), dict(id="S2", k0=192, k1=383, cam="tele"),
          dict(id="S3", k0=384, k1=623, cam="key"), dict(id="S4", k0=624, k1=719, cam="wide")]
 
 def shot_of(k):
@@ -120,10 +120,20 @@ NV = np.array([math.sin(ANG), math.cos(ANG)])     # from the camera toward the b
 EYE = 1.5
 CAMS = {
     # eye level 1.5 m from our side of the road, across verge + road; horizon 0.60 H
-    "wide": dict(F=760.0 * SS, CX=ML + W2 * 0.50, CY=H2 * 0.60, CAM_S=-11.0, NOFF=8.0),
+    "wide": dict(F=760.0 * SS, CX=ML + W2 * 0.50, CY=H2 * 0.60, CAM_S=-11.0, NOFF=16.0),
     # the key set-up (approved test shot): closer, horizon low, window 16 right of centre
     "key": dict(F=610.0 * SS, CX=ML + W2 * 0.50, CY=H2 * 0.865, CAM_S=2.2, NOFF=0.0),
 }
+# r3: S2 is the same eye-level position with a 2.4x longer lens (the documentary zoom-in), centred on
+# the entrance, so the walker reads at ~65 px; horizon 0.50 H.
+TELE = 3.4
+def _tele():
+    w = CAMS["wide"]
+    p = (20.2 - w["CAM_S"]) * np.array([-math.cos(math.radians(47.0)), math.sin(math.radians(47.0))]) + \
+        (19.0 + w["NOFF"]) * np.array([math.sin(math.radians(47.0)), math.cos(math.radians(47.0))])
+    F = w["F"] * TELE
+    return dict(F=F, CX=ML + W2 * 0.50 - F * p[0] / p[1], CY=H2 * 0.50, CAM_S=w["CAM_S"], NOFF=w["NOFF"])
+CAMS["tele"] = _tele()
 C = dict(CAMS["wide"])
 
 def use_cam(name):
@@ -148,11 +158,12 @@ def push_center(cam):
 
 # ================================================================== model ===
 BAY, NBK = 3.2, 8
-GF, FL = 3.6, 3.0
+GF, FL = 3.0, 2.6
 HE = GF + 4 * FL
-RR = 4.2
+RR = 6.6          # r3: a full, tall curved zinc roof (reference): elliptical quarter, rise RR, run RN
+RN = 3.6
 DEPTH = 12.0
-WIN_W, WIN_H = 1.45, 2.3
+WIN_W, WIN_H = 1.45, 1.85
 BLOCKS = [dict(name="far", s_left=88.0, n=17.0, bay0=0),
           dict(name="mid", s_left=55.0, n=18.0, bay0=8),
           dict(name="near", s_left=22.0, n=19.0, bay0=16)]
@@ -232,7 +243,7 @@ def hand_poly(pts, jit, seed, step=10):
             out.append((x0 + (x1 - x0) * t + r.normal(0, jit), y0 + (y1 - y0) * t + r.normal(0, jit)))
     return out
 
-def warp_into(canvas, tex, src_quad, dst_quad, mask_poly=None, edge=None, seed=0, jit=0.0):
+def warp_into(canvas, tex, src_quad, dst_quad, mask_poly=None, edge=None, seed=0, jit=0.0, shadow=0.0):
     """warp an RGBA sheet onto the canvas inside a (hand-jittered) cut outline; optional 1 px cut edge."""
     xs = [p[0] for p in dst_quad]; ys = [p[1] for p in dst_quad]
     x0, y0 = max(0, int(math.floor(min(xs))) - 3), max(0, int(math.floor(min(ys))) - 3)
@@ -255,6 +266,18 @@ def warp_into(canvas, tex, src_quad, dst_quad, mask_poly=None, edge=None, seed=0
         ea = np.asarray(out.getchannel("A")).copy()
         ea = np.minimum(ea, np.asarray(m.filter(ImageFilter.MaxFilter(3))))
         out.putalpha(Image.fromarray(ea))
+    if shadow > 0:      # r3: 2-3 px soft contact shadow of the cut piece, cast down (overcast top light)
+        pad = 10
+        sa = Image.new("L", (out.width + 2 * pad, out.height + 2 * pad), 0)
+        sa.paste(out.getchannel("A"), (pad + 1, pad + 4))
+        sa = sa.filter(ImageFilter.GaussianBlur(3.0))
+        sh = Image.new("RGBA", sa.size, (28, 34, 30, 0))
+        sh.putalpha(sa.point(lambda v: int(v * shadow)))
+        sx, sy = x0 - pad, y0 - pad
+        cx0, cy0 = max(0, -sx), max(0, -sy)
+        sh = sh.crop((cx0, cy0, min(sh.width, canvas.width - sx), min(sh.height, canvas.height - sy)))
+        if sh.width > 0 and sh.height > 0:
+            canvas.alpha_composite(sh, (sx + cx0, sy + cy0))
     canvas.alpha_composite(out, (x0, y0))
 
 def to_img(a, alpha=None):
@@ -282,7 +305,7 @@ def build_facade(bi, seed):
     w, h = int(LEN * TPX), int(HE * TPX)
     off = [(0, 0), (900, 300), (300, 900)][bi]
     crop = (LOC_CLEAN[0] + off[0] // 3, LOC_CLEAN[1] + off[1] // 3, LOC_CLEAN[2] - 300 + off[0] // 3, LOC_CLEAN[3] - 300 + off[1] // 3)
-    a = load_paper("loc_blank_0001.jpg", (w, h), FACADE, 1.9, crop=crop, native=True)
+    a = load_paper("loc_blank_0001.jpg", (w, h), FACADE, 2.7, crop=crop, native=True)
     a = sheet_warp(a, seed + 5, 0.03)
     yy = np.linspace(0, 1, h)[:, None, None]
     a *= 1.0 - 0.04 * yy
@@ -366,7 +389,7 @@ def roof_strips(b, N=14):
         t0 = (math.pi / 2) * j / N
         t1 = (math.pi / 2) * (j + 1) / N
         def P(s, t):
-            return proj(s, n + RR * (1 - math.cos(t)), HE + RR * math.sin(t))
+            return proj(s, n + RN * (1 - math.cos(t)), HE + RR * math.sin(t))
         v0, v1 = 200 * (1 - j / N), 200 * (1 - (j + 1) / N)
         out.append((t0, t1, [(0, v1), (LEN * TPX, v1), (LEN * TPX, v0), (0, v0)],
                     [P(s0, t1 + 0.012), P(s1, t1 + 0.012), P(s1, t0), P(s0, t0)]))
@@ -377,7 +400,7 @@ def end_wall(b):
     pts = [(n, 0.0)]
     for j in range(25):
         t = (math.pi / 2) * j / 24
-        pts.append((n + RR * (1 - math.cos(t)), HE + RR * math.sin(t)))
+        pts.append((n + RN * (1 - math.cos(t)), HE + RR * math.sin(t)))
     pts += [(n + DEPTH, HE + RR), (n + DEPTH, 0.0)]
     return s, pts
 
@@ -385,7 +408,7 @@ def shade_roof(t):
     base = np.array([77, 91, 93], np.float32)
     hi = np.array([119, 133, 147], np.float32)
     m = math.sin(t) ** 1.6
-    sheen = math.exp(-((t - 1.05) / 0.22) ** 2) * 0.55
+    sheen = math.exp(-((t - 0.75) / 0.25) ** 2) * 0.40
     c = base * (0.88 + 0.14 * m) + (hi - base) * (0.25 * m + sheen)
     return c / base
 
@@ -394,7 +417,7 @@ def render_block(bi):
     L = Image.new("RGBA", (CW, H2), (0, 0, 0, 0))
     fac = build_facade(bi, 100 * bi)
     warp_into(L, fac, [(0, 0), (fac.width, 0), (fac.width, fac.height), (0, fac.height)], facade_quad(b),
-              edge=lighter(FACADE, 22), seed=bi, jit=0.5)
+              edge=lighter(FACADE, 30), seed=bi, jit=0.9)
     # balconies: cream card slab + dark rail standing 1.1 m proud of the wall (real depth)
     for fl in (1, 2, 3):
         for j in range(NBK):
@@ -421,7 +444,7 @@ def render_block(bi):
                 al[4:28, xx + 1:xx + 6] = 60
             ri.putalpha(Image.fromarray(al))
             warp_into(L, ri, [(0, 0), (128, 0), (128, 44), (0, 44)],
-                      [proj(sL, nf, yb + 1.05), proj(sR, nf, yb + 1.05), proj(sR, nf, yb - 0.2), proj(sL, nf, yb - 0.2)])
+                      [proj(sL, nf, yb + 1.05), proj(sR, nf, yb + 1.05), proj(sR, nf, yb - 0.2), proj(sL, nf, yb - 0.2)], shadow=0.55)
     rt = build_roof_tex(bi)
     rarr = np.asarray(rt).astype(np.float32)
     for t0, t1, src, dst in roof_strips(b):
@@ -432,22 +455,30 @@ def render_block(bi):
     ImageDraw.Draw(L).line([proj(b["s_left"], b["n"], HE + 0.02), proj(b["s_left"] - LEN, b["n"], HE + 0.02)], fill=(132, 146, 156, 255), width=2)
     dt = build_dormer_tex()
     def n_roof(y):
-        return b["n"] + RR * (1 - math.cos(math.asin(min(1.0, max(0.0, (y - HE) / RR)))))
+        return b["n"] + RN * (1 - math.cos(math.asin(min(1.0, max(0.0, (y - HE) / RR)))))
     for j in range(NBK):
         sc = b["s_left"] - (j + 0.5) * BAY
         nd = b["n"] + 0.12
-        y0 = HE + 0.30
-        y1 = y0 + 1.55
-        sL, sR = sc + 0.58, sc - 0.58
+        y0 = HE + 0.45
+        y1 = y0 + 1.75
+        sL, sR = sc + 0.70, sc - 0.70
         cheek = to_img(np.full((10, 10, 3), (150, 166, 170), np.float32))
         warp_into(L, cheek, [(0, 0), (10, 0), (10, 10), (0, 10)],
                   [proj(sR, nd, y1), proj(sR, n_roof(y1) + 0.02, y1), proj(sR, n_roof(y0) + 0.02, y0 + 0.02), proj(sR, nd, y0)])
         warp_into(L, dt, [(0, 0), (dt.width, 0), (dt.width, dt.height), (0, dt.height)],
-                  [proj(sL, nd, y1), proj(sR, nd, y1), proj(sR, nd, y0), proj(sL, nd, y0)], edge=(212, 226, 230, 255))
+                  [proj(sL, nd, y1), proj(sR, nd, y1), proj(sR, nd, y0), proj(sL, nd, y0)], edge=(212, 226, 230, 255), shadow=0.6)
         cap = to_img(np.full((10, 10, 3), (70, 84, 88), np.float32))
         yc = y1 + 0.28
         warp_into(L, cap, [(0, 0), (10, 0), (10, 10), (0, 10)],
-                  [proj(sL + 0.06, n_roof(yc), yc), proj(sR - 0.06, n_roof(yc), yc), proj(sR - 0.06, nd - 0.06, y1), proj(sL + 0.06, nd - 0.06, y1)])
+                  [proj(sL + 0.06, n_roof(yc), yc), proj(sR - 0.06, n_roof(yc), yc), proj(sR - 0.06, nd - 0.06, y1), proj(sL + 0.06, nd - 0.06, y1)], shadow=0.4)
+        # upper row: a small skylight card lying on the curve (t ~ 0.95 rad)
+        if j % 2 == 0:
+            ta, tb = 0.92, 1.12
+            def Pq(s_, t_):
+                return proj(s_, b["n"] + RN * (1 - math.cos(t_)), HE + RR * math.sin(t_))
+            sk = to_img(np.full((10, 10, 3), (96, 110, 116), np.float32))
+            warp_into(L, sk, [(0, 0), (10, 0), (10, 10), (0, 10)],
+                      [Pq(sc + 0.42, tb), Pq(sc - 0.42, tb), Pq(sc - 0.42, ta), Pq(sc + 0.42, ta)], edge=(150, 166, 172, 255), shadow=0.35)
     s, pts = end_wall(b)
     et = build_end_tex(bi)
     poly = [proj(s, n, y) for n, y in pts]
@@ -502,10 +533,10 @@ def build_ground():
 
 def build_road():
     L = Image.new("RGBA", (CW, H2), (0, 0, 0, 0))
-    s0, s1 = clip_near(-3.0, 13.6, -80.0, 260.0)
+    s0, s1 = clip_near(-7.0, 13.6, -80.0, 260.0)
     ln = s1 - s0
     PX = 12
-    w, h = int(ln * PX), int((13.6 + 3.0) * 40)
+    w, h = int(ln * PX), int((13.6 + 7.0) * 40)
     road = kraft((w, h), (101, 119, 117), 0.55, rot=90, ox=77)
     img = to_img(road)
     d = ImageDraw.Draw(img)
@@ -528,10 +559,14 @@ def build_road():
         x0 = sx * PX
         d.polygon(hand_poly([(x0, vy(-0.18)), (x0 + 3.0 * PX, vy(-0.18)), (x0 + 3.0 * PX, vy(-0.34)), (x0, vy(-0.34))], 0.4, int(sx) + 7),
                   fill=(150, 160, 158, 255))
-    d.rectangle((0, vy(-3.0) - 12, w, h), fill=(112, 122, 114, 255))
-    d.line((0, vy(-3.0) - 12, w, vy(-3.0) - 12), fill=(150, 156, 148, 255), width=2)    # kerb cut edge
+    for sx in np.arange(1.0, ln, 9.0):   # r3: a second carriageway (wide boulevard, as in the reference)
+        x0 = sx * PX
+        d.polygon(hand_poly([(x0, vy(-3.6)), (x0 + 3.0 * PX, vy(-3.6)), (x0 + 3.0 * PX, vy(-3.76)), (x0, vy(-3.76))], 0.4, int(sx) + 13),
+                  fill=(150, 160, 158, 255))
+    d.rectangle((0, vy(-7.0) - 12, w, h), fill=(112, 122, 114, 255))
+    d.line((0, vy(-7.0) - 12, w, vy(-7.0) - 12), fill=(150, 156, 148, 255), width=2)    # kerb cut edge
     src = [(0, 0), (w, 0), (w, h), (0, h)]
-    dst = [proj(s1, 13.6, 0), proj(s0, 13.6, 0), proj(s0, -3.0, 0), proj(s1, -3.0, 0)]
+    dst = [proj(s1, 13.6, 0), proj(s0, 13.6, 0), proj(s0, -7.0, 0), proj(s1, -7.0, 0)]
     warp_into(L, img, src, dst)
     return L
 
@@ -539,8 +574,8 @@ def build_verge():
     """P6: our grass verge, cut from the green paper sheet: everything in front of the road's near
     kerb, out to the frame's lower edge (the camera stands on it), with a torn top edge."""
     L = Image.new("RGBA", (CW, H2), (0, 0, 0, 0))
-    s0, s1 = clip_near(-2.9, -2.9, -80.0, 400.0)
-    edge = [proj(s, -2.9, 0) for s in np.linspace(s0, s1, 400)]
+    s0, s1 = clip_near(-6.9, -6.9, -80.0, 400.0)
+    edge = [proj(s, -6.9, 0) for s in np.linspace(s0, s1, 400)]
     edge = [(x, y) for x, y in edge if -400 < x < CW + 4000]
     r = np.random.RandomState(4)
     top = [(x, y - 1 + r.normal(0, 0.9)) for x, y in edge]
@@ -709,6 +744,10 @@ def bake_shadow(img, strength=0.32, off=(4, 5), radius=12):
     base = np.zeros((img.height, img.width, 4), np.float32)
     base[..., :3] = np.array([30, 36, 32], np.float32)
     base[..., 3] = sa * 255
+    # r3: plus a tight 1-2 px contact shadow where the cut edge stands off the sheet behind
+    tight = a.filter(ImageFilter.GaussianBlur(3)).transform(a.size, Image.AFFINE, (1, 0, -1, 0, 1, -4))
+    ta = np.asarray(tight).astype(np.float32) / 255.0 * 0.38
+    base[..., 3] = np.clip(1 - (1 - sa) * (1 - ta), 0, 1) * 255
     out = Image.fromarray(base.astype(np.uint8), "RGBA")
     out.alpha_composite(img)
     return out
@@ -735,7 +774,7 @@ def build_cam(cam):
 
 def build_all():
     os.makedirs(CACHE, exist_ok=True)
-    for cam in ("wide", "key"):
+    for cam in ("wide", "tele", "key"):
         build_cam(cam)
 
 _L = {}
@@ -980,9 +1019,9 @@ def lamp_geom():
     def P(X_, Z_, y):
         return (C["CX"] + C["F"] * X_ / Z_, C["CY"] - C["F"] * (y - EYE) / Z_)
     base = P(LAMP_X, LAMP_Z, -0.3)
-    top = P(LAMP_X, LAMP_Z, 4.3)
-    neck = [P(LAMP_X - 0.75 * (1 - math.cos(t)), LAMP_Z, 4.3 + 0.55 * math.sin(t)) for t in np.linspace(0, math.pi * 0.95, 14)]
-    head = P(LAMP_X - 1.45, LAMP_Z, 4.55)
+    top = P(LAMP_X, LAMP_Z, 3.5)
+    neck = [P(LAMP_X - 0.75 * (1 - math.cos(t)), LAMP_Z, 3.5 + 0.55 * math.sin(t)) for t in np.linspace(0, math.pi * 0.95, 14)]
+    head = P(LAMP_X - 1.45, LAMP_Z, 3.75)
     pool = P(LAMP_X - 1.45, LAMP_Z, 0.0)           # the ground straight under the head
     return base, top, neck, head, pool
 
@@ -1095,11 +1134,11 @@ def frame(k):
     # the walker: behind the hedge's gap edges, in front of the block; inside the door she is
     # clipped by the opening (the jamb occludes her) and the hall's dark takes her
     wk = None
-    if cam == "wide":
-        wl, wr, wn = draw_walker(k) if walker_pose(k) is not None else (None, None, None)
+    if cam in ("wide", "tele"):
+        wl, wr, wn = draw_walker(k, cam) if walker_pose(k) is not None else (None, None, None)
         if wl is not None:
             if k >= 346:
-                use_cam("wide")
+                use_cam(cam)
                 n = BLOCKS[2]["n"] + 0.01
                 quad = [proj(DOOR_S0, n, DOOR_H), proj(DOOR_S1, n, DOOR_H), proj(DOOR_S1, n, 0), proj(DOOR_S0, n, 0)]
                 m = Image.new("L", (CW, H2), 0)
@@ -1140,7 +1179,7 @@ def frame(k):
             g = np.exp(-(((xx - px) / rx) ** 2 + ((yy - py) / ry) ** 2)) * (yy > cy + 10)
             g2 = np.exp(-(((xx - hx) / (hw * 0.9)) ** 2 + ((yy - hy - hw * 0.25) / (hw * 0.6)) ** 2))
             warm = np.array([255, 205, 140], np.float32)
-            can += (warm * 0.22 * on) * g[..., None] * (can / 160.0)
+            can += (warm * 0.42 * on) * g[..., None] * (can / 160.0)
             can += (warm * 0.30 * on) * g2[..., None]
         la = arr(ll); la[..., :3] *= E
         lamp_layer = Image.fromarray(np.clip(la, 0, 255).astype(np.uint8), "RGBA")
@@ -1190,7 +1229,7 @@ def curtain_dx(k):
     return smooth(min(1, x * 1.25)) + 0.12 * math.sin(math.pi * min(1, x * 1.25)) * (1 - x)
 
 def window16_tex(k, lit):
-    w, h = 145 * 2, 230 * 2
+    w, h = 145 * 2, 185 * 2
     amber = np.array([240, 190, 110], np.float32)
     recess = np.array([74, 85, 86], np.float32) * 0.85
     yy, xx = np.mgrid[0:h, 0:w]

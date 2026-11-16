@@ -42,7 +42,7 @@ edl = dict(
     event_frames_changed=[],
     window_numbering="i = floor*24 + bay; floor 0 = top floor; bays 0-7 far volume, 8-15 middle, 16-23 near volume of the staggered near row (approved test-shot model); entrance door under bay 16",
     shots=[dict(id="S1", k0=0, k1=191, t=[0.0, 8.0], cam="wide", camera="lateral track left, P6 moves 0->64 px (ease-in), exposure 1.00"),
-           dict(id="S2", k0=192, k1=383, t=[8.0, 16.0], cam="wide", camera="track at half speed (P6 64->96 px) + multiplane push-in scale 1+0.18*ratio*u centred on the entrance; exposure 1.00->0.93"),
+           dict(id="S2", k0=192, k1=383, t=[8.0, 16.0], cam="tele", camera="r3: same eye-level position, 3.4x longer lens (documentary zoom) centred on the entrance so the walker is ~90-110 px tall; track at half speed (P6 64->96 px) + multiplane push-in scale 1+0.18*ratio*u; exposure 1.00->0.93"),
            dict(id="S3", k0=384, k1=623, t=[16.0, 26.0], cam="key", camera="locked, closer framing of the near block (eye level kept); exposure 0.93->0.78"),
            dict(id="S4", k0=624, k1=719, t=[26.0, 30.0], cam="wide", camera="hard cut to the wide framing, tracks right (P6 0->-220 px), lamp post P7 crosses at 1.25x; exposure 0.78->0.70")],
     plane_ratios=M.RATIOS,

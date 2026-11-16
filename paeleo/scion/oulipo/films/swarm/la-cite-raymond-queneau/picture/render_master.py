@@ -27,5 +27,5 @@ if __name__ == "__main__":
     rev = hashlib.sha1("".join(hashes).encode()).hexdigest()
     json.dump({"revision": rev, "frames": len(hashes), "format": "rgb24 960x464, sha1 per frame before encoding", "sha1": hashes},
               open(os.path.join(OUT, "master.sha1.json"), "w"), indent=0)
-    subprocess.check_call(["ffmpeg", "-hide_banner", "-loglevel", "error", "-i", mp4, "-f", "framemd5", os.path.join(OUT, "master.framemd5")])
+    subprocess.check_call(["ffmpeg", "-hide_banner", "-loglevel", "error", "-i", mp4, "-y", "-f", "framemd5", os.path.join(OUT, "master.framemd5")])
     print("revision", rev)

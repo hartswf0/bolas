@@ -90,6 +90,20 @@
    "what_it_shows": "metro train arriving at the Saint-Catherine station: arrival, doors opening, door buzzer (about 38.9-41.9 s, ~2.25 kHz), closing, departure",
    "verified_date_or_place": "licence read from Commons extmetadata LicenseShortName on 2026-11-16",
    "used_as": "Edition B fx: 0.52 s of the door buzzer, band-passed 1.8-7 kHz, on f334 (the door is released electrically)"
+  },
+  {
+   "id": "LOC:jukebox-26299",
+   "title": "French lesson no. 1 (Victor 18419, matrix B-20914, recorded 26 Oct 1917)",
+   "author": "Alexander Guy Holborn Spiers and Reinald Werrenrath (speakers); Victor Talking Machine Co.",
+   "license": "Public domain (US: sound recording published before 1923, public domain since 1 Jan 2022 under the Music Modernization Act; LoC rights statement)",
+   "license_url": "https://www.loc.gov/item/jukebox-26299/",
+   "source_url": "https://www.loc.gov/item/jukebox-26299/",
+   "file_url": "https://tile.loc.gov/storage-services/service/mbrsrs/mbrsjukebox/ucsb_victor_18419_01_b20914_01/ucsb_victor_18419_01_b20914_01.mp3",
+   "local_path": "sources/la-cite-raymond-queneau/sound-B/loc-r2/jukebox-26299.mp3",
+   "credit_line": "Library of Congress, National Jukebox",
+   "what_it_shows": "a 1917 spoken-word language-instruction record: two men's voices speaking short phrases with pauses",
+   "verified_date_or_place": "LoC item JSON read 2026-11-16: date 1917-10-26, genre 'Spoken word', rights statement: recordings published prior to 1923 entered the public domain on 1 Jan 2022",
+   "used_as": "Edition B voice (and X from 16.0 s): one 1.25 s phrase (record 3.0-4.2 s), band-limited 350-2600 Hz and saturated as a radio voice, between two squelches, on f384 (the key cut); words indistinct, so it is captioned as an indistinct radio voice"
   }
  ],
  "handmade": [
@@ -138,7 +152,7 @@
   },
   {
    "searched": "Commons: LL-Q150 (fra) Poslovitch and Estrie quarante-sept (both CC0; licences read from extmetadata)",
-   "result": "both downloads from upload.wikimedia.org rate-limited (HTTP 429) over ~25 min of spaced retries; voice stem uses a handmade radio squelch on f384 instead. build_B.py decodes and uses the word automatically if either file is placed in sound-B/raw/"
+   "result": "both downloads from upload.wikimedia.org rate-limited (HTTP 429) over ~25 min of spaced retries; voice stem uses a real recorded voice from the Library of Congress National Jukebox (1917, PD) on f384 instead, words indistinct. build_B.py decodes and uses the word automatically if either file is placed in sound-B/raw/"
   }
  ]
 }

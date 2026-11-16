@@ -65,18 +65,35 @@ def probe(path):
     return json.loads(r.stdout)["streams"]
 
 
+FICTION_X = ("NOTE FICTION: written edition X (voice-crossover diagnostic). Edition A's written lines before 16.0 s, "
+             "edition B's from 16.0 s. The model and every line are invented; captions are written text, not transcripts of recorded speech.")
+
+
+def speech_in(ed):
+    return has_cues(os.path.join(OUT, f"{ed}-speech.vtt"))
+
+
+def drop_crossover_if_unspoken(txt, ed):
+    """repair 2: a written line at 16.0-17.5 s implies speech there; keep it only if real speech is heard in that edition."""
+    if speech_in(ed):
+        return txt
+    blocks = txt.split("\n\n")
+    keep = [b for b in blocks if not ("-->" in b and b.split("-->")[0].strip().split("\n")[-1].startswith("00:00:16."))]
+    return "\n\n".join(keep)
+
+
 def write_x_vtt():
     """X carries A's captions before the key cut and B's from it (the voice crossover)."""
     a = open(os.path.join(SW, "sound-A", "A.vtt"), encoding="utf-8").read().split("\n\n")
     b = open(os.path.join(SW, "sound-B", "B.vtt"), encoding="utf-8").read().split("\n\n")
-    keep = ["WEBVTT\nKind: captions\nLanguage: fr", "NOTE Edition X (voice crossover diagnostic): A's captions before 16.0 s, B's from 16.0 s; A's music, fx and amb throughout."]
+    keep = ["WEBVTT\nKind: captions\nLanguage: fr", FICTION_X]
     for blk in a:
         if "-->" in blk and blk.split("-->")[0].strip().split("\n")[-1] < "00:00:16.000":
             keep.append(blk.strip())
     for blk in b:
         if "-->" in blk and blk.split("-->")[0].strip().split("\n")[-1] >= "00:00:16.000":
             keep.append(blk.strip())
-    open(os.path.join(OUT, "X.vtt"), "w", encoding="utf-8").write("\n\n".join(keep) + "\n")
+    open(os.path.join(OUT, "X.vtt"), "w", encoding="utf-8").write(drop_crossover_if_unspoken("\n\n".join(keep) + "\n", "X"))
 
 
 def has_cues(p):
@@ -84,27 +101,29 @@ def has_cues(p):
 
 
 def attach(ed, wav, vtt, dst):
-    """Subtitle streams: (1) speech transcript, only if real speech is heard; (2) the written edition, labelled fiction."""
+    """repair 2: the mp4 carries ONLY a transcript of real recorded speech (mov_text), when such speech is heard.
+    The written editions (fiction) are NOT muxed: mp4/mov_text cannot keep a subtitle track non-default or titled
+    (ffmpeg's mov muxer writes default=1 and drops the title), so they ship as labelled sidecar files instead."""
     cmd = ["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-i", MASTER, "-i", wav]
-    subs = []
     sp = os.path.join(OUT, f"{ed}-speech.vtt")
-    if has_cues(sp):
-        subs.append((sp, "speech transcript (recorded speech only)"))
-    if vtt:
-        subs.append((vtt, "written edition (fiction; not speech)"))
-    for p, _ in subs:
-        cmd += ["-i", p]
-    cmd += ["-map", "0:v", "-map", "1:a"]
-    for j in range(len(subs)):
-        cmd += ["-map", str(2 + j)]
+    has = has_cues(sp)
+    if has:
+        cmd += ["-i", sp]
+    cmd += ["-map", "0:v", "-map", "1:a"] + (["-map", "2"] if has else [])
     cmd += ["-c:v", "copy", "-c:a", "aac", "-b:a", "160k"]
-    if subs:
-        cmd += ["-c:s", "mov_text"]
-        for j, (_, title) in enumerate(subs):
-            cmd += [f"-metadata:s:s:{j}", "language=fre", f"-metadata:s:s:{j}", f"title={title}",
-                    f"-disposition:s:{j}", "default" if j == 0 and "speech" in title else "0"]
+    if has:
+        cmd += ["-c:s", "mov_text", "-metadata:s:s:0", "language=fre",
+                "-metadata:s:s:0", "handler_name=transcript of recorded speech only"]
     cmd += ["-movflags", "+faststart", dst]
     run(cmd)
+    if vtt:   # sidecar: the written edition, fiction-labelled in its name and its first NOTE
+        shutil.copy(vtt, dst[:-4] + ".written-fiction.vtt")
+
+
+def subtitle_streams(path):
+    r = run(["ffprobe", "-v", "error", "-select_streams", "s", "-show_entries", "stream=index,codec_name:stream_disposition=default:stream_tags",
+             "-of", "json", path])
+    return json.loads(r.stdout).get("streams", [])
 
 
 def silent_check(path):
@@ -117,7 +136,9 @@ def main():
     sha = json.load(open(os.path.join(OUT, "master.sha1.json")))
     rev = sha["revision"]
     for v in ("A", "B"):
-        shutil.copy(os.path.join(SW, f"sound-{v}", f"{v}.vtt"), os.path.join(OUT, f"{v}.vtt"))
+        txt = open(os.path.join(SW, f"sound-{v}", f"{v}.vtt"), encoding="utf-8").read()
+        assert "NOTE FICTION" in txt, v
+        open(os.path.join(OUT, f"{v}.vtt"), "w", encoding="utf-8").write(drop_crossover_if_unspoken(txt, v))
     write_x_vtt()
     mhead, mrows = master_rows()
     mfresh_head, mfresh = framemd5(MASTER)
@@ -133,7 +154,8 @@ def main():
         head, rows = framemd5(dst)
         c = compare(rows, mrows)
         c.update({"path": os.path.relpath(dst, SW), "dimensions": head.get("dimensions 0"), "timebase": head.get("tb 0"),
-                  "subtitle_track": vtt is not None, "captions": os.path.relpath(vtt, SW) if vtt else None,
+                  "subtitle_streams": subtitle_streams(dst),
+                  "written_edition_sidecar": os.path.relpath(dst[:-4] + ".written-fiction.vtt", SW) if vtt else None,
                   "streams": probe(dst), "bytes": os.path.getsize(dst)})
         if ed == "silent":
             c["audio"] = silent_check(dst)

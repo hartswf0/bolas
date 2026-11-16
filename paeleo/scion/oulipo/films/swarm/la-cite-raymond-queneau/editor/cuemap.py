@@ -139,11 +139,11 @@ def main():
     env = np.abs(seg); thr = 0.1 * env.max() if env.max() > 0 else 1
     on_ms = round((int(np.argmax(env > thr)) / RATE + 15.9 - 16.0) * 1000, 1) if env.max() > 0 else None
     k384 = [c for c in json.load(open(os.path.join(SW, "sound-B", "cues-B.json"))) if c["frame"] == 384 and c.get("stem") in ("voice", None)]
-    real = [c for c in k384 if str(c.get("source_ledger_id", "")).startswith("LL:")]
+    real = [c for c in k384 if str(c.get("source_ledger_id", "")).startswith(("LL:", "LOC:jukebox"))]
     out["checks"]["B_crossover_real_speech"] = {"sources_on_f384": [c.get("source_ledger_id") for c in k384], "real_speech": bool(real),
                                                 "voice_onset_ms_from_16.0": on_ms, "energy_fraction_300_3000_hz": round(band, 3),
                                                 "pass": bool(real) and on_ms is not None and abs(on_ms) <= 42,
-                                                "note": "intelligibility itself is a listening judgement; this checks the source is a real speech recording, its onset and its band"}
+                                                "note": "intelligibility itself is a listening judgement; this checks the source is a real speech recording (Lingua Libre word, or the LoC 1917 spoken-word record, captioned as indistinct), its onset and its band"}
     ok_all &= out["checks"]["B_crossover_real_speech"]["pass"]
     ok_all &= passA and passB
     out["realignment"] = [

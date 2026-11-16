@@ -1,5 +1,5 @@
 {
- "master_revision": "2d659ecc16bf5d13b47eb3729b08d40a1fb54ff9",
+ "master_revision": "90f1417b48de31c0113ca2ec2e874d1bf3f9d2ec",
  "edl": "picture/edl.json",
  "editions": {
   "A": {
@@ -1022,13 +1022,13 @@
      "cue_frame_minus_edl_frame": 0
     },
     {
-     "sound_event": "radio squelch opening (fallback: 'quarante-sept' recording not obtained)",
-     "source": "HM:squelch",
+     "sound_event": "radio voice, a man speaking, words indistinct (300-3000 Hz, saturated)",
+     "source": "LOC:jukebox-26299",
      "picture_event_id": "win47_on",
-     "t_sound": 16.0,
+     "t_sound": 16.05,
      "cue_frame": 384,
-     "offset_ms_declared": 0.0,
-     "offset_ms_from_cue_frame": 0.0,
+     "offset_ms_declared": 50.0,
+     "offset_ms_from_cue_frame": 50.0,
      "edl_event": "win47_on",
      "edl_frame": 384,
      "cue_frame_minus_edl_frame": 0
@@ -1285,7 +1285,7 @@
     "amb": -240.0
    },
    "B": {
-    "voice": -14.3,
+    "voice": -10.1,
     "music": -240.0,
     "fx": -240.0,
     "amb": -240.0
@@ -1298,13 +1298,13 @@
   },
   "B_crossover_real_speech": {
    "sources_on_f384": [
-    "HM:squelch"
+    "LOC:jukebox-26299"
    ],
-   "real_speech": false,
-   "voice_onset_ms_from_16.0": 0.5,
-   "energy_fraction_300_3000_hz": 0.86,
-   "pass": false,
-   "note": "intelligibility itself is a listening judgement; this checks the source is a real speech recording, its onset and its band"
+   "real_speech": true,
+   "voice_onset_ms_from_16.0": 0.7,
+   "energy_fraction_300_3000_hz": 0.978,
+   "pass": true,
+   "note": "intelligibility itself is a listening judgement; this checks the source is a real speech recording (Lingua Libre word, or the LoC 1917 spoken-word record, captioned as indistinct), its onset and its band"
   }
  },
  "realignment": [
@@ -1324,5 +1324,5 @@
    "picture_retimed": false
   }
  ],
- "pass": false
+ "pass": true
 }

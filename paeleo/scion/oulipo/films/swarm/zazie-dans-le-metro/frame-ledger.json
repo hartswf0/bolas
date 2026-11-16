@@ -124,7 +124,7 @@
 "451"
 ],
 [
-295.5,
+295.0,
 "452"
 ],
 [
@@ -146,7 +146,7 @@
 ],
 "measured_298": [
 [
-168.0,
+167.5,
 "451"
 ],
 [
@@ -158,12 +158,12 @@
 "452"
 ],
 [
-360.5,
+360.0,
 "450"
 ],
 [
 424.0,
-"451"
+"450"
 ],
 [
 488.0,
@@ -201,6 +201,69 @@
 "cheek_raise_px_720": 11.0,
 "ok": true
 },
+"A3_clichy_tram_visible": {
+"window": "f192-239",
+"min_area_frac": 0.1043,
+"max_area_frac": 0.1346,
+"at_f192": 0.1043,
+"rule": ">= 0.08 of the picture, outside the puppet alpha, from f192",
+"shows": "tram side: windows, the ST-DENIS route board, lamp, undercarriage (front platform behind her head)",
+"ok": true
+},
+"A6_chatelet_tram": {
+"card": "V2 (recut along the outline, wheels + platform)",
+"x": 425,
+"top": 162,
+"in_frame_frac": 0.538,
+"wheel_line_y": 458.0,
+"ground_y": 460,
+"door_x": 495,
+"ok": true
+},
+"A6_queue_people": {
+"window": "f304-325",
+"front_row_people_min": 7,
+"lean_deg": [
+4.0,
+5.2,
+6.4,
+4.0,
+5.2,
+6.4,
+5.5
+],
+"legs_px": {
+"front": [
+16,
+24,
+12,
+28,
+18,
+22,
+14
+],
+"back": [
+22,
+14,
+26,
+12,
+20,
+16,
+24
+]
+},
+"ok": true
+},
+"plaque_chatelet_clear": {
+"plaque_rect": [
+11,
+8,
+181,
+96
+],
+"frames_overlapping": 0,
+"ok": true
+},
 "AB_shared_0_191": {
 "max_mean_abs_diff": 0.0,
 "ok": true
@@ -229,11 +292,11 @@
 "film 8.1 s": {
 "head_w": 0.526,
 "crown_y": 0.213,
-"p5": 24.7,
-"p50": 90.0,
+"p5": 18.0,
+"p50": 86.3,
 "p95": 136.7,
 "over235": 0.0,
-"plate_sat": 29.0,
+"plate_sat": 32.5,
 "hair_mean": "#4e3221",
 "dE_hair": 5.2,
 "skin_mean": "#b56d4b",
@@ -263,15 +326,7 @@
 "decay_ok": true
 },
 "S8_energy_peak": 439.5580681113379,
-"S8_energy_end": 50.92195865532239,
-"S3_S4_repair1": {
-"solver": "s3_simulate, one HairSolver through the cut, no hold",
-"energy_peak": 486.34963101801117,
-"energy_1s_after_gust_f90": 12.356431657775405,
-"ratio": 0.02540647893967006,
-"decay_ok": true,
-"note": "test_shot entry is U3 r3 (with the old hold), kept for reference"
-}
+"S8_energy_end": 50.92195865532239
 },
 "A": [
 {
@@ -12716,7 +12771,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -12724,7 +12779,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -12732,7 +12787,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -12740,7 +12795,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -12748,7 +12803,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -12756,7 +12811,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -12764,7 +12819,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -12772,7 +12827,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -12780,7 +12835,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -12788,7 +12843,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -12796,7 +12851,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -12804,7 +12859,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -12812,7 +12867,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -12820,7 +12875,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -12843,7 +12898,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -12851,7 +12906,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -12859,7 +12914,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -12867,7 +12922,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -12875,7 +12930,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -12883,7 +12938,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -12891,7 +12946,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -12899,7 +12954,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -12907,7 +12962,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -12915,7 +12970,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -12923,7 +12978,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -12931,7 +12986,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -12939,7 +12994,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -12947,7 +13002,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -12970,7 +13025,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -12978,7 +13033,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -12986,7 +13041,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -12994,7 +13049,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -13002,7 +13057,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -13010,7 +13065,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -13018,7 +13073,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -13026,7 +13081,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -13034,7 +13089,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -13042,7 +13097,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -13050,7 +13105,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -13058,7 +13113,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -13066,7 +13121,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -13074,7 +13129,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -13097,7 +13152,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -13105,7 +13160,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -13113,7 +13168,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -13121,7 +13176,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -13129,7 +13184,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -13137,7 +13192,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -13145,7 +13200,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -13153,7 +13208,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -13161,7 +13216,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -13169,7 +13224,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -13177,7 +13232,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -13185,7 +13240,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -13193,7 +13248,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -13201,7 +13256,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -13224,7 +13279,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -13232,7 +13287,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -13240,7 +13295,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -13248,7 +13303,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -13256,7 +13311,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -13264,7 +13319,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -13272,7 +13327,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -13280,7 +13335,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -13288,7 +13343,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -13296,7 +13351,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -13304,7 +13359,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -13312,7 +13367,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -13320,7 +13375,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -13328,7 +13383,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -13351,7 +13406,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -13359,7 +13414,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -13367,7 +13422,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -13375,7 +13430,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -13383,7 +13438,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -13391,7 +13446,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -13399,7 +13454,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -13407,7 +13462,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -13415,7 +13470,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -13423,7 +13478,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -13431,7 +13486,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -13439,7 +13494,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -13447,7 +13502,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -13455,7 +13510,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -13478,7 +13533,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -13486,7 +13541,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -13494,7 +13549,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -13502,7 +13557,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -13510,7 +13565,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -13518,7 +13573,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -13526,7 +13581,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -13534,7 +13589,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -13542,7 +13597,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -13550,7 +13605,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -13558,7 +13613,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -13566,7 +13621,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -13574,7 +13629,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -13582,7 +13637,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -13605,7 +13660,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -13613,7 +13668,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -13621,7 +13676,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -13629,7 +13684,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -13637,7 +13692,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -13645,7 +13700,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -13653,7 +13708,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -13661,7 +13716,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -13669,7 +13724,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -13677,7 +13732,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -13685,7 +13740,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -13693,7 +13748,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -13701,7 +13756,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -13709,7 +13764,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -13732,7 +13787,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -13740,7 +13795,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -13748,7 +13803,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -13756,7 +13811,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -13764,7 +13819,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -13772,7 +13827,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -13780,7 +13835,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -13788,7 +13843,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -13796,7 +13851,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -13804,7 +13859,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -13812,7 +13867,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -13820,7 +13875,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -13828,7 +13883,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -13836,7 +13891,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -13859,7 +13914,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -13867,7 +13922,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -13875,7 +13930,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -13883,7 +13938,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -13891,7 +13946,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -13899,7 +13954,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -13907,7 +13962,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -13915,7 +13970,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -13923,7 +13978,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -13931,7 +13986,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -13939,7 +13994,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -13947,7 +14002,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -13955,7 +14010,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -13963,7 +14018,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -13986,7 +14041,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -13994,7 +14049,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -14002,7 +14057,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -14010,7 +14065,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -14018,7 +14073,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -14026,7 +14081,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -14034,7 +14089,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -14042,7 +14097,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -14050,7 +14105,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -14058,7 +14113,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -14066,7 +14121,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -14074,7 +14129,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -14082,7 +14137,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -14090,7 +14145,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -14113,7 +14168,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -14121,7 +14176,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -14129,7 +14184,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -14137,7 +14192,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -14145,7 +14200,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -14153,7 +14208,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -14161,7 +14216,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -14169,7 +14224,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -14177,7 +14232,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -14185,7 +14240,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -14193,7 +14248,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -14201,7 +14256,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -14209,7 +14264,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -14217,7 +14272,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -14249,7 +14304,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -14257,7 +14312,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -14265,7 +14320,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -14273,7 +14328,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -14281,7 +14336,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -14289,7 +14344,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -14297,7 +14352,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -14305,7 +14360,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -14313,7 +14368,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -14321,7 +14376,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -14329,7 +14384,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -14337,7 +14392,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -14345,7 +14400,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -14353,7 +14408,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -14385,7 +14440,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -14393,7 +14448,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -14401,7 +14456,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -14409,7 +14464,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -14417,7 +14472,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -14425,7 +14480,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -14433,7 +14488,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -14441,7 +14496,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -14449,7 +14504,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -14457,7 +14512,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -14465,7 +14520,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -14473,7 +14528,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -14481,7 +14536,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -14489,7 +14544,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -14521,7 +14576,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -14529,7 +14584,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -14537,7 +14592,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -14545,7 +14600,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -14553,7 +14608,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -14561,7 +14616,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -14569,7 +14624,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -14577,7 +14632,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -14585,7 +14640,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -14593,7 +14648,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -14601,7 +14656,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -14609,7 +14664,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -14617,7 +14672,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -14625,7 +14680,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -14657,7 +14712,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -14665,7 +14720,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -14673,7 +14728,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -14681,7 +14736,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -14689,7 +14744,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -14697,7 +14752,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -14705,7 +14760,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -14713,7 +14768,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -14721,7 +14776,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -14729,7 +14784,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -14737,7 +14792,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -14745,7 +14800,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -14753,7 +14808,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -14761,7 +14816,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -14793,7 +14848,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -14801,7 +14856,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -14809,7 +14864,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -14817,7 +14872,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -14825,7 +14880,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -14833,7 +14888,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -14841,7 +14896,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -14849,7 +14904,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -14857,7 +14912,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -14865,7 +14920,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -14873,7 +14928,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -14881,7 +14936,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -14889,7 +14944,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -14897,7 +14952,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -14929,7 +14984,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -14937,7 +14992,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -14945,7 +15000,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -14953,7 +15008,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -14961,7 +15016,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -14969,7 +15024,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -14977,7 +15032,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -14985,7 +15040,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -14993,7 +15048,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -15001,7 +15056,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -15009,7 +15064,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -15017,7 +15072,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -15025,7 +15080,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -15033,7 +15088,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -15065,7 +15120,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -15073,7 +15128,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -15081,7 +15136,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -15089,7 +15144,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -15097,7 +15152,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -15105,7 +15160,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -15113,7 +15168,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -15121,7 +15176,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -15129,7 +15184,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -15137,7 +15192,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -15145,7 +15200,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -15153,7 +15208,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -15161,7 +15216,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -15169,7 +15224,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -15201,7 +15256,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -15209,7 +15264,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -15217,7 +15272,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -15225,7 +15280,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -15233,7 +15288,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -15241,7 +15296,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -15249,7 +15304,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -15257,7 +15312,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -15265,7 +15320,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -15273,7 +15328,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -15281,7 +15336,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -15289,7 +15344,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -15297,7 +15352,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -15305,7 +15360,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -15337,7 +15392,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -15345,7 +15400,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -15353,7 +15408,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -15361,7 +15416,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -15369,7 +15424,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -15377,7 +15432,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -15385,7 +15440,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -15393,7 +15448,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -15401,7 +15456,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -15409,7 +15464,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -15417,7 +15472,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -15425,7 +15480,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -15433,7 +15488,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -15441,7 +15496,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -15473,7 +15528,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -15481,7 +15536,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -15489,7 +15544,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -15497,7 +15552,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -15505,7 +15560,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -15513,7 +15568,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -15521,7 +15576,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -15529,7 +15584,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -15537,7 +15592,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -15545,7 +15600,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -15553,7 +15608,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -15561,7 +15616,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -15569,7 +15624,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -15577,7 +15632,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -15609,7 +15664,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -15617,7 +15672,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -15625,7 +15680,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -15633,7 +15688,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -15641,7 +15696,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -15649,7 +15704,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -15657,7 +15712,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -15665,7 +15720,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -15673,7 +15728,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -15681,7 +15736,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -15689,7 +15744,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -15697,7 +15752,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -15705,7 +15760,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -15713,7 +15768,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -15745,7 +15800,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -15753,7 +15808,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -15761,7 +15816,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -15769,7 +15824,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -15777,7 +15832,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -15785,7 +15840,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -15793,7 +15848,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -15801,7 +15856,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -15809,7 +15864,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -15817,7 +15872,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -15825,7 +15880,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -15833,7 +15888,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -15841,7 +15896,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -15849,7 +15904,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -15881,7 +15936,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -15889,7 +15944,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -15897,7 +15952,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -15905,7 +15960,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -15913,7 +15968,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -15921,7 +15976,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -15929,7 +15984,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -15937,7 +15992,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -15945,7 +16000,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -15953,7 +16008,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -15961,7 +16016,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -15969,7 +16024,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -15977,7 +16032,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -15985,7 +16040,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -16017,7 +16072,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T9",
@@ -16025,7 +16080,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -16033,7 +16088,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -16041,7 +16096,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -16049,7 +16104,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -16057,7 +16112,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -16065,7 +16120,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -16073,7 +16128,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -16081,7 +16136,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -16089,7 +16144,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -16097,7 +16152,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -16105,7 +16160,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -16113,7 +16168,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -16121,7 +16176,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -16153,7 +16208,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T9",
@@ -16161,7 +16216,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -16169,7 +16224,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -16177,7 +16232,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -16185,7 +16240,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -16193,7 +16248,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -16201,7 +16256,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -16209,7 +16264,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -16217,7 +16272,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -16225,7 +16280,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -16233,7 +16288,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -16241,7 +16296,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -16249,7 +16304,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -16257,7 +16312,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -16289,7 +16344,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 4.5,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T9",
@@ -16297,7 +16352,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T10",
@@ -16305,7 +16360,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -16313,7 +16368,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -16321,7 +16376,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -16329,7 +16384,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -16337,7 +16392,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -16345,7 +16400,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -16353,7 +16408,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -16361,7 +16416,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -16369,7 +16424,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -16377,7 +16432,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -16385,7 +16440,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -16393,7 +16448,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -16425,7 +16480,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 4.6,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T9",
@@ -16433,7 +16488,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T10",
@@ -16441,7 +16496,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -16449,7 +16504,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -16457,7 +16512,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -16465,7 +16520,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -16473,7 +16528,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -16481,7 +16536,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T2",
@@ -16489,7 +16544,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -16497,7 +16552,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -16505,7 +16560,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -16513,7 +16568,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -16521,7 +16576,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -16529,7 +16584,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -16561,7 +16616,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 1.6,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T9",
@@ -16569,7 +16624,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 4.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T10",
@@ -16577,7 +16632,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T11",
@@ -16585,7 +16640,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -16593,7 +16648,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -16601,7 +16656,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -16609,7 +16664,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -16617,7 +16672,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T2",
@@ -16625,7 +16680,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -16633,7 +16688,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -16641,7 +16696,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -16649,7 +16704,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -16657,7 +16712,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -16665,7 +16720,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -16697,7 +16752,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": -1.4,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T9",
@@ -16705,7 +16760,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 4.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T10",
@@ -16713,7 +16768,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T11",
@@ -16721,7 +16776,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -16729,7 +16784,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -16737,7 +16792,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -16745,7 +16800,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -16753,7 +16808,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 3.1,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T2",
@@ -16761,7 +16816,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T3",
@@ -16769,7 +16824,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -16777,7 +16832,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -16785,7 +16840,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -16793,7 +16848,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -16801,7 +16856,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -16833,7 +16888,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": -2.5,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T9",
@@ -16841,7 +16896,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 1.5,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T10",
@@ -16849,7 +16904,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 3.5,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T11",
@@ -16857,7 +16912,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T12",
@@ -16865,7 +16920,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -16873,7 +16928,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -16881,7 +16936,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -16889,7 +16944,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 3.2,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T2",
@@ -16897,7 +16952,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T3",
@@ -16905,7 +16960,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -16913,7 +16968,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -16921,7 +16976,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -16929,7 +16984,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -16937,7 +16992,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -16969,7 +17024,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": -1.6,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T9",
@@ -16977,7 +17032,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": -1.2,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T10",
@@ -16985,7 +17040,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 3.5,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T11",
@@ -16993,7 +17048,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T12",
@@ -17001,7 +17056,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -17009,7 +17064,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -17017,7 +17072,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -17025,7 +17080,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": 1.1,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T2",
@@ -17033,7 +17088,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 2.8,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T3",
@@ -17041,7 +17096,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T4",
@@ -17049,7 +17104,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -17057,7 +17112,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -17065,7 +17120,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -17073,7 +17128,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -17105,7 +17160,7 @@
 "cx": 168,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T9",
@@ -17113,7 +17168,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": -2.2,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T10",
@@ -17121,7 +17176,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 1.3,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T11",
@@ -17129,7 +17184,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 3.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T12",
@@ -17137,7 +17192,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T13",
@@ -17145,7 +17200,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -17153,7 +17208,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -17161,7 +17216,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": -1.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T2",
@@ -17169,7 +17224,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 2.8,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T3",
@@ -17177,7 +17232,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T4",
@@ -17185,7 +17240,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -17193,7 +17248,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -17201,7 +17256,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -17209,7 +17264,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -17249,7 +17304,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": -1.4,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T10",
@@ -17257,7 +17312,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": -1.1,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T11",
@@ -17265,7 +17320,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 3.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T12",
@@ -17273,7 +17328,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T13",
@@ -17281,7 +17336,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -17289,7 +17344,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -17297,7 +17352,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": -1.8,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T2",
@@ -17305,7 +17360,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": 1.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T3",
@@ -17313,7 +17368,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 2.4,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T4",
@@ -17321,7 +17376,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T5",
@@ -17329,7 +17384,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -17337,7 +17392,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -17345,7 +17400,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -17385,7 +17440,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T10",
@@ -17393,7 +17448,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": -1.9,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T11",
@@ -17401,7 +17456,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 1.1,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T12",
@@ -17409,7 +17464,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 2.4,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T13",
@@ -17417,7 +17472,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T14",
@@ -17425,7 +17480,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -17433,7 +17488,7 @@
 "cx": 200,
 "base_y": 402.0,
 "rot": -1.1,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T2",
@@ -17441,7 +17496,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": -0.9,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T3",
@@ -17449,7 +17504,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 2.5,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T4",
@@ -17457,7 +17512,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T5",
@@ -17465,7 +17520,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -17473,7 +17528,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -17481,7 +17536,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -17521,7 +17576,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 1.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T10",
@@ -17529,7 +17584,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": -1.3,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T11",
@@ -17537,7 +17592,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": -0.9,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T12",
@@ -17545,7 +17600,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 2.5,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T13",
@@ -17553,7 +17608,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T14",
@@ -17561,7 +17616,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -17577,7 +17632,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": -1.6,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T3",
@@ -17585,7 +17640,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.9,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T4",
@@ -17593,7 +17648,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 2.1,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T5",
@@ -17601,7 +17656,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T6",
@@ -17609,7 +17664,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -17617,7 +17672,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -17657,7 +17712,7 @@
 "cx": 232,
 "base_y": 452.0,
 "rot": 1.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T10",
@@ -17665,7 +17720,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T11",
@@ -17673,7 +17728,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": -1.7,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T12",
@@ -17681,7 +17736,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.9,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T13",
@@ -17689,7 +17744,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 1.9,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T14",
@@ -17697,7 +17752,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T1",
@@ -17713,7 +17768,7 @@
 "cx": 264,
 "base_y": 402.0,
 "rot": -1.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T3",
@@ -17721,7 +17776,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": -0.8,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T4",
@@ -17729,7 +17784,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 2.1,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T5",
@@ -17737,7 +17792,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T6",
@@ -17745,7 +17800,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -17753,7 +17808,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -17801,7 +17856,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.9,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T11",
@@ -17809,7 +17864,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": -1.1,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T12",
@@ -17817,7 +17872,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": -0.8,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T13",
@@ -17825,7 +17880,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 2.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T14",
@@ -17833,7 +17888,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T1",
@@ -17857,7 +17912,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": -1.4,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T4",
@@ -17865,7 +17920,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.8,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T5",
@@ -17873,7 +17928,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 1.7,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T6",
@@ -17881,7 +17936,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 },
 {
 "id": "T7",
@@ -17889,7 +17944,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -17937,7 +17992,7 @@
 "cx": 296,
 "base_y": 452.0,
 "rot": 0.9,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T11",
@@ -17945,7 +18000,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T12",
@@ -17953,7 +18008,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": -1.4,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T13",
@@ -17961,7 +18016,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.7,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T14",
@@ -17969,7 +18024,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 1.4,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T1",
@@ -17993,7 +18048,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": -0.9,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T4",
@@ -18001,7 +18056,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": -0.6,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T5",
@@ -18009,7 +18064,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 1.7,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T6",
@@ -18017,7 +18072,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T7",
@@ -18025,7 +18080,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -18081,7 +18136,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.7,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T12",
@@ -18089,7 +18144,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": -0.9,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T13",
@@ -18097,7 +18152,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": -0.6,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T14",
@@ -18105,7 +18160,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 1.4,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T1",
@@ -18129,7 +18184,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T4",
@@ -18137,7 +18192,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": -1.2,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T5",
@@ -18145,7 +18200,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.6,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T6",
@@ -18153,7 +18208,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 1.3,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T7",
@@ -18161,7 +18216,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "queue"
+"reading": "queue_person"
 }
 ],
 "tile_count": 14,
@@ -18217,7 +18272,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.7,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T12",
@@ -18225,7 +18280,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T13",
@@ -18233,7 +18288,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": -1.1,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T14",
@@ -18241,7 +18296,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.5,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T1",
@@ -18265,7 +18320,7 @@
 "cx": 328,
 "base_y": 402.0,
 "rot": 0.6,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T4",
@@ -18273,7 +18328,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": -0.7,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T5",
@@ -18281,7 +18336,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": -0.5,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T6",
@@ -18289,7 +18344,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 1.4,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T7",
@@ -18297,7 +18352,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 }
 ],
 "tile_count": 14,
@@ -18353,7 +18408,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": 0.3,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T12",
@@ -18361,7 +18416,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.6,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T13",
@@ -18369,7 +18424,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": -0.7,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T14",
@@ -18377,7 +18432,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": -0.4,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T1",
@@ -18409,7 +18464,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T5",
@@ -18417,7 +18472,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": -1.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T6",
@@ -18425,7 +18480,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.5,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T7",
@@ -18433,7 +18488,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 1.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 }
 ],
 "tile_count": 14,
@@ -18489,7 +18544,7 @@
 "cx": 360,
 "base_y": 452.0,
 "rot": -0.2,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T12",
@@ -18497,7 +18552,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.6,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T13",
@@ -18505,7 +18560,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T14",
@@ -18513,7 +18568,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": -0.8,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T1",
@@ -18545,7 +18600,7 @@
 "cx": 392,
 "base_y": 402.0,
 "rot": 0.5,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T5",
@@ -18553,7 +18608,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": -0.6,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T6",
@@ -18561,7 +18616,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": -0.4,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T7",
@@ -18569,7 +18624,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 1.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 }
 ],
 "tile_count": 14,
@@ -18633,7 +18688,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": 0.2,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T13",
@@ -18641,7 +18696,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.5,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T14",
@@ -18649,7 +18704,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": -0.5,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T1",
@@ -18689,7 +18744,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T6",
@@ -18697,7 +18752,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": -0.8,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T7",
@@ -18705,7 +18760,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.4,
-"reading": "obstacle"
+"reading": "obstacle_person"
 }
 ],
 "tile_count": 14,
@@ -18769,7 +18824,7 @@
 "cx": 424,
 "base_y": 452.0,
 "rot": -0.2,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T13",
@@ -18777,7 +18832,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.5,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T14",
@@ -18785,7 +18840,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T1",
@@ -18825,7 +18880,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.4,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T6",
@@ -18833,7 +18888,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": -0.5,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T7",
@@ -18841,7 +18896,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": -0.3,
-"reading": "obstacle"
+"reading": "obstacle_person"
 }
 ],
 "tile_count": 14,
@@ -18913,7 +18968,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": 0.2,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T14",
@@ -18921,7 +18976,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.4,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T1",
@@ -18961,7 +19016,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.4,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T6",
@@ -18969,7 +19024,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T7",
@@ -18977,7 +19032,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": -0.6,
-"reading": "obstacle"
+"reading": "obstacle_person"
 }
 ],
 "tile_count": 14,
@@ -19049,7 +19104,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": -0.2,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T14",
@@ -19057,7 +19112,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.4,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T1",
@@ -19097,7 +19152,7 @@
 "cx": 456,
 "base_y": 402.0,
 "rot": 0.1,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T6",
@@ -19105,7 +19160,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.3,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T7",
@@ -19113,7 +19168,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": -0.4,
-"reading": "obstacle"
+"reading": "obstacle_person"
 }
 ],
 "tile_count": 14,
@@ -19185,7 +19240,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": -0.3,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T14",
@@ -19193,7 +19248,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": 0.1,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T1",
@@ -19241,7 +19296,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.3,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T7",
@@ -19249,7 +19304,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.0,
-"reading": "obstacle"
+"reading": "obstacle_person"
 }
 ],
 "tile_count": 14,
@@ -19321,7 +19376,7 @@
 "cx": 488,
 "base_y": 452.0,
 "rot": -0.2,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T14",
@@ -19329,7 +19384,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": -0.1,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T1",
@@ -19377,7 +19432,7 @@
 "cx": 520,
 "base_y": 402.0,
 "rot": 0.1,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T7",
@@ -19385,7 +19440,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.2,
-"reading": "obstacle"
+"reading": "obstacle_person"
 }
 ],
 "tile_count": 14,
@@ -19465,7 +19520,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": -0.2,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T1",
@@ -19521,7 +19576,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.2,
-"reading": "obstacle"
+"reading": "obstacle_person"
 }
 ],
 "tile_count": 14,
@@ -19601,7 +19656,7 @@
 "cx": 552,
 "base_y": 452.0,
 "rot": -0.1,
-"reading": "obstacle"
+"reading": "obstacle_person"
 },
 {
 "id": "T1",
@@ -19657,7 +19712,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": 0.1,
-"reading": "obstacle"
+"reading": "obstacle_person"
 }
 ],
 "tile_count": 14,
@@ -19793,7 +19848,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": -0.1,
-"reading": "obstacle"
+"reading": "obstacle_person"
 }
 ],
 "tile_count": 14,
@@ -19929,7 +19984,7 @@
 "cx": 584,
 "base_y": 402.0,
 "rot": -0.1,
-"reading": "obstacle"
+"reading": "obstacle_person"
 }
 ],
 "tile_count": 14,
@@ -29909,7 +29964,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-621.0,
+618.0,
 192.0
 ],
 "s": 0.25
@@ -30045,7 +30100,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-625.39,
+618.0,
 192.0
 ],
 "s": 0.25
@@ -30181,7 +30236,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-630.51,
+618.0,
 192.0
 ],
 "s": 0.25
@@ -30317,7 +30372,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-636.19,
+618.0,
 192.0
 ],
 "s": 0.25
@@ -30453,7 +30508,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-642.31,
+618.0,
 192.0
 ],
 "s": 0.25
@@ -37371,7 +37426,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
--63.94,
+-66.51,
 352.0
 ],
 "s": 0.25
@@ -37392,7 +37447,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
--63.94,
+-66.51,
 352.0
 ],
 "s": 0.25
@@ -37413,7 +37468,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
--47.34,
+-56.93,
 352.0
 ],
 "s": 0.25
@@ -37434,7 +37489,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
--47.34,
+-56.93,
 352.0
 ],
 "s": 0.25
@@ -37455,7 +37510,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
--22.53,
+-42.61,
 352.0
 ],
 "s": 0.25
@@ -37476,7 +37531,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
--22.53,
+-42.61,
 352.0
 ],
 "s": 0.25
@@ -37497,7 +37552,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-8.14,
+-24.92,
 352.0
 ],
 "s": 0.25
@@ -37518,7 +37573,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-8.14,
+-24.92,
 352.0
 ],
 "s": 0.25
@@ -37539,7 +37594,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-42.32,
+-5.2,
 352.0
 ],
 "s": 0.25
@@ -37560,7 +37615,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-42.32,
+-5.2,
 352.0
 ],
 "s": 0.25
@@ -37581,7 +37636,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-77.68,
+15.2,
 352.0
 ],
 "s": 0.25
@@ -37602,7 +37657,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-77.68,
+15.2,
 352.0
 ],
 "s": 0.25
@@ -37623,7 +37678,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-111.86,
+34.92,
 352.0
 ],
 "s": 0.25
@@ -37644,7 +37699,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-111.86,
+34.92,
 352.0
 ],
 "s": 0.25
@@ -37665,7 +37720,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-142.53,
+52.61,
 352.0
 ],
 "s": 0.25
@@ -37686,7 +37741,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-142.53,
+52.61,
 352.0
 ],
 "s": 0.25
@@ -37707,7 +37762,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-167.34,
+66.93,
 352.0
 ],
 "s": 0.25
@@ -37728,7 +37783,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-167.34,
+66.93,
 352.0
 ],
 "s": 0.25
@@ -37749,7 +37804,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-183.94,
+76.51,
 352.0
 ],
 "s": 0.25
@@ -37770,7 +37825,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-183.94,
+76.51,
 352.0
 ],
 "s": 0.25
@@ -37791,7 +37846,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-190.0,
+80.0,
 352.0
 ],
 "s": 0.25
@@ -37812,7 +37867,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-190.0,
+80.0,
 352.0
 ],
 "s": 0.25
@@ -37833,7 +37888,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-190.0,
+80.0,
 352.0
 ],
 "s": 0.25
@@ -37854,7 +37909,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-190.0,
+80.0,
 352.0
 ],
 "s": 0.25
@@ -37875,7 +37930,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-190.0,
+80.0,
 352.0
 ],
 "s": 0.25
@@ -37896,7 +37951,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-190.0,
+80.0,
 352.0
 ],
 "s": 0.25
@@ -37917,7 +37972,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-190.0,
+80.0,
 352.0
 ],
 "s": 0.25
@@ -37938,7 +37993,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-190.0,
+80.0,
 352.0
 ],
 "s": 0.25
@@ -37959,7 +38014,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-190.0,
+80.0,
 352.0
 ],
 "s": 0.25
@@ -37980,7 +38035,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-190.0,
+80.0,
 352.0
 ],
 "s": 0.25
@@ -38001,7 +38056,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-190.0,
+80.0,
 352.0
 ],
 "s": 0.25
@@ -38022,7 +38077,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-190.0,
+80.0,
 352.0
 ],
 "s": 0.25
@@ -38043,7 +38098,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-190.0,
+80.0,
 352.0
 ],
 "s": 0.25
@@ -38064,7 +38119,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-190.0,
+80.0,
 352.0
 ],
 "s": 0.25
@@ -38085,7 +38140,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-190.0,
+80.0,
 352.0
 ],
 "s": 0.25
@@ -38106,7 +38161,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-190.0,
+80.0,
 352.0
 ],
 "s": 0.25
@@ -38127,7 +38182,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-190.0,
+80.0,
 352.0
 ],
 "s": 0.25
@@ -38148,7 +38203,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-190.59,
+80.59,
 352.0
 ],
 "s": 0.25
@@ -38169,7 +38224,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-192.07,
+82.07,
 352.0
 ],
 "s": 0.25
@@ -38190,7 +38245,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-194.0,
+84.0,
 352.0
 ],
 "s": 0.25
@@ -38211,7 +38266,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-195.93,
+85.93,
 352.0
 ],
 "s": 0.25
@@ -38232,7 +38287,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-197.41,
+87.41,
 352.0
 ],
 "s": 0.25
@@ -38253,7 +38308,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38274,7 +38329,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38295,7 +38350,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38316,7 +38371,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38337,7 +38392,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38358,7 +38413,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38379,7 +38434,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38400,7 +38455,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38421,7 +38476,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38442,7 +38497,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38463,7 +38518,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38484,7 +38539,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38505,7 +38560,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38526,7 +38581,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38547,7 +38602,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38568,7 +38623,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38589,7 +38644,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38610,7 +38665,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38631,7 +38686,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38652,7 +38707,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38673,7 +38728,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38694,7 +38749,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38715,7 +38770,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38736,7 +38791,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-198.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38757,7 +38812,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-216.0,
+88.0,
 352.0
 ],
 "s": 0.25
@@ -38778,7 +38833,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-225.0,
+95.0,
 352.0
 ],
 "s": 0.25
@@ -38799,7 +38854,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-234.0,
+104.0,
 352.0
 ],
 "s": 0.25
@@ -38820,7 +38875,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-243.0,
+113.0,
 352.0
 ],
 "s": 0.25
@@ -38841,7 +38896,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-252.0,
+122.0,
 352.0
 ],
 "s": 0.25
@@ -38862,7 +38917,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-261.0,
+131.0,
 352.0
 ],
 "s": 0.25
@@ -38883,7 +38938,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-270.0,
+140.0,
 352.0
 ],
 "s": 0.25
@@ -38904,7 +38959,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-279.0,
+149.0,
 352.0
 ],
 "s": 0.25
@@ -38925,7 +38980,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-288.0,
+158.0,
 352.0
 ],
 "s": 0.25
@@ -38946,7 +39001,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-297.0,
+167.0,
 352.0
 ],
 "s": 0.25
@@ -38967,7 +39022,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-306.0,
+176.0,
 352.0
 ],
 "s": 0.25
@@ -38988,7 +39043,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-315.0,
+185.0,
 352.0
 ],
 "s": 0.25
@@ -39009,7 +39064,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-324.0,
+194.0,
 352.0
 ],
 "s": 0.25
@@ -39030,7 +39085,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-333.0,
+203.0,
 352.0
 ],
 "s": 0.25
@@ -39051,7 +39106,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-342.0,
+212.0,
 352.0
 ],
 "s": 0.25
@@ -39072,7 +39127,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-351.0,
+221.0,
 352.0
 ],
 "s": 0.25
@@ -39093,7 +39148,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-360.0,
+230.0,
 352.0
 ],
 "s": 0.25
@@ -39114,7 +39169,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-369.0,
+239.0,
 352.0
 ],
 "s": 0.25
@@ -39135,7 +39190,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-378.0,
+248.0,
 352.0
 ],
 "s": 0.25
@@ -39156,7 +39211,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-387.0,
+257.0,
 352.0
 ],
 "s": 0.25
@@ -39177,7 +39232,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-396.0,
+266.0,
 352.0
 ],
 "s": 0.25
@@ -39198,7 +39253,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-405.0,
+275.0,
 352.0
 ],
 "s": 0.25
@@ -39219,7 +39274,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-414.0,
+284.0,
 352.0
 ],
 "s": 0.25
@@ -39240,7 +39295,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-423.0,
+293.0,
 352.0
 ],
 "s": 0.25
@@ -39261,7 +39316,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-432.0,
+302.0,
 352.0
 ],
 "s": 0.25
@@ -39282,7 +39337,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-441.0,
+311.0,
 352.0
 ],
 "s": 0.25
@@ -39303,7 +39358,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-450.0,
+320.0,
 352.0
 ],
 "s": 0.25
@@ -39324,7 +39379,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-459.0,
+329.0,
 352.0
 ],
 "s": 0.25
@@ -39345,7 +39400,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-468.0,
+338.0,
 352.0
 ],
 "s": 0.25
@@ -39366,7 +39421,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-477.0,
+347.0,
 352.0
 ],
 "s": 0.25
@@ -39387,7 +39442,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-486.0,
+356.0,
 352.0
 ],
 "s": 0.25
@@ -39408,7 +39463,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-495.0,
+365.0,
 352.0
 ],
 "s": 0.25
@@ -39429,7 +39484,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-504.0,
+374.0,
 352.0
 ],
 "s": 0.25
@@ -39450,7 +39505,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-513.0,
+383.0,
 352.0
 ],
 "s": 0.25
@@ -39471,7 +39526,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-522.0,
+392.0,
 352.0
 ],
 "s": 0.25
@@ -39492,7 +39547,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-531.0,
+401.0,
 352.0
 ],
 "s": 0.25
@@ -39513,7 +39568,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-540.0,
+410.0,
 352.0
 ],
 "s": 0.25
@@ -39534,8 +39589,8 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-549.0,
-348.4
+419.0,
+352.0
 ],
 "s": 0.25
 },
@@ -39555,8 +39610,8 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-558.0,
-344.8
+428.0,
+352.0
 ],
 "s": 0.25
 },
@@ -39576,8 +39631,8 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-567.0,
-341.2
+437.0,
+352.0
 ],
 "s": 0.25
 },
@@ -39597,8 +39652,8 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-576.0,
-337.6
+446.0,
+352.0
 ],
 "s": 0.25
 },
@@ -39618,8 +39673,8 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-585.0,
-334.0
+455.0,
+348.8
 ],
 "s": 0.25
 },
@@ -39639,8 +39694,8 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-594.0,
-330.4
+464.0,
+345.2
 ],
 "s": 0.25
 },
@@ -39660,8 +39715,8 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-600.0,
-328.0
+473.0,
+341.6
 ],
 "s": 0.25
 },
@@ -39681,8 +39736,8 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-600.0,
-328.0
+482.0,
+338.0
 ],
 "s": 0.25
 },
@@ -39702,8 +39757,8 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-600.0,
-328.0
+491.0,
+334.4
 ],
 "s": 0.25
 },
@@ -39723,8 +39778,8 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-600.0,
-328.0
+500.0,
+330.8
 ],
 "s": 0.25
 },
@@ -39744,7 +39799,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-600.0,
+507.0,
 328.0
 ],
 "s": 0.25
@@ -39765,7 +39820,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-600.0,
+507.0,
 328.0
 ],
 "s": 0.25
@@ -39786,7 +39841,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-600.0,
+507.0,
 328.0
 ],
 "s": 0.25
@@ -39807,7 +39862,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-600.0,
+507.0,
 328.0
 ],
 "s": 0.25
@@ -39828,7 +39883,7 @@
 "plate_id": "P3",
 "Z_root": {
 "at": [
-600.0,
+507.0,
 328.0
 ],
 "s": 0.25

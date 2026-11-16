@@ -233,6 +233,23 @@ if qs:
     voice.add(squelch(0.05, 1) * 0.25, T(384) - 0.07)
     claim("radio voice 'quarante-sept' (300-3000 Hz, saturated)", "LL:" + qs.split("-")[2], T(384), "win47_on", 384,
           "window 47 is named aloud by number over a radio: the lit window is an address being called in")
+LOC_T0 = 2.9                          # s into the 1917 record: a ~1.2 s phrase between two pauses (3.0-4.2 s)
+LOC_SP = "loc_jukebox26299.dec.wav"   # repair 2 fallback: real recorded speech, Victor 1917 (US PD since 2022, MMA), via LoC
+if not qs and not have(LOC_SP) and os.path.exists(os.path.join(SRC, "loc-r2", "jukebox-26299.mp3")):
+    subprocess.run(["ffmpeg", "-nostdin", "-loglevel", "error", "-y", "-i", os.path.join(SRC, "loc-r2", "jukebox-26299.mp3"),
+                    "-ac", "1", "-ar", str(R), "-c:a", "pcm_s16le", os.path.join(RAW, LOC_SP)], check=True)
+if not qs and have(LOC_SP):
+    src = load(LOC_SP)
+    seg = src[I(LOC_T0): I(LOC_T0) + I(2.0)]
+    on = onset(seg, 15); sp = seg[on: on + I(1.25)].copy()
+    sp[-I(0.08):] *= np.linspace(1, 0, I(0.08)); sp[:I(0.004)] *= np.linspace(0, 1, I(0.004))
+    sp = norm_peak(radio(band(sp, 350, 2600)), -10)
+    voice.add(norm_peak(squelch(0.05, 3), -16), T(384))          # the channel opens ON the cut frame
+    voice.add(sp, T(384) + 0.05, 0.0)
+    voice.add(norm_peak(squelch(0.10, 5), -17), T(384) + 0.05 + len(sp) / R)
+    qs = LOC_SP
+    claim("radio voice, a man speaking, words indistinct (300-3000 Hz, saturated)", "LOC:jukebox-26299", T(384) + 0.05, "win47_on", 384,
+          "a voice comes over the radio on the cut frame as window 47 lights: the lit window is being reported to someone")
 if not qs:   # gap: no Lingua Libre download got through (HTTP 429); the radio channel still opens on the cut
     voice.add(norm_peak(squelch(0.22, 4), -15), T(384), 0.0)
     claim("radio squelch opening (fallback: 'quarante-sept' recording not obtained)", "HM:squelch", T(384), "win47_on", 384,

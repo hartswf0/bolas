@@ -196,7 +196,8 @@ def end_table(ink):
     lb = me.get("B", {}).get("integrated_lufs_final_mp4", -23.0)
     ta = me.get("A", {}).get("true_peak_dbtp_final_mp4", 0)
     tb = me.get("B", {}).get("true_peak_dbtp_final_mp4", 0)
-    name = {"A": "A · domestic: someone coming home", "B": "B · surveillance: someone being logged"}
+    # repair 2: no reading is stated on the reel (it would prime a repeat viewer); only which soundtrack played
+    name = {"A": "soundtrack A", "B": "soundtrack B"}
     cA = json.load(open(SW / "sound-A" / "cues-A.json")); cB = json.load(open(SW / "sound-B" / "cues-B.json"))
     def at(cues, f0, f1):
         own = ("16", "silhouette_rise", "head_turn", "curtain_slide")          # window 16's own events only
@@ -216,8 +217,7 @@ def end_table(ink):
             ("editions", f"framemd5 vs master ({rev}): {md5}"),
             ("loudness", f"A {la:.1f} LUFS, TP {ta:.1f} dBTP  ·  B {lb:.1f} LUFS, TP {tb:.1f} dBTP  (ebur128)"),
             ("window 16, f492–566", "A: " + a16),
-            ("", "B: " + b16),
-            ("written editions", "A « " + WRITTEN["A"][-1][2].strip(" .") + " »   ·   B « " + WRITTEN["B"][-1][2].strip(" .") + " »  (in the files, not shown above)")]
+            ("", "B: " + b16)]
     y = 96
     for lab, s_ in rows:
         ink.text((48, y + 4), lab, "mono", 12, MUTED)
@@ -231,20 +231,25 @@ def credits_card(ink):
     cr = jload(HERE / "credits" / f"{SLUG}.json", [])
     by = [c for c in cr if c["license"].upper().startswith("CC BY")]
     ink.fill(PAPER)
-    ink.text((W / 2, 40), "attribution (CC BY / CC BY-SA)", "serif", 24, TXT, anchor="mm")
-    y = 78
+    ink.text((W / 2, 30), "attribution (CC BY / CC BY-SA): all adapted (cut, filtered, levelled; paper cropped and graded)", "serif", 20, TXT, anchor="mm")
+    y = 58
     for c in by:
         t = re.sub(r"\.(ogg|wav|mp3|jpg|png)$", "", c["title"].split(":")[0])
-        ink.text((60, y), f"{t} · {c['author']} · {c['license']}", "sans", 13 if len(by) < 12 else 12, TXT)
-        ink.text((60, y + 16), c["source_url"], "mono", 9, MUTED)
-        y += 34 if len(by) < 11 else 30
-    pd_n = len(cr) - len(by)
-    ink.text((60, y + 6), f"and {pd_n} public-domain / CC0 / no-known-restriction items: full list in credits/{SLUG}.json and the notes",
-             "sans", 12, MUTED)
-    ink.text((W / 2, H - 52), "soundtracks of editions B and C and of this reel: CC BY-SA 4.0 (they adapt W.carter's CC BY-SA wind)",
-             "mono", 11, TXT, anchor="mm")
-    ink.text((W / 2, H - 32), "picture: cut-paper model by the film, from foraged scans incl. Library of Congress, Music Division, Federal Theatre Project Collection",
-             "mono", 10, MUTED, anchor="mm")
+        ink.text((48, y), f"{t} · {c['author']} · {c['license']} · adapted", "sans", 12, TXT)
+        ink.text((48, y + 15), f"{c['source_url']}   licence: {c['license_url']}", "mono", 8, MUTED)
+        y += 31
+    vic = next((c for c in cr if "Victor-73522a" in c["source_url"]), None)
+    if vic:
+        ink.text((48, y + 2), "radio 78 (public domain): « O, du himmelblauer See », " + vic["author"].replace("; via", " · via"), "sans", 11, TXT)
+        y += 20
+    pd_n = len(cr) - len(by) - (1 if vic else 0)
+    ink.text((48, y + 4), f"and {pd_n} more public-domain / CC0 items: full list in credits/{SLUG}.json and the notes", "sans", 11, MUTED)
+    ink.text((W / 2, H - 66), "typefaces: Instrument Serif, Instrument Sans (The Instrument Project Authors), IBM Plex Mono (IBM Corp.): SIL Open Font License 1.1",
+             "mono", 9, MUTED, anchor="mm")
+    ink.text((W / 2, H - 48), "soundtracks of editions B and C and of this reel: CC BY-SA 4.0 (they adapt W.carter's CC BY-SA wind)",
+             "mono", 10, TXT, anchor="mm")
+    ink.text((W / 2, H - 30), "picture: cut-paper model by the film, from foraged scans incl. Library of Congress, Music Division, Federal Theatre Project Collection",
+             "mono", 9, MUTED, anchor="mm")
 
 
 @film.picture

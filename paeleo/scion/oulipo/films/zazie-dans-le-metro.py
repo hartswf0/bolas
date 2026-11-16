@@ -127,7 +127,37 @@ def plate_crop(name, ox=0.0, oy=0.0):
     return P.transform((PWX, PHX), Image.AFFINE, (1, 0, x, 0, 1, y), resample=Image.BICUBIC)
 
 
-V_IMG = Image.open(FOR / "V_tram_graded.png").convert("RGBA")       # the ONE vehicle cutout (from LoC P2)
+V_IMG = Image.open(FOR / "V_tram_graded.png").convert("RGBA")       # the ONE vehicle cutout (from LoC P2), far shots S1/S2/S4b
+# repair round 2: V recut along the real tram outline (canopy, platform, undercarriage and wheels to the road) from the
+# full-size P2 master; the man and the gas lamp in front of it in the photograph stay whole on the card (no retouch).
+# swarm/.../editor-build/tram_recut.py -> sources/.../editor/V2_tram_graded.png + V2_tram.json (card geometry).
+ED = SRC / "editor"
+V2 = Image.open(ED / "V2_tram_graded.png").convert("RGBA")
+V2G = json.load(open(ED / "V2_tram.json"))
+V2_CANOPY_Y, V2_WHEEL_Y = V2G["canopy_top_y"], V2G["wheel_line_y"]
+V2_FRONT = (0, 132)                               # card px: canopy tip .. front platform (the door) at the left end
+V3_POS = (425, 162)                               # L3: card top-left in the picture; canopy top y 195, wheels y 458
+DOOR_X = V3_POS[0] + 70                           # the front-platform opening at Châtelet (head of the queue)
+
+
+def v2_card(s=1.0, blur=0.0, grade=None):
+    k = ("v2", round(s, 3), round(blur, 1), grade)
+    if k not in _VC:
+        im = scaled(V2, s) if abs(s - 1) > 1e-3 else V2.copy()
+        if grade == "P2":                          # the Clichy close-up plate's own extra desat (U3's P2 grade)
+            a = np.asarray(im).astype(np.float32); rgb = a[..., :3]; gy = rgb.mean(2, keepdims=True)
+            rgb = gy + (rgb - gy) * TS.P2_DESAT; rgb = rgb * np.array([0.99, 0.99, 1.02]) * 0.92
+            a[..., :3] = np.clip(rgb, 0, 255); im = Image.fromarray(a.astype(np.uint8), "RGBA")
+        _VC[k] = im.filter(ImageFilter.GaussianBlur(blur)) if blur > 0.2 else im
+    return _VC[k]
+
+
+def v2_contact_shadow(canvas, x0, wheel_y, s=1.0):
+    """soft contact shadow of the wheels/undercarriage on the road plane (light from upper left -> falls right)."""
+    w = int(470 * s); h = max(8, int(22 * s))
+    sh = Image.new("RGBA", (w + 40, h + 20), (0, 0, 0, 0))
+    ImageDraw.Draw(sh).ellipse((20, 10, 20 + w, 10 + h), fill=(18, 12, 6, 120))
+    put(canvas, sh.filter(ImageFilter.GaussianBlur(5 * s)), (x0 + 60 * s, wheel_y - h * 0.45 - 10))
 FG = Image.open(FOR / "fg_plane_graded.png").convert("RGBA")         # plane trees + lamp-post cut from P1
 _VC = {}
 
@@ -169,13 +199,20 @@ def tile_at(canvas, i, feet, s, centre, rot):
         R = int(math.hypot(im.width, im.height)) + 4
         sq = Image.new("RGBA", (2 * R, 2 * R), (0, 0, 0, 0)); sq.paste(im, (int(R - px), int(R - py)))
         im = sq.rotate(-rot, resample=Image.BICUBIC, center=(R, R)); px = py = R
+    lift(canvas, im, (centre[0] - px, centre[1] - py), s / TILE_S1)
     put(canvas, im, (centre[0] - px, centre[1] - py))
+
+
+def lift(canvas, im, xy, k=1.0):
+    """r2: the 1-2 px shadow of a paper piece lifted off the stage (light from upper left)."""
+    a = im.getchannel("A").filter(ImageFilter.GaussianBlur(1.0 * k)).point(lambda v: int(v * 0.42))
+    dk = Image.new("RGBA", im.size, (22, 12, 4, 0)); dk.putalpha(a)
+    put(canvas, dk, (xy[0] + 1.5 * k, xy[1] + 2.0 * k))
 
 
 TILE_S1 = 72 / 156 * 1.0      # 1x scale: body 124x156 (2x sprite) -> 57x72 px
 TILE_S2 = 2 * TILE_S1         # ECU built at 2x
-PLAQ = {"clichy": Image.open(PUP / "sprites/plaque_clichy.png").convert("RGBA"),
-        "chatelet": Image.open(PUP / "sprites/plaque_chatelet.png").convert("RGBA")}
+PLAQ = {"clichy": pp.plaque("PLACE", "DE CLICHY", ""), "chatelet": pp.plaque("PLACE", "DU CHÂTELET", "")}   # r2: no arrondissement line
 SIGN = scaled(Image.open(PUP / "sprites/metro_greve.png").convert("RGBA"), 0.42)
 
 
@@ -224,6 +261,7 @@ def body_img(pose, s, mouth="closed", eye="open", hair=0.0, pin=None):
 
 def place_body(canvas, pose, s, at, **kw):
     im, (ax, ay), J = body_img(pose, s, **kw)
+    lift(canvas, im, (at[0] - ax, at[1] - ay))
     put(canvas, im, (at[0] - ax, at[1] - ay))
     return J, (at[0] - ax, at[1] - ay)
 
@@ -336,6 +374,9 @@ def ts_tram(blur):
 
 
 TRAM_IN_P2 = (992, 528)                         # tram top-left in the 2x P2 plate (template match of V, ccoeff 0.70)
+# repair round 2 (A3): the same Clichy tram on a nearer card in the gap at screen right, outside the hair silhouette,
+# front platform and the start of the route board toward her; in frame from the cut frame f192 (2x picture coords).
+CU_TRAM = dict(x=600, y=300, s=2.1)              # tram side (windows, ST-DENIS board, wheels) in the gap; >= 8 % visible (asserted)
 
 
 def ts_plate(f, g, ang, dx, dy, name):
@@ -345,7 +386,12 @@ def ts_plate(f, g, ang, dx, dy, name):
     oy = (P.height - TS.PH) / 2 - 0.25 * dy * 0.3
     pic = P.crop((int(ox), int(oy), int(ox) + TS.PW, int(oy) + TS.PH)).convert("RGBA")
     if name == "P2":
-        pic.alpha_composite(ts_tram(min(bl, 7.0)), (int(TRAM_IN_P2[0] - int(ox)), int(TRAM_IN_P2[1] - int(oy))))
+        cd = v2_card(CU_TRAM["s"], min(bl * 0.12, 2.2), "P2")
+        sx = (ox - base) * 1.3; sy = (oy - (P.height - TS.PH) / 2) * 1.3        # nearer plane: 1.3x the plate drift
+        shd = cd.getchannel("A").filter(ImageFilter.GaussianBlur(9)).point(lambda v: int(v * 0.35))
+        dark = Image.new("RGBA", cd.size, (20, 12, 6, 0)); dark.putalpha(shd)
+        pic.alpha_composite(dark, (int(CU_TRAM["x"] - sx) + 10, int(CU_TRAM["y"] - sy) + 12))
+        pic.alpha_composite(cd, (int(CU_TRAM["x"] - sx), int(CU_TRAM["y"] - sy)))
     return pic
 
 
@@ -355,7 +401,7 @@ def ts_compose(f, states):
     pic = ts_plate(f, g, ang, dx, dy, name)
     if name == "P2" and f >= 52:
         if TS.PLAQUE is None:
-            TS.PLAQUE = pp.plaque("PLACE", "DE CLICHY", "17e ARRt")
+            TS.PLAQUE = pp.plaque("PLACE", "DE CLICHY", "")
         k = f - 52; sc = [0.55, 1.14, 0.96, 1.03, 1.0][min(k, 4)]
         pl = TS.PLAQUE.resize((int(TS.PLAQUE.width * sc), int(TS.PLAQUE.height * sc)), Image.LANCZOS)
         sh = pl.getchannel("A").filter(ImageFilter.GaussianBlur(7)).point(lambda v: int(v * 0.45))
@@ -667,10 +713,12 @@ def title_layer(f):
         im = it["im"]; put(pic, im, (it["x"] - im.width / 2, it["y"] - im.height * 0.73 + dy))
     if f >= 494:
         d = ImageDraw.Draw(pic, "RGBA"); al = int(255 * min(1, (f - 494) / 6))
-        d.text((360, 470), "d'après Queneau — photochromes de Paris v. 1890-1900, Library of Congress (domaine public)",
+        d.text((360, 462), "d'après Queneau — photochromes de Paris v. 1890-1900, Library of Congress (domaine public)",
                font=kit.font("serif", 17), fill=(214, 200, 172, al), anchor="mm")
-        d.text((360, 494), "papiers : Wikimedia Commons (PD/CC0) · vent : SAgbley, CC BY-SA 4.0", font=kit.font("serif", 15),
+        d.text((360, 486), "papiers : Wikimedia Commons (domaine public / CC0 / sans restriction connue)", font=kit.font("serif", 15),
                fill=(190, 176, 150, al), anchor="mm")
+        d.text((360, 506), "vent : « Strong winds before the Rain », SAgbley, CC BY-SA 4.0 (modifié) · film sous CC BY-SA 4.0",
+               font=kit.font("serif", 15), fill=(190, 176, 150, al), anchor="mm")
     return pic
 
 
@@ -680,8 +728,9 @@ SLOTS = [(372, ROW_Y - 28, 90), (446, ROW_Y - 28, 90), (446, ROW_Y - 84, 90), (5
          (520, ROW_Y - 140, 90), (520, ROW_Y - 168 - 36, 360)]                  # T8..T14 centres + final rot
 TREADS = [(372, ROW_Y - 56), (446, ROW_Y - 112), (520, ROW_Y - 168), (522, ROW_Y - 240)]
 DECK = (606, 208)
-V_L3 = dict(x=560, top=200, s=1.0)
+V_L3 = dict(x=V3_POS[0], top=V3_POS[1], s=1.0, card="V2")
 GROUND_Y = 460
+PLAQ_L3 = (96, 52)
 
 
 BACK_OFF = (20, -16)                               # back row: one tile deeper in every stair slot
@@ -722,8 +771,94 @@ def queue_tiles(f):
                 t = f - 418; ex, ey, _ = SLOTS[6]
                 u = min(1.0, t / 10)
                 pos = (ex + 70 * u, ey + (GROUND_Y - 30 - ey) * u * u); rot = 360 + 200 * u; rd = "loose"
-            out.append(dict(id=tid, centre=pos, rot=rot, reading=rd, row=row))
+            rec = dict(id=tid, centre=pos, rot=rot, reading=rd, row=row)
+            if f >= 300 and rd in ("queue", "obstacle"):
+                ps = person_state(f, i, back, launch, hit)
+                ps["feet"] = (cx, (BACK_Y if back else ROW_Y) + 8)
+                rec["person"] = ps
+                if ps["u"] > 0.02:
+                    rec["reading"] = "queue_person" if rd == "queue" else "obstacle_person"
+            out.append(rec)
     return out
+
+
+# ---- repair round 2: the queue reading. After the match cut the 14 teeth stand up on two paper legs and a head with
+# a hat comes up from behind each board (sandwich-board people), staggered heights, all leaning toward the tram's
+# front platform. At the collision the hats hop (SCION #41 secondary motion); before each tile tips into the stair
+# the head ducks back behind its board and the legs fold (replacement on twos), so the stair is made of the boards.
+LEG = {"front": [16, 24, 12, 28, 18, 22, 14], "back": [22, 14, 26, 12, 20, 16, 24]}      # 1x px, staggered
+HEADS = [(186, 122, 92), (168, 104, 76), (196, 140, 110), (150, 104, 80), (178, 116, 86), (190, 128, 96), (160, 100, 74)]
+HATS = [(30, 26, 24), (64, 44, 30), (36, 40, 52), (110, 90, 52), (44, 32, 26), (58, 60, 48), (80, 40, 32)]
+LEGS = [(40, 36, 34), (52, 58, 74), (70, 62, 50), (38, 34, 30), (60, 52, 46), (44, 48, 58), (34, 30, 28)]
+_PERS = {}
+
+
+def person_sprite(i, legL, hu, hat_dy, hat_rot, k):
+    """2x sprite: legs + shoes, head (behind the board) + hat, the tile board; returns (img, feet point)."""
+    key = (i, int(legL), int(hu * 8), int(hat_dy), int(hat_rot))
+    if key in _PERS:
+        return _PERS[key]
+    W, H = 260, 460; fx, fy = 130, 440
+    Lg = legL / TILE_S1; yb = fy - Lg - 6
+    S = pp.Sheet(W, H); kk = i % 7
+    # head behind the board (slides up by hu), with nose + eye toward the tram (screen right)
+    hy = yb - 156 + 30 - 70 * hu; hx = fx + 6
+    if hu > 0.05:
+        S.lay(pp.cut(pp.ellipse_pts(hx, hy, 30, 34), HEADS[kk], 5300 + i, "q_head", rough=0.3), shadow=False)
+        S.lay(pp.cut([(hx + 26, hy - 6), (hx + 42, hy + 6), (hx + 26, hy + 12)], pp._shade(HEADS[kk], 0.9), 5320 + i, "q_nose", rough=0.1))
+        d = ImageDraw.Draw(S.img); d.ellipse((hx + 10, hy - 6, hx + 17, hy + 1), fill=(30, 16, 8, 255))
+        hat = Image.new("RGBA", (130, 90), (0, 0, 0, 0)); hs = pp.Sheet(130, 90)
+        if kk % 3 == 1:                                      # boater
+            hs.lay(pp.cut([(14, 60), (116, 60), (116, 72), (14, 72)], HATS[kk], 5340 + i, "q_hat", rough=0.3), shadow=False)
+            hs.lay(pp.cut([(36, 30), (94, 30), (94, 62), (36, 62)], HATS[kk], 5350 + i, "q_hat", rough=0.3))
+        elif kk % 3 == 2:                                    # cap
+            hs.lay(pp.cut(pp.ellipse_pts(62, 56, 36, 20), HATS[kk], 5340 + i, "q_hat", rough=0.3), shadow=False)
+            hs.lay(pp.cut([(70, 52), (118, 58), (116, 68), (70, 66)], pp._shade(HATS[kk], 0.8), 5350 + i, "q_peak", rough=0.2))
+        else:                                                # bowler
+            hs.lay(pp.cut(pp.ellipse_pts(65, 50, 34, 24), HATS[kk], 5340 + i, "q_hat", rough=0.3), shadow=False)
+            hs.lay(pp.cut([(16, 62), (114, 62), (112, 72), (18, 72)], HATS[kk], 5350 + i, "q_brim", rough=0.3))
+        hat = hs.img.rotate(-hat_rot, resample=Image.BICUBIC, center=(65, 66))
+        S.lay(pp.Piece(hat, int(hx - 65), int(hy - 34 - 50 + hat_dy)), sh_off=(4, 6))
+    # legs and shoes (pointing right, toward the door)
+    for sx in (-1, 1):
+        x = fx + sx * 24
+        S.lay(pp.cut([(x - 9, yb - 16), (x + 9, yb - 16), (x + 9, fy - 12), (x - 9, fy - 12)], LEGS[kk], 5360 + i + 10 * (sx > 0), "q_leg", rough=0.3), shadow=False)
+        S.lay(pp.cut([(x - 12, fy - 16), (x + 26, fy - 14), (x + 30, fy), (x - 12, fy)], pp.SHOE, 5380 + i + 10 * (sx > 0), "q_shoe", rough=0.2))
+    tl = pp.tile(i).img
+    S.lay(pp.Piece(tl, fx - 100, int(yb - 182)), sh_off=(5, 6))
+    out = (scaled(S.img, TILE_S1), (fx * TILE_S1, fy * TILE_S1))
+    if len(_PERS) > 3000:
+        _PERS.clear()
+    _PERS[key] = out
+    return out
+
+
+def person_at(canvas, t):
+    P_ = t["person"]; i = int(t["id"][1:]) - 1
+    im, (px, py) = person_sprite(i, P_["leg"], P_["u"], P_["hat_dy"], P_["hat_rot"], 0)
+    rot = t["rot"] + P_["lean"]
+    if abs(rot) > 0.05:                                       # rotate about the feet
+        R = int(math.hypot(im.width, im.height)) + 4
+        sq = Image.new("RGBA", (2 * R, 2 * R), (0, 0, 0, 0)); sq.paste(im, (int(R - px), int(R - py)))
+        im = sq.rotate(-rot, resample=Image.BICUBIC, center=(R, R)); px = py = R
+    gx, gy = P_["feet"]
+    lift(canvas, im, (gx - px, gy - py))
+    put(canvas, im, (gx - px, gy - py))
+
+
+def person_state(f, i, back, launch, hit):
+    """legs grow on twos f300-304; hats hop at the collision; head ducks + legs fold in the 4 frames before launch."""
+    g = f - f % 2
+    u = ease(g, 299, 304) * (1 - ramp(g, launch - 6, launch - 1))
+    row = "back" if back else "front"
+    leg = 8 + (LEG[row][i] - 8) * u
+    hat_dy = 0.0; hat_rot = 0.0
+    if f >= hit:
+        t = f - hit
+        hat_dy = -22 * math.exp(-t / 3.0) * abs(math.sin(t * 0.8)); hat_rot = 14 * math.exp(-t / 3.0) * math.sin(t * 0.8)
+    breath = 1.0 * math.sin(2 * math.pi * (g - 300) / 24 + i + (3 if back else 0)) if f < hit else 0.0
+    lean = (4.0 + 1.2 * (i % 3) + (1.5 if i == 6 else 0)) * u           # lean toward the tram door (screen right)
+    return dict(u=u, leg=leg, hat_dy=hat_dy + breath, hat_rot=hat_rot, lean=lean)
 
 
 def plan_cut(cut):
@@ -760,7 +895,7 @@ def plan_cut(cut):
                      + [dict(id="T%d" % (8 + i), centre=(x, b - TH / 2), rot=r, reading=rd) for i, (x, b, r, rd) in enumerate(LOWER_ST[f])])
         elif cut == "A" and f < 432:                                         # S6 / S7
             tiles = queue_tiles(f); Z = None
-            vdx = 3.0 * max(0, f - 426) ** 1.3
+            vdx = 0.0                                     # r2: the tram card stays put (S8 carries the ride)
             if 312 <= f < 326:
                 i = ((g - 312) // 2) % 8; x = -70 + 165 * (g - 312) / 14.0
                 Z = dict(pose=pp.POSES["run%d" % i], s=0.25, at=(x, 352), mouth="open", eye="open", hair=spring.step(0.6))
@@ -796,7 +931,7 @@ def plan_cut(cut):
         elif cut == "B" and f < 298:                                         # S5b MCU says the word
             p.update(kind="S5b", plate="P4", mouth=None, eye=None)
         elif cut == "B" and f < 432:                                         # S6b / S7b plain continuity: queue of commuters
-            cx = [260 + 56 * k for k in range(7)]
+            cx = [130 + 52 * k for k in range(7)]           # r2: the head of the line at the tram's front platform
             for k in range(7):
                 if 341 <= f:
                     cx[k] += 8 * ease(f, 341 + 3 * (6 - k), 347 + 3 * (6 - k))
@@ -804,18 +939,18 @@ def plan_cut(cut):
                     cx[k] += 9.0 * max(0, f - 372 - (6 - k))
             Z = None
             if 312 <= f < 334:
-                i = ((g - 312) // 2) % 8; x = -70 + 260 * ease(g, 312, 334)
+                i = ((g - 312) // 2) % 8; x = -70 + 150 * ease(g, 312, 334)
                 Z = dict(pose=pp.POSES["run%d" % i] if f < 328 else walk_pose(i), s=0.25, at=(x, 352), mouth="open", eye="open", hair=spring.step(0.5))
             elif 334 <= f < 380:
-                Z = dict(pose=pp.POSES["stand"], s=0.25, at=(190 + 8 * ease(f, 350, 356), 352), mouth="laugh" if (g // 6) % 3 == 0 else "closed",
+                Z = dict(pose=pp.POSES["stand"], s=0.25, at=(80 + 8 * ease(f, 350, 356), 352), mouth="laugh" if (g // 6) % 3 == 0 else "closed",
                          eye="open", hair=spring.step(0.0))
             elif f >= 380:
                 i = ((g - 380) // 2) % 8
-                x = min(600.0, max(198.0, cx[0] - 70))        # she follows the last commuter aboard
-                up = 24 * ramp(x, 540, 600)
-                Z = dict(pose=walk_pose(i) if x < 600 else pp.POSES["stand"], s=0.25, at=(x, 352 - up), mouth="closed" if (g // 8) % 2 else "laugh",
+                x = min(DOOR_X + 12.0, max(88.0, cx[0] - 70))        # she follows the last commuter aboard
+                up = 24 * ramp(x, DOOR_X - 48, DOOR_X + 12)
+                Z = dict(pose=walk_pose(i) if x < DOOR_X + 12 else pp.POSES["stand"], s=0.25, at=(x, 352 - up), mouth="closed" if (g // 8) % 2 else "laugh",
                          eye="open", hair=spring.step(0.2))
-            vdx = 3.0 * max(0, f - 426) ** 1.3
+            vdx = 0.0
             p.update(kind="S6b" if f < 372 else "S7b", plate="P3", Z=Z, comm=cx, V=dict(x=V_L3["x"] + vdx, top=V_L3["top"], s=V_L3["s"], visible=True),
                      mouth=(Z or {}).get("mouth"), eye=(Z or {}).get("eye"))
         elif f < 480:                                                        # S8 / S8b CU laugh on the tram
@@ -867,19 +1002,23 @@ def render_full(p, with_puppet=True):
     if p["kind"] == "S1":
         put(pic, SIGN, (18, 18))
     if p["plate"] == "P3":
-        plaque_pop(pic, "chatelet", f, 300, 630, 56)
+        plaque_pop(pic, "chatelet", f, 300, *PLAQ_L3)       # r2: top left, clear of her on the deck
     V = p.get("V")
     comm = p.get("comm")
-    if comm:                                         # cut B: commuters queue at the stop (behind V's rear end)
-        for k, x in enumerate(comm):
-            if x > 600:                              # boarded (behind V's rear platform)
-                continue
-            im = commuters()[k]; put(pic, im, (x - im.width / 2, GROUND_Y + 2 - im.height + 10))
+    def draw_comm():
+        if comm:                                     # cut B: commuters queue at the stop, head of the line at the door
+            for k, x in enumerate(comm):
+                if x > DOOR_X + 12:                  # boarded (onto V's front platform)
+                    continue
+                im = commuters()[k]; put(pic, im, (x - im.width / 2, GROUND_Y + 2 - im.height + 10))
     Z = p.get("Z")
-    zfirst = p["kind"] == "S1" or p["kind"] in ("S6b", "S7b")
+    zfirst = p["kind"] in ("S6b", "S7b")
     def draw_v():
         if V and V.get("visible"):
-            if "top" in V:
+            if V.get("card") == "V2":
+                v2_contact_shadow(pic, V["x"], V["top"] + V2_WHEEL_Y)
+                put(pic, v2_card(V["s"]), (V["x"], V["top"]))
+            elif "top" in V:
                 put(pic, vcard(V["s"]), (V["x"], V["top"]))
             else:
                 im = vcard(V["s"], V.get("blur", 0))
@@ -899,18 +1038,21 @@ def render_full(p, with_puppet=True):
     if p["kind"] in ("S1",):
         draw_v(); draw_z()
     elif zfirst:
-        draw_z(); draw_v()
+        draw_v(); draw_comm(); draw_z()
     else:
         draw_v()
         if p.get("tiles"):
             feet = f >= 300                                  # the feet sprout two frames after the match cut
             for t in p["tiles"]:
-                if t["reading"] in ("queue", "obstacle"):
+                if t["reading"].startswith(("queue", "obstacle")):
                     sh = Image.new("RGBA", (64, 12), (0, 0, 0, 0)); ImageDraw.Draw(sh).ellipse((0, 0, 63, 11), fill=(20, 12, 6, 80))
                     gy = GROUND_Y - 4 - (50 if t.get("row") == "back" else 0) - (0 if feet else 8)
                     put(pic, sh.filter(ImageFilter.GaussianBlur(2)), (t["centre"][0] - 28, gy))
             for t in sorted(p["tiles"], key=lambda t: (t.get("row") != "back", -t["centre"][1])):
-                tile_at(pic, int(t["id"][1:]) - 1, feet, TILE_S1, t["centre"], t["rot"])
+                if feet and t.get("person") and t["person"]["u"] > 0.02:
+                    person_at(pic, t)                    # r2: the teeth stand up as a queue of sandwich-board people
+                else:
+                    tile_at(pic, int(t["id"][1:]) - 1, feet, TILE_S1, t["centre"], t["rot"])
         draw_z()
     if p["kind"] == "S2":                            # foreground plane trees (foraged cutout), 1.4x
         fg = _fg()
@@ -944,7 +1086,7 @@ def push_planes():
         P = TS.plate("P2", 14.0)
         ox = 12.0 - 0.25 * (dx + 300 * ang) + 4 * ((g - TS.CUT) / FPS); oy = (P.height - TS.PH) / 2 - 0.25 * dy * 0.3
         pl = P.crop((int(ox), int(oy), int(ox) + TS.PW, int(oy) + TS.PH)).convert("RGBA")
-        pq = pp.plaque("PLACE", "DE CLICHY", "17e ARRt")
+        pq = pp.plaque("PLACE", "DE CLICHY", "")
         pl.alpha_composite(pq, (int(1250 - pq.width / 2), int(120 - pq.height / 2)))
         _PUSH["plate"] = pl
         # the magnified face at the end of the push, background of the ECU
@@ -1189,6 +1331,42 @@ def preconditions(frames_a, frames_b):
     res["A4_laugh_6_8s"] = dict(mouth_ids=mouths, eye_sets=eyes, frame_diff_min=round(min(diffs), 2),
                                 longest_run_of_unchanged_frames=maxrun + 1, cheek_raise_px_720=round(raise_px, 1),
                                 ok=len(mouths) >= 4 and eyes == ["squeeze"] and maxrun + 1 <= 2 and raise_px >= 5)
+    # repair round 2 (A3): the Clichy tram card is in frame from the cut frame and covers >= 8 % of the picture
+    # outside the puppet silhouette (measured on the alpha of the card and the puppet, every drawing f192-239)
+    vis = {}
+    for loc in range(48, 96):
+        row = TS.sheet_row(loc); g = row["drawing"]; ang, dx, dy = TS_ST[g]["X"]
+        P = TS.plate("P2", TS.plate_blur(g)); base = 12.0
+        ox = base - 0.25 * (dx + 300 * ang) + 4 * ((g - TS.CUT) / FPS); oy = (P.height - TS.PH) / 2 - 0.25 * dy * 0.3
+        sx = (ox - base) * 1.3; sy = (oy - (P.height - TS.PH) / 2) * 1.3
+        L = Image.new("L", (TS.PW, TS.PH), 0); L.paste(v2_card(CU_TRAM["s"]).getchannel("A"), (int(CU_TRAM["x"] - sx), int(CU_TRAM["y"] - sy)))
+        pa = np.asarray(TS.draw_puppet(loc, TS_ST).getchannel("A")) > 100
+        vis[loc + 144] = float(((np.asarray(L) > 128) & ~pa).mean())
+    res["A3_clichy_tram_visible"] = dict(window="f192-239", min_area_frac=round(min(vis.values()), 4), max_area_frac=round(max(vis.values()), 4),
+                                         at_f192=round(vis[192], 4), rule=">= 0.08 of the picture, outside the puppet alpha, from f192",
+                                         shows="tram side: windows, the ST-DENIS route board, lamp, undercarriage (front platform behind her head)",
+                                         ok=min(vis.values()) >= 0.08)
+    # (A6) Châtelet tram: at least half its body in frame while it is on screen (static card), wheels on the road plane
+    vx = V_L3["x"]; inframe = (min(PWX, vx + V2.width) - max(0, vx)) / V2.width
+    res["A6_chatelet_tram"] = dict(card="V2 (recut along the outline, wheels + platform)", x=vx, top=V_L3["top"], in_frame_frac=round(inframe, 3),
+                                   wheel_line_y=V_L3["top"] + V2_WHEEL_Y, ground_y=GROUND_Y, door_x=DOOR_X, ok=inframe >= 0.5 and abs(V_L3["top"] + V2_WHEEL_Y - GROUND_Y) <= 8)
+    # (A6) queue: every front-row tile is a person (legs + head + hat) by f304 and before the collision
+    qp = [sum(1 for t in PA[f]["tiles"] if t["reading"] == "queue_person" and t["row"] == "front") for f in range(304, 326)]
+    res["A6_queue_people"] = dict(window="f304-325", front_row_people_min=min(qp), lean_deg=[round(person_state(310, i, False, 999, 999)["lean"], 1) for i in range(7)],
+                                  legs_px=LEG, ok=min(qp) == 7)
+    # 17.5 s: her body never covers the Châtelet plaque
+    pw, ph = PLAQ["chatelet"].width * 0.5, PLAQ["chatelet"].height * 0.5
+    px0, py0 = PLAQ_L3[0] - pw / 2, PLAQ_L3[1] - ph / 2; cover = 0
+    for f in range(300, 432, 2):
+        Z = PA[f].get("Z")
+        if not Z:
+            continue
+        im, (ax, ay), _ = body_img(Z["pose"], Z["s"], mouth=Z["mouth"], eye=Z["eye"], hair=Z["hair"], pin=Z.get("pin"))
+        a = np.asarray(im.getchannel("A")) > 60; ys, xs = np.nonzero(a)
+        bx0, by0 = Z["at"][0] - ax + xs.min(), Z["at"][1] - ay + ys.min(); bx1, by1 = Z["at"][0] - ax + xs.max(), Z["at"][1] - ay + ys.max()
+        if bx1 > px0 and bx0 < px0 + pw and by1 > py0 and by0 < py0 + ph:
+            cover += 1
+    res["plaque_chatelet_clear"] = dict(plaque_rect=[round(px0), round(py0), round(px0 + pw), round(py0 + ph)], frames_overlapping=cover, ok=cover == 0)
     # A/B shared frames
     diffs = [float(np.abs(np.asarray(frames_a[f], np.float32) - np.asarray(frames_b[f], np.float32)).mean()) for f in range(192)]
     res["AB_shared_0_191"] = dict(max_mean_abs_diff=max(diffs), ok=max(diffs) < 1.0)

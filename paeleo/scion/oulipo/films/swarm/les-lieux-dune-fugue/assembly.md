@@ -50,45 +50,54 @@ F5 ─INFERRED→ P03   [pair F5×P01-B: DISLOCATED; memory plane lit by M ≠ A
 P01 ─adjacent (asserted)→ P02 ─adjacent (inferred arrival)→ P03   (narrative order, not geography; route.png)
 ```
 
-## Measured on the final render
+## Render safety (repair round 2)
 
-All of these come from `assembly_checks.json`.
+The 2.07 s file found at 05:27 was an interrupted full render. The old script let kit encode straight onto `assets/films/<slug>.mp4` with `-shortest`, so a killed run left a truncated but valid mp4 in place of the deliverable. The script now:
+- encodes into `films/swarm/les-lieux-dune-fugue/render-staging/`, never straight onto the deliverable;
+- gates the staged file (`probe_ok`): ffprobe duration in [45, 60] s, `nb_read_frames` = 57 × 24 = 1368, decoded audio exactly 0 from 44.0 s for at least 6 s, size at most 6 MB. A failed gate exits and leaves the published file alone;
+- copies the file to `<slug>.mp4.part` beside the target, then `os.replace`s it onto the target and re-gates it. The gate result is in `render_gate.json`;
+- `--remux` also writes to staging and goes through the same gate; `--stills` only writes PNGs.
+
+The film was re-rendered in a detached background process, 05:32 to 06:02 UTC (about 1.3 s per frame).
+
+## Measured on the final render (06:02 UTC, `assembly_checks.json`, `render_gate.json`)
 
 **File**
-- 57.0 s, 960×720, 24 fps, H.264 video with AAC audio, 1.26 MB.
+- 57.0 s, 1368 frames, 960×720, 24 fps, H.264 video with AAC audio, 1.28 MB.
 
 **Silence**
-- From 44.0 to 57.005 the decoded AAC has 573,520 stereo samples and every one is 0 (13.0 s). **PASS.**
-- The last non-zero sample is at 43.901 s. The mix ramps to zero over 43.80–43.90 because the AAC encoder rang ±2 LSB for about 16 ms after a hard cut at 44.0. The first encode failed this test for that reason.
-- The sound was then remuxed with `--remux`: same encoder settings, video stream copied.
+- From 44.0 to 57.005 s, 573,520 decoded stereo samples, all 0 (13.0 s). ffmpeg astats on 44.0 to the end: Peak level -inf, RMS -inf. **PASS.**
+- The last non-zero sample is at 43.901 s. The mix ramps to zero over 43.80–43.90 so that AAC ringing never crosses 44.0.
 
 **Tone at 0:03** (plan §9.5)
-- Stone (126,105,68), R−B 58.5.
-- Door luminance 25.3.
-- Luminance p5 21.3, p95 127.1.
-- Joint darkness 11.9.
-- **All PASS.**
+- Stone (121.9, 101.9, 65.5), R−B 56.4 (reference stone (122, 104, 69)).
+- Door luminance 24.8.
+- Luminance p5 19.4, p95 130.5.
+- Joint darkness 6.1.
+- **All PASS.** `compare_P01.jpg` and `compare_metrics.json` were regenerated from this file.
 
 **I1 on the render**
-- Stone edges at 0:02 against 0:29 coincide within 1 px for 0.856 (A in B) and 0.801 (B in A). The rest of each edge map is the shadow side of the gaps, which changes with the lamp.
-- On U2's lossless frames the figures are 0.905 and 0.858. The piece table and alpha maps are identical, so the geometry is identical.
-- P03 at 27.9 against 48.0: mean absolute difference 1.25 levels, which is mp4 noise. On U2's own frames they are pixel-identical.
+- Stone edges at 0:02 against 0:29 coincide within 1 px for 0.847 (A in B) and 0.792 (B in A). The rest is the lamp-dependent shadow side of each gap: the shadows fall on opposite sides under lamps A and B.
+- On U2's lossless frames: piece table and alpha maps identical, 0.869 and 0.866.
+- P03 at 27.9 against 48.0: mean absolute difference 1.25 levels (mp4 noise).
 
 **I5 on the render**
-- Memory plane (87.5, 96.9, 109.2), with B ≥ R.
-- Stone R−B 67.4.
+- Memory plane (87.5, 96.7, 109.8), with B ≥ R.
+- Stone R−B 66.2.
 - **PASS.**
 
 **Defining beat**
-- The mean of the door region goes from 23 (closed) to 66 (open) over 31.0–32.5 and holds open.
-- 31 distinct door-region drawings between 31 and 36.
-- At 43.9 the door is closed again (23.3).
-
-**U2 stage tests, re-run** (`assembly_stage_tests.json`)
-- I9 PASS: hinge drift 0 px, hinge height range 0, stud slide 0.
-- Maximum opening 60.9° left and 67.2° right; the right leaf lags 4 frames.
-- Contacts at 7.0 and 43.5.
+- The door-region mean goes from 23 (closed) to 65–69 (open) over 31.0–33.0 and holds open.
+- 49 distinct door-region drawings between 31 and 36 s.
+- At 43.9 the door is closed again (23.2).
+- Stage tests: I9 PASS, with 0 px hinge drift, a 0.001 px stud slide, maximum opening 60.9° left and 67.2° right, the right leaf 4 frames late, and contacts at 7.0 and 43.5.
 
 **Voice**
 - `validate_voice.py` PASS with 0 errors, and all 5 counterexamples are rejected.
 - Captions show at 3.0, 12.0, 23.0, 29.5 and 38.5, and none show at 0.5, 7.5, 17, 27.5, 33, 42 or 48.
+- The first slate now carries "récit fictif" (0–8 s), as well as the card.
+
+Frames resampled from the published mp4 are in `review-3/` (2, 3, 19.5, 27.9, 29, 31.2, 32, 33.5, 38.5, 43.9, 45, 48 and 55 s) and on `review-3/sheet.jpg`. They show the INFÉRÉ record line at 38.5, the silence slate at 45 and the card credits at 55.
+
+## ID note
+U1's ledger calls the Polymagou photo JUNC-F; U2's stage code and `pieces_manifest.json` call it JUNCTION-FB, and that record now lists the alias. This file uses JUNCTION-FB throughout.

@@ -1,6 +1,6 @@
 {
  "master": {
-  "revision": "2d659ecc16bf5d13b47eb3729b08d40a1fb54ff9",
+  "revision": "90f1417b48de31c0113ca2ec2e874d1bf3f9d2ec",
   "path": "out/master.mp4",
   "sha1": "out/master.sha1.json",
   "framemd5": "out/master.framemd5",
@@ -12,9 +12,7 @@
   "fps": 24,
   "encode": "libx264 crf 16 preset slow -tune animation yuv420p, 24 fps CFR, video only, encoded once",
   "plan": "plan-r3",
-  "builder": "picture/maquette.py frame(k)",
-  "previous_revision": "e467efc03aba944aa00e1281895f888a45c831e3",
-  "revision_note": "r2: editor grade (maquette.py GRADE_GAMMA 0.93 mid-tone levels curve); event frames, geometry and timing unchanged"
+  "builder": "picture/maquette.py frame(k)"
  },
  "event_frames_changed": [],
  "window_numbering": "i = floor*24 + bay; floor 0 = top floor; bays 0-7 far volume, 8-15 middle, 16-23 near volume of the staggered near row (approved test-shot model); entrance door under bay 16",
@@ -38,8 +36,8 @@
     8.0,
     16.0
    ],
-   "cam": "wide",
-   "camera": "track at half speed (P6 64->96 px) + multiplane push-in scale 1+0.18*ratio*u centred on the entrance; exposure 1.00->0.93"
+   "cam": "tele",
+   "camera": "r3: same eye-level position, 3.4x longer lens (documentary zoom) centred on the entrance so the walker is ~90-110 px tall; track at half speed (P6 64->96 px) + multiplane push-in scale 1+0.18*ratio*u; exposure 1.00->0.93"
   },
   {
    "id": "S3",
@@ -7899,7 +7897,7 @@
   {
    "k": 192,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 1.0,
    "P0": {
     "dx_px": 0.0,
@@ -7937,7 +7935,7 @@
   {
    "k": 193,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9996,
    "P0": {
     "dx_px": 0.0,
@@ -7975,7 +7973,7 @@
   {
    "k": 194,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9993,
    "P0": {
     "dx_px": 0.0,
@@ -8013,7 +8011,7 @@
   {
    "k": 195,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9989,
    "P0": {
     "dx_px": 0.0,
@@ -8051,7 +8049,7 @@
   {
    "k": 196,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9985,
    "P0": {
     "dx_px": 0.0,
@@ -8089,7 +8087,7 @@
   {
    "k": 197,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9982,
    "P0": {
     "dx_px": 0.0,
@@ -8127,7 +8125,7 @@
   {
    "k": 198,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9978,
    "P0": {
     "dx_px": 0.0,
@@ -8165,7 +8163,7 @@
   {
    "k": 199,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9974,
    "P0": {
     "dx_px": 0.0,
@@ -8203,7 +8201,7 @@
   {
    "k": 200,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9971,
    "P0": {
     "dx_px": 0.0,
@@ -8241,7 +8239,7 @@
   {
    "k": 201,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9967,
    "P0": {
     "dx_px": 0.0,
@@ -8279,7 +8277,7 @@
   {
    "k": 202,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9963,
    "P0": {
     "dx_px": 0.0,
@@ -8317,7 +8315,7 @@
   {
    "k": 203,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.996,
    "P0": {
     "dx_px": 0.0,
@@ -8355,7 +8353,7 @@
   {
    "k": 204,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9956,
    "P0": {
     "dx_px": 0.0,
@@ -8393,7 +8391,7 @@
   {
    "k": 205,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9952,
    "P0": {
     "dx_px": 0.0,
@@ -8431,7 +8429,7 @@
   {
    "k": 206,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9949,
    "P0": {
     "dx_px": 0.0,
@@ -8469,7 +8467,7 @@
   {
    "k": 207,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9945,
    "P0": {
     "dx_px": 0.0,
@@ -8507,7 +8505,7 @@
   {
    "k": 208,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9941,
    "P0": {
     "dx_px": 0.0,
@@ -8545,7 +8543,7 @@
   {
    "k": 209,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9938,
    "P0": {
     "dx_px": 0.0,
@@ -8583,7 +8581,7 @@
   {
    "k": 210,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9934,
    "P0": {
     "dx_px": 0.0,
@@ -8621,7 +8619,7 @@
   {
    "k": 211,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.993,
    "P0": {
     "dx_px": 0.0,
@@ -8659,7 +8657,7 @@
   {
    "k": 212,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9927,
    "P0": {
     "dx_px": 0.0,
@@ -8697,7 +8695,7 @@
   {
    "k": 213,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9923,
    "P0": {
     "dx_px": 0.0,
@@ -8735,7 +8733,7 @@
   {
    "k": 214,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9919,
    "P0": {
     "dx_px": 0.0,
@@ -8773,7 +8771,7 @@
   {
    "k": 215,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9916,
    "P0": {
     "dx_px": 0.0,
@@ -8811,7 +8809,7 @@
   {
    "k": 216,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9912,
    "P0": {
     "dx_px": 0.0,
@@ -8849,7 +8847,7 @@
   {
    "k": 217,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9908,
    "P0": {
     "dx_px": 0.0,
@@ -8887,7 +8885,7 @@
   {
    "k": 218,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9905,
    "P0": {
     "dx_px": 0.0,
@@ -8925,7 +8923,7 @@
   {
    "k": 219,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9901,
    "P0": {
     "dx_px": 0.0,
@@ -8963,7 +8961,7 @@
   {
    "k": 220,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9897,
    "P0": {
     "dx_px": 0.0,
@@ -9001,7 +8999,7 @@
   {
    "k": 221,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9894,
    "P0": {
     "dx_px": 0.0,
@@ -9039,7 +9037,7 @@
   {
    "k": 222,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.989,
    "P0": {
     "dx_px": 0.0,
@@ -9077,7 +9075,7 @@
   {
    "k": 223,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9886,
    "P0": {
     "dx_px": 0.0,
@@ -9115,7 +9113,7 @@
   {
    "k": 224,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9883,
    "P0": {
     "dx_px": 0.0,
@@ -9153,7 +9151,7 @@
   {
    "k": 225,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9879,
    "P0": {
     "dx_px": 0.0,
@@ -9191,7 +9189,7 @@
   {
    "k": 226,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9875,
    "P0": {
     "dx_px": 0.0,
@@ -9229,7 +9227,7 @@
   {
    "k": 227,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9872,
    "P0": {
     "dx_px": 0.0,
@@ -9267,7 +9265,7 @@
   {
    "k": 228,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9868,
    "P0": {
     "dx_px": 0.0,
@@ -9305,7 +9303,7 @@
   {
    "k": 229,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9864,
    "P0": {
     "dx_px": 0.0,
@@ -9343,7 +9341,7 @@
   {
    "k": 230,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9861,
    "P0": {
     "dx_px": 0.0,
@@ -9381,7 +9379,7 @@
   {
    "k": 231,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9857,
    "P0": {
     "dx_px": 0.0,
@@ -9419,7 +9417,7 @@
   {
    "k": 232,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9853,
    "P0": {
     "dx_px": 0.0,
@@ -9457,7 +9455,7 @@
   {
    "k": 233,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.985,
    "P0": {
     "dx_px": 0.0,
@@ -9495,7 +9493,7 @@
   {
    "k": 234,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9846,
    "P0": {
     "dx_px": 0.0,
@@ -9533,7 +9531,7 @@
   {
    "k": 235,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9842,
    "P0": {
     "dx_px": 0.0,
@@ -9571,7 +9569,7 @@
   {
    "k": 236,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9839,
    "P0": {
     "dx_px": 0.0,
@@ -9609,7 +9607,7 @@
   {
    "k": 237,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9835,
    "P0": {
     "dx_px": 0.0,
@@ -9647,7 +9645,7 @@
   {
    "k": 238,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9831,
    "P0": {
     "dx_px": 0.0,
@@ -9685,7 +9683,7 @@
   {
    "k": 239,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9828,
    "P0": {
     "dx_px": 0.0,
@@ -9723,7 +9721,7 @@
   {
    "k": 240,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9824,
    "P0": {
     "dx_px": 0.0,
@@ -9761,7 +9759,7 @@
   {
    "k": 241,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.982,
    "P0": {
     "dx_px": 0.0,
@@ -9799,7 +9797,7 @@
   {
    "k": 242,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9817,
    "P0": {
     "dx_px": 0.0,
@@ -9837,7 +9835,7 @@
   {
    "k": 243,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9813,
    "P0": {
     "dx_px": 0.0,
@@ -9875,7 +9873,7 @@
   {
    "k": 244,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9809,
    "P0": {
     "dx_px": 0.0,
@@ -9913,7 +9911,7 @@
   {
    "k": 245,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9806,
    "P0": {
     "dx_px": 0.0,
@@ -9951,7 +9949,7 @@
   {
    "k": 246,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9802,
    "P0": {
     "dx_px": 0.0,
@@ -9989,7 +9987,7 @@
   {
    "k": 247,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9798,
    "P0": {
     "dx_px": 0.0,
@@ -10027,7 +10025,7 @@
   {
    "k": 248,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9795,
    "P0": {
     "dx_px": 0.0,
@@ -10065,7 +10063,7 @@
   {
    "k": 249,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9791,
    "P0": {
     "dx_px": 0.0,
@@ -10103,7 +10101,7 @@
   {
    "k": 250,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9787,
    "P0": {
     "dx_px": 0.0,
@@ -10141,7 +10139,7 @@
   {
    "k": 251,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9784,
    "P0": {
     "dx_px": 0.0,
@@ -10179,7 +10177,7 @@
   {
    "k": 252,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.978,
    "P0": {
     "dx_px": 0.0,
@@ -10217,7 +10215,7 @@
   {
    "k": 253,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9776,
    "P0": {
     "dx_px": 0.0,
@@ -10255,7 +10253,7 @@
   {
    "k": 254,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9773,
    "P0": {
     "dx_px": 0.0,
@@ -10293,7 +10291,7 @@
   {
    "k": 255,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9769,
    "P0": {
     "dx_px": 0.0,
@@ -10331,7 +10329,7 @@
   {
    "k": 256,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9765,
    "P0": {
     "dx_px": 0.0,
@@ -10369,7 +10367,7 @@
   {
    "k": 257,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9762,
    "P0": {
     "dx_px": 0.0,
@@ -10407,7 +10405,7 @@
   {
    "k": 258,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9758,
    "P0": {
     "dx_px": 0.0,
@@ -10445,7 +10443,7 @@
   {
    "k": 259,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9754,
    "P0": {
     "dx_px": 0.0,
@@ -10483,7 +10481,7 @@
   {
    "k": 260,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9751,
    "P0": {
     "dx_px": 0.0,
@@ -10521,7 +10519,7 @@
   {
    "k": 261,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9747,
    "P0": {
     "dx_px": 0.0,
@@ -10559,7 +10557,7 @@
   {
    "k": 262,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9743,
    "P0": {
     "dx_px": 0.0,
@@ -10597,7 +10595,7 @@
   {
    "k": 263,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.974,
    "P0": {
     "dx_px": 0.0,
@@ -10635,7 +10633,7 @@
   {
    "k": 264,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9736,
    "P0": {
     "dx_px": 0.0,
@@ -10673,7 +10671,7 @@
   {
    "k": 265,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9732,
    "P0": {
     "dx_px": 0.0,
@@ -10711,7 +10709,7 @@
   {
    "k": 266,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9729,
    "P0": {
     "dx_px": 0.0,
@@ -10749,7 +10747,7 @@
   {
    "k": 267,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9725,
    "P0": {
     "dx_px": 0.0,
@@ -10787,7 +10785,7 @@
   {
    "k": 268,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9721,
    "P0": {
     "dx_px": 0.0,
@@ -10825,7 +10823,7 @@
   {
    "k": 269,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9718,
    "P0": {
     "dx_px": 0.0,
@@ -10863,7 +10861,7 @@
   {
    "k": 270,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9714,
    "P0": {
     "dx_px": 0.0,
@@ -10901,7 +10899,7 @@
   {
    "k": 271,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.971,
    "P0": {
     "dx_px": 0.0,
@@ -10939,7 +10937,7 @@
   {
    "k": 272,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9707,
    "P0": {
     "dx_px": 0.0,
@@ -10977,7 +10975,7 @@
   {
    "k": 273,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9703,
    "P0": {
     "dx_px": 0.0,
@@ -11015,7 +11013,7 @@
   {
    "k": 274,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9699,
    "P0": {
     "dx_px": 0.0,
@@ -11053,7 +11051,7 @@
   {
    "k": 275,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9696,
    "P0": {
     "dx_px": 0.0,
@@ -11091,7 +11089,7 @@
   {
    "k": 276,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9692,
    "P0": {
     "dx_px": 0.0,
@@ -11129,7 +11127,7 @@
   {
    "k": 277,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9688,
    "P0": {
     "dx_px": 0.0,
@@ -11167,7 +11165,7 @@
   {
    "k": 278,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9685,
    "P0": {
     "dx_px": 0.0,
@@ -11205,7 +11203,7 @@
   {
    "k": 279,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9681,
    "P0": {
     "dx_px": 0.0,
@@ -11243,7 +11241,7 @@
   {
    "k": 280,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9677,
    "P0": {
     "dx_px": 0.0,
@@ -11281,7 +11279,7 @@
   {
    "k": 281,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9674,
    "P0": {
     "dx_px": 0.0,
@@ -11319,7 +11317,7 @@
   {
    "k": 282,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.967,
    "P0": {
     "dx_px": 0.0,
@@ -11357,7 +11355,7 @@
   {
    "k": 283,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9666,
    "P0": {
     "dx_px": 0.0,
@@ -11395,7 +11393,7 @@
   {
    "k": 284,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9663,
    "P0": {
     "dx_px": 0.0,
@@ -11433,7 +11431,7 @@
   {
    "k": 285,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9659,
    "P0": {
     "dx_px": 0.0,
@@ -11471,7 +11469,7 @@
   {
    "k": 286,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9655,
    "P0": {
     "dx_px": 0.0,
@@ -11509,7 +11507,7 @@
   {
    "k": 287,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9652,
    "P0": {
     "dx_px": 0.0,
@@ -11547,7 +11545,7 @@
   {
    "k": 288,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9648,
    "P0": {
     "dx_px": 0.0,
@@ -11585,7 +11583,7 @@
   {
    "k": 289,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9645,
    "P0": {
     "dx_px": 0.0,
@@ -11623,7 +11621,7 @@
   {
    "k": 290,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9641,
    "P0": {
     "dx_px": 0.0,
@@ -11661,7 +11659,7 @@
   {
    "k": 291,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9637,
    "P0": {
     "dx_px": 0.0,
@@ -11699,7 +11697,7 @@
   {
    "k": 292,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9634,
    "P0": {
     "dx_px": 0.0,
@@ -11737,7 +11735,7 @@
   {
    "k": 293,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.963,
    "P0": {
     "dx_px": 0.0,
@@ -11775,7 +11773,7 @@
   {
    "k": 294,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9626,
    "P0": {
     "dx_px": 0.0,
@@ -11813,7 +11811,7 @@
   {
    "k": 295,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9623,
    "P0": {
     "dx_px": 0.0,
@@ -11851,7 +11849,7 @@
   {
    "k": 296,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9619,
    "P0": {
     "dx_px": 0.0,
@@ -11889,7 +11887,7 @@
   {
    "k": 297,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9615,
    "P0": {
     "dx_px": 0.0,
@@ -11927,7 +11925,7 @@
   {
    "k": 298,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9612,
    "P0": {
     "dx_px": 0.0,
@@ -11965,7 +11963,7 @@
   {
    "k": 299,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9608,
    "P0": {
     "dx_px": 0.0,
@@ -12003,7 +12001,7 @@
   {
    "k": 300,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9604,
    "P0": {
     "dx_px": 0.0,
@@ -12041,7 +12039,7 @@
   {
    "k": 301,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9601,
    "P0": {
     "dx_px": 0.0,
@@ -12079,7 +12077,7 @@
   {
    "k": 302,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9597,
    "P0": {
     "dx_px": 0.0,
@@ -12117,7 +12115,7 @@
   {
    "k": 303,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9593,
    "P0": {
     "dx_px": 0.0,
@@ -12155,7 +12153,7 @@
   {
    "k": 304,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.959,
    "P0": {
     "dx_px": 0.0,
@@ -12193,7 +12191,7 @@
   {
    "k": 305,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9586,
    "P0": {
     "dx_px": 0.0,
@@ -12231,7 +12229,7 @@
   {
    "k": 306,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9582,
    "P0": {
     "dx_px": 0.0,
@@ -12269,7 +12267,7 @@
   {
    "k": 307,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9579,
    "P0": {
     "dx_px": 0.0,
@@ -12307,7 +12305,7 @@
   {
    "k": 308,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9575,
    "P0": {
     "dx_px": 0.0,
@@ -12345,7 +12343,7 @@
   {
    "k": 309,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9571,
    "P0": {
     "dx_px": 0.0,
@@ -12383,7 +12381,7 @@
   {
    "k": 310,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9568,
    "P0": {
     "dx_px": 0.0,
@@ -12421,7 +12419,7 @@
   {
    "k": 311,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9564,
    "P0": {
     "dx_px": 0.0,
@@ -12459,7 +12457,7 @@
   {
    "k": 312,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.956,
    "P0": {
     "dx_px": 0.0,
@@ -12497,7 +12495,7 @@
   {
    "k": 313,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9557,
    "P0": {
     "dx_px": 0.0,
@@ -12535,7 +12533,7 @@
   {
    "k": 314,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9553,
    "P0": {
     "dx_px": 0.0,
@@ -12573,7 +12571,7 @@
   {
    "k": 315,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9549,
    "P0": {
     "dx_px": 0.0,
@@ -12611,7 +12609,7 @@
   {
    "k": 316,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9546,
    "P0": {
     "dx_px": 0.0,
@@ -12649,7 +12647,7 @@
   {
    "k": 317,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9542,
    "P0": {
     "dx_px": 0.0,
@@ -12687,7 +12685,7 @@
   {
    "k": 318,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9538,
    "P0": {
     "dx_px": 0.0,
@@ -12725,7 +12723,7 @@
   {
    "k": 319,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9535,
    "P0": {
     "dx_px": 0.0,
@@ -12763,7 +12761,7 @@
   {
    "k": 320,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9531,
    "P0": {
     "dx_px": 0.0,
@@ -12801,7 +12799,7 @@
   {
    "k": 321,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9527,
    "P0": {
     "dx_px": 0.0,
@@ -12839,7 +12837,7 @@
   {
    "k": 322,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9524,
    "P0": {
     "dx_px": 0.0,
@@ -12877,7 +12875,7 @@
   {
    "k": 323,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.952,
    "P0": {
     "dx_px": 0.0,
@@ -12915,7 +12913,7 @@
   {
    "k": 324,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9516,
    "P0": {
     "dx_px": 0.0,
@@ -12953,7 +12951,7 @@
   {
    "k": 325,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9513,
    "P0": {
     "dx_px": 0.0,
@@ -12991,7 +12989,7 @@
   {
    "k": 326,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9509,
    "P0": {
     "dx_px": 0.0,
@@ -13029,7 +13027,7 @@
   {
    "k": 327,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9505,
    "P0": {
     "dx_px": 0.0,
@@ -13067,7 +13065,7 @@
   {
    "k": 328,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9502,
    "P0": {
     "dx_px": 0.0,
@@ -13105,7 +13103,7 @@
   {
    "k": 329,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9498,
    "P0": {
     "dx_px": 0.0,
@@ -13143,7 +13141,7 @@
   {
    "k": 330,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9494,
    "P0": {
     "dx_px": 0.0,
@@ -13181,7 +13179,7 @@
   {
    "k": 331,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9491,
    "P0": {
     "dx_px": 0.0,
@@ -13219,7 +13217,7 @@
   {
    "k": 332,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9487,
    "P0": {
     "dx_px": 0.0,
@@ -13257,7 +13255,7 @@
   {
    "k": 333,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9483,
    "P0": {
     "dx_px": 0.0,
@@ -13295,7 +13293,7 @@
   {
    "k": 334,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.948,
    "P0": {
     "dx_px": 0.0,
@@ -13333,7 +13331,7 @@
   {
    "k": 335,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9476,
    "P0": {
     "dx_px": 0.0,
@@ -13371,7 +13369,7 @@
   {
    "k": 336,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9472,
    "P0": {
     "dx_px": 0.0,
@@ -13409,7 +13407,7 @@
   {
    "k": 337,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9469,
    "P0": {
     "dx_px": 0.0,
@@ -13447,7 +13445,7 @@
   {
    "k": 338,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9465,
    "P0": {
     "dx_px": 0.0,
@@ -13485,7 +13483,7 @@
   {
    "k": 339,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9461,
    "P0": {
     "dx_px": 0.0,
@@ -13523,7 +13521,7 @@
   {
    "k": 340,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9458,
    "P0": {
     "dx_px": 0.0,
@@ -13561,7 +13559,7 @@
   {
    "k": 341,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9454,
    "P0": {
     "dx_px": 0.0,
@@ -13599,7 +13597,7 @@
   {
    "k": 342,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.945,
    "P0": {
     "dx_px": 0.0,
@@ -13637,7 +13635,7 @@
   {
    "k": 343,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9447,
    "P0": {
     "dx_px": 0.0,
@@ -13675,7 +13673,7 @@
   {
    "k": 344,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9443,
    "P0": {
     "dx_px": 0.0,
@@ -13713,7 +13711,7 @@
   {
    "k": 345,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9439,
    "P0": {
     "dx_px": 0.0,
@@ -13751,7 +13749,7 @@
   {
    "k": 346,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9436,
    "P0": {
     "dx_px": 0.0,
@@ -13789,7 +13787,7 @@
   {
    "k": 347,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9432,
    "P0": {
     "dx_px": 0.0,
@@ -13827,7 +13825,7 @@
   {
    "k": 348,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9428,
    "P0": {
     "dx_px": 0.0,
@@ -13865,7 +13863,7 @@
   {
    "k": 349,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9425,
    "P0": {
     "dx_px": 0.0,
@@ -13903,7 +13901,7 @@
   {
    "k": 350,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9421,
    "P0": {
     "dx_px": 0.0,
@@ -13941,7 +13939,7 @@
   {
    "k": 351,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9417,
    "P0": {
     "dx_px": 0.0,
@@ -13979,7 +13977,7 @@
   {
    "k": 352,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9414,
    "P0": {
     "dx_px": 0.0,
@@ -14017,7 +14015,7 @@
   {
    "k": 353,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.941,
    "P0": {
     "dx_px": 0.0,
@@ -14055,7 +14053,7 @@
   {
    "k": 354,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9406,
    "P0": {
     "dx_px": 0.0,
@@ -14093,7 +14091,7 @@
   {
    "k": 355,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9403,
    "P0": {
     "dx_px": 0.0,
@@ -14131,7 +14129,7 @@
   {
    "k": 356,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9399,
    "P0": {
     "dx_px": 0.0,
@@ -14169,7 +14167,7 @@
   {
    "k": 357,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9395,
    "P0": {
     "dx_px": 0.0,
@@ -14207,7 +14205,7 @@
   {
    "k": 358,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9392,
    "P0": {
     "dx_px": 0.0,
@@ -14245,7 +14243,7 @@
   {
    "k": 359,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9388,
    "P0": {
     "dx_px": 0.0,
@@ -14283,7 +14281,7 @@
   {
    "k": 360,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9384,
    "P0": {
     "dx_px": 0.0,
@@ -14321,7 +14319,7 @@
   {
    "k": 361,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9381,
    "P0": {
     "dx_px": 0.0,
@@ -14359,7 +14357,7 @@
   {
    "k": 362,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9377,
    "P0": {
     "dx_px": 0.0,
@@ -14397,7 +14395,7 @@
   {
    "k": 363,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9373,
    "P0": {
     "dx_px": 0.0,
@@ -14435,7 +14433,7 @@
   {
    "k": 364,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.937,
    "P0": {
     "dx_px": 0.0,
@@ -14473,7 +14471,7 @@
   {
    "k": 365,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9366,
    "P0": {
     "dx_px": 0.0,
@@ -14511,7 +14509,7 @@
   {
    "k": 366,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9362,
    "P0": {
     "dx_px": 0.0,
@@ -14549,7 +14547,7 @@
   {
    "k": 367,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9359,
    "P0": {
     "dx_px": 0.0,
@@ -14587,7 +14585,7 @@
   {
    "k": 368,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9355,
    "P0": {
     "dx_px": 0.0,
@@ -14625,7 +14623,7 @@
   {
    "k": 369,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9351,
    "P0": {
     "dx_px": 0.0,
@@ -14663,7 +14661,7 @@
   {
    "k": 370,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9348,
    "P0": {
     "dx_px": 0.0,
@@ -14701,7 +14699,7 @@
   {
    "k": 371,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9344,
    "P0": {
     "dx_px": 0.0,
@@ -14739,7 +14737,7 @@
   {
    "k": 372,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.934,
    "P0": {
     "dx_px": 0.0,
@@ -14777,7 +14775,7 @@
   {
    "k": 373,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9337,
    "P0": {
     "dx_px": 0.0,
@@ -14815,7 +14813,7 @@
   {
    "k": 374,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9333,
    "P0": {
     "dx_px": 0.0,
@@ -14853,7 +14851,7 @@
   {
    "k": 375,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9329,
    "P0": {
     "dx_px": 0.0,
@@ -14891,7 +14889,7 @@
   {
    "k": 376,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9326,
    "P0": {
     "dx_px": 0.0,
@@ -14929,7 +14927,7 @@
   {
    "k": 377,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9322,
    "P0": {
     "dx_px": 0.0,
@@ -14967,7 +14965,7 @@
   {
    "k": 378,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9318,
    "P0": {
     "dx_px": 0.0,
@@ -15005,7 +15003,7 @@
   {
    "k": 379,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9315,
    "P0": {
     "dx_px": 0.0,
@@ -15043,7 +15041,7 @@
   {
    "k": 380,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9311,
    "P0": {
     "dx_px": 0.0,
@@ -15081,7 +15079,7 @@
   {
    "k": 381,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9307,
    "P0": {
     "dx_px": 0.0,
@@ -15119,7 +15117,7 @@
   {
    "k": 382,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.9304,
    "P0": {
     "dx_px": 0.0,
@@ -15157,7 +15155,7 @@
   {
    "k": 383,
    "shot": "S2",
-   "cam": "wide",
+   "cam": "tele",
    "exposure": 0.93,
    "P0": {
     "dx_px": 0.0,
@@ -31881,78 +31879,5 @@
     "head": -0.026
    }
   ]
- },
- "absences": [
-  "Commons searches 'tissue paper texture', 'washi paper texture', 'cardboard texture' (2026-11-16): only 'Papel tissue.JPG' (CC BY-SA 4.0) was a genuine tissue scan; 'washi' returned no paper scans under an allowed licence (a Brooklyn Museum painting only). Both downloads were rate-limited (HTTP 429) and abandoned; the window-16 tissue uses the LoC blank sheet's fibre instead.",
-  "Optional gait-timing reference (movingimagearchive.com ee12b007, Arteries of New York City, 1941) was not measured within the time budget; the stride period 1.10 s is the plan's value. Nothing from it is used or credited.",
-  "Papel tissue.JPG: licence read from extmetadata 2026-11-16; download refused with HTTP 429 (rate limit) on 12 tries over ~15 min; NOT used. Intended for window-16 tissue.",
-  "Cardboard-546867.jpg: licence read; download blocked by HTTP 429; NOT used."
- ],
- "handmade": [
-  {
-   "what": "the whole maquette geometry: three staggered cream volumes (24 bays x 4 floors + ground floor) with quarter-cylinder zinc roofs, dormers, cream balcony slabs with dark rails and balusters, end walls, a hazed far white block, the hedge (thousands of cut leaf stamps) with a gap for the entrance path, recursive bare saplings with Whitney sway, road with dashed lines and kerbs, verge with a torn edge, fence post + mesh, swan-neck lamp post, door leaf, window glows",
-   "where": "films/swarm/la-cite-raymond-queneau/picture/maquette.py (cached sheets in films/sources/la-cite-raymond-queneau/picture/cache/)"
-  },
-  {
-   "what": "the articulated paper walker (head, neck, torso, two-segment arms and legs with feet, shopping bag on a string), FK from per-frame joint angles solved from planted feet",
-   "where": "maquette.py walker_pose / draw_walker; angles in picture/edl.json"
-  },
-  {
-   "what": "the black-card silhouette behind window 16's tissue (shoulders + head pinned at the neck) and the tissue curtain",
-   "where": "maquette.py window16_tex"
-  }
- ],
- "evidence": [
-  {
-   "id": "paper-loc-blank",
-   "kind": "FORAGED",
-   "title": "[Unidentified Production: Sketch no. 27, Blank Sheet of Paper] (image 1 of 2)",
-   "author": "Federal Theatre Project (U.S.); Nels Astner",
-   "license": "Public domain (U.S. government work; LoC rights: no known copyright in the Federal Theatre Project collection, free to use and reuse)",
-   "license_url": "https://www.loc.gov/item/musftpsets.200218222/",
-   "source_url": "https://www.loc.gov/item/musftpsets.200218222/",
-   "file_url": "https://tile.loc.gov/image-services/iiif/public:music:musftpsets-200218222:musftpsets-200218222.0001/full/pct:50.0/0/default.jpg",
-   "local_path": "films/sources/la-cite-raymond-queneau/picture/loc_blank_0001.jpg",
-   "what_it_shows": "a scanned blank sheet of cream drawing paper (taped at the edges); the clean centre shows real paper fibre",
-   "verified_date_or_place": "Library of Congress, Federal Theatre Project collection; rights read from the LoC item record on 2026-11-16 (test-shot unit), reused here unchanged",
-   "used_as": "cream stock of every facade, end wall, balcony slab card, dormer card, far pavement, far white block and the sky sheet's faint fibre; tissue fibre of window 16 (fallback: the Commons tissue scan could not be downloaded); graded only by per-channel levels (median -> palette target, contrast 0.8-1.9)"
-  },
-  {
-   "id": "paper-kraft",
-   "kind": "FORAGED",
-   "title": "Kraft tileable 1024x1024.png",
-   "author": "Coyau",
-   "license": "Public domain",
-   "license_url": "",
-   "source_url": "https://commons.wikimedia.org/wiki/File:Kraft_tileable_1024x1024.png",
-   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/47/Kraft_tileable_1024x1024.png",
-   "local_path": "films/sources/la-cite-raymond-queneau/picture/kraft_tileable.png",
-   "what_it_shows": "a scanned sample of kraft paper, tileable",
-   "verified_date_or_place": "Commons extmetadata LicenseShortName = 'Public domain', DateTimeOriginal 2013-01-08, read 2026-11-16",
-   "used_as": "zinc roof card (laid lines read as seams), road card, fibre of the hedge leaf stamps, fence post and mesh, lamp-post card; graded only by per-channel levels"
-  },
-  {
-   "id": "paper-vintage",
-   "kind": "FORAGED",
-   "title": "Vintage Paper Texture (9789792113).jpg",
-   "author": "James Puckett from Boulder, USA",
-   "license": "CC BY 2.0",
-   "license_url": "https://creativecommons.org/licenses/by/2.0",
-   "source_url": "https://commons.wikimedia.org/wiki/File:Vintage_Paper_Texture_(9789792113).jpg",
-   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/82/Vintage_Paper_Texture_%289789792113%29.jpg",
-   "local_path": "films/sources/la-cite-raymond-queneau/picture/p3.jpg",
-   "what_it_shows": "a photographed sheet of aged paper with mottled fibre",
-   "verified_date_or_place": "Commons extmetadata LicenseShortName = 'CC BY 2.0', DateTimeOriginal 2013-09-17, read 2026-11-16",
-   "used_as": "grass verge sheet (P6) and the far grass strip behind the hedge, graded by per-channel levels to (78,102,56) / (88,106,70)"
-  }
- ],
- "checks": {
-  "aesthetic": "picture/aesthetic-check.json (model render) and out/aesthetic-check.json (decoded master): passed, p50 121.5 on the decoded master",
-  "determinism": "picture/determinism-check.json (10/10 equal)",
-  "framemd5_lines": 720
- },
- "known_defects": [
-  "S4: lamp-post head sits at the very top edge of the frame and its pavement pool is faint/out of frame",
-  "walker is small (about 25-30 px tall) at the wide framing"
- ]
+ }
 }

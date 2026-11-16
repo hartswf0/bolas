@@ -1,7 +1,7 @@
 {
  "file": {
   "duration_s": 57.0,
-  "size_mb": 1.258,
+  "size_mb": 1.282,
   "streams": [
    [
     "video",
@@ -48,49 +48,49 @@
   "pass": true
  },
  "I1_render": {
-  "stone_edges_A_in_B_within_1px": 0.856,
-  "stone_edges_B_in_A_within_1px": 0.801,
-  "p03_plate_27_9_vs_48_0_mean_abs_diff": 1.25,
+  "stone_edges_A_in_B_within_1px": 0.847,
+  "stone_edges_B_in_A_within_1px": 0.792,
+  "p03_plate_27_9_vs_48_0_mean_abs_diff": 1.251,
   "note": "mp4 (crf 28) frames; P03 diff measured on y 40-600 (slates differ, caption F3 gone by 27.9)"
  },
  "I5_render": {
   "memory_mean_rgb": [
    87.5,
-   96.9,
-   109.2
+   96.7,
+   109.8
   ],
   "memory_B_ge_R": true,
-  "stone_R_minus_B": 67.4,
+  "stone_R_minus_B": 66.2,
   "pass": true
  },
  "beat_render": {
   "door_region_mean_31_to_36": [
    23.0,
-   25.6,
-   56.2,
-   69.7,
-   68.0,
-   66.1,
+   22.3,
+   30.2,
+   51.7,
+   65.1,
+   69.1,
+   68.5,
+   67.0,
    65.8,
-   65.9,
-   66.0,
-   66.0
+   65.2
   ],
-  "distinct_door_drawings_31_to_36": 31,
-  "door_mean_43_9": 23.3,
-  "door_mean_29": 24.5
+  "distinct_door_drawings_31_to_36": 49,
+  "door_mean_43_9": 23.2,
+  "door_mean_29": 24.1
  },
  "captions_render": {
   "0.5": 0,
-  "3.0": 1096,
+  "3.0": 895,
   "7.5": 0,
-  "12.0": 1570,
+  "12.0": 1211,
   "17.0": 0,
-  "23.0": 1393,
+  "23.0": 1144,
   "27.5": 0,
-  "29.5": 827,
+  "29.5": 718,
   "33.0": 0,
-  "38.5": 697,
+  "38.5": 676,
   "42.0": 0,
   "48.0": 0
  },
@@ -99,8 +99,8 @@
   "I1": {
    "piece_table_identical_A_B": true,
    "n_pieces": 51,
-   "stone_edge_coincidence_within_1px_A_in_B": 0.905,
-   "stone_edge_coincidence_within_1px_B_in_A": 0.858,
+   "stone_edge_coincidence_within_1px_A_in_B": 0.869,
+   "stone_edge_coincidence_within_1px_B_in_A": 0.866,
    "alpha_maps_identical": true,
    "p03_same_plate_shots_3_and_5": true,
    "note": "edge maps from a 3 px high-pass; the residue is the lamp-dependent shadow side of each 1-2 px gap"
@@ -109,12 +109,12 @@
   "shot4": {
    "hinge_x_drift_L_px": 0.0,
    "hinge_height_range_L_px": 0.0,
-   "theta_max_L_deg": 60.89,
-   "distinct_leaf_drawings_L": 82,
+   "theta_max_L_deg": 60.9,
+   "distinct_leaf_drawings_L": 114,
    "hinge_x_drift_R_px": 0.0,
    "hinge_height_range_R_px": 0.0,
-   "theta_max_R_deg": 67.19,
-   "distinct_leaf_drawings_R": 82,
+   "theta_max_R_deg": 67.2,
+   "distinct_leaf_drawings_R": 117,
    "right_leaf_lag_frames": 4,
    "contact_frames_s": {
     "L": [

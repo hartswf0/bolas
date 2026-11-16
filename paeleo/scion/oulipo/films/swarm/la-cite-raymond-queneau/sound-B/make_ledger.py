@@ -53,6 +53,18 @@ if os.path.exists(os.path.join(RAW, "LL-Q150_fra-Poslovitch-quarante-sept.wav"))
       what_it_shows="Lingua Libre French word recording: 'quarante-sept'", verified_date_or_place=CHK,
       used_as="Edition B voice: 'quarante-sept' through a 300-3000 Hz radio band, onset on f384"))
 
+_LL = any(os.path.exists(os.path.join(RAW, f"LL-Q150_fra-{n}-quarante-sept.wav")) for n in ("Poslovitch", "Estrie"))
+if not _LL and os.path.exists(os.path.join(RAW, "loc_jukebox26299.dec.wav")):
+    items.append(dict(id="LOC:jukebox-26299", title="French lesson no. 1 (Victor 18419, matrix B-20914, recorded 26 Oct 1917)",
+      author="Alexander Guy Holborn Spiers and Reinald Werrenrath (speakers); Victor Talking Machine Co.",
+      license="Public domain (US: sound recording published before 1923, public domain since 1 Jan 2022 under the Music Modernization Act; LoC rights statement)",
+      license_url="https://www.loc.gov/item/jukebox-26299/", source_url="https://www.loc.gov/item/jukebox-26299/",
+      file_url="https://tile.loc.gov/storage-services/service/mbrsrs/mbrsjukebox/ucsb_victor_18419_01_b20914_01/ucsb_victor_18419_01_b20914_01.mp3",
+      local_path="sources/la-cite-raymond-queneau/sound-B/loc-r2/jukebox-26299.mp3", credit_line="Library of Congress, National Jukebox",
+      what_it_shows="a 1917 spoken-word language-instruction record: two men's voices speaking short phrases with pauses",
+      verified_date_or_place="LoC item JSON read 2026-11-16: date 1917-10-26, genre 'Spoken word', rights statement: recordings published prior to 1923 entered the public domain on 1 Jan 2022",
+      used_as="Edition B voice (and X from 16.0 s): one 1.25 s phrase (record 3.0-4.2 s), band-limited 350-2600 Hz and saturated as a radio voice, between two squelches, on f384 (the key cut); words indistinct, so it is captioned as an indistinct radio voice"))
+
 MIA = "https://www.movingimagearchive.com/sources/"
 absences = [
  dict(searched="movingimagearchive.com cache: b6100d97 Singing Wires (1951)", page=MIA + "singing-wires-d80fe718?clip=b6100d97-1545-55d8-bb29-ddf9cb418ca7",
@@ -66,7 +78,7 @@ absences = [
  dict(searched="Commons: teleprinter / teletype mechanical sound", result="only radio-mode recordings (AMTOR, MT63, PSK31, Radiofax) and a spoken word 'teleprinter'; no mechanical teleprinter. Substituted real typewriter keystrokes re-sequenced at 9 strokes/s (labelled as such)"),
  dict(searched="Commons: door buzzer / electric strike", result="no electric door-strike recording found; used the real door buzzer inside WWS Metro.ogg (CC BY 4.0) instead"),
  dict(searched="Commons: fluorescent buzz, light breeze, Lingua Libre 'soixante'", result="search rate-limited (HTTP 429) and not completed; window 60 (f406, inside the voice-only crossover) is carried by a handmade radio key-off squelch instead"),
- dict(searched="Commons: LL-Q150 (fra) Poslovitch and Estrie quarante-sept (both CC0; licences read from extmetadata)", result="both downloads from upload.wikimedia.org rate-limited (HTTP 429) over ~25 min of spaced retries; voice stem uses a handmade radio squelch on f384 instead. build_B.py decodes and uses the word automatically if either file is placed in sound-B/raw/" if not os.path.exists(os.path.join(RAW, "LL-Q150_fra-Poslovitch-quarante-sept.wav")) else "downloaded"),
+ dict(searched="Commons: LL-Q150 (fra) Poslovitch and Estrie quarante-sept (both CC0; licences read from extmetadata)", result="both downloads from upload.wikimedia.org rate-limited (HTTP 429) over ~25 min of spaced retries; voice stem uses a real recorded voice from the Library of Congress National Jukebox (1917, PD) on f384 instead, words indistinct. build_B.py decodes and uses the word automatically if either file is placed in sound-B/raw/" if not os.path.exists(os.path.join(RAW, "LL-Q150_fra-Poslovitch-quarante-sept.wav")) else "downloaded"),
 ]
 handmade = json.load(open(os.path.join(HERE, "handmade-B.json")))
 json.dump(dict(foraged=items, handmade=handmade, absences=absences), open(os.path.join(HERE, "ledger.json"), "w"), indent=1, ensure_ascii=False)

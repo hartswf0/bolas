@@ -16,8 +16,8 @@ def region_masks(k):
         x, y = M.canvas_to_frame(k, plane, *pt)
         return (x / M.SS, y / M.SS)
     fac = [fp(p, "P3") for p in M.facade_quad(b)]
-    roof = [fp(M.proj(b["s_left"], b["n"] + M.RR * (1 - np.cos(t)), M.HE + M.RR * np.sin(t)), "P3") for t in np.linspace(0.05, 1.2, 12)]
-    roof += [fp(M.proj(b["s_left"] - M.LEN, b["n"] + M.RR * (1 - np.cos(t)), M.HE + M.RR * np.sin(t)), "P3") for t in np.linspace(1.2, 0.05, 12)]
+    roof = [fp(M.proj(b["s_left"], b["n"] + M.RN * (1 - np.cos(t)), M.HE + M.RR * np.sin(t)), "P3") for t in np.linspace(0.05, 1.2, 12)]
+    roof += [fp(M.proj(b["s_left"] - M.LEN, b["n"] + M.RN * (1 - np.cos(t)), M.HE + M.RR * np.sin(t)), "P3") for t in np.linspace(1.2, 0.05, 12)]
     masks = {}
     for name, poly in (("facade", fac), ("roof", roof)):
         m = Image.new("L", (M.PW, M.PH), 0); ImageDraw.Draw(m).polygon(poly, fill=255)
