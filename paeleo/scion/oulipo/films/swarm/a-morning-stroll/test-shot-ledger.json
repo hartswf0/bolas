@@ -1,0 +1,114 @@
+{
+ "shot": "THE KNOCK, V1 shot B (1959), local 5.0-11.0 s = clip 0.0-6.0 s",
+ "foraged": [
+  {
+   "title": "[Detail of stoop showing staircases and decorative handrails], July 1959 (ppmsca.70651)",
+   "author": "Angelo Rizzuto (Anthony Angel Collection, Library of Congress)",
+   "license": "No known restrictions on publication (LoC rights advisory, re-verified on loc.gov item 2020636795 JSON)",
+   "license_url": "https://www.loc.gov/rr/print/res/730_ange.html",
+   "source_url": "https://www.loc.gov/item/2020636795/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/ppmsca/70600/70651u.tif",
+   "used_as": "the plate: door, handrail, lace railing, dark recess; railing holdout and door-leaf mattes cut from it; the leaf texture swung as the opening door"
+  },
+  {
+   "title": "[Portrait of a rooster], Animal studies from nature, 1870s (stereo.1s08734)",
+   "author": "Schreiber & Sons, Philadelphia (Library of Congress)",
+   "license": "No known restrictions on publication (LoC rights advisory, re-verified via loc.gov search JSON); public domain (pre-1900)",
+   "license_url": "",
+   "source_url": "https://www.loc.gov/item/2017651475/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/stereo/1s00000/1s08000/1s08700/1s08734u.tif",
+   "used_as": "the rooster puppet: left lens GrabCut-cut into 5 pinned pieces (body, head+neck, tail, near leg, far leg)"
+  },
+  {
+   "title": "File:Knock on door.wav",
+   "author": "Asud12 (Wikimedia Commons)",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Knock_on_door.wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/28/Knock_on_door.wav",
+   "used_as": "one wood strike (at 1.337 s) thinned and resampled +5 and +8 semitones: the two beak strikes at 1.000 s and 1.333 s"
+  },
+  {
+   "title": "Arteries of New York City (1941)",
+   "author": "via movingimagearchive.com",
+   "license": "Rights as listed by movingimagearchive.com (largely public domain); not independently verified",
+   "license_url": "",
+   "source_url": "https://www.movingimagearchive.com/sources/arteries-of-new-york-city?clip=ee12b007-f491-5a16-b94a-70c7a5837e31",
+   "file_url": "",
+   "used_as": "room tone: a 1.8 s pause in the optical soundtrack (2.6-4.4 s of archive clip ee12b007), looped with crossfades under the shot; source film time 78.478-89.79 s"
+  }
+ ],
+ "handmade": [
+  "door swing (perspective homography of the plate's own leaf, inpainted behind the iron), black hall with daylight spill",
+  "railing holdout matte, leaf matte, jamb/stile holdouts (cut from the plate)",
+  "bird cast shadow on the door and contact shadows on the rail (computed from the puppet alpha)",
+  "lens vignette and one global tone curve",
+  "latch clicks, hinge creak, wing flutter, landing thud (synthesized with kit.Mix)"
+ ],
+ "not_found": [
+  "chicken cluck: File:Chicken 01.wav (CC BY-SA 4.0, Ganesh Mohan T) was chosen but Commons returned HTTP 429 on every download attempt; no cluck in the test shot"
+ ],
+ "events": {
+  "E3_strike1": {
+   "frame": 24,
+   "clip_s": 1.0,
+   "local_s": 6.0
+  },
+  "E4_strike2": {
+   "frame": 32,
+   "clip_s": 1.3333333333333333,
+   "local_s": 6.333333333333333
+  },
+  "E5_open": {
+   "clip_s": [
+    2.0,
+    3.5
+   ],
+   "local_s": [
+    7.0,
+    8.5
+   ]
+  },
+  "E6_enter": {
+   "clip_s": [
+    3.83,
+    5.0
+   ],
+   "local_s": [
+    8.83,
+    10.0
+   ]
+  }
+ },
+ "bones_ptp_px": {
+  "head": 0.0,
+  "tail": 0.0,
+  "leg_near": 0.0,
+  "leg_far": 0.0
+ },
+ "contact_frames": {
+  "24": {
+   "beak_plate": [
+    1921.1,
+    251.4
+   ],
+   "beak_on_leaf": true,
+   "bird_px_visible": 21448,
+   "door_deg": 0.0,
+   "head_rad": 0.584,
+   "inside": false
+  },
+  "32": {
+   "beak_plate": [
+    1921.1,
+    251.4
+   ],
+   "beak_on_leaf": true,
+   "bird_px_visible": 21390,
+   "door_deg": 0.0,
+   "head_rad": 0.584,
+   "inside": false
+  }
+ },
+ "bird_px_visible_from_frame_116": true
+}

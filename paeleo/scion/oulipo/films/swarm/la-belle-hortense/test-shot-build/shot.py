@@ -121,6 +121,8 @@ def dye_piece(gray, alpha, coat):
 BODY = dye_piece(PZ['body_g'], PZ['body_a'], PZ['coat'])
 FORE = dye_piece(PZ['g'], PZ['fore_a'], PZ['fore_coat'])
 SHN = np.dstack([printc(PZ['g'])[..., None] * PAPERC * 0.9, PZ['shinN']]).astype(np.float32)
+_lo = PZ['shinN'].copy(); _lo[:HEM + 8] = 0
+SHN_LOW = np.dstack([printc(PZ['g'])[..., None] * PAPERC * 0.9, _lo]).astype(np.float32)
 SHF = np.dstack([printc(PZ['g'])[..., None] * PAPERC * 0.5, PZ['shinF']]).astype(np.float32)
 
 def A3(M): return np.vstack([M, [0, 0, 1]])
@@ -204,17 +206,18 @@ T_LAND = T_DROP + (-VY0 + math.sqrt(VY0 ** 2 + 2 * G * (GROUND_Y - KY0))) / G
 VY_LAND = VY0 + G * (T_LAND - T_DROP)
 T_HOP = 2 * 0.28 * VY_LAND / G
 SLIDE_T = 0.16
+DRIFT = 420.0                    # the key lags the runner as it slips (air drag over the fall)
 def key_state(t):
     """world x, screen y, angle (deg)"""
     if t < T_DROP: return None
     if t < T_LAND:
         dt = t - T_DROP
-        return KX0 - VR * dt, KY0 + VY0 * dt + 0.5 * G * dt * dt, 30 + 760 * dt
-    xl = KX0 - VR * (T_LAND - T_DROP)
+        return KX0 - (VR - DRIFT) * dt, KY0 + VY0 * dt + 0.5 * G * dt * dt, 30 + 760 * dt
+    xl = KX0 - (VR - DRIFT) * (T_LAND - T_DROP)
     ang_l = 30 + 760 * (T_LAND - T_DROP)
     dt = t - T_LAND
     s = min(dt, SLIDE_T)
-    x = xl - VR * (s - s * s / (2 * SLIDE_T))         # friction: velocity decays linearly to 0
+    x = xl - (VR - DRIFT) * (s - s * s / (2 * SLIDE_T))         # friction: velocity decays linearly to 0
     y = GROUND_Y
     if dt < T_HOP:
         v = 0.28 * VY_LAND
@@ -269,12 +272,13 @@ def subframe(t):
     if -400 < hx < W + 400:
         Mb, MN, MF, MA, ph = rig_mats(t, hx, HIP_Y)
         fr = paint(fr, SHF, MF)
-        ks = key_state(t)
-        if ks and t < T_LAND:          # falling key passes behind the near shin
-            fr = draw_key(fr, ks, cx)
         fr = paint(fr, SHN, MN)
         fr = paint(fr, BODY, Mb)
         fr = paint(fr, FORE, MA)
+        ks = key_state(t)
+        if ks and t < T_LAND:          # falling key: in front of the coat, behind the near shin
+            fr = draw_key(fr, ks, cx)
+            fr = paint(fr, SHN_LOW, MN)
         if t < T_DROP:                 # the key's bow shows in the fold until it slips
             Mk = A3(cv2.getRotationMatrix2D(KPIV, 30 + 6 * math.sin(2 * math.pi * ph), 0.9))
             fx, fy = tp(Mb, FOLD)

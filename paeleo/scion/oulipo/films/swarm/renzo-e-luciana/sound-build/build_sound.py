@@ -109,7 +109,7 @@ STEP_GRAINS = [norm_peak(seg(cs, 0.0, 0.30, 0.001, 0.08), -3), norm_peak(seg(cs,
 RECORDS.append(src_rec('File:Concrete Steps 2.ogg', 'all footsteps: the two real steps cut as grains, alternated with +-3% speed and +-2 dB variation; the foreman\'s pacing gets a small declared room reverb'))
 
 # hall walla / reverberant steps: low far layer under the foreman's pacing
-ch = None  # Church walla dropped: indistinct voices would break 'no voice'
+ch = load('Church_people_walking_steps_with_reverb.ogg')  # editor repair r1: PD hall recording, used only as a sub-200 Hz rumble (4th-order low-pass: no speech band survives)
 
 # clock tick
 tick = load('Clock_ticking.ogg')
@@ -122,13 +122,7 @@ RECORDS.append(src_rec('File:Clock ticking.ogg', 'clock tick bed (A: dropped und
                        local_path=WAV + '/Clock_ticking_from_testshot.wav', verified_date_or_place='2007-04-29')))
 
 # room tone: Moving Image Archive Valley Town (1940) factory-roof clip + WWS machine shop if present
-vt = readwav(SND + '/mia/valley-town-1940_a11ba534.wav')
-RECORDS.append(dict(id='mia:a11ba534', title='Valley Town (1940)', author='via movingimagearchive.com',
-                    license='Rights as listed by movingimagearchive.com (largely public domain); not independently verified',
-                    license_url='', source_url='https://www.movingimagearchive.com/sources/valley-town-9978c98d?clip=a11ba534-ceca-5859-a69f-9d622f30c4e7',
-                    file_url='', local_path=SND + '/mia/valley-town-1940_a11ba534.wav',
-                    what_it_shows='factory roofline with a smoke stack, steam whistle blowing (source time 1130.3-1133.97 s); low tonal 118/172 Hz roar',
-                    verified_date_or_place='1940 (archive listing)', used_as='room tone: the plant\'s low roar, low-passed and tiled into a 35 s bed per version'))
+# editor repair r1: the Valley Town (1940) plant clip is dropped (steady 118/174 Hz fifth = probable Blitzstein score; licence of the clip not independently verified)
 ep = load('WWS_Edgeplaner.ogg')
 
 # bells
@@ -300,17 +294,12 @@ def tick_loop(n):
 
 def room_bed(t0, t1, tick_env):
     n = int((t1 - t0) * SR)
-    vt_bed = loop_bed(lp_fft(vt, 400), t1 - t0)
-    vt_bed = vt_bed / (np.sqrt(np.mean(vt_bed ** 2)) + 1e-9) * 10 ** (-40 / 20)
-    y = vt_bed
+    y = loop_bed(lp_fft(lp_fft(ch, 200, 2), 200, 2), t1 - t0)     # large-room rumble from the PD hall recording, < 200 Hz only
+    y = y / (np.sqrt(np.mean(y ** 2)) + 1e-9) * 10 ** (-40 / 20)
     if ep is not None:
         far = loop_bed(lp_fft(hp_fft(ep, 120), 1800), t1 - t0)
         far = far / (np.sqrt(np.mean(far ** 2)) + 1e-9) * 10 ** (-44 / 20)
         y = y + far
-    if ch is not None:   # distant hall air (a reverberant large room), very low, steps blurred by the low-pass
-        air = loop_bed(lp_fft(ch, 900), t1 - t0)
-        air = air / (np.sqrt(np.mean(air ** 2)) + 1e-9) * 10 ** (-50 / 20)
-        y = y + air
     fade = int(.3 * SR); y[:fade] *= np.linspace(0, 1, fade); y[-int(.02 * SR):] *= np.linspace(1, 0, int(.02 * SR))
     put('room', y, t0, 1.0, 0.0)
     # ticking with a gain envelope over version-local seconds
@@ -335,7 +324,7 @@ cue('room', 37.0, 'B room tone bed; clock tick rises from 42.0 to 52.0 (R waits 
 # bells ------------------------------------------------------------------
 y, s, fb = work_bell(2.0); put('bells', y, 0.0 - onset(y), 1.0, 0.1); cue('bell', 0.0, 'work bell: both breaks begin (one ring ~2 s)', 'bells', s, fb, 2.0, rule_ref='work_bell')
 if fb: FALLBACKS.append(('work_bell', fb))
-y, s, fb = work_bell(1.2); put('bells', y, 37.0 - onset(y), 1.0, 0.1); cue('bell', 37.0, 'work bell: Renzo\'s break only (single shorter ring)', 'bells', s, fb, 1.2, rule_ref='work_bell')
+y, s, fb = work_bell(1.2); _o = onset(y); _a = max(0, int((_o - 0.004) * SR)); y = y[_a:].copy(); y[:88] *= np.linspace(0, 1, 88); put('bells', y, 37.0 - (_o - _a / SR), 1.0, 0.1); cue('bell', 37.0, 'work bell: Renzo\'s break only (single shorter ring)', 'bells', s, fb, 1.2, rule_ref='work_bell')
 y, s, fb = late_bell(1.6); put('bells', y, 52.0 - onset(y), 1.0, -0.1); cue('bell', 52.0, 'LATE BELL (higher, different bell): Luciana\'s break begins 12:03', 'bells', s, fb, 1.6, rule_ref='late_bell')
 if fb: FALLBACKS.append(('late_bell', fb))
 
@@ -411,8 +400,8 @@ ABSENCES = [
     'apple bite: searched Commons audio for "apple bite", "biting apple", "apple eating", "eating apple", "crunch eating", "chewing", "bite crisp": no recording of an apple bite under PD/CC0/CC BY/BY-SA; used a real PD crunch (pistachio husks) as declared substitute',
     'time-clock punch: Commons "WWS Timeclock.ogg" (CC BY 4.0, Work With Sounds) was found, but upload.wikimedia.org returned HTTP 429 (retry-after 600) for every attempt over ~60 min; substitute layered from two real recordings. Re-try later and set choice.json punch -> WWS_Timeclock.ogg',
     'also found but not downloadable (429): Old school bell 1-5.ogg (PD hand bells), WWS Signalbell.ogg (CC BY 4.0), WWS Steamengineandsignalbell.ogg, WWS Edgeplaner.ogg (CC BY 4.0 machine shop; would add a far machine layer to the room tone), Food wrapper crumpling.ogg, Eating snacks.ogg, Mechanical tack.ogg',
-    'factory room tone with source sound in the Moving Image Archive cache: of the factory/machine-shop/shift/assembly/lathe/plant hits with audio, Master Hands (1936, both clips) carry an orchestral score, Look to Lockheed (1940) and the atom-plant/duPont/White Ammunition clips carry narration; only Valley Town (1940) a11ba534 carries clean diegetic plant sound (3.67 s), used as the room tone',
-    'footsteps on concrete: only "Concrete Steps 2.ogg" (two steps, 0.79 s) is clean; longer step recordings found (Church people walking steps with reverb, PD) carry crowd walla and were not used, so pacing is built from the two real steps',
+    'factory room tone with source sound in the Moving Image Archive cache: of the factory/machine-shop/shift/assembly/lathe/plant hits with audio, Master Hands (1936, both clips) carry an orchestral score, Look to Lockheed (1940) and the atom-plant/duPont/White Ammunition clips carry narration; Valley Town (1940) a11ba534 has diegetic plant sound but a steady 118/174 Hz fifth (probable Marc Blitzstein score) and was DROPPED in editor repair r1; the room tone is now a sub-200 Hz rumble from the PD Commons hall recording',
+    'footsteps on concrete: only "Concrete Steps 2.ogg" (two steps, 0.79 s) is clean; longer step recordings found (Church people walking steps with reverb, PD) carry crowd walla, so they are not used as steps (the hall recording appears only as a sub-200 Hz room rumble), so pacing is built from the two real steps',
     'tin pail lid: no openly licensed tin-lid recording searched out in the time; a real cupboard-door click stands in (declared)',
     'no kit-synthesized sound remains in the mix: every sounding element is a real recording (bites and punch are declared substitutes)',
 ]
@@ -443,7 +432,7 @@ for t in used:
         RECORDS.append(src_rec(t, ', '.join(sorted({c['cue'] for c in CUES if c.get('source') == t}))))
 for v, nm in ((ep, 'File:WWS Edgeplaner.ogg'), (ch, 'File:Church people walking steps with reverb.ogg')):
     if v is not None and nm not in [r['id'] for r in RECORDS]:
-        RECORDS.append(src_rec(nm, 'room tone layer (low-passed, far)'))
+        RECORDS.append(src_rec(nm, 'room tone: the only bed, 4th-order low-passed at 200 Hz (a large-room rumble; no speech band survives), tiled into a 35 s bed per version'))
 USED_AS = {
     'File:Model 500 Telephone British ring.ogg': 'WORK BELL (t 0.0, one 2 s double ring; t 37.0, single shorter ring): a real electric telephone bell, gongs ~1235/1690 Hz, trimmed from 0.2 s',
     'File:WWS Minetelephone.ogg': 'LATE BELL (t 52.0, 1.6 s): a real continuous trembling electric bell, gong ~1885/3785 Hz, higher and shriller than the work bell; trimmed from 3.0 s',
