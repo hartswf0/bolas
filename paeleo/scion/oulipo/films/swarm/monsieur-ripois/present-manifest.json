@@ -1,0 +1,637 @@
+{
+ "unit": "U2 present-cutout (full build after approved test shot)",
+ "date": "2026-11-16",
+ "module": {
+  "path": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/monsieur-ripois/present_puppets.py",
+  "helper": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/monsieur-ripois/silver_box.py (reads box-spec.json)",
+  "api": {
+   "render_twoshot(t, keys=None)": "720x540 RGB PIL; t = global film seconds; keys None/'master' | 'late' | 'baseline' | dict override; return_state=True also returns the puppet state",
+   "render_box_insert(t, state='open')": "720x540; state closed|lid33|lid66|open|receipt; t = seconds into the insert (slow push-in 2.5%/s-ish, drift, hand breath)",
+   "render_receipt_insert(t)": "720x540; t = seconds into the insert 0..4.5; unfold drawings at 0.0/0.4/0.8/1.2 s (on twos), push to the date line 1.6-4.5 s",
+   "load_keys(variant)": "keys from dialogue-cues.json gesture_keys[variant] by cue_id (fallback plan §6)",
+   "slot_screen_insert(t)": "slot centre on screen in the insert, plus normalised x"
+  },
+  "speed": "about 0.4-0.6 s per two-shot frame, ~0.8 s per insert frame (single core numpy/cv2)",
+  "keys_in_use": {
+   "setdown": [
+    5.5,
+    6.25
+   ],
+   "lean_on": [
+    3.4166666666666665,
+    3.9166666666666665
+   ],
+   "lean_off": 4.416666666666667,
+   "lean_deg": 3.0,
+   "lean2_start": 23.0,
+   "lean2_end": 25.208333333333332,
+   "lean2_deg": 4.0,
+   "lid_crack": [
+    7.708333333333333,
+    8.166666666666666
+   ],
+   "lid_crack_deg": 10.5,
+   "setdown_px": 76.0,
+   "head_drop": 24.416666666666668,
+   "head_drop_deg": -11.0,
+   "head_drop_frames": 8,
+   "his_stop": 24.416666666666668,
+   "arm_withdraw": [
+    27.0,
+    28.0
+   ],
+   "pocket": [
+    29.333333333333336,
+    29.666666666666668
+   ],
+   "receipt_fall": [
+    29.416666666666668,
+    30.208333333333332
+   ],
+   "look_receipt": 30.583333333333332,
+   "look_receipt_deg": -6.0,
+   "lid_open_by": 19.5,
+   "receipt_to_slot": [
+    37.208333333333336,
+    38.416666666666664
+   ],
+   "lid_close": [
+    39.166666666666664,
+    39.5
+   ],
+   "turn_away": 40.5,
+   "turn_away_deg": 8.0,
+   "baseline": false,
+   "source": "dialogue-cues.json gesture_keys[master]"
+  },
+  "editor_notes": [
+   "Already toned (one fixed curve + the print's own grain); do NOT re-grade present shots, only add captions.",
+   "S3a insert: render_box_insert(t - 19.5, 'open') for frames 468-515 lands on the empty slot; S5 box-in-slot is in the two-shot; use 'receipt' insert only if a closer look is wanted.",
+   "S4 receipt insert: render_receipt_insert(t - 31.5) for 31.5-36.0 (cue CUE-4i 756-784 = unfold).",
+   "baseline: render_twoshot(t, 'baseline') holds the lid closed, head 0, no receipt; for S3a in baseline hold the two-shot.",
+   "Box in the two-shot is open from CUT-S3a (468) onward; it is closed (lid crack 10 % at 185-196) before the flashback."
+  ]
+ },
+ "foraged": [
+  {
+   "id": "V0",
+   "title": "Jim Tillman and his girl in the lounge of the student union. University of Nebraska, Lincoln",
+   "author": "John Vachon (1914-1975), U.S. Farm Security Administration / Office of War Information",
+   "license": "Public domain (US government work; LoC rights_information: 'No known restrictions on publication')",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017831564/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d04000/8d04800/8d04830u.tif (crop by byte ranges, master px x 2772-10583, y 4158-9323)",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/monsieur-ripois/present/v0-master-crop.png ; /home/user/bolas/paeleo/scion/oulipo/films/sources/monsieur-ripois/present/plate-1440.png (master-crop px 391,456-5988,4654 -> 1440x1080, i.e. downsampled 3.9x; output 720 = 7.8x downsample, no upscale)",
+   "what_it_shows": "a young man and a young woman in a hat talking on a striped sofa in a lounge, wall, wainscot, painting frame; genuine B&W gelatin-silver negative, flash from camera-right",
+   "verified_date_or_place": "May 1942, Lincoln, Nebraska; rights re-read from https://www.loc.gov/item/2017831564/?fo=json on 2026-11-16 (/home/user/bolas/paeleo/scion/oulipo/films/sources/monsieur-ripois/present/loc-2017831564.json)",
+   "used_as": "two-shot background plate (inpainted, burned), GrabCut pieces her_head, his_head, his_arm, pocket; lap/skirt fabric plane of both inserts; mirror-lid and metal reflections; film grain sampled from a plain wall patch"
+  },
+  {
+   "id": "V1",
+   "title": "Jim Tillman and his girl in the lounge of the student union. University of Nebraska, Lincoln (second frame, armchairs)",
+   "author": "John Vachon (1914-1975), U.S. Farm Security Administration / Office of War Information",
+   "license": "Public domain (US government work; LoC rights_information: 'No known restrictions on publication')",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017831565/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d04000/8d04800/8d04831u.tif (crop by byte ranges, master px x 4980-5740, y 6240-7190; 12909x9879 8-bit uncompressed)",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/monsieur-ripois/present/v1-master-hand.png",
+   "what_it_shows": "the same young woman's right gloved hand gripping an armchair arm (same sitting, same flash)",
+   "verified_date_or_place": "1942, Lincoln, Nebraska; rights read from https://www.loc.gov/item/2017831565/?fo=json on 2026-11-16 (/home/user/bolas/paeleo/scion/oulipo/films/sources/monsieur-ripois/present/loc-2017831565.json). Note: the local file 8d04831.jpg belongs to item 2017831565, not 2017831567 (which is 8d04833).",
+   "used_as": "her hands (GrabCut piece her_hand; right hand as shot, the left is the same glove mirrored) gripping the box ends in the two-shot and inserts, fingers occluding the box"
+  }
+ ],
+ "movingimagearchive": "not used by this unit (the present is the Vachon print articulated; no archive clip needed)",
+ "handmade": [
+  {
+   "what": "silver box: geometry from box-spec.json; guilloché front/top computed as V-groove engine-turning (rose r*f+0.18 sin(14a+30r) and a wave band, 38 cycles/w) at 900 px/w texture, area-filtered at 2-3x supersampling (no moire); Lambert + specular from V0's key (camera-right flash) with streak to paper white; old-mirror lid: plate reflection, wavy glass remap, tarnish blooms, wiped smudge, desilvered edge; velvet insert with pressed ring hollow, lit lip and empty slit; partial-lid states keep the engraved outer lid; receipt-in-slot state; contact shadow on the skirt; grain = the print's own",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/monsieur-ripois/silver_box.py ; states /home/user/bolas/paeleo/scion/oulipo/films/sources/monsieur-ripois/present/box-insert-{closed,lid33,lid66,open,receipt}.png"
+  },
+  {
+   "what": "pawn receipt: typeset MONT-DE-PIÉTÉ · Bureau auxiliaire n° 7 · Reconnaissance N° 48 213 · Engagé le 14 mars 1953 · une bague or, un brillant · 9 000 F · Déposant : A. R.; Courier-like labels (Liberation Mono), clerk's hand (Liberation Serif Italic) on dotted lines, double rule border, off-axis (-13°) double-framed ENGAGÉ stamp whose ink breaks up on the paper tooth, multi-scale paper tooth from noise, centre fold with crease shading and paper back; fall from the waistcoat welt pocket with gravity (v*v), tumble, one bounce (restitution ~0.25) and settle",
+   "where": "present_puppets.py _receipt_tex/_folded_slip/state_at ; /home/user/bolas/paeleo/scion/oulipo/films/sources/monsieur-ripois/present/receipt-insert-*.png ; /home/user/bolas/paeleo/scion/oulipo/films/sources/monsieur-ripois/present/receipt-fall-strip.jpg (frames 702-729)"
+  },
+  {
+   "what": "FK rig + timing: pieces rotate about fixed pivots within limits; drawings on twos except the head drop (on ones, 8 frames); box set-down with acceleration, contact, squash-settle",
+   "where": "present_puppets.py state_at()"
+  }
+ ],
+ "pieces": {
+  "her_head": {
+   "source": "V0 plate-1440",
+   "bbox_plate": [
+    228,
+    86,
+    619,
+    490
+   ],
+   "pivot": [
+    470,
+    478
+   ],
+   "limits_deg": [
+    -12,
+    9
+   ],
+   "parent": "body(plate)",
+   "area": 114623,
+   "fail_px": 4938,
+   "fail_frac": 0.043,
+   "transform_to_master": "master_x = 391 + x*5597/1440 + 2772 ; master_y = 456 + y*4198/1080 + 4158 (8d04830u.tif px)",
+   "note": "contour traced tight to hat, curls and profile (rev. 2: the first cut carried wall and veil with it)"
+  },
+  "his_head": {
+   "source": "V0 plate-1440",
+   "bbox_plate": [
+    813,
+    11,
+    1068,
+    361
+   ],
+   "pivot": [
+    958,
+    360
+   ],
+   "limits_deg": [
+    -2,
+    4
+   ],
+   "parent": "body(plate)",
+   "area": 65520,
+   "fail_px": 5971,
+   "fail_frac": 0.091,
+   "transform_to_master": "master_x = 391 + x*5597/1440 + 2772 ; master_y = 456 + y*4198/1080 + 4158 (8d04830u.tif px)",
+   "note": ""
+  },
+  "his_arm": {
+   "source": "V0 plate-1440",
+   "bbox_plate": [
+    587,
+    354,
+    812,
+    506
+   ],
+   "pivot": [
+    800,
+    430
+   ],
+   "limits_deg": [
+    -6,
+    2
+   ],
+   "parent": "body(plate)",
+   "area": 24536,
+   "fail_px": 3557,
+   "fail_frac": 0.145,
+   "transform_to_master": "master_x = 391 + x*5597/1440 + 2772 ; master_y = 456 + y*4198/1080 + 4158 (8d04830u.tif px)",
+   "note": "his right upper arm/forearm along the sofa back; the hand is hidden behind her (as in the print)"
+  },
+  "pocket": {
+   "source": "V0 plate-1440",
+   "bbox_plate": [
+    1104,
+    694,
+    1184,
+    739
+   ],
+   "pivot": [
+    1145,
+    700
+   ],
+   "limits_deg": [
+    0,
+    10
+   ],
+   "parent": "body(plate)",
+   "area": 3100,
+   "fail_px": 575,
+   "fail_frac": 0.185,
+   "transform_to_master": "master_x = 391 + x*5597/1440 + 2772 ; master_y = 456 + y*4198/1080 + 4158 (8d04830u.tif px)",
+   "note": "waistcoat welt pocket (the only pocket opening visible in the print); flap lifts as the slip slides out"
+  },
+  "her_hand": {
+   "source": "V1 = LoC 2017831565, master crop v1-master-hand.png (8d04831u.tif x 4980..5740, y 6240..7190)",
+   "bbox_src": [
+    330,
+    246,
+    587,
+    731
+   ],
+   "scale_to_plate": 0.49,
+   "note": "her right gloved hand gripping the chair arm in V1; used right-handed at the box's right end and mirrored for the left end (scale 0.49 V1-master px -> plate-1440 px, from head-size ratio)",
+   "fail_px": 13918,
+   "area": 101489,
+   "limits": "translate only (rides on the box), wrist roll +-4 deg"
+  }
+ },
+ "rig": {
+  "her_head": "pivot (470,478) plate-1440 px, limits -12..+9 deg (plan sign: - = drop toward box)",
+  "his_head": "pivot (958,360), -2..+4 (+ = lean toward her)",
+  "his_arm": "pivot shoulder (800,430), -6..+2 (CUE-3h: -5, the arm on the sofa back lifts away; his hand is hidden in the print, so 'hand onto knee' is played as the arm coming off the sofa back)",
+  "pocket": "flap pivot (1145,700), 0..10 (lifts as the slip slides out)",
+  "her_hand": "rides on the box (anchored to projected box corners), wrist roll ±10, breath 0.8 px",
+  "bone_lengths": "rigid card pieces: constant by construction",
+  "seam_test_at_limits": {
+   "her_head": {
+    "-12deg": {
+     "vacated_px": 16160,
+     "mean_diff_vs_original_in_vacated": 0.136,
+     "boundary_gradient_ratio": 1.99,
+     "pivot_gap_px_at_720": 0.0
+    },
+    "+9deg": {
+     "vacated_px": 12314,
+     "mean_diff_vs_original_in_vacated": 0.312,
+     "boundary_gradient_ratio": 1.14,
+     "pivot_gap_px_at_720": 0.0
+    }
+   },
+   "his_head": {
+    "-2deg": {
+     "vacated_px": 2169,
+     "mean_diff_vs_original_in_vacated": 0.328,
+     "boundary_gradient_ratio": 0.28,
+     "pivot_gap_px_at_720": 0.0
+    },
+    "+4deg": {
+     "vacated_px": 4346,
+     "mean_diff_vs_original_in_vacated": 0.227,
+     "boundary_gradient_ratio": 0.19,
+     "pivot_gap_px_at_720": 0.0
+    }
+   },
+   "his_arm": {
+    "-6deg": {
+     "vacated_px": 2430,
+     "mean_diff_vs_original_in_vacated": 0.067,
+     "boundary_gradient_ratio": 0.51,
+     "pivot_gap_px_at_720": 0.0
+    },
+    "+2deg": {
+     "vacated_px": 812,
+     "mean_diff_vs_original_in_vacated": 0.112,
+     "boundary_gradient_ratio": 0.76,
+     "pivot_gap_px_at_720": 0.0
+    }
+   },
+   "pocket": {
+    "+0deg": {
+     "vacated_px": 0,
+     "mean_diff_vs_original_in_vacated": 0.0,
+     "boundary_gradient_ratio": 0.0,
+     "pivot_gap_px_at_720": 0.0
+    },
+    "+10deg": {
+     "vacated_px": 315,
+     "mean_diff_vs_original_in_vacated": 0.034,
+     "boundary_gradient_ratio": 0.4,
+     "pivot_gap_px_at_720": 0.0
+    }
+   }
+  }
+ },
+ "tests": {
+  "cue_timing": {
+   "onset_manquait_frame": 586,
+   "her_head_first_moving_frame": 587,
+   "late_first_moving_frame": 611,
+   "her_head_max_abs_under_C1_C2_deg": 0.0,
+   "baseline_her_head_max_abs": 0.0,
+   "his_lean_after_stop_range_deg": 0.0,
+   "keys_source": "dialogue-cues.json gesture_keys[master]"
+  },
+  "slot_match": {
+   "insert_slot_px": [
+    372.4,
+    306.2
+   ],
+   "insert_norm_x": 0.4854,
+   "twoshot_norm_x": 0.4803,
+   "spec_cx": 0.5,
+   "diff_vs_spec": 0.0146,
+   "insert_box_width_frac": 0.509,
+   "note": "normalised along the line through the slot at velvet level (left wall to right wall); U3's silhouette box uses box-spec.json slot cx=0.50, so the cross-media difference is |norm-0.50|"
+  },
+  "grain": {
+   "plate_wall_hp_std": 2.16,
+   "source_grain_std_x255": 2.29
+  },
+  "framing": {
+   "couple_width_frac": "~0.95 of picture width (her back at x≈0 to his shoulder ≈ 0.97)",
+   "heads": "both heads centred in the upper third (y 0.05-0.45)",
+   "box": "lower third between them, ≈ 0.21 of picture width in the two-shot (test shot: 0.12); insert box ≈ 0.51 of picture width"
+  }
+ },
+ "tone": {
+  "targets": "p5 30-45, p50 65-100, p99 >= 235, chroma <= 10",
+  "reference_ripois1": {
+   "p1_5_25_50_75_95_99": [
+    37,
+    38,
+    45,
+    76,
+    142,
+    221,
+    249
+   ],
+   "chroma": 6.3,
+   "grain_std_flat": null
+  },
+  "measured": {
+   "kp01_S1_box_held_5.00": {
+    "p1_5_25_50_75_95_99": [
+     34,
+     39,
+     51,
+     78,
+     134,
+     217,
+     252
+    ],
+    "chroma": 4.0,
+    "grain_std_flat": null
+   },
+   "kp02_S1_lean_rapportee_3.95": {
+    "p1_5_25_50_75_95_99": [
+     34,
+     39,
+     51,
+     78,
+     134,
+     217,
+     252
+    ],
+    "chroma": 4.0,
+    "grain_std_flat": null
+   },
+   "kp03_S1_box_set_down_6.30": {
+    "p1_5_25_50_75_95_99": [
+     34,
+     39,
+     51,
+     78,
+     133,
+     216,
+     252
+    ],
+    "chroma": 4.0,
+    "grain_std_flat": null
+   },
+   "kp04_S1_lid_crack_C2a_8.50": {
+    "p1_5_25_50_75_95_99": [
+     34,
+     39,
+     51,
+     78,
+     132,
+     217,
+     252
+    ],
+    "chroma": 4.0,
+    "grain_std_flat": null
+   },
+   "kp05_S3b_before_cue_24.35": {
+    "p1_5_25_50_75_95_99": [
+     34,
+     39,
+     50,
+     75,
+     132,
+     217,
+     252
+    ],
+    "chroma": 4.1,
+    "grain_std_flat": null
+   },
+   "kp06_S3b_manquait_drop_24.75": {
+    "p1_5_25_50_75_95_99": [
+     34,
+     39,
+     50,
+     75,
+     132,
+     217,
+     252
+    ],
+    "chroma": 4.1,
+    "grain_std_flat": null
+   },
+   "kp07_S3b_arm_withdrawn_28.20": {
+    "p1_5_25_50_75_95_99": [
+     34,
+     39,
+     50,
+     75,
+     132,
+     217,
+     252
+    ],
+    "chroma": 4.1,
+    "grain_std_flat": null
+   },
+   "kp08_S4_receipt_falling_29.80": {
+    "p1_5_25_50_75_95_99": [
+     34,
+     39,
+     50,
+     75,
+     133,
+     217,
+     252
+    ],
+    "chroma": 4.1,
+    "grain_std_flat": null
+   },
+   "kp09_S4_receipt_landed_look_30.85": {
+    "p1_5_25_50_75_95_99": [
+     34,
+     39,
+     50,
+     75,
+     132,
+     217,
+     252
+    ],
+    "chroma": 4.1,
+    "grain_std_flat": null
+   },
+   "kp10_S5_receipt_to_slot_37.80": {
+    "p1_5_25_50_75_95_99": [
+     34,
+     39,
+     50,
+     75,
+     132,
+     218,
+     252
+    ],
+    "chroma": 4.1,
+    "grain_std_flat": null
+   },
+   "kp11_S5_receipt_in_slot_38.90": {
+    "p1_5_25_50_75_95_99": [
+     34,
+     39,
+     50,
+     75,
+     132,
+     217,
+     252
+    ],
+    "chroma": 4.1,
+    "grain_std_flat": null
+   },
+   "kp12_S5_lid_closed_turn_away_41.50": {
+    "p1_5_25_50_75_95_99": [
+     34,
+     39,
+     51,
+     79,
+     132,
+     216,
+     252
+    ],
+    "chroma": 4.0,
+    "grain_std_flat": null
+   },
+   "box-insert-closed": {
+    "p1_5_25_50_75_95_99": [
+     44,
+     50,
+     64,
+     95,
+     139,
+     241,
+     253
+    ],
+    "chroma": 3.4,
+    "grain_std_flat": null
+   },
+   "box-insert-lid33": {
+    "p1_5_25_50_75_95_99": [
+     42,
+     47,
+     59,
+     82,
+     124,
+     239,
+     253
+    ],
+    "chroma": 3.9,
+    "grain_std_flat": null
+   },
+   "box-insert-lid66": {
+    "p1_5_25_50_75_95_99": [
+     39,
+     45,
+     57,
+     85,
+     127,
+     238,
+     253
+    ],
+    "chroma": 3.8,
+    "grain_std_flat": null
+   },
+   "box-insert-open": {
+    "p1_5_25_50_75_95_99": [
+     37,
+     44,
+     56,
+     79,
+     122,
+     236,
+     253
+    ],
+    "chroma": 4.0,
+    "grain_std_flat": null
+   },
+   "box-insert-receipt": {
+    "p1_5_25_50_75_95_99": [
+     38,
+     45,
+     57,
+     80,
+     124,
+     238,
+     253
+    ],
+    "chroma": 4.0,
+    "grain_std_flat": null
+   },
+   "receipt-insert-0.2": {
+    "p1_5_25_50_75_95_99": [
+     40,
+     57,
+     76,
+     121,
+     183,
+     239,
+     252
+    ],
+    "chroma": 2.5,
+    "grain_std_flat": null
+   },
+   "receipt-insert-0.6": {
+    "p1_5_25_50_75_95_99": [
+     40,
+     57,
+     76,
+     120,
+     183,
+     234,
+     252
+    ],
+    "chroma": 2.5,
+    "grain_std_flat": null
+   },
+   "receipt-insert-1.0": {
+    "p1_5_25_50_75_95_99": [
+     38,
+     57,
+     76,
+     122,
+     182,
+     230,
+     248
+    ],
+    "chroma": 2.5,
+    "grain_std_flat": null
+   },
+   "receipt-insert-3.5": {
+    "p1_5_25_50_75_95_99": [
+     37,
+     58,
+     83,
+     158,
+     206,
+     246,
+     253
+    ],
+    "chroma": 1.9,
+    "grain_std_flat": null
+   }
+  },
+  "verdict": "two-shots p5 39, p50 75-79, p99 252, chroma 4.0 (pass); box inserts p5 44-50, p50 79-95, p99 253 (pass, closed insert p5 50 slightly above 45 because the lit silver fills the frame); receipt insert p50 ~158 (paper fills the frame; acceptable for a paper insert, p99 253)"
+ },
+ "deliverables": {
+  "box_spec": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/monsieur-ripois/box-spec.json",
+  "present_vs_ref": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/monsieur-ripois/present-vs-ref.jpg",
+  "keyposes": "/home/user/bolas/paeleo/scion/oulipo/films/sources/monsieur-ripois/present/kp01..kp12_*.png (also in present-cutout/)",
+  "fk_max_rotation": "/home/user/bolas/paeleo/scion/oulipo/films/sources/monsieur-ripois/present/fk-max-rotation-her_head.png",
+  "editor_media": "/home/user/bolas/paeleo/scion/oulipo/films/sources/monsieur-ripois/present-cutout/ (keypose stills, keyposes-contact.jpg, box insert states)",
+  "build_scripts": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/monsieur-ripois/present-build/{fetch_crop.py,cut_pieces.py,build_present.py}",
+  "tests_json": "/home/user/bolas/paeleo/scion/oulipo/films/sources/monsieur-ripois/present/tests.json"
+ },
+ "absences": [
+  "No sharp, bare hand of the woman in V0 (her right hand on the skirt is out of focus); her gloved hand from the sister frame LoC 2017831565 was used instead (same sitting).",
+  "His right hand is hidden behind her in V0 and not visible in any free frame of this sitting at usable size; CUE-3h is played as his arm lifting off the sofa back.",
+  "No breast-pocket opening is visible on his jacket in V0; the visible waistcoat welt pocket is used as 'his pocket'.",
+  "No new sound foraged by this unit (U1 owns sound)."
+ ],
+ "known_limits": [
+  "Her head at +8 (turn away) shows a little of the repaired wall at the right of her curls; at -11 the repair behind her is clean.",
+  "The gloved hands are light and soft (a 1942 glove), read as hands at 720 but have little finger detail at two-shot scale.",
+  "The receipt in the slot is drawn as a pale folded card standing in the slit, legible as paper, not as text."
+ ],
+ "downloads_this_unit_MB": 0.8
+}

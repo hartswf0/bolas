@@ -1,0 +1,174 @@
+{
+ "events": [
+  {
+   "t": 3.417,
+   "frame": 82,
+   "cue": "CUE-1 his lean: cushion",
+   "source": "Assorted_creaking_noises_of_office_chair.ogg",
+   "perspective": "present dry",
+   "note": ""
+  },
+  {
+   "t": 27.0,
+   "frame": 648,
+   "cue": "CUE-3h his hand to his knee: sleeve rustle",
+   "source": "Book_paper_pages_assorted.ogg",
+   "perspective": "present dry",
+   "note": ""
+  },
+  {
+   "t": 29.917,
+   "frame": 718,
+   "cue": "CUE-4 slip lands on the cushion",
+   "source": "Book_paper_pages_assorted.ogg",
+   "perspective": "present dry",
+   "note": ""
+  },
+  {
+   "t": 30.042,
+   "frame": 721,
+   "cue": "CUE-4 slip settles",
+   "source": "Book_paper_pages_assorted.ogg",
+   "perspective": "present dry",
+   "note": ""
+  },
+  {
+   "t": 31.5,
+   "frame": 756,
+   "cue": "CUE-4i unfold 1",
+   "source": "Book_paper_pages_assorted.ogg",
+   "perspective": "present dry",
+   "note": ""
+  },
+  {
+   "t": 32.083,
+   "frame": 770,
+   "cue": "CUE-4i unfold 2",
+   "source": "Book_paper_pages_assorted.ogg",
+   "perspective": "present dry",
+   "note": ""
+  },
+  {
+   "t": 32.667,
+   "frame": 784,
+   "cue": "CUE-4i unfold 3",
+   "source": "Book_paper_pages_assorted.ogg",
+   "perspective": "present dry",
+   "note": ""
+  },
+  {
+   "t": 38.25,
+   "frame": 918,
+   "cue": "CUE-5a receipt into the velvet slot",
+   "source": "Book_paper_pages_assorted.ogg",
+   "perspective": "present dry",
+   "note": ""
+  }
+ ],
+ "tick_times": [
+  1.75,
+  2.75,
+  3.75,
+  4.75,
+  5.75,
+  6.75,
+  7.75,
+  8.75,
+  9.75,
+  10.75,
+  11.75,
+  12.75,
+  13.75,
+  14.75,
+  15.75,
+  16.75,
+  17.75,
+  18.75,
+  19.75,
+  20.75,
+  21.75,
+  22.75,
+  23.75,
+  24.75,
+  25.75,
+  26.75,
+  27.75,
+  28.75,
+  29.75,
+  30.75,
+  31.75,
+  32.75,
+  33.75,
+  34.75,
+  35.75,
+  36.75,
+  37.75,
+  38.75,
+  39.75,
+  40.75,
+  41.75,
+  42.75
+ ],
+ "room_tone_windows_s": [
+  0.0,
+  5.06,
+  2.88,
+  2.0,
+  0.64,
+  4.44
+ ],
+ "clock_ticks_used_from_source_s": [
+  1.02,
+  2.06,
+  3.05,
+  4.04,
+  5.05,
+  6.06,
+  7.05,
+  8.06,
+  9.05,
+  10.06,
+  11.05,
+  12.06,
+  13.05,
+  14.07,
+  15.05,
+  16.07,
+  17.05
+ ],
+ "oneshots": {
+  "door": {
+   "source": "Closing_an_old_door.ogg",
+   "how": "old door, its strongest event",
+   "n": 1
+  },
+  "paper": {
+   "source": "Book_paper_pages_assorted.ogg",
+   "how": "page/paper handling transients (receipt slip, fold, unfold)",
+   "n": 8
+  },
+  "cloth": {
+   "source": "Book_paper_pages_assorted.ogg",
+   "how": "slow paper movement low-passed to 1.5 kHz = cloth rustle of his sleeve",
+   "n": 1
+  },
+  "creak": {
+   "source": "Assorted_creaking_noises_of_office_chair.ogg",
+   "how": "chair creak low-passed 2.5 kHz = sofa cushion/spring",
+   "n": 3
+  }
+ },
+ "missing": [
+  "step",
+  "lidclick",
+  "latch",
+  "doorhinge"
+ ],
+ "stats": {
+  "peak_dbfs": -6.0,
+  "present_rms_dbfs": -33.0,
+  "flashback_rms_dbfs": -22.8,
+  "hf_share_last_0.5s_flashback": 0.003,
+  "hf_share_first_0.5s_present_after_cut": 0.8
+ }
+}

@@ -25,12 +25,13 @@ def stats(im):
 
 
 ref = Image.open(REF).convert("RGB")
-shots = [(1.6, "test shot 1.6 s (film 21.6): grasp, hand over satin"), (2.9, "2.9 s (film 22.9): shoe at her chest, bag with C"),
-         (4.9, "4.9 s (film 24.9): ledger struck and rewritten")]
+shots = [(0.5, "0.5 s (film 20.5): she pushes the bag into C's hands; shoe at the plank foot"),
+         (3.0, "3.0 s (film 23.0): kneeling, the shoe at her chest; A already across"),
+         (7.6, "7.6 s (film 27.6): B crosses last, liana + shoe; C holds the bag")]
 cells = [(ref.resize((800, 541)), "REFERENCE bunuel.webp (MoMA/Photofest), measured only", stats(ref))]
 for t, lab in shots:
     fr = grab(t); pic = fr.crop((80, 0, 880, 540)); cells.append((pic, lab, stats(pic)))
-cross = grab(7.6).crop((80, 0, 880, 540))
+cross = grab(5.8).crop((80, 0, 880, 540))
 W, H = 800, 541
 S = Image.new("RGB", (W * 2 + 30, (H + 70) * 2 + 20), (20, 20, 20)); d = ImageDraw.Draw(S)
 for i, (im, lab, st) in enumerate(cells):
@@ -40,6 +41,6 @@ for i, (im, lab, st) in enumerate(cells):
     d.text((x, y + H + 28), f"L p1..p99 {st['p']}  <60 {st['below60']}%  >200 {st['above200']}%  grad {st['grad']}  |R-B| {st['rb']}",
            font=F, fill=(180, 180, 180))
 S.save(f"{SW}/test-shot-compare.jpg", quality=88)
-json.dump(dict(cells=[(lab, st) for _, lab, st in cells], cross_7_6=stats(cross)), open(f"{SW}/test-shot-build/compare-stats.json", "w"), indent=1)
+json.dump(dict(cells=[(lab, st) for _, lab, st in cells], ledger_5_8=stats(cross)), open(f"{SW}/test-shot-build/compare-stats.json", "w"), indent=1)
 for _, lab, st in cells: print(lab, st)
-print("cross 7.6", stats(cross))
+print("ledger 5.8", stats(cross))
