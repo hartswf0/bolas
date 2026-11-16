@@ -246,6 +246,7 @@ button, input, pre, dialog { border-radius: 3px; }
 }
 .proof-layout h3:first-child, .panel > h3:first-child { margin-top: 0; }
 .proof-layout.archive { grid-template-columns: minmax(0, 1fr); }
+.proof-layout.text-only { grid-template-columns: minmax(0, 75ch); }
 .proof-layout.archive .reference-images { grid-row: 1; }
 .proof-layout.archive .proof-copy { max-width: 75ch; }
 .reference-images { min-width: 0; }

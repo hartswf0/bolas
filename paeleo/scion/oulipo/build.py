@@ -168,7 +168,7 @@ def html_page(page, data):
         heading = page["title"] if page["family"] == "Compiler" else page["work"]
         name = f"{heading} · {SITE_TITLE}"
     detail = (
-        "Standalone swarms for Oulipo, Oucipo, and Oubapo."
+        "SCION production prompts for Oulipo, Ouxpo workshops, and constrained animation."
         if page is None
         else page["line"]
     )
@@ -232,10 +232,10 @@ def html_page(page, data):
 def main():
     data_root = PROJECT / "catalogue"
     entries = []
-    for name in ("cinema", "comics", "variations", "compiler"):
+    for name in ("cinema", "comics", "variations", "compiler", "workshops"):
         items = json.loads((data_root / f"{name}.json").read_text())
         entries.extend(items if isinstance(items, list) else [items])
-    assert [entry["id"] for entry in entries] == list(range(1, 27))
+    assert [entry["id"] for entry in entries] == list(range(1, len(entries) + 1))
     assert len({entry["slug"] for entry in entries}) == len(entries)
     assert all(re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", entry["slug"]) for entry in entries)
 
@@ -274,10 +274,11 @@ def main():
         (page / "index.html").write_text(
             html_page(entry, {**shared_data, "entries": [entry], "images": relevant_images})
         )
+    production_count = sum(entry["family"] != "Compiler" for entry in entries)
     readme = [
         "# Oulipo SCION",
         "",
-        "Twenty-five production swarm prompts and one system-instruction compiler.",
+        f"{production_count} production swarm prompts and one system-instruction compiler.",
         "",
         "[Open the operator](https://hartswf0.github.io/bolas/paeleo/scion/oulipo/).",
         "",

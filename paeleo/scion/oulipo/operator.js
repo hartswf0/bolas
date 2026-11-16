@@ -5,7 +5,7 @@ const data = JSON.parse(get("catalogue-data").textContent);
 const entries = new Map(data.entries.map(entry => [entry.id, entry]));
 const standalone = Number(document.body.dataset.start);
 const root = standalone ? "../../" : "./";
-const families = ["Cinema", "Comics", "Animation", "Variations", "Literature", "Compiler"];
+const families = ["Workshops", "Cinema", "Comics", "Animation", "Variations", "Literature", "Compiler"];
 const search = get("query");
 const panel = get("panel");
 const list = get("catalogue-list");
@@ -23,7 +23,7 @@ function element(tag, text, className) {
 }
 
 function comparable(text) {
-  return text.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
+  return text.normalize("NFD").replace(/\p{M}/gu, "").replace(/[‘’]/g, "'").toLowerCase();
 }
 
 function pageLink(entry) {
@@ -158,17 +158,25 @@ function renderOverview(entry) {
   const layout = element("div", null, "proof-layout");
   if (entry.id === 1) layout.classList.add("archive");
   const copy = element("div", null, "proof-copy");
+  const hasReferences = entry.image || entry.gallery?.length;
   addText(copy, "What stays fixed", entry.invariant);
   addText(copy, "First proof to build", entry.proof);
-  addText(copy, "What the critic checks", entry.critic);
-  const references = element("div", null, "reference-images");
-  references.append(renderReference(entry.image));
-  if (entry.gallery) {
-    const pair = element("div", null, "image-pair");
-    for (const reference of entry.gallery) pair.append(renderReference(reference));
-    references.append(pair);
+  if (!hasReferences) {
+    layout.classList.add("text-only");
+    addText(copy, "Test case", entry.fixture);
   }
-  layout.append(copy, references);
+  addText(copy, "What the critic checks", entry.critic);
+  layout.append(copy);
+  if (hasReferences) {
+    const references = element("div", null, "reference-images");
+    if (entry.image) references.append(renderReference(entry.image));
+    if (entry.gallery?.length) {
+      const pair = element("div", null, "image-pair");
+      for (const reference of entry.gallery) pair.append(renderReference(reference));
+      references.append(pair);
+    }
+    layout.append(references);
+  }
   panel.append(layout);
 
   const seed = element("details", null, "seed");
