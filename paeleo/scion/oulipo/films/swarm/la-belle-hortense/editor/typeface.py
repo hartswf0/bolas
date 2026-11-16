@@ -169,10 +169,9 @@ def raster(ops, stroke):
         elif o[0] == 's':                 # slab serif: a bar centred on (x, y), height 0.72 stroke
             x, y, wd = o[1:]
             hh = 0.72 * stroke
-            yc = y + hh / 2 if y <= 0 + 1e-6 and y > -1 else (y - hh / 2 if y >= X - 1 else y)
-            if y == 0: yc = hh / 2
-            elif y > 0: yc = y - hh / 2 + 0.0
-            else: yc = y + hh / 2
+            if y > 200: yt, yb = y + stroke / 2, y + stroke / 2 - hh      # top serif, flush with the cap
+            else: yt, yb = y - stroke / 2 + hh, y - stroke / 2              # foot serif, flush with the cap
+            yc = (yt + yb) / 2
             x0, y0 = P(x - wd / 2, yc + hh / 2); x1, y1 = P(x + wd / 2, yc - hh / 2)
             dr.rectangle((x0, y0, x1, y1), fill=255)
     return np.asarray(im)
