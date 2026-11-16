@@ -114,7 +114,7 @@ for k, rg in enumerate(GEO["rings"]):
     hth = np.arctan2(yy - bc[1], xx - bc[0])
     hr = np.hypot(xx - bc[0], yy - bc[1]) / S
     hrho = hr / ell_support(ha, hb, math.radians(ho.get("angle", e["angle"]) + 90), hth)
-    ann = smoothstep(1.0, 1.0 + 2.5 / max(hb, 1), hrho) * (1 - smoothstep(1 - 2.5 / a, 1.0, rho))
+    ann = smoothstep(1.0, 1.0 + 1.2 / max(hb, 1), hrho) * (1 - smoothstep(1 - 1.2 / a, 1.0, rho))   # steep machined walls
     prof = D_CAV + (D_RIM - D_CAV) * smoothstep(0.72, 0.84, rho)
     slot_rot = [0.4, 1.9, 2.8, 1.1][k]
     slots = np.zeros_like(rho)
@@ -200,7 +200,7 @@ def tau_of_t(t):
 photo = cv2.imread(str(SRC / "kf/mold11.jpg"))[..., ::-1].astype(np.float32) / 255
 # declared: plate texture quilted (feathered random patches) from the photo's plain plate areas only,
 # so no cavity is cut through the photo's own slider pocket; two of its real socket screws are kept.
-PLAIN = [(230, 800, 0, 290), (95, 300, 730, 1180), (600, 790, 800, 1180)]
+PLAIN = [(235, 790, 5, 285), (255, 435, 800, 1170), (615, 785, 800, 1170)]
 rq = np.random.RandomState(SEED)
 SC = 1.33
 tex = np.zeros((PH, PW, 3), np.float32); wsum = np.zeros((PH, PW, 1), np.float32)
@@ -248,10 +248,10 @@ for ci in cav_info:
     m = part == ci["id"]
     theta_cav[m] = np.arctan2(yy[m] - ci["c"][1], xx[m] - ci["c"][0])
 
-ALPHA = np.array([0.20, 1.00, 2.9], np.float32)      # Beer-Lambert per unit optical depth (red passes most)
+ALPHA = np.array([0.45, 0.80, 2.9], np.float32)      # Beer-Lambert per unit optical depth (red passes most)
 SCAT = np.array([0.12, 0.02, 0.012], np.float32)      # back-scatter of the red pigment
 E = np.array([1.55, 1.32, 1.02], np.float32)          # warm source seen through the melt (reflected by the floor)
-WARM = np.array([1.0, 0.56, 0.26], np.float32)        # colour of the warm key on bare steel
+WARM = np.array([1.0, 0.50, 0.20], np.float32)        # colour of the warm key on bare steel
 PARAMS.update(beer_lambert_alpha=ALPHA.tolist(), scatter=SCAT.tolist(), source=E.tolist(), warm_key=WARM.tolist(),
               refraction_gain_px=40.0, ior_note="PS n~1.59; displacement = 40 px x surface gradient")
 
@@ -290,20 +290,21 @@ def plane(t, k, boil=1.0):
     fl = np.clip((floor_l - 0.55) * 1.6 + 0.55, 0.08, 1.3)
     rad = E * (0.25 + 1.15 * fl) * trans * 0.95 + SCAT * (1 - np.exp(-3 * th2))
     film = smoothstep(0.0, 0.10, hh)[..., None]
-    rad_melt = rad * film * present[..., None]
-    rad_wet = rad * film * 0.55 * ((wet > 0.002) & ~present)[..., None]
+    graze = 1 - 0.65 * wall[..., None]                 # grazing walls reflect steel, not light: no glow outline
+    rad_melt = rad * film * graze * present[..., None]
+    rad_wet = rad * film * graze * 0.40 * ((wet > 0.002) & ~present)[..., None]
     nl = np.sqrt(gx ** 2 + gy ** 2 + 1e-4)
     spec = np.clip(-(gx * 0.6 + gy * 0.8) / nl, 0, 1) ** 5 * smoothstep(0.003, 0.015, nl) * 0.75
     spec = spec * (hh > 0.003)
     em = rad_melt.astype(np.float32)
     sm = cv2.resize(em, (PW // 4, PH // 4), interpolation=cv2.INTER_AREA)
-    spill = 0.30 * cv2.GaussianBlur(sm, (0, 0), 6) + 1.0 * cv2.GaussianBlur(sm, (0, 0), 22)
+    spill = 0.08 * cv2.GaussianBlur(sm, (0, 0), 6) + 1.1 * cv2.GaussianBlur(sm, (0, 0), 22)
     spill = cv2.resize(spill, (PW, PH), interpolation=cv2.INTER_LINEAR)
     # steel: very low warm ambient + raking warm key on walls + spill * albedo
     base = steel * WARM * (0.05 + 0.09 * lam[..., None] * wall[..., None])
     empty = mask & ~present
-    hollow = steel_t * WARM * (0.07 + 0.9 * (lam * wall)[..., None] + 0.55 * facing[..., None]
-                               + 0.10 * ((part >= 0) & (part <= 3))[..., None]) * empty[..., None]
+    hollow = steel_t.mean(-1, keepdims=True) * WARM * (0.03 + 0.55 * (lam * wall)[..., None] + 0.40 * facing[..., None]
+                               + 0.03 * ((part >= 0) & (part <= 3))[..., None]) * empty[..., None]
     lit = base * (~mask)[..., None] + hollow + floor * 0.03 * mask[..., None]
     lit = lit + spill * steel_t * 2.6 * (1 - 0.6 * present[..., None])
     col = np.where(present[..., None], rad_melt, lit) + rad_wet
@@ -315,7 +316,7 @@ def cam_matrix(pitch_deg, yaw_deg, roll_deg, dist, tgt_xy, fpx=1020.0):
     pitch, yaw, roll = map(math.radians, (pitch_deg, yaw_deg, roll_deg))
     tgt = np.array([tgt_xy[0], tgt_xy[1], 0.0])
     cp, sp_, cy, sy, cr, sr = math.cos(pitch), math.sin(pitch), math.cos(yaw), math.sin(yaw), math.cos(roll), math.sin(roll)
-    cpos = tgt + dist * np.array([sy * sp_, cy * sp_, cp])
+    cpos = tgt + dist * np.array([sy * sp_, cy * sp_, -cp])   # viewer on the -z side of the plate face
     f = tgt - cpos; f /= np.linalg.norm(f)
     up0 = np.array([0, -1.0, 0]) if pitch_deg > 1e-3 else np.array([0, -1.0, 0])
     r_ = np.cross(f, up0)
@@ -351,8 +352,8 @@ def camera(film_t):
         return cam_matrix(pitch, yaw, roll, dist, tgt)
     x = ease((film_t - T0_3B) / 6.8)
     hubp = P([0, 0])
-    tgt = hubp + np.array([lerp(30.0, 50.0, x), lerp(10.0, -10.0, x)])
-    return cam_matrix(lerp(50.0, 46.0, x), lerp(-9.0, -4.0, x), lerp(-6.0, -4.5, x), lerp(1150.0, 1040.0, x), tgt)
+    tgt = hubp + np.array([lerp(40.0, 55.0, x), lerp(70.0, 50.0, x)])
+    return cam_matrix(lerp(50.0, 46.0, x), lerp(-9.0, -4.0, x), lerp(-6.0, -4.5, x), lerp(1230.0, 1110.0, x), tgt)
 
 def zdepth(Hm, R, tvec):
     Hi = np.linalg.inv(Hm)
