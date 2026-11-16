@@ -24,7 +24,7 @@ for y in range(H):
 # 4. bench front (x >= 322, rows 435..): tile vertically from the visible bench below the figure
 rng = np.random.default_rng(4)
 # per-row tone of the flat wall/floor just left of the figure (x 228..238, the first clean column band), smoothed down the rows
-ROWV = np.array([np.median(g[y, 228:239][~m[y, 228:239]]) if (~m[y, 228:239]).any() else np.nan for y in range(H)])
+ROWV = np.array([np.median(g[y, 186:207][~m[y, 186:207]]) if (~m[y, 186:207]).any() else np.nan for y in range(H)])
 ok = ~np.isnan(ROWV); ROWV = np.interp(np.arange(H), np.nonzero(ok)[0], ROWV[ok]); ROWV = cv2.GaussianBlur(ROWV.reshape(-1, 1).astype(np.float32), (0, 0), 3).ravel()
 pt = g[760:820, 110:170]; GR = pt - cv2.GaussianBlur(pt, (0, 0), 2.0)      # the negative's own grain (flat floor patch)
 for y in range(435, H):

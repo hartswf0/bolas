@@ -1,20 +1,23 @@
-"""Renzo e Luciana · "Pausa delle dodici" (SCION direction 2, Collage al marcatempo).
+"""Renzo e Luciana · "Pausa delle dodici" (SCION direction 2, Collage al marcatempo) — editor repair round 1.
 
-72.0 s = Version A 0-35 (12:00-12:07) + handmade slate 35-37 + Version B 37-72 (the late bell).
+72.0 s = Version A 0-35 (12:00-12:07) + neutral handmade 'B' card 35-37 + Version B 37-72 (the late bell).
 Every photographic piece is a real Library of Congress FSA/OWI negative (see films/credits/renzo-e-luciana.json):
   wall plate + near pail pile ............ Russell Lee 1941 (LoC 2017789670)
   Luciana (body, head, forearm, apple) ... Marjory Collins 1943 (LoC 2017851428)
-  Renzo (body, head) ..................... Arthur S. Siegel 1942 (LoC 2017835701)
-  foreman FRONT .......................... Arthur S. Siegel 1943 (LoC 2017851041)
-  foreman BACK + CAPOREPARTO doorway ..... Jack Delano 1942 (LoC 2017829778)
-SCION techniques: #29 GrabCut pieces (cutout-performance unit), #32 FK rigs keyed on twos, #45 occlusion DAG
-(wall < door < foreman < puppets < pail occluder < lid props < paper clock hands), contact shadows from the plate's
-upper-left key, 0.6x/1.0x multiplane drift, one WIDE -> 1.35x MEDIUM push per version.
-All timing is computed from films/swarm/renzo-e-luciana/rules.json (rules.py); per-frame asserts run in the render.
+  Renzo (body, head, arm, hands) ......... Arthur S. Siegel 1942 (LoC 2017835701, master TIFF re-fetched at 2x)
+  the foreman (one man) .................. Arthur S. Siegel 1943 (LoC 2017851041)
+  CAPOREPARTO doorway (office emptied) ... Jack Delano 1942 (LoC 2017829778), lab technician retouched out
+The foreman's two states are ONE man: in the doorway watching the floor (FLOOR), or gone back into his office out of sight
+behind the left jamb (OFFICE).  Luciana waits at the time clock in his sight; only while the doorway is empty does she go
+behind the pails.  SCION techniques: #29 GrabCut pieces, #32 FK rigs (Renzo hip/neck/shoulder/wrist, Luciana hip/neck/elbow,
+foreman feet/neck) with IK-solved key poses, keyed on twos, jaw-substitution drawings for chewing; #45 occlusion DAG
+(wall < door frame < foreman < left jamb < puppets < pail occluder < lid props < paper clock hands), contact shadows from the
+plate's upper-left key, 0.6x/1.0x multiplane drift, one WIDE -> 1.35x MEDIUM push per version.
+Timing from films/swarm/renzo-e-luciana/rules.json (rules.py); per-frame asserts run in the render.
 Grade = per-piece levels/gamma only (no filter, no tint, no faux grain: kit grain is switched off).
-Sound = films/swarm/renzo-e-luciana/sound.wav (foraged Commons + Moving Image Archive recordings), added via mix.
+Sound = films/swarm/renzo-e-luciana/sound.wav (Commons recordings, mixed by the sound unit), added via mix.
 
-  python3 films/renzo-e-luciana.py                 render assets/films/renzo-e-luciana.mp4
+  python3 films/renzo-e-luciana.py                 render assets/films/renzo-e-luciana.mp4 (+ performance.json ledger)
   python3 films/renzo-e-luciana.py --stills 3 10   stills -> films/stills/renzo-e-luciana/
   python3 films/renzo-e-luciana.py --compare       swarm/renzo-e-luciana/aesthetic-compare.jpg
 """
@@ -31,30 +34,54 @@ import rules as R                                     # clock, schedules, cue ti
 
 SRC = os.path.join(HERE, 'sources', 'renzo-e-luciana')
 PC = SRC + '/cutout-performance/pieces'
+EP = SRC + '/editor/pieces'
 C2 = SW_DIR + '/test-shot-build/cache2'
 HI = SRC + '/test-shot/r2/hi'
-SLATE_DIR = SRC + '/rule-modeler/slate'
 FPS = 24
 r2 = json.load(open(C2 + '/rig.json')); r3 = json.load(open(PC + '/pieces.json'))['pieces']
+r4 = {k: v for k, v in json.load(open(EP + '/renzo_pieces.json')).items() if not k.startswith('_')}
 
 
 # ------------------------------------------------------------------ pieces (#29 output, graded per piece) ---
 def lv(g, lo, hi, gamma): return np.clip((g - lo) / (hi - lo), 0, 1) ** gamma * 255
 def load(path, lo=0, hi=255, gamma=1.0):
     a = np.asarray(Image.open(path)).astype(np.float32); return np.dstack([lv(a[..., 0], lo, hi, gamma), a[..., 3] / 255.0])
-PV = {k: v['pivots'] for k, v in r2.items()}; PV.update({k: v['pivots'] for k, v in r3.items()})
-P = {'re_body': load(C2 + '/re_body.png', 22, 200, 1.08), 're_head': load(C2 + '/re_head.png', 22, 226, 1.1),
-     'door': load(C2 + '/door_empty.png', 18, 236, 1.0), 'foreman': load(C2 + '/foreman.png', 18, 236, 1.0),
+PV = {k: v['pivots'] for k, v in r2.items()}; PV.update({k: v['pivots'] for k, v in r3.items()}); PV.update({k: v['pivots'] for k, v in r4.items()})
+RG = (20, 214, 1.0)                                                  # Renzo grade (one for all his pieces: same negative)
+P = {'re_body': load(EP + '/re2_body.png', *RG), 're_head': load(EP + '/re2_head.png', *RG),
+     're_chew1': load(EP + '/re2_head_chew1.png', *RG), 're_chew2': load(EP + '/re2_head_chew2.png', *RG),
+     're_uarm': load(EP + '/re2_uarm.png', *RG), 're_farm': load(EP + '/re2_farm.png', *RG),
+     'door': load(SRC + '/editor/door_clean.png', 18, 236, 1.0),
      'pails': load(C2 + '/pails.png', 40, 215, 0.8),
      'lu_body': load(PC + '/lu_body.png', 12, 200, .85), 'lu_head': load(PC + '/lu_head.png', 10, 214, .92),
      'lu_arm': load(PC + '/lu_arm.png', 10, 214, .92), 'apple': load(PC + '/apple.png', 10, 214, .92),
      'fm_front': load(PC + '/foreman_front.png', 20, 228, .95)}
-# foreman FRONT split at the collar into body + head on a neck pin (his pan across the floor is a head turn on the pin)
+
+# jaw-substitution drawings for Luciana (her own lower face re-pinned at the jaw hinge, closing on the bite) — Renzo's are
+# cut by editor-build/renzo_cut.py.  Two extra drawings per head; which drawing is on screen is listed per frame in performance.json.
+def jaw_drawings(piece, mouth, hinge, slope, xlim, ylim, angs):
+    hd = piece; h, w = hd.shape[:2]; yy, xx = np.mgrid[0:h, 0:w]
+    jaw = ((yy > mouth[1] + (xx - mouth[0]) * slope) & xlim(xx) & (yy < ylim)).astype(np.float32)
+    jaw = cv2.GaussianBlur(jaw, (0, 0), 1.5); out = []
+    for ang in angs:
+        M = cv2.getRotationMatrix2D(hinge, ang, 1.0)
+        jw = cv2.warpAffine(np.dstack([hd[..., 0], hd[..., 1] * jaw]), M, (w, h), flags=cv2.INTER_LINEAR)
+        base = hd[..., 1] * (1 - jaw); a = jw[..., 1] + base * (1 - jw[..., 1])
+        c = (jw[..., 0] * jw[..., 1] + hd[..., 0] * base * (1 - jw[..., 1])) / np.maximum(a, 1e-4)
+        out.append(np.dstack([c, a]))
+    return out
+P['lu_chew1'], P['lu_chew2'] = jaw_drawings(P['lu_head'], (205, 372), (150, 330), -0.25, lambda x: x > 120, 460, (3.0, 6.0))
+HEADS = {'R': {0: 're_head', 1: 're_chew1', 2: 're_chew2'}, 'L': {0: 'lu_head', 1: 'lu_chew1', 2: 'lu_chew2'}}
+
+# foreman (one man, Siegel 1943): split at the collar into body + head on a neck pin
 _ff = P['fm_front']; _nk = PV['foreman_front']['neck']
 _yy = np.arange(_ff.shape[0])[:, None].astype(np.float32)
-_cut = np.clip((_yy - (_nk[1] + 6)) / 6.0, 0, 1)                    # soft 6 px collar seam
+_cut = np.clip((_yy - (_nk[1] + 6)) / 6.0, 0, 1)
 P['fm_head'] = np.dstack([_ff[..., 0], _ff[..., 1] * (1 - _cut)])
 P['fm_body'] = np.dstack([_ff[..., 0], _ff[..., 1] * _cut])
+# the faint light strip along the cut's left edge (critic r1): erode the matte 2 px and re-feather
+for k in ('fm_head', 'fm_body'):
+    a = P[k][..., 1]; P[k][..., 1] = cv2.GaussianBlur(cv2.erode(a, np.ones((5, 5), np.uint8)), (0, 0), 1.0)
 
 plate = np.asarray(Image.open(HI + '/plate_8c01492.png').convert('L')).astype(np.float32)
 SH, SW = plate.shape                                                 # 1087 x 1933 (native sampling)
@@ -64,14 +91,13 @@ hands = cv2.dilate(((plate < 110) & (ring > 0)).astype(np.uint8) * 255, np.ones(
 plate = cv2.inpaint(plate.astype(np.uint8), hands, 3, cv2.INPAINT_TELEA).astype(np.float32)   # photographed hands lifted off
 plate = lv(plate, 14, 218, 0.5)
 plate = cv2.GaussianBlur(plate, (0, 0), 1.1)                         # the wall is behind the focal plane
-# time cards: a real card cut from the plate's own rack (4th column, top slot), dropped into empty slots at each punch
 CARD = plate[89:103, 1203:1233].copy()
 CARD_SLOT = {('A', 'renzo'): 1, ('A', 'luciana'): 2, ('B', 'renzo'): 1, ('B', 'luciana'): 2}
 def drop_cards(pl, ver, tau):
     for (tt, who, _) in R.CARDS[ver]:
         n = CARD_SLOT[(ver, who)]; y = 89 + 14 * n
         if tau >= tt + 1 / 24.0 - 1e-9: pl[y:y + 14, 1203:1233] = CARD
-        elif tau >= tt - 1e-9: pl[y - 5:y + 9, 1203:1233] = CARD     # the frame of the punch: card half-way into the slot
+        elif tau >= tt - 1e-9: pl[y - 5:y + 9, 1203:1233] = CARD
 sign = Image.new('L', (190, 32), 214); sd = ImageDraw.Draw(sign)
 sd.text((11, 5), 'CAPOREPARTO', font=ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf', 18), fill=34)
 sign = np.asarray(sign.rotate(-1.2, expand=True, resample=Image.BICUBIC, fillcolor=0)).astype(np.float32)
@@ -94,46 +120,77 @@ B1 = bite(A0, (40, 20), 22, 7); B2 = bite(B1, (8, 52), 20, 8)
 APPLES = {'A': [A0, A1, A2, A3], 'B': [A0, B1, B2]}
 
 D_XY = np.array([367.0, -30.0])                                      # doorway just left of the clock
-F_FEET = D_XY + np.array(PV['foreman']['feet']) + np.array(r2['foreman']['crop'][:2]) - np.array(r2['door']['crop'][:2])
+OPEN_X0, OPEN_X1 = D_XY[0] + 23, D_XY[0] + 369                       # the doorway opening (stage x)
 FF_S = .54
+FM_FEET = np.array([592.0, 628.0])                                   # the foreman's place in the doorway (FLOOR)
+FM_GONE = np.array([300.0, 612.0])                                   # stepped back into the office, behind the left jamb
 PS, P_XY = .93, np.array([470.0, 318.0])                             # near pail pile (occluder)
-SL, SR, SA = .44, .70, .44
-L_HIP0 = np.array([892.0, 601.0])
-def lu_fk(dx, dy, hip, neck, elbow):
-    lb = PV['lu_body']; Mb = mat(lb['hip'], L_HIP0 + [dx, dy], hip, SL)
+SL, SA, SR = .42, .42, .55
+# ---- the places (stage coords).  CORNER_X = the hiding place behind the pile; her STATION is at the time clock, in the
+# foreman's sight and clear of CORNER_X; his station is at the right edge.
+CORNER_X = (962.0, 1500.0)
+L_OFF, L_STATION, L_CORNER = np.array([150.0, 640.0]), np.array([808.0, 640.0]), np.array([1132.0, 560.0])
+R_OFF, R_STATION, R_CORNER, R_CLOCK = np.array([2150.0, 840.0]), np.array([1650.0, 846.0]), np.array([1500.0, 846.0]), np.array([1130.0, 860.0])
+def lu_fk(hip_xy, hip, neck, elbow):
+    lb = PV['lu_body']; Mb = mat(lb['hip'], hip_xy, hip, SL)
     Mh = mat(PV['lu_head']['neck'], ap(Mb, lb['neck']), hip + neck, SL)
     Ma = mat(PV['lu_arm']['elbow'], ap(Mb, lb['elbow']), hip + elbow, SL)
     Mp = mat(PV['apple']['grip'], ap(Ma, PV['lu_arm']['grip']), hip + elbow, SA)   # apple rigid in her fingers
     return Mb, Mh, Ma, Mp
-FEED, L_FEED_HIP = -16.0, -3.0
-APPLE_FEED_RIGHT = ap(lu_fk(0, 0, L_FEED_HIP, 0, FEED)[3], (PV['apple']['c'][0] + 64, PV['apple']['c'][1] - 6))
-def re_fk(root, hip, head):
-    pb, ph = PV['re_body'], PV['re_head']; Mb = mat(pb['hip'], root, hip, SR)
-    Mh = mat(ph['neck'], ap(Mb, pb['neck']), hip + head, SR); return Mb, Mh, ap(Mh, ph['mouth'])
-R_BITE_HEAD, R_BITE_HIP = 9.0, 3.0
-R_ROOT = APPLE_FEED_RIGHT - re_fk(np.zeros(2), R_BITE_HIP, R_BITE_HEAD)[2] + [6, 0]   # FK solve: mouth meets the apple
-_pa = np.asarray(Image.open(C2 + '/pails.png'))[..., 3] > 128
-def pile_top(x):
-    c = np.nonzero(_pa[:, int(np.clip((x - P_XY[0]) / PS, 0, _pa.shape[1] - 1))])[0]; return P_XY[1] + (c[0] if len(c) else 0) * PS
-_rel = ap(lu_fk(0, 0, -4.5, 0, -34)[3], PV['apple']['c'])
-LID_A = np.array([_rel[0], pile_top(_rel[0]) - 22])                  # his pail lid (A: she sets the core here at 14.0)
-L_REACH = (-1.0, -14.0)                                              # (hip, elbow) of her reach to her own lid
-_relb = ap(lu_fk(0, 0, L_REACH[0], 0, L_REACH[1])[3], PV['apple']['c'])
-LID_B = np.array([_relb[0], pile_top(_relb[0]) - 22])                # her pail lid (B: he leaves the bitten apple here)
-# Renzo has no free forearm in the Siegel negative: in B "the apple in his hand" is the apple on HIS lid (LID_A, where the A
-# core lies), his hand hidden behind the pile edge; his bite is a lean-in on the root/neck pins (FK pose checked: mouth meets
-# the apple's top-left, where the B1 bite is cut).
-R_EAT = (38.0, 2.0, 8.0)                                             # (root dy, hip, head)
+def re_fk(root, hip, head, sh, wr):
+    pb, ph, pu, pf = PV['re2_body'], PV['re2_head'], PV['re2_uarm'], PV['re2_farm']
+    Mb = mat(pb['hip'], root, hip, SR)
+    Mh = mat(ph['neck'], ap(Mb, pb['neck']), hip + head, SR)
+    Mu = mat(pu['shoulder'], ap(Mb, pb['shoulder']), hip + sh, SR)
+    Mf = mat(pf['elbow'], ap(Mu, pu['elbow']), hip + sh + wr, SR)
+    return Mb, Mh, Mu, Mf, ap(Mh, ph['mouth']), ap(Mf, pf['grip'])
+def l_apple(hip_xy, hip, elbow): return ap(lu_fk(hip_xy, hip, 0, elbow)[3], PV['apple']['c'])
+def solve(f, target, grid):
+    """IK for a key pose: brute-force over the joint grid, then the FK pins carry it (the angles become ordinary keys)."""
+    best = None
+    for v in grid:
+        d = np.hypot(*(np.array(f(*v)) - target))
+        if best is None or d < best[0]: best = (d, v)
+    return best[1]
+G1 = lambda a, b, s: np.arange(a, b + 1e-9, s)
+# key poses, solved once (target -> joint angles; errors logged in performance.json)
+IKERR = {}
+def solve_log(name, f, target, grid):
+    v = solve(f, target, grid); IKERR[name] = round(float(np.hypot(*(np.array(f(*v)) - target))), 1); return v
+SHW = [(s_, w_) for s_ in G1(-140, 10, 2) for w_ in G1(-60, 60, 3)]
+FEED_E = -30.0; FEED_R = (0.0, FEED_E); FEED_PT = l_apple(L_CORNER, 0, FEED_E)
+R_BITE = solve_log('R_BITE', lambda h, hd: re_fk(R_CORNER, h, hd, 0, 0)[4], FEED_PT + [12, -10], [(h, hd) for h in G1(0, 18, .5) for hd in G1(-6, 14, 1)])
+GIVE_E = -14.0; GIVE = (0.0, GIVE_E); HAND_PT = l_apple(L_CORNER, 0, GIVE_E)        # where the apple passes between their hands
+R_TAKE = solve_log('R_TAKE', lambda s_, w_: re_fk(R_CORNER, 4, 0, s_, w_)[5], HAND_PT + [18, 14], SHW)
+R_REST = (0.0, 0.0)
+R_LID_PT = np.array([1205.0, 505.0])                                 # his lid, on the box between them (A: the core is left here)
+L_LID_PT = np.array([1062.0, 515.0])                                 # her lid (B: he leaves the bitten apple here)
+R_TOLID = solve_log('R_TOLID', lambda s_, w_: re_fk(R_CORNER, 1, 0, s_, w_)[5], R_LID_PT + [10, 8], SHW)
+R_TOHERLID = solve_log('R_TOHERLID', lambda s_, w_: re_fk(R_CORNER, 3, 0, s_, w_)[5], L_LID_PT + [12, 8], SHW)
+R_HOLD = solve_log('R_HOLD', lambda s_, w_: re_fk(R_CORNER, 1, 0, s_, w_)[5], np.array([1250.0, 470.0]), SHW)
+R_EAT = solve_log('R_EAT', lambda s_, w_: re_fk(R_CORNER, 10, 6, s_, w_)[5] + [-6, -14], re_fk(R_CORNER, 10, 6, 0, 0)[4] + [-4, 4], SHW)
+R_TAKE_CORE = solve_log('R_TAKE_CORE', lambda s_, w_: re_fk(R_CORNER, R_BITE[0], 0, s_, w_)[5] + [-6, -14], FEED_PT, SHW)
+L_OWN = (0.0, 0.0)                                                    # her photographed pose: the apple at her own mouth
+L_LOW = (2.0, -8.0)
+L_REACH = solve_log('L_REACH', lambda h, e: l_apple(L_CORNER, h, e), L_LID_PT + [0, -12], [(h, e) for h in G1(-4, 8, 1) for e in G1(-100, 60, 1)])
 
 # ------------------------------------------------------------------ keys (film seconds; eased; drawings on twos) ---
 def ease(x): x = min(max(x, 0), 1); return x * x * (3 - 2 * x)
 def K(kf, t):
     if t <= kf[0][0]: return kf[0][1]
     for (ta, va), (tb, vb) in zip(kf, kf[1:]):
-        if t <= tb: return va + (vb - va) * ease((t - ta) / (tb - ta)) if tb > ta else vb
+        if t <= tb:
+            if tb <= ta: return vb
+            return va + (vb - va) * ease((t - ta) / (tb - ta))
     return kf[-1][1]
+def KV(kf, t):                                                       # vector keys
+    if t <= kf[0][0]: return np.array(kf[0][1], float)
+    for (ta, va), (tb, vb) in zip(kf, kf[1:]):
+        if t <= tb:
+            if tb <= ta: return np.array(vb, float)
+            return np.array(va, float) + (np.array(vb, float) - np.array(va, float)) * ease((t - ta) / (tb - ta))
+    return np.array(kf[-1][1], float)
 def heads_keys(ver, who, amap, t_off, turn=.16, over=1.5, until=None):
-    """Head substitution times from rules.HEADS -> eased turns on the neck pin with a small overshoot (weight)."""
     out = []; prev = None
     for tau, s in R.HEADS[ver][who]:
         t = tau + t_off
@@ -150,56 +207,71 @@ def merge(*lists):
         if out and abs(out[-1][0] - x[0]) < 1e-6: out[-1] = x
         else: out.append(x)
     return out
-R_HEAD = {'walk': -5, 'clock': -23, 'door': -12, 'her': 3, 'forward': R_BITE_HEAD, 'empty_place': 15, 'lid': 17}
-L_NECK = {'walk': 0, 'pail': -6, 'door': 6, 'him': 0, 'clock': 8}
-OPEN_R = (300.0, -120.0); OPEN_L = (-62.0, 35.0)                     # seated at the open ends of the pile
-RB = R_BITE_HEAD
+R_HEAD = {'walk': -3, 'clock': -16, 'door': -9, 'her': 4, 'forward': 6, 'empty_place': 10, 'lid': 12}
+L_NECK = {'walk': 0, 'pail': -5, 'door': 7, 'him': -2, 'clock': 8, 'forward': -4}
 KEYS = {'A': {}, 'B': {}}
 A = KEYS['A']
-A['R.dx'] = [(0, 900), (.4, 900), (2.0, OPEN_R[0]), (5.0, OPEN_R[0]), (6.0, 0), (14.3, 0), (14.34, -3), (15.0, -90), (15.8, -90), (17.0, 900)]
-A['R.dy'] = [(0, OPEN_R[1]), (5.0, OPEN_R[1]), (6.0, 0), (14.3, 0), (14.34, -5), (15.0, -150), (15.8, -150), (17.0, -110)]
-A['R.hip'] = [(0, -1), (5.1, -1), (6.5, 1.5), (8.35, R_BITE_HIP + .6), (8.45, R_BITE_HIP), (9.1, R_BITE_HIP), (9.5, 1.0),
-              (12.65, 1.0), (12.9, R_BITE_HIP), (13.35, R_BITE_HIP), (13.75, 1.0), (14.3, 0), (15.0, -3)]
+# ---- A: positions
+A['R.pos'] = [(0, R_OFF), (.4, R_OFF), (2.0, R_STATION), (5.0, R_STATION), (6.0, R_CORNER), (14.3, R_CORNER), (15.0, R_CLOCK),
+              (15.8, R_CLOCK), (17.0, R_OFF)]
+A['L.pos'] = [(0, L_OFF), (1.0, L_OFF), (2.6, L_STATION), (5.0, L_STATION), (7.0, L_CORNER), (19.0, L_CORNER), (19.6, L_STATION),
+              (20.6, L_STATION), (21.8, L_OFF)]
+# ---- A: Renzo (hip, head, shoulder, wrist)
+A['R.hip'] = [(0, -1), (5.0, -1), (6.2, 1), (8.2, 1), (8.45, R_BITE[0]), (8.9, R_BITE[0]), (9.3, 4), (10.6, 4), (11.0, 1), (12.7, 1),
+              (12.95, R_BITE[0]), (13.4, R_BITE[0]), (14.0, 1.5), (14.3, 0), (15.0, -2), (15.8, -2)]
 A['R.head'] = merge(heads_keys('A', 'renzo', R_HEAD, 0, until=(0, 5.5)),
-                    [(5.5, -12), (5.6, 4), (5.75, 2.5), (6.6, 2.5), (7.0, -24), (7.1, -23), (8.0, -23), (8.4, RB + 1.5), (8.5, RB), (9.1, RB),
-                     (9.35, -26), (9.45, -23), (10.6, -23), (10.8, -6), (11.3, -6), (11.5, -23), (12.6, -23), (12.9, RB + 1.2), (13.0, RB),
-                     (13.35, RB), (13.6, -25), (13.7, -23), (13.9, -23), (14.05, 18.5), (14.13, 17), (14.3, 17), (14.45, -5)],
-                    heads_keys('A', 'renzo', R_HEAD, 0, until=(14.9, 99)))
-A['L.dx'] = [(0, -900), (1.0, -900), (2.6, OPEN_L[0]), (5.0, OPEN_L[0]), (6.9, -6), (7.0, 0), (19.0, 0), (19.6, -40), (20.6, -40), (21.8, -900)]
-A['L.dy'] = [(0, OPEN_L[1]), (5.0, OPEN_L[1]), (6.9, 3), (7.0, 0), (19.0, 0), (19.6, -60), (20.6, -60), (21.8, -40)]
-A['L.hip'] = [(0, 2), (5.1, 2), (6.0, -1), (6.9, -2), (8.3, L_FEED_HIP), (10.4, L_FEED_HIP), (11.0, 1.5), (11.6, -2), (12.45, L_FEED_HIP),
-              (13.4, -2), (14.0, -4.5), (14.6, 0), (19.0, 0), (19.4, -3), (20.6, -3)]
+                    [(5.6, 4), (8.2, 4), (8.45, R_BITE[1]), (8.9, R_BITE[1]), (9.3, 3), (10.6, 3), (10.8, 5), (12.7, 5), (12.95, R_BITE[1]),
+                     (13.4, R_BITE[1]), (13.7, 12), (14.2, 12)],
+                    heads_keys('A', 'renzo', R_HEAD, 0, until=(14.3, 99)))
+A['R.sh'] = [(0, R_REST[0]), (9.2, R_REST[0]), (9.8, R_TAKE[0]), (10.6, R_TAKE[0]), (11.0, R_REST[0]), (13.0, R_REST[0]),
+             (13.2, R_TAKE_CORE[0]), (13.4, R_TAKE_CORE[0]), (13.9, R_TOLID[0]), (14.1, R_TOLID[0]), (14.4, R_REST[0])]
+A['R.wr'] = [(0, R_REST[1]), (9.2, R_REST[1]), (9.8, R_TAKE[1]), (10.6, R_TAKE[1]), (11.0, R_REST[1]), (13.0, R_REST[1]),
+             (13.2, R_TAKE_CORE[1]), (13.4, R_TAKE_CORE[1]), (13.9, R_TOLID[1]), (14.1, R_TOLID[1]), (14.4, R_REST[1])]
+# ---- A: Luciana (hip, neck, elbow)
+A['L.hip'] = [(0, 1), (7.0, 1), (8.2, FEED_R[0]), (8.6, FEED_R[0]), (9.4, GIVE[0]), (10.6, GIVE[0]), (10.9, 0), (11.4, 0),
+              (12.4, FEED_R[0]), (13.2, FEED_R[0]), (13.6, 1), (19.0, 1), (19.4, 0)]
 A['L.neck'] = merge(heads_keys('A', 'luciana', L_NECK, 0, until=(0, 5.7)),
-                    [(5.6, 6), (5.8, 0), (6.9, 0), (8.2, -2.5), (9.4, 1.5), (10.4, -1), (11.0, 3.5), (11.5, 3.5), (12.2, -2), (13.4, -1.5), (14.6, 1), (15.0, 1)],
+                    [(5.6, 0), (7.0, -2), (8.2, -4), (9.4, -6), (10.6, -6), (10.9, 0), (11.6, 2), (12.4, -3), (13.4, -3), (14.0, 0)],
                     heads_keys('A', 'luciana', L_NECK, 0, until=(14.9, 99)))
-A['L.elbow'] = [(0, -30), (2.6, -10), (2.8, -36), (2.9, -36), (3.4, -2), (3.5, -3), (6.9, -3), (7.4, -1), (8.15, FEED - 1.5), (8.3, FEED),
-                (10.4, FEED), (10.95, 1.2), (11.0, 0), (11.5, 0), (12.3, FEED - 1.2), (12.45, FEED), (13.45, FEED), (13.95, -34), (14.0, -34),
-                (14.6, -4), (15.0, -3), (15.5, -12), (16.0, -5), (16.5, -12), (17.0, -5), (17.8, -32), (18.4, -32), (18.6, -28), (19.0, -30)]
+A['L.elbow'] = [(0, -30), (2.6, -30), (2.8, -36), (3.0, L_LOW[1]), (5.0, L_LOW[1]), (7.0, L_LOW[1]), (8.2, FEED_R[1]), (8.6, FEED_R[1]),
+                (9.4, GIVE[1]), (10.6, GIVE[1]), (10.95, L_OWN[1]), (11.4, L_OWN[1]), (12.4, FEED_R[1]), (13.2, FEED_R[1]),
+                (13.5, -4), (14.6, -6), (15.5, -12), (16.5, -5), (17.8, -10), (19.0, -8), (19.6, -30)]
 B = KEYS['B']                                                         # t = 37 + tau
-B['R.dx'] = [(37, 900), (37.4, 900), (39.0, OPEN_R[0]), (42.0, OPEN_R[0]), (43.0, 0), (51.3, 0), (52.0, -90), (52.4, -90),
-             (52.7, -150), (53.0, -150), (53.5, 900)]
-B['R.dy'] = [(37, OPEN_R[1]), (42.0, OPEN_R[1]), (43.0, 0), (43.25, 14), (43.7, 0), (50.7, 0), (50.95, R_EAT[0]), (51.15, R_EAT[0]),
-             (51.3, 30), (52.0, -150), (52.4, -150), (52.7, -105), (53.0, -105), (53.5, -110)]
-B['R.hip'] = [(37, -1), (43.0, 1), (45.2, 4), (46.0, 1), (50.75, 1), (50.95, R_EAT[1]), (51.2, R_EAT[1]), (51.6, 0), (52.4, 0),
-              (52.75, 8), (53.0, 8), (53.2, -3)]
-B['R.head'] = merge(heads_keys('B', 'renzo', R_HEAD, 37, until=(37, 50.8)),
-                    [(50.8, R_HEAD['empty_place']), (50.95, R_EAT[2] + 1.5), (51.0, R_EAT[2]), (51.2, R_EAT[2]), (51.35, -5)],
-                    heads_keys('B', 'renzo', R_HEAD, 37, until=(51.9, 99)),
-                    [(52.75, 14), (53.0, 14), (53.15, -5)])
-B['L.dx'] = [(37, -900), (52.0, -900), (52.6, -380), (53.5, 0), (56.2, 0), (56.8, OPEN_L[0]), (71.3, OPEN_L[0]), (71.5, -40), (72, -40)]
-B['L.dy'] = [(37, 30), (52.6, 30), (53.5, 0), (56.2, 0), (56.8, OPEN_L[1]), (71.3, OPEN_L[1]), (71.5, -60), (72, -60)]
-B['L.hip'] = [(37, 3), (52.6, 3), (53.5, 0), (53.9, L_REACH[0]), (54.3, L_REACH[0]), (54.9, 1.5), (55.4, 1.5), (55.8, 0), (57.9, 0),
-              (58.2, 1.5), (59.0, 1.5), (59.4, 0), (71.3, 0), (71.5, -3)]
+B['R.pos'] = [(37, R_OFF), (37.4, R_OFF), (39.0, R_STATION), (42.0, R_STATION), (43.0, R_CORNER), (51.3, R_CORNER), (52.0, R_CLOCK),
+              (52.4, R_CLOCK), (53.5, R_OFF)]
+B['R.hip'] = [(37, -1), (43.0, 1), (45.2, 3), (46.0, 1), (50.6, 1), (50.9, 10), (51.05, 10), (51.25, 3), (51.35, 3), (51.6, 0), (52.4, 0), (52.75, -3)]
+B['R.head'] = merge(heads_keys('B', 'renzo', R_HEAD, 37, until=(37, 50.6)),
+                    [(50.6, 6), (50.9, 6), (51.05, 6), (51.2, 12), (51.35, -3)],
+                    heads_keys('B', 'renzo', R_HEAD, 37, until=(51.9, 99)))
+B['R.sh'] = [(37, R_REST[0]), (43.3, R_REST[0]), (43.9, R_HOLD[0]), (50.6, R_HOLD[0]), (50.9, R_EAT[0]), (51.05, R_EAT[0]),
+             (51.25, R_TOHERLID[0]), (51.35, R_TOHERLID[0]), (51.6, R_REST[0])]
+B['R.wr'] = [(37, R_REST[1]), (43.3, R_REST[1]), (43.9, R_HOLD[1]), (50.6, R_HOLD[1]), (50.9, R_EAT[1]), (51.05, R_EAT[1]),
+             (51.25, R_TOHERLID[1]), (51.35, R_TOHERLID[1]), (51.6, R_REST[1])]
+B['L.pos'] = [(37, L_OFF), (52.0, L_OFF), (53.5, L_CORNER), (56.2, L_CORNER), (56.8, L_STATION), (72, L_STATION)]
+B['L.hip'] = [(37, 1), (53.5, 1), (53.9, L_REACH[0]), (54.3, L_REACH[0]), (54.8, 1), (55.4, 0), (56.2, 1), (72, 1)]
 B['L.neck'] = merge(heads_keys('B', 'luciana', L_NECK, 37, until=(52, 54.95)),
-                    [(54.95, -4), (55.0, 3.5), (55.5, 3.5)],
+                    [(54.95, -3), (55.0, 2), (55.5, 2)],
                     heads_keys('B', 'luciana', L_NECK, 37, until=(55.5, 57.9)),
                     [(57.9, 6), (58.1, 3.5), (59.5, 3.5)],
                     heads_keys('B', 'luciana', L_NECK, 37, until=(59.9, 99)))
-B['L.elbow'] = [(37, -30), (53.5, -30), (54.0, L_REACH[1]), (54.3, L_REACH[1]), (54.9, 1.2), (55.0, 0), (55.5, 0), (55.9, -6),
-                (57.9, -6), (58.2, 0), (59.5, 0), (60.0, -6), (62.0, -4), (64.0, -7), (66.0, -4), (68.5, -7), (71.0, -5)]
+B['L.elbow'] = [(37, -30), (53.5, -30), (53.9, L_REACH[1]), (54.3, L_REACH[1]), (54.9, L_OWN[1]), (55.5, L_OWN[1]), (55.9, -6),
+                (56.8, L_LOW[1]), (58.2, L_LOW[1]), (59.5, -3), (60.0, L_LOW[1]), (62.0, -4), (64.0, -7), (66.0, -4), (68.5, -7), (71.0, -5)]
 BITES = {v: [(b['t'], b['who']) for b in json.load(open(SW_DIR + '/rules.json'))['bites'][v]] for v in 'AB'}
-TURN = {'A': (5.0, 20.0), 'B': (42.0, 57.0)}
-FM_HEAD = {'front_pan_left': 7.0, 'front_pan_centre': 0.0, 'front_pan_right': -7.0, 'front_on_luciana': -4.0}
+# chewing (jaw substitutions) after each bite, on twos: drawing 1, 2, 1, 0 ...
+def chew(t_bite, dur=0.9):
+    return [(t_bite + .0, 2), (t_bite + 1 / 12, 1), (t_bite + 2 / 12, 2), (t_bite + 3 / 12, 1), (t_bite + 4 / 12, 0), (t_bite + 6 / 12, 1),
+            (t_bite + 7 / 12, 2), (t_bite + 8 / 12, 1), (t_bite + 9 / 12, 0), (t_bite + dur, 0)]
+CHEW = {'A': {'R': [], 'L': []}, 'B': {'R': [], 'L': []}}
+for v in 'AB':
+    for tt, who in BITES[v]:
+        CHEW[v]['R' if who == 'renzo' else 'L'] += chew(tt)
+def chew_at(ver, who, tq):
+    d = 0
+    for t, s in sorted(CHEW[ver][who]):
+        if tq + 1e-9 >= t: d = s
+    return d
+# ---- foreman: present in the doorway (FLOOR) or gone into the office (OFFICE); one man throughout
+FM_HEAD = {'front_pan_left': 6.0, 'front_pan_centre': 0.0, 'front_pan_right': -6.0, 'front_on_luciana': 3.0}
 def fm_head_keys(ver):
     off = 0 if ver == 'A' else 37; out = []; prev = None
     for tau, s in R.HEADS[ver]['foreman']:
@@ -208,7 +280,11 @@ def fm_head_keys(ver):
         out += [(t, prev), (t + .5, a)] if prev is not None else [(t, a)]; prev = a
     return out
 FMK = {v: fm_head_keys(v) for v in 'AB'}
-FM_STEP = {'A': [(20, 0)], 'B': [(57.0, 0), (57.5, 0), (58.3, 34)]}        # B: one step out of the doorway, gaze held on her
+# exit: head turns to the office (+12) on the turn, then he steps back behind the left jamb; return: steps in, already looking out
+FM_POS = {'A': [(0, FM_FEET), (5.0, FM_FEET), (5.25, FM_FEET), (5.9, FM_GONE), (19.4, FM_GONE), (20.0, FM_FEET)],
+          'B': [(37, FM_FEET), (42.0, FM_FEET), (42.25, FM_FEET), (42.9, FM_GONE), (56.4, FM_GONE), (57.0, FM_FEET),
+                (57.5, FM_FEET), (58.3, FM_FEET + [52, 6])]}               # B: one step out of the doorway, gaze held on her
+FM_TURN = {'A': [(0, 0), (5.0, 0), (5.2, 14), (19.4, 14), (19.9, 0)], 'B': [(37, 0), (42.0, 0), (42.2, 14), (56.4, 14), (56.9, 0)]}
 
 def q(t): return math.floor(t * 12 + 1e-6) / 12                    # drawings on twos (12/s)
 def ver_of(t):
@@ -217,33 +293,33 @@ def ver_of(t):
     return 'B', t, t - 37.0
 
 def apple_state(ver, tq):
-    """(piece index, where): from rules.APPLE (+ bite frames)."""
     off = 0 if ver == 'A' else 37
     n = sum(1 for (bt, _) in BITES[ver] if tq >= bt - 1e-9)
     at = None
     for tau, _s, a in R.APPLE[ver]:
         if tau + off <= tq + 1e-9: at = a
-    if ver == 'A' and at == 'R_hand': at = 'L_wrist'                  # no free forearm for Renzo: she keeps it until she lids it
+    if ver == 'B' and at == 'R_hand' and tq >= 51.3: at = 'L_lid'      # declared: he leaves it on her lid as he rises (rules: 53.0)
     return n, at
 
 def state(t):
     ver, tf, tau = ver_of(t)
     tq = q(tf); k = KEYS[ver]
-    s = {n: K(k[n], tq) for n in k}
+    s = {n: (KV(k[n], tq) if n.endswith('.pos') else K(k[n], tq)) for n in k}
     s['ver'] = ver; s['tq'] = tq; s['tau'] = tau
     fa = R.facing_at(R.fixture_minutes(tau))
-    s['foreman'] = 'back' if fa == 'OFFICE' else 'front'
-    s['fm_head'] = K(FMK[ver], tq) if FMK[ver] else 0.0
-    s['fm_dx'] = K(FM_STEP[ver], tq)
+    s['facing'] = fa
+    s['fm_pos'] = KV(FM_POS[ver], tq)
+    s['fm_visible'] = bool(s['fm_pos'][0] > OPEN_X0 - 60)
+    s['fm_head'] = (K(FMK[ver], tq) if FMK[ver] else 0.0) + K(FM_TURN[ver], tq)
     s['apple_n'], s['apple_at'] = apple_state(ver, tq)
-    l_corner = abs(s['L.dx']) < 2 and abs(s['L.dy']) < 2
-    r_corner = abs(s['R.dx']) < 2 and s['R.dy'] > -2
-    s['meet_drawn'] = (ver == 'A' and l_corner and r_corner and s['L.dx'] > -880)
-    s['L_on'] = s['L.dx'] > -880; s['R_on'] = s['R.dx'] < 880
+    s['L_on'] = s['L.pos'][0] > L_OFF[0] + 1; s['R_on'] = s['R.pos'][0] < R_OFF[0] - 1
+    s['L_corner'] = bool(np.hypot(*(s['L.pos'] - L_CORNER)) < 3); s['R_corner'] = bool(np.hypot(*(s['R.pos'] - R_CORNER)) < 3)
+    s['meet_drawn'] = bool(ver == 'A' and s['L_corner'] and s['R_corner'])
+    s['L_draw'] = chew_at(ver, 'L', tq); s['R_draw'] = chew_at(ver, 'R', tq)
     return s
 
 # ------------------------------------------------------------------ camera (WIDE 1296 window -> MEDIUM 960 window = 1.35x) ---
-WIDE = (360.0, 20.0, 1296.0); MED = (600.0, 48.0, 960.0)
+WIDE = (360.0, 20.0, 1296.0); MED = (600.0, 50.0, 960.0)
 def cam_u(tau):
     c = R.camera_at(tau)
     if c['state'] == 'WIDE': return 0.0
@@ -254,8 +330,7 @@ def window(u, drift, par=1.0):
     x0 = WIDE[0] + (MED[0] - WIDE[0]) * u; y0 = WIDE[1] + (MED[1] - WIDE[1]) * u
     w = 1.0 / (1.0 / WIDE[2] + (1.0 / MED[2] - 1.0 / WIDE[2]) * u)
     return x0 + drift * par, y0, w
-def drift_of(tau): return 16.0 * math.sin(2 * math.pi * tau / 35.0)  # slow lateral drift, same in A and B
-
+def drift_of(tau): return 12.0 * math.sin(2 * math.pi * tau / 35.0)
 def view(stage_img, win):
     x0, y0, w = win; h = w * 540 / 960
     M = np.array([[960 / w, 0, -x0 * 960 / w], [0, 540 / h, -y0 * 540 / h]])
@@ -263,25 +338,27 @@ def view(stage_img, win):
 
 # ------------------------------------------------------------------ compositing (#45) ---
 class Comp:
-    """Foreground stack in stage coords: premultiplied grey C, coverage A, and a shadow multiplier S falling on the wall."""
     def __init__(self):
         self.C = np.zeros((SH, SW), np.float32); self.A = np.zeros((SH, SW), np.float32); self.S = np.ones((SH, SW), np.float32)
-        self.order = []
+        self.order = []; self.cover = {}
     def over(self, name, lay, shadow=True, off=(10, 8), blur=10, dark=.30):
         g, a = lay[..., 0], lay[..., 1]
-        if shadow:                                 # soft contact shadow down-right (key light upper left)
+        if shadow:
             sh = 1 - cv2.GaussianBlur(np.roll(np.roll(a, off[1], 0), off[0], 1), (0, 0), blur) * dark
             self.C *= sh; self.S *= sh
         self.C = self.C * (1 - a) + g * a; self.A = self.A * (1 - a) + a
-        self.order.append(name)
+        self.order.append(name); self.cover[name] = np.maximum(self.cover.get(name, 0), a)
 def W(piece, M, interp=cv2.INTER_AREA):
     return cv2.warpAffine(piece, M, (SW, SH), flags=interp, borderValue=(0, 0))
 DOOR_LAY = W(P['door'], mat((0, 0), D_XY + [0, 4], 0, 1.0))
+JAMB_LAY = DOOR_LAY.copy(); JAMB_LAY[:, int(OPEN_X0):, 1] = 0                       # the left jamb, cut from the doorway print
+OPEN_MASK = np.zeros((SH, SW), np.float32); OPEN_MASK[:, int(OPEN_X0):] = 1
+OPEN_MASK = cv2.GaussianBlur(OPEN_MASK, (0, 0), 1.0)                                # the wall left of the opening hides him
 PAILS_LAY = W(P['pails'], mat((0, 0), P_XY, 0, PS))
 SIGN_LAY = W(SIGN, mat((0, 0), (612, 54), 0, 1.0), cv2.INTER_LINEAR)
 
-HS = 4                                                                  # paper hands cut at 4x, reduced to the stage
-_HB = (int(CX - CR) - 4, int(CY - CR) - 4, int(2 * CR) + 8)            # (x0, y0, size) of the dial box
+HS = 4
+_HB = (int(CX - CR) - 4, int(CY - CR) - 4, int(2 * CR) + 8)
 def clock_hands(tau):
     md, hd = R.minute_hand_deg(tau), R.hour_hand_deg(tau)
     bx, by, bs = _HB; big = np.zeros((bs * HS, bs * HS), np.float32); ox, oy = (CX - bx) * HS, (CY - by) * HS
@@ -294,103 +371,142 @@ def clock_hands(tau):
     cv2.circle(big, (int(round(ox)), int(round(oy))), 4 * HS, 1.0, -1)
     hl = np.zeros((SH, SW), np.float32); hl[by:by + bs, bx:bx + bs] = cv2.resize(big, (bs, bs), interpolation=cv2.INTER_AREA)
     return hl, md
-
 def measure_minute(hl):
-    """Read the drawn minute hand back off the canvas: ink-weighted centroid of the outer ring (beyond the hour hand's reach),
-    relative to the arbor -> degrees clockwise from 12."""
     x0, y0 = int(CX - CR), int(CY - CR); sub = hl[y0:int(CY + CR), x0:int(CX + CR)]
     yy, xx = np.mgrid[0:sub.shape[0], 0:sub.shape[1]]
     dx = xx + x0 - CX; dy = yy + y0 - CY; wgt = sub * (np.hypot(dx, dy) > CR * .55)
     if wgt.sum() < 1: return None
     return math.degrees(math.atan2((dx * wgt).sum(), -(dy * wgt).sum())) % 360
 
-_slate_cache = {}
-def slate(k):
-    if k not in _slate_cache:
-        _slate_cache.clear(); _slate_cache[k] = np.asarray(Image.open(f'{SLATE_DIR}/slate_{k:04d}.png').convert('L')).astype(np.float32)
-    return _slate_cache[k]
+# ------------------------------------------------------------------ handmade cards: the neutral 'B' slate and the 'A' label ---
+_F = '/usr/share/fonts/truetype/dejavu/'
+def _card():
+    c = Image.new('L', (960, 540), 196); d = ImageDraw.Draw(c)
+    d.text((480, 250), 'B', font=ImageFont.truetype(_F + 'DejaVuSerif-Bold.ttf', 150), fill=34, anchor='mm')
+    d.text((480, 470), 'messa in scena con ritagli di fotografie FSA/OWI 1941-43 (Library of Congress)',
+           font=ImageFont.truetype(_F + 'DejaVuSerif.ttf', 17), fill=58, anchor='mm')
+    d.text((480, 494), 'suoni: registrazioni Wikimedia Commons  ·  crediti completi a parte',
+           font=ImageFont.truetype(_F + 'DejaVuSerif.ttf', 17), fill=58, anchor='mm')
+    return np.asarray(c).astype(np.float32)
+SLATE = _card()
+def slate(u):
+    # a typed card laid on the dark ground: it slides in (0-0.25 s) and lies still; no timeline, no caption of the plot
+    g = np.full((540, 960), 26.0, np.float32); k = ease(u / 0.25)
+    dy = int(round((1 - k) * 60)); g[max(0, dy):, :] = SLATE[:540 - max(0, dy), :] * k + 26 * (1 - k)
+    return g
+_LAB = Image.new('LA', (64, 64), (0, 0)); _ld = ImageDraw.Draw(_LAB)
+_ld.rectangle([0, 0, 52, 56], fill=(196, 255)); _ld.text((26, 29), 'A', font=ImageFont.truetype(_F + 'DejaVuSerif-Bold.ttf', 40), fill=(34, 255), anchor='mm')
+_LAB = np.asarray(_LAB).astype(np.float32)
+def label(img, t, letter_img, t0, t1):
+    if not (t0 <= t < t1): return img
+    a = (_LAB[..., 1] / 255.0) * min(1.0, (t1 - t) / 0.3, (t - t0) / 0.15 + 1e-3)
+    y, x = 18, 18; h, w = a.shape
+    img[y:y + h, x:x + w] = img[y:y + h, x:x + w] * (1 - a) + _LAB[..., 0] * a
+    return img
 
-ASSERT_LOG = {'frames': 0, 'meet_frames': [], 'layer_checks': 0, 'clock_max_err': 0.0}
+ASSERT_LOG = {'frames': 0, 'meet_frames': [], 'layer_checks': 0, 'clock_max_err': 0.0, 'station_checks': 0, 'foreman_checks': 0}
 CROSS = (52.0, 53.5)
+PERF = {'A': [], 'B': []}
 def frame_img(t, check=True):
     k = int(round(t * FPS)); ver, tf, tau = ver_of(t)
     if ver == 'slate':
         if check: R.assert_frame(k, None, meet_drawn=False); ASSERT_LOG['frames'] += 1
-        return slate(k)
+        return slate(tau)
     S = state(t); tq = S['tq']
     u = cam_u(tau); dr = drift_of(tau)
     pl = plate.copy(); drop_cards(pl, ver, tau)
     hl, md = clock_hands(tau)
-    pl = pl * (1 - cv2.GaussianBlur(np.roll(np.roll(hl, 3, 0), 3, 1), (0, 0), 1.5) * .35)   # paper hands' own shadow
+    pl = pl * (1 - cv2.GaussianBlur(np.roll(np.roll(hl, 3, 0), 3, 1), (0, 0), 1.5) * .35)
     pl = pl * (1 - hl) + 22 * hl
     cp = Comp()
     cp.over('door_frame', DOOR_LAY, off=(6, 5), blur=6, dark=.25)
     cp.over('door_sign', SIGN_LAY, off=(3, 3), blur=2, dark=.3)
-    if S['foreman'] == 'back':
-        sway = .7 * math.sin(tq * 1.1) + (.35 if (tq % 2.6) < 1.3 else -.2)
-        cp.over('foreman', W(P['foreman'], mat(PV['foreman']['feet'], F_FEET, sway, 1.0)), shadow=False)
-    else:
-        feet = F_FEET + [6 + S['fm_dx'], 0]
-        bob = 1.5 * abs(math.sin(tq * math.pi / .6)) if (S['fm_dx'] > .5 and S['fm_dx'] < 33.5) else 0
-        Mb = mat(PV['foreman_front']['feet'], feet - [0, bob], 0, FF_S)
-        cp.over('foreman', W(P['fm_body'], Mb), off=(5, 3), blur=4, dark=.2)
-        Mh = mat(_nk, ap(Mb, _nk), S['fm_head'], FF_S)
-        cp.over('foreman', W(P['fm_head'], Mh), shadow=False)
-    Mb, Mh, Ma, Mp = lu_fk(S['L.dx'], S['L.dy'], S['L.hip'], S['L.neck'], S['L.elbow'])
-    rbob = 6 * abs(math.sin(tq * math.pi / .45)) if (abs(K(KEYS[ver]['R.dx'], tq + .05) - S['R.dx']) > .8) else 0.0
-    lbob = 5 * abs(math.sin(tq * math.pi / .5)) if (abs(K(KEYS[ver]['L.dx'], tq + .05) - S['L.dx']) > .8) else 0.0
-    if lbob: Mb, Mh, Ma, Mp = lu_fk(S['L.dx'], S['L.dy'] - lbob, S['L.hip'], S['L.neck'], S['L.elbow'])
-    crossing = ver == 'B' and CROSS[0] <= tf < CROSS[1]
+    # ---- the foreman: one photograph; on the turn he looks to the office and steps back out of sight behind the left jamb
+    feet = S['fm_pos']; moving = abs(KV(FM_POS[ver], tq + .05)[0] - feet[0]) > .8
+    bob = 2.0 * abs(math.sin(tq * math.pi / .35)) if moving else 0
+    depth = 1 - .06 * ease((FM_FEET[0] - feet[0]) / (FM_FEET[0] - FM_GONE[0])) if feet[0] < FM_FEET[0] else 1.0
+    Mb = mat(PV['foreman_front']['feet'], feet - [0, bob], 0, FF_S * depth)
+    fb = W(P['fm_body'], Mb); fb[..., 1] *= OPEN_MASK
+    Mh = mat(_nk, ap(Mb, _nk), S['fm_head'], FF_S * depth)
+    fh = W(P['fm_head'], Mh); fh[..., 1] *= OPEN_MASK
+    if fb[..., 1].max() > .02:
+        cp.over('foreman', fb, off=(5, 3), blur=4, dark=.2); cp.over('foreman', fh, shadow=False)
+    cp.over('door_leaf', JAMB_LAY, shadow=False)                    # #45: the jamb is in front of him
+    # ---- puppets
+    Lp = S['L.pos']; Rp = S['R.pos']
+    lmov = np.hypot(*(KV(KEYS[ver]['L.pos'], tq + .05) - Lp)) > .8
+    rmov = np.hypot(*(KV(KEYS[ver]['R.pos'], tq + .05) - Rp)) > .8
+    lbob = 5 * abs(math.sin(tq * math.pi / .5)) if lmov else 0.0
+    rbob = 6 * abs(math.sin(tq * math.pi / .45)) if rmov else 0.0
+    Lb, Lh, La, Lap = lu_fk(Lp - [0, lbob], S['L.hip'], S['L.neck'], S['L.elbow'])
+    Rb, Rh, Ru, Rf, Rmouth, Rgrip = re_fk(Rp - [0, rbob], S['R.hip'], S['R.head'], S['R.sh'], S['R.wr'])
     if S['L_on']:
-        cp.over('luciana_body', W(P['lu_body'], Mb), off=(12, 9), blur=12)
-        cp.over('luciana_head', W(P['lu_head'], Mh), off=(10, 8), blur=10)
-        if ver == 'B' and tf < 54.0:              # B: her hand is empty and low; she passes wholly behind him
-            cp.over('luciana_forearm_low', W(P['lu_arm'], Ma), off=(9, 8), blur=8)
-    root = R_ROOT + [S['R.dx'], S['R.dy'] - rbob]
-    Rb, Rh, _ = re_fk(root, S['R.hip'], S['R.head'])
+        cp.over('luciana_body', W(P['lu_body'], Lb), off=(12, 9), blur=12)
+        cp.over('luciana_head', W(P[HEADS['L'][S['L_draw']]], Lh), off=(10, 8), blur=10)
+    crossing_now = ver == 'B' and CROSS[0] <= tf < CROSS[1]
+    if S['L_on'] and crossing_now:                                    # B near-miss: she passes wholly behind him
+        cp.over('luciana_forearm_low', W(P['lu_arm'], La), off=(9, 8), blur=8)
+    apc = APPLES[ver][min(S['apple_n'], len(APPLES[ver]) - 1)]; at = S['apple_at']
     if S['R_on']:
         cp.over('renzo_body', W(P['re_body'], Rb), off=(12, 9), blur=12)
-        cp.over('renzo_head', W(P['re_head'], Rh), off=(9, 8), blur=9)
-    apc = APPLES[ver][min(S['apple_n'], len(APPLES[ver]) - 1)]
-    at = S['apple_at']
+        cp.over('renzo_head', W(P[HEADS['R'][S['R_draw']]], Rh), off=(9, 8), blur=9)
+        cp.over('renzo_uarm', W(P['re_uarm'], Ru), off=(9, 8), blur=9)
+        if at == 'R_hand':
+            cp.over('apple', W(apc, mat(PV['apple']['c'], Rgrip + [-6, -14], -8, SA)), off=(7, 6), blur=6, dark=.32)
+        cp.over('renzo_farm', W(P['re_farm'], Rf), off=(8, 7), blur=7)
     if at == 'L_wrist' and S['L_on']:
-        cp.over('apple', W(apc, Mp), off=(7, 6), blur=6, dark=.32)
-    if at == 'R_hand' and tq < 43.9:                                 # B 43.5-43.9: up out of his pocket, behind the pile edge
-        pos = LID_A + [0, 75 * (1 - ease((tq - 43.5) / .4))]
-        cp.over('apple', W(apc, mat(PV['apple']['c'], pos, -8, SA)), off=(7, 6), blur=6, dark=.32)
-    if S['L_on'] and not (ver == 'B' and tf < 54.0):
-        cp.over('luciana_forearm', W(P['lu_arm'], Ma), off=(9, 8), blur=8)
+        cp.over('apple', W(apc, Lap), off=(7, 6), blur=6, dark=.32)
+    if S['L_on'] and not crossing_now:
+        cp.over('luciana_forearm', W(P['lu_arm'], La), off=(9, 8), blur=8)
     cp.over('pail_pile_occluder', PAILS_LAY, off=(12, 10), blur=12, dark=.30)
-    if at in ('R_lid', 'L_lid') or (at == 'R_hand' and tq >= 43.9):
-        pos = LID_B if at == 'L_lid' else LID_A
-        if at == 'R_hand' and tq >= 52.6:                            # his hidden hand slides it along the lids to hers by 53.0
-            pos = LID_A + (LID_B - LID_A) * ease((tq - 52.6) / .4)
+    if at in ('R_lid', 'L_lid'):
+        pos = R_LID_PT if at == 'R_lid' else L_LID_PT
         cp.over('lid_props', W(apc, mat(PV['apple']['c'], pos, -8, SA)), off=(5, 4), blur=3, dark=.5)
     # ---- per-frame asserts
     if check:
         mm = measure_minute(hl)
         if mm is not None:
             err = abs((mm - md + 180) % 360 - 180); ASSERT_LOG['clock_max_err'] = max(ASSERT_LOG['clock_max_err'], err)
-        R.assert_frame(k, minute_deg=mm, meet_drawn=S['meet_drawn'])     # measured hand angle vs the one clock
+        R.assert_frame(k, minute_deg=mm, meet_drawn=S['meet_drawn'])
         order = ['wall_plate'] + [n for n in cp.order if n in R.LAYERS] + ['clock_hands']
+        R.assert_layer_order(order)
+        crossing = ver == 'B' and CROSS[0] <= tf < CROSS[1]
         li = [i for i, n in enumerate(cp.order) if n.startswith('luciana')]; ri = [i for i, n in enumerate(cp.order) if n.startswith('renzo')]
-        if crossing:                              # rules.LAYER_NOTES['B_crossing']: L wholly behind R
-            assert not (li and ri) or max(li) < min(ri), cp.order
-        R.assert_layer_order(order)                # rules.LAYERS back-to-front, every frame
+        if crossing: assert not (li and ri) or max(li) < min(ri), cp.order
+        # (r1) the hiding place is only used while the foreman is away: Luciana's DRAWN x-range never enters CORNER_X while he
+        # faces the floor (except the 1.5 s B crossing), and the foreman is drawn iff he faces the floor (outside his 0.6 s steps)
+        if S['facing'] == 'FLOOR' and S['L_on'] and not crossing:
+            cov = np.maximum(cp.cover.get('luciana_body', 0), cp.cover.get('luciana_head', 0))
+            xs = np.nonzero((np.asarray(cov) > .1).any(0))[0]
+            assert len(xs) == 0 or xs.max() < CORNER_X[0] or xs.min() > CORNER_X[1], ('L in corner zone under his eye', t, xs.min(), xs.max())
+            ASSERT_LOG['station_checks'] += 1
+        steps = [(5.0, 5.9), (19.4, 20.0), (42.0, 42.9), (56.4, 57.0)]
+        if not any(a <= tf <= b for a, b in steps):
+            assert S['fm_visible'] == (S['facing'] == 'FLOOR'), ('foreman state', t, S['facing'], S['fm_pos'])
+            ASSERT_LOG['foreman_checks'] += 1
         ASSERT_LOG['layer_checks'] += 1; ASSERT_LOG['frames'] += 1
         if S['meet_drawn']: ASSERT_LOG['meet_frames'].append(k)
+        if k % 2 == 0:
+            PERF[ver].append({'frame': k, 't': round(t, 4), 'tq': round(tq, 4), 'R': {'pos': [round(float(x), 1) for x in Rp], 'hip': round(S['R.hip'], 2),
+                              'neck': round(S['R.head'], 2), 'shoulder': round(S['R.sh'], 2), 'wrist': round(S['R.wr'], 2), 'head_drawing': HEADS['R'][S['R_draw']]},
+                              'L': {'pos': [round(float(x), 1) for x in Lp], 'hip': round(S['L.hip'], 2), 'neck': round(S['L.neck'], 2), 'elbow': round(S['L.elbow'], 2),
+                                    'head_drawing': HEADS['L'][S['L_draw']]},
+                              'foreman': {'facing': S['facing'], 'drawn': S['fm_visible'], 'feet': [round(float(x), 1) for x in feet], 'neck': round(S['fm_head'], 2)},
+                              'apple': {'bites': S['apple_n'], 'at': at}, 'clock_minute_deg': round(md, 2), 'camera_u': round(u, 3)})
     # ---- camera: wall plate at 0.6x parallax, everything in front of it at 1.0x
     wf = window(u, dr, 1.0); wp = window(u, dr, 0.6)
     bg = view(pl, wp)
     C, A_, S_ = view(cp.C, wf), view(cp.A, wf), view(cp.S, wf)
-    return bg * S_ * (1 - A_) + C
+    img = bg * S_ * (1 - A_) + C
+    if ver == 'A': img = label(img, t, _LAB, 0.0, 1.6)
+    return img
 
 # ------------------------------------------------------------------ film ---
 TOTAL = 72.0
 film = kit.Film('renzo-e-luciana', seconds=TOTAL)
 film.poster_at = 10.0
 def pic(t, ink):
-    ink._grain = False                                                # no faux grain: the grain is the negatives' own
+    ink._grain = False
     g = np.clip(frame_img(t), 0, 255).astype(np.uint8)
     ink.img = Image.fromarray(np.stack([g] * 3, -1))
 film.picture(pic)
@@ -435,6 +551,26 @@ def compare(times=(3, 10, 25, 47, 60)):
     json.dump(out, open(SW_DIR + '/aesthetic-compare.json', 'w'), indent=1)
     print(json.dumps(out, indent=1))
 
+def write_performance():
+    subs = {v: [] for v in 'AB'}
+    for v in 'AB':
+        prev = {}
+        for fr in PERF[v]:
+            for who in ('R', 'L'):
+                d = fr[who]['head_drawing']
+                if prev.get(who) != d: subs[v].append({'frame': fr['frame'], 't': fr['t'], 'who': who, 'drawing': d}); prev[who] = d
+            fs = 'in_doorway' if fr['foreman']['drawn'] else 'gone_into_office'
+            if prev.get('F') != fs: subs[v].append({'frame': fr['frame'], 't': fr['t'], 'who': 'foreman', 'state': fs}); prev['F'] = fs
+            ab = fr['apple']['bites']
+            if prev.get('ap') != ab: subs[v].append({'frame': fr['frame'], 't': fr['t'], 'who': 'apple', 'drawing': f'apple{ab}'}); prev['ap'] = ab
+    out = {'note': 'Regenerated by the editor (repair round 1) from films/renzo-e-luciana.py as rendered: the film is the source of truth. '
+                   'Frames on twos (12 drawings/s). Bite frames equal rules.json/cues.json (A 8.5 R, 11.0 L, 13.0 R; B 51.0 R, 55.0 L).',
+           'ik_errors_px': IKERR, 'joints': {'renzo': ['hip', 'neck', 'shoulder', 'wrist'], 'luciana': ['hip', 'neck', 'elbow'], 'foreman': ['feet (root)', 'neck']},
+           'ik_solved_key_poses': {'FEED_R (L hip, elbow)': FEED_R, 'GIVE': GIVE, 'R_TAKE (shoulder, wrist)': R_TAKE, 'R_TOLID': R_TOLID,
+                                   'R_TOHERLID': R_TOHERLID, 'R_EAT': R_EAT, 'R_HOLD': R_HOLD, 'L_REACH': L_REACH},
+           'substitutions': subs, 'frames': PERF}
+    json.dump(out, open(SW_DIR + '/performance.json', 'w'), indent=0, default=lambda o: [float(x) for x in o] if hasattr(o, '__iter__') else float(o))
+
 if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == '--compare':
         compare()
@@ -444,3 +580,4 @@ if __name__ == '__main__':
             ASSERT_LOG['meet_range'] = [min(ASSERT_LOG['meet_frames']), max(ASSERT_LOG['meet_frames'])] if ASSERT_LOG['meet_frames'] else None
             ASSERT_LOG['meet_frames'] = len(ASSERT_LOG['meet_frames'])
             json.dump(ASSERT_LOG, open(SW_DIR + '/render-asserts.json', 'w'), indent=1); print(ASSERT_LOG)
+            write_performance()

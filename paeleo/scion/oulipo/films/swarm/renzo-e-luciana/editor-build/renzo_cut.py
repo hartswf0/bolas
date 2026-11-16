@@ -68,8 +68,14 @@ def piece(name, grey_img, mask, alpha_mul, pivots, bbox):
                'pivots': {k: [v[0] - x0, v[1] - y0] for k, v in pivots.items()}}
 piece('re2_body', gb, body, cut, {'hip': (660, 1200), 'neck': (580, 410), 'shoulder': (500, 556)}, (300, 330, 897, 1240))
 piece('re2_head', g, fig, 1 - cut, {'neck': (580, 410), 'mouth': (428, 332), 'eye': (441, 239)}, (380, 40, 897, 440))
-piece('re2_uarm', g, mUA, np.ones((H, W)), {'shoulder': (500, 556), 'elbow': (300, 950)}, (240, 470, 610, 1000))
-piece('re2_farm', g, mFA, np.ones((H, W)), {'elbow': (300, 950), 'grip': (122, 1046)}, (40, 910, 370, 1130))
+# split the sleeve at the elbow (mid-sleeve, perpendicular to the shoulder->wrist axis) with an 8 px overlap each way
+S0, E0, W0 = np.array([500., 556.]), np.array([402., 754.]), np.array([300., 950.])
+ax = (W0 - S0) / np.linalg.norm(W0 - S0); YY, XX = np.mgrid[0:H, 0:W]
+proj = (XX - E0[0]) * ax[0] + (YY - E0[1]) * ax[1]
+mU1 = mUA * (proj < 10); mL1 = mUA * (proj > -10)
+piece('re2_uarm', g, mU1, np.ones((H, W)), {'shoulder': (500, 556), 'elbow': (402, 754)}, (240, 470, 610, 1000))
+piece('re2_larm', g, mL1, np.ones((H, W)), {'elbow': (402, 754), 'wrist': (300, 950)}, (240, 470, 610, 1000))
+piece('re2_farm', g, mFA, np.ones((H, W)), {'elbow': (300, 950), 'wrist': (300, 950), 'grip': (122, 1046)}, (40, 910, 370, 1130))
 # jaw substitutions (two chewing drawings): lower face below the mouth line, pinned at the jaw hinge below the ear, closed by 2.5 deg / 5 deg
 hd = np.asarray(Image.open(f'{O}/re2_head.png')).astype(np.float32); hx0, hy0 = 380, 40
 hinge = (560 - hx0, 330 - hy0)                                   # below the ear

@@ -43,7 +43,7 @@ HH = 380
 refr = ref.resize((int(ref.width * HH / ref.height), HH), Image.LANCZOS)
 fw = int(960 * HH / 540)
 B = Image.new('RGB', (refr.width + 3 * fw + 40, HH + 150), (24, 24, 22)); d = ImageDraw.Draw(B)
-B.paste(refr, (0, 40)); d.text((6, 10), 'REFERENCE: Points cover (hortense.webp)', font=F, fill=(235, 235, 225))
+B.paste(refr, (0, 40)); d.text((6, 10), 'REFERENCE', font=F, fill=(235, 235, 225))
 m = measure(ref)
 d.text((6, HH + 48), f"luma p50 {m['luma'][2]}  sat {m['med_sat']}", font=f2, fill=(220, 220, 210))
 d.text((6, HH + 68), f"gy/gx {m['gy_gx']}  green {m['green_pct']}%", font=f2, fill=(220, 220, 210))
