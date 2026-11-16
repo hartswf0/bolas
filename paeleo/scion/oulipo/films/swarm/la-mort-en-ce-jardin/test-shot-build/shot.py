@@ -77,10 +77,14 @@ FIB = fibre_field(PW + 200, PH + 200, 11)
 
 
 def mud_field(W, H, seed):
+    """charcoal-and-water smears: noise dragged along a stroke direction (a finger wiping wet charcoal)."""
     r = np.random.default_rng(seed)
-    a = cv2.resize(r.normal(0, 1, (H // 9 + 1, W // 9 + 1)).astype(np.float32), (W, H), interpolation=cv2.INTER_CUBIC)
-    b = gblur(r.normal(0, 1, (H, W)).astype(np.float32), 1.2)
-    return np.clip(0.6 * a + 0.35 * b, -1, 2.5)
+    n = r.normal(0, 1, (H, W)).astype(np.float32)
+    k = np.zeros((1, 31), np.float32); k[0] = np.hanning(31)
+    sm = cv2.filter2D(n, -1, k / k.sum()); sm = cv2.warpAffine(sm, cv2.getRotationMatrix2D((W / 2, H / 2), 25, 1), (W, H), borderMode=cv2.BORDER_REFLECT)
+    sm = gblur(sm, 2.0); sm = sm / (sm.std() + 1e-6)
+    big = cv2.resize(r.normal(0, 1, (H // 40 + 1, W // 40 + 1)).astype(np.float32), (W, H), interpolation=cv2.INTER_CUBIC)
+    return np.clip(0.45 * sm + 0.8 * np.clip(big, 0, None), 0, 2.2)
 
 
 MUD = mud_field(PW + 200, PH + 200, 23)
@@ -112,8 +116,8 @@ def card_piece(canvas, polys, tone, mud=0.0, seed=0, shadow=5, sweat=(), creases
     if mud > 0:
         m = MUD[(seed * 7) % 150:(seed * 7) % 150 + H, (seed * 3) % 160:(seed * 3) % 160 + W]
         edge = 1 - gblur(a, 9) / 255                 # deposit collects toward the card's edges/creases
-        dep = np.clip(m * 0.55 + edge * 1.6 * (a > 10), 0, 2.2)
-        col = col * (1 - mud * 0.30 * dep) + 0                # charcoal-and-water darkening
+        dep = np.clip(m * 0.5 + edge * 1.3 * (a > 10), 0, 2.2)
+        col = col * (1 - mud * 0.17 * dep)                # charcoal-and-water darkening
     canvas[:] = canvas * (1 - al) + col[..., None] * al
     for (cx, cy, rx, ry, rot, v) in sweat:
         s = Image.new("L", (W, H), 0)
@@ -403,9 +407,10 @@ P4R = load_cut("P1_flange", 0.55, blur=3.5, rot=-24)       # foreground root dia
 # fern: GrabCut matte x graphite-dark pinnae (the light leaves behind the fern drop out)
 _f = np.asarray(Image.open(CUT / "P4_fern.png").convert("RGBA"), np.float32)
 _L = _f[..., 0]
-_a = _f[..., 3] * np.clip((165 - gblur(_L, 1.5)) / 55, 0, 1)
+_a = _f[..., 3] * np.clip((140 - gblur(_L, 1.5)) / 35, 0, 1)
 hF, wF = _a.shape
 yy, xx = np.mgrid[0:hF, 0:wF]
+_a *= np.clip(np.minimum(np.minimum(xx, wF - xx), np.minimum(yy, hF - yy)) / 90.0, 0, 1)   # the fronds thin out at the plate's edge
 _a = np.maximum(_a, 255 * ((((xx - wF * .39) / (wF * .1)) ** 2 + ((yy - hF * .43) / (hF * .15)) ** 2) < 1))
 _f[..., 3] = _a
 FERN = np.asarray(Image.fromarray(_f.astype(np.uint8), "RGBA").resize((int(wF * .5), int(hF * .5)), Image.LANCZOS), np.float32)
@@ -452,23 +457,55 @@ def caption(img_rgb, text):
 SB = 2.7                     # B's head card: 2*21*2.7 = 113 px = 0.21 H
 SC = 2.9
 FOREST_TONE = None
+def arm_to(hip, torso, s, target, bend=1, hand=None):
+    """Pose annotator's helper: world angles (upper, fore, hand) that put the wrist on `target`.
+    Used only to author keys; every frame is still evaluated by fk()."""
+    sh = (hip[0] + 92 * s * math.cos(math.radians(torso)), hip[1] + 92 * s * math.sin(math.radians(torso)))
+    l1, l2 = 44 * s, 42 * s
+    dx, dy = target[0] - sh[0], target[1] - sh[1]
+    d = min(math.hypot(dx, dy), (l1 + l2) * 0.999)
+    base = math.degrees(math.atan2(dy, dx))
+    c = (l1 * l1 + d * d - l2 * l2) / (2 * l1 * d)
+    a1 = math.degrees(math.acos(max(-1, min(1, c))))
+    up = base - bend * a1
+    e = (sh[0] + l1 * math.cos(math.radians(up)), sh[1] + l1 * math.sin(math.radians(up)))
+    fo = math.degrees(math.atan2(sh[1] + dy * d / max(math.hypot(dx, dy), 1e-6) - e[1], sh[0] + dx * d / max(math.hypot(dx, dy), 1e-6) - e[0]))
+    return (up, fo, fo if hand is None else hand)
+
+
+SHOE_POS = (606, 494)   # at the plank foot
+SEIZA = ((8, 188, 182), (14, 192, 182))          # kneeling: thighs forward, shins folded back on the bank
+
+
+def kB(t, hip, torso, head, far_t, near_t, legs, bend_f=-1, bend_n=1, hand_n=None):
+    lf, ln = legs
+    return (t, hip, pose_abs(torso, head, arm_to(hip, torso, SB, far_t, bend_f), arm_to(hip, torso, SB, near_t, bend_n, hand_n), lf, ln))
+
+
+CROUCH = ((-24, 98, 0), (-12, 104, 0))
 KB = [  # (t, hip root, world-angle pose)  B faces right (the plank foot and the shoe are at frame right)
-    (0.00, (300, 392), pose_abs(-64, -40, (172, 176, 180), (60, 40, 30), (-8, 96, 0), (6, 104, 0))),       # crouched; bag held back toward C
-    (0.40, (300, 392), pose_abs(-70, -36, (186, 186, 186), (66, 50, 40), (-8, 96, 0), (6, 104, 0))),       # pushes the bag into C's hands
-    (0.75, (306, 420), pose_abs(-60, -30, (140, 120, 110), (70, 60, 50), (-30, 150, 180), (-24, 160, 180))),   # free hand drops; she kneels
-    (1.20, (318, 432), pose_abs(-30, -4, (110, 95, 80), (46, 62, 70), (-36, 158, 180), (-30, 164, 180))),  # bends; near hand reaches
-    (1.60, (322, 434), pose_abs(-24, 4, (110, 96, 84), (40, 58, 64), (-36, 158, 180), (-30, 164, 180))),   # hand card overlaps the satin; grasp
-    (2.10, (314, 426), pose_abs(-58, -36, (120, 140, 160), (110, 200, 250), (-34, 156, 180), (-28, 162, 180))),  # rises with it
-    (2.50, (308, 420), pose_abs(-74, -60, (100, 160, 200), (120, 230, 280), (-32, 156, 180), (-26, 162, 180))),  # to her chest
-    (3.40, (308, 418), pose_abs(-76, -62, (100, 160, 200), (122, 232, 282), (-32, 156, 180), (-26, 162, 180))),
+    kB(0.00, (330, 432), -70, -48, (205, 395), (470, 330), CROUCH),        # crouched at the plank foot, bag in her far hand
+    kB(0.40, (322, 434), -76, -44, (168, 372), (480, 320), CROUCH),        # pushes it back into C's hands, eyes on the shoe
+    kB(0.75, (330, 452), -62, -36, (300, 430), (520, 380), CROUCH),        # the far hand comes back empty; she lowers
+    kB(1.20, (338, 468), -36, -10, (360, 470), (590, 470), SEIZA),         # knees down, bends, near hand reaches
+    kB(1.60, (342, 470), -30, -4, (380, 480), (600, 488), SEIZA, hand_n=10),  # hand card over the satin: grasp
+    kB(2.10, (336, 466), -58, -34, (430, 390), (520, 330), SEIZA),         # rises with it
+    kB(2.50, (332, 464), -78, -58, (430, 300), (440, 268), SEIZA),         # to her chest
+    kB(3.40, (332, 463), -80, -60, (428, 298), (438, 266), SEIZA),
 ]
-KC = [  # C at the left edge (cropped by frame), facing right, hands out to take the bag
-    (0.00, (-40, 380), pose_abs(-82, -88, (30, 10, 0), (20, -10, -20), (90, 94, 0), (84, 92, 0))),
-    (0.40, (-36, 380), pose_abs(-80, -84, (40, 26, 20), (34, 18, 10), (90, 94, 0), (84, 92, 0))),
-    (0.90, (-50, 378), pose_abs(-86, -96, (70, -20, -40), (60, -30, -50), (90, 94, 0), (84, 92, 0))),   # pulls it to his chest
-    (3.40, (-52, 378), pose_abs(-88, -96, (72, -24, -44), (62, -34, -54), (90, 94, 0), (84, 92, 0))),
+
+
+def kC(t, hip, torso, head, far_t, near_t):
+    return (t, hip, pose_abs(torso, head, arm_to(hip, torso, SC, far_t, -1), arm_to(hip, torso, SC, near_t, -1), (-30, 100, 0), (-20, 96, 0)))
+
+
+KC = [  # C crouched at the left edge (cropped by the frame), facing right, hands out for the bag
+    kC(0.00, (-6, 520), -76, -70, (150, 360), (172, 372)),
+    kC(0.40, (0, 518), -74, -66, (158, 366), (176, 380)),
+    kC(0.90, (-12, 522), -84, -86, (110, 330), (128, 342)),               # pulls it to his chest
+    kC(3.40, (-14, 522), -86, -88, (106, 326), (124, 338)),
 ]
-SHOE_POS = (632, 468)   # at the plank foot
+
 
 
 def close_frame(t):
@@ -476,9 +513,9 @@ def close_frame(t):
     C = np.zeros((PH, PW, 3), np.float32) + 90
     over(C, P0, -150 - cam * .15, -150)                 # P0 far wall + giant buttress trunk
     over(C, P1, -250 - cam * .35, 175)                  # P1 sinuous flange, mid
-    water_plane(C, 452, t, 40 - cam)
-    bank(C, cam)
-    plank(C, (560 - cam, 462), (900 - cam, 408), 20)
+    water_plane(C, 486, t, 40 - cam)
+    bank(C, cam, top=500)
+    plank(C, (548 - cam, 506), (900 - cam, 452), 20)
     # possession state machine
     bag_holder = "B" if t < T_BAG else "C"
     shoe_holder = "water" if t < T_SHOE else "B"
@@ -489,23 +526,23 @@ def close_frame(t):
     # C, then B
     def c_bag(canvas):
         if bag_holder == "C":
-            hx, hy = JC["hand_n"][1]; bag_piece(canvas, hx + 8, hy + 40, 2.6, -8)
+            hx, hy = JC["hand_n"][1]; bag_piece(canvas, hx + 10, hy + 30, 2.4, -8)
     draw_puppet(C, JC, SC, TONES_C, "C", mud=1.1, front_hand_cb=c_bag)
 
     def b_bag(canvas):
         if bag_holder == "B":
-            hx, hy = JB["hand_f"][1]; bag_piece(canvas, hx - 6, hy + 44, 2.6, 6)
+            hx, hy = JB["hand_f"][1]; bag_piece(canvas, hx - 4, hy + 40, 2.4, 6)
     def shoe_cb(canvas):
         if shoe_holder == "water":
-            shoe_on_water(canvas, SHOE_POS[0] - cam, SHOE_POS[1], 150, 4, t)
+            shoe_on_water(canvas, SHOE_POS[0] - cam, SHOE_POS[1], 170, 4, t)
         else:
-            shoe_in_hand(canvas, JB, 150, 0)
+            shoe_in_hand(canvas, JB, 170, 0)
     draw_puppet(C, JB, SB, TONES_B, "B", mud=1.0, between_cb=b_bag, front_hand_cb=shoe_cb)
     # P3 big heart leaves across the top right (canopy darker above), P4 fern right edge, root diagonal low left
-    over(C, P3, 420 - cam * 1.5, -250)
-    over(C, P3[:, ::-1], -330 - cam * 1.5, -420)
-    over(C, FERN, 560 - cam * 2.0, 40)
-    over(C, P4R, -260 - cam * 2.0, 360)
+    over(C, P3, 560 - cam * 1.5, -360)
+    over(C, P3[:, ::-1], -560 - cam * 1.5, -470)
+    over(C, FERN, 650 - cam * 2.0, 20)
+    over(C, P4R, -300 - cam * 2.0, 400)
     return C, dict(bag=bag_holder, shoe=shoe_holder, plank_occupant=None, hands_B=["bag" if bag_holder == "B" else "free",
                    "shoe" if shoe_holder == "B" else "free"])
 

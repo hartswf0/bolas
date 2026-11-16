@@ -17,7 +17,7 @@ P = {  # per-piece grade toward the reference key (median ~122, p95 >= 220)
     're_body': load('re_body', .9, 0, 225), 're_head': load('re_head', 1.1, 10, 245), 'foreman_back': load('foreman_back', 1.0, 15, 235),
     'apple': load('apple', 1.05, 8, 238)}
 plate = np.asarray(Image.open(C + '/plate.png')).astype(np.float32)
-plate = np.clip((plate - 12) / (238 - 12), 0, 1) ** 1.32 * 247 + 4    # plate levels: pull the pale wall down into the mid belly
+plate = np.clip((plate - 14) / (222 - 14), 0, 1) ** 1.22 * 246 + 4    # plate levels: pull the pale wall down into the mid belly
 occ = np.load(C + '/occ.npy').astype(np.float32) / 255
 occ = cv2.GaussianBlur(occ, (3, 3), 0)
 DX0, DY0, DX1, DY1 = np.load(C + '/door.npy')
