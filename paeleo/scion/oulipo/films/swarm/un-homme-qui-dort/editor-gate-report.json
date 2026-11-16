@@ -1,6 +1,6 @@
 {
  "gate": "u3-gate.py",
- "beats": "beats-r2",
+ "beats": "beats-r3",
  "pass": true,
  "n_checks": 105,
  "failures": [],
@@ -9,25 +9,25 @@
    "check": "P1/I1 second person, addressee you:A1",
    "subject": "c1.A",
    "pass": true,
-   "detail": "text='You open your eyes.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+   "detail": "text='You lift your head.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
   },
   {
    "check": "P1/I1 second person, addressee you:A1",
    "subject": "c1.A",
    "pass": true,
-   "detail": "text='You open your eyes.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+   "detail": "text='You lift your head.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
   },
   {
    "check": "P1/I1 second person, addressee you:A1",
    "subject": "c1.B",
    "pass": true,
-   "detail": "text='You open your eyes.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+   "detail": "text='You lift your head.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
   },
   {
    "check": "P1/I1 second person, addressee you:A1",
    "subject": "c1.B",
    "pass": true,
-   "detail": "text='You open your eyes.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+   "detail": "text='You lift your head.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
   },
   {
    "check": "P1/I1 second person, addressee you:A1",
@@ -231,7 +231,7 @@
    "check": "P3 onset = event - 1.2 +/- 0.05",
    "subject": "c4.A",
    "pass": true,
-   "detail": "onset=19.300 want=19.342 event_t_on=20.542 (U1 measured) relation=anticipates"
+   "detail": "onset=19.300 want=19.300 event_t_on=20.500 (U1 measured) relation=anticipates"
   },
   {
    "check": "P3 overlaps is computed, never declared",
@@ -243,7 +243,7 @@
    "check": "P3 onset = event + 1.2 +/- 0.05",
    "subject": "c4.B",
    "pass": true,
-   "detail": "onset=21.700 want=21.742 event_t_on=20.542 (U1 measured) relation=lags"
+   "detail": "onset=21.700 want=21.700 event_t_on=20.500 (U1 measured) relation=lags"
   },
   {
    "check": "P3 overlaps is computed, never declared",
@@ -255,7 +255,7 @@
    "check": "P3 onset = event - 1.2 +/- 0.05",
    "subject": "c5.A",
    "pass": true,
-   "detail": "onset=27.300 want=27.342 event_t_on=28.542 (U1 measured) relation=anticipates"
+   "detail": "onset=27.300 want=27.300 event_t_on=28.500 (U1 measured) relation=anticipates"
   },
   {
    "check": "P3 overlaps is computed, never declared",
@@ -267,7 +267,7 @@
    "check": "P3 onset = event + 1.2 +/- 0.05",
    "subject": "c5.B",
    "pass": true,
-   "detail": "onset=29.700 want=29.742 event_t_on=28.542 (U1 measured) relation=lags"
+   "detail": "onset=29.700 want=29.700 event_t_on=28.500 (U1 measured) relation=lags"
   },
   {
    "check": "P3 overlaps is computed, never declared",
@@ -405,7 +405,7 @@
    "check": "P5 text identical in tracks A and B",
    "subject": "c1",
    "pass": true,
-   "detail": "A='You open your eyes.' B='You open your eyes.'"
+   "detail": "A='You lift your head.' B='You lift your head.'"
   },
   {
    "check": "I6 durations identical",
@@ -597,7 +597,7 @@
    "check": "I4 no POV, gaze off-lens, roles distinct",
    "subject": "S5",
    "pass": true,
-   "detail": "roles=['side-on to the stair from the hall below', 'N, off-screen, captions only', 'figure:F (Vachon powder-plant employee, LoC 2017811447) 20.5-23.5; none 19.0-20.5 and 23.5-24.5', 'spectator before the screen']"
+   "detail": "roles=['below and beside the flight, outside him; he looks ahead up the stair, off-lens', 'N, off-screen, captions only', 'figure:F (Bubley sitter, cut from LoC 2017862340, on the Mydans stair LoC 2017714056) 20.5-23.5; none 19.0-20.5 and 23.5-24.5', 'spectator before the screen']"
   },
   {
    "check": "I4 no POV, gaze off-lens, roles distinct",
