@@ -31,4 +31,4 @@ Append each reader to `films/swarm/la-belle-hortense/reader-log.md`:
 reader id, film revision (file hash), structure revision, rewatch used (y/n), answers to Q1 to Q7 verbatim, score (solved / fair-play / fail plus the missed clue), and the date. Label the result *perceptually judged*.
 
 ## Status
-No fresh reader has been run by this unit. Its answers are **pending** (unknown) until a separate agent who has not seen this structure watches a saved assembly.
+Reader R1 (editor E3, 2026-11-16): a separate Claude session shown stills 0–39 s, without sound. Result: solved, fair-play pass. See reader-log.md. A human viewing with sound is still open.

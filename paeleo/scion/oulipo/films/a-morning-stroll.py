@@ -541,10 +541,13 @@ IRON09 = img(PL / "2009/holdout_iron.png")[..., 3] / 255.0
 S_RP = 3 * 1024 / 13925.0
 R2P = np.array([[S_RP, 0, 7300 * 1024 / 13925.0], [0, S_RP, 1500 * 1024 / 13925.0], [0, 0, 1.0]])   # region -> preview
 CA09 = G09["crops"]["A"]
-RB09_0, RB09_1 = (400.0, 1006.2, 933.0, 1306.0), (404.0, 1008.4, 929.0, 1303.8)    # r2: B reframed onto the latch edge, brick and iron (saturation from the scene, not a boost)
+RB09_0, RB09_1 = (380.0, 1006.0, 913.0, 1306.0), (384.0, 1008.25, 909.0, 1303.75)  # B1 5.0-7.25: latch edge, brick, iron (r3: 20 px left, so the tail clears the frame edge)
+RW09_0, RW09_1 = (0.0, 780.0, 933.0, 1304.8), (7.0, 783.9, 926.0, 1300.9)   # B2 8.5-11.0 (r3): the full leaf held ajar on its chain, knob, brick, iron
 QUAD09 = [(145.0, 330.0), (485.0, 330.0), (485.0, 1245.0), (145.0, 1245.0)]
 CAM09, Z09 = (466.0, 1000.0), 1500.0
-CHAIN_Y = 842.0                    # chain height on the leaf (handmade object, placed just above the knob)
+INS09_0, INS09_1 = (322.0, 748.0, 642.0, 928.0), (326.0, 750.25, 638.0, 925.75)   # r3: chain insert (3x), 26.25-27.5 s
+INS09_T = (7.25, 8.5)              # local seconds: the leaf swings, the chain snaps taut at 7.6, the leaf halts and bounces
+CHAIN_Y = 838.0                    # chain height on the leaf (handmade object, fitted just above the knob at 860)
 L09 = (-0.42, 0.22)                # bird cast shadow: plate light from upper right (shadows fall down-left)
 LINK_F = img(PL / "handmade/chain_link_face.png")
 LINK_E = img(PL / "handmade/chain_link_edge.png")
@@ -582,23 +585,40 @@ def door_hinged(stage_img, leaf_a, hall_rgb, quad, th, cam, z0, A, shade=0.35):
     return out, la, sw, d
 
 
-def draw_chain(out, p_jamb, p_leaf, th, k):
-    """HANDMADE 2009 door chain: 6 shaded steel links along the puppet module's catenary (slack -> taut at 25 deg)."""
-    pts = P.chain_links(p_jamb, p_leaf, th, sag_px=14.0 * k)
+def chain_span_taut(quad, cam, z0, A):
+    """projected jamb-to-leaf span of the chain at the 25 deg stop: the chain's apparent length when taut"""
+    dq = [P.ap(A, q) for q in P.hinge_quad(quad, "left", math.radians(25.0), cam, z0)]
+    fy = (CHAIN_Y - 330) / (1245 - 330)
+    return (dq[1][0] + (dq[2][0] - dq[1][0]) * fy, dq[1][1] + (dq[2][1] - dq[1][1]) * fy)
+
+
+def draw_chain(out, p_jamb, p_leaf, th, k, n=7, p_taut=None):
+    """HANDMADE 2009 door chain (plates/handmade chain_link_face/edge sprites): n alternating face/edge links.
+    The chain has a fixed length (its taut span at the 25 deg stop): while the leaf swings the spare length hangs as a
+    parabola below the chord, and at the stop it is straight. Each link is ~4 cm (15 region px at the leaf) across; along
+    the chain it is foreshortened to the projected span, because the chain runs back into depth."""
+    span = math.hypot(p_leaf[0] - p_jamb[0], p_leaf[1] - p_jamb[1])
+    Lc = span if p_taut is None else max(span, math.hypot(p_taut[0] - p_jamb[0], p_taut[1] - p_jamb[1]))
+    sag = 0.6 * math.sqrt(max(0.0, Lc * Lc - span * span))
+    pts = [(p_jamb[0] + (p_leaf[0] - p_jamb[0]) * u, p_jamb[1] + (p_leaf[1] - p_jamb[1]) * u + sag * 4 * u * (1 - u))
+           for u in np.linspace(0, 1, n + 1)]
     lay = np.zeros((H, W, 4), np.float32)
-    for i in range(len(pts) - 1):
+    across = 15.0 * k / 31.0                       # sprite link is 51 x 31 px (face bbox)
+    for i in range(n):
         (x0, y0), (x1, y1) = pts[i], pts[i + 1]
-        L = math.hypot(x1 - x0, y1 - y0) * 2.0
+        seg = math.hypot(x1 - x0, y1 - y0)
+        along = min(15.0 * k, max(4.0 * k, seg * 1.55)) / 51.0
         sp = LINK_F if i % 2 == 0 else LINK_E
-        sc = max(0.08, L / 50.0)
-        ang = math.degrees(math.atan2(-(y1 - y0), x1 - x0))
-        M = cv2.getRotationMatrix2D((36.0, 36.0), ang, sc)
-        M[:, 2] += [(x0 + x1) / 2 - 36.0, (y0 + y1) / 2 - 36.0]
+        ang = math.atan2(y1 - y0, x1 - x0)
+        ca, sa = math.cos(ang), math.sin(ang)
+        Mr = np.array([[ca * along, -sa * across], [sa * along, ca * across]])
+        c = np.array([(x0 + x1) / 2, (y0 + y1) / 2]) - Mr @ np.array([36.5, 36.5])
+        M = np.hstack([Mr, c[:, None]])
         s = cv2.warpAffine(sp, M, (W, H), flags=cv2.INTER_LINEAR)
         a = s[..., 3:4] / 255.0
         lay[..., :3] = s[..., :3] * a + lay[..., :3] * (1 - a)
         lay[..., 3:4] = a + lay[..., 3:4] * (1 - a)
-    return over(out, lay[..., :3] * 0.9, lay[..., 3])
+    return over(out, lay[..., :3], np.clip(lay[..., 3], 0, 1)), lay[..., 3]
 
 
 def v2_wide(fl, shot):
@@ -616,6 +636,12 @@ def v2_wide(fl, shot):
     out = out * (1 - 0.5 * wsh[..., None])
     info = {"shot": shot, "door_deg": round(math.degrees(th), 1), "watcher_x": round(x, 1)}
     iron = warp(IRON09, A @ R2P)
+    if th > 0.01 and d is not None:                            # C: the same handmade chain holds the leaf at 25 deg
+        fy = (CHAIN_Y - 330) / (1245 - 330)
+        p_leaf = (d[1][0] + (d[2][0] - d[1][0]) * fy, d[1][1] + (d[2][1] - d[1][1]) * fy)
+        p_jamb = tuple(P.ap(A @ R2P, (489.0, CHAIN_Y - 6)))
+        out, chain_a = draw_chain(out, p_jamb, p_leaf, th, A[0, 0] * S_RP, n=5)   # at the stop: taut
+        info["chain_px"] = vis_px(chain_a)
     if shot == "A":
         pose = TRACK09A[fl]
         lay = ROO09.render(pose, A, (W, H))
@@ -667,7 +693,14 @@ TRACK09B = track09b()
 def v2_knock(fl):
     c = fl - 120
     t = fl / FPS
-    A = cam_rect(RB09_0, RB09_1, c / 143.0)
+    tl = t                                               # fl is the local frame
+    insert = INS09_T[0] <= tl < INS09_T[1]
+    if tl < INS09_T[0]:
+        A = cam_rect(RB09_0, RB09_1, (tl - 5.0) / (INS09_T[0] - 5.0))
+    elif insert:
+        A = cam_rect(INS09_0, INS09_1, (tl - INS09_T[0]) / (INS09_T[1] - INS09_T[0]))
+    else:
+        A = cam_rect(RW09_0, RW09_1, (tl - INS09_T[1]) / (11.0 - INS09_T[1]))
     th = P.chain_theta(t)
     out, la, sw, d = door_hinged(REG09, LEAF09[..., 3] / 255.0, HALL09[..., :3], QUAD09, th, CAM09, Z09, A)
     k = A[0, 0]
@@ -689,16 +722,19 @@ def v2_knock(fl):
         front = (xx < xe).astype(np.float32)
         vis = al * np.maximum(front, revealed) * (1 - jambR)
     out = over(out, lay["rgb"], vis)
+    info_chain = 0
     if th > 0.01 and d is not None:                            # the chain across the gap
         fy = (CHAIN_Y - 330) / (1245 - 330)
         p_leaf = (d[1][0] + (d[2][0] - d[1][0]) * fy, d[1][1] + (d[2][1] - d[1][1]) * fy)
         p_jamb = tuple(P.ap(A, (489.0, CHAIN_Y - 6)))
-        out = draw_chain(out, p_jamb, p_leaf, th, k)
+        out, chain_a = draw_chain(out, p_jamb, p_leaf, th, k, p_taut=chain_span_taut(QUAD09, CAM09, Z09, A))
+        info_chain = vis_px(chain_a)
     pts = {e: P.ap(A, ROO09.landmarks(TRACK09B[e - 120])["beak"]) for e in (E3L, E4L)}
     out = contact_fx(out, pts, fl, k, "paint", nick_until=167)
     bi, bst = beak_in(LEAF09[..., 3] / 255.0, A, lay["lm"])
     return out, {"shot": "B", "door_deg": round(math.degrees(th), 2), "beak_in_leaf": bi, "beak_stage": bst,
-                 "bird_px_visible": vis_px(vis), "bird_height_frac": round(height_frac(al), 3)}
+                 "bird_px_visible": vis_px(vis), "bird_height_frac": round(height_frac(al), 3), "chain_px": info_chain,
+                 "insert": insert}
 
 
 # =============================================================================================== V3 2059
@@ -714,7 +750,8 @@ def _interior():
     for y0, y1 in ((182, 204), (680, 704)):
         m[y0:y1, 690:1175] = 1
     out = cv2.inpaint(p, m, 9, cv2.INPAINT_TELEA).astype(np.float32)
-    return out * 0.66
+    # r3: the far hall is out of the plane of focus once the glass is gone (thumbnail edge-sharpening softened, sigma 1.1)
+    return cv2.GaussianBlur(out, (0, 0), 1.1) * 0.66
 
 
 INT59 = _interior()
@@ -736,6 +773,8 @@ FSM, FSM_EVENTS = P.DoorFSM([(X1_T, True), (E3L / FPS, True), (E4L / FPS, True)]
 LEAF_MASK20 = np.maximum(LL59[..., 3], LR59[..., 3]) / 255.0
 L20_BIRD = (0.10, -0.32)
 L20_WATCH = (0.30, -0.95)
+WSH20 = 0.68                       # r3 (was 0.55)
+CA20_K = 960.0 / (CA20["push_start"][2] - CA20["push_start"][0])
 
 
 def sensor_layer(dots, state):
@@ -858,13 +897,12 @@ def v3_frame(fl, shot):
         bird = ROO_2059.render(pose, A, (W, H), lum=float(lum))
         bird["inside"] = inside
     # watcher: AK17's very long low-sun shadow raking up the forecourt onto the glass
-    if shot != "B":
-        x, hd = watcher_x(t, -900, 520, 2150)
-        wsh = cv2.GaussianBlur(wshadow(WATCH, x, hd, 1000, 700, L20_WATCH, A), (0, 0), 1.8)
-        info.update(watcher_x=round(x, 1), watcher_shadow_height_frac=round(height_frac(wsh), 3))
-    else:
-        wsh = np.zeros((H, W), np.float32)
-    out = out * (1 - 0.55 * wsh[..., None])
+    # r3: the stopped watcher's shadow is also in B (same world position, so A/B/C agree); density 0.68, the dark
+    # side of a hard low sun on pale concrete (it gives 2059 its one real dark mass, as in orchardAK17)
+    x, hd = watcher_x(t, -900, 520, 2150)
+    wsh = cv2.GaussianBlur(wshadow(WATCH, x, hd, 1000, 700, L20_WATCH, A), (0, 0), 1.8 * A[0, 0] / CA20_K)
+    info.update(watcher_x=round(x, 1), watcher_shadow_height_frac=round(height_frac(wsh), 3))
+    out = out * (1 - WSH20 * wsh[..., None])
     if bird is not None and bird["inside"]:
         out = over(out, bird["rgb"], bird["alpha"])
     # the two leaves slide on their rails (the door's own answer, no hand)
@@ -893,7 +931,7 @@ def v3_frame(fl, shot):
     for piece in (POSTL, POSTR, PILLAR):
         pc = warp(piece, A)
         a = pc[..., 3] / 255.0
-        out = over(out, pc[..., :3] * (1 - 0.55 * wsh[..., None]), a)
+        out = over(out, pc[..., :3] * (1 - WSH20 * wsh[..., None]), a)
         hold = np.maximum(hold, a)
     out = strip_on(out, A, fr)
     if shot == "B":

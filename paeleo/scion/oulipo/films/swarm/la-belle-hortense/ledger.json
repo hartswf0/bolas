@@ -259,7 +259,8 @@
   "commons": "Commons API returned HTTP 429 throughout this round (6 tries with back-off); Commons items keep the licences read by U2/U4 on 2026-11-16.",
   "fresh_reader": {
    "status": "NOT RUN",
-   "reason": "no naive human viewer is available to this unit; protocol in reader-protocol.md stands ready; fair play remains structurally verified only (verify.py S2: every support of S at or before 21.0 s)"
+   "reason": "no naive human viewer is available to this unit; protocol in reader-protocol.md stands ready; fair play remains structurally verified only (verify.py S2: every support of S at or before 21.0 s)",
+   "status_superseded_by": "editor_E3.fresh_reader"
   },
   "film_licence": "CC BY-SA 4.0"
  },
@@ -276,6 +277,11 @@
    "HOOK (recorded)",
    "RIG-E3"
   ],
-  "fresh_reader": "see reader-log.md"
+  "fresh_reader": {
+   "status": "RUN",
+   "reader": "separate Claude session, never shown the film or its files; stills 0-39 s without sound",
+   "result": "solved, fair-play pass (Q2 coat at 8.25/14.25 s, Q5 I.4), confidence 75",
+   "record": "films/swarm/la-belle-hortense/reader-log.md"
+  }
  }
 }
