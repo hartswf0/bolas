@@ -8,6 +8,10 @@ three trial resets (13.0, 25.0, 34.0 s) as real cuts through a held black frame
 with a white scratch wipe, the captions (FR + EN, small serif italic, cream, lower
 band, no box) and the end source line.
 
+Repair 2: flattened wash plates (layout_wall.py), 0.5 s push-ins on the wide roller shots,
+the rear wheel kicked out behind the pusher in front of his legs, a 0.30 s platform fall,
+the carrier kept ahead of the cart in the wheel trial.
+
 Repair 1: there is ONE motion ledger, the rendered frames. motion.py drives the
 picture; swarm/teuf-teuf/verify_sheet.py rewrites exposure.json and the
 mechanism.json asserts from the render's own per-frame records, after this script
@@ -333,9 +337,11 @@ def build_sound(mix):
     mix.click(EV["pin-pull"][0], gain=0.35, bright=3000)
     knock(EV["pin-pull"][0] + 0.06, gain=0.3, pitch=1.3, i=8, what="pins pulled, forks drop")
     knock(EV["wheel-drop"][0], gain=0.55, pan=-0.4, i=2, what="rear wheel falls out")
-    thud(EV["wheel-drop"][0] + 0.02, gain=0.5, what="platform's rear hits the ground")
+    thud(EV["platform-lands"][0], gain=0.55, what="platform's rear lands on the ground (after a 0.30 s fall)")
+    knock(EV["platform-lands"][0] + 0.01, gain=0.3, pitch=0.75, i=1, what="plank end strikes the ground")
     thud(EV["stop-counter"][0], gain=0.35, what="platform grinds to a stop")
-    knock(EV["loose-wheel-stop"][0], gain=0.4, pan=-0.5, i=3, what="loose wheel stops")
+    knock(EV["loose-wheel-stop"][0], gain=0.65, pan=-0.6, pitch=0.9, i=3, what="tok: the loose wheel settles behind the pusher")
+    knock(EV["loose-wheel-stop"][0] + 0.12, gain=0.2, pan=-0.6, pitch=1.05, i=5, what="tok rebound")
     knock(EV["callback"][0], gain=0.5, pan=-0.5, i=4, what="loose wheel rocks once (tok)")
     knock(EV["callback"][0] + 0.24, gain=0.18, pan=-0.5, pitch=1.1, i=5, what="rock back")
 
