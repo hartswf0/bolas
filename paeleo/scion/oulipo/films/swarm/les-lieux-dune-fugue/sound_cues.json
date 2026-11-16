@@ -446,5 +446,26 @@
    "item": "Commons Strike of the hour of St. Georgen, St. Gallen (CC BY-SA 4.0, 2.2 MB)",
    "reason": "good fallback; not needed once the Murbach peal (France) arrived"
   }
+ ],
+ "absences": [
+  "Heavy wooden door close: 'Close door (Gravity Sound).wav' (CC BY 4.0) chosen, but upload.wikimedia.org answered HTTP 429 (retry-after: 600) on 4 attempts spaced 1-11 min; not downloaded. Thud/knock are synthesized (kit). No heavy carriage-door recording found under an allowed licence that could be fetched.",
+  "Hinge creak: 'Close squeaky door (Gravity Sound).wav' (CC BY 4.0) not attempted after the 429s (downloader stopped); creak synthesized (kit).",
+  "Street/courtyard tone: 'Urban Street on a Rainy Afternoon.flac' (CC0) chosen, not fetched (429 / time box); MIA cache has no clip with street tone free of narration or music. Present tone synthesized (kit).",
+  "Park wind/birds: 'Bourne Garden 2020-08-28 0943.mp3' (CC BY-SA 4.0) chosen, not fetched (429 / time box). Park tone synthesized (kit), including 7 synthesized chirps.",
+  "Recorded speech: none sought (voice is captions; no TTS)."
+ ],
+ "handmade": [
+  {
+   "what": "voice score F1-F5 (French text, English gloss, typed records)",
+   "where": "films/swarm/les-lieux-dune-fugue/voice_score.json"
+  },
+  {
+   "what": "kit.Mix stems: present tone, park tone with chirps, hinge creak, heavy thud, light knock, fallback bell",
+   "where": "films/sources/les-lieux-dune-fugue/narration-sound-writer/stems/ (made by films/swarm/les-lieux-dune-fugue/synth_stems.py)"
+  },
+  {
+   "what": "audio-only preview mix of the cue sheet (check of the duck, bell window and silence)",
+   "where": "films/sources/les-lieux-dune-fugue/narration-sound-writer/preview_mix.wav"
+  }
  ]
 }

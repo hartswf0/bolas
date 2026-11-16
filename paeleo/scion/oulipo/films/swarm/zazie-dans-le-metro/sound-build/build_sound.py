@@ -306,7 +306,14 @@ def check(cut, st, hit, C):
         res["cues"].append({"frame": c["frame"], "cue": c["cue"], "onset_s": None if t_on is None else round(t_on, 4),
                             "error_frames": None if err is None else round(err, 3), "mix_flux_peak_s": round(mix_peak, 4),
                             "mix_flux_error_frames": round((mix_peak - c["t"]) * FPS, 2), "pass": bool(err is not None and abs(err) <= 1.0)})
-    # hard ambience change at 8.0: bed level/spectrum before (7.0-7.6) vs after (8.0-8.6)
+    # hard ambience change at 8.0 s: level and spectral centroid before (6.9-7.6) vs after (8.0-8.7)
+    def cen(seg):
+        X = np.abs(np.fft.rfft(seg)); f = np.fft.rfftfreq(len(seg), 1 / SR); return float((X * f).sum() / max(X.sum(), 1e-9))
+    pre, post = mono[int(6.9 * SR):int(7.6 * SR)], mono[int(8.0 * SR):int(8.7 * SR)]
+    first = mono[int(8.0 * SR):int((8.0 + 1 / FPS) * SR)]
+    res["jump_cut_8s"] = {"pre_rms_dbfs": round(db(pre), 1), "post_rms_dbfs": round(db(post), 1), "first_frame_after_rms_dbfs": round(db(first), 1),
+                          "pre_centroid_hz": round(cen(pre)), "post_centroid_hz": round(cen(post)),
+                          "hard": bool(db(first) > -40 and db(mono[int(7.95 * SR):int(8.0 * SR)]) < -90)}
     return res
 
 
@@ -429,7 +436,7 @@ def build_street():
     else:
         mk = lambda m: (m.room(0, 8, gain=0.5), m.murmur(0, 8, gain=0.0))
         x = synth_mix(8, lambda m: m.room(0, 8, gain=0.6), 3)
-        put("bed_royale.wav", norm(x, 0.4), {"synth": "kit Mix.room (no street recording downloaded)"})
+        put("bed_royale.wav", norm(x, 0.25), {"synth": "kit Mix.room (no street recording downloaded)"})
         put("bed_royale_cont.wav", norm(x, 0.4), {"synth": "kit Mix.room"})
         put("bed_chatelet.wav", norm(synth_mix(8, lambda m: m.room(0, 8, gain=0.6, hum=60), 4), 0.35), {"synth": "kit Mix.room"})
     if have(H):
@@ -527,7 +534,7 @@ def build_paper():
     else:
         for n in ("paper_snap_1.wav", "paper_snap_2.wav"):
             put(n, norm(synth_mix(0.1, lambda m: m.click(0, gain=0.9, bright=8000, seconds=0.08), 9), 0.85), {"synth": "kit Mix.click"})
-        put("paper_flick.wav", norm(synth_mix(0.6, lambda m: m.whoosh(0, 0.5, gain=0.6), 10), 0.6), {"synth": "kit Mix.whoosh"})
+        put("paper_flick.wav", norm(synth_mix(0.6, lambda m: (m.click(0, gain=0.9, bright=7000, seconds=0.05), m.whoosh(0.0, 0.5, gain=0.35)), 10), 0.6), {"synth": "kit Mix.click + whoosh"})
     # clatter and thuds: book drops on a wood floor
     drops = [(rel, sid) for rel, sid in ((SC, "SND-SCDROP"), (HC, "SND-HCDROP")) if have(rel)]
     if drops:
@@ -640,6 +647,9 @@ def write_output(out):
             {"what": "the mix and its gates", "how": "kit.Mix, build_sound.py", "where": str(SND / "soundbed-preview.wav")},
         ],
         "absences": ABSENCES,
+        "licence_ledger": [dict({k: v for k, v in L.items() if k != "local"}, local_path=str((SND / L["local"]).resolve()),
+                                status=("in use" if L["id"] in used else ("downloaded, not used" if have(L["local"]) else "licence read from Commons extmetadata 2026-11-16; download blocked by upload.wikimedia.org HTTP 429 (retry-after 600 s), rerun build_sound.py after fetching"))) for L in LEDGER],
+        "pending_downloads": [L["file_url"] for L in LEDGER if L["local"].startswith("raw/") and not have(L["local"])],
     }
     for cut in ("A", "B"):
         for c in doc["cues"][cut]:

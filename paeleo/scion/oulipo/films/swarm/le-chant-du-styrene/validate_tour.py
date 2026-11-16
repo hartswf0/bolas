@@ -2,7 +2,7 @@
 """Validate a reverse tour against a process graph (direct-edge rule), and the verse cue sheet.
 
 Usage:
-  python3 -I validate_tour.py                    # fixtures + this film's planned shot path + verse cues
+  python3 -I validate_tour.py                    # fixtures + shot_ledger.json (default; --planned for plan.md shots) + verse cues
   python3 -I validate_tour.py --ledger L.json    # also validate an editor ledger: {"shots":[{shot_id, step_id, playback, t_in, t_out}, ...]}
   python3 -I validate_tour.py --json             # machine-readable result
 
@@ -161,6 +161,11 @@ def main(argv):
         L = json.loads(Path(argv[argv.index("--ledger") + 1]).read_text())
         shots = L["shots"] if isinstance(L, dict) else L
         R["ledger_source"] = argv[argv.index("--ledger") + 1]
+    elif "--planned" not in argv and (HERE / "shot_ledger.json").exists():
+        # default (critic round 2): the editor's shot_ledger.json beside this script; --planned uses plan.md's shots
+        L = json.loads((HERE / "shot_ledger.json").read_text())
+        shots = L["shots"] if isinstance(L, dict) else L
+        R["ledger_source"] = "shot_ledger.json (default)"
     else:
         R["ledger_source"] = "PLANNED_SHOTS (plan.md section 7)"
     R["ledger"] = ledger_checks(G, shots)

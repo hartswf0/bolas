@@ -20,6 +20,12 @@ one shared grade (black point + highlight roll-off) and one grain strength
     HANDMADE: puppetry, colour gel (declared), melt simulation, harmonic
               trees + pellets, blue practicals, all other sound.
 
+REPAIR ROUND 2 (critic + reviewer): Sh3a/Sh3b re-rendered by editor-build/melt3f.py (thickness-coloured melt,
+grey brushed CC0 steel refracted through it, recessed hollows with a lit far wall and a shadowed lip, Sh3b seen
+from the left so the cavity that empties first is the farthest); Sh4 re-built by editor-build/sh4v3.py from the
+real photographed runner arms (GrabCut pieces, gelled, articulated) melting into drops that freeze into pellets,
+with no ring discs; in-picture tags cover every shot from its head.
+
 REPAIR ROUND 1 (critic): Sh1, Sh3a/Sh3b, Sh4 and the Sh5 pellet layer are re-rendered by the editor's
 repair scripts in swarm/le-chant-du-styrene/editor-build/ (sh1v2.py, melt3e.py, sh4v2.py), built on the
 units' code without editing it, into sources/le-chant-du-styrene/editor-repair/. Sh4's trees are now MELT
@@ -47,6 +53,7 @@ HARM = SRC / "harmonic-trees-to-granule-camera-unit-c-sh4-sh5-falling-pellets-"
 STEMS = SRC / "process-verse-process-researcher-verse-writer-voice-sound-performer-" / "stems"
 SWARM = kit.HERE / "swarm" / SLUG
 REP = SRC / "editor-repair"
+REP2 = SRC / "editor-repair2"         # repair round 2: Sh3a/Sh3b (melt3f.py) and Sh4 (sh4v3.py)
 
 SECONDS = 38.0
 FPS = 24
@@ -60,9 +67,9 @@ SHOTS = [  # (first frame, last frame, id, source dir)
     (0, 206, "Sh1", REP / "sh1"),
     (207, 312, "Sh2a", CUT / "sh2a"),            # C1 between 312 and 313
     (313, 422, "Sh2b", CUT / "sh2b"),
-    (423, 499, "Sh3a", REP / "sh3a"),            # C2 between 499 and 500
-    (500, 662, "Sh3b", REP / "sh3b"),
-    (663, 839, "Sh4", REP / "sh4"),
+    (423, 499, "Sh3a", REP2 / "sh3a"),            # C2 between 499 and 500
+    (500, 662, "Sh3b", REP2 / "sh3b"),
+    (663, 839, "Sh4", REP2 / "sh4"),
     (840, 911, "Sh5", None),                     # heap + pellet layer
 ]
 
@@ -88,7 +95,7 @@ def band_frame(k):
         a = (k - DISSOLVE[0] + 1) / 8.0                   # 0.125 ... 1.0
         a = a * a * (3 - 2 * a)
         b = load(CUT / "sh2b" / f"f{k:04d}.png")
-        m = load(REP / "sh3a_dissolve_target" / f"f{k:04d}.png")
+        m = load(REP2 / "sh3a_dissolve_target" / f"f{k:04d}.png")
         return b * (1 - a) + m * a
     for f0, f1, sid, d in SHOTS:
         if f0 <= k <= f1:
@@ -140,15 +147,17 @@ def captions(img, t):
 
 
 # declared, in the picture (reviewer round 1): small dim tags in the upper bar
-TAGS = [(0.9, 7.9, "photographie réelle, couleur substituée"), (17.9, 27.3, "coulée simulée"),
-        (27.9, 34.6, "coulée simulée, granulés dessinés"), (35.3, 37.6, "tas photographié, chute dessinée")]
+# repair round 2 (reviewer): the substitution tag runs through Sh2a/Sh2b, and every tag starts at its shot head
+TAGS = [(0.0, 17.6, "photographie réelle, couleur substituée"), (17.6, 27.6, "acier photographié, coulée simulée"),
+        (27.6, 35.0, "tiges photographiées, couleur substituée, fonte et granulés simulés"),
+        (35.0, 38.0, "tas photographié, chute dessinée")]
 
 
 def tags(img, t):
     d = ImageDraw.Draw(img, "RGBA")
     f = font("serif", 14)
     for a0, a1, s in TAGS:
-        a = ease(t, a0, a0 + 0.5) * (1 - ease(t, a1 - 0.5, a1))
+        a = (1.0 if a0 <= 0 else ease(t, a0, a0 + 0.12)) * (1 - ease(t, a1 - 0.12, a1)) * (a0 <= t < a1)
         if a > 0:
             d.text((944, 33), s, font=f, fill=CREAM + (int(130 * a),), anchor="rm")
 

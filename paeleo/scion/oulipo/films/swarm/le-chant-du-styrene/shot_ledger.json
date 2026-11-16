@@ -16,7 +16,9 @@
   "black_point": 3,
   "highlight_knee": 196,
   "ceiling": 222,
-  "grain": "kit._add_grain (one strength, band only; bars true black)"
+  "grain": "kit._add_grain (one strength, band only; bars true black)",
+  "band_edge": "4 px feather at the top, 6 px feather + 2 px black at the bottom of the band (encode bleed)",
+  "encode": "kit encoder via Film2 subclass, CRF 21 (kit default 28) so grain and steel texture survive"
  },
  "shots": [
   {
@@ -43,11 +45,6 @@
     },
     {
      "tag": "HANDMADE",
-     "id": "H-puppetry",
-     "what": "set-down settle at 0.6 s, slow drift"
-    },
-    {
-     "tag": "HANDMADE",
      "id": "H-practicals-u2",
      "what": "two defocused blue practicals, 0.3x plane"
     },
@@ -55,9 +52,24 @@
      "tag": "HANDMADE",
      "id": "H-stems",
      "what": "meter L1, ring set-down click, room tone"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-puppetry",
+     "what": "staggered set-downs 0.60 / 1.25 / 1.85 s with spring-damper settle; ring0 turned 16 deg in the plane 2.9-8.4 s; frame by frame"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-lightpass",
+     "what": "warm key gliding across the rings 3.0-8.0 s (gain 0.78 -> 1.30)"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-tag-1",
+     "what": "upper-bar tag 'photographie réelle, couleur substituée' (0.0-17.6 s, from the shot head)"
     }
    ],
-   "source": "cutout/sh1"
+   "source": "editor-repair/sh1 (editor-build/sh1v2.py on U2 pieces)"
   },
   {
    "shot_id": "Sh2a",
@@ -100,6 +112,11 @@
      "tag": "HANDMADE",
      "id": "H-stems",
      "what": "launch ticks/whooshes, L2 meter, ring-1 snap at 13.000"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-tag-1",
+     "what": "upper-bar tag 'photographie réelle, couleur substituée' (0.0-17.6 s, from the shot head)"
     }
    ],
    "source": "cutout/sh2a",
@@ -141,10 +158,15 @@
      "tag": "HANDMADE",
      "id": "H-stems",
      "what": "snaps + rattles, room only 15.9-17.6"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-tag-1",
+     "what": "upper-bar tag 'photographie réelle, couleur substituée' (0.0-17.6 s, from the shot head)"
     }
    ],
    "source": "cutout/sh2b",
-   "transition_out": "8-frame shape-match dissolve f415-f422 (17.29-17.58) into melt/sh3a_dissolve_target (same camera; per-ring cavity IoU 0.96-0.97)"
+   "transition_out": "8-frame shape-match dissolve f415-f422 (17.29-17.58) into editor-repair/sh3a_dissolve_target (same camera; per-ring cavity IoU 0.96-0.97)"
   },
   {
    "shot_id": "Sh3a",
@@ -161,7 +183,7 @@
     {
      "tag": "FORAGED",
      "id": "F-steel",
-     "what": "mould steel quilted from Injection mold - (11).jpg, CC0"
+     "what": "mould steel from Injection mold - (11).jpg (CC0): patches of its plain plate, its own horizontal grinding marks isolated by a directional average and turned 34 deg; neutral grey"
     },
     {
      "tag": "FORAGED",
@@ -176,7 +198,7 @@
     {
      "tag": "HANDMADE",
      "id": "H-melt-shading",
-     "what": "Beer-Lambert melt, refraction of F-steel, spill"
+     "what": "Beer-Lambert melt: channel thickness 1.20 at the hub tapering to 0.70 at the gate (+/-16% along the arm), deep red core to pale amber edge; F-steel refracted through the melt surface (80 px x gradient); spill"
     },
     {
      "tag": "HANDMADE",
@@ -197,9 +219,14 @@
      "tag": "HANDMADE",
      "id": "H-stems",
      "what": "L3 viscous meter, room"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-tag-3",
+     "what": "upper-bar tag 'acier photographié, coulée simulée' (17.6-27.6 s)"
     }
    ],
-   "source": "melt/sh3a",
+   "source": "editor-repair2/sh3a (editor-build/melt3f.py)",
    "cut_out": "C2 hard cut against L3 caesura on syllable 5 're' (20.80), between frames 499|500"
   },
   {
@@ -217,7 +244,7 @@
     {
      "tag": "FORAGED",
      "id": "F-steel",
-     "what": "mould steel"
+     "what": "mould steel from Injection mold - (11).jpg (CC0): patches of its plain plate, its own horizontal grinding marks isolated by a directional average and turned 34 deg; neutral grey"
     },
     {
      "tag": "FORAGED",
@@ -232,12 +259,12 @@
     {
      "tag": "HANDMADE",
      "id": "H-melt-shading",
-     "what": "boiling meniscus on twos, refraction, wet hollows"
+     "what": "Beer-Lambert melt: channel thickness 1.20 at the hub tapering to 0.70 at the gate (+/-16% along the arm), deep red core to pale amber edge; F-steel refracted through the melt surface (80 px x gradient); spill; boiling meniscus on twos; emptied hollows lit as recesses (lit far wall, near lip's shadow on a dark floor, thin wet coat)"
     },
     {
      "tag": "HANDMADE",
      "id": "H-camera",
-     "what": "3/4 view, focus pull"
+     "what": "3/4 view from the left of the plate (yaw -97 to -91 deg) so the right-arm cavity, which empties first, is the farthest; focus pull far cavity -> sprue; plate falls off into black with distance"
     },
     {
      "tag": "HANDMADE",
@@ -253,9 +280,14 @@
      "tag": "HANDMADE",
      "id": "H-stems",
      "what": "drain tone, cavity suctions 21.9/22.9/23.9/24.9, sprue glug 26.2, sound-only pellet rain from 26.80"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-tag-3",
+     "what": "upper-bar tag 'acier photographié, coulée simulée' (17.6-27.6 s)"
     }
    ],
-   "source": "melt/sh3b"
+   "source": "editor-repair2/sh3b (editor-build/melt3f.py)"
   },
   {
    "shot_id": "Sh4",
@@ -270,19 +302,34 @@
    "line": "L4",
    "elements": [
     {
+     "tag": "FORAGED",
+     "id": "F-runner",
+     "what": "every rod of the 6 + 5 trees is a piece of the real photographed runner (Spritzguss teile.jpg, GrabCut piece bare_runner.png), its arms straightened along the measured geometry.json polylines; real shading, gloss catches, mould lines kept"
+    },
+    {
      "tag": "HANDMADE",
-     "id": "H-trees",
-     "what": "6 front + 5 back translucent runner trees, Beer-Lambert dyes"
+     "id": "H-gel",
+     "what": "declared colour substitution: the cutout unit's thickness gel (amber 0.22 / orange 0.50 / red 1.35 wall factors) + declared amber/orange dye tint; rod core darkened"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-cutout-trees",
+     "what": "articulated cutout trees: trunk with 12 deg kink, side arms at the measured -116/+72 deg halved, twig forks; no ring discs"
     },
     {
      "tag": "HANDMADE",
      "id": "H-bank",
-     "what": "Whitney oscillator bank, locked ratios, alignment 33.60"
+     "what": "Whitney oscillator bank theta = 7/sqrt(k) sin(k n Omega (t-27.6)), Omega = 2pi/6 s, locked: all phases zero at 33.60"
     },
     {
      "tag": "HANDMADE",
      "id": "H-metamorphosis",
-     "what": "tree -> beads -> pellets -> orbits -> reunion -> fall, per frame"
+     "what": "from 31.35 s each rod piece (irregular lengths 0.8-2.3 rod widths) softens at its own time: ends round, it shortens and swells; released 31.75-32.15 s on its own harmonic orbit, freezes to the heap's granule colour, at rest at 33.60, falls"
+    },
+    {
+     "tag": "FORAGED",
+     "id": "F-heap",
+     "what": "measured lit granule colour of Granuls orange.jpg = the frozen pellet colour (measurement only)"
     },
     {
      "tag": "HANDMADE",
@@ -290,18 +337,19 @@
      "what": "blue practicals"
     },
     {
-     "tag": "FORAGED",
-     "id": "F-runner-geometry",
-     "what": "arm angles/widths as tree vocabulary (measurement only)"
+     "tag": "HANDMADE",
+     "id": "H-stems",
+     "what": "L4 granular meter, pellet rain (ducked under each pulse), chord at 33.60"
     },
     {
      "tag": "HANDMADE",
-     "id": "H-stems",
-     "what": "L4 granular meter, pellet rain, chord at 33.60"
+     "id": "H-tag-4",
+     "what": "upper-bar tag 'tiges photographiées, couleur substituée, fonte et granulés simulés' (27.6-35.0 s)"
     }
    ],
-   "source": "harmonic/sh4",
-   "cut_out": "hard cut in the line gap at 35.00 (L4 ended 33.45)"
+   "source": "editor-repair2/sh4 (editor-build/sh4v3.py)",
+   "cut_out": "hard cut in the line gap at 35.00 (L4 ended 33.45)",
+   "shown_edge": "plasticize, read backward: photographed rods (the runner's material) melt into drops that freeze into pellets; pellets -> melt -> tree"
   },
   {
    "shot_id": "Sh5",
@@ -323,15 +371,21 @@
     {
      "tag": "HANDMADE",
      "id": "H-sh5-pellets",
-     "what": "34 handmade pellets land on the heap, motion ends 36.375"
+     "what": "34 handmade pellets, drawn frozen (solid shader, heap colour), land on the heap; motion ends 36.375 s"
     },
     {
      "tag": "HANDMADE",
      "id": "H-stems",
      "what": "last grains, room tone fades to silence 36.6-38.0"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-tag-5",
+     "what": "upper-bar tag 'tas photographié, chute dessinée' (35.0-38.0 s)"
     }
    ],
-   "source": "cutout/sh5/heap_rgba_960x408.png + harmonic/sh5_pellets_rgba"
+   "source": "cutout/sh5/heap_rgba_960x408.png + editor-repair/sh5_pellets_rgba"
   }
- ]
+ ],
+ "repair_round": 2
 }

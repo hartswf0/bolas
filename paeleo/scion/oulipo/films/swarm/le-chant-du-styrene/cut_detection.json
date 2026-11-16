@@ -1,93 +1,109 @@
 {
- "method_1": "ffmpeg select='gt(scene,0.05)' on the picture band (crop 960x408+0+66) of assets/films/le-chant-du-styrene.mp4",
- "method_1_cuts_first_new_frame_t": [
-  8.625,
-  13.0417,
-  20.8333,
-  27.625,
-  35.0
- ],
- "method_2": "pixel-difference ratio to the 4 neighbouring frame diffs (>2.0), 240x102 downscale",
- "method_2_hits": [
-  {
-   "between": [
-    206,
-    207
-   ],
-   "t_new": 8.625,
-   "ratio": 12.5,
-   "pixdiff": 7.29,
-   "histdist": 0.048
-  },
-  {
-   "between": [
-    312,
-    313
-   ],
-   "t_new": 13.042,
-   "ratio": 3.95,
-   "pixdiff": 10.89,
-   "histdist": 0.056
-  },
-  {
-   "between": [
-    499,
-    500
-   ],
-   "t_new": 20.833,
-   "ratio": 12.59,
-   "pixdiff": 11.59,
-   "histdist": 0.064
-  },
-  {
-   "between": [
-    641,
-    642
-   ],
-   "t_new": 26.75,
-   "ratio": 2.23,
-   "pixdiff": 1.52,
-   "histdist": 0.005
-  },
-  {
-   "between": [
-    662,
-    663
-   ],
-   "t_new": 27.625,
-   "ratio": 31.08,
-   "pixdiff": 25.22,
-   "histdist": 0.209
-  },
-  {
-   "between": [
-    839,
-    840
-   ],
-   "t_new": 35.0,
-   "ratio": 6.34,
-   "pixdiff": 13.87,
-   "histdist": 0.211
-  }
- ],
- "method_2_note": "the 641|642 hit (26.75 s, pixdiff 1.52, histdist 0.005) is a small change inside the Sh3b hold, not a cut; ffmpeg's scene score does not flag it",
  "C1": {
-  "target_t": 13.025,
-  "target_frame": 312.6,
-  "detected": "between frames 312|313 (new shot at 13.042)",
-  "within_1_frame": true
+  "cut_between": [
+   312,
+   313
+  ],
+  "t": 13.042,
+  "diff": 8.2,
+  "neighbour_max": 2.6
  },
  "C2": {
-  "target_t": 20.8,
-  "target_frame": 499.2,
-  "detected": "between frames 499|500 (new shot at 20.833)",
-  "within_1_frame": true,
-  "before_L3_caesura_mid_s": 0.792
+  "cut_between": [
+   499,
+   500
+  ],
+  "t": 20.833,
+  "diff": 10.0,
+  "neighbour_max": 1.4
  },
- "dissolve_17.29-17.58": "no hard cut detected at 17.60; per-frame diff rises to 1.4-3.1 over f415-f422 (dissolve), as intended",
- "other_cuts_in_line_gaps": {
-  "8.625": "between L1 (ends 6.45) and L2 (11.00)",
-  "27.625": "between L3 (23.65) and L4 (29.40)",
-  "35.0": "after L4 (33.45)"
- }
+ "8.60": {
+  "cut_between": [
+   206,
+   207
+  ],
+  "t": 8.625,
+  "diff": 4.8,
+  "neighbour_max": 0.6
+ },
+ "17.60": {
+  "cut_between": [
+   418,
+   419
+  ],
+  "t": 17.458,
+  "diff": 3.0,
+  "neighbour_max": 2.0
+ },
+ "27.60": {
+  "cut_between": [
+   662,
+   663
+  ],
+  "t": 27.625,
+  "diff": 13.6,
+  "neighbour_max": 1.0
+ },
+ "35.00": {
+  "cut_between": [
+   839,
+   840
+  ],
+  "t": 35.0,
+  "diff": 10.6,
+  "neighbour_max": 0.9
+ },
+ "top10_diffs": [
+  [
+   662,
+   663,
+   13.6
+  ],
+  [
+   839,
+   840,
+   10.6
+  ],
+  [
+   499,
+   500,
+   10.0
+  ],
+  [
+   312,
+   313,
+   8.2
+  ],
+  [
+   819,
+   820,
+   6.8
+  ],
+  [
+   817,
+   818,
+   6.6
+  ],
+  [
+   821,
+   822,
+   6.6
+  ],
+  [
+   818,
+   819,
+   6.4
+  ],
+  [
+   820,
+   821,
+   6.4
+  ],
+  [
+   816,
+   817,
+   6.0
+  ]
+ ],
+ "frames": 912
 }

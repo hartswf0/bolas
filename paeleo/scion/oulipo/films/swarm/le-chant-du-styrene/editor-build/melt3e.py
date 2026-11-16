@@ -273,7 +273,7 @@ cling = np.clip(cv2.GaussianBlur(wall, (0, 0), 2.0) * 1.6, 0, 1)
 # editor repair: an emptied cavity is ONE annular recess. Only its two machined walls (outer rim, bore post),
 # i.e. the walls within a few px of bare steel, catch light; interior rib walls stay in shadow with the floor.
 _dist_out = cv2.distanceTransform((depth > 0.015).astype(np.uint8), cv2.DIST_L2, 5)
-outer_wall = wall * (1 - smoothstep(4.0, 9.0, _dist_out))
+outer_wall = np.clip(cv2.GaussianBlur(wall, (0, 0), 1.2) * 1.5, 0, 1) * (1 - smoothstep(4.0, 9.0, _dist_out))
 facing_o = facing * (1 - smoothstep(4.0, 9.0, _dist_out))
 
 noise_bank = [smooth_noise(100 + i, 9) for i in range(8)]
@@ -341,7 +341,7 @@ def plane(t, k, boil=1.0):
     # steel: very low warm ambient + raking warm key on walls + spill * albedo
     base = steel_t * WARM * (0.15 + 0.10 * lam[..., None] * wall[..., None])   # editor repair: steel exposure raised
     empty = mask & ~present
-    hollow = steel_t.mean(-1, keepdims=True) * WARM * (0.035 + 0.75 * (lam * outer_wall)[..., None] + 0.55 * facing_o[..., None]
+    hollow = steel_t.mean(-1, keepdims=True) * WARM * (0.05 + 0.25 * (lam * outer_wall)[..., None] + 2.4 * (facing_o * outer_wall)[..., None]
                                - 0.02 * ((part >= 0) & (part <= 3))[..., None]) * empty[..., None]   # shadowed floor, lit wall
     lit = base * (~mask)[..., None] + hollow + floor * 0.03 * mask[..., None]
     lit = lit + spill * steel_t * 2.6 * (1 - 0.6 * present[..., None])

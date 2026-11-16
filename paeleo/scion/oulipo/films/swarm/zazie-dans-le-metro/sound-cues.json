@@ -1497,8 +1497,8 @@
      "cue": "footstep on stone (run contact 1)",
      "onset_s": 2.0004,
      "error_frames": 0.009,
-     "mix_flux_peak_s": 2.0033,
-     "mix_flux_error_frames": 0.08,
+     "mix_flux_peak_s": 2.0014,
+     "mix_flux_error_frames": 0.03,
      "pass": true
     },
     {
@@ -1506,8 +1506,8 @@
      "cue": "footstep on stone (run contact 2)",
      "onset_s": 2.3332,
      "error_frames": -0.003,
-     "mix_flux_peak_s": 2.3361,
-     "mix_flux_error_frames": 0.07,
+     "mix_flux_peak_s": 2.333,
+     "mix_flux_error_frames": -0.01,
      "pass": true
     },
     {
@@ -1524,7 +1524,7 @@
      "cue": "footstep on stone (run contact 4)",
      "onset_s": 3.0,
      "error_frames": 0.001,
-     "mix_flux_peak_s": 3.0009,
+     "mix_flux_peak_s": 3.0008,
      "mix_flux_error_frames": 0.02,
      "pass": true
     },
@@ -1542,7 +1542,7 @@
      "cue": "footstep on stone (run contact 6)",
      "onset_s": 3.6666,
      "error_frames": -0.003,
-     "mix_flux_peak_s": 3.6665,
+     "mix_flux_peak_s": 3.6664,
      "mix_flux_error_frames": -0.01,
      "pass": true
     },
@@ -1578,8 +1578,8 @@
      "cue": "footstep on stone (run contact 10)",
      "onset_s": 4.9999,
      "error_frames": -0.003,
-     "mix_flux_peak_s": 5.0027,
-     "mix_flux_error_frames": 0.07,
+     "mix_flux_peak_s": 4.9998,
+     "mix_flux_error_frames": -0.01,
      "pass": true
     },
     {
@@ -1587,8 +1587,8 @@
      "cue": "tram bell receding, off right",
      "onset_s": 5.0009,
      "error_frames": 0.022,
-     "mix_flux_peak_s": 5.0027,
-     "mix_flux_error_frames": 0.07,
+     "mix_flux_peak_s": 4.9998,
+     "mix_flux_error_frames": -0.01,
      "pass": true
     },
     {
@@ -1981,11 +1981,11 @@
     {
      "frame": 450,
      "cue": "N tile flutters past (paper flick)",
-     "onset_s": 18.8421,
-     "error_frames": 2.211,
-     "mix_flux_peak_s": 18.7176,
-     "mix_flux_error_frames": -0.78,
-     "pass": false
+     "onset_s": 18.7501,
+     "error_frames": 0.002,
+     "mix_flux_peak_s": 18.7499,
+     "mix_flux_error_frames": -0.0,
+     "pass": true
     },
     {
      "frame": 520,
@@ -1996,7 +1996,15 @@
      "mix_flux_error_frames": -0.01,
      "pass": true
     }
-   ]
+   ],
+   "jump_cut_8s": {
+    "pre_rms_dbfs": -22.6,
+    "post_rms_dbfs": -17.0,
+    "first_frame_after_rms_dbfs": -13.4,
+    "pre_centroid_hz": 3929,
+    "post_centroid_hz": 3255,
+    "hard": true
+   }
   },
   "B": {
    "holds": [
@@ -2023,8 +2031,8 @@
      "cue": "footstep on stone (run contact 1)",
      "onset_s": 2.0004,
      "error_frames": 0.009,
-     "mix_flux_peak_s": 2.0033,
-     "mix_flux_error_frames": 0.08,
+     "mix_flux_peak_s": 2.0014,
+     "mix_flux_error_frames": 0.03,
      "pass": true
     },
     {
@@ -2032,8 +2040,8 @@
      "cue": "footstep on stone (run contact 2)",
      "onset_s": 2.3332,
      "error_frames": -0.003,
-     "mix_flux_peak_s": 2.3361,
-     "mix_flux_error_frames": 0.07,
+     "mix_flux_peak_s": 2.333,
+     "mix_flux_error_frames": -0.01,
      "pass": true
     },
     {
@@ -2050,7 +2058,7 @@
      "cue": "footstep on stone (run contact 4)",
      "onset_s": 3.0,
      "error_frames": 0.001,
-     "mix_flux_peak_s": 3.0009,
+     "mix_flux_peak_s": 3.0008,
      "mix_flux_error_frames": 0.02,
      "pass": true
     },
@@ -2068,7 +2076,7 @@
      "cue": "footstep on stone (run contact 6)",
      "onset_s": 3.6666,
      "error_frames": -0.003,
-     "mix_flux_peak_s": 3.6665,
+     "mix_flux_peak_s": 3.6664,
      "mix_flux_error_frames": -0.01,
      "pass": true
     },
@@ -2104,8 +2112,8 @@
      "cue": "footstep on stone (run contact 10)",
      "onset_s": 4.9999,
      "error_frames": -0.003,
-     "mix_flux_peak_s": 5.0027,
-     "mix_flux_error_frames": 0.07,
+     "mix_flux_peak_s": 4.9998,
+     "mix_flux_error_frames": -0.01,
      "pass": true
     },
     {
@@ -2113,8 +2121,8 @@
      "cue": "tram bell receding, off right",
      "onset_s": 5.0009,
      "error_frames": 0.022,
-     "mix_flux_peak_s": 5.0027,
-     "mix_flux_error_frames": 0.07,
+     "mix_flux_peak_s": 4.9998,
+     "mix_flux_error_frames": -0.01,
      "pass": true
     },
     {
@@ -2405,7 +2413,15 @@
      "mix_flux_error_frames": -0.01,
      "pass": true
     }
-   ]
+   ],
+   "jump_cut_8s": {
+    "pre_rms_dbfs": -20.5,
+    "post_rms_dbfs": -24.4,
+    "first_frame_after_rms_dbfs": -23.7,
+    "pre_centroid_hz": 3929,
+    "post_centroid_hz": 3428,
+    "hard": true
+   }
   }
  },
  "trims": {
@@ -2513,7 +2529,7 @@
    "synth": "kit Mix.click"
   },
   "trim/paper_flick.wav": {
-   "synth": "kit Mix.whoosh"
+   "synth": "kit Mix.click + whoosh"
   },
   "trim/clatter_1.wav": {
    "synth": "kit Mix.click"
@@ -2677,5 +2693,175 @@
    "searched": "voice",
    "result": "no voice of any kind is used (no TTS, no child's voice, crowd-walla clips rejected)."
   }
+ ],
+ "licence_ledger": [
+  {
+   "id": "SND-SOUFFLOT",
+   "title": "La rue Soufflot (Paris).ogg",
+   "author": "Jean-Pierre Bazard (Jpbazard)",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:La_rue_Soufflot_(Paris).ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/29/La_rue_Soufflot_%28Paris%29.ogg",
+   "what_it_shows": "Street sounds of rue Soufflot recorded on a Sunday morning, November 2009, from the steps of the Pantheon, Paris (71.6 s).",
+   "verified_date_or_place": "2009-11-22, rue Soufflot / Pantheon steps, Paris (Commons description)",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/sound/raw/La_rue_Soufflot_(Paris).ogg",
+   "status": "licence read from Commons extmetadata 2026-11-16; download blocked by upload.wikimedia.org HTTP 429 (retry-after 600 s), rerun build_sound.py after fetching"
+  },
+  {
+   "id": "SND-HOOVES",
+   "title": "WWS Horseshoesonstonepavedstreet.ogg",
+   "author": "Work With Sounds / Torsten Nilsson",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:WWS_Horseshoesonstonepavedstreet.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/50/WWS_Horseshoesonstonepavedstreet.ogg",
+   "what_it_shows": "Fiaker (horse cab) horseshoes on the stone-paved street at the Stephansplatz cab stand, Vienna (129 s).",
+   "verified_date_or_place": "2014-09-08, Stephansplatz, Vienna (Commons description)",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/sound/raw/WWS_Horseshoesonstonepavedstreet.ogg",
+   "status": "licence read from Commons extmetadata 2026-11-16; download blocked by upload.wikimedia.org HTTP 429 (retry-after 600 s), rerun build_sound.py after fetching"
+  },
+  {
+   "id": "SND-TRAMBELL",
+   "title": "Sydney tram 18 - 2016-02-14-2.ogg",
+   "author": "Andy Mabbett",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Sydney_tram_18_-_2016-02-14-2.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/62/Sydney_tram_18_-_2016-02-14-2.ogg",
+   "what_it_shows": "Tram 18 at Central Station, Sydney: the driver sounds the warning bell several times before the doors close (2.1 s).",
+   "verified_date_or_place": "2016-02-14, Central Station, Sydney (Commons description)",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/sound/raw/Sydney_tram_18_-_2016-02-14-2.ogg",
+   "status": "licence read from Commons extmetadata 2026-11-16; download blocked by upload.wikimedia.org HTTP 429 (retry-after 600 s), rerun build_sound.py after fetching"
+  },
+  {
+   "id": "SND-FIREBELL",
+   "title": "WWS Firedepartmentbell.ogg",
+   "author": "Work With Sounds / Konrad Gutkowski",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:WWS_Firedepartmentbell.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/8a/WWS_Firedepartmentbell.ogg",
+   "what_it_shows": "Hand-rung warning bell of a late-19th-century two-axle horse-drawn fire engine, fire department museum, Hattingen (20 s).",
+   "verified_date_or_place": "2015-05-26, Feuerwehrmuseum Hattingen (Commons description)",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/sound/raw/WWS_Firedepartmentbell.ogg",
+   "status": "licence read from Commons extmetadata 2026-11-16; download blocked by upload.wikimedia.org HTTP 429 (retry-after 600 s), rerun build_sound.py after fetching"
+  },
+  {
+   "id": "SND-CUTPAPER",
+   "title": "Rejection letter cut into pieces.ogg",
+   "author": "hugh (pdsounds.org)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Rejection_letter_cut_into_pieces.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Rejection_letter_cut_into_pieces.ogg",
+   "what_it_shows": "A paper letter being cut into pieces with scissors, with rustling (21.8 s).",
+   "verified_date_or_place": "2008-05-06 (pdsounds.org #550)",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/sound/raw/Rejection_letter_cut_into_pieces.ogg",
+   "status": "licence read from Commons extmetadata 2026-11-16; download blocked by upload.wikimedia.org HTTP 429 (retry-after 600 s), rerun build_sound.py after fetching"
+  },
+  {
+   "id": "SND-HCDROP",
+   "title": "Hardcover books dropped.ogg",
+   "author": "stilgar (pdsounds.org)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Hardcover_books_dropped.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/55/Hardcover_books_dropped.ogg",
+   "what_it_shows": "A couple of hardcover books dropped onto a wood floor (7.6 s).",
+   "verified_date_or_place": "2008-08-28 (pdsounds.org #629)",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/sound/raw/Hardcover_books_dropped.ogg",
+   "status": "licence read from Commons extmetadata 2026-11-16; download blocked by upload.wikimedia.org HTTP 429 (retry-after 600 s), rerun build_sound.py after fetching"
+  },
+  {
+   "id": "SND-SCDROP",
+   "title": "Softcover books dropped.ogg",
+   "author": "stilgar (pdsounds.org)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Softcover_books_dropped.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Softcover_books_dropped.ogg",
+   "what_it_shows": "Some softcover books dropped on a wood floor (5.3 s).",
+   "verified_date_or_place": "2008-08-28 (pdsounds.org #630)",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/sound/raw/Softcover_books_dropped.ogg",
+   "status": "licence read from Commons extmetadata 2026-11-16; download blocked by upload.wikimedia.org HTTP 429 (retry-after 600 s), rerun build_sound.py after fetching"
+  },
+  {
+   "id": "SND-PAGE",
+   "title": "Turning a page.ogg",
+   "author": "planish (pdsounds.org)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Turning_a_page.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/6b/Turning_a_page.ogg",
+   "what_it_shows": "Turning a page in a hard-cover book (3.4 s).",
+   "verified_date_or_place": "2007-07-05 (pdsounds.org #304)",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/sound/raw/Turning_a_page.ogg",
+   "status": "licence read from Commons extmetadata 2026-11-16; download blocked by upload.wikimedia.org HTTP 429 (retry-after 600 s), rerun build_sound.py after fetching"
+  },
+  {
+   "id": "SND-OLDBOOK",
+   "title": "Old book.ogg",
+   "author": "cori (pdsounds.org)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Old_book.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/bf/Old_book.ogg",
+   "what_it_shows": "Leafing through pages, flicking pages, shutting a book (73.6 s).",
+   "verified_date_or_place": "2008-07-21 (pdsounds.org #603)",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/sound/raw/Old_book.ogg",
+   "status": "licence read from Commons extmetadata 2026-11-16; download blocked by upload.wikimedia.org HTTP 429 (retry-after 600 s), rerun build_sound.py after fetching"
+  },
+  {
+   "id": "SND-STAIRS",
+   "title": "Pasos en escalera de caracol.ogg",
+   "author": "Hippocampuz",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Pasos_en_escalera_de_caracol.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/0a/Pasos_en_escalera_de_caracol.ogg",
+   "what_it_shows": "Footsteps going up and down a spiral staircase (18.0 s).",
+   "verified_date_or_place": "2022-08-24 (Commons, own work)",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/sound/raw/Pasos_en_escalera_de_caracol.ogg",
+   "status": "licence read from Commons extmetadata 2026-11-16; download blocked by upload.wikimedia.org HTTP 429 (retry-after 600 s), rerun build_sound.py after fetching"
+  },
+  {
+   "id": "SND1",
+   "title": "Strong winds before the Rain.ogg",
+   "author": "SAgbley",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Strong_winds_before_the_Rain.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Strong_winds_before_the_Rain.ogg",
+   "what_it_shows": "Strong wind before rain (audio track of a 5.6 s video); broadband wind, no voices (spectrogram checked).",
+   "verified_date_or_place": "2023-04-04 (Commons); reused from the approved test shot, licence re-read from the test-shot ledger",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/test-shot/sound/wind.ogg",
+   "status": "in use"
+  },
+  {
+   "id": "MIA-VALLEYTOWN",
+   "title": "Valley Town (1940)",
+   "author": "via movingimagearchive.com",
+   "license": "Rights as listed by movingimagearchive.com (largely public domain); not independently verified",
+   "license_url": "",
+   "source_url": "https://www.movingimagearchive.com/sources/valley-town-9978c98d?clip=a11ba534-ceca-5859-a69f-9d622f30c4e7",
+   "file_url": "",
+   "what_it_shows": "Source sound of a factory roof shot (steam vent/whistle stack), source time 1130.30-1133.97 s: a steady broadband industrial roar, no speech or music (spectrogram checked).",
+   "verified_date_or_place": "1940 per archive index; unverified place",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/sound/mia/valley_town_1940_a11ba534.wav",
+   "status": "in use"
+  }
+ ],
+ "pending_downloads": [
+  "https://upload.wikimedia.org/wikipedia/commons/2/29/La_rue_Soufflot_%28Paris%29.ogg",
+  "https://upload.wikimedia.org/wikipedia/commons/5/50/WWS_Horseshoesonstonepavedstreet.ogg",
+  "https://upload.wikimedia.org/wikipedia/commons/6/62/Sydney_tram_18_-_2016-02-14-2.ogg",
+  "https://upload.wikimedia.org/wikipedia/commons/8/8a/WWS_Firedepartmentbell.ogg",
+  "https://upload.wikimedia.org/wikipedia/commons/a/a6/Rejection_letter_cut_into_pieces.ogg",
+  "https://upload.wikimedia.org/wikipedia/commons/5/55/Hardcover_books_dropped.ogg",
+  "https://upload.wikimedia.org/wikipedia/commons/4/4b/Softcover_books_dropped.ogg",
+  "https://upload.wikimedia.org/wikipedia/commons/6/6b/Turning_a_page.ogg",
+  "https://upload.wikimedia.org/wikipedia/commons/b/bf/Old_book.ogg",
+  "https://upload.wikimedia.org/wikipedia/commons/0/0a/Pasos_en_escalera_de_caracol.ogg"
  ]
 }
