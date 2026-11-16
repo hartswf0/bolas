@@ -1,28 +1,28 @@
 {
   "film": "un-homme-qui-dort",
-  "revision": "beats-r1",
-  "base": "plan-r1 (2026-11-15)",
-  "note": "Common beat ledger. Every unit forks from this file. Times are pass-relative seconds (one pass = 35.0 s, 24 fps). Picture events are AUTHORED by U1 animation and must land on the planned frame (round(t*24)) +/-1 frame. Change only through a new revision of this file; moving a voice onset across SIL-H or an edit across an address boundary invalidates the other tracks' reviews.",
+  "revision": "beats-r2",
+  "base": "plan-r2 (2026-11-15); supersedes beats-r1 (moved to r1-superseded/)",
+  "note": "Common beat ledger. Every unit forks from this file. Times are pass-relative seconds (one pass = 35.0 s, 24 fps, 960x540). Picture events are AUTHORED by U1's animation and must land on frame round(t*24) +/-1. Change only through a new revision of this file. Moving a voice onset across SIL-H, or an edit across an address boundary, invalidates the other tracks' reviews.",
   "film_layout": [
-    {"id": "CARD-I", "film_t": [0.0, 1.0], "content": "HANDMADE typeset card 'I' (neutral; no word about timing)"},
+    {"id": "CARD-I", "film_t": [0.0, 1.0], "content": "HANDMADE card: numeral 'I', Instrument Serif, #efefef on #1e1e1e (reference anchors); no word about timing"},
     {"id": "PASS-A", "film_t": [1.0, 36.0], "voice_track": "A_ahead"},
-    {"id": "CARD-II", "film_t": [36.0, 37.0], "content": "HANDMADE typeset card 'II'"},
+    {"id": "CARD-II", "film_t": [36.0, 37.0], "content": "HANDMADE card: numeral 'II', same setting"},
     {"id": "PASS-B", "film_t": [37.0, 72.0], "voice_track": "B_behind"}
   ],
   "shots": [
-    {"id": "S1", "name": "WAKE", "t": [0.0, 5.5], "plate": "LoC 2017811426", "camera_viewpoint": "foot of the bunk, standing height, outside the man", "move": "lateral glide"},
-    {"id": "S2", "name": "TELEPHONE", "t": [5.5, 8.5], "plate": "LoC 2017735081", "camera_viewpoint": "across the hall, nobody present", "move": "slow push past hanging coats"},
-    {"id": "S3", "name": "REFUSE", "t": [8.5, 11.5], "plate": "LoC 2017811449", "camera_viewpoint": "outside the room, through the open doorway", "move": "lateral glide settling to rest"},
-    {"id": "S4", "name": "HELD", "t": [11.5, 19.0], "plate": "LoC 2017811449 (same rig as S3, camera at rest)", "camera_viewpoint": "outside the room, through the open doorway", "move": "none (held)"},
-    {"id": "S5", "name": "FLIGHT-1", "t": [19.0, 24.5], "plate": "LoC 2017811447 (figure removed, wall extended)", "camera_viewpoint": "side-on to the stair, from the hall below", "move": "small lateral glide; figure climbs"},
-    {"id": "S6", "name": "STAIRWELL", "t": [24.5, 27.0], "plate": "LoC 2017714056", "camera_viewpoint": "foot of the stairwell looking up, empty", "move": "slow upward tilt across planes"},
-    {"id": "S7", "name": "FLIGHT-2 + TAIL", "t": [27.0, 35.0], "plate": "S5 frames 0..131 reused byte-identically (27.0-32.5), then the last S5 frame held (32.5-35.0)", "camera_viewpoint": "as S5", "move": "as S5, then held"}
+    {"id": "S1", "name": "WAKE", "t": [0.0, 5.5], "plate": "LoC 2017862333 (Bubley, Jan 1943, master TIFF 8d33576u.tif)", "framing": "close-up: head resting on hand against pillow and patterned wall; head height >= 0.35 of frame; book and negative rebate cropped out", "camera_viewpoint": "beside the bed at his head height, outside him, looking at his face (he looks down, not into lens)", "move": "lateral glide <= 18 px over 5.5 s"},
+    {"id": "S2", "name": "TELEPHONE", "t": [5.5, 8.5], "plate": "LoC 2017735081 (Russell Lee, Dec 1936)", "framing": "close: the crank wall telephone box fills >= 0.45 of frame height, coats as a dark near plane at right", "camera_viewpoint": "across the hall; nobody present", "move": "slow push 1.00 -> 1.04, coats drift 2x the wall"},
+    {"id": "S3", "name": "REFUSE", "t": [8.5, 11.5], "plate": "LoC 2017862340 (Bubley, Jan 1943, master TIFF 8d33583u.tif)", "framing": "head and shoulders against the pale wall, his flash-cast shadow on the wall beside him (the double), the black door jamb at frame right", "camera_viewpoint": "across the room at seated head height, outside him; his eyes are turned off-lens", "move": "lateral glide settling to rest by 10.5"},
+    {"id": "S4", "name": "HELD", "t": [11.5, 19.0], "plate": "LoC 2017862340 (same rig as S3, closer: head height >= 0.42 of frame)", "framing": "the reference's scale: pale wall left, head on the boundary, shadow and jamb dark on the right", "camera_viewpoint": "as S3, closer", "move": "none (held)"},
+    {"id": "S5", "name": "FLIGHT-1", "t": [19.0, 24.5], "plate": "LoC 2017811447 (Vachon, Dec 1940; figure cut out, wall extended)", "framing": "medium: stair and banister; climbing figure head-to-waist, head height >= 0.18 of frame", "camera_viewpoint": "side-on to the stair from the hall below", "move": "small lateral glide; figure climbs"},
+    {"id": "S6", "name": "STAIRWELL", "t": [24.5, 27.0], "plate": "LoC 2017714056 (Mydans, 1935; rebate cropped out)", "framing": "looking up the empty well, deep blacks, lit ceiling", "camera_viewpoint": "foot of the stairwell looking up, empty", "move": "slow upward tilt across planes"},
+    {"id": "S7", "name": "FLIGHT-2 + TAIL", "t": [27.0, 35.0], "plate": "S5 frames 0..131 reused byte-identically (27.0-32.5), then S5's last frame held (32.5-35.0)", "camera_viewpoint": "as S5", "move": "as S5, then held"}
   ],
   "events": [
-    {"id": "E1", "name": "wake: head and torso piece lifts", "subject_id": "figure:F", "shot": "S1", "t_on": 2.0, "t_off": 2.8},
+    {"id": "E1", "name": "wake: head piece lifts off the hand and rights itself", "subject_id": "figure:F", "shot": "S1", "t_on": 2.0, "t_off": 2.8},
     {"id": "E2", "name": "ring 1", "subject_id": "object:telephone", "shot": "S2", "t_on": 6.0, "t_off": 7.0},
     {"id": "E2b", "name": "ring 2 (unbound)", "subject_id": "object:telephone", "shot": "S2", "t_on": 7.6, "t_off": 8.6},
-    {"id": "E3", "name": "ring 3 heard, not answered (glance at 9.25, hold, return at 10.4, no reach)", "subject_id": "figure:F", "shot": "S3", "t_on": 9.0, "t_off": 10.0},
+    {"id": "E3", "name": "ring 3 heard, not answered (head turns at 9.25 toward the sound, shadow follows, holds; returns at 10.4; no reach)", "subject_id": "figure:F", "shot": "S3", "t_on": 9.0, "t_off": 10.0},
     {"id": "E4", "name": "flight 1: figure enters frame", "subject_id": "figure:F", "shot": "S5", "t_on": 20.5, "t_off": 23.5, "exit": 23.5},
     {"id": "E5", "name": "flight 1: footfalls (gesture accents)", "subject_id": "figure:F", "shot": "S5", "footfalls": [20.8, 21.35, 21.9, 22.45, 23.0]},
     {"id": "E6", "name": "flight 2: figure enters frame (same frames as E4)", "subject_id": "figure:F", "shot": "S7", "t_on": 28.5, "t_off": 31.5, "exit": 31.5},
@@ -40,10 +40,11 @@
   ],
   "offset_rule": "A.on = event.t_on - 1.2; B.on = event.t_on + 1.2 (tolerance 0.05 s). Durations identical across tracks.",
   "allowed_edit_crossings": [
-    "c2.A starts in S1 (4.8) and runs into S2, the shot holding its own event E2: allowed (anticipation into own event's shot).",
+    "c2.A starts in S1 (4.8) and runs into S2, the shot holding its own event E2: allowed.",
     "c3.A starts in S2 (7.8) and runs into S3, the shot holding its own event E3: allowed."
   ],
   "guards": {"silence_guard_s": 0.1, "note": "c3.B ends 11.4 (0.1 s before SIL-H); c4.A starts 19.3 (0.3 s after SIL-H)."},
-  "defining_beat": {"id": "D", "where": "PASS-B, c5 over S7", "condition": "c5.B visible on >= 0.8 s of frames after E6.exit (31.5), i.e. on an empty stair; planned 1.0 s"},
-  "baseline": {"id": "Bl", "where": "PASS-B, c4 over S5", "condition": "c4.B [21.7, 23.0] lies wholly inside the figure-visible interval [20.5, 23.5]"}
+  "defining_beat": {"id": "D", "where": "PASS-B, c5 over S7", "condition": "c5.B visible on >= 0.8 s of frames after E6.exit (31.5) with zero figure-alpha coverage; planned 1.0 s"},
+  "baseline": {"id": "Bl", "where": "PASS-B, c4 over S5", "condition": "c4.B [21.7, 23.0] lies wholly inside the figure-visible interval [20.5, 23.5]"},
+  "caption_setting": {"font": "kit serif (Instrument Serif) 26 px", "color": "#efefef", "band": "neutral #1e1e1e at 60% opacity drawn by the editor (NOT kit caption's cream PAGE band)", "y": "bottom, 46 px from edge"}
 }

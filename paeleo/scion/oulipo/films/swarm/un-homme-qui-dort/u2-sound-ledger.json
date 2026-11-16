@@ -1,0 +1,547 @@
+{
+ "film": "un-homme-qui-dort",
+ "unit": "U2 SOUND: sound editor (distance, breath, withheld cues)",
+ "mode": "forage",
+ "forks_from": {
+  "plan": "plan-r2",
+  "beats": "beats-r2",
+  "aesthetic": "aesthetic-r2"
+ },
+ "date": "2026-11-15",
+ "user_agent": "oulipo-film-research/1.0",
+ "licence_rule": "PD / CC0 / CC BY / CC BY-SA only; Commons licences read from extmetadata LicenseShortName/LicenseUrl on 2026-11-15",
+ "build_script": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/u2_build.py (run: python3 -I u2_build.py; a fork of the r1 U2 script with r2 levels, ring windows, wall filter and stairwell gating)",
+ "build_result": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/build_result.json",
+ "sonic_perspective": {
+  "listener": "fixed in the man's room, at his head, for the whole pass; never moves with the camera",
+  "room_tone": "his room: one continuous, unlooped foraged room tone, constant gain, no fades inside the pass (1 s RMS -42.5..-41.4 dBFS)",
+  "bell": "in another room/hall: the crank magneto bell heard THROUGH THE WALL (HP 150 Hz, LP 2.5 kHz 36 dB/oct, handmade room IR RT60 0.55 s wet 0.45), peak -8 dB rel the near footfalls",
+  "near_footfalls": "S5/S7: closer and drier than the bell (no reverb, full band), placed unstretched at the beats times; they are the reference level (0 dB rel, peak -6 dBFS)",
+  "stairwell_footfalls": "S6: two footfalls further up the well, -12 dB rel (post-chain peak), LP 2.5 kHz, handmade stairwell IR RT60 1.4 s wet 0.7, gated to silence by 27.0",
+  "withheld": "E1 (the wake, 2.0-2.8) has no sound cue: only room tone 1.5-3.3 (non-room stems peak 0.0). SIL-H 11.5-19.0 is room tone only.",
+  "level_rule": "all relative levels are post-chain sample peaks against the near-footfall reference REF = -6 dBFS"
+ },
+ "evidence": [
+  {
+   "id": "SRC-BELL",
+   "title": "WWS Minetelephone",
+   "author": "Work With Sounds / Konrad Gutkowski (Work With Sounds cooperation with Wikimedia Sverige)",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:WWS_Minetelephone.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/WWS_Minetelephone.ogg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/raw/wws_mine_telephone.ogg",
+   "sha1_matches_commons": "1507bdbf9bb090e5446a33cd7193376d98387562",
+   "sha256": "453e7a412a75ea04b9c61c919803554a8fa5707d32d36ac775150f337455a205",
+   "what_it_shows": "A Funke & Huster crank (magneto) mine telephone: handset clunk at 0.75 s, then the bell trill 2.85-20.15 s and its natural ring-off to ~20.75 s (21.1 s, 44.1 kHz stereo Vorbis). Strong partials near 2.2, 4.1-4.4 and 5.3 kHz. No voice, no music (spectrogram work/spec_wws_mine_telephone.ogg.png). A magneto bell matching the S2 crank wall phone, as the plan preferred.",
+   "verified_date_or_place": "Recorded 2014-03-06 (Commons DateTimeOriginal), LWL-Industrial Museum Zollern Colliery, Dortmund, Germany (Commons description)",
+   "used_as": "rings E2 6.0-7.0 (src 2.80-3.80), E2b 7.6-8.6 (src 11.00-12.00), E3 9.0-10.0 (src 19.15-20.15 plus the bell's own ring-off to 20.75)",
+   "reuse_note": "same file the r1 U2 unit downloaded; SHA-1 re-checked against Commons today; licence re-read from extmetadata today"
+  },
+  {
+   "id": "SRC-STEPS",
+   "title": "Wooden stairs (Gravity Sound)",
+   "author": "Gravity Sound",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Wooden_stairs_(Gravity_Sound).wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/2/21/Wooden_stairs_%28Gravity_Sound%29.wav/Wooden_stairs_%28Gravity_Sound%29.wav.mp3",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/raw/steps_wooden_gravity.wav.mp3",
+   "sha256": "7a1fcaef6782a057e1220864d0795e8db1bf5c67498a763e6db75fa94351c518",
+   "what_it_shows": "One walker on a wooden staircase, ~0.75 s step period, board creaks, 26 s. No voice, no music (spectrogram work/spec_steps_wooden_gravity.wav.mp3.png; harmonicity check 0 frames > 0.6 on the near stem).",
+   "verified_date_or_place": "unverified (no date or place on Commons)",
+   "used_as": "near footfalls (src onsets 7.399, 12.185, 14.585, 16.905, 19.12; 0.46 s windows, unstretched) at 20.8/21.35/21.9/22.45/23.0 and identically at 28.8/29.35/29.9/30.45/31.0; stairwell footfalls (src onsets ~3.355 and ~4.375) at 25.2 and 25.95",
+   "reuse_note": "Commons MP3 transcode reused from the r0 download (sha256 matches the r0 record); the original WAV (SHA-1 0e26b62f...) returned HTTP 429 today and was not downloaded. Licence re-read from extmetadata today."
+  },
+  {
+   "id": "SRC-ROOM",
+   "title": "20121112 TU Delft Library, quiet study room - general ambience - SoundCloud - el mar",
+   "author": "el_mar",
+   "license": "CC BY 3.0",
+   "license_url": "https://creativecommons.org/licenses/by/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:20121112_TU_Delft_Library,_quiet_study_room_-_general_ambience_-_SoundCloud_-_el_mar.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/f/fb/20121112_TU_Delft_Library%2C_quiet_study_room_-_general_ambience_-_SoundCloud_-_el_mar.ogg/20121112_TU_Delft_Library%2C_quiet_study_room_-_general_ambience_-_SoundCloud_-_el_mar.ogg.mp3",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/raw/room_tudelft_study.ogg.mp3",
+   "sha256": "545765c37c376b754814816951da577f955e01b95f1e2c0396f2de2718ada74f",
+   "what_it_shows": "Interior room tone: ventilation hush, very faint keyboard/mouse clicks (uploader mentions occasional coughs; none in the chosen window by the 10 ms transient scan and harmonicity check). Zoom H2, 259 s.",
+   "verified_date_or_place": "Recorded 2012-11-12, TU Delft Library, Delft, Netherlands (Commons description and DateTimeOriginal)",
+   "used_as": "ST-ROOM: one continuous unlooped excerpt, source 196.5-231.5 s (in-point re-chosen today by scanning every 0.5 s for the lowest max of the SIL-H 10 ms transient and the whole-pass 50 ms transient; 196.5 won, transient 4.82 dB); handles 195.5-232.5 for the cards",
+   "reuse_note": "MP3 transcode reused from the r0 download (sha256 matches); licence re-read from extmetadata today"
+  }
+ ],
+ "moving_image_archive_listening": {
+  "queries": {
+   "room|interior|quiet|night|apartment|hotel|bedroom": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/sheets/room.jpg",
+   "telephone|ring|bell": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/sheets/telephone.jpg",
+   "stair|steps|footstep": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/sheets/stairs.jpg"
+  },
+  "method": "every clip with audio among the hits that could plausibly carry room hush, a bell or footsteps was decoded with ffmpeg and examined: 40 ms harmonicity (speech/music pitch) and level frames, longest unvoiced stretch, spectrogram (mia/spec_*.png) and a frame strip (mia/frames_*.jpg)",
+  "candidates": [
+   {
+    "id": "491529e4",
+    "title": "Door to Heaven, The (1941)",
+    "page": "https://www.movingimagearchive.com/sources/door-to-heaven-the?clip=491529e4-d145-5c03-a0c9-d000db0f6fad",
+    "verdict": "rejected",
+    "why": "narration throughout (16% voiced frames); the longest unvoiced stretch (16.9-21.2 s) carries a sustained ~1 kHz tonal line with harmonics (music or print tone), not room tone; picture is a dim curtained room"
+   },
+   {
+    "id": "6a336c56",
+    "title": "Door to Heaven, The (1941)",
+    "verdict": "rejected",
+    "why": "26% voiced; longest unvoiced stretch 1.4 s"
+   },
+   {
+    "id": "db4a7675",
+    "title": "Alcohol and the Human Body (1949)",
+    "page": "https://www.movingimagearchive.com/sources/alcohol-and-the-human-body?clip=db4a7675-ab9c-5b44-bcce-55f486b4e60e",
+    "verdict": "rejected",
+    "why": "narration; the speech-free gaps (8.4-11.7 s, 16.5-20.5 s) are <=4 s of optical-track hum (steady 100-500 Hz lines), i.e. print noise, not a room; 35 s continuous would need ~9 seams"
+   },
+   {
+    "id": "aaf17c56",
+    "title": "Learning to Set Type (1959)",
+    "verdict": "rejected",
+    "why": "narration bursts with a steady print hum between; 11.6 s gap is hum, not room; 1959 rights not established"
+   },
+   {
+    "id": "d73d8647 / 7cd6914c",
+    "title": "[Amateur film: Medicus collection: New York World's Fair, 1939-40] (Reel 4)",
+    "verdict": "rejected",
+    "why": "silent amateur film: the track is a steady -53 dBFS transfer rumble (no room acoustics); it is telecine noise, not a recording of a place"
+   },
+   {
+    "id": "e5e60119",
+    "title": "We Learn About the Telephone I (1965)",
+    "verdict": "rejected",
+    "why": "dense music/effects bed, no isolable bell; 1965 rights not established"
+   },
+   {
+    "id": "381d177e",
+    "title": "Communications and Our Town (1947)",
+    "verdict": "rejected",
+    "why": "church bells under narration (32% voiced); bells are not a telephone bell"
+   },
+   {
+    "id": "14c8b94b",
+    "title": "Third Avenue El (n.d.)",
+    "verdict": "rejected",
+    "why": "3.2 s; tonal lines (music/train), no footsteps isolable; year unknown and rights unclear"
+   },
+   {
+    "id": "ef7bfc89",
+    "title": "Wreckless (1935)",
+    "verdict": "rejected",
+    "why": "31% voiced, longest unvoiced 2.6 s"
+   },
+   {
+    "id": "a267fee7, 5a520bd0, b3ef2f32, 1e64eb45, 0ba60832, bf9c69e1, bcb87a65, 3543b210, 7836124c",
+    "title": "various",
+    "verdict": "rejected",
+    "why": "speech or music in every stretch longer than ~4 s (voiced fraction 0.16-0.61)"
+   },
+   {
+    "id": "8990d9ac",
+    "title": "Steel Mill (1937)",
+    "verdict": "rejected",
+    "why": "no audio (digital silence)"
+   }
+  ],
+  "result": "no MIA clip supplies a speech-free, music-free stretch usable as 35 s room tone, a telephone bell, or isolable footfalls; nothing from MIA is used, so no MIA credit is written"
+ },
+ "absences": [
+  "MIA: continuous speech/music-free room tone >= 35 s (longest clean stretch found ~4 s, and it is optical-track hum)",
+  "MIA: any telephone bell (query telephone|ring|bell returned none audible)",
+  "MIA: isolable footsteps on a stair",
+  "Commons: a recording of an actual wall-mounted magneto telephone (found only the Funke & Huster mine telephone, a crank magneto set; used) ",
+  "Commons: original WAV of Wooden stairs (Gravity Sound): HTTP 429 rate-limit today; Commons MP3 transcode used",
+  "Commons search 'Klingel Telefon': no audio hits"
+ ],
+ "handmade": [
+  {
+   "what": "two seeded room impulse responses (Gaussian noise x exponential decay, low-passed, 4 ms pre-delay, unit energy): his-room/bell IR RT60 0.55 s seed 4701 LP 3 kHz; stairwell IR RT60 1.4 s seed 4702 LP 2.5 kHz",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/u2_build.py (room_ir)",
+   "status": "declared processing, not a sound; every audible sound is foraged"
+  }
+ ],
+ "stems_48k": {
+  "ST-ROOM": {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/stems/ST-ROOM.wav",
+   "sha256": "68378a78cbf4d60a7871bca8bc09a9043df13ba21db1cefc8b5e0ac8c2fc304c",
+   "seconds": 35.0,
+   "peak_dbfs": -27.69,
+   "rms_dbfs": -42.0,
+   "kit44k1_copy": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/kit44k1/ST-ROOM.wav"
+  },
+  "ST-BELL": {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/stems/ST-BELL.wav",
+   "sha256": "5178d9dfd306d59024bba226ffe40448f0d70c082979a7681cd2701cfe7021c7",
+   "seconds": 35.0,
+   "peak_dbfs": -14.0,
+   "rms_dbfs": -39.44,
+   "kit44k1_copy": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/kit44k1/ST-BELL.wav"
+  },
+  "ST-STEPS-NEAR": {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/stems/ST-STEPS-NEAR.wav",
+   "sha256": "70aab42bc9d435a1be14887b294ab8e423e930639642752bc8d8fe7d806310dd",
+   "seconds": 35.0,
+   "peak_dbfs": -6.0,
+   "rms_dbfs": -41.64,
+   "kit44k1_copy": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/kit44k1/ST-STEPS-NEAR.wav"
+  },
+  "ST-STEPS-ABOVE": {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/stems/ST-STEPS-ABOVE.wav",
+   "sha256": "11fde723bcee9385092834f3ddccce84fd0456d8181957178587402fbd1762b4",
+   "seconds": 35.0,
+   "peak_dbfs": -18.0,
+   "rms_dbfs": -51.13,
+   "kit44k1_copy": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/kit44k1/ST-STEPS-ABOVE.wav"
+  },
+  "MIX-PASS": {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/stems/MIX-PASS.wav",
+   "sha256": "4f898e423c556cbfa161a06a0694900a558717375274077f7b893c20280febd1",
+   "seconds": 35.0,
+   "peak_dbfs": -6.11,
+   "rms_dbfs": -35.97,
+   "kit44k1_copy": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/kit44k1/MIX-PASS.wav"
+  }
+ },
+ "stems_note": "48 kHz mono 16-bit, 35.0 s, in /home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/stems/; 44.1 kHz copies for kit.Mix in /home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/kit44k1/; room handles 37 s (1 s pre, 1 s post, same gain) in stems/ST-ROOM-HANDLES-37s.wav; individual cues in cues/. MIX-PASS = ST-ROOM + ST-BELL + ST-STEPS-NEAR + ST-STEPS-ABOVE, peak -6.1 dBFS; play it identically in pass I and pass II.",
+ "bell_cues": [
+  {
+   "id": "BELL-R1",
+   "event": "E2",
+   "at": 6.0,
+   "source_in": 2.8,
+   "source_out": 3.8,
+   "body_dur": 1.0,
+   "out_incl_tail": 8.0,
+   "fade_in_s": 0.004,
+   "fade_out_s": 0.08,
+   "peak_dbfs": -16.76,
+   "rms_dbfs_body": -30.75,
+   "note": "trill attack at source 2.85 kept (handset clunk at 0.75 omitted); body cut at 3.80",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/cues/BELL-R1.wav",
+   "sha256": "624aae46a37a17639df8228f3c09e1f82ee9647aaf4a20af816724eb3ff5eab4"
+  },
+  {
+   "id": "BELL-R2",
+   "event": "E2b",
+   "at": 7.6,
+   "source_in": 11.0,
+   "source_out": 12.0,
+   "body_dur": 1.0,
+   "out_incl_tail": 9.6,
+   "fade_in_s": 0.006,
+   "fade_out_s": 0.08,
+   "peak_dbfs": -15.73,
+   "rms_dbfs_body": -28.41,
+   "note": "mid-trill window",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/cues/BELL-R2.wav",
+   "sha256": "d091e1da205c20c3a0e4ea2a48c8ac1b425e0ad84e079fa3a20e438f79c097d2"
+  },
+  {
+   "id": "BELL-R3",
+   "event": "E3",
+   "at": 9.0,
+   "source_in": 19.15,
+   "source_out": 20.75,
+   "body_dur": 1.6,
+   "out_incl_tail": 11.0,
+   "fade_in_s": 0.006,
+   "fade_out_s": 0.02,
+   "peak_dbfs": -14.0,
+   "rms_dbfs_body": -29.8,
+   "note": "source's own ending: cranking stops at ~20.15 (= 10.0 on the timeline), real bell ring-off to 20.75",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/cues/BELL-R3.wav",
+   "sha256": "f79f6030d5454e5757e60f8f541c5cf4483c2a542d6f597083c319d19432ba0f"
+  }
+ ],
+ "step_cues": [
+  {
+   "id": "STEP-N1@20.8",
+   "event": "E5",
+   "onset_at": 20.8,
+   "placed_from": 20.79,
+   "source_onset": 7.399,
+   "source_in": 7.389,
+   "source_out": 7.849,
+   "gain_db": -10.37,
+   "peak_dbfs": -7.86,
+   "time_stretch": "none",
+   "reverb": "none (dry)",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/cues/STEP-N1.wav",
+   "sha256": "aff4acce2fe916d5c937ed520e2d8b881d79ebd12f0c1c7434a0bcd0cf18f35a"
+  },
+  {
+   "id": "STEP-N1@28.8",
+   "event": "E7",
+   "onset_at": 28.8,
+   "placed_from": 28.79,
+   "source_onset": 7.399,
+   "source_in": 7.389,
+   "source_out": 7.849,
+   "gain_db": -10.37,
+   "peak_dbfs": -7.86,
+   "time_stretch": "none",
+   "reverb": "none (dry)",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/cues/STEP-N1.wav",
+   "sha256": "aff4acce2fe916d5c937ed520e2d8b881d79ebd12f0c1c7434a0bcd0cf18f35a"
+  },
+  {
+   "id": "STEP-N2@21.35",
+   "event": "E5",
+   "onset_at": 21.35,
+   "placed_from": 21.34,
+   "source_onset": 12.185,
+   "source_in": 12.175,
+   "source_out": 12.635,
+   "gain_db": -10.37,
+   "peak_dbfs": -7.44,
+   "time_stretch": "none",
+   "reverb": "none (dry)",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/cues/STEP-N2.wav",
+   "sha256": "1c2e6f31710016c7211734a4398a737949b91a4048ba5ef680d6184c6dcaa616"
+  },
+  {
+   "id": "STEP-N2@29.35",
+   "event": "E7",
+   "onset_at": 29.35,
+   "placed_from": 29.34,
+   "source_onset": 12.185,
+   "source_in": 12.175,
+   "source_out": 12.635,
+   "gain_db": -10.37,
+   "peak_dbfs": -7.44,
+   "time_stretch": "none",
+   "reverb": "none (dry)",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/cues/STEP-N2.wav",
+   "sha256": "1c2e6f31710016c7211734a4398a737949b91a4048ba5ef680d6184c6dcaa616"
+  },
+  {
+   "id": "STEP-N3@21.9",
+   "event": "E5",
+   "onset_at": 21.9,
+   "placed_from": 21.89,
+   "source_onset": 14.585,
+   "source_in": 14.575,
+   "source_out": 15.035,
+   "gain_db": -10.37,
+   "peak_dbfs": -6.55,
+   "time_stretch": "none",
+   "reverb": "none (dry)",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/cues/STEP-N3.wav",
+   "sha256": "1efdf350c231d50809189981881b5ea471eb1189dad199ea463fbaa980891261"
+  },
+  {
+   "id": "STEP-N3@29.9",
+   "event": "E7",
+   "onset_at": 29.9,
+   "placed_from": 29.89,
+   "source_onset": 14.585,
+   "source_in": 14.575,
+   "source_out": 15.035,
+   "gain_db": -10.37,
+   "peak_dbfs": -6.55,
+   "time_stretch": "none",
+   "reverb": "none (dry)",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/cues/STEP-N3.wav",
+   "sha256": "1efdf350c231d50809189981881b5ea471eb1189dad199ea463fbaa980891261"
+  },
+  {
+   "id": "STEP-N4@22.45",
+   "event": "E5",
+   "onset_at": 22.45,
+   "placed_from": 22.44,
+   "source_onset": 16.909,
+   "source_in": 16.899,
+   "source_out": 17.359,
+   "gain_db": -10.37,
+   "peak_dbfs": -7.36,
+   "time_stretch": "none",
+   "reverb": "none (dry)",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/cues/STEP-N4.wav",
+   "sha256": "76827884e5c2f5e408afbabd86142228b3b9384700eca770ebe4a0a64d69d208"
+  },
+  {
+   "id": "STEP-N4@30.45",
+   "event": "E7",
+   "onset_at": 30.45,
+   "placed_from": 30.44,
+   "source_onset": 16.909,
+   "source_in": 16.899,
+   "source_out": 17.359,
+   "gain_db": -10.37,
+   "peak_dbfs": -7.36,
+   "time_stretch": "none",
+   "reverb": "none (dry)",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/cues/STEP-N4.wav",
+   "sha256": "76827884e5c2f5e408afbabd86142228b3b9384700eca770ebe4a0a64d69d208"
+  },
+  {
+   "id": "STEP-N5@23.0",
+   "event": "E5",
+   "onset_at": 23.0,
+   "placed_from": 22.99,
+   "source_onset": 19.053,
+   "source_in": 19.043,
+   "source_out": 19.503,
+   "gain_db": -10.37,
+   "peak_dbfs": -6.0,
+   "time_stretch": "none",
+   "reverb": "none (dry)",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/cues/STEP-N5.wav",
+   "sha256": "33648c73d91834a52e123c6f013d986c4532adccdcc789ee9583e9dfb12f6e3a"
+  },
+  {
+   "id": "STEP-N5@31.0",
+   "event": "E7",
+   "onset_at": 31.0,
+   "placed_from": 30.99,
+   "source_onset": 19.053,
+   "source_in": 19.043,
+   "source_out": 19.503,
+   "gain_db": -10.37,
+   "peak_dbfs": -6.0,
+   "time_stretch": "none",
+   "reverb": "none (dry)",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/cues/STEP-N5.wav",
+   "sha256": "33648c73d91834a52e123c6f013d986c4532adccdcc789ee9583e9dfb12f6e3a"
+  },
+  {
+   "id": "STEP-A1@25.2",
+   "event": "S6 (unbound; steps continue above)",
+   "onset_at": 25.2,
+   "placed_from": 25.19,
+   "source_onset": 3.356,
+   "source_in": 3.346,
+   "source_out": 3.806,
+   "gain_db": -11.21,
+   "rel_db_to_near_ref": -12.0,
+   "peak_dbfs": -18.0,
+   "out_incl_tail": 27.0,
+   "time_stretch": "none",
+   "reverb": "handmade stairwell IR RT60 1.4 s, wet 0.7; LP 2.5 kHz; gated to zero by 27.0",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/cues/STEP-A1.wav",
+   "sha256": "048c77f2ebe77e2775a9e6c31d27ccbe4edd3e63b8dfcee4ee95b9bfad483464"
+  },
+  {
+   "id": "STEP-A2@25.95",
+   "event": "S6 (unbound; steps continue above)",
+   "onset_at": 25.95,
+   "placed_from": 25.94,
+   "source_onset": 4.367,
+   "source_in": 4.357,
+   "source_out": 4.817,
+   "gain_db": -11.21,
+   "rel_db_to_near_ref": -12.0,
+   "peak_dbfs": -23.29,
+   "out_incl_tail": 27.0,
+   "time_stretch": "none",
+   "reverb": "handmade stairwell IR RT60 1.4 s, wet 0.7; LP 2.5 kHz; gated to zero by 27.0",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/cues/STEP-A2.wav",
+   "sha256": "340ead64198da0b2042f7a5cf83904b43121e837b74cf02a14640c8984004a7b"
+  }
+ ],
+ "gains_db": {
+  "room": -5.78,
+  "bell": 15.55,
+  "steps_near": -10.37,
+  "steps_above": -11.21
+ },
+ "SIL-H": {
+  "t": [
+   11.5,
+   19.0
+  ],
+  "rms_floor_dbfs": -41.96,
+  "median_50ms_dbfs": -42.09,
+  "max_transient_over_floor_db_50ms": 2.64,
+  "max_transient_over_floor_db_10ms": 5.33,
+  "max_10ms_over_rms_floor_db": 4.81,
+  "sample_peak_dbfs": -29.68,
+  "non_room_stems_peak_in_SILH": 0.0,
+  "nonzero": true
+ },
+ "SIL-H_verdict": "pass: non-zero floor (RMS -41.96 dBFS), max 50 ms transient 2.64 dB and max 10 ms transient 5.33 dB above the median floor (4.81 dB above RMS), all <= 6 dB; no non-room stem has a non-zero sample in 11.5-19.0",
+ "E1_withheld": {
+  "t": [
+   2.0,
+   2.8
+  ],
+  "window_checked": [
+   1.5,
+   3.3
+  ],
+  "non_room_stems_peak": 0.0,
+  "mix_rms_dbfs": -42.33,
+  "room_rms_dbfs_same_window": -42.33
+ },
+ "room_constancy": {
+  "rms_1s_min": -42.51,
+  "rms_1s_max": -41.41,
+  "gain_constant": true,
+  "fades": "none inside the pass"
+ },
+ "flight_identity": {
+  "S5_vs_S7_steps_near_identical": true,
+  "offset_s": 8.0,
+  "compared": [
+   [
+    19.0,
+    24.5
+   ],
+   [
+    27.0,
+    32.5
+   ]
+  ]
+ },
+ "voicing": {
+  "ST-ROOM": {
+   "frac_frames_harmonicity_gt_0_6": 0.0,
+   "longest_harmonic_run_ms": 0,
+   "max_harmonicity": 0.535
+  },
+  "ST-STEPS-NEAR": {
+   "frac_frames_harmonicity_gt_0_6": 0.0,
+   "longest_harmonic_run_ms": 0,
+   "max_harmonicity": 0.572
+  },
+  "ST-STEPS-ABOVE": {
+   "frac_frames_harmonicity_gt_0_6": 0.0034,
+   "longest_harmonic_run_ms": 40,
+   "max_harmonicity": 0.715
+  },
+  "ST-BELL_note": "the bell is a pitched periodic source, so harmonicity is high by nature; speech is excluded by the source (a mechanical bell, no persons in the recording) and by the spectrogram",
+  "ST-BELL": {
+   "frac_frames_harmonicity_gt_0_6": 0.0601,
+   "longest_harmonic_run_ms": 700,
+   "max_harmonicity": 0.928
+  }
+ },
+ "audibility_measured": {
+  "near_footfalls_10ms_max_dbfs": [
+   -17.92,
+   -19.17,
+   -18.42,
+   -17.09,
+   -20.23
+  ],
+  "room_10ms_max_S5_dbfs": -36.05,
+  "stairwell_footfalls_10ms_max_dbfs": [
+   -27.0,
+   -31.08
+  ],
+  "room_10ms_max_S6_dbfs": -35.53,
+  "bell_body_rms_dbfs": "R1 -30.8, R2 -28.4, R3 -29.8 vs room -42.0; in-band (2.0-2.5 kHz) 26-33 dB over room",
+  "bell_after_E3": "the R3 bell's own ring-off and reverb run to 10.88 (E3 t_off 10.0, head returns 10.4); nothing after 11.0"
+ },
+ "speech_music_statement": "No speech and no music is audible in any stem (measured: room/near/stairwell stems have no 40 ms frame with pitch harmonicity > 0.6 except 40 ms in the stairwell reverb tail, max 0.707; the bell is a pitched mechanical source by nature; spectrograms inspected). Perceptual listening by a human has NOT occurred; this is measured and spectrogram-inspected only.",
+ "deviations_from_plan": [
+  "Levels are defined as post-chain sample peaks against the near footfalls (REF -6 dBFS). With the r1 room level (-40 dBFS RMS) and a -12 dB stairwell cue the S6 footfalls measured 2-8 dB BELOW the room's own 10 ms peaks (inaudible). r2 lowers the room tone to -42 dBFS RMS and raises REF from -12 to -6 dBFS; the plan's relative -8 dB (bell) and -12 dB (stairwell) are kept exactly.",
+  "Ring 3 keeps the bell's real ring-off (to 10.6 + reverb to 10.88) after the cranking stops at 10.0, rather than a cut.",
+  "Stairwell footfalls at 25.2 and 25.95 (S6 is not bound to picture events in beats-r2), gated to zero by 27.0."
+ ],
+ "credits_written": "films/credits/un-homme-qui-dort.json: appended the three Commons sound entries (WWS Minetelephone, Wooden stairs, TU Delft room); existing LoC entries untouched",
+ "preview": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u2-sound-sound-editor-distance-breath-withheld-cues-/mix_pass_spectrum.png"
+}
