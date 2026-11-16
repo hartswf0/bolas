@@ -58,9 +58,9 @@ def build(TR, SPLASH, Mix, RATE, SEG_E_REWRITE=(52.9, 54.5)):
         if k > 0 and i >= 0: stem[i:i + k] += sig[:k] * gain
 
     F = dict(stream=os.path.join(SRC, "test-shot", "audio", "stream.mp3"),
-             jungle=os.path.join(OS_, "raw", "jungle_phuket.flac"),
-             tide=os.path.join(OS_, "raw", "tide_rocks.ogg"),
-             splash=os.path.join(OS_, "raw", "splashes.ogg"))
+             jungle=os.path.join(OS_, "raw", "tc_Jungle_Sound_Thailand_Phuket.flac.mp3"),
+             tide=os.path.join(OS_, "raw", "tc_Water_over_rocks_as_tide_recedes.ogg.mp3"),
+             splash=os.path.join(OS_, "raw", "tc_Bathtub_water_splashes.ogg.mp3"))
     have = {}
     for k, p in F.items():
         ok = os.path.exists(p) and os.path.getsize(p) > 20000
@@ -83,7 +83,7 @@ def build(TR, SPLASH, Mix, RATE, SEG_E_REWRITE=(52.9, 54.5)):
     for v, t0 in (("L", 20.0), ("E", 50.5)):
         if have["tide"]:
             lap = decode(F["tide"], 6.0, 2.4, RATE); lap = lap - lap.mean(0); lap *= 10 ** (-28 / 20) / rms(lap)
-            used["tide"] = "tide_rocks.ogg 6.0-8.4 s, -28 dBFS RMS"; src = "FOR-AUD-TIDE"
+            used["tide"] = "Water over rocks as tide recedes.ogg (Commons mp3 transcode) 6.0-8.4 s, -28 dBFS RMS"; src = "FOR-AUD-TIDE"
         else:
             lap = np.stack([M.band(M.noise(2.4), 150, 900) * 0.04] * 2, 1); src = "HM-SYN-LAP"
         lap *= np.r_[np.linspace(0, 1, 2200), np.ones(len(lap) - 4400), np.linspace(1, 0, 2200)][:, None]
@@ -97,7 +97,7 @@ def build(TR, SPLASH, Mix, RATE, SEG_E_REWRITE=(52.9, 54.5)):
                                    capture_output=True, text=True).stdout.strip() or 40)
         j = decode(F["jungle"], 1.0, min(60.0, dur - 1.5), RATE); j = j - j.mean(0); j *= 10 ** (-31 / 20) / rms(j)
         jungle += G["loop_to"](j, N)
-        used["jungle"] = f"Jungle Sound Thailand Phuket.flac 1.0-{1.0 + min(60.0, dur - 1.5):.1f} s looped, -31 dBFS RMS"
+        used["jungle"] = f"Jungle Sound Thailand Phuket.flac (Commons mp3 transcode) 1.0-{1.0 + min(60.0, dur - 1.5):.1f} s looped, -31 dBFS RMS"
         jsrc = "FOR-AUD-JUNGLE"
     else:
         t = np.arange(N) / RATE; jb = np.zeros(N)
@@ -179,8 +179,8 @@ def build(TR, SPLASH, Mix, RATE, SEG_E_REWRITE=(52.9, 54.5)):
         last = {"L": "B", "E": "C"}[v]
         x = TR[v]["frames"][int(round(sp_t * FPS))]["people"][last]["root"][0]
         if have["splash"]:
-            sp = decode(F["splash"], 3.2, 1.1, RATE); sp = sp - sp.mean(0)
-            used["splash"] = "Bathtub water splashes.ogg 3.2-4.3 s"; ssrc = "FOR-AUD-SPLASH"
+            sp = decode(F["splash"], 3.42, 1.1, RATE); sp = sp - sp.mean(0)
+            used["splash"] = "Bathtub water splashes.ogg (Commons mp3 transcode) 3.42-4.52 s"; ssrc = "FOR-AUD-SPLASH"
         else:
             n = int(1.0 * RATE); tt = np.arange(n) / RATE
             body = M.band(M.noise(1.0), 180, 5200) * (np.exp(-tt * 5.5) * (1 - np.exp(-tt * 300)))
@@ -194,7 +194,8 @@ def build(TR, SPLASH, Mix, RATE, SEG_E_REWRITE=(52.9, 54.5)):
         sp *= np.r_[np.ones(len(sp) - 6000), np.linspace(1, 0, 6000)][:, None]
         pk = np.abs(sp).max() + 1e-9
         sp = np.tanh(4.0 * sp / pk) / np.tanh(4.0) * pk          # soft saturation: a dense wash, not a single spike
-        seg = sp[:int(0.35 * RATE)]
+        hop = int(0.05 * RATE); wl = int(0.35 * RATE)
+        seg = max((sp[i:i + wl] for i in range(0, max(1, len(sp) - wl), hop)), key=rms)   # the loudest 0.35 s of the splash
         g = step_ref * 10 ** (14.0 / 20) / rms(seg)            # 14 dB over the median isolated plank step (>= 8 dB over the steps in the mix)
         put(foley, sp * g, off + sp_t - 0.08, 1.0, pan_of(x))
         cue(off + sp_t - 0.08, "foley", f"splash on {last}'s shins at the plank's lowest (trace clearance {SPLASH[v]['clearance_px']:.1f} px, local {sp_t:.3f} s)",
@@ -209,7 +210,7 @@ def build(TR, SPLASH, Mix, RATE, SEG_E_REWRITE=(52.9, 54.5)):
     put(foley, G["pencil"](2.4) * 0.6, 70.0); cue(70.0, "foley", "pencil underlining on the comparison card", "cmp", "HM-SYN-PENCIL", 2.4)
 
     mix = water + jungle * 0.85 + foley * 0.9
-    gg = min(1.0, 0.89 / np.abs(mix).max())
+    gg = min(1.0, 0.70 / np.abs(mix).max())   # headroom for AAC overshoot (decoded peak must stay < 0.99)
     stems = dict(water=water * gg, jungle=jungle * 0.85 * gg, foley=foley * 0.9 * gg)
     mixg = mix * gg
 

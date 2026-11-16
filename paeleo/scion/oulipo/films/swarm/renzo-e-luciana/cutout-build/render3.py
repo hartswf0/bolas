@@ -21,7 +21,7 @@ def load(path, lo=0, hi=255, gamma=1.0):
 PV = {k: v['pivots'] for k, v in r2.items()}; PV.update({k: v['pivots'] for k, v in r3.items()})
 P = {'re_body': load(C2 + '/re_body.png', 22, 200, 1.08), 're_head': load(C2 + '/re_head.png', 22, 226, 1.1),
      'door': load(C2 + '/door_empty.png', 18, 236, 1.0), 'foreman': load(C2 + '/foreman.png', 18, 236, 1.0),
-     'pails': load(C2 + '/pails.png', 14, 215, 1.0),
+     'pails': load(C2 + '/pails.png', 26, 215, 1.12),
      'lu_body': load(PC + '/lu_body.png', 12, 200, .85), 'lu_head': load(PC + '/lu_head.png', 10, 214, .92),
      'lu_arm': load(PC + '/lu_arm.png', 10, 214, .92), 'apple': load(PC + '/apple.png', 10, 214, .92),
      'fm_front': load(PC + '/foreman_front.png', 20, 228, .95)}
@@ -31,7 +31,8 @@ CX, CY, CR = 604.5 * SW / 1296, 89.5 * SH / 729, 45.7 * SW / 1296
 ring = np.zeros(plate.shape, np.uint8); cv2.circle(ring, (int(CX), int(CY)), int(CR * .62), 255, -1)
 hands = cv2.dilate(((plate < 110) & (ring > 0)).astype(np.uint8) * 255, np.ones((3, 3), np.uint8))
 plate = cv2.inpaint(plate.astype(np.uint8), hands, 3, cv2.INPAINT_TELEA).astype(np.float32)
-plate = lv(plate, 22, 222, 1.0)
+PG = [float(v) for v in os.environ.get("PG", "14,218,0.55").split(",")]
+plate = lv(plate, *PG)
 DOF = float(os.environ.get('DOF', '1.1'))
 plate = cv2.GaussianBlur(plate, (0, 0), DOF)                           # the wall is behind the focal plane (couple)
 sign = Image.new('L', (190, 32), 214); sd = ImageDraw.Draw(sign)
@@ -147,7 +148,7 @@ def frame_img(t):
         lay, _ = warp(P['foreman'], PV['foreman']['feet'], F_FEET, sway, DS); over(cv, lay, shadow=False)
     else:
         lay, _ = warp(P['fm_front'], PV['foreman_front']['feet'], F_FEET + [6, 0], 0, FF_S); over(cv, lay, off=(5, 3), blur=4, dark=.2)
-    sx, sy = int(D_XY[0] + 60), 44
+    sx, sy = 612, 54                              # typed card pinned on the wall at the door casing
     cv[sy:sy + sign.shape[0], sx:sx + sign.shape[1]] = cv[sy:sy + sign.shape[0], sx:sx + sign.shape[1]] * (1 - sign_a) + sign * sign_a
     Mb, Mh, Ma, Mp = lu_fk(S['L.root_dx'], S['L.hip'], S['L.neck'], S['L.elbow'])
     lvis = S['L.root_dx'] > -880

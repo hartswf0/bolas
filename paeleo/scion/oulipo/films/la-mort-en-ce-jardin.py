@@ -56,17 +56,139 @@ import rig as RG  # noqa: E402
 import puppets as PP  # noqa: E402
 # L-S6 two-shot: U1's near dressing re-laid so no frond crosses either face (declared; same pieces, editor's layout)
 WC.NEAR_DRESS["L-S6"] = [("P3_treefern", (610, -30), 0.60, dict(gain=0.95, blur="near", label="near fern right")),
-                         ("P3c_leaves", (-260, -330), 0.38, dict(gain=0.78, blur="near", label="near heart leaf top left")),
+                         ("P3c_leaves", (-400, -390), 0.38, dict(gain=0.78, blur="near", label="near heart leaf top left")),
                          ("P4_root_diag", (-300, 400), 0.95, dict(gain=0.86, blur="near_fg", flip=True, label="near root diagonal low left"))]
 # edit-r2: L-S5/E-S4 near dressing re-laid without the heart leaf that hid the receiver at the hand-off (declared)
 WC.NEAR_DRESS["L-S5"] = [("P3_treefern", (600, -10), 0.60, dict(gain=0.98, blur="near", label="near: lit tree-fern crown, right edge")),
-                         ("P3d_fern_bw", (-420, -330), 0.50, dict(gain=0.80, blur="near", label="near: dark tree-fern fronds, top-left corner")),
+                         ("P3_treefern", (-330, -250), 0.62, dict(gain=0.55, flip=True, blur="near", label="near: tree-fern crown in shade, top-left corner (edit-r3)")),
                          ("P4_root_diag", (-330, 380), 0.95, dict(gain=0.86, blur="near_fg", flip=True, label="near: root diagonal across the low left"))]
 WC.NEAR_DRESS["E-S4"] = WC.NEAR_DRESS["L-S5"]
-# edit-r2: a real buttress flange (Buttress Roots 1, Mokkie, CC BY-SA 4.0; U1's spare GrabCut cut) as a P1 plane behind
+# edit-r3: a real fluted buttress trunk (U1's Mekong flood-trunk cut, Basile Morin, CC BY-SA 4.0) as a P1 plane behind
 # the hand-off in the closes only, drawn in P1 order (before banks, plank and puppets), with P1's close depth blur.
-CLOSE_P1 = ("P1", "P1b_flange", (-61.0, 184.0), 0.352, dict(gain=0.80, flip=True, label="P1 buttress flange behind the hand-off (close)"))
-S = PP.S                                    # approved test-shot card primitives (card scan, mud field, pencil)
+CLOSE_P1 = ("P1", "P1c_flood_trunk", (-150.0, 60.0), 0.80, dict(gain=0.92, flip=True, label="P1 fluted buttress trunk behind the hand-off (close)"))
+S = PP.S
+
+# ---- edit-r3: the editor's water and plank (U1's compose.py is not edited; these replace WC.water / WC.plank at run time,
+# declared).  water: the foraged plate is mirror-tiled downward (reflect padding of the real water texture) instead of
+# repeating its last row, so no edge-clamp streaks at the bottom of the frame; in the closes the water plate carries a
+# uniform lighting gain of 0.72 (one gain per piece, as U1's lighting rule) so the white shoe reads against dark water.
+# plank: the same scored card, bent along the elastic curve of a simply supported strip under a point load at the
+# occupant (instead of U1's 2-segment kink), and, where the trace's clearance falls under 6 px, the water's own
+# surface (the same plate rows) laps over the card's top around the foot.
+WNOW = dict(water_y=416.0, t=0.0, clearance=None, foot_x=None)
+
+
+def ed_water(C, cam, water_y, t, wide=True):
+    top, m = WC.project_pt((0, water_y), cam)
+    top = int(round(top[1]))
+    if top >= PH: return top
+    Lp, _ = WC.get("W_flood_trunk")
+    s = 0.5 * m
+    assert s <= WC.MAXUP
+    WC.UPS.append(("W_flood_trunk", round(s, 3)))
+    flow = (t * 6.0 * m)
+    X, Y, D = cam
+    x0 = (WC.O[0] + m * (0 - WC.O[0] - X)) - flow
+    Wp = cv2.resize(Lp, (int(Lp.shape[1] * s), int(Lp.shape[0] * s)), interpolation=cv2.INTER_AREA if s < 1 else cv2.INTER_CUBIC)
+    Wp = np.concatenate([Wp, Wp[:, ::-1]], 1)
+    hh = PH - top
+    xs = (np.arange(PW) - x0).astype(int) % Wp.shape[1]
+    n = Wp.shape[0]
+    ry = np.arange(hh) % (2 * n); ry = np.where(ry < n, ry, 2 * n - 1 - ry)      # reflect-tile the real texture downward
+    rows = Wp[ry][:, xs]
+    src = C[max(top - hh, 0):top][::-1].copy()
+    if src.shape[0] < hh:
+        k = hh - src.shape[0]; ext = src[::-1] if src.shape[0] else np.zeros((1, PW), np.float32)
+        while ext.shape[0] < k: ext = np.concatenate([ext, ext[::-1]], 0)
+        src = np.concatenate([src, ext[:k]], 0)
+    ph = math.floor(t * 12) / 12
+    for yy in range(hh):
+        src[yy] = np.roll(src[yy], int(round((1 + yy * 0.03) * math.sin(yy * 0.21 + ph * 7))), axis=0)
+    out = rows * 0.68 * 1.08 + WC.gblur(src, 1.0) * 0.32
+    if wide:
+        fr = int(t * 24) % 120; fr = fr if fr < 60 else 119 - fr
+        a = np.asarray(Image.open(f"{WC.WM}/water_motion/shock_troops_{fr + 1:03d}.png").convert("L"), np.float32)[120:240]
+        mod = (a - WC.RIPPLE_MEAN) / 255.0
+        mod = cv2.resize(mod, (int(320 * 1.6), int(120 * 1.6)), interpolation=cv2.INTER_CUBIC)
+        WC.UPS.append(("water_motion shock_troops", 1.6))
+        mod = np.concatenate([mod, mod[:, ::-1]], 1)[:, :PW]
+        mh = min(hh, mod.shape[0])
+        out[:mh] = out[:mh] * (1 + 0.9 * mod[:mh])
+    else:
+        out = out * 0.78
+    out[:3] = out[:3] * 0.7 + 182 * 0.3
+    C[top:] = np.clip(out, 0, 255)
+    WNOW["rows"] = (top, out)
+    return top
+
+
+def sag_profile(u_arr, a):
+    """elastic curve of a simply supported strip, point load at a (0..1), normalised to 1 under the load."""
+    a = min(max(a, 0.03), 0.97); b = 1 - a
+    x = np.asarray(u_arr, np.float64)
+    y = np.where(x <= a, b * x * (1 - b * b - x * x), a * (1 - x) * (1 - a * a - (1 - x) ** 2))
+    ya = b * a * (1 - b * b - a * a)
+    return y / max(ya, 1e-9)
+
+
+def ed_plank(C, cam, occupant_u=None, defl=0.0, thick=12, seed=700):
+    A0 = np.float32([170, 392]); A1 = np.float32([690, 384])
+    u = 0.5 if occupant_u is None else occupant_u
+    us = np.linspace(0, 1, 41)
+    base = defl if occupant_u is None else 0.0          # empty plank: U1's resting sag, spread evenly
+    prof = sag_profile(us, u) * (defl - 2.0) + 2.0 if occupant_u is not None else np.full_like(us, base)
+    prof = np.where((us < 0.02) | (us > 0.98), np.minimum(prof, 2.0), prof)
+    world_top = [(A0 + (A1 - A0) * q) + np.float32([0, d]) for q, d in zip(us, prof)]
+    top = np.float32([WC.project_pt(p, cam)[0] for p in world_top])
+    m = WC.project_pt((0, 0), cam)[1]
+    th = thick * m
+    bot = top + np.float32([0, th])
+    pts = np.concatenate([top, bot[::-1]])
+    A = WC.poly_mask(pts)
+    ys, xs = np.nonzero(A > 0.01)
+    if not len(xs): return
+    tex = np.zeros((PH, PW), np.float32)
+    y0, y1, x0, x1 = ys.min(), ys.max() + 1, xs.min(), xs.max() + 1
+    tex[y0:y1, x0:x1] = WC.card_tex(y1 - y0, x1 - x0, seed)
+    yy = np.arange(PH)[:, None].astype(np.float32)
+    ytop = np.interp(np.arange(PW), top[:, 0], top[:, 1]).astype(np.float32)[None, :]
+    f = np.clip((yy - ytop) / max(th, 1), 0, 1)
+    tone = np.where(f < 0.18, 214, 196 - 46 * f) * (1 + 0.04 * tex)
+    for j in range(1, 4):
+        yl = ytop + th * (0.25 * j)
+        tone = np.where(np.abs(yy - yl) < 0.6 * m, tone * 0.86, tone)
+    # the wet underside: where the bent card is below the water line it darkens (soaked card)
+    wy = WC.project_pt((0, WNOW["water_y"]), cam)[0][1]
+    tone = np.where(yy > wy, tone * 0.62, tone)
+    C[:] = C * (1 - A) + tone * A
+    # water over the card where it is bent under the water line: the channel's own plate rows laid translucently over the
+    # submerged part of the card, with a small surge at the foot and a bright meniscus where the surface meets the card.
+    if "rows" not in WNOW: return
+    top_r, rows = WNOW["rows"]
+    n = rows.shape[0]
+    xs_ = np.arange(PW, dtype=np.float32)
+    ph = math.floor(WNOW["t"] * 12) / 12
+    fx = WNOW.get("foot_x")
+    surge = np.zeros(PW, np.float32)
+    if fx is not None:
+        sx = WC.project_pt((fx, 0), cam)[0][0]
+        w = np.clip(1 - np.abs(xs_ - sx) / (60 * m), 0, 1)
+        surge = 4.0 * m * w * (0.7 + 0.3 * np.sin(xs_ * 0.11 / max(m, 0.5) + ph * 9))
+    surf = wy - surge
+    sub = A * np.clip((yy - surf[None, :]) / 1.0, 0, 1)
+    if sub.max() <= 0.02: return
+    tex_w = np.zeros((PH, PW), np.float32)
+    for r in range(max(0, int(wy) - 12), min(PH, int(wy) + int(th) + 4)):
+        tex_w[r] = rows[min(n - 1, abs(r - top_r))]
+    C[:] = C * (1 - 0.72 * sub) + tex_w * 0.72 * sub
+    rim = np.clip(1 - np.abs(yy - surf[None, :]) / 1.1, 0, 1) * (WC.gblur(A, 2.0) > 0.05) * (sub.max(0)[None, :] > 0.05)
+    C[:] = C * (1 - 0.7 * rim) + 228 * 0.7 * rim
+
+
+WC.water = ed_water
+# edit-r3: shallower depth of field in the closes (depth blur stays per plane, smaller sigmas) for more photographic detail
+WC.BLUR["close"].update(P0=0.8, P1=0.35, near=0.6, near_fg=1.1)
+WC.plank = ed_plank                                   # approved test-shot card primitives (card scan, mud field, pencil)
 
 TR = {v: json.load(open(SW / "performance" / f"trace-{v}.json")) for v in ("L", "E", "baseline")}
 INTR = json.load(open(SW / "interruption.json"))
@@ -142,11 +264,30 @@ def camera(kind, v, lt, sid):
         # down with B's kneel to U1's plank-foot close (re-centred) for the reach and the grasp.
         rel = round((lt - {"L": 18.0, "E": 11.0}[v]) * FPS) / FPS
         q = RG.smoothstep((rel - 0.5) / 0.55)
-        cx = 128 + (200 - 128) * q; cy = 296 + (336 - 296) * q; M = 2.4 + (2.6 - 2.4) * q
+        cx = 128 + (200 - 128) * q; cy = 296 + (352 - 296) * q; M = 2.4 + (2.6 - 2.4) * q   # edit-r3: ends 16 px lower (shoe >= 20 px above the frame edge)
         return WC.cam_close((round(cx, 3), round(cy, 3)), round(M, 4)), "close", "L-S5"
     if kind == "two":                              # L-S6: two-shot B and C, framed low enough to keep B's shoe hand in
-        return WC.cam_close((112, 230), 2.4), "close", "L-S6"
+        return WC.cam_close(TWO_CENTRE, TWO_M), "close", "L-S6"
+    if (sid == "L-S8") or (sid == "E-S6" and lt >= LAST_PUSH["E"][0] - 0.01):
+        # edit-r3 (declared): the last crossing is seen closer, so that the trace's plank deflection (up to 9 world px)
+        # is >= 12 screen px: a push-in at P2 from the wide (m 0.955) to m 1.38, holding the plank's mid-span on screen.
+        t0, t1 = LAST_PUSH[v]
+        q = RG.smoothstep((lt - t0) / (t1 - t0))
+        M = WIDE_M + (LAST_M - WIDE_M) * q; D = 1 - 1 / M
+        tgt = np.float32([430, 380])
+        X0 = np.float32(WIDE_CAM[:2])
+        X = tgt - WC.O - (WIDE_M / M) * (tgt - WC.O - X0)
+        X = X + np.float32([40, -20]) * q
+        return (float(X[0]), float(X[1]), D), "wide", None
     return WIDE_CAM, "wide", None
+
+
+LAST_M = 1.38
+SAG_X = 2.5
+DROP = {}
+POSE_FIX = {}
+LAST_PUSH = {"L": (30.0, 31.2), "E": (24.0, 25.2)}
+TWO_CENTRE, TWO_M = (150, 244), 2.2     # edit-r3: lower and wider, so the shoe stays >= 20 px inside the frame
 
 
 def mag(cam):
@@ -247,20 +388,33 @@ def paste_layer(C, v, lt, cam, framing):
     return dict(k=k, file_sha256=h, hi=hi, dy=dy, dy_screen=dys, raster_sha256=rh, cam=[round(c, 4) for c in cam])
 
 
-def shoe_in_hand(C3, J, m, t_since):
-    """FK parenting: heel in B's right palm (bone frac 0.7), turning from the reach angle to upright as she rises."""
-    rise = RG.smoothstep((t_since - 0.3) / 0.7)
+THUMB = [(0.45, -6.0), (1.05, -6.6), (1.35, -4.4), (1.05, -2.2), (0.55, -2.6)]
+
+
+def shoe_in_hand(C3, J, m, t_since, who="B"):
+    """FK parenting (edit-r3): the shoe hangs from B's right mitten by its heel counter and turns upright within 0.3 s of
+    the grasp, so it is shown whole, in profile (heel, bar strap, rosette), layered over the mitten; the mitten's thumb
+    card is re-laid over the heel counter so the shoe reads as held.  Anchor = 0.7 along the hand bone."""
+    rise = RG.smoothstep((t_since - 0.04) / 0.28)
     p0, p1, ang = J["hand_n"]
-    rot = (1 - rise) * (-ang + 30) + rise * 4
+    rot = (1 - rise) * (-ang + 30) + rise * 6
     w = max(4, int(round(SHOE_W_WORLD * m)))
-    im = Image.fromarray(SHOE_RGBA.astype(np.uint8), "RGBA").rotate(rot, expand=True, resample=Image.BICUBIC)
-    im = im.resize((w, max(1, int(w * im.height / im.width))), Image.LANCZOS)
+    src = Image.fromarray(SHOE_RGBA.astype(np.uint8), "RGBA")
+    sw, sh_ = src.size
+    ax, ay = 0.10 * sw, 0.42 * sh_                       # heel counter, in the cut's pixels
+    im = src.rotate(rot, expand=True, resample=Image.BICUBIC)
+    # where the anchor lands in the rotated, expanded image
+    c, s_ = math.cos(math.radians(rot)), math.sin(math.radians(rot))
+    dx, dy = ax - sw / 2, ay - sh_ / 2
+    rx, ry = dx * c + dy * s_ + im.width / 2, -dx * s_ + dy * c + im.height / 2
+    k = w / sw
+    im = im.resize((max(1, int(round(im.width * k))), max(1, int(round(im.height * k)))), Image.LANCZOS)
     sh = np.asarray(im, np.float32).copy()
     g = sh[..., :3] @ LUMA
     sh[..., 0] = sh[..., 1] = sh[..., 2] = g                       # exact neutral (the satin's own luma)
-    h, ww = sh.shape[:2]
     px = p0[0] + (p1[0] - p0[0]) * .7; py = p0[1] + (p1[1] - p0[1]) * .7
-    S.over(C3, sh, px - ww * (.45 - .05 * rise), py - h * (.5 - .12 * rise))
+    S.over(C3, sh, px - rx * k, py - ry * k)
+    PP.lay(C3, [S.bpoly(J, "hand_n", THUMB, m, 1)], PP.TONES[who]["skin"] * .95, 1.9, PP.SEED[who] + 77, 2)
     return (px, py)
 
 
@@ -315,9 +469,17 @@ def wet_pass_head(C3, J, m, who, wet):
     blobs = [(*H(6.5, -4.5), 4.2 * s, 1.9 * s, -25, k), (*H(3.0, 12.5), 5.5 * s, 1.3 * s, 12, k * 0.9),
              (*H(9.5, -14.5), 3.6 * s, 1.7 * s, 30, k), (*H(-6.0, -8.0), 4.0 * s, 2.4 * s, -40, k * 0.8),
              (*H(15.0, 1.0), 1.3 * s, 2.6 * s, 0, k * 0.55)]
-    glints = [(*H(8.5, 15.8), 2.4 * s, 0.55 * s, -6, 234), (*H(12.4, 0.6), 1.6 * s, 0.6 * s, 25, 232),
-              (*H(18.2, -2.6), 0.8 * s, 0.6 * s, 0, 236)]
-    deposit(C3, poly, blobs, glints, seed=PP.SEED[who] + 401)
+    # edit-r3: the sweat reads as gloss on the card: a damp darkened patch (the varnish soaks the card) with a bright
+    # specular dab (L 248) on the brow and on the cheekbone, and a pinpoint on the nose tip
+    damp = [(*H(9.0, 14.8), 4.2 * s, 1.6 * s, -6, 0.22 * wet + 0.1), (*H(12.0, 1.0), 3.0 * s, 1.6 * s, 25, 0.22 * wet + 0.1)]
+    glints = [(*H(9.0, 15.2), 2.8 * s, 0.75 * s, -6, 248), (*H(12.2, 1.2), 1.9 * s, 0.8 * s, 25, 246),
+              (*H(18.2, -2.6), 0.9 * s, 0.7 * s, 0, 246)]
+    deposit(C3, poly, blobs + damp, glints, seed=PP.SEED[who] + 401)
+    # one more pencilled feature: the ear (a C-curve and its inner fold) and a jaw line
+    ear = [H(-2.0 + 2.7 * math.cos(a_), 1.0 + 3.6 * math.sin(a_)) for a_ in np.linspace(-1.7, 1.7, 9)]
+    S.pencil(C3, ear, max(1, 0.26 * s), 84, .75, PP.SEED[who] + 431)
+    S.pencil(C3, [H(-1.0, -1.5), H(0.6, 1.0), H(-0.6, 3.0)], max(1, 0.22 * s), 92, .7, PP.SEED[who] + 432)
+    S.pencil(C3, [H(1.5, -9.5), H(8.0, -13.0), H(14.0, -12.0)], max(1, 0.26 * s), 96, .6, PP.SEED[who] + 433)
 
 
 def wet_pass_hand(C3, J, m, who, bone, wet):
@@ -360,25 +522,36 @@ def draw_splash(C3, fr, f, m, v, lt):
     wy = fr["water_y"]
     rr = np.random.default_rng(1956 if v == "L" else 1957)
     C = C3
-    # the water sheet: rises 0..0.25 s to ~26 world px up the shins, then collapses by 0.6 s
-    hgt = 44 * math.sin(math.pi * min(q / 0.58, 1)) ** 0.8 if q < 0.58 else 0
+    # the water sheet (edit-r3): rises to the knees (~58 world px) by 0.25 s and falls by 0.6 s; its body is the real
+    # water plate's own texture (the same foraged rows the channel is made of), with a bright torn crest and pale run-lines,
+    # so it reads as a grey sheet of water against the lit fern rather than white card on white leaves.
+    hgt = 72 * math.sin(math.pi * min(q / 0.58, 1)) ** 0.8 if q < 0.58 else 0
     if hgt > 1:
         pts = []
-        for j in range(13):
-            u = j / 12
-            x = ax - 32 + 64 * u
-            y = wy - 2 - hgt * math.sin(math.pi * u) ** 0.7 * (0.8 + 0.25 * math.sin(u * 17 + q * 9))
+        for j in range(17):
+            u = j / 16
+            x = ax - 38 + 76 * u
+            y = wy - 2 - hgt * math.sin(math.pi * u) ** 0.6 * (0.78 + 0.22 * math.sin(u * 17 + q * 9))
             pts.append(f((x, y)))
-        pts += [f((ax + 34, wy + 3)), f((ax - 34, wy + 3))]
+        pts += [f((ax + 40, wy + 4)), f((ax - 40, wy + 4))]
+        P_ = np.float32(pts)
         al = np.zeros(C.shape[:2], np.float32)
-        cv2.fillPoly(al, [np.round(np.float32(pts) * 4).astype(np.int32)], 1.0, cv2.LINE_AA, shift=2)
+        cv2.fillPoly(al, [np.round(P_ * 4).astype(np.int32)], 1.0, cv2.LINE_AA, shift=2)
         al = WC.gblur(al, 0.7)
-        tone = 214 + 6 * CARD_FIBRE[:C.shape[0], :C.shape[1]]
-        C[:] = C * (1 - 0.78 * al[..., None]) + (0.78 * al * tone)[..., None]
-        for j in range(5):                                # pencilled flow lines on the sheet
-            u0 = 0.15 + 0.17 * j
-            a_ = f((ax - 32 + 64 * u0, wy - 1)); b_ = f((ax - 32 + 64 * u0 + 3, wy - 2 - hgt * 0.8 * math.sin(math.pi * u0) ** 0.7))
-            S.pencil(C, [a_, b_], max(1, 0.5 * m), 150, .5, 40 + j)
+        tex = np.full(C.shape[:2], 120.0, np.float32)
+        if "rows" in WNOW:
+            top_r, rows = WNOW["rows"]
+            n = rows.shape[0]
+            for r in range(max(0, int(P_[:, 1].min()) - 2), min(C.shape[0], top_r)):
+                tex[r] = rows[min(n - 1, (top_r - r) % max(n, 1))]
+        tex = tex * 0.95 + 18
+        C[:] = C * (1 - 0.88 * al[..., None]) + (0.88 * al * tex)[..., None]
+        crest = [tuple(p_) for p_ in P_[:17]]
+        S.pencil(C, crest, max(1.5, 1.1 * m), 238, .95, 31)
+        for j in range(3):                                # pale run-lines down the sheet
+            u0 = 0.27 + 0.21 * j + 0.04 * math.sin(q * 11 + j)
+            a_ = f((ax - 38 + 76 * u0, wy - 1)); b_ = f((ax - 38 + 76 * u0 + 2, wy - 2 - hgt * 0.85 * math.sin(math.pi * u0) ** 0.6))
+            S.pencil(C, [a_, b_], max(1, 0.45 * m), 214, .4, 40 + j)
     # droplets
     for j in range(26):
         vx = rr.uniform(-120, 120); vy = -rr.uniform(170, 360); r0 = rr.uniform(2.6, 5.6); spin = rr.uniform(-600, 600)
@@ -397,7 +570,7 @@ def draw_splash(C3, fr, f, m, v, lt):
         ang = math.radians(spin * tq)
         shape = [(0, -1.6), (0.9, -0.2), (0.7, 0.8), (0, 1.1), (-0.7, 0.8), (-0.9, -0.2)]
         poly = [f((x + r0 * (px * math.cos(ang) - py * math.sin(ang)), y + r0 * (px * math.sin(ang) + py * math.cos(ang)))) for px, py in shape]
-        PP.lay(C, [poly], 222, 0, 900 + j, 1, edge=0.5)
+        PP.lay(C, [poly], 230, 0, 900 + j, 1, edge=0.9)
     return dict(splash_t=round(q, 4), sheet_height_world_px=round(hgt, 2))
 
 
@@ -417,7 +590,12 @@ def draw_people(C, fr, cam, v, lt, audit):
     errs = []
     for who in order:
         P = people[who]
-        Jw = RG.fk(P["root"], P["a"])
+        ang = P["a"]
+        if who == "B" and POSE_FIX.get("on") and lt < 21.75:
+            # edit-r3 (declared): in the L-S6 two-shot B's free far arm is re-keyed (open palm at chest height) instead of
+            # U2's raised forearm whose elbow hid behind her head; no grip is involved, the trace is otherwise unchanged.
+            ang = dict(ang); ang.update(upper_f=48, fore_f=-12, hand_f=-22)
+        Jw = RG.fk((P["root"][0], P["root"][1] + DROP.get(who, 0.0)), ang)
         errs.append(max(RG.bone_error(Jw).values()))
         J = {b: (f(p0), f(p1), a) for b, (p0, p1, a) in Jw.items()}
         errs.append(max(RG.bone_error(J, m).values()))
@@ -441,19 +619,25 @@ def draw_people(C, fr, cam, v, lt, audit):
         cb = None
         if who == "B" and shoe_h == "B.R":
             tr = [e for e in TR[v]["events"] if e["event"] == "retrieve"][0]["t"]
-            def cb(Cn, J=J, tr=tr):
-                wet_pass_hand(Cn, J, m, "B", "hand_n", WET["B"] * mud)      # mud on the mitten, never on the shoe
-                audit.__setitem__("shoe_screen", shoe_in_hand(Cn, J, m, lt - tr))
-        PP.draw_figure(C3, J, m, who, 1, mud=mud, gaze=ex["gaze"], brow=ex["brow"], mouth=ex["mouth"], hair=hair,
-                       front_hand_cb=cb, light=light, contact=contact)
-        wet_pass_head(C3, J, m, who, WET[who] * mud)
-        wet_pass_hand(C3, J, m, who, "hand_f", WET[who] * mud)
-        if cb is None: wet_pass_hand(C3, J, m, who, "hand_n", WET[who] * mud)
+            cb = tr
         bw, bhand = bag_h.split(".")
-        if bw == who:                       # the bag hangs from the holder's hand bone; hand card re-laid over the strap
+        bag_high = False
+        if bw == who:
             bone = RG.HAND_OF[bhand]
             hx, hy = J[bone][1]
-            PP.bag_piece(C3, hx, hy - 4 * m, 0.95 * m, 4 if who == "B" else -6)
+            bag_high = hy < J["neck"][1][1] + 30 * m          # held at head height: layered behind the head (edit-r3)
+            if bag_high:
+                PP.bag_piece(C3, hx, hy - 4 * m, 0.95 * m, 4 if who == "B" else -6)
+        PP.draw_figure(C3, J, m, who, 1, mud=mud, gaze=ex["gaze"], brow=ex["brow"], mouth=ex["mouth"], hair=hair,
+                       light=light, contact=contact)
+        wet_pass_head(C3, J, m, who, WET[who] * mud)
+        wet_pass_hand(C3, J, m, who, "hand_f", WET[who] * mud)
+        wet_pass_hand(C3, J, m, who, "hand_n", WET[who] * mud)
+        if cb is not None:                  # the shoe, parented to B's right hand, over the mitten (never muddied)
+            audit["shoe_screen"] = shoe_in_hand(C3, J, m, lt - cb)
+        if bw == who:                       # the bag hangs from the holder's hand bone; hand card re-laid over the strap
+            if not bag_high:
+                PP.bag_piece(C3, hx, hy - 4 * m, 0.95 * m, 4 if who == "B" else -6)
             PP.lay(C3, [S.bpoly(J, bone, PP.HAND, m, 1)], PP.TONES[who]["skin"] * .95, 1.7, PP.SEED[who] + 31, 2)
             wet_pass_hand(C3, J, m, who, bone, WET[who] * mud)
             audit["bag_screen"] = (hx, hy)
@@ -499,8 +683,26 @@ def world_frame(v, lt, kind, sid, baseline_world=False):
             if g == "liana": hand = tuple(fr["people"][who]["hands"][hnd])
     audit = {}
 
+    # edit-r3 (declared, the critic's "exaggerate the sag"): the card plank is drawn with SAG_X times the trace's
+    # deflection beyond its 2 px resting sag; the occupant is lowered with it (the same FK pose, root moved down by the
+    # extra sag under the foot) so the boots stay on the card. The ledger keeps the trace's values.
+    defl_draw = fr["plank_deflection_px"]
+    extra = 0.0
+    if occ:
+        extra = max(0.0, fr["plank_deflection_px"] - 2.0) * (SAG_X - 1.0)
+        defl_draw = fr["plank_deflection_px"] + extra
+        if hand is not None: hand = (hand[0], hand[1] + extra)
+    DROP.clear()
+    POSE_FIX["on"] = (sid == "L-S6")
+    if occ: DROP[occ[0]] = extra
+    WNOW.update(water_y=fr["water_y"], t=lt, clearance=None, foot_x=None)
+    WNOW.pop("rows", None)
+    if occ and v in LAST and occ == [LAST[v]] and fr.get("clearance_px") is not None:
+        P = fr["people"][occ[0]]
+        WNOW.update(clearance=fr["clearance_px"] - extra, foot_x=max(P["ankles"][0][0], P["ankles"][1][0]) + 6)
+
     def p2(C, cam_):
-        ledger_patch(C, cam_, "old" if lt < ({"L": 23.5, "E": 15.0}.get(v, 99)) else "new")
+        # edit-r3: the grey-bar ledger placard on the near bank is removed (critic: a generic stand-in)
         if not baseline_world:
             audit["layer"] = paste_layer(C, v, lt, cam_, framing)
         draw_people(C, fr, cam_, v, lt, audit)
@@ -510,10 +712,12 @@ def world_frame(v, lt, kind, sid, baseline_world=False):
         WC.LAYOUT.insert(max(i for i, e in enumerate(WC.LAYOUT) if e[0] == "P1") + 1, CLOSE_P1)
     try:
         C, ups = WC.render(cam, t=lt, framing=framing, shot=shot, water_y=fr["water_y"], occupant_u=occ_u,
-                           defl=fr["plank_deflection_px"], hand=hand, p2_cb=p2)
+                           defl=defl_draw, hand=hand, p2_cb=p2)
     finally:
         if extra: WC.LAYOUT.remove(CLOSE_P1)
     audit["max_plate_scale"] = max(s for _, s in ups) if ups else 0
+    audit["plank_deflection_drawn_px"] = round(defl_draw, 3)
+    audit["drawn_clearance_px"] = None if WNOW.get("clearance") is None else round(WNOW["clearance"], 3)
     audit["cam"] = [round(c, 4) for c in cam]
     audit["framing"] = framing
     return C, fr, audit
@@ -939,7 +1143,7 @@ def write_sound_json(rec):
     if old.get("revision", "").startswith("os-") or "editor_revision" not in old:
         bk = SW / "sound-u3.json"
         if not bk.exists(): bk.write_text(json.dumps(old, ensure_ascii=False, indent=1))
-    out = dict(slug=SLUG, editor_revision="edit-r2", revision="edit-r2", built_by="films/la-mort-en-ce-jardin.py -> edit-build/edit_sound.py",
+    out = dict(slug=SLUG, editor_revision="edit-r3", revision="edit-r3", built_by="films/la-mort-en-ce-jardin.py -> edit-build/edit_sound.py",
                supersedes="sound-u3.json (U3 os-r1; kept unchanged)", timeline="film seconds 0-73.0 (L local + 2.0, E local + 39.5)",
                have=dict(jungle=rec["have"]["jungle"], stream=rec["have"]["stream"], tide=rec["have"]["tide"], splash=rec["have"]["splash"]),
                used=rec["used"], jungle_source=rec["jungle_source"], checks=rec["checks"],
@@ -1033,7 +1237,7 @@ def write_ledger():
     for name in ("world.json", "performance.json", "interruption.json", "sound.json"):
         try: rev[name + "#revision"] = json.load(open(SW / name)).get("revision")
         except Exception: pass
-    out = dict(slug=SLUG, editor_revision="edit-r2", fps=FPS, seconds=SECONDS, picture=[PW, PH], pillarbox=[960, 540, PX0],
+    out = dict(slug=SLUG, editor_revision="edit-r3", fps=FPS, seconds=SECONDS, picture=[PW, PH], pillarbox=[960, 540, PX0],
                segments=[dict(film=[s[0], s[1]], id=s[2], version=s[3], local0=s[4], kind=s[5]) for s in SEG],
                captions=[dict(film=[a, b], text=c) for a, b, c in CAPTIONS],
                rig_error_max=max(screen_err, *(w["rig_error_max_px"] for w in worlds.values())),
@@ -1059,12 +1263,25 @@ def write_ledger():
                worlds=worlds,
                film_frames=recs,
                declared=[
+                   "edit-r3: U1's water() and plank() are replaced at run time by the editor's versions (compose.py unedited): the "
+                   "water plate is reflect-tiled downward (no edge-clamp streaks) and carries a uniform 0.72 lighting gain in the closes; "
+                   "the card plank bends along an elastic point-load curve, drawn with SAG_X = 2.5 times the trace's deflection "
+                   "beyond its 2 px resting sag (the occupant's FK root is lowered by the same extra sag), and the water's own plate "
+                   "rows are laid translucently over any part of the card bent below the water line. Ledger values are the trace's.",
+                   "edit-r3: the last crossings (L-S8, and E-S6 from local 24.0) push in at P2 from m 0.955 to m 1.38.",
+                   "edit-r3: the L-S5/E-S4 close ends 16 px lower (centre (200,352)); the L-S6 two-shot is centred (150,244) at M 2.2; "
+                   "in L-S6 B's free far arm is re-keyed (open palm at chest height) for local 20.4-21.75 (no grip involved).",
+                   "edit-r3: the shoe in B's hand hangs by its heel counter, upright within 0.3 s of the grasp, layered over the mitten "
+                   "with the mitten's thumb card re-laid over the heel; a bag held at head height is layered behind the holder's head.",
+                   "edit-r3: the close's P1 plane behind the hand-off is the fluted Mekong trunk (already credited) instead of Buttress "
+                   "Roots 1; the closes' depth-blur sigmas are smaller (P0 0.8, P1 0.35, near 0.6, near_fg 1.1); the near-bank ledger "
+                   "placard is removed; sweat glints are L 246-248 on a damp patch, and B's face gains a pencilled ear and jaw line.",
                    "edit-r2: the E-S3/E-S4 and E-S4/E-S5 cuts are 0.5 s later than plan section 6 (50.5 and 52.9 instead of 50.0 and 52.4) "
                    "so that E-S4 starts at the same shoe-layer frame and the same time before the hand-off as L-S5; E-S5 is 1.6 s "
                    "(the rewrite is written faster); E-S6 and every other cut are as planned. The film-to-local offset of E is unchanged (39.5 s).",
                    "edit-r2: the L-S5/E-S4 close opens on the hand-off with both heads in frame and tilts down with B's kneel to "
-                   "the plank-foot framing; the heart leaf that hid the receiver is removed from the near dressing; a buttress "
-                   "flange (Buttress Roots 1, CC BY-SA 4.0) stands as a P1 plane behind the hand-off.",
+                   "the plank-foot framing; the heart leaf that hid the receiver is removed from the near dressing; a fluted "
+                   "buttress trunk (edit-r3: the Mekong trunk cut, replacing Buttress Roots 1) stands as a P1 plane behind the hand-off.",
                    "edit-r2: charcoal mud and sweat glints are laid on faces and mittens by the editor's wet pass (handmade make-up "
                    "on the card puppets); the shoe is never touched by it.",
                    "edit-r2: the splash on the last crosser's shins is a handmade cut-paper water sheet and card droplets, animated "
@@ -1100,3 +1317,4 @@ if __name__ == "__main__":
     prebuild(4)
     film.render()
     write_ledger()
+    subprocess.run([sys.executable, "-I", str(SW / "edit-build" / "update_credits.py")], check=True)
