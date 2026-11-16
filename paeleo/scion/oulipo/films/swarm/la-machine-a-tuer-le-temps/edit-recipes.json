@@ -1,0 +1,1159 @@
+{
+ "schema": "scion.edit-recipes/1",
+ "slug": "la-machine-a-tuer-le-temps",
+ "unit": "U3 cut-editors (SCION 27 owner)",
+ "date": "2026-11-16",
+ "base_pool_hash": "ddb94d86f44a21d24b33f8bb227323c68dbaa54dcf96f97581a0f3897902eb2e",
+ "N": 120,
+ "fps": 24,
+ "size": [
+  1280,
+  720
+ ],
+ "expansion": "src_k = in + step*floor(k*speed), k = 0..out_frames-1 (validate.expand); out_frames = round((|out-in|+1)/speed)",
+ "chosen": {
+  "cut_A": "A1",
+  "cut_B": "B1",
+  "reason": "B1 meets the bar in picture-only viewing; branches are held against the same pool_hash for the critic's repair rule"
+ },
+ "controlling_variable": "order + duration only (position of 05 and its hold: A 2.0 s at slot 5, B 5.0 s at 0.5x at slot 1; the 05->04->02 adjacency). Pixels, geometry and tone are fixed by the pool; no recipe brings its own pixels.",
+ "repair_rule": {
+  "if A reads sinister": "apply A1b (05 0->35 36 f, 06 0->71 72 f; total 480)",
+  "if B reads unchanged": "B3-glance-hold (controlling variable: 05 hold 5 s -> 7 s)",
+  "if the stare does not attach to the parcel": "B2-rev-adjacency (controlling variable: adjacency 05->02)",
+  "if the cut reads but the sound anticipates too much": "B4-delayed-cue (controlling variable: latch cue offset -6 f -> +12 f; picture unchanged)"
+ },
+ "edits": [
+  {
+   "edit_id": "A1",
+   "base_pool_hash": "ddb94d86f44a21d24b33f8bb227323c68dbaa54dcf96f97581a0f3897902eb2e",
+   "role": "cut A (baseline, ordinary handoff), pool order 01..08",
+   "events": [
+    {
+     "asset_id": "01",
+     "role": "clock",
+     "in": 0,
+     "out": 59,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 60,
+     "why": "the station clock: the shift begins"
+    },
+    {
+     "asset_id": "02",
+     "role": "hand with a parcel",
+     "in": 0,
+     "out": 71,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 72,
+     "why": "a mail-room woman carries a parcel: work"
+    },
+    {
+     "asset_id": "03",
+     "role": "second hand",
+     "in": 0,
+     "out": 59,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 60,
+     "why": "a conductor checks his watch: timetable"
+    },
+    {
+     "asset_id": "04",
+     "role": "door",
+     "in": 0,
+     "out": 59,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 60,
+     "why": "a soldier at the carriage door: departures"
+    },
+    {
+     "asset_id": "05",
+     "role": "glance",
+     "in": 0,
+     "out": 47,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 48,
+     "why": "a red cap, one face among staff"
+    },
+    {
+     "asset_id": "06",
+     "role": "dropped receipt",
+     "in": 0,
+     "out": 59,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 60,
+     "why": "reservation slips at the counter"
+    },
+    {
+     "asset_id": "07",
+     "role": "person exiting",
+     "in": 0,
+     "out": 71,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 72,
+     "why": "soldiers file out to the trains"
+    },
+    {
+     "asset_id": "08",
+     "role": "empty threshold",
+     "in": 0,
+     "out": 47,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 48,
+     "why": "the hall at 1 a.m.: end of shift"
+    }
+   ],
+   "total_frames": 480,
+   "seconds": 20.0,
+   "cut_points": [
+    {
+     "event": 0,
+     "asset_id": "01",
+     "start_frame": 0,
+     "start_tc": "0.000s",
+     "out_frames": 60,
+     "seconds": 2.5,
+     "film_frame": 162
+    },
+    {
+     "event": 1,
+     "asset_id": "02",
+     "start_frame": 60,
+     "start_tc": "2.500s",
+     "out_frames": 72,
+     "seconds": 3.0,
+     "film_frame": 222
+    },
+    {
+     "event": 2,
+     "asset_id": "03",
+     "start_frame": 132,
+     "start_tc": "5.500s",
+     "out_frames": 60,
+     "seconds": 2.5,
+     "film_frame": 294
+    },
+    {
+     "event": 3,
+     "asset_id": "04",
+     "start_frame": 192,
+     "start_tc": "8.000s",
+     "out_frames": 60,
+     "seconds": 2.5,
+     "film_frame": 354
+    },
+    {
+     "event": 4,
+     "asset_id": "05",
+     "start_frame": 252,
+     "start_tc": "10.500s",
+     "out_frames": 48,
+     "seconds": 2.0,
+     "film_frame": 414
+    },
+    {
+     "event": 5,
+     "asset_id": "06",
+     "start_frame": 300,
+     "start_tc": "12.500s",
+     "out_frames": 60,
+     "seconds": 2.5,
+     "film_frame": 462
+    },
+    {
+     "event": 6,
+     "asset_id": "07",
+     "start_frame": 360,
+     "start_tc": "15.000s",
+     "out_frames": 72,
+     "seconds": 3.0,
+     "film_frame": 522
+    },
+    {
+     "event": 7,
+     "asset_id": "08",
+     "start_frame": 432,
+     "start_tc": "18.000s",
+     "out_frames": 48,
+     "seconds": 2.0,
+     "film_frame": 594
+    }
+   ],
+   "film_start_frame": 162,
+   "render": {
+    "mp4": "sources/la-machine-a-tuer-le-temps/editors/A1.mp4",
+    "frames_rendered": 480,
+    "frames_expected": 480,
+    "pool_md5_mismatches": [],
+    "mp4_sha256": "206eaf28cdcad5a9c836100da6cdbc188cdf9182e8bf47962b083fbdc72456b5",
+    "ledger": "sources/la-machine-a-tuer-le-temps/cut-editors/A1/ledger.json",
+    "cuts_sheet": "sources/la-machine-a-tuer-le-temps/cut-editors/A1/cuts.jpg",
+    "strip_sheet": "sources/la-machine-a-tuer-le-temps/cut-editors/A1/strip.jpg"
+   }
+  },
+  {
+   "edit_id": "B1",
+   "base_pool_hash": "ddb94d86f44a21d24b33f8bb227323c68dbaa54dcf96f97581a0f3897902eb2e",
+   "role": "cut B (the parcel seems illicit)",
+   "events": [
+    {
+     "asset_id": "05",
+     "role": "glance",
+     "in": 0,
+     "out": 59,
+     "direction": "fwd",
+     "speed": 0.5,
+     "out_frames": 120,
+     "why": "long stare opens; look-out"
+    },
+    {
+     "asset_id": "04",
+     "role": "door",
+     "in": 0,
+     "out": 47,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 48,
+     "why": "what he watches: the door"
+    },
+    {
+     "asset_id": "02",
+     "role": "hand with a parcel",
+     "in": 24,
+     "out": 95,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 72,
+     "why": "her look back now answers his; parcel"
+    },
+    {
+     "asset_id": "06",
+     "role": "dropped receipt",
+     "in": 30,
+     "out": 101,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 72,
+     "why": "the slip left behind, tighter in the push"
+    },
+    {
+     "asset_id": "03",
+     "role": "second hand",
+     "in": 0,
+     "out": 59,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 60,
+     "why": "someone is timing it"
+    },
+    {
+     "asset_id": "01",
+     "role": "clock",
+     "in": 119,
+     "out": 84,
+     "direction": "rev",
+     "speed": 1,
+     "out_frames": 36,
+     "why": "the clock arrives late, pulling away (alibi)"
+    },
+    {
+     "asset_id": "07",
+     "role": "person exiting",
+     "in": 0,
+     "out": 59,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 60,
+     "why": "the getaway"
+    },
+    {
+     "asset_id": "08",
+     "role": "empty threshold",
+     "in": 0,
+     "out": 95,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 96,
+     "why": "the empty hall held long"
+    }
+   ],
+   "total_frames": 564,
+   "seconds": 23.5,
+   "cut_points": [
+    {
+     "event": 0,
+     "asset_id": "05",
+     "start_frame": 0,
+     "start_tc": "0.000s",
+     "out_frames": 120,
+     "seconds": 5.0,
+     "film_frame": 870
+    },
+    {
+     "event": 1,
+     "asset_id": "04",
+     "start_frame": 120,
+     "start_tc": "5.000s",
+     "out_frames": 48,
+     "seconds": 2.0,
+     "film_frame": 990
+    },
+    {
+     "event": 2,
+     "asset_id": "02",
+     "start_frame": 168,
+     "start_tc": "7.000s",
+     "out_frames": 72,
+     "seconds": 3.0,
+     "film_frame": 1038
+    },
+    {
+     "event": 3,
+     "asset_id": "06",
+     "start_frame": 240,
+     "start_tc": "10.000s",
+     "out_frames": 72,
+     "seconds": 3.0,
+     "film_frame": 1110
+    },
+    {
+     "event": 4,
+     "asset_id": "03",
+     "start_frame": 312,
+     "start_tc": "13.000s",
+     "out_frames": 60,
+     "seconds": 2.5,
+     "film_frame": 1182
+    },
+    {
+     "event": 5,
+     "asset_id": "01",
+     "start_frame": 372,
+     "start_tc": "15.500s",
+     "out_frames": 36,
+     "seconds": 1.5,
+     "film_frame": 1242
+    },
+    {
+     "event": 6,
+     "asset_id": "07",
+     "start_frame": 408,
+     "start_tc": "17.000s",
+     "out_frames": 60,
+     "seconds": 2.5,
+     "film_frame": 1278
+    },
+    {
+     "event": 7,
+     "asset_id": "08",
+     "start_frame": 468,
+     "start_tc": "19.500s",
+     "out_frames": 96,
+     "seconds": 4.0,
+     "film_frame": 1338
+    }
+   ],
+   "film_start_frame": 870,
+   "render": {
+    "mp4": "sources/la-machine-a-tuer-le-temps/editors/B1.mp4",
+    "frames_rendered": 564,
+    "frames_expected": 564,
+    "pool_md5_mismatches": [],
+    "mp4_sha256": "49d58b8945e801ba74a8a13296b4cb0a389327a046a50eb4438cea2648be7398",
+    "ledger": "sources/la-machine-a-tuer-le-temps/cut-editors/B1/ledger.json",
+    "cuts_sheet": "sources/la-machine-a-tuer-le-temps/cut-editors/B1/cuts.jpg",
+    "strip_sheet": "sources/la-machine-a-tuer-le-temps/cut-editors/B1/strip.jpg"
+   }
+  },
+  {
+   "edit_id": "B2-rev-adjacency",
+   "base_pool_hash": "ddb94d86f44a21d24b33f8bb227323c68dbaa54dcf96f97581a0f3897902eb2e",
+   "role": "fallback: 04<->02 swapped (05->02->04), soundtrack fixed",
+   "events": [
+    {
+     "asset_id": "05",
+     "role": "glance",
+     "in": 0,
+     "out": 59,
+     "direction": "fwd",
+     "speed": 0.5,
+     "out_frames": 120,
+     "why": "long stare opens; look-out"
+    },
+    {
+     "asset_id": "02",
+     "role": "hand with a parcel",
+     "in": 24,
+     "out": 95,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 72,
+     "why": "her look back now answers his; parcel"
+    },
+    {
+     "asset_id": "04",
+     "role": "door",
+     "in": 0,
+     "out": 47,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 48,
+     "why": "what he watches: the door"
+    },
+    {
+     "asset_id": "06",
+     "role": "dropped receipt",
+     "in": 30,
+     "out": 101,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 72,
+     "why": "the slip left behind, tighter in the push"
+    },
+    {
+     "asset_id": "03",
+     "role": "second hand",
+     "in": 0,
+     "out": 59,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 60,
+     "why": "someone is timing it"
+    },
+    {
+     "asset_id": "01",
+     "role": "clock",
+     "in": 119,
+     "out": 84,
+     "direction": "rev",
+     "speed": 1,
+     "out_frames": 36,
+     "why": "the clock arrives late, pulling away (alibi)"
+    },
+    {
+     "asset_id": "07",
+     "role": "person exiting",
+     "in": 0,
+     "out": 59,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 60,
+     "why": "the getaway"
+    },
+    {
+     "asset_id": "08",
+     "role": "empty threshold",
+     "in": 0,
+     "out": 95,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 96,
+     "why": "the empty hall held long"
+    }
+   ],
+   "total_frames": 564,
+   "seconds": 23.5,
+   "cut_points": [
+    {
+     "event": 0,
+     "asset_id": "05",
+     "start_frame": 0,
+     "start_tc": "0.000s",
+     "out_frames": 120,
+     "seconds": 5.0,
+     "film_frame": 870
+    },
+    {
+     "event": 1,
+     "asset_id": "02",
+     "start_frame": 120,
+     "start_tc": "5.000s",
+     "out_frames": 72,
+     "seconds": 3.0,
+     "film_frame": 990
+    },
+    {
+     "event": 2,
+     "asset_id": "04",
+     "start_frame": 192,
+     "start_tc": "8.000s",
+     "out_frames": 48,
+     "seconds": 2.0,
+     "film_frame": 1062
+    },
+    {
+     "event": 3,
+     "asset_id": "06",
+     "start_frame": 240,
+     "start_tc": "10.000s",
+     "out_frames": 72,
+     "seconds": 3.0,
+     "film_frame": 1110
+    },
+    {
+     "event": 4,
+     "asset_id": "03",
+     "start_frame": 312,
+     "start_tc": "13.000s",
+     "out_frames": 60,
+     "seconds": 2.5,
+     "film_frame": 1182
+    },
+    {
+     "event": 5,
+     "asset_id": "01",
+     "start_frame": 372,
+     "start_tc": "15.500s",
+     "out_frames": 36,
+     "seconds": 1.5,
+     "film_frame": 1242
+    },
+    {
+     "event": 6,
+     "asset_id": "07",
+     "start_frame": 408,
+     "start_tc": "17.000s",
+     "out_frames": 60,
+     "seconds": 2.5,
+     "film_frame": 1278
+    },
+    {
+     "event": 7,
+     "asset_id": "08",
+     "start_frame": 468,
+     "start_tc": "19.500s",
+     "out_frames": 96,
+     "seconds": 4.0,
+     "film_frame": 1338
+    }
+   ],
+   "film_start_frame": 870,
+   "render": {
+    "mp4": "sources/la-machine-a-tuer-le-temps/editors/B2-rev-adjacency.mp4",
+    "frames_rendered": 564,
+    "frames_expected": 564,
+    "pool_md5_mismatches": [],
+    "mp4_sha256": "a86c4389967f11e32c736ab7cfc1ea9b21efec029a0f12bc230dcf6e191afedf",
+    "ledger": "sources/la-machine-a-tuer-le-temps/cut-editors/B2-rev-adjacency/ledger.json",
+    "cuts_sheet": "sources/la-machine-a-tuer-le-temps/cut-editors/B2-rev-adjacency/cuts.jpg",
+    "strip_sheet": "sources/la-machine-a-tuer-le-temps/cut-editors/B2-rev-adjacency/strip.jpg"
+   }
+  },
+  {
+   "edit_id": "B3-glance-hold",
+   "base_pool_hash": "ddb94d86f44a21d24b33f8bb227323c68dbaa54dcf96f97581a0f3897902eb2e",
+   "role": "fallback: 05 glance held 7.0 s",
+   "events": [
+    {
+     "asset_id": "05",
+     "role": "glance",
+     "in": 0,
+     "out": 83,
+     "direction": "fwd",
+     "speed": 0.5,
+     "out_frames": 168,
+     "why": "glance held 7 s: the stare becomes surveillance"
+    },
+    {
+     "asset_id": "04",
+     "role": "door",
+     "in": 0,
+     "out": 47,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 48,
+     "why": "what he watches: the door"
+    },
+    {
+     "asset_id": "02",
+     "role": "hand with a parcel",
+     "in": 24,
+     "out": 95,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 72,
+     "why": "her look back now answers his; parcel"
+    },
+    {
+     "asset_id": "06",
+     "role": "dropped receipt",
+     "in": 30,
+     "out": 101,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 72,
+     "why": "the slip left behind, tighter in the push"
+    },
+    {
+     "asset_id": "03",
+     "role": "second hand",
+     "in": 0,
+     "out": 59,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 60,
+     "why": "someone is timing it"
+    },
+    {
+     "asset_id": "01",
+     "role": "clock",
+     "in": 119,
+     "out": 84,
+     "direction": "rev",
+     "speed": 1,
+     "out_frames": 36,
+     "why": "the clock arrives late, pulling away (alibi)"
+    },
+    {
+     "asset_id": "07",
+     "role": "person exiting",
+     "in": 0,
+     "out": 59,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 60,
+     "why": "the getaway"
+    },
+    {
+     "asset_id": "08",
+     "role": "empty threshold",
+     "in": 0,
+     "out": 95,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 96,
+     "why": "the empty hall held long"
+    }
+   ],
+   "total_frames": 612,
+   "seconds": 25.5,
+   "cut_points": [
+    {
+     "event": 0,
+     "asset_id": "05",
+     "start_frame": 0,
+     "start_tc": "0.000s",
+     "out_frames": 168,
+     "seconds": 7.0,
+     "film_frame": 870
+    },
+    {
+     "event": 1,
+     "asset_id": "04",
+     "start_frame": 168,
+     "start_tc": "7.000s",
+     "out_frames": 48,
+     "seconds": 2.0,
+     "film_frame": 1038
+    },
+    {
+     "event": 2,
+     "asset_id": "02",
+     "start_frame": 216,
+     "start_tc": "9.000s",
+     "out_frames": 72,
+     "seconds": 3.0,
+     "film_frame": 1086
+    },
+    {
+     "event": 3,
+     "asset_id": "06",
+     "start_frame": 288,
+     "start_tc": "12.000s",
+     "out_frames": 72,
+     "seconds": 3.0,
+     "film_frame": 1158
+    },
+    {
+     "event": 4,
+     "asset_id": "03",
+     "start_frame": 360,
+     "start_tc": "15.000s",
+     "out_frames": 60,
+     "seconds": 2.5,
+     "film_frame": 1230
+    },
+    {
+     "event": 5,
+     "asset_id": "01",
+     "start_frame": 420,
+     "start_tc": "17.500s",
+     "out_frames": 36,
+     "seconds": 1.5,
+     "film_frame": 1290
+    },
+    {
+     "event": 6,
+     "asset_id": "07",
+     "start_frame": 456,
+     "start_tc": "19.000s",
+     "out_frames": 60,
+     "seconds": 2.5,
+     "film_frame": 1326
+    },
+    {
+     "event": 7,
+     "asset_id": "08",
+     "start_frame": 516,
+     "start_tc": "21.500s",
+     "out_frames": 96,
+     "seconds": 4.0,
+     "film_frame": 1386
+    }
+   ],
+   "film_start_frame": 870,
+   "render": {
+    "mp4": "sources/la-machine-a-tuer-le-temps/editors/B3-glance-hold.mp4",
+    "frames_rendered": 612,
+    "frames_expected": 612,
+    "pool_md5_mismatches": [],
+    "mp4_sha256": "15b75b1e2c12149d948e820ef2bdb8e5c7ed4391b628993006d422ee07c6345a",
+    "ledger": "sources/la-machine-a-tuer-le-temps/cut-editors/B3-glance-hold/ledger.json",
+    "cuts_sheet": "sources/la-machine-a-tuer-le-temps/cut-editors/B3-glance-hold/cuts.jpg",
+    "strip_sheet": "sources/la-machine-a-tuer-le-temps/cut-editors/B3-glance-hold/strip.jpg"
+   }
+  },
+  {
+   "edit_id": "B4-delayed-cue",
+   "base_pool_hash": "ddb94d86f44a21d24b33f8bb227323c68dbaa54dcf96f97581a0f3897902eb2e",
+   "role": "fallback: B1 picture, door-latch cue delayed 12 f into 04 (sound unit)",
+   "events": [
+    {
+     "asset_id": "05",
+     "role": "glance",
+     "in": 0,
+     "out": 59,
+     "direction": "fwd",
+     "speed": 0.5,
+     "out_frames": 120,
+     "why": "long stare opens; look-out"
+    },
+    {
+     "asset_id": "04",
+     "role": "door",
+     "in": 0,
+     "out": 47,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 48,
+     "why": "what he watches: the door"
+    },
+    {
+     "asset_id": "02",
+     "role": "hand with a parcel",
+     "in": 24,
+     "out": 95,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 72,
+     "why": "her look back now answers his; parcel"
+    },
+    {
+     "asset_id": "06",
+     "role": "dropped receipt",
+     "in": 30,
+     "out": 101,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 72,
+     "why": "the slip left behind, tighter in the push"
+    },
+    {
+     "asset_id": "03",
+     "role": "second hand",
+     "in": 0,
+     "out": 59,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 60,
+     "why": "someone is timing it"
+    },
+    {
+     "asset_id": "01",
+     "role": "clock",
+     "in": 119,
+     "out": 84,
+     "direction": "rev",
+     "speed": 1,
+     "out_frames": 36,
+     "why": "the clock arrives late, pulling away (alibi)"
+    },
+    {
+     "asset_id": "07",
+     "role": "person exiting",
+     "in": 0,
+     "out": 59,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 60,
+     "why": "the getaway"
+    },
+    {
+     "asset_id": "08",
+     "role": "empty threshold",
+     "in": 0,
+     "out": 95,
+     "direction": "fwd",
+     "speed": 1,
+     "out_frames": 96,
+     "why": "the empty hall held long"
+    }
+   ],
+   "total_frames": 564,
+   "seconds": 23.5,
+   "cut_points": [
+    {
+     "event": 0,
+     "asset_id": "05",
+     "start_frame": 0,
+     "start_tc": "0.000s",
+     "out_frames": 120,
+     "seconds": 5.0,
+     "film_frame": 870
+    },
+    {
+     "event": 1,
+     "asset_id": "04",
+     "start_frame": 120,
+     "start_tc": "5.000s",
+     "out_frames": 48,
+     "seconds": 2.0,
+     "film_frame": 990
+    },
+    {
+     "event": 2,
+     "asset_id": "02",
+     "start_frame": 168,
+     "start_tc": "7.000s",
+     "out_frames": 72,
+     "seconds": 3.0,
+     "film_frame": 1038
+    },
+    {
+     "event": 3,
+     "asset_id": "06",
+     "start_frame": 240,
+     "start_tc": "10.000s",
+     "out_frames": 72,
+     "seconds": 3.0,
+     "film_frame": 1110
+    },
+    {
+     "event": 4,
+     "asset_id": "03",
+     "start_frame": 312,
+     "start_tc": "13.000s",
+     "out_frames": 60,
+     "seconds": 2.5,
+     "film_frame": 1182
+    },
+    {
+     "event": 5,
+     "asset_id": "01",
+     "start_frame": 372,
+     "start_tc": "15.500s",
+     "out_frames": 36,
+     "seconds": 1.5,
+     "film_frame": 1242
+    },
+    {
+     "event": 6,
+     "asset_id": "07",
+     "start_frame": 408,
+     "start_tc": "17.000s",
+     "out_frames": 60,
+     "seconds": 2.5,
+     "film_frame": 1278
+    },
+    {
+     "event": 7,
+     "asset_id": "08",
+     "start_frame": 468,
+     "start_tc": "19.500s",
+     "out_frames": 96,
+     "seconds": 4.0,
+     "film_frame": 1338
+    }
+   ],
+   "picture_identical_to": "B1",
+   "film_start_frame": 870,
+   "render": {
+    "mp4": "sources/la-machine-a-tuer-le-temps/editors/B1.mp4",
+    "note": "picture identical to B1 (same events, same ledger); no separate render"
+   }
+  }
+ ],
+ "validation": {
+  "recipe": "python3 -I validate.py recipe ../../sources/la-machine-a-tuer-le-temps/cut-editors/recipes-only.json --full-pool A1 B1 B2-rev-adjacency B3-glance-hold B4-delayed-cue -> 0 errors (all five carry pool_hash; each uses 01..08 once; all in/out in 0..119; out_frames consistent)",
+  "ledgers": "validate.py ledger cut-editors/<id>/ledger.json --recipes ... -> 0 errors for A1 (480), B1 (564), B2 (564), B3 (612); every source PNG re-hashed (RGB24 md5) equals the manifest frame_md5",
+  "mp4": "rough cuts are lossy H.264 (crf 17) review copies; frame counts equal recipe totals; decoded frames at cut points match the frozen PNG at 40.8-43.1 dB PSNR. md5 membership is a property of the ledger/PNG path, which the assembler must use for the final render."
+ },
+ "readings": {
+  "method": "Each rough cut was checked frame-exact (cut-point pairs in cut-editors/<id>/cuts.jpg; decoded mp4 frames at the cut frames match the frozen PNGs at PSNR 40.8-43.1 dB, i.e. cuts land on the recipe frames) and its flow viewed as a 2 fps strip (strip.jpg) at the recipe's real durations. The cuts are silent: these are picture-only readings (screening-1 conditions minus the shared bed). They are the editor's own readings, not the independent critic's.",
+  "A1": {
+   "perceived_cause": "the station timetable: the clock opens the shift and every following image is someone doing a job at night (mail, timekeeping, boarding, reservations, departures), closing on the empty hall at 1 a.m.",
+   "person_acting": "nobody in particular; a sequence of workers and travellers. The woman with the box reads as a mail-room worker; the red cap is one portrait in the series.",
+   "decisive_adjacency": "01 -> 02 (clock -> woman with parcel): the parcel enters as scheduled work; 07 -> 08 closes it as the end of the night.",
+   "verdict": "routine. No duration change.",
+   "risk_noted": "Two things could tint A: the woman's sidelong, wary glance is in the photograph itself (frames 0-71 as in B), and A contains a latent watch -> door -> stare triad at 03 -> 04 -> 05. At 2.0 s, mid-series and AFTER the door, 05 reads as a portrait rather than a look-out. If the critic finds A sinister, the permitted repair is A1b: 05 0->35 (36 f = 1.5 s, the plan's minimum) and 06 0->71 (72 f), total still 480; controlling variable = glance duration (A 1.5 s vs B 5.0 s). Not applied; 02 keeps its full 3 s per the user's note."
+  },
+  "B1": {
+   "perceived_cause": "the red cap's stare. He looks almost straight into the lens for 5 s at half speed (the push creeps), so the hard cut to the carriage door reads as what he is watching; the woman then appears glancing sideways over a box, as if checking she is seen. The parcel is moving under observation.",
+   "person_acting": "the red cap as look-out (opens, holds); the woman as courier; the conductor with his watch as the one timing it; the soldiers' file as the getaway crowd.",
+   "decisive_adjacency": "05 -> 04 -> 02 (5.0 s stare -> door -> woman with parcel looking off-frame). Secondary: 03 -> 01rev (watch, then the clock arriving last and pulling away); at 1.5 s the reversed pull reads as 'the clock, late' rather than strongly as an alibi.",
+   "verdict": "changed: reads as a watched handoff, not routine. No duration change; every projection >= 2.0 s except 01rev (1.5 s, the plan minimum), glance 5.0 s, 02 a full 3.0 s (24->95), 08 held 4.0 s.",
+   "vs_A": "same eight prints, same pixels; the difference is position (05 first vs fifth), duration (5.0 s vs 2.0 s, speed 0.5) and the 05-04-02 adjacency."
+  },
+  "B2-rev-adjacency": {
+   "perceived_cause": "an exchanged look: the stare cuts straight to the woman's sidelong glance, so the two seem to look at each other (accomplices); the door after her reads as her exit.",
+   "person_acting": "the red cap and the woman together; the door becomes her route out rather than what he watches.",
+   "decisive_adjacency": "05 -> 02 (stare -> sidelong glance), then 02 -> 04.",
+   "verdict": "also changed, more direct but loses B1's spatial logic (stare -> place -> person). With the soundtrack fixed, mix B's door latch (pre-lapped 6 f before cut-B frame 120) now lands on the 05 -> 02 cut instead of the door: the latch is heard on the parcel. That desync is the test of this branch.",
+   "cut_frames": "05@0, 02@120, 04@192, 06@240 (B1: 05@0, 04@120, 02@168, 06@240); total unchanged 564"
+  },
+  "B3-glance-hold": {
+   "perceived_cause": "as B1, with the stare pressed further: at 7 s the push reaches ~x1.21 on his eyes and the hold becomes surveillance; the door cut lands harder.",
+   "person_acting": "the red cap as look-out, more emphatically.",
+   "decisive_adjacency": "05 (7.0 s) -> 04 -> 02.",
+   "verdict": "strengthens B slightly; costs 48 f (cut B 25.5 s, film 66 -> 68 s, both inside the plan's 20-30 s / 60-75 s limits; every later S7+ frame shifts +48). Risk: past ~6 s the hold reads as a portrait study. Use only if the critic reports that B1 reads unchanged."
+  },
+  "B4-delayed-cue": {
+   "note": "picture identical to B1 (no reading change in picture-only viewing); see sound_notes."
+  }
+ },
+ "sound_notes": {
+  "for": "U4 sound-editor (mix B = T4), branch B4-delayed-cue; frames are cut-B-relative (cut B starts at film frame 870) and every cue keeps sync_dep to its B1 event index",
+  "B1_event_starts_cutB_frame": {
+   "0 (05)": 0,
+   "1 (04)": 120,
+   "2 (02)": 168,
+   "3 (06)": 240,
+   "4 (03)": 312,
+   "5 (01 rev)": 372,
+   "6 (07)": 408,
+   "7 (08)": 468,
+   "end": 564
+  },
+  "A1_event_starts_cutA_frame": {
+   "0 (01)": 0,
+   "1 (02)": 60,
+   "2 (03)": 132,
+   "3 (04)": 192,
+   "4 (05)": 252,
+   "5 (06)": 300,
+   "6 (07)": 360,
+   "7 (08)": 432,
+   "end": 480
+  },
+  "B1_door_latch": {
+   "t_frame_cutB": 114,
+   "t_frame_film": 984,
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 1
+   },
+   "offset": "-6 f (pre-lap before the 05 -> 04 cut)"
+  },
+  "B4_door_latch": {
+   "t_frame_cutB": 132,
+   "t_frame_film": 1002,
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 1
+   },
+   "offset": "+12 f into 04 (the latch answers the image instead of anticipating it)"
+  },
+  "other_T4_cues_unchanged": [
+   {
+    "cue": "tick slows to declared silence over the 05 stare",
+    "t_frame_cutB": "0-60 slow, 60-120 silence (2.5 s)",
+    "sync_dep": {
+     "edit_id": "B1",
+     "event": 0
+    }
+   },
+   {
+    "cue": "tick returns hard",
+    "t_frame_cutB": 240,
+    "sync_dep": {
+     "edit_id": "B1",
+     "event": 3
+    }
+   },
+   {
+    "cue": "tick alone under the clock",
+    "t_frame_cutB": "372-407",
+    "sync_dep": {
+     "edit_id": "B1",
+     "event": 5
+    }
+   },
+   {
+    "cue": "footsteps pre-lap 07",
+    "t_frame_cutB": "about 396 (-12 f)",
+    "sync_dep": {
+     "edit_id": "B1",
+     "event": 6
+    }
+   },
+   {
+    "cue": "hall reverb tail fades to nothing",
+    "t_frame_cutB": "468-563",
+    "sync_dep": {
+     "edit_id": "B1",
+     "event": 7
+    }
+   }
+  ],
+  "B2_note": "if B2 is chosen with the sound forked instead of fixed, re-align the latch to cut-B frame 186 (6 f before 04@192); B2 re-orders events 1 and 2, so sync_dep event indices refer to B2's list.",
+  "B3_note": "B3 shifts every cue after event 0 by +48 f; the declared silence can extend to 4.5 s or stay at 2.5 s (decide by listening)."
+ },
+ "user_notes_applied": [
+  "02 woman-with-parcel keeps its full 3 s (72 f) in A1 and in B1 (24->95; the test shot used only 24->53)",
+  "all frames come from the registrar's frozen assets built from LoC master TIFFs (no service JPEGs)",
+  "hard cuts only, no dissolves; no grain on prints"
+ ],
+ "evidence_foraged": [
+  {
+   "id": "01",
+   "title": "Chicago, Illinois. Conductors checking in at the dispatcher's office at the Union Station (1943)",
+   "author": "Jack Delano (1914-1997), photographer; U.S. Office of War Information (FSA/OWI)",
+   "license": "No known restrictions on publication (US government work, FSA/OWI; public domain)",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017844012/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d13000/8d13000/8d13022u.tif",
+   "local_path": "sources/la-machine-a-tuer-le-temps/registrar/masters/01u.tif",
+   "what_it_shows": "Two conductors at the dispatcher's office counter; tall wall clock (case clock) behind them, ceiling lamp, papers on the counter.",
+   "verified_date_or_place": "Chicago, Union Station; 1943 Feb. (LoC caption card); rights re-read 2026-11-16 from https://www.loc.gov/item/2017844012/?fo=json",
+   "used_as": "pool asset 01 (frozen 120-frame rostrum asset from the LoC master TIFF, registrar/assets/01/): A1 ev0 src 0-59; B1 ev5 src 119-84 rev",
+   "licence_reverified": "not re-fetched by this unit; rights re-read by U1 registrar from loc.gov fo=json on 2026-11-16 and carried verbatim in pool-manifest.json (rights_advisory_verbatim: No known restrictions. For information, see U.S. Farm Securi...)"
+  },
+  {
+   "id": "02",
+   "title": "Chicago, Illinois. The Union Station employs many women in the mail department to handle parcel post packages (1943)",
+   "author": "Jack Delano (1914-1997), photographer; U.S. Office of War Information (FSA/OWI)",
+   "license": "No known restrictions on publication (US government work, FSA/OWI; public domain)",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017844121/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d13000/8d13100/8d13131u.tif",
+   "local_path": "sources/la-machine-a-tuer-le-temps/registrar/masters/02u.tif",
+   "what_it_shows": "Woman mail-room worker in a headscarf carrying a large parcel, glancing over her shoulder; co-workers and parcel racks.",
+   "verified_date_or_place": "Chicago, Union Station; 1943 Feb. (LoC caption card); rights re-read 2026-11-16 from https://www.loc.gov/item/2017844121/?fo=json",
+   "used_as": "pool asset 02 (frozen 120-frame rostrum asset from the LoC master TIFF, registrar/assets/02/): A1 ev1 src 0-71; B1 ev2 src 24-95 (full 3 s)",
+   "licence_reverified": "not re-fetched by this unit; rights re-read by U1 registrar from loc.gov fo=json on 2026-11-16 and carried verbatim in pool-manifest.json (rights_advisory_verbatim: No known restrictions. For information, see U.S. Farm Securi...)"
+  },
+  {
+   "id": "03",
+   "title": "Chicago, Illinois. Conductor checking his time in the telegraphers office at Union Station (1943)",
+   "author": "Jack Delano (1914-1997), photographer; U.S. Office of War Information (FSA/OWI)",
+   "license": "No known restrictions on publication (US government work, FSA/OWI; public domain)",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017844115/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d13000/8d13100/8d13125u.tif",
+   "local_path": "sources/la-machine-a-tuer-le-temps/registrar/masters/03u.tif",
+   "what_it_shows": "Conductor in cap and greatcoat looking up and to the left, holding a pocket watch at chest height; tall clock case at left.",
+   "verified_date_or_place": "Chicago, Union Station; 1943 Feb. (LoC caption card); rights re-read 2026-11-16 from https://www.loc.gov/item/2017844115/?fo=json",
+   "used_as": "pool asset 03 (frozen 120-frame rostrum asset from the LoC master TIFF, registrar/assets/03/): A1 ev2 src 0-59; B1 ev4 src 0-59",
+   "licence_reverified": "not re-fetched by this unit; rights re-read by U1 registrar from loc.gov fo=json on 2026-11-16 and carried verbatim in pool-manifest.json (rights_advisory_verbatim: No known restrictions. For information, see U.S. Farm Securi...)"
+  },
+  {
+   "id": "04",
+   "title": "Chicago, Illinois. Soldier departing at the Union Station (1943)",
+   "author": "Jack Delano (1914-1997), photographer; U.S. Office of War Information (FSA/OWI)",
+   "license": "No known restrictions on publication (US government work, FSA/OWI; public domain)",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017843935/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d25000/8d25000/8d25003u.tif",
+   "local_path": "sources/la-machine-a-tuer-le-temps/test-shot/hires/04u.tif",
+   "what_it_shows": "Seen from behind: a soldier's companion (fur coat) and a man in a belted coat at a railway car door; a soldier looks out of the doorway; a red cap at right.",
+   "verified_date_or_place": "Chicago, Union Station; 1943 Jan. (LoC caption card); rights re-read 2026-11-16 from https://www.loc.gov/item/2017843935/?fo=json",
+   "used_as": "pool asset 04 (frozen 120-frame rostrum asset from the LoC master TIFF, registrar/assets/04/): A1 ev3 src 0-59; B1 ev1 src 0-47",
+   "licence_reverified": "not re-fetched by this unit; rights re-read by U1 registrar from loc.gov fo=json on 2026-11-16 and carried verbatim in pool-manifest.json (rights_advisory_verbatim: No known restrictions. For information, see U.S. Farm Securi...)"
+  },
+  {
+   "id": "05",
+   "title": "Chicago, Illinois. Red cap at the Union Station (1943)",
+   "author": "Jack Delano (1914-1997), photographer; U.S. Office of War Information (FSA/OWI)",
+   "license": "No known restrictions on publication (US government work, FSA/OWI; public domain)",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017843923/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/cph/3c30000/3c30000/3c30600/3c30642u.tif",
+   "local_path": "sources/la-machine-a-tuer-le-temps/test-shot/hires/05u.tif",
+   "what_it_shows": "Close portrait of a young red cap in cap and overcoat against black, looking at the camera, head slightly turned (copy negative of a file print, with print border).",
+   "verified_date_or_place": "Chicago, Union Station; 1943 Jan. (LoC caption card); rights re-read 2026-11-16 from https://www.loc.gov/item/2017843923/?fo=json",
+   "used_as": "pool asset 05 (frozen 120-frame rostrum asset from the LoC master TIFF, registrar/assets/05/): A1 ev4 src 0-47; B1 ev0 src 0-59 at 0.5x (5 s); B3 src 0-83 at 0.5x (7 s)",
+   "licence_reverified": "not re-fetched by this unit; rights re-read by U1 registrar from loc.gov fo=json on 2026-11-16 and carried verbatim in pool-manifest.json (rights_advisory_verbatim: No known restrictions. For information, see U.S. Farm Securi...)"
+  },
+  {
+   "id": "06",
+   "title": "Chicago, Illinois. Soldier checking train reservation at the Union Station (1943)",
+   "author": "Jack Delano (1914-1997), photographer; U.S. Office of War Information (FSA/OWI)",
+   "license": "No known restrictions on publication (US government work, FSA/OWI; public domain)",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017843913/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d24000/8d24900/8d24980u.tif",
+   "local_path": "sources/la-machine-a-tuer-le-temps/registrar/masters/06u.tif",
+   "what_it_shows": "Soldiers at a reservation counter under a 'PLEASE ... SLEEPING CAR TICKETS' sign; clerk writes on slips spread on the counter.",
+   "verified_date_or_place": "Chicago, Union Station; 1943 Jan. (LoC caption card); rights re-read 2026-11-16 from https://www.loc.gov/item/2017843913/?fo=json",
+   "used_as": "pool asset 06 (frozen 120-frame rostrum asset from the LoC master TIFF, registrar/assets/06/): A1 ev5 src 0-59; B1 ev3 src 30-101",
+   "licence_reverified": "not re-fetched by this unit; rights re-read by U1 registrar from loc.gov fo=json on 2026-11-16 and carried verbatim in pool-manifest.json (rights_advisory_verbatim: No known restrictions. For information, see U.S. Farm Securi...)"
+  },
+  {
+   "id": "07",
+   "title": "Chicago, Illinois. Soldier in the Union Station going back to camp after a weekend furlough in Chicago (1943)",
+   "author": "Jack Delano (1914-1997), photographer; U.S. Office of War Information (FSA/OWI)",
+   "license": "No known restrictions on publication (US government work, FSA/OWI; public domain)",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017843870/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d24000/8d24900/8d24937u.tif",
+   "local_path": "sources/la-machine-a-tuer-le-temps/registrar/masters/07u.tif",
+   "what_it_shows": "A file of soldiers with kit bags walking through a concourse past a 'TRACK 2' gate and an 'ELEVATED TRAINS' sign.",
+   "verified_date_or_place": "Chicago, Union Station; 1943 Jan. (LoC caption card); rights re-read 2026-11-16 from https://www.loc.gov/item/2017843870/?fo=json",
+   "used_as": "pool asset 07 (frozen 120-frame rostrum asset from the LoC master TIFF, registrar/assets/07/): A1 ev6 src 0-71; B1 ev6 src 0-59",
+   "licence_reverified": "not re-fetched by this unit; rights re-read by U1 registrar from loc.gov fo=json on 2026-11-16 and carried verbatim in pool-manifest.json (rights_advisory_verbatim: No known restrictions. For information, see U.S. Farm Securi...)"
+  },
+  {
+   "id": "08",
+   "title": "Chicago, Illinois. The main waiting room of Union Station at 1 a.m. (1943)",
+   "author": "Jack Delano (1914-1997), photographer; U.S. Office of War Information (FSA/OWI)",
+   "license": "No known restrictions on publication (US government work, FSA/OWI; public domain)",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017843779/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d24000/8d24800/8d24845u.tif",
+   "local_path": "sources/la-machine-a-tuer-le-temps/registrar/masters/08u.tif",
+   "what_it_shows": "The main waiting room at 1 a.m.: colonnade, rows of empty benches, a few figures; a lone red cap stands among the benches.",
+   "verified_date_or_place": "Chicago, Union Station; 1943 Jan. (LoC caption card); rights re-read 2026-11-16 from https://www.loc.gov/item/2017843779/?fo=json",
+   "used_as": "pool asset 08 (frozen 120-frame rostrum asset from the LoC master TIFF, registrar/assets/08/): A1 ev7 src 0-47; B1 ev7 src 0-95",
+   "licence_reverified": "not re-fetched by this unit; rights re-read by U1 registrar from loc.gov fo=json on 2026-11-16 and carried verbatim in pool-manifest.json (rights_advisory_verbatim: No known restrictions. For information, see U.S. Farm Securi...)"
+  }
+ ],
+ "handmade": [
+  {
+   "what": "no picture elements; this unit made only data and working media: the recipes (editors_build.py EDITS), per-cut ledgers, ffconcat lists, cut-point and strip review sheets (cream sheets with editor labels, not film frames)",
+   "where": "swarm/la-machine-a-tuer-le-temps/editors_build.py; sources/la-machine-a-tuer-le-temps/cut-editors/"
+  }
+ ],
+ "absences": [
+  {
+   "searched": "nothing new: the plan's pool is frozen and no new picture material is allowed in the cuts; no downloads were made (0 MB)",
+   "note": "station/room sound foraging (incl. the user's request to keep trying for a foraged station sound) belongs to U4 sound-editor; not attempted here"
+  }
+ ],
+ "paths": {
+  "mp4": [
+   "sources/la-machine-a-tuer-le-temps/editors/A1.mp4",
+   "sources/la-machine-a-tuer-le-temps/editors/B1.mp4",
+   "sources/la-machine-a-tuer-le-temps/editors/B2-rev-adjacency.mp4",
+   "sources/la-machine-a-tuer-le-temps/editors/B3-glance-hold.mp4"
+  ],
+  "working": "sources/la-machine-a-tuer-le-temps/cut-editors/<edit_id>/{ledger.json,concat.txt,cuts.jpg,strip.jpg}",
+  "builder": "swarm/la-machine-a-tuer-le-temps/editors_build.py"
+ }
+}

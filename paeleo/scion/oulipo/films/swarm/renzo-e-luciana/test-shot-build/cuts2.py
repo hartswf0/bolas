@@ -59,8 +59,9 @@ bd = poly(g.shape, [(20, 300), (60, 292), (130, 284), (240, 290), (330, 296), (4
 head = cv2.morphologyEx(m | (hd & (g < 200)), cv2.MORPH_OPEN, np.ones((3, 3), np.uint8)) & hd & ~farm
 body = m & bd & ~farm
 # collage backing where the lifted forearm leaves the sleeve end: a small dark card patch in the forearm's tone
-patch = poly(g.shape, [(395, 285), (440, 280), (445, 335), (400, 338)]) & cv2.dilate(m, np.ones((5, 5), np.uint8))
-gb = g.copy(); gb[patch > 0] = np.median(g[farm > 0])
+patch = np.zeros(g.shape, np.uint8); cv2.ellipse(patch, (420, 308), (16, 22), 0, 0, 360, 255, -1)
+patch &= cv2.dilate(m, np.ones((5, 5), np.uint8))
+gb = g.copy(); gb[patch > 0] = np.median(g[farm > 0]) * .8 + np.median(g[body > 0]) * .2   # sleeve-mouth shadow card
 rig.update(save('lu_body', gb, body | patch, (20, 150, 445, 600), {'hip': (250, 590), 'neck': (250, 300), 'elbow': (418, 307)}, '8d03481u'))
 rig.update(save('lu_head', g, head, (20, 75, 325, 315), {'neck': (250, 300)}, '8d03481u'))
 rig.update(save('lu_arm', g, farm, (405, 235, 705, 350), {'elbow': (418, 307), 'grip': (652, 326)}, '8d03481u'))
@@ -107,5 +108,7 @@ b = np.zeros((1, 65)); f = np.zeros((1, 65))
 cv2.grabCut(cv2.cvtColor(small, cv2.COLOR_GRAY2BGR), ms, None, b, f, 6, cv2.GC_INIT_WITH_MASK)
 pm = cv2.resize(np.where((ms == 1) | (ms == 3), 255, 0).astype(np.uint8), g.shape[::-1], interpolation=cv2.INTER_LINEAR)
 pm = fill(largest((pm > 127).astype(np.uint8) * 255))
+wall = cv2.morphologyEx(((g > 158) & (cv2.GaussianBlur(g, (0, 0), 6) > 150)).astype(np.uint8) * 255, cv2.MORPH_OPEN, np.ones((9, 9), np.uint8))
+pm = fill(largest(cv2.morphologyEx(pm & ~wall, cv2.MORPH_OPEN, np.ones((5, 5), np.uint8))))   # wall wedges between boxes stay wall
 rig.update(save('pails', g, pm, (0, 0, g.shape[1], g.shape[0]), {'tl': (0, 0)}, '8c01492u', 1.0))
 json.dump(rig, open(C + '/rig.json', 'w'), indent=1); print('ok', list(rig))
