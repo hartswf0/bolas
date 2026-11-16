@@ -1,0 +1,450 @@
+{
+ "film": "les-lieux-dune-fugue",
+ "unit": "U3 narration-sound-writer",
+ "revision": "r1 2026-11-16",
+ "rate": 44100,
+ "duration_s": 57.0,
+ "time_base": "film seconds; cue 'at' is the first sample; gain is linear into kit.Mix.add; pan -1 left .. +1 right",
+ "editor_recipe": [
+  "for each cue: x = wav(file) (mono mean), resample by 'speed' if set, loop beds to length, cut to [at, until), apply fade_s and duck, then mix.add(x, at, gain, pan) (twice at 'spread' pans with gain*0.71 if spread is set)",
+  "thud cues: also add the kit thud body (layered_with) at the contact time, gain*0.6",
+  "apply any reverb BEFORE zeroing; then set mix.L[int(44.0*R):] = mix.R[int(44.0*R):] = 0 and zero the int16 PCM again after master()",
+  "voice is captions only (voice_score.json); no TTS"
+ ],
+ "silence": [
+  {
+   "window": [
+    44.0,
+    57.0
+   ],
+   "samples": 0,
+   "declared": true,
+   "covers": [
+    "shot 5 P03 retour (44.0-52.0)",
+    "shot 6 record card (52.0-57.0)"
+   ],
+   "seconds": 13.0,
+   "note": "every audio sample is 0; the P03 hold 44.0-52.0 alone is 8.0 s >= 6 s"
+  }
+ ],
+ "bell_rule": {
+  "window": [
+   32.0,
+   41.0
+  ],
+  "rule": "the bell plays under the memory only; present tone ducked 6 dB for the same window"
+ },
+ "cues": [
+  {
+   "id": "C01",
+   "at": 0.0,
+   "until": 8.0,
+   "stem": "present",
+   "file": "films/sources/les-lieux-dune-fugue/narration-sound-writer/stems/present_tone_44s.wav",
+   "gain": 0.22,
+   "pan": 0.0,
+   "source": "synthesized (kit)",
+   "source_id": null,
+   "license": "handmade (kit.Mix synthesis, this work)",
+   "processing": "kit.Mix: pink air lowpass 700 Hz + brown rumble 220 Hz with slow swell + 50 Hz hum at -28 dB",
+   "note": "P01-A present courtyard/street tone, low; hard cut at 8.0",
+   "fade_s": [
+    0.3,
+    0.01
+   ]
+  },
+  {
+   "id": "C02",
+   "at": 5.5,
+   "until": 6.6,
+   "stem": "creak",
+   "file": "films/sources/les-lieux-dune-fugue/narration-sound-writer/stems/creak.wav",
+   "gain": 0.1,
+   "pan": -0.35,
+   "source": "synthesized (kit)",
+   "source_id": null,
+   "license": "handmade (kit.Mix synthesis, this work)",
+   "processing": "kit.Mix: band noise 300-900 Hz, 7 Hz stick-slip AM, sin^2 envelope",
+   "note": "left leaf lifted ~18 deg (shot 1); quiet",
+   "speed": 0.62
+  },
+  {
+   "id": "C03",
+   "at": 7.0,
+   "until": 7.6,
+   "stem": "thud",
+   "file": "films/sources/les-lieux-dune-fugue/narration-sound-writer/stems/thud_heavy.wav",
+   "gain": 0.5,
+   "pan": -0.25,
+   "source": "synthesized (kit)",
+   "source_id": null,
+   "license": "handmade (kit.Mix synthesis, this work)",
+   "processing": "kit.Mix thud 62 Hz 0.35 s + wood click 1.8 kHz + latch rattle at +0.11 s",
+   "note": "shot 1 contact at 7.0: door thud with short wooden rattle (impact sample aligned to the contact frame)",
+   "sync": "leaf contact frame 7.0 (paper_stage S1_CONTACT)"
+  },
+  {
+   "id": "C04",
+   "at": 8.0,
+   "until": 19.0,
+   "stem": "junction",
+   "file": "films/sources/les-lieux-dune-fugue/narration-sound-writer/stems/present_tone_44s.wav",
+   "gain": 0.26,
+   "pan": 0.0,
+   "source": "synthesized (kit)",
+   "source_id": null,
+   "license": "handmade (kit.Mix synthesis, this work)",
+   "processing": "same synthesized tone, wider (cue gain/pan spread)",
+   "note": "P02 street tone, slightly wider (stereo spread by two placements)",
+   "spread": [
+    -0.4,
+    0.4
+   ],
+   "fade_s": [
+    0.01,
+    0.01
+   ]
+  },
+  {
+   "id": "C05",
+   "at": 19.0,
+   "until": 28.0,
+   "stem": "park",
+   "file": "films/sources/les-lieux-dune-fugue/narration-sound-writer/stems/park_tone_9s.wav",
+   "gain": 0.3,
+   "pan": 0.1,
+   "source": "synthesized (kit)",
+   "source_id": null,
+   "license": "handmade (kit.Mix synthesis, this work)",
+   "processing": "kit.Mix: band pink wind 150-2500 Hz with gusts, brown low wind, 7 synthesized chirps",
+   "note": "P03 present park tone: wind and a few birds",
+   "fade_s": [
+    0.01,
+    0.01
+   ]
+  },
+  {
+   "id": "C06",
+   "at": 28.0,
+   "until": 44.0,
+   "stem": "present",
+   "file": "films/sources/les-lieux-dune-fugue/narration-sound-writer/stems/present_tone_44s.wav",
+   "gain": 0.22,
+   "pan": 0.0,
+   "source": "synthesized (kit)",
+   "source_id": null,
+   "license": "handmade (kit.Mix synthesis, this work)",
+   "processing": "kit.Mix: pink air lowpass 700 Hz + brown rumble 220 Hz with slow swell + 50 Hz hum at -28 dB",
+   "note": "P01-B present tone; ducked -6 dB from 32.0 to 41.0 under the bell (0.5 s ramps); hard cut to 0 at 44.0",
+   "duck": {
+    "db": -6.0,
+    "window": [
+     32.0,
+     41.0
+    ],
+    "ramp_s": 0.5
+   },
+   "fade_s": [
+    0.01,
+    0.0
+   ],
+   "duck_gain_linear": 0.5012
+  },
+  {
+   "id": "C07",
+   "at": 31.05,
+   "until": 33.2,
+   "stem": "creak",
+   "file": "films/sources/les-lieux-dune-fugue/narration-sound-writer/stems/creak.wav",
+   "gain": 0.16,
+   "pan": -0.3,
+   "source": "synthesized (kit)",
+   "source_id": null,
+   "license": "handmade (kit.Mix synthesis, this work)",
+   "processing": "kit.Mix: band noise 300-900 Hz, 7 Hz stick-slip AM, sin^2 envelope",
+   "note": "leaves open 31.0 (right leaf 4 frames late)",
+   "speed": 0.62
+  },
+  {
+   "id": "C08",
+   "at": 31.2167,
+   "until": 33.0,
+   "stem": "creak",
+   "file": "films/sources/les-lieux-dune-fugue/narration-sound-writer/stems/creak.wav",
+   "gain": 0.1,
+   "pan": 0.3,
+   "source": "synthesized (kit)",
+   "source_id": null,
+   "license": "handmade (kit.Mix synthesis, this work)",
+   "processing": "kit.Mix: band noise 300-900 Hz, 7 Hz stick-slip AM, sin^2 envelope",
+   "note": "right leaf creak, 4 frames late",
+   "speed": 0.7
+  },
+  {
+   "id": "C09",
+   "at": 32.0,
+   "until": 41.0,
+   "stem": "bell",
+   "file": "films/sources/les-lieux-dune-fugue/narration-sound-writer/stems/bell_remembered_murbach_lp650.wav",
+   "gain": 0.24,
+   "pan": 0.35,
+   "source": "FORAGED: Church Bells of Murbach (Amada44, Wikimedia Commons, CC BY-SA 3.0)",
+   "source_id": "BELL-MURBACH",
+   "license": "CC BY-SA 3.0",
+   "processing": "whole 6.66 s peal resampled to 9.0 s (playback ~0.74x: pitched down, slower strokes, remembered), lowpass 650 Hz (far, muffled), fade in 1.2 s / out 1.0 s",
+   "note": "REMEMBERED BELL: under the memory only (dislocated; belongs to the bench, not the door). Silent outside 32.0-41.0.",
+   "belongs_to": "memory (F5, P03 winter)",
+   "fade_s": [
+    1.2,
+    1.0
+   ]
+  },
+  {
+   "id": "C10",
+   "at": 41.1,
+   "until": 42.3,
+   "stem": "creak",
+   "file": "films/sources/les-lieux-dune-fugue/narration-sound-writer/stems/creak.wav",
+   "gain": 0.12,
+   "pan": -0.2,
+   "source": "synthesized (kit)",
+   "source_id": null,
+   "license": "handmade (kit.Mix synthesis, this work)",
+   "processing": "kit.Mix: band noise 300-900 Hz, 7 Hz stick-slip AM, sin^2 envelope",
+   "note": "leaves lowered by hand from 41.0",
+   "speed": 0.62
+  },
+  {
+   "id": "C11",
+   "at": 43.1,
+   "until": 43.45,
+   "stem": "knock",
+   "file": "films/sources/les-lieux-dune-fugue/narration-sound-writer/stems/knock_light.wav",
+   "gain": 0.22,
+   "pan": -0.2,
+   "source": "synthesized (kit)",
+   "source_id": null,
+   "license": "handmade (kit.Mix synthesis, this work)",
+   "processing": "kit.Mix thud 85 Hz + click (the left leaf meeting the frame)",
+   "note": "left leaf contact 43.1: knock",
+   "sync": "paper_stage S4_CONTACT_L"
+  },
+  {
+   "id": "C12",
+   "at": 43.5,
+   "until": 44.0,
+   "stem": "thud",
+   "file": "films/sources/les-lieux-dune-fugue/narration-sound-writer/stems/thud_heavy.wav",
+   "gain": 0.55,
+   "pan": 0.0,
+   "source": "synthesized (kit)",
+   "source_id": null,
+   "license": "handmade (kit.Mix synthesis, this work)",
+   "processing": "kit.Mix thud 62 Hz 0.35 s + wood click 1.8 kHz + latch rattle at +0.11 s",
+   "note": "right leaf contact 43.5: THUD, then flat stone; must decay before 44.0 (tail cut at 44.0)",
+   "sync": "paper_stage S4_CONTACT_R"
+  }
+ ],
+ "stems": {
+  "present": {
+   "file": "films/sources/les-lieux-dune-fugue/narration-sound-writer/stems/present_tone_44s.wav",
+   "source": "synthesized (kit)",
+   "processing": "kit.Mix: pink air lowpass 700 Hz + brown rumble 220 Hz with slow swell + 50 Hz hum at -28 dB"
+  },
+  "junction": {
+   "file": "films/sources/les-lieux-dune-fugue/narration-sound-writer/stems/present_tone_44s.wav",
+   "source": "synthesized (kit)",
+   "processing": "same synthesized tone, wider (cue gain/pan spread)"
+  },
+  "park": {
+   "file": "films/sources/les-lieux-dune-fugue/narration-sound-writer/stems/park_tone_9s.wav",
+   "source": "synthesized (kit)",
+   "processing": "kit.Mix: band pink wind 150-2500 Hz with gusts, brown low wind, 7 synthesized chirps"
+  },
+  "creak": {
+   "file": "films/sources/les-lieux-dune-fugue/narration-sound-writer/stems/creak.wav",
+   "source": "synthesized (kit)",
+   "processing": "kit.Mix: band noise 300-900 Hz, 7 Hz stick-slip AM, sin^2 envelope"
+  },
+  "thud": {
+   "file": "films/sources/les-lieux-dune-fugue/narration-sound-writer/stems/thud_heavy.wav",
+   "source": "synthesized (kit)",
+   "processing": "kit.Mix thud 62 Hz 0.35 s + wood click 1.8 kHz + latch rattle at +0.11 s"
+  },
+  "knock": {
+   "file": "films/sources/les-lieux-dune-fugue/narration-sound-writer/stems/knock_light.wav",
+   "source": "synthesized (kit)",
+   "processing": "kit.Mix thud 85 Hz + click (the left leaf meeting the frame)"
+  },
+  "bell": {
+   "file": "films/sources/les-lieux-dune-fugue/narration-sound-writer/stems/bell_remembered_murbach_lp650.wav",
+   "source": "FORAGED: Church Bells of Murbach (Amada44, Wikimedia Commons, CC BY-SA 3.0)",
+   "processing": "whole 6.66 s peal resampled to 9.0 s (playback ~0.74x: pitched down, slower strokes, remembered), lowpass 650 Hz (far, muffled), fade in 1.2 s / out 1.0 s"
+  }
+ },
+ "preview": {
+  "file": "films/sources/les-lieux-dune-fugue/narration-sound-writer/preview_mix.wav",
+  "measured": {
+   "silence_window": [
+    44.0,
+    57.0
+   ],
+   "silence_samples": 1146600,
+   "silence_all_zero": true,
+   "silence_seconds": 13.0,
+   "last_nonzero_s": 44.0,
+   "peak_dbfs": -8.07,
+   "rms_db": {
+    "shot1": -28.7,
+    "shot2": -25.2,
+    "shot3": -30.1,
+    "shot4_pre": -27.4,
+    "shot4_memory": -25.0
+   },
+   "bell_inside_memory_window": true,
+   "bell_cues": [
+    "C09"
+   ],
+   "duck_db_present_under_bell": -6.0,
+   "no_cue_in_silence": true,
+   "pass": true
+  }
+ },
+ "foraged_evidence": [
+  {
+   "id": "BELL-MURBACH",
+   "title": "Church Bells of Murbach",
+   "author": "Amada44",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Church_Bells_of_Murbach.flac",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/94/Church_Bells_of_Murbach.flac",
+   "local_path": "films/sources/les-lieux-dune-fugue/sound/dl/Church_Bells_of_Murbach.flac",
+   "what_it_shows": "'The Bells of the Abby of Murbach, France.' Field recording of the abbey bells.",
+   "verified_date_or_place": "2018-04-21 (Commons DateTimeOriginal), Murbach, Haut-Rhin, France (description)",
+   "used_as": [
+    "C09"
+   ],
+   "downloaded": true
+  },
+  {
+   "id": "DOOR-CLOSE",
+   "title": "Close door (Gravity Sound)",
+   "author": "Gravity Sound",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Close_door_(Gravity_Sound).wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Close_door_%28Gravity_Sound%29.wav",
+   "local_path": null,
+   "what_it_shows": "'close door' by Gravity Sound: a single door closing (foley library).",
+   "verified_date_or_place": "unverified",
+   "used_as": [],
+   "downloaded": false
+  },
+  {
+   "id": "DOOR-SQUEAK",
+   "title": "Close squeaky door (Gravity Sound)",
+   "author": "Gravity Sound",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Close_squeaky_door_(Gravity_Sound).wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/aa/Close_squeaky_door_%28Gravity_Sound%29.wav",
+   "local_path": null,
+   "what_it_shows": "'close squeaky door' by Gravity Sound: hinge squeak then a close.",
+   "verified_date_or_place": "unverified",
+   "used_as": [],
+   "downloaded": false
+  },
+  {
+   "id": "GARDEN",
+   "title": "Bourne Garden 2020-08-28 0943",
+   "author": "Robert EA Harvey",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Bourne_Garden_2020-08-28_0943.mp3",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/02/Bourne_Garden_2020-08-28_0943.mp3",
+   "local_path": null,
+   "what_it_shows": "Garden ambience recorded for Geograph images at Bourne Wood: 'mostly birdsong, and some distant traffic'. Only the first 3 MB (HTTP Range) fetched.",
+   "verified_date_or_place": "2020-08-28 (Commons DateTimeOriginal), Bourne, Lincolnshire, England (Geograph description)",
+   "used_as": [],
+   "downloaded": false
+  },
+  {
+   "id": "STREET",
+   "title": "Urban Street on a Rainy Afternoon",
+   "author": "Extemporalist",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Urban_Street_on_a_Rainy_Afternoon.flac",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Urban_Street_on_a_Rainy_Afternoon.flac",
+   "local_path": null,
+   "what_it_shows": "'Moderate traffic on a 2 lane urban street in Kelowna on a rainy afternoon... raindrops on hard surfaces... crows.' Only the first 5 MB (HTTP Range) fetched.",
+   "verified_date_or_place": "2015-02-09 (Commons DateTimeOriginal), Kelowna, BC, Canada (description)",
+   "used_as": [],
+   "downloaded": false
+  }
+ ],
+ "foraged_used": [
+  "BELL-MURBACH"
+ ],
+ "searched": [
+  {
+   "archive": "Wikimedia Commons API (filemime:audio)",
+   "queries": [
+    "door close",
+    "church bell",
+    "birds park",
+    "street ambience",
+    "bell distant"
+   ],
+   "date": "2026-11-16",
+   "note": "API rate-limited (HTTP 429) for long stretches; searches spaced 15 s with 90 s+ backoff; 'door slam wood' and 'courtyard ambience' not run (time box)."
+  },
+  {
+   "archive": "Moving Image Archive cache (forage.py --media clip, index audio features)",
+   "queries": [
+    "street|traffic|city|courtyard|park|pavement",
+    "all clips with audio.kind == 'sound'"
+   ],
+   "note": "spectrograms of 6eb03e7f (Formations 1936), 3e715a85 (Men, Steel and Earthquakes 1960), 8ccec8f2, afd278dd, 433148ea, acefc60e inspected"
+  },
+  {
+   "archive": "Library of Congress www.loc.gov/audio (q=church bells)",
+   "note": "results are Jukebox commercial records (1905 'The message of the old church bell', music) and AFC church-service field tapes with speech/singing; no isolated bell, rights not stated as free; none taken"
+  }
+ ],
+ "rejected": [
+  {
+   "item": "MIA clips 6eb03e7f, 3e715a85, 8ccec8f2, afd278dd (city/street/industry films)",
+   "reason": "soundtracks carry narration (syllabic speech bands in the spectrogram) and/or score; no clean street tone"
+  },
+  {
+   "item": "MIA 433148ea Back-Room Boy (1942) harbour mist",
+   "reason": "tonal score lines (music)"
+  },
+  {
+   "item": "MIA acefc60e Unique Contribution Part II (1959)",
+   "reason": "steady optical-track hiss only (-45 dB): not a place tone"
+  },
+  {
+   "item": "Commons 'Urban Street on a Rainy Afternoon' (CC0) / 'Bourne Garden 2020-08-28 0943' (CC BY-SA 4.0)",
+   "reason": "licence OK and chosen, but upload.wikimedia.org answered 429 (retry-after 600) — see absences unless downloaded"
+  },
+  {
+   "item": "Commons Gravity Sound bathroom/closet door files (CC BY 4.0)",
+   "reason": "light interior doors; 'Close door' preferred for the carriage leaf"
+  },
+  {
+   "item": "Commons bird species recordings (XC, Mudumalai/Chandoli, Victoria Australia; CC BY-SA)",
+   "reason": "single exotic species calls, not a temperate park bed"
+  },
+  {
+   "item": "Commons 2011 Christmas bells at Notre-Dame de Paris (CC0, 37 MB); Campane Dardine (CC0, 107 MB)",
+   "reason": "over the 20 MB download budget; Notre-Dame also too identifiable a Paris landmark for an unnamed memory"
+  },
+  {
+   "item": "Commons Strike of the hour of St. Georgen, St. Gallen (CC BY-SA 4.0, 2.2 MB)",
+   "reason": "good fallback; not needed once the Murbach peal (France) arrived"
+  }
+ ]
+}

@@ -1,0 +1,546 @@
+{
+ "film": "les-lieux-dune-fugue",
+ "unit": "U3 narration-sound-writer",
+ "revision": "r1 2026-11-16",
+ "base": "plan.md §3 Olog, §5 voice score",
+ "rules": {
+  "order": "nonchronological: F1 F2 F3 are the day of the departure, F4 jumps 'later', F5 jumps back to a season; screen order ≠ remembered order",
+  "voice": "captions only; no TTS, no recorded speech",
+  "remembered_time_types": [
+   "Interval",
+   "Unknown",
+   "Exact (only with evidence_id in evidence register)"
+  ],
+  "link_status": [
+   "asserted",
+   "inferred",
+   "unknown"
+  ],
+  "inferred_display": "every inferred link shows 'INFÉRÉ' on screen within its caption window and inferred=true in the ledger",
+  "silence": "no caption, record line or voice in 44.0–52.0 (declared silence); the card 52–57 carries the record, not the voice",
+  "typography": {
+   "voice_fr": "cream (236,226,198) FreeSerif Italic 27 px",
+   "gloss_en": "muted (168,158,138) FreeSerif roman 16 px",
+   "record_line": "muted mono 13 px, below the gloss",
+   "slate": "13 px muted mono top-left (DejaVu Sans Mono / IBM Plex Mono), present-tense claims only; never italic serif"
+  }
+ },
+ "speakers": [
+  {
+   "id": "N1",
+   "name": "la narratrice / le narrateur (adulte, fictif)",
+   "kind": "fictional narrator, adult, speaking 'now, elsewhere'",
+   "note": "No real person. Voice is caption only (no TTS, no recorded speech)."
+  }
+ ],
+ "evidence": [],
+ "lamp_states": {
+  "A": "stage morning, upper left, low warm",
+  "B": "stage evening, right, raking",
+  "M": "memory: cold blue-grey, upper left, own haze; not a stage state"
+ },
+ "shots": [
+  {
+   "shot": 1,
+   "obs_id": "P01-A",
+   "place_id": "P01",
+   "label": "P01 · prise A · matin",
+   "lamp_state": "A",
+   "screen_time": [
+    0.0,
+    8.0
+   ]
+  },
+  {
+   "shot": 2,
+   "obs_id": "P02",
+   "place_id": "P02",
+   "label": "P02 · carrefour",
+   "lamp_state": "A",
+   "screen_time": [
+    8.0,
+    19.0
+   ]
+  },
+  {
+   "shot": 3,
+   "obs_id": "P03-1",
+   "place_id": "P03",
+   "label": "P03 · banc (présent)",
+   "lamp_state": "A",
+   "screen_time": [
+    19.0,
+    28.0
+   ]
+  },
+  {
+   "shot": 4,
+   "obs_id": "P01-B",
+   "place_id": "P01",
+   "label": "P01 · prise B · soir",
+   "lamp_state": "B",
+   "screen_time": [
+    28.0,
+    44.0
+   ]
+  },
+  {
+   "shot": 5,
+   "obs_id": "P03-2",
+   "place_id": "P03",
+   "label": "P03 · retour · silence déclarée",
+   "lamp_state": "A",
+   "screen_time": [
+    44.0,
+    52.0
+   ]
+  },
+  {
+   "shot": 6,
+   "obs_id": "CARD",
+   "place_id": null,
+   "label": "fiche",
+   "lamp_state": "A",
+   "screen_time": [
+    52.0,
+    57.0
+   ]
+  }
+ ],
+ "fragments": [
+  {
+   "frag_id": "F1",
+   "obs_id": "P01-A",
+   "speaker": "N1",
+   "text_fr": "Le numéro sept. La porte était lourde ; je l'ai tirée seule.",
+   "gloss_en": "Number seven. The door was heavy; I pulled it alone.",
+   "remembered_time": {
+    "type": "Interval",
+    "axis": "time_of_day",
+    "lo": "~06:00",
+    "hi": "~08:00",
+    "day": "unknown",
+    "label": "un matin, avant huit heures ? (heure incertaine)"
+   },
+   "place_link": {
+    "place_id": "P01",
+    "status": "asserted",
+    "basis": "the narrator names the number seven, which the plaque on screen also shows; a narrative assertion inside the fiction, not a geographic claim"
+   },
+   "confidence": {
+    "place": "medium",
+    "time": "low",
+    "note": "hour is a guess"
+   },
+   "provenance": "fiction written for this work",
+   "screen_time": [
+    1.0,
+    5.0
+   ],
+   "dislocated": false,
+   "on_screen_flags": [],
+   "layout": {
+    "zone": "low, over the plinth / ground strip; no band behind text, light 1 px dark halo only for legibility (no box)",
+    "fr": {
+     "font": "/usr/share/fonts/truetype/freefont/FreeSerifItalic.ttf",
+     "family": "FreeSerif Italic",
+     "size_px": 27,
+     "color_rgb": [
+      236,
+      226,
+      198
+     ],
+     "alpha": 0.92,
+     "anchor": "ms",
+     "x": 480,
+     "y": 652
+    },
+    "en": {
+     "font": "/usr/share/fonts/truetype/freefont/FreeSerif.ttf",
+     "family": "FreeSerif (roman)",
+     "size_px": 16,
+     "color_rgb": [
+      168,
+      158,
+      138
+     ],
+     "alpha": 0.85,
+     "anchor": "ms",
+     "x": 480,
+     "y": 678
+    },
+    "fade_in_s": 0.5,
+    "fade_out_s": 0.5,
+    "max_width_px": 820
+   }
+  },
+  {
+   "frag_id": "F2",
+   "obs_id": "P02",
+   "speaker": "N1",
+   "text_fr": "À l'angle, j'ai suivi la rigole entre les pavés, à gauche. Ou bien à droite.",
+   "gloss_en": "At the corner I followed the gutter seam between the cobbles, left. Or right.",
+   "remembered_time": {
+    "type": "Interval",
+    "axis": "relative",
+    "lo": "after F1",
+    "hi": "same day, later",
+    "day": "unknown",
+    "label": "le même jour, plus tard (ordre incertain)"
+   },
+   "place_link": {
+    "place_id": "P02",
+    "status": "asserted",
+    "basis": "the corner and the seam are the junction's cue; direction (left/right) is explicitly uncertain"
+   },
+   "confidence": {
+    "place": "medium",
+    "direction": "low",
+    "time": "low"
+   },
+   "provenance": "fiction written for this work",
+   "screen_time": [
+    9.5,
+    15.5
+   ],
+   "dislocated": false,
+   "on_screen_flags": [],
+   "layout": {
+    "zone": "low, over the plinth / ground strip; no band behind text, light 1 px dark halo only for legibility (no box)",
+    "fr": {
+     "font": "/usr/share/fonts/truetype/freefont/FreeSerifItalic.ttf",
+     "family": "FreeSerif Italic",
+     "size_px": 27,
+     "color_rgb": [
+      236,
+      226,
+      198
+     ],
+     "alpha": 0.92,
+     "anchor": "ms",
+     "x": 480,
+     "y": 652
+    },
+    "en": {
+     "font": "/usr/share/fonts/truetype/freefont/FreeSerif.ttf",
+     "family": "FreeSerif (roman)",
+     "size_px": 16,
+     "color_rgb": [
+      168,
+      158,
+      138
+     ],
+     "alpha": 0.85,
+     "anchor": "ms",
+     "x": 480,
+     "y": 678
+    },
+    "fade_in_s": 0.5,
+    "fade_out_s": 0.5,
+    "max_width_px": 820
+   },
+   "p02_recatalogue_check": {
+    "confirmed_by": "U3",
+    "against_source": "JUNC-M (Marville, Rue Tirechappe, c. 1860: kerb + gutter seam up the setts, forking)",
+    "fallback_also_fits": "JUNC-F ground strip (kerb + seam)",
+    "note": "Wording changed from 'la couture du trottoir' to 'la rigole entre les pavés' to match the setts and gutter seam of the P02 source chosen by U1. Merge is unblocked for either source."
+   }
+  },
+  {
+   "frag_id": "F3",
+   "obs_id": "P03-1",
+   "speaker": "N1",
+   "text_fr": "Ce banc, ou un autre. J'ai attendu longtemps ; qui, je ne sais plus.",
+   "gloss_en": "This bench, or another. I waited a long time; for whom, I no longer know.",
+   "remembered_time": {
+    "type": "Unknown",
+    "label": "inconnu (durée : une heure ou un jour)",
+    "duration_label": "une heure ou un jour"
+   },
+   "place_link": {
+    "place_id": "P03",
+    "status": "inferred",
+    "basis": "'ce banc, ou un autre': the narrator does not assert this is the bench; the link is the film's inference"
+   },
+   "confidence": {
+    "place": "low",
+    "time": "none"
+   },
+   "provenance": "fiction written for this work",
+   "screen_time": [
+    20.5,
+    26.0
+   ],
+   "dislocated": false,
+   "on_screen_flags": [
+    {
+     "text": "lien → P03 : INFÉRÉ",
+     "kind": "record_line",
+     "window": [
+      21.0,
+      26.0
+     ]
+    }
+   ],
+   "layout": {
+    "zone": "low, over the plinth / ground strip; no band behind text, light 1 px dark halo only for legibility (no box)",
+    "fr": {
+     "font": "/usr/share/fonts/truetype/freefont/FreeSerifItalic.ttf",
+     "family": "FreeSerif Italic",
+     "size_px": 27,
+     "color_rgb": [
+      236,
+      226,
+      198
+     ],
+     "alpha": 0.92,
+     "anchor": "ms",
+     "x": 480,
+     "y": 640
+    },
+    "en": {
+     "font": "/usr/share/fonts/truetype/freefont/FreeSerif.ttf",
+     "family": "FreeSerif (roman)",
+     "size_px": 16,
+     "color_rgb": [
+      168,
+      158,
+      138
+     ],
+     "alpha": 0.85,
+     "anchor": "ms",
+     "x": 480,
+     "y": 664
+    },
+    "fade_in_s": 0.5,
+    "fade_out_s": 0.5,
+    "max_width_px": 820,
+    "record_line": {
+     "font": "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf",
+     "family": "DejaVu Sans Mono",
+     "size_px": 13,
+     "color_rgb": [
+      168,
+      158,
+      138
+     ],
+     "alpha": 0.85,
+     "anchor": "ms",
+     "x": 480,
+     "y": 690
+    }
+   }
+  },
+  {
+   "frag_id": "F4",
+   "obs_id": "P01-B",
+   "speaker": "N1",
+   "text_fr": "Plus tard, on m'a dit que j'avais neuf ans.",
+   "gloss_en": "Later I was told I was nine.",
+   "remembered_time": {
+    "type": "Interval",
+    "axis": "age_years",
+    "lo": 8,
+    "hi": 10,
+    "day": "unknown",
+    "label": "âge 8–10 (source : un tiers)"
+   },
+   "place_link": {
+    "place_id": null,
+    "status": "unknown",
+    "basis": "no place is named; the fragment is a jump in time, not a claim about the door"
+   },
+   "confidence": {
+    "time": "low",
+    "note": "the narrator reports what someone else said; 'nine' is the third party's figure, kept as the interval 8–10"
+   },
+   "provenance": "hearsay (an unnamed third party, quoted by the fictional narrator; fiction written for this work)",
+   "screen_time": [
+    28.4,
+    31.0
+   ],
+   "dislocated": false,
+   "on_screen_flags": [],
+   "layout": {
+    "zone": "low, over the plinth / ground strip; no band behind text, light 1 px dark halo only for legibility (no box)",
+    "fr": {
+     "font": "/usr/share/fonts/truetype/freefont/FreeSerifItalic.ttf",
+     "family": "FreeSerif Italic",
+     "size_px": 27,
+     "color_rgb": [
+      236,
+      226,
+      198
+     ],
+     "alpha": 0.92,
+     "anchor": "ms",
+     "x": 480,
+     "y": 652
+    },
+    "en": {
+     "font": "/usr/share/fonts/truetype/freefont/FreeSerif.ttf",
+     "family": "FreeSerif (roman)",
+     "size_px": 16,
+     "color_rgb": [
+      168,
+      158,
+      138
+     ],
+     "alpha": 0.85,
+     "anchor": "ms",
+     "x": 480,
+     "y": 678
+    },
+    "fade_in_s": 0.5,
+    "fade_out_s": 0.5,
+    "max_width_px": 820
+   },
+   "note": "Ends as the leaves begin to open (31.0); the voice is not synced as cause of the opening (I3): it ends on the frame the motion starts, never on a leaf contact."
+  },
+  {
+   "frag_id": "F5",
+   "obs_id": "P01-B",
+   "speaker": "N1",
+   "text_fr": "Le banc, c'était l'hiver, à peu près.",
+   "gloss_en": "The bench: it was winter, roughly.",
+   "remembered_time": {
+    "type": "Interval",
+    "axis": "season",
+    "lo": "December",
+    "hi": "February",
+    "year": "unknown",
+    "label": "vers l'hiver (déc.–fév.), année inconnue"
+   },
+   "place_link": {
+    "place_id": "P03",
+    "status": "inferred",
+    "basis": "the bench is the one of shot 3 only by the film's inference; spoken over P01, it is dislocated"
+   },
+   "confidence": {
+    "place": "low",
+    "time": "low (season only)"
+   },
+   "provenance": "fiction written for this work",
+   "screen_time": [
+    36.0,
+    41.0
+   ],
+   "dislocated": true,
+   "dislocation": {
+    "observed_place": "P01",
+    "linked_place": "P03",
+    "memory_plane": "behind the open leaves, depth 0.6/1.0",
+    "memory_light": "M (cold, upper left, its own light; not lamp A or B)"
+   },
+   "on_screen_flags": [
+    {
+     "text": "souvenir · vers l'hiver (intervalle) · lien P01→P03 : INFÉRÉ",
+     "kind": "record_line",
+     "window": [
+      36.5,
+      41.0
+     ]
+    }
+   ],
+   "layout": {
+    "zone": "low, over the plinth / ground strip; no band behind text, light 1 px dark halo only for legibility (no box)",
+    "fr": {
+     "font": "/usr/share/fonts/truetype/freefont/FreeSerifItalic.ttf",
+     "family": "FreeSerif Italic",
+     "size_px": 27,
+     "color_rgb": [
+      236,
+      226,
+      198
+     ],
+     "alpha": 0.92,
+     "anchor": "ms",
+     "x": 480,
+     "y": 640
+    },
+    "en": {
+     "font": "/usr/share/fonts/truetype/freefont/FreeSerif.ttf",
+     "family": "FreeSerif (roman)",
+     "size_px": 16,
+     "color_rgb": [
+      168,
+      158,
+      138
+     ],
+     "alpha": 0.85,
+     "anchor": "ms",
+     "x": 480,
+     "y": 664
+    },
+    "fade_in_s": 0.5,
+    "fade_out_s": 0.5,
+    "max_width_px": 820,
+    "record_line": {
+     "font": "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf",
+     "family": "DejaVu Sans Mono",
+     "size_px": 13,
+     "color_rgb": [
+      168,
+      158,
+      138
+     ],
+     "alpha": 0.85,
+     "anchor": "ms",
+     "x": 480,
+     "y": 690
+    }
+   }
+  }
+ ],
+ "remembered_order": [
+  "F1",
+  "F2",
+  "F3",
+  "F5",
+  "F4"
+ ],
+ "remembered_order_note": "Best guess only: F5 (winter at the bench) may be the same day as F3 or another; F4 is a later telling. Exact chronology is declared uncertain.",
+ "counterexamples": [
+  {
+   "id": "CX-a",
+   "mutation": {
+    "F5.remembered_time": {
+     "type": "Exact",
+     "value": "1952-01-12"
+    }
+   },
+   "expect": "FAIL: exact date without evidence"
+  },
+  {
+   "id": "CX-b",
+   "mutation": {
+    "F5.place_link.status": "asserted"
+   },
+   "expect": "FAIL: link P01→P03 asserted without evidence (and the INFÉRÉ flag would be a lie)"
+  },
+  {
+   "id": "CX-c",
+   "mutation": {
+    "F5.dislocation.memory_light": "B"
+   },
+   "expect": "FAIL: memory lit by stage lamp B reads as a claim about the visible present"
+  },
+  {
+   "id": "CX-d",
+   "mutation": {
+    "F3.on_screen_flags": []
+   },
+   "expect": "FAIL: inferred link not flagged on screen"
+  },
+  {
+   "id": "CX-e",
+   "mutation": {
+    "F1.screen_time": [
+     6.0,
+     9.0
+    ]
+   },
+   "expect": "FAIL: caption outside its shot (crosses the cut at 8.0)"
+  }
+ ]
+}

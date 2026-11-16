@@ -1,0 +1,106 @@
+{
+ "fixture_pass": {
+  "tour": [
+   "finish",
+   "casting",
+   "raw_stock"
+  ],
+  "ok": true,
+  "reason": "ok",
+  "edges": [
+   "finish <-finish- casting",
+   "casting <-cast- raw_stock"
+  ]
+ },
+ "fixture_fail": {
+  "tour": [
+   "finish",
+   "raw_stock",
+   "casting"
+  ],
+  "ok": false,
+  "reason": "no direct verified edge raw_stock -> finish"
+ },
+ "film_tour": {
+  "ok": true,
+  "reason": "ok",
+  "edges": [
+   "P4 <-degate- P3",
+   "P3 <-inject+cool- M+P2",
+   "M+P2 <-plasticize- P1"
+  ]
+ },
+ "counter_rings_to_pellets": {
+  "ok": false,
+  "reason": "no direct verified edge P1 -> P4",
+  "edges": []
+ },
+ "counter_skip_shot": {
+  "ok": false,
+  "reason": "no direct verified edge M+P2 -> P4",
+  "edges": []
+ },
+ "counter_forward_order": {
+  "ok": false,
+  "reason": "no direct verified edge M+P2 -> P1",
+  "edges": []
+ },
+ "ledger_source": "shot_ledger.json",
+ "ledger": {
+  "playback_field_on_every_shot": true,
+  "path": [
+   "P4",
+   "P3",
+   "M+P2",
+   "P1"
+  ],
+  "ok": true,
+  "reason": "ok",
+  "edges_used": [
+   "P4 <-degate- P3",
+   "P3 <-inject+cool- M+P2",
+   "M+P2 <-plasticize- P1"
+  ],
+  "duration_s": 38.0,
+  "duration_ok": true
+ },
+ "verse": {
+  "C1_t": 13.025,
+  "C1_ok": true,
+  "C1_frame_window": [
+   312,
+   313
+  ],
+  "C2_t": 20.8,
+  "C2_ok": true,
+  "C2_before_caesura_s": 0.825,
+  "C2_lead_ok": true,
+  "line_spans": {
+   "L1": [
+    2.4,
+    6.45
+   ],
+   "L2": [
+    11.0,
+    15.05
+   ],
+   "L3": [
+    19.6,
+    23.65
+   ],
+   "L4": [
+    29.4,
+    33.45
+   ]
+  },
+  "other_cuts": [
+   8.6,
+   17.6,
+   27.6,
+   35.0
+  ],
+  "other_cuts_in_gaps_ok": true,
+  "ok": true
+ },
+ "all_ok": true
+}

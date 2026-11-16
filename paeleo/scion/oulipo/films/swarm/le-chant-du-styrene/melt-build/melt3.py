@@ -73,7 +73,7 @@ def mask_width(poly_src, t0=0.2, t1=0.85):
     return float(np.median(w))
 sprue_w = mask_width(GEO["sprue"]["polyline_src"], 0.3, 0.8)
 
-D_CH, D_CAV, D_RIM, D_RIB = 0.42, 1.0, 1.25, 0.50     # depths in optical-depth units (runner thin, rings thick)
+D_CH, D_CAV, D_RIM, D_RIB = 0.40, 1.0, 1.25, 0.50     # depths in optical-depth units (runner thin, rings thick)
 depth = np.zeros((PH, PW), np.float32)
 part = np.zeros((PH, PW), np.int8) - 1           # -1 steel, 0..3 cavity, 4 runner, 5 sprue
 arm_of = np.zeros((PH, PW), np.int8) - 1
@@ -156,8 +156,19 @@ def geodesic(mask, speed, src, step=2):
                 nt = t + l * step / (0.5 * (sp[y, x] + sp[ny, nx]))
                 if nt < T[ny, nx]:
                     T[ny, nx] = nt; heapq.heappush(q, (nt, ny, nx))
+    w = np.isfinite(T).astype(np.float32)
     T[~np.isfinite(T)] = 0
-    return cv2.resize(T.astype(np.float32), (mask.shape[1], mask.shape[0]), interpolation=cv2.INTER_LINEAR)
+    # normalized convolution back to full res: edge pixels missed by the coarse grid take their neighbours' T
+    # (a plain resize/blur would pull rim values toward 0 and leave a late-draining rim)
+    Tf = cv2.resize(T.astype(np.float32), (mask.shape[1], mask.shape[0]), interpolation=cv2.INTER_NEAREST)
+    wf = cv2.resize(w, (mask.shape[1], mask.shape[0]), interpolation=cv2.INTER_NEAREST)
+    num = cv2.GaussianBlur(Tf * wf, (0, 0), 1.6); den = cv2.GaussianBlur(wf, (0, 0), 1.6)
+    for _ in range(4):
+        hole = den < 1e-3
+        if not (hole & mask).any():
+            break
+        num = np.where(hole, cv2.GaussianBlur(num, (0, 0), 3), num); den = np.where(hole, cv2.GaussianBlur(den, (0, 0), 3), den)
+    return num / np.maximum(den, 1e-6)
 
 W_REF = float(np.median([ci["w_src"] for ci in cav_info]))
 speed = 0.15 + np.clip(depth / np.where(part == 4, D_CH, D_CAV), 0, 1) ** 0.6       # wall lag (shear layer)
@@ -166,10 +177,26 @@ for ci in cav_info:                                                             
 speed[(part >= 0) & (part <= 3)] *= 0.6                                             # spreading front in cavities
 speed[part == 5] *= 1.6
 T = geodesic(mask, speed, hub)
-T = cv2.GaussianBlur(T, (0, 0), 1.2) * mask
+T = T * mask
 Tn = T / T[mask].max()
 gate_T = [float(Tn[max(0, int(ci["gate"][1]) - 2):int(ci["gate"][1]) + 3, max(0, int(ci["gate"][0]) - 2):int(ci["gate"][0]) + 3].max()) for ci in cav_info]
 cav_Tmax = [float(Tn[m].max()) for m in cav_masks]
+# Hesitation (declared model): in an unbalanced multi-cavity runner the front stalls at a gate while an
+# easier branch is still filling; branch k's cavity starts once the previously reached cavity is HES_OVERLAP full.
+HES_OVERLAP = 0.7
+hes = [0.0] * 4
+prev_end = None
+for i in np.argsort(gate_T):
+    i = int(i); span = cav_Tmax[i] - gate_T[i]
+    if prev_end is not None:
+        hes[i] = max(0.0, prev_end - gate_T[i])
+    prev_end = gate_T[i] + hes[i] + HES_OVERLAP * span
+for i in range(4):
+    Tn[cav_masks[i] & (part == i)] += hes[i]
+Tn = Tn / Tn[mask].max()
+gate_T = [float(g + h) / float(max(cav_Tmax[j] + hes[j] for j in range(4))) for g, h in zip(gate_T, hes)]
+cav_Tmax = [float(Tn[m].max()) for m in cav_masks]
+PARAMS.update(hesitation_overlap=HES_OVERLAP, hesitation_delay_T=[round(h, 4) for h in hes])
 order_empty = [int(i) for i in np.argsort(gate_T)[::-1]]            # far (filled last) empties first
 PARAMS.update(speed="0.15 + (depth/D)^0.6, x (w_arm/w_median)^2 in arm channels, x0.6 in cavities, x1.6 in sprue",
               gate_T=[round(g, 4) for g in gate_T], cav_Tmax=[round(g, 4) for g in cav_Tmax])
@@ -179,14 +206,16 @@ PARAMS.update(speed="0.15 + (depth/D)^0.6, x (w_arm/w_median)^2 in arm channels,
 T0_3B = 20.80
 REL = [21.9, 22.9, 23.9, 24.9]
 SPRUE_T = 26.20
-knots_T = [1.02] + [gate_T[i] for i in order_empty] + [0.0]
+# a cavity is empty when the lowest-T melt in it (beside its gate) has gone: knot on its 0.5th-percentile T
+empty_T = [float(np.percentile(Tn[cav_masks[i]], 0.5)) for i in range(4)]
+knots_T = [1.02] + [empty_T[i] for i in order_empty] + [0.0]
 knots_t = [0.30] + [r - T0_3B for r in REL] + [SPRUE_T - T0_3B]
 # a cavity starts to drain only once the previous one is nearly out: extra knot at each cavity's far edge
 kT, kt = [knots_T[0]], [knots_t[0]]
 for j, i in enumerate(order_empty):
     if j > 0 and cav_Tmax[i] < kT[-1] - 1e-3:
         kT.append(cav_Tmax[i]); kt.append(kt[-1] + 0.55 * (knots_t[j + 1] - kt[-1]))
-    kT.append(gate_T[i]); kt.append(knots_t[j + 1])
+    kT.append(empty_T[i]); kt.append(knots_t[j + 1])
 kT.append(0.0); kt.append(SPRUE_T - T0_3B)
 kT, kt = np.array(kT), np.array(kt)
 assert np.all(np.diff(kT) < 0) and np.all(np.diff(kt) > 0), (kT, kt)
@@ -240,6 +269,7 @@ lam = np.clip((nx_ * Lk[0] + ny_ * Lk[1] + Lk[2]) / nn, 0, 1)
 wall = np.clip(np.hypot(grad_x, grad_y) * 9, 0, 1)
 # far-side walls of each hollow face the warm source and catch it (the 'wet-lit' rim)
 facing = np.clip(-(grad_x * 0.45 + grad_y * 0.9) * 14, 0, 1)
+cling = np.clip(cv2.GaussianBlur(wall, (0, 0), 2.0) * 1.6, 0, 1)
 
 noise_bank = [smooth_noise(100 + i, 9) for i in range(8)]
 noise_fine = [smooth_noise(200 + i, 3) for i in range(8)]
@@ -248,9 +278,9 @@ for ci in cav_info:
     m = part == ci["id"]
     theta_cav[m] = np.arctan2(yy[m] - ci["c"][1], xx[m] - ci["c"][0])
 
-ALPHA = np.array([0.45, 0.80, 2.9], np.float32)      # Beer-Lambert per unit optical depth (red passes most)
+ALPHA = np.array([0.45, 1.30, 3.2], np.float32)      # Beer-Lambert per unit optical depth (red passes most)
 SCAT = np.array([0.12, 0.02, 0.012], np.float32)      # back-scatter of the red pigment
-E = np.array([1.55, 1.32, 1.02], np.float32)          # warm source seen through the melt (reflected by the floor)
+E = np.array([1.50, 1.50, 1.05], np.float32)          # warm source seen through the melt (reflected by the floor)
 WARM = np.array([1.0, 0.50, 0.20], np.float32)        # colour of the warm key on bare steel
 PARAMS.update(beer_lambert_alpha=ALPHA.tolist(), scatter=SCAT.tolist(), source=E.tolist(), warm_key=WARM.tolist(),
               refraction_gain_px=40.0, ior_note="PS n~1.59; displacement = 40 px x surface gradient")
@@ -274,7 +304,8 @@ def plane(t, k, boil=1.0):
     h = np.where(present, h, 0)
     # residual wet film: decays over ~1 s to a lasting thin coat (a real cavity stays wet with melt)
     age = np.clip(t - t_drain, 0, None)
-    wet = np.where(mask & ~present, depth * (0.035 + 0.06 * np.exp(-age / 0.9)), 0)
+    # (the lasting coat clings where the walls meet the floor and in the rib grooves)
+    wet = np.where(mask & ~present, depth * (0.035 * (0.25 + 2.2 * cling) + 0.06 * np.exp(-age / 0.9)), 0)
     ripple = 0.035 * noise_fine[(tw * 5 + 3) % 8] * (h > 0.05) * boil
     hs = cv2.GaussianBlur(h + wet + ripple, (0, 0), 2.2)
     gy, gx = np.gradient(hs)
@@ -292,7 +323,9 @@ def plane(t, k, boil=1.0):
     film = smoothstep(0.0, 0.10, hh)[..., None]
     graze = 1 - 0.65 * wall[..., None]                 # grazing walls reflect steel, not light: no glow outline
     rad_melt = rad * film * graze * present[..., None]
-    rad_wet = rad * film * graze * 0.40 * ((wet > 0.002) & ~present)[..., None]
+    # the lasting coat in an emptied hollow: seen at a longer optical path (grazing film on the walls), dim warm red-amber
+    rad_w = E * (0.25 + 1.15 * fl) * np.exp(-ALPHA * 2 * np.maximum(hh, 0.45)[..., None]) * 0.95
+    rad_wet = rad_w * film * graze * 0.45 * ((wet > 0.002) & ~present)[..., None]
     nl = np.sqrt(gx ** 2 + gy ** 2 + 1e-4)
     spec = np.clip(-(gx * 0.6 + gy * 0.8) / nl, 0, 1) ** 5 * smoothstep(0.003, 0.015, nl) * 0.75
     spec = spec * (hh > 0.003)
@@ -301,7 +334,7 @@ def plane(t, k, boil=1.0):
     spill = 0.08 * cv2.GaussianBlur(sm, (0, 0), 6) + 1.1 * cv2.GaussianBlur(sm, (0, 0), 22)
     spill = cv2.resize(spill, (PW, PH), interpolation=cv2.INTER_LINEAR)
     # steel: very low warm ambient + raking warm key on walls + spill * albedo
-    base = steel * WARM * (0.05 + 0.09 * lam[..., None] * wall[..., None])
+    base = steel * WARM * (0.075 + 0.09 * lam[..., None] * wall[..., None])
     empty = mask & ~present
     hollow = steel_t.mean(-1, keepdims=True) * WARM * (0.03 + 0.55 * (lam * wall)[..., None] + 0.40 * facing[..., None]
                                + 0.03 * ((part >= 0) & (part <= 3))[..., None]) * empty[..., None]
@@ -391,7 +424,10 @@ def band(film_t, k):
     img = img + chamfer[..., None].astype(np.float32) * np.array([0.02, 0.06, 0.15], np.float32)
     sheen = np.clip(1 - Y / (PH * 0.55), 0, 1) ** 2 * inside
     img = img + sheen[..., None] * np.array([0.004, 0.016, 0.05], np.float32)
-    img = img * inside[..., None] + practicals(film_t) * (1 - inside[..., None])
+    pr = practicals(film_t)
+    # the same blue lamps reflected by the polished plate (their light on the steel, real texture modulates it)
+    stex = cv2.warpPerspective(steel_t.mean(-1), Hm, (BW, BH), flags=cv2.INTER_LINEAR)
+    img = img * inside[..., None] + pr * (1 - inside[..., None]) + 1.15 * cv2.GaussianBlur(pr, (0, 0), 4) * (stex[..., None] / 0.62) * inside[..., None]
     # thin-lens focus: Sh3b pulls from the far cavity (first to empty) to the sprue; Sh3a is nearly flat
     if t >= 0:
         far = cav_info[order_empty[0]]["c"]

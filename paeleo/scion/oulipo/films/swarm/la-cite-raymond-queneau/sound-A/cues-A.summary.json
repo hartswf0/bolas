@@ -1,0 +1,26 @@
+{
+ "window_cues": 22,
+ "offset_std_ms": 88.0,
+ "offset_range_ms": [
+  120,
+  400
+ ],
+ "consecutive_repeat": false,
+ "contacts_source": "assumed (0.55 s from 8.33 s; re-align to edl.json)",
+ "handmade": [
+  "amb: exterior wind bed (brown noise band 60-900 Hz), street recording unavailable",
+  "amb: interior room tone 17.5-26.7 s (two band-limited brown-noise layers, 35-380 Hz)",
+  "music: synthesized music-box phrase 16.21-17.5 s (sine tines with inharmonic 3.9x partial)",
+  "fx: shopping-bag rustle on every step, 4 frames after contact (band-passed noise 1.8-7 kHz, AM)"
+ ],
+ "foraged_used": {
+  "latch_open": "sources/la-cite-raymond-queneau/test-shot/audio/latch_open.wav",
+  "door_close": "sources/la-cite-raymond-queneau/sound-A/raw/Closing_an_old_door.ogg",
+  "handle_creak": "sources/la-cite-raymond-queneau/sound-A/raw/Door_handle_creaking.ogg",
+  "faucet": "sources/la-cite-raymond-queneau/sound-A/raw/Faucet_water_into_sink.ogg",
+  "footstep": "sources/la-cite-raymond-queneau/sound-A/raw/Footstep_on_Gravel_Gravity_Sound_.mp3",
+  "car_pass": "sources/la-cite-raymond-queneau/sound-A/raw/Kolem_proj_d_auto_-_st_Karlova_ulice_001.ogg",
+  "kettle": "sources/la-cite-raymond-queneau/test-shot/audio/kettle_wws.ogg",
+  "radio_song": "sources/la-cite-raymond-queneau/sound-A/raw/Victor-73522a-b26758.ogg.mp3"
+ }
+}

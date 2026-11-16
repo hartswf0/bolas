@@ -1,0 +1,337 @@
+{
+ "film": "le-chant-du-styrene",
+ "script": "films/le-chant-du-styrene.py",
+ "render": "assets/films/le-chant-du-styrene.mp4",
+ "fps": 24,
+ "size": [
+  960,
+  540
+ ],
+ "band": [
+  66,
+  474
+ ],
+ "duration_s": 38.0,
+ "grade": {
+  "black_point": 3,
+  "highlight_knee": 196,
+  "ceiling": 222,
+  "grain": "kit._add_grain (one strength, band only; bars true black)"
+ },
+ "shots": [
+  {
+   "shot_id": "Sh1",
+   "step_id": "P4",
+   "playback": "static",
+   "t_in": 0.0,
+   "t_out": 8.6,
+   "frames": [
+    0,
+    206
+   ],
+   "line": "L1",
+   "elements": [
+    {
+     "tag": "FORAGED",
+     "id": "F-runner",
+     "what": "four loose rings, GrabCut cutouts of Spritzguss teile.jpg, declared teal->red/amber gel"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-gel",
+     "what": "declared thickness colour substitution"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-puppetry",
+     "what": "set-down settle at 0.6 s, slow drift"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-practicals-u2",
+     "what": "two defocused blue practicals, 0.3x plane"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-stems",
+     "what": "meter L1, ring set-down click, room tone"
+    }
+   ],
+   "source": "cutout/sh1"
+  },
+  {
+   "shot_id": "Sh2a",
+   "step_id": "P3",
+   "playback": "backward",
+   "t_in": 8.6,
+   "t_out": 13.02,
+   "frames": [
+    207,
+    312
+   ],
+   "line": "L2 (1st hemistich)",
+   "elements": [
+    {
+     "tag": "FORAGED",
+     "id": "F-runner",
+     "what": "bare four-arm runner + four rings, cutouts"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-puppetry",
+     "what": "rings fly on eased arcs on twos, staggered; ring 1 home on f312"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-constraints",
+     "what": "gate-contact constraint graph, geometry.json"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-gel",
+     "what": "declared colour substitution"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-practicals-u2",
+     "what": "blue practicals"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-stems",
+     "what": "launch ticks/whooshes, L2 meter, ring-1 snap at 13.000"
+    }
+   ],
+   "source": "cutout/sh2a",
+   "cut_out": "C1 hard cut on L2 caesura (13.025), between frames 312|313"
+  },
+  {
+   "shot_id": "Sh2b",
+   "step_id": "P3",
+   "playback": "backward",
+   "t_in": 13.02,
+   "t_out": 17.6,
+   "frames": [
+    313,
+    422
+   ],
+   "line": "L2 (2nd hemistich)",
+   "elements": [
+    {
+     "tag": "FORAGED",
+     "id": "F-runner",
+     "what": "runner + rings cutouts"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-puppetry",
+     "what": "rings 2-4 home at 14.00/14.70/15.30, spring-damper settle, glide to hold"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-constraints",
+     "what": "sh2b_hold layout = mould layout"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-practicals-u2",
+     "what": "blue practicals"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-stems",
+     "what": "snaps + rattles, room only 15.9-17.6"
+    }
+   ],
+   "source": "cutout/sh2b",
+   "transition_out": "8-frame shape-match dissolve f415-f422 (17.29-17.58) into melt/sh3a_dissolve_target (same camera; per-ring cavity IoU 0.96-0.97)"
+  },
+  {
+   "shot_id": "Sh3a",
+   "step_id": "M+P2",
+   "playback": "static",
+   "t_in": 17.6,
+   "t_out": 20.8,
+   "frames": [
+    423,
+    499
+   ],
+   "line": "L3 (syll. 1-4)",
+   "elements": [
+    {
+     "tag": "FORAGED",
+     "id": "F-steel",
+     "what": "mould steel quilted from Injection mold - (11).jpg, CC0"
+    },
+    {
+     "tag": "FORAGED",
+     "id": "F-runner-geometry",
+     "what": "cavity/channel layout derived from Spritzguss teile.jpg geometry"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-mould-field",
+     "what": "cavities+channels from geometry.json"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-melt-shading",
+     "what": "Beer-Lambert melt, refraction of F-steel, spill"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-camera",
+     "what": "frontal hold then slow tilt"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-practicals",
+     "what": "blue practicals"
+    },
+    {
+     "tag": "FORAGED",
+     "id": "F-gigaset",
+     "what": "Engel injection moulding machine recording, press bed from 18.8 s"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-stems",
+     "what": "L3 viscous meter, room"
+    }
+   ],
+   "source": "melt/sh3a",
+   "cut_out": "C2 hard cut against L3 caesura on syllable 5 're' (20.80), between frames 499|500"
+  },
+  {
+   "shot_id": "Sh3b",
+   "step_id": "M+P2",
+   "playback": "backward",
+   "t_in": 20.8,
+   "t_out": 27.6,
+   "frames": [
+    500,
+    662
+   ],
+   "line": "L3 (syll. 5-12)",
+   "elements": [
+    {
+     "tag": "FORAGED",
+     "id": "F-steel",
+     "what": "mould steel"
+    },
+    {
+     "tag": "FORAGED",
+     "id": "F-runner-geometry",
+     "what": "cavity layout"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-fill-time",
+     "what": "fill-time field run backward: far cavity first 21.9, sprue last 26.19"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-melt-shading",
+     "what": "boiling meniscus on twos, refraction, wet hollows"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-camera",
+     "what": "3/4 view, focus pull"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-practicals",
+     "what": "blue practicals"
+    },
+    {
+     "tag": "FORAGED",
+     "id": "F-gigaset",
+     "what": "press bed to 27.4 s"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-stems",
+     "what": "drain tone, cavity suctions 21.9/22.9/23.9/24.9, sprue glug 26.2, sound-only pellet rain from 26.80"
+    }
+   ],
+   "source": "melt/sh3b"
+  },
+  {
+   "shot_id": "Sh4",
+   "step_id": "P1",
+   "playback": "backward",
+   "t_in": 27.6,
+   "t_out": 35.0,
+   "frames": [
+    663,
+    839
+   ],
+   "line": "L4",
+   "elements": [
+    {
+     "tag": "HANDMADE",
+     "id": "H-trees",
+     "what": "6 front + 5 back translucent runner trees, Beer-Lambert dyes"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-bank",
+     "what": "Whitney oscillator bank, locked ratios, alignment 33.60"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-metamorphosis",
+     "what": "tree -> beads -> pellets -> orbits -> reunion -> fall, per frame"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-practicals-u4",
+     "what": "blue practicals"
+    },
+    {
+     "tag": "FORAGED",
+     "id": "F-runner-geometry",
+     "what": "arm angles/widths as tree vocabulary (measurement only)"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-stems",
+     "what": "L4 granular meter, pellet rain, chord at 33.60"
+    }
+   ],
+   "source": "harmonic/sh4",
+   "cut_out": "hard cut in the line gap at 35.00 (L4 ended 33.45)"
+  },
+  {
+   "shot_id": "Sh5",
+   "step_id": "P1",
+   "playback": "static",
+   "t_in": 35.0,
+   "t_out": 38.0,
+   "frames": [
+    840,
+    911
+   ],
+   "line": null,
+   "elements": [
+    {
+     "tag": "FORAGED",
+     "id": "F-heap",
+     "what": "Granuls orange.jpg heap, GrabCut onto black, real colour"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-sh5-pellets",
+     "what": "34 handmade pellets land on the heap, motion ends 36.375"
+    },
+    {
+     "tag": "HANDMADE",
+     "id": "H-stems",
+     "what": "last grains, room tone fades to silence 36.6-38.0"
+    }
+   ],
+   "source": "cutout/sh5/heap_rgba_960x408.png + harmonic/sh5_pellets_rgba"
+  }
+ ]
+}

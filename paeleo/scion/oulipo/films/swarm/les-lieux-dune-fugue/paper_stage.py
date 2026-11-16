@@ -847,7 +847,8 @@ def fall(theta0_deg, t):
             if om < 0.02:
                 om = 0.0
         tt += dt
-    return math.degrees(th), contact
+    d = math.degrees(th)
+    return (0.0 if d < 0.15 else d), contact
 
 
 def fall_time(theta0_deg):

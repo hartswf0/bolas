@@ -1,0 +1,3931 @@
+{
+ "unit": "U3 puppet (cutter + hinge engineer + gesture animator + secondary dynamics)",
+ "revision": "r3 build, 2026-11-16; base: plan.md round 3 + reviewed test shot r2 (archived in test-shot-r2/)",
+ "scions": [
+  "#2 Lotte Reiniger articulated shadow theater (in colour)",
+  "#41 Secondary dynamics",
+  "#43 Collage graph rewriting (tile identities T1..T14 as typed props)"
+ ],
+ "module": {
+  "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/puppet/puppet.py",
+  "usage": [
+   "import sys; sys.path.insert(0, PUP); import puppet as pp; pp.load_papers(PUP + '/paper')",
+   "CU head (S3/S4/S8): see build/test_shot.py draw_puppet(): pp.build_static(), pp.back_hair(wind), pp.cheeks(laugh), pp.eye_piece(kind,...), pp.brows(lift), pp.mouth_piece(id), pp.side_locks(), pp.crown_cap(), pp.fringe_pieces(strand_pts, strands); rig coords 1440x1080 = 2x of the 720x540 picture; rotate the head sheet about pp.NECK_PIN",
+   "hair: hs = pp.HairSolver(); per frame hs.step(head_ang, xform(pp.CROWN), wind, xform); hs.points(xform); carry across cuts by keeping hs (or hs.state()/hs.set_state())",
+   "full figure (S1,S2,S6,S7): img, joints = pp.render_body(pp.POSES['run3'], mouth='laugh', eye='crescent', hair=spring_value); climb: pose, pin = pp.climb_pose(k, step_top); render_body(pose, origin=...)",
+   "props: pp.tile(i, feet=False|True) (pivot bottom centre), pp.plaque(l1,l2,arr), pp.metro_sign(), pp.tunnel_rings() (6 RGBA 1440x1080 planes, front first)",
+   "all pieces pre-exported as PNG in sprites/ with sprites/manifest.json (pp.export_sprites)"
+  ]
+ },
+ "palette": {
+  "hair": {
+   "shadow": "#2c1504",
+   "dark": "#412312",
+   "deep": "#361c0c",
+   "mid": "#563a28",
+   "warm": "#603e28",
+   "crown": "#684d3c",
+   "lit": "#765b48",
+   "sheen": "#846852"
+  },
+  "skin": {
+   "forehead": "#be7c5a",
+   "cheek": "#ba7052",
+   "neck": "#a86446",
+   "tissue": "#c66c4c",
+   "socket": "#98583e",
+   "crease": "#804632"
+  },
+  "lips": "#b76756",
+  "teeth": {
+   "front": "#c6b498",
+   "side": "#aa886e",
+   "back": "#966e58"
+  },
+  "mouth_interior": "#220d04",
+  "collar": [
+   "#d6601e",
+   "#a84214"
+  ],
+  "jumper": "#4a362a",
+  "tile_paper": "#e6d6b8",
+  "tile_ink": "#7a2a1c",
+  "plaque": "#2f3f55",
+  "hair_tones_used": 8,
+  "note": "r3: skin warmed (forehead #be7c5a, cheek #ba7052, tissue #c66c4c) per user note"
+ },
+ "paper_stock_rule": "Stock rule (recorded in rig.json): skin & tissue -> thin 1928 book paper; ivory/cream (teeth, eye whites,\ntiles, letters' ground) -> 1929 book paper; saturated orange collar, enamel plaques, signs -> card; hair, jumper,\nshoes, mouth interior and all dark browns -> kraft.",
+ "z_order": {
+  "cu_head": [
+   "jumper",
+   "neck",
+   "collar_l",
+   "collar_r",
+   "collar_fold",
+   "[head sheet, rotated on NECK_PIN:] back_hair(3 under-layers shadow/deep/dark, mid, warm, crown, lit panels, 10 slivers)",
+   "ear_l(+in)",
+   "ear_r(+in)",
+   "face",
+   "jaw_tissue",
+   "socket_l/r",
+   "cheeks (tissue, clipped to face)",
+   "laugh folds",
+   "eyes (replacement)",
+   "brows",
+   "nose + shade + nostrils",
+   "mouth (replacement: lips, interior, tongue, teeth strip w/ gap, laterals, dimples)",
+   "side_locks",
+   "[world:] fringe mass (shadow union, deep union, 10 strands, lit slivers)",
+   "crown cap (+ brass split pin)",
+   "flyaway slivers"
+  ],
+  "body": [
+   "far arm (upper, fore, hand, thumb)",
+   "far leg (thigh, shin, shoe)",
+   "torso + shade",
+   "skirt",
+   "near leg",
+   "head (neck, back bob, ear, face, cheek, nose, brow, eye, mouth, front hair cap/fringe, slivers)",
+   "collar + fold",
+   "near arm",
+   "brass split pins at hip, knee, ankle, shoulder, elbow, wrist, neck"
+  ]
+ },
+ "pivots": {
+  "cu": {
+   "neck_pin": [
+    748,
+    1250
+   ],
+   "crown": [
+    742,
+    262
+   ],
+   "eyes": [
+    [
+     642,
+     662
+    ],
+    [
+     866,
+     662
+    ]
+   ],
+   "mouth": [
+    756,
+    888
+   ],
+   "face_centre": [
+    748,
+    712
+   ],
+   "coords": "2x picture px (1440x1080)"
+  },
+  "body": {
+   "pelvis": "origin (0,0)",
+   "lengths": {
+    "torso": 250,
+    "thigh": 190,
+    "shin": 180,
+    "foot": 78,
+    "upper_arm": 140,
+    "forearm": 128,
+    "neck": 34
+   },
+   "hips": "pelvis +-6 px x",
+   "shoulder": "0.86 x torso along torso",
+   "neck": "torso top",
+   "coords": "body px, y down; editor scales (figure ~1000 px tall)"
+  }
+ },
+ "limits_deg": {
+  "root": [
+   -30,
+   30
+  ],
+  "torso": [
+   -25,
+   40
+  ],
+  "head": [
+   -25,
+   25
+  ],
+  "thigh": [
+   -60,
+   105
+  ],
+  "knee": [
+   0,
+   110
+  ],
+  "ankle": [
+   -35,
+   45
+  ],
+  "shoulder": [
+   -80,
+   170
+  ],
+  "elbow": [
+   0,
+   130
+  ]
+ },
+ "limit_conventions": "limbs 0 = hanging down, + = forward (+x, toward the tram); knee = flex (shin swings back); elbow = flex forward; torso/head 0 = upright, + = lean forward",
+ "pose_sets": {
+  "run": {
+   "drawings": [
+    "run0",
+    "run1",
+    "run2",
+    "run3",
+    "run4",
+    "run5",
+    "run6",
+    "run7"
+   ],
+   "timing": "on twos: 16 frames = 0.667 s stride; near leg leads 0-3; contact/down/pass/up",
+   "poses": {
+    "run0": {
+     "root": 0,
+     "torso": 14,
+     "head": -6,
+     "dy": 0,
+     "thigh_n": 42,
+     "knee_n": 14,
+     "ankle_n": -8,
+     "thigh_f": -30,
+     "knee_f": 80,
+     "ankle_f": 10,
+     "shoulder_n": -27.800000000000004,
+     "elbow_n": 95,
+     "shoulder_f": 37.0,
+     "elbow_f": 95
+    },
+    "run1": {
+     "root": 0,
+     "torso": 14,
+     "head": -6,
+     "dy": 22,
+     "thigh_n": 22,
+     "knee_n": 42,
+     "ankle_n": 4,
+     "thigh_f": -46,
+     "knee_f": 100,
+     "ankle_f": 24,
+     "shoulder_n": -9.8,
+     "elbow_n": 95,
+     "shoulder_f": 51.4,
+     "elbow_f": 95
+    },
+    "run2": {
+     "root": 0,
+     "torso": 14,
+     "head": -6,
+     "dy": 4,
+     "thigh_n": -6,
+     "knee_n": 30,
+     "ankle_n": 18,
+     "thigh_f": 10,
+     "knee_f": 108,
+     "ankle_f": 6,
+     "shoulder_n": 15.4,
+     "elbow_n": 95,
+     "shoulder_f": 1.0,
+     "elbow_f": 95
+    },
+    "run3": {
+     "root": 0,
+     "torso": 14,
+     "head": -6,
+     "dy": -28,
+     "thigh_n": -34,
+     "knee_n": 12,
+     "ankle_n": 30,
+     "thigh_f": 56,
+     "knee_f": 66,
+     "ankle_f": -10,
+     "shoulder_n": 40.6,
+     "elbow_n": 95,
+     "shoulder_f": -40.4,
+     "elbow_f": 95
+    },
+    "run4": {
+     "root": 0,
+     "torso": 14,
+     "head": -6,
+     "dy": 0,
+     "thigh_n": -30,
+     "knee_n": 80,
+     "ankle_n": 10,
+     "thigh_f": 42,
+     "knee_f": 14,
+     "ankle_f": -8,
+     "shoulder_n": 37.0,
+     "elbow_n": 95,
+     "shoulder_f": -27.800000000000004,
+     "elbow_f": 95
+    },
+    "run5": {
+     "root": 0,
+     "torso": 14,
+     "head": -6,
+     "dy": 22,
+     "thigh_n": -46,
+     "knee_n": 100,
+     "ankle_n": 24,
+     "thigh_f": 22,
+     "knee_f": 42,
+     "ankle_f": 4,
+     "shoulder_n": 51.4,
+     "elbow_n": 95,
+     "shoulder_f": -9.8,
+     "elbow_f": 95
+    },
+    "run6": {
+     "root": 0,
+     "torso": 14,
+     "head": -6,
+     "dy": 4,
+     "thigh_n": 10,
+     "knee_n": 108,
+     "ankle_n": 6,
+     "thigh_f": -6,
+     "knee_f": 30,
+     "ankle_f": 18,
+     "shoulder_n": 1.0,
+     "elbow_n": 95,
+     "shoulder_f": 15.4,
+     "elbow_f": 95
+    },
+    "run7": {
+     "root": 0,
+     "torso": 14,
+     "head": -6,
+     "dy": -28,
+     "thigh_n": 56,
+     "knee_n": 66,
+     "ankle_n": -10,
+     "thigh_f": -34,
+     "knee_f": 12,
+     "ankle_f": 30,
+     "shoulder_n": -40.4,
+     "elbow_n": 95,
+     "shoulder_f": 40.6,
+     "elbow_f": 95
+    }
+   }
+  },
+  "squash": {
+   "root": -6,
+   "torso": -10,
+   "head": -8,
+   "dy": 46,
+   "thigh_n": 34,
+   "knee_n": 70,
+   "ankle_n": 20,
+   "thigh_f": 8,
+   "knee_f": 58,
+   "ankle_f": 12,
+   "shoulder_n": 140,
+   "elbow_n": 30,
+   "shoulder_f": 118,
+   "elbow_f": 44,
+   "sx": 1.08,
+   "sy": 0.9
+  },
+  "rebound": {
+   "root": -8,
+   "torso": -12,
+   "head": -10,
+   "dy": 10,
+   "thigh_n": -14,
+   "knee_n": 20,
+   "thigh_f": 30,
+   "knee_f": 40,
+   "shoulder_n": 60,
+   "elbow_n": 60,
+   "shoulder_f": 40,
+   "elbow_f": 50
+  },
+  "sit": {
+   "torso": -2,
+   "head": 6,
+   "thigh_n": 88,
+   "knee_n": 92,
+   "ankle_n": 10,
+   "thigh_f": 82,
+   "knee_f": 88,
+   "ankle_f": 10,
+   "shoulder_n": 20,
+   "elbow_n": 70,
+   "shoulder_f": 14,
+   "elbow_f": 74
+  },
+  "point": {
+   "torso": 4,
+   "head": 4,
+   "thigh_n": 6,
+   "knee_n": 4,
+   "thigh_f": -4,
+   "knee_f": 2,
+   "shoulder_n": 96,
+   "elbow_n": 6,
+   "shoulder_f": -10,
+   "elbow_f": 20
+  },
+  "stand": {
+   "torso": 2,
+   "thigh_n": 4,
+   "knee_n": 4,
+   "thigh_f": -3,
+   "knee_f": 2,
+   "shoulder_n": 8,
+   "elbow_n": 14,
+   "shoulder_f": -6,
+   "elbow_f": 10
+  },
+  "climb": "pp.climb_pose(k, step_top) k=0..3: near foot pinned at step_top (contact plane = tile top), hip solved by analytic 2-bone IK (pp.ik_leg); step 128 px right, 96 px up"
+ },
+ "replacements": {
+  "mouths": {
+   "1": "closed",
+   "4": "grin",
+   "5": "open-gap",
+   "6": "open-wide",
+   "2": "gasp",
+   "7": "O"
+  },
+  "mouth_specs": {
+   "1": {
+    "w": 190,
+    "h": 0
+   },
+   "2": {
+    "w": 128,
+    "h": 34
+   },
+   "4": {
+    "w": 214,
+    "h": 34
+   },
+   "5": {
+    "w": 240,
+    "h": 74
+   },
+   "6": {
+    "w": 246,
+    "h": 98
+   },
+   "7": {
+    "w": 104,
+    "h": 86
+   }
+  },
+  "eyes": [
+   "squeeze (crescent x2)",
+   "half",
+   "open_r (looking right)"
+  ],
+  "profile_eyes": [
+   "open",
+   "crescent"
+  ],
+  "profile_mouths": [
+   "closed",
+   "open",
+   "laugh",
+   "O"
+  ],
+  "laugh_cycle": "1-4-5-4-6-4..., 4 frames per mouth (exposure sheet in build/test-results.json)",
+  "note": "r3: mouths 5/6 opened wider (w 240/246, open 74/98 px at 2x) with the same soft single gap-tooth strip; 2 = gasp (two front teeth), 7 = O"
+ },
+ "spring_params": {
+  "integrator": "semi-implicit Euler",
+  "rate_hz": 24,
+  "substeps": 8,
+  "segments_per_strand": 3,
+  "strand_k": "170-230 (per strand, i%3)",
+  "strand_zeta": 0.32,
+  "sliver_k": "110-126",
+  "sliver_zeta": 0.25,
+  "wind_torque_gain": 75.0,
+  "inertia_gain": 0.0022,
+  "material_prior": "paper: stiff, light, quick settle",
+  "fringe_wind_dir_deg": 64,
+  "sliver_wind": "(1,-0.25) normalised",
+  "detaching_slivers": [
+   3,
+   7
+  ],
+  "fringe": "10 strands x 3 segments (roots along the parting, rest sweep to the right temple; the gust rotates strands 4-8 down across the right eye)",
+  "slivers": "9 flyaways past the silhouette at top right, 2 detach"
+ },
+ "tests": {
+  "rig": {
+   "limb_detach_max_px": 0.0,
+   "climb_pin_error_px": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "climb_pin_ok": true,
+   "pose_limit_clamps": [],
+   "climb_out_of_limits": [],
+   "hair": {
+    "lag_frames": 3,
+    "lag_ok_2_3": true,
+    "gust_peak_energy": 41.89,
+    "energy_1s_after": 1.093,
+    "decay_ratio": 0.0261,
+    "decay_ok_lt_0.10": true,
+    "root_drift_px": 0.0,
+    "roots_pinned": true,
+    "state_restore_exact": true
+   }
+  },
+  "test_shot": {
+   "unit": {
+    "strand_tip_half_response_lag_frames": 3,
+    "lag_ok_2_3": true
+   },
+   "energy": {
+    "energy_peak": 580.7372225031158,
+    "energy_1s_after_gust": 8.17283985787946,
+    "ratio": 0.014073215115526042,
+    "decay_ok": true
+   },
+   "anchor": {
+    "root_dx_px_2x": 0.0,
+    "root_dy_px_2x": 0.0,
+    "ang_deg": 0.0,
+    "mouth_47": 5,
+    "mouth_48": 5,
+    "hair_state_carried": true,
+    "plate_47": "P1",
+    "plate_48": "P2",
+    "crown_delta_px_720": 0.0,
+    "ok": true,
+    "alpha_centroid_191": [
+     380.47,
+     337.6
+    ],
+    "alpha_centroid_192": [
+     380.47,
+     337.6
+    ],
+    "alpha_centroid_delta_px_720": 0.0,
+    "head_width_incl_flyaways_f190": 0.606,
+    "head_width_ratio_f190": 0.532,
+    "head_x_span_f190": [
+     0.272,
+     0.803
+    ]
+   }
+  },
+  "labels": "measured: lag, decay, root pin, state restore, FK closure (limb_detach_max_px), climb pin error, limit clamps, centroid delta, head width; perceptual (pending independent reviewer): 'reads as laughing with sound off'"
+ },
+ "test_shot": {
+  "file": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/zazie-dans-le-metro/test-shot.mp4",
+  "poster": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/zazie-dans-le-metro/test-shot.webp",
+  "script": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/puppet/build/test_shot.py",
+  "span": "film 6.0-10.0 s (96 frames); jump cut at film frame 192 (local 48); declared hold 7.667-8.000 s",
+  "plates": "U2 forage/P1_sharp.png, P2_sharp.png (graded by U2), upscaled 2x and Gaussian-defocused here (r 12 @720; P2 rack to r 3.5 at 9.0-10.0 s); P2 further desaturated x0.72 and darkened x0.92 here (user note: Clichy saturation down) and framed so the native tram is at frame right",
+  "measured_picture": {
+   "t7_58": {
+    "p5": 28,
+    "p50": 77,
+    "p95": 131,
+    "max": 188,
+    "sat": 82,
+    "cheek": "#bd6f51",
+    "hair_crown": "#60422b"
+   },
+   "t8_00": {
+    "p5": 23,
+    "p50": 86,
+    "p95": 135,
+    "max": 193,
+    "sat": 74
+   },
+   "t9_50": {
+    "p5": 21,
+    "p50": 79,
+    "p95": 142,
+    "max": 237,
+    "sat": 77
+   },
+   "reference": {
+    "p5": 21,
+    "p50": 90,
+    "p95": 148,
+    "max": 200,
+    "sat": 92
+   }
+  },
+  "sound": "as r2: Commons wind gust (SAgbley, CC BY-SA 4.0) + kit-synthesized murmur/bell/steps/snap; declared silence 7.667-8.000 s",
+  "user_notes_addressed": [
+   "laugh opened wider, soft gap-tooth kept (mouths 5/6)",
+   "skin warmed toward #b47059/#b6785e (measured cheek #b76e4f-#bd6f51)",
+   "fringe strands 4-8 sweep across the right eye on the gust (see stills/01.60.png)",
+   "layered hair mass, softer face and grey-olive P1 kept",
+   "Clichy plate saturation pulled down (P2 plate HSV-S ~28 vs ~54 in U2's grade)"
+  ]
+ },
+ "deliverables": {
+  "puppet_sheet": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/zazie-dans-le-metro/puppet-sheet.jpg",
+  "silhouette_read": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/zazie-dans-le-metro/silhouette-read.jpg",
+  "sprites": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/puppet/sprites/ (202 PNG + manifest.json)",
+  "stills": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/puppet/stills/",
+  "module": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/puppet/puppet.py",
+  "sheets_script": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/puppet/build/sheets.py"
+ },
+ "puppet-paper": [
+  {
+   "id": "PAPER1",
+   "title": "Kraft tileable 1024x1024.png",
+   "author": "Coyau (Wikimedia Commons user)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Kraft_tileable_1024x1024.png",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/47/Kraft_tileable_1024x1024.png",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/puppet/paper/kraft.png",
+   "sha256": "1cd268910167e5e5353eaeb3956365df37cd963f5641f2f308c5eeed4e3d3b0d",
+   "what_it_shows": "scan of plain brown kraft paper, tileable",
+   "verified_date_or_place": "2026-11-16 (r2 ledger; extmetadata LicenseShortName 'Public domain')",
+   "used_as": "stock 'kraft': fibre of all hair pieces, jumper, skirt, shoes, brows, lashes, mouth interior (dyed by multiply)"
+  },
+  {
+   "id": "PAPER2",
+   "title": "Cardboard-546867.jpg",
+   "author": "Humusak (via Pixabay), uploaded to Wikimedia Commons",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Cardboard-546867.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cardboard-546867.jpg/1280px-Cardboard-546867.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/puppet/paper/cardboard.jpg",
+   "sha256": "996d605b106aafbb6b4df533cd1f157bf600313e3df21f18223c0e1d77fda9c5",
+   "what_it_shows": "flat brown cardboard surface, close (description 'Texture of cardboard'); 1280 px thumbnail of the 6016x4000 original",
+   "verified_date_or_place": "2026-11-16 (Commons API extmetadata read in this session)",
+   "used_as": "stock 'card': orange collar, blue-enamel plaques, métro sign and GRÈVE strip (high-pass fibre, dyed)"
+  },
+  {
+   "id": "PAPER3",
+   "title": "Official proceedings (1928) (14761156522).jpg",
+   "author": "Internet Archive Book Images (Flickr), scan of a 1928 publication",
+   "license": "Public domain (US publication of 1928; Commons/Flickr: no known copyright restrictions); blank page, no authored content used",
+   "license_url": "https://www.flickr.com/commons/usage/",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Official_proceedings_(1928)_(14761156522).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Official_proceedings_%281928%29_%2814761156522%29.jpg/1280px-Official_proceedings_%281928%29_%2814761156522%29.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/puppet/paper/book1928.jpg",
+   "sha256": "6219d53912f7a99bccd399630621c0b57921d89557d7b3585af3405c2f79e714",
+   "what_it_shows": "scan of a page printed only 'RESERVED'; crop (70,90,1210,960) is blank aged book paper above the word",
+   "verified_date_or_place": "2026-11-16 (Commons API extmetadata read in this session); extmetadata LicenseShortName 'No restrictions'",
+   "used_as": "stock 'book1928' (thin paper, standing in for tissue): face sheet, cheeks, ears, nose, neck, limbs' skin, lips"
+  },
+  {
+   "id": "PAPER4",
+   "title": "Official proceedings (1929) (14571803228).jpg",
+   "author": "Internet Archive Book Images (Flickr), scan of a 1929 publication",
+   "license": "Public domain (US publication of 1929; Commons/Flickr: no known copyright restrictions); blank page, no authored content used",
+   "license_url": "https://www.flickr.com/commons/usage/",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Official_proceedings_(1929)_(14571803228).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Official_proceedings_%281929%29_%2814571803228%29.jpg/1280px-Official_proceedings_%281929%29_%2814571803228%29.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/puppet/paper/book1929.jpg",
+   "sha256": "0a8cbd2918f1cafd24a99e5c669857af980c3b094906aeaa4a3faaea99b87e7a",
+   "what_it_shows": "scan of a cream page printed only 'RESERVED'; crop (70,90,1210,960) is blank paper with faint show-through",
+   "verified_date_or_place": "2026-11-16 (Commons API extmetadata read in this session); extmetadata LicenseShortName 'No restrictions'",
+   "used_as": "stock 'book1929': the 14 cream letter tiles and their feet, teeth, eye whites, MÉTRO and plaque letter paper"
+  }
+ ],
+ "absences": [
+  {
+   "searched": "Commons 'tissue paper texture' filetype:bitmap",
+   "result": "no PD/CC0 tissue scan (only 'Papel tissue.JPG', CC BY-SA 4.0, outside the PD/CC0 rule for paper; bark/flower photos)",
+   "substitute": "thin 1928 book paper (PAPER3) as the tissue stock"
+  },
+  {
+   "searched": "Commons 'paper texture', 'handmade paper', 'washi paper', 'card stock texture', 'kraft paper'",
+   "result": "most hits CC BY / CC BY-SA (Flickr texture packs); CC0 'Texture 15.JPG' turned out to show magazine spines (rejected on viewing); CC0 'Handmade Paper Manufacturer.jpg' shows a person drying paper (rejected)"
+  },
+  {
+   "searched": "Commons 'endpaper blank'",
+   "result": "NYPL front free / pastedown endpapers (PD) downloaded as 1280 px thumbnails and rejected on viewing: marbled patterns with bookplates and colour bars, not blank stock; '3x5 Notecard.jpg' (PD) rejected: ruled lines"
+  },
+  {
+   "searched": "Commons rate limit",
+   "result": "HTTP 429 repeatedly; downloads done with 15 s spacing and up to 90 s back-off"
+  }
+ ],
+ "rejected": [
+  {
+   "item": "paper/cand/Texture_15.JPG.jpg (CC0)",
+   "reason": "shows magazine spines, not a paper surface"
+  },
+  {
+   "item": "paper/cand/Handmade_Paper_Manufacturer.jpg.jpg (CC0)",
+   "reason": "photograph of a person; not a paper scan"
+  },
+  {
+   "item": "paper/cand/Front_free_endpaper_(NYPL...).jpg, Front_pastedown_endpaper (PD)",
+   "reason": "marbled pattern + bookplate + colour target; would read as pattern, not fibre"
+  },
+  {
+   "item": "paper/cand/3x5_Notecard.jpg.jpg (PD)",
+   "reason": "ruled blue/red lines"
+  },
+  {
+   "item": "paper/cand/Pulp_and_paper_magazine_of_Canada_(1903).jpg",
+   "reason": "printed advertisement, no blank area of use"
+  },
+  {
+   "item": "r2/Little_girl_*.jpg, Laughing_Girl_*.jpg, Young_girl_*.jpg, girl_mask.png",
+   "reason": "excluded: real child, user rule (not opened, not used)"
+  }
+ ],
+ "handmade": [
+  {
+   "item": "cut-paper puppet Z: CU head rig (bob 3 under-tones + 4 panels + 10 slivers, crown cap, 10 spring strands + 9 flyaways, side locks, ears w/ inner shade, face sheet, jaw/socket tissue, risen tissue cheeks, brows, eyes x3 replacements, folded nose tab, upper/lower lips, 6+ mouths w/ gap-tooth upper strip, neck, 2-tone orange collar, brown jumper, brass split pin)",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/puppet/puppet.py; sprites/head_*, mouth_*, eye_*, brow_*, cheek_*"
+  },
+  {
+   "item": "full-figure body: torso, skirt, thighs, shins (socks), shoes, upper arms, forearms, hands, thumbs (near/far), profile head with bob, cap, fringe, slivers, eye and mouth replacements, collar",
+   "where": "sprites/body_*, phead_*"
+  },
+  {
+   "item": "14 letter tiles DOUKIPUDONKTAN (DejaVu Serif Bold glyph as the scissor line, red-brown kraft letter on cream 1929 paper) + feet variants",
+   "where": "sprites/tile_*"
+  },
+  {
+   "item": "métro sign with GRÈVE strip; PLACE DE CLICHY and PLACE DU CHÂTELET enamel plaques (card); 6 mouth-tunnel rings",
+   "where": "sprites/metro_greve.png, plaque_*.png, tunnel_ring_*.png"
+  }
+ ],
+ "pieces": {
+  "head_jumper": {
+   "group": "cu_head_static",
+   "file": "sprites/head_jumper.png",
+   "size": [
+    992,
+    122
+   ],
+   "pivot_in_sprite": [
+    -254,
+    -1004
+   ],
+   "rig_origin": [
+    254,
+    1004
+   ]
+  },
+  "head_neck": {
+   "group": "cu_head_static",
+   "file": "sprites/head_neck.png",
+   "size": [
+    272,
+    182
+   ],
+   "pivot_in_sprite": [
+    -614,
+    -924
+   ],
+   "rig_origin": [
+    614,
+    924
+   ]
+  },
+  "head_collar_l": {
+   "group": "cu_head_static",
+   "file": "sprites/head_collar_l.png",
+   "size": [
+    258,
+    72
+   ],
+   "pivot_in_sprite": [
+    -464,
+    -1034
+   ],
+   "rig_origin": [
+    464,
+    1034
+   ]
+  },
+  "head_collar_r": {
+   "group": "cu_head_static",
+   "file": "sprites/head_collar_r.png",
+   "size": [
+    268,
+    74
+   ],
+   "pivot_in_sprite": [
+    -784,
+    -1032
+   ],
+   "rig_origin": [
+    784,
+    1032
+   ]
+  },
+  "head_collar_fold": {
+   "group": "cu_head_static",
+   "file": "sprites/head_collar_fold.png",
+   "size": [
+    78,
+    60
+   ],
+   "pivot_in_sprite": [
+    -644,
+    -1046
+   ],
+   "rig_origin": [
+    644,
+    1046
+   ]
+  },
+  "head_ear_l": {
+   "group": "cu_head_static",
+   "file": "sprites/head_ear_l.png",
+   "size": [
+    98,
+    144
+   ],
+   "pivot_in_sprite": [
+    -443,
+    -760
+   ],
+   "rig_origin": [
+    443,
+    760
+   ]
+  },
+  "head_ear_l_in": {
+   "group": "cu_head_static",
+   "file": "sprites/head_ear_l_in.png",
+   "size": [
+    54,
+    92
+   ],
+   "pivot_in_sprite": [
+    -457,
+    -792
+   ],
+   "rig_origin": [
+    457,
+    792
+   ]
+  },
+  "head_ear_r": {
+   "group": "cu_head_static",
+   "file": "sprites/head_ear_r.png",
+   "size": [
+    98,
+    152
+   ],
+   "pivot_in_sprite": [
+    -951,
+    -724
+   ],
+   "rig_origin": [
+    951,
+    724
+   ]
+  },
+  "head_ear_r_in": {
+   "group": "cu_head_static",
+   "file": "sprites/head_ear_r_in.png",
+   "size": [
+    54,
+    100
+   ],
+   "pivot_in_sprite": [
+    -983,
+    -756
+   ],
+   "rig_origin": [
+    983,
+    756
+   ]
+  },
+  "head_face": {
+   "group": "cu_head_static",
+   "file": "sprites/head_face.png",
+   "size": [
+    542,
+    706
+   ],
+   "pivot_in_sprite": [
+    -477,
+    -354
+   ],
+   "rig_origin": [
+    477,
+    354
+   ]
+  },
+  "head_jaw_tissue": {
+   "group": "cu_head_static",
+   "file": "sprites/head_jaw_tissue.png",
+   "size": [
+    256,
+    318
+   ],
+   "pivot_in_sprite": [
+    -754,
+    -754
+   ],
+   "rig_origin": [
+    754,
+    754
+   ]
+  },
+  "head_socket_l": {
+   "group": "cu_head_static",
+   "file": "sprites/head_socket_l.png",
+   "size": [
+    196,
+    104
+   ],
+   "pivot_in_sprite": [
+    -542,
+    -598
+   ],
+   "rig_origin": [
+    542,
+    598
+   ]
+  },
+  "head_socket_r": {
+   "group": "cu_head_static",
+   "file": "sprites/head_socket_r.png",
+   "size": [
+    196,
+    104
+   ],
+   "pivot_in_sprite": [
+    -768,
+    -598
+   ],
+   "rig_origin": [
+    768,
+    598
+   ]
+  },
+  "head_nose": {
+   "group": "cu_head_static",
+   "file": "sprites/head_nose.png",
+   "size": [
+    98,
+    144
+   ],
+   "pivot_in_sprite": [
+    -706,
+    -670
+   ],
+   "rig_origin": [
+    706,
+    670
+   ]
+  },
+  "head_nose_sh": {
+   "group": "cu_head_static",
+   "file": "sprites/head_nose_sh.png",
+   "size": [
+    52,
+    128
+   ],
+   "pivot_in_sprite": [
+    -752,
+    -678
+   ],
+   "rig_origin": [
+    752,
+    678
+   ]
+  },
+  "head_nostril_l": {
+   "group": "cu_head_static",
+   "file": "sprites/head_nostril_l.png",
+   "size": [
+    34,
+    24
+   ],
+   "pivot_in_sprite": [
+    -717,
+    -786
+   ],
+   "rig_origin": [
+    717,
+    786
+   ]
+  },
+  "head_nostril_r": {
+   "group": "cu_head_static",
+   "file": "sprites/head_nostril_r.png",
+   "size": [
+    34,
+    24
+   ],
+   "pivot_in_sprite": [
+    -763,
+    -786
+   ],
+   "rig_origin": [
+    763,
+    786
+   ]
+  },
+  "head_backhair_00": {
+   "group": "cu_back_hair",
+   "file": "sprites/head_backhair_00.png",
+   "size": [
+    782,
+    748
+   ],
+   "pivot_in_sprite": [
+    -369,
+    -245
+   ],
+   "rig_origin": [
+    369,
+    245
+   ]
+  },
+  "head_backhair_01": {
+   "group": "cu_back_hair",
+   "file": "sprites/head_backhair_01.png",
+   "size": [
+    757,
+    717
+   ],
+   "pivot_in_sprite": [
+    -371,
+    -240
+   ],
+   "rig_origin": [
+    371,
+    240
+   ]
+  },
+  "head_backhair_02": {
+   "group": "cu_back_hair",
+   "file": "sprites/head_backhair_02.png",
+   "size": [
+    742,
+    696
+   ],
+   "pivot_in_sprite": [
+    -378,
+    -242
+   ],
+   "rig_origin": [
+    378,
+    242
+   ]
+  },
+  "head_backhair_03": {
+   "group": "cu_back_hair",
+   "file": "sprites/head_backhair_03.png",
+   "size": [
+    342,
+    655
+   ],
+   "pivot_in_sprite": [
+    -384,
+    -260
+   ],
+   "rig_origin": [
+    384,
+    260
+   ]
+  },
+  "head_backhair_04": {
+   "group": "cu_back_hair",
+   "file": "sprites/head_backhair_04.png",
+   "size": [
+    152,
+    577
+   ],
+   "pivot_in_sprite": [
+    -962,
+    -330
+   ],
+   "rig_origin": [
+    962,
+    330
+   ]
+  },
+  "head_backhair_05": {
+   "group": "cu_back_hair",
+   "file": "sprites/head_backhair_05.png",
+   "size": [
+    510,
+    186
+   ],
+   "pivot_in_sprite": [
+    -520,
+    -252
+   ],
+   "rig_origin": [
+    520,
+    252
+   ]
+  },
+  "head_backhair_06": {
+   "group": "cu_back_hair",
+   "file": "sprites/head_backhair_06.png",
+   "size": [
+    306,
+    128
+   ],
+   "pivot_in_sprite": [
+    -550,
+    -268
+   ],
+   "rig_origin": [
+    550,
+    268
+   ]
+  },
+  "head_backhair_07": {
+   "group": "cu_back_hair",
+   "file": "sprites/head_backhair_07.png",
+   "size": [
+    108,
+    460
+   ],
+   "pivot_in_sprite": [
+    -431,
+    -398
+   ],
+   "rig_origin": [
+    431,
+    398
+   ]
+  },
+  "head_backhair_08": {
+   "group": "cu_back_hair",
+   "file": "sprites/head_backhair_08.png",
+   "size": [
+    101,
+    479
+   ],
+   "pivot_in_sprite": [
+    -435,
+    -394
+   ],
+   "rig_origin": [
+    435,
+    394
+   ]
+  },
+  "head_backhair_09": {
+   "group": "cu_back_hair",
+   "file": "sprites/head_backhair_09.png",
+   "size": [
+    104,
+    463
+   ],
+   "pivot_in_sprite": [
+    -428,
+    -414
+   ],
+   "rig_origin": [
+    428,
+    414
+   ]
+  },
+  "head_backhair_10": {
+   "group": "cu_back_hair",
+   "file": "sprites/head_backhair_10.png",
+   "size": [
+    104,
+    493
+   ],
+   "pivot_in_sprite": [
+    -438,
+    -389
+   ],
+   "rig_origin": [
+    438,
+    389
+   ]
+  },
+  "head_backhair_11": {
+   "group": "cu_back_hair",
+   "file": "sprites/head_backhair_11.png",
+   "size": [
+    107,
+    461
+   ],
+   "pivot_in_sprite": [
+    -428,
+    -400
+   ],
+   "rig_origin": [
+    428,
+    400
+   ]
+  },
+  "head_backhair_12": {
+   "group": "cu_back_hair",
+   "file": "sprites/head_backhair_12.png",
+   "size": [
+    113,
+    483
+   ],
+   "pivot_in_sprite": [
+    -443,
+    -370
+   ],
+   "rig_origin": [
+    443,
+    370
+   ]
+  },
+  "head_backhair_13": {
+   "group": "cu_back_hair",
+   "file": "sprites/head_backhair_13.png",
+   "size": [
+    76,
+    498
+   ],
+   "pivot_in_sprite": [
+    -1020,
+    -404
+   ],
+   "rig_origin": [
+    1020,
+    404
+   ]
+  },
+  "head_backhair_14": {
+   "group": "cu_back_hair",
+   "file": "sprites/head_backhair_14.png",
+   "size": [
+    122,
+    539
+   ],
+   "pivot_in_sprite": [
+    -951,
+    -333
+   ],
+   "rig_origin": [
+    951,
+    333
+   ]
+  },
+  "head_backhair_15": {
+   "group": "cu_back_hair",
+   "file": "sprites/head_backhair_15.png",
+   "size": [
+    125,
+    539
+   ],
+   "pivot_in_sprite": [
+    -949,
+    -331
+   ],
+   "rig_origin": [
+    949,
+    331
+   ]
+  },
+  "head_backhair_16": {
+   "group": "cu_back_hair",
+   "file": "sprites/head_backhair_16.png",
+   "size": [
+    117,
+    547
+   ],
+   "pivot_in_sprite": [
+    -973,
+    -355
+   ],
+   "rig_origin": [
+    973,
+    355
+   ]
+  },
+  "head_crowncap_00": {
+   "group": "cu_crown",
+   "file": "sprites/head_crowncap_00.png",
+   "size": [
+    547,
+    219
+   ],
+   "pivot_in_sprite": [
+    -494,
+    -246
+   ],
+   "rig_origin": [
+    494,
+    246
+   ]
+  },
+  "head_crowncap_01": {
+   "group": "cu_crown",
+   "file": "sprites/head_crowncap_01.png",
+   "size": [
+    252,
+    128
+   ],
+   "pivot_in_sprite": [
+    -554,
+    -258
+   ],
+   "rig_origin": [
+    554,
+    258
+   ]
+  },
+  "head_crowncap_02": {
+   "group": "cu_crown",
+   "file": "sprites/head_crowncap_02.png",
+   "size": [
+    312,
+    105
+   ],
+   "pivot_in_sprite": [
+    -591,
+    -293
+   ],
+   "rig_origin": [
+    591,
+    293
+   ]
+  },
+  "head_crowncap_03": {
+   "group": "cu_crown",
+   "file": "sprites/head_crowncap_03.png",
+   "size": [
+    280,
+    129
+   ],
+   "pivot_in_sprite": [
+    -623,
+    -285
+   ],
+   "rig_origin": [
+    623,
+    285
+   ]
+  },
+  "head_crowncap_04": {
+   "group": "cu_crown",
+   "file": "sprites/head_crowncap_04.png",
+   "size": [
+    275,
+    124
+   ],
+   "pivot_in_sprite": [
+    -682,
+    -286
+   ],
+   "rig_origin": [
+    682,
+    286
+   ]
+  },
+  "head_crowncap_05": {
+   "group": "cu_crown",
+   "file": "sprites/head_crowncap_05.png",
+   "size": [
+    248,
+    158
+   ],
+   "pivot_in_sprite": [
+    -710,
+    -266
+   ],
+   "rig_origin": [
+    710,
+    266
+   ]
+  },
+  "head_crowncap_06": {
+   "group": "cu_crown",
+   "file": "sprites/head_crowncap_06.png",
+   "size": [
+    280,
+    176
+   ],
+   "pivot_in_sprite": [
+    -747,
+    -260
+   ],
+   "rig_origin": [
+    747,
+    260
+   ]
+  },
+  "head_crowncap_07": {
+   "group": "cu_crown",
+   "file": "sprites/head_crowncap_07.png",
+   "size": [
+    257,
+    183
+   ],
+   "pivot_in_sprite": [
+    -786,
+    -257
+   ],
+   "rig_origin": [
+    786,
+    257
+   ]
+  },
+  "head_crowncap_08": {
+   "group": "cu_crown",
+   "file": "sprites/head_crowncap_08.png",
+   "size": [
+    257,
+    197
+   ],
+   "pivot_in_sprite": [
+    -832,
+    -252
+   ],
+   "rig_origin": [
+    832,
+    252
+   ]
+  },
+  "mouth_1_closed_00": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_1_closed_00.png",
+   "size": [
+    202,
+    50
+   ],
+   "pivot_in_sprite": [
+    -655,
+    -844
+   ],
+   "rig_origin": [
+    655,
+    844
+   ]
+  },
+  "mouth_1_closed_01": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_1_closed_01.png",
+   "size": [
+    202,
+    60
+   ],
+   "pivot_in_sprite": [
+    -655,
+    -856
+   ],
+   "rig_origin": [
+    655,
+    856
+   ]
+  },
+  "mouth_1_closed_02": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_1_closed_02.png",
+   "size": [
+    206,
+    44
+   ],
+   "pivot_in_sprite": [
+    -653,
+    -853
+   ],
+   "rig_origin": [
+    653,
+    853
+   ]
+  },
+  "mouth_4_grin_00": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_4_grin_00.png",
+   "size": [
+    226,
+    43
+   ],
+   "pivot_in_sprite": [
+    -643,
+    -845
+   ],
+   "rig_origin": [
+    643,
+    845
+   ]
+  },
+  "mouth_4_grin_01": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_4_grin_01.png",
+   "size": [
+    226,
+    98
+   ],
+   "pivot_in_sprite": [
+    -643,
+    -852
+   ],
+   "rig_origin": [
+    643,
+    852
+   ]
+  },
+  "mouth_4_grin_02": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_4_grin_02.png",
+   "size": [
+    140,
+    44
+   ],
+   "pivot_in_sprite": [
+    -686,
+    -890
+   ],
+   "rig_origin": [
+    686,
+    890
+   ]
+  },
+  "mouth_4_grin_03": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_4_grin_03.png",
+   "size": [
+    226,
+    70
+   ],
+   "pivot_in_sprite": [
+    -643,
+    -852
+   ],
+   "rig_origin": [
+    643,
+    852
+   ]
+  },
+  "mouth_4_grin_04": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_4_grin_04.png",
+   "size": [
+    132,
+    48
+   ],
+   "pivot_in_sprite": [
+    -690,
+    -865
+   ],
+   "rig_origin": [
+    690,
+    865
+   ]
+  },
+  "mouth_4_grin_05": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_4_grin_05.png",
+   "size": [
+    54,
+    48
+   ],
+   "pivot_in_sprite": [
+    -687,
+    -863
+   ],
+   "rig_origin": [
+    687,
+    863
+   ]
+  },
+  "mouth_4_grin_06": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_4_grin_06.png",
+   "size": [
+    54,
+    48
+   ],
+   "pivot_in_sprite": [
+    -771,
+    -863
+   ],
+   "rig_origin": [
+    771,
+    863
+   ]
+  },
+  "mouth_4_grin_07": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_4_grin_07.png",
+   "size": [
+    17,
+    22
+   ],
+   "pivot_in_sprite": [
+    -707,
+    -872
+   ],
+   "rig_origin": [
+    707,
+    872
+   ]
+  },
+  "mouth_4_grin_08": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_4_grin_08.png",
+   "size": [
+    16,
+    35
+   ],
+   "pivot_in_sprite": [
+    -726,
+    -874
+   ],
+   "rig_origin": [
+    726,
+    874
+   ]
+  },
+  "mouth_4_grin_09": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_4_grin_09.png",
+   "size": [
+    17,
+    35
+   ],
+   "pivot_in_sprite": [
+    -770,
+    -874
+   ],
+   "rig_origin": [
+    770,
+    874
+   ]
+  },
+  "mouth_4_grin_10": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_4_grin_10.png",
+   "size": [
+    16,
+    29
+   ],
+   "pivot_in_sprite": [
+    -789,
+    -872
+   ],
+   "rig_origin": [
+    789,
+    872
+   ]
+  },
+  "mouth_4_grin_11": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_4_grin_11.png",
+   "size": [
+    26,
+    45
+   ],
+   "pivot_in_sprite": [
+    -624,
+    -840
+   ],
+   "rig_origin": [
+    624,
+    840
+   ]
+  },
+  "mouth_4_grin_12": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_4_grin_12.png",
+   "size": [
+    26,
+    45
+   ],
+   "pivot_in_sprite": [
+    -862,
+    -840
+   ],
+   "rig_origin": [
+    862,
+    840
+   ]
+  },
+  "mouth_5_open-gap_00": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_5_open-gap_00.png",
+   "size": [
+    252,
+    51
+   ],
+   "pivot_in_sprite": [
+    -630,
+    -837
+   ],
+   "rig_origin": [
+    630,
+    837
+   ]
+  },
+  "mouth_5_open-gap_01": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_5_open-gap_01.png",
+   "size": [
+    252,
+    146
+   ],
+   "pivot_in_sprite": [
+    -630,
+    -844
+   ],
+   "rig_origin": [
+    630,
+    844
+   ]
+  },
+  "mouth_5_open-gap_02": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_5_open-gap_02.png",
+   "size": [
+    154,
+    59
+   ],
+   "pivot_in_sprite": [
+    -679,
+    -915
+   ],
+   "rig_origin": [
+    679,
+    915
+   ]
+  },
+  "mouth_5_open-gap_03": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_5_open-gap_03.png",
+   "size": [
+    252,
+    118
+   ],
+   "pivot_in_sprite": [
+    -630,
+    -844
+   ],
+   "rig_origin": [
+    630,
+    844
+   ]
+  },
+  "mouth_5_open-gap_04": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_5_open-gap_04.png",
+   "size": [
+    90,
+    33
+   ],
+   "pivot_in_sprite": [
+    -711,
+    -931
+   ],
+   "rig_origin": [
+    711,
+    931
+   ]
+  },
+  "mouth_5_open-gap_05": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_5_open-gap_05.png",
+   "size": [
+    148,
+    56
+   ],
+   "pivot_in_sprite": [
+    -682,
+    -862
+   ],
+   "rig_origin": [
+    682,
+    862
+   ]
+  },
+  "mouth_5_open-gap_06": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_5_open-gap_06.png",
+   "size": [
+    58,
+    50
+   ],
+   "pivot_in_sprite": [
+    -680,
+    -861
+   ],
+   "rig_origin": [
+    680,
+    861
+   ]
+  },
+  "mouth_5_open-gap_07": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_5_open-gap_07.png",
+   "size": [
+    58,
+    50
+   ],
+   "pivot_in_sprite": [
+    -774,
+    -861
+   ],
+   "rig_origin": [
+    774,
+    861
+   ]
+  },
+  "mouth_5_open-gap_08": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_5_open-gap_08.png",
+   "size": [
+    17,
+    24
+   ],
+   "pivot_in_sprite": [
+    -702,
+    -871
+   ],
+   "rig_origin": [
+    702,
+    871
+   ]
+  },
+  "mouth_5_open-gap_09": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_5_open-gap_09.png",
+   "size": [
+    16,
+    39
+   ],
+   "pivot_in_sprite": [
+    -723,
+    -874
+   ],
+   "rig_origin": [
+    723,
+    874
+   ]
+  },
+  "mouth_5_open-gap_10": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_5_open-gap_10.png",
+   "size": [
+    17,
+    39
+   ],
+   "pivot_in_sprite": [
+    -773,
+    -874
+   ],
+   "rig_origin": [
+    773,
+    874
+   ]
+  },
+  "mouth_5_open-gap_11": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_5_open-gap_11.png",
+   "size": [
+    16,
+    33
+   ],
+   "pivot_in_sprite": [
+    -794,
+    -871
+   ],
+   "rig_origin": [
+    794,
+    871
+   ]
+  },
+  "mouth_5_open-gap_12": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_5_open-gap_12.png",
+   "size": [
+    26,
+    45
+   ],
+   "pivot_in_sprite": [
+    -611,
+    -832
+   ],
+   "rig_origin": [
+    611,
+    832
+   ]
+  },
+  "mouth_5_open-gap_13": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_5_open-gap_13.png",
+   "size": [
+    26,
+    45
+   ],
+   "pivot_in_sprite": [
+    -875,
+    -832
+   ],
+   "rig_origin": [
+    875,
+    832
+   ]
+  },
+  "mouth_6_open-wide_00": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_6_open-wide_00.png",
+   "size": [
+    258,
+    51
+   ],
+   "pivot_in_sprite": [
+    -627,
+    -837
+   ],
+   "rig_origin": [
+    627,
+    837
+   ]
+  },
+  "mouth_6_open-wide_01": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_6_open-wide_01.png",
+   "size": [
+    258,
+    170
+   ],
+   "pivot_in_sprite": [
+    -627,
+    -844
+   ],
+   "rig_origin": [
+    627,
+    844
+   ]
+  },
+  "mouth_6_open-wide_02": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_6_open-wide_02.png",
+   "size": [
+    158,
+    67
+   ],
+   "pivot_in_sprite": [
+    -677,
+    -931
+   ],
+   "rig_origin": [
+    677,
+    931
+   ]
+  },
+  "mouth_6_open-wide_03": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_6_open-wide_03.png",
+   "size": [
+    258,
+    142
+   ],
+   "pivot_in_sprite": [
+    -627,
+    -844
+   ],
+   "rig_origin": [
+    627,
+    844
+   ]
+  },
+  "mouth_6_open-wide_04": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_6_open-wide_04.png",
+   "size": [
+    108,
+    47
+   ],
+   "pivot_in_sprite": [
+    -702,
+    -939
+   ],
+   "rig_origin": [
+    702,
+    939
+   ]
+  },
+  "mouth_6_open-wide_05": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_6_open-wide_05.png",
+   "size": [
+    92,
+    35
+   ],
+   "pivot_in_sprite": [
+    -710,
+    -953
+   ],
+   "rig_origin": [
+    710,
+    953
+   ]
+  },
+  "mouth_6_open-wide_06": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_6_open-wide_06.png",
+   "size": [
+    150,
+    56
+   ],
+   "pivot_in_sprite": [
+    -681,
+    -862
+   ],
+   "rig_origin": [
+    681,
+    862
+   ]
+  },
+  "mouth_6_open-wide_07": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_6_open-wide_07.png",
+   "size": [
+    60,
+    50
+   ],
+   "pivot_in_sprite": [
+    -678,
+    -861
+   ],
+   "rig_origin": [
+    678,
+    861
+   ]
+  },
+  "mouth_6_open-wide_08": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_6_open-wide_08.png",
+   "size": [
+    60,
+    50
+   ],
+   "pivot_in_sprite": [
+    -774,
+    -861
+   ],
+   "rig_origin": [
+    774,
+    861
+   ]
+  },
+  "mouth_6_open-wide_09": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_6_open-wide_09.png",
+   "size": [
+    17,
+    24
+   ],
+   "pivot_in_sprite": [
+    -701,
+    -871
+   ],
+   "rig_origin": [
+    701,
+    871
+   ]
+  },
+  "mouth_6_open-wide_10": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_6_open-wide_10.png",
+   "size": [
+    17,
+    39
+   ],
+   "pivot_in_sprite": [
+    -722,
+    -874
+   ],
+   "rig_origin": [
+    722,
+    874
+   ]
+  },
+  "mouth_6_open-wide_11": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_6_open-wide_11.png",
+   "size": [
+    16,
+    39
+   ],
+   "pivot_in_sprite": [
+    -774,
+    -874
+   ],
+   "rig_origin": [
+    774,
+    874
+   ]
+  },
+  "mouth_6_open-wide_12": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_6_open-wide_12.png",
+   "size": [
+    16,
+    33
+   ],
+   "pivot_in_sprite": [
+    -795,
+    -871
+   ],
+   "rig_origin": [
+    795,
+    871
+   ]
+  },
+  "mouth_6_open-wide_13": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_6_open-wide_13.png",
+   "size": [
+    26,
+    45
+   ],
+   "pivot_in_sprite": [
+    -608,
+    -832
+   ],
+   "rig_origin": [
+    608,
+    832
+   ]
+  },
+  "mouth_6_open-wide_14": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_6_open-wide_14.png",
+   "size": [
+    26,
+    45
+   ],
+   "pivot_in_sprite": [
+    -878,
+    -832
+   ],
+   "rig_origin": [
+    878,
+    832
+   ]
+  },
+  "mouth_2_gasp_00": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_2_gasp_00.png",
+   "size": [
+    172,
+    78
+   ],
+   "pivot_in_sprite": [
+    -676,
+    -843
+   ],
+   "rig_origin": [
+    676,
+    843
+   ]
+  },
+  "mouth_2_gasp_01": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_2_gasp_01.png",
+   "size": [
+    168,
+    47
+   ],
+   "pivot_in_sprite": [
+    -678,
+    -878
+   ],
+   "rig_origin": [
+    678,
+    878
+   ]
+  },
+  "mouth_2_gasp_02": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_2_gasp_02.png",
+   "size": [
+    140,
+    46
+   ],
+   "pivot_in_sprite": [
+    -692,
+    -861
+   ],
+   "rig_origin": [
+    692,
+    861
+   ]
+  },
+  "mouth_2_gasp_03": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_2_gasp_03.png",
+   "size": [
+    42,
+    38
+   ],
+   "pivot_in_sprite": [
+    -721,
+    -863
+   ],
+   "rig_origin": [
+    721,
+    863
+   ]
+  },
+  "mouth_2_gasp_04": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_2_gasp_04.png",
+   "size": [
+    42,
+    38
+   ],
+   "pivot_in_sprite": [
+    -761,
+    -863
+   ],
+   "rig_origin": [
+    761,
+    863
+   ]
+  },
+  "mouth_7_O_00": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_7_O_00.png",
+   "size": [
+    148,
+    130
+   ],
+   "pivot_in_sprite": [
+    -688,
+    -817
+   ],
+   "rig_origin": [
+    688,
+    817
+   ]
+  },
+  "mouth_7_O_01": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_7_O_01.png",
+   "size": [
+    144,
+    73
+   ],
+   "pivot_in_sprite": [
+    -690,
+    -878
+   ],
+   "rig_origin": [
+    690,
+    878
+   ]
+  },
+  "mouth_7_O_02": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_7_O_02.png",
+   "size": [
+    116,
+    98
+   ],
+   "pivot_in_sprite": [
+    -704,
+    -835
+   ],
+   "rig_origin": [
+    704,
+    835
+   ]
+  },
+  "mouth_7_O_03": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_7_O_03.png",
+   "size": [
+    36,
+    38
+   ],
+   "pivot_in_sprite": [
+    -727,
+    -837
+   ],
+   "rig_origin": [
+    727,
+    837
+   ]
+  },
+  "mouth_7_O_04": {
+   "group": "cu_mouth",
+   "file": "sprites/mouth_7_O_04.png",
+   "size": [
+    36,
+    38
+   ],
+   "pivot_in_sprite": [
+    -761,
+    -837
+   ],
+   "rig_origin": [
+    761,
+    837
+   ]
+  },
+  "eye_squeeze_L_00": {
+   "group": "cu_eye",
+   "file": "sprites/eye_squeeze_L_00.png",
+   "size": [
+    160,
+    51
+   ],
+   "pivot_in_sprite": [
+    -562,
+    -631
+   ],
+   "rig_origin": [
+    562,
+    631
+   ]
+  },
+  "eye_squeeze_L_01": {
+   "group": "cu_eye",
+   "file": "sprites/eye_squeeze_L_01.png",
+   "size": [
+    138,
+    32
+   ],
+   "pivot_in_sprite": [
+    -573,
+    -673
+   ],
+   "rig_origin": [
+    573,
+    673
+   ]
+  },
+  "eye_squeeze_R_00": {
+   "group": "cu_eye",
+   "file": "sprites/eye_squeeze_R_00.png",
+   "size": [
+    160,
+    51
+   ],
+   "pivot_in_sprite": [
+    -786,
+    -631
+   ],
+   "rig_origin": [
+    786,
+    631
+   ]
+  },
+  "eye_squeeze_R_01": {
+   "group": "cu_eye",
+   "file": "sprites/eye_squeeze_R_01.png",
+   "size": [
+    138,
+    32
+   ],
+   "pivot_in_sprite": [
+    -797,
+    -673
+   ],
+   "rig_origin": [
+    797,
+    673
+   ]
+  },
+  "eye_half_L_00": {
+   "group": "cu_eye",
+   "file": "sprites/eye_half_L_00.png",
+   "size": [
+    152,
+    44
+   ],
+   "pivot_in_sprite": [
+    -566,
+    -636
+   ],
+   "rig_origin": [
+    566,
+    636
+   ]
+  },
+  "eye_half_L_01": {
+   "group": "cu_eye",
+   "file": "sprites/eye_half_L_01.png",
+   "size": [
+    52,
+    34
+   ],
+   "pivot_in_sprite": [
+    -626,
+    -647
+   ],
+   "rig_origin": [
+    626,
+    647
+   ]
+  },
+  "eye_half_L_02": {
+   "group": "cu_eye",
+   "file": "sprites/eye_half_L_02.png",
+   "size": [
+    156,
+    38
+   ],
+   "pivot_in_sprite": [
+    -564,
+    -630
+   ],
+   "rig_origin": [
+    564,
+    630
+   ]
+  },
+  "eye_half_R_00": {
+   "group": "cu_eye",
+   "file": "sprites/eye_half_R_00.png",
+   "size": [
+    152,
+    44
+   ],
+   "pivot_in_sprite": [
+    -790,
+    -636
+   ],
+   "rig_origin": [
+    790,
+    636
+   ]
+  },
+  "eye_half_R_01": {
+   "group": "cu_eye",
+   "file": "sprites/eye_half_R_01.png",
+   "size": [
+    52,
+    34
+   ],
+   "pivot_in_sprite": [
+    -850,
+    -647
+   ],
+   "rig_origin": [
+    850,
+    647
+   ]
+  },
+  "eye_half_R_02": {
+   "group": "cu_eye",
+   "file": "sprites/eye_half_R_02.png",
+   "size": [
+    156,
+    38
+   ],
+   "pivot_in_sprite": [
+    -788,
+    -630
+   ],
+   "rig_origin": [
+    788,
+    630
+   ]
+  },
+  "eye_open_r_L_00": {
+   "group": "cu_eye",
+   "file": "sprites/eye_open_r_L_00.png",
+   "size": [
+    156,
+    76
+   ],
+   "pivot_in_sprite": [
+    -564,
+    -618
+   ],
+   "rig_origin": [
+    564,
+    618
+   ]
+  },
+  "eye_open_r_L_01": {
+   "group": "cu_eye",
+   "file": "sprites/eye_open_r_L_01.png",
+   "size": [
+    64,
+    64
+   ],
+   "pivot_in_sprite": [
+    -644,
+    -628
+   ],
+   "rig_origin": [
+    644,
+    628
+   ]
+  },
+  "eye_open_r_L_02": {
+   "group": "cu_eye",
+   "file": "sprites/eye_open_r_L_02.png",
+   "size": [
+    24,
+    24
+   ],
+   "pivot_in_sprite": [
+    -658,
+    -640
+   ],
+   "rig_origin": [
+    658,
+    640
+   ]
+  },
+  "eye_open_r_L_03": {
+   "group": "cu_eye",
+   "file": "sprites/eye_open_r_L_03.png",
+   "size": [
+    164,
+    57
+   ],
+   "pivot_in_sprite": [
+    -559,
+    -612
+   ],
+   "rig_origin": [
+    559,
+    612
+   ]
+  },
+  "eye_open_r_R_00": {
+   "group": "cu_eye",
+   "file": "sprites/eye_open_r_R_00.png",
+   "size": [
+    156,
+    76
+   ],
+   "pivot_in_sprite": [
+    -788,
+    -618
+   ],
+   "rig_origin": [
+    788,
+    618
+   ]
+  },
+  "eye_open_r_R_01": {
+   "group": "cu_eye",
+   "file": "sprites/eye_open_r_R_01.png",
+   "size": [
+    64,
+    64
+   ],
+   "pivot_in_sprite": [
+    -868,
+    -628
+   ],
+   "rig_origin": [
+    868,
+    628
+   ]
+  },
+  "eye_open_r_R_02": {
+   "group": "cu_eye",
+   "file": "sprites/eye_open_r_R_02.png",
+   "size": [
+    24,
+    24
+   ],
+   "pivot_in_sprite": [
+    -882,
+    -640
+   ],
+   "rig_origin": [
+    882,
+    640
+   ]
+  },
+  "eye_open_r_R_03": {
+   "group": "cu_eye",
+   "file": "sprites/eye_open_r_R_03.png",
+   "size": [
+    164,
+    57
+   ],
+   "pivot_in_sprite": [
+    -783,
+    -612
+   ],
+   "rig_origin": [
+    783,
+    612
+   ]
+  },
+  "brow_0": {
+   "group": "cu_brow",
+   "file": "sprites/brow_0.png",
+   "size": [
+    169,
+    45
+   ],
+   "pivot_in_sprite": [
+    -558,
+    -535
+   ],
+   "rig_origin": [
+    558,
+    535
+   ]
+  },
+  "brow_1": {
+   "group": "cu_brow",
+   "file": "sprites/brow_1.png",
+   "size": [
+    169,
+    45
+   ],
+   "pivot_in_sprite": [
+    -781,
+    -535
+   ],
+   "rig_origin": [
+    781,
+    535
+   ]
+  },
+  "cheek_laugh_00": {
+   "group": "cu_cheek",
+   "file": "sprites/cheek_laugh_00.png",
+   "size": [
+    214,
+    148
+   ],
+   "pivot_in_sprite": [
+    -511,
+    -696
+   ],
+   "rig_origin": [
+    511,
+    696
+   ]
+  },
+  "cheek_laugh_01": {
+   "group": "cu_cheek",
+   "file": "sprites/cheek_laugh_01.png",
+   "size": [
+    124,
+    72
+   ],
+   "pivot_in_sprite": [
+    -542,
+    -716
+   ],
+   "rig_origin": [
+    542,
+    716
+   ]
+  },
+  "cheek_laugh_02": {
+   "group": "cu_cheek",
+   "file": "sprites/cheek_laugh_02.png",
+   "size": [
+    177,
+    31
+   ],
+   "pivot_in_sprite": [
+    -529,
+    -818
+   ],
+   "rig_origin": [
+    529,
+    818
+   ]
+  },
+  "cheek_laugh_03": {
+   "group": "cu_cheek",
+   "file": "sprites/cheek_laugh_03.png",
+   "size": [
+    214,
+    148
+   ],
+   "pivot_in_sprite": [
+    -789,
+    -696
+   ],
+   "rig_origin": [
+    789,
+    696
+   ]
+  },
+  "cheek_laugh_04": {
+   "group": "cu_cheek",
+   "file": "sprites/cheek_laugh_04.png",
+   "size": [
+    124,
+    72
+   ],
+   "pivot_in_sprite": [
+    -820,
+    -716
+   ],
+   "rig_origin": [
+    820,
+    716
+   ]
+  },
+  "cheek_laugh_05": {
+   "group": "cu_cheek",
+   "file": "sprites/cheek_laugh_05.png",
+   "size": [
+    177,
+    31
+   ],
+   "pivot_in_sprite": [
+    -807,
+    -818
+   ],
+   "rig_origin": [
+    807,
+    818
+   ]
+  },
+  "body_thigh_n": {
+   "group": "body",
+   "file": "sprites/body_thigh_n.png",
+   "size": [
+    74,
+    277
+   ],
+   "pivot_in_sprite": [
+    37,
+    56
+   ],
+   "rig_origin": [
+    -37,
+    -56
+   ]
+  },
+  "body_shin_n": {
+   "group": "body",
+   "file": "sprites/body_shin_n.png",
+   "size": [
+    62,
+    252
+   ],
+   "pivot_in_sprite": [
+    31,
+    46
+   ],
+   "rig_origin": [
+    -31,
+    -46
+   ]
+  },
+  "body_shoe_n": {
+   "group": "body",
+   "file": "sprites/body_shoe_n.png",
+   "size": [
+    132,
+    60
+   ],
+   "pivot_in_sprite": [
+    36,
+    24
+   ],
+   "rig_origin": [
+    -36,
+    -24
+   ]
+  },
+  "body_upper_arm_n": {
+   "group": "body",
+   "file": "sprites/body_upper_arm_n.png",
+   "size": [
+    64,
+    216
+   ],
+   "pivot_in_sprite": [
+    32,
+    48
+   ],
+   "rig_origin": [
+    -32,
+    -48
+   ]
+  },
+  "body_forearm_n": {
+   "group": "body",
+   "file": "sprites/body_forearm_n.png",
+   "size": [
+    56,
+    194
+   ],
+   "pivot_in_sprite": [
+    28,
+    42
+   ],
+   "rig_origin": [
+    -28,
+    -42
+   ]
+  },
+  "body_hand_n": {
+   "group": "body",
+   "file": "sprites/body_hand_n.png",
+   "size": [
+    56,
+    68
+   ],
+   "pivot_in_sprite": [
+    28,
+    10
+   ],
+   "rig_origin": [
+    -28,
+    -10
+   ]
+  },
+  "body_thumb_n": {
+   "group": "body",
+   "file": "sprites/body_thumb_n.png",
+   "size": [
+    43,
+    48
+   ],
+   "pivot_in_sprite": [
+    4,
+    6
+   ],
+   "rig_origin": [
+    -4,
+    -6
+   ]
+  },
+  "body_thigh_f": {
+   "group": "body",
+   "file": "sprites/body_thigh_f.png",
+   "size": [
+    74,
+    277
+   ],
+   "pivot_in_sprite": [
+    37,
+    56
+   ],
+   "rig_origin": [
+    -37,
+    -56
+   ]
+  },
+  "body_shin_f": {
+   "group": "body",
+   "file": "sprites/body_shin_f.png",
+   "size": [
+    62,
+    252
+   ],
+   "pivot_in_sprite": [
+    31,
+    46
+   ],
+   "rig_origin": [
+    -31,
+    -46
+   ]
+  },
+  "body_shoe_f": {
+   "group": "body",
+   "file": "sprites/body_shoe_f.png",
+   "size": [
+    132,
+    60
+   ],
+   "pivot_in_sprite": [
+    36,
+    24
+   ],
+   "rig_origin": [
+    -36,
+    -24
+   ]
+  },
+  "body_upper_arm_f": {
+   "group": "body",
+   "file": "sprites/body_upper_arm_f.png",
+   "size": [
+    64,
+    216
+   ],
+   "pivot_in_sprite": [
+    32,
+    48
+   ],
+   "rig_origin": [
+    -32,
+    -48
+   ]
+  },
+  "body_forearm_f": {
+   "group": "body",
+   "file": "sprites/body_forearm_f.png",
+   "size": [
+    56,
+    194
+   ],
+   "pivot_in_sprite": [
+    28,
+    42
+   ],
+   "rig_origin": [
+    -28,
+    -42
+   ]
+  },
+  "body_hand_f": {
+   "group": "body",
+   "file": "sprites/body_hand_f.png",
+   "size": [
+    56,
+    68
+   ],
+   "pivot_in_sprite": [
+    28,
+    10
+   ],
+   "rig_origin": [
+    -28,
+    -10
+   ]
+  },
+  "body_thumb_f": {
+   "group": "body",
+   "file": "sprites/body_thumb_f.png",
+   "size": [
+    43,
+    48
+   ],
+   "pivot_in_sprite": [
+    4,
+    6
+   ],
+   "rig_origin": [
+    -4,
+    -6
+   ]
+  },
+  "body_torso": {
+   "group": "body",
+   "file": "sprites/body_torso.png",
+   "size": [
+    158,
+    290
+   ],
+   "pivot_in_sprite": [
+    76,
+    262
+   ],
+   "rig_origin": [
+    -76,
+    -262
+   ]
+  },
+  "body_torso_shade": {
+   "group": "body",
+   "file": "sprites/body_torso_shade.png",
+   "size": [
+    62,
+    270
+   ],
+   "pivot_in_sprite": [
+    76,
+    244
+   ],
+   "rig_origin": [
+    -76,
+    -244
+   ]
+  },
+  "body_skirt": {
+   "group": "body",
+   "file": "sprites/body_skirt.png",
+   "size": [
+    204,
+    110
+   ],
+   "pivot_in_sprite": [
+    98,
+    20
+   ],
+   "rig_origin": [
+    -98,
+    -20
+   ]
+  },
+  "body_collar": {
+   "group": "body",
+   "file": "sprites/body_collar.png",
+   "size": [
+    128,
+    66
+   ],
+   "pivot_in_sprite": [
+    56,
+    270
+   ],
+   "rig_origin": [
+    -56,
+    -270
+   ]
+  },
+  "body_collar_fold": {
+   "group": "body",
+   "file": "sprites/body_collar_fold.png",
+   "size": [
+    58,
+    30
+   ],
+   "pivot_in_sprite": [
+    -14,
+    226
+   ],
+   "rig_origin": [
+    14,
+    -226
+   ]
+  },
+  "phead_neck_00": {
+   "group": "profile_head",
+   "file": "sprites/phead_neck_00.png",
+   "size": [
+    64,
+    86
+   ],
+   "pivot_in_sprite": [
+    28,
+    76
+   ],
+   "rig_origin": [
+    -28,
+    -76
+   ]
+  },
+  "phead_face_00": {
+   "group": "profile_head",
+   "file": "sprites/phead_face_00.png",
+   "size": [
+    258,
+    306
+   ],
+   "pivot_in_sprite": [
+    102,
+    306
+   ],
+   "rig_origin": [
+    -102,
+    -306
+   ]
+  },
+  "phead_cheek_00": {
+   "group": "profile_head",
+   "file": "sprites/phead_cheek_00.png",
+   "size": [
+    92,
+    68
+   ],
+   "pivot_in_sprite": [
+    -24,
+    130
+   ],
+   "rig_origin": [
+    24,
+    -130
+   ]
+  },
+  "phead_ear_00": {
+   "group": "profile_head",
+   "file": "sprites/phead_ear_00.png",
+   "size": [
+    58,
+    80
+   ],
+   "pivot_in_sprite": [
+    53,
+    190
+   ],
+   "rig_origin": [
+    -53,
+    -190
+   ]
+  },
+  "phead_ear_in_00": {
+   "group": "profile_head",
+   "file": "sprites/phead_ear_in_00.png",
+   "size": [
+    34,
+    52
+   ],
+   "pivot_in_sprite": [
+    39,
+    174
+   ],
+   "rig_origin": [
+    -39,
+    -174
+   ]
+  },
+  "phead_brow_00": {
+   "group": "profile_head",
+   "file": "sprites/phead_brow_00.png",
+   "size": [
+    65,
+    31
+   ],
+   "pivot_in_sprite": [
+    -66,
+    225
+   ],
+   "rig_origin": [
+    66,
+    -225
+   ]
+  },
+  "phead_eye_open_00": {
+   "group": "profile_head",
+   "file": "sprites/phead_eye_open_00.png",
+   "size": [
+    52,
+    40
+   ],
+   "pivot_in_sprite": [
+    -78,
+    200
+   ],
+   "rig_origin": [
+    78,
+    -200
+   ]
+  },
+  "phead_eye_open_01": {
+   "group": "profile_head",
+   "file": "sprites/phead_eye_open_01.png",
+   "size": [
+    32,
+    34
+   ],
+   "pivot_in_sprite": [
+    -98,
+    197
+   ],
+   "rig_origin": [
+    98,
+    -197
+   ]
+  },
+  "phead_eye_open_02": {
+   "group": "profile_head",
+   "file": "sprites/phead_eye_open_02.png",
+   "size": [
+    58,
+    25
+   ],
+   "pivot_in_sprite": [
+    -75,
+    205
+   ],
+   "rig_origin": [
+    75,
+    -205
+   ]
+  },
+  "phead_eye_crescent_00": {
+   "group": "profile_head",
+   "file": "sprites/phead_eye_crescent_00.png",
+   "size": [
+    57,
+    30
+   ],
+   "pivot_in_sprite": [
+    -75,
+    200
+   ],
+   "rig_origin": [
+    75,
+    -200
+   ]
+  },
+  "phead_mouth_closed_00": {
+   "group": "profile_head",
+   "file": "sprites/phead_mouth_closed_00.png",
+   "size": [
+    56,
+    29
+   ],
+   "pivot_in_sprite": [
+    -74,
+    95
+   ],
+   "rig_origin": [
+    74,
+    -95
+   ]
+  },
+  "phead_mouth_open_00": {
+   "group": "profile_head",
+   "file": "sprites/phead_mouth_open_00.png",
+   "size": [
+    56,
+    52
+   ],
+   "pivot_in_sprite": [
+    -76,
+    104
+   ],
+   "rig_origin": [
+    76,
+    -104
+   ]
+  },
+  "phead_mouth_open_01": {
+   "group": "profile_head",
+   "file": "sprites/phead_mouth_open_01.png",
+   "size": [
+    44,
+    40
+   ],
+   "pivot_in_sprite": [
+    -82,
+    97
+   ],
+   "rig_origin": [
+    82,
+    -97
+   ]
+  },
+  "phead_mouth_open_02": {
+   "group": "profile_head",
+   "file": "sprites/phead_mouth_open_02.png",
+   "size": [
+    22,
+    22
+   ],
+   "pivot_in_sprite": [
+    -86,
+    99
+   ],
+   "rig_origin": [
+    86,
+    -99
+   ]
+  },
+  "phead_mouth_open_03": {
+   "group": "profile_head",
+   "file": "sprites/phead_mouth_open_03.png",
+   "size": [
+    21,
+    22
+   ],
+   "pivot_in_sprite": [
+    -101,
+    99
+   ],
+   "rig_origin": [
+    101,
+    -99
+   ]
+  },
+  "phead_mouth_laugh_00": {
+   "group": "profile_head",
+   "file": "sprites/phead_mouth_laugh_00.png",
+   "size": [
+    76,
+    64
+   ],
+   "pivot_in_sprite": [
+    -66,
+    110
+   ],
+   "rig_origin": [
+    66,
+    -110
+   ]
+  },
+  "phead_mouth_laugh_01": {
+   "group": "profile_head",
+   "file": "sprites/phead_mouth_laugh_01.png",
+   "size": [
+    64,
+    52
+   ],
+   "pivot_in_sprite": [
+    -72,
+    103
+   ],
+   "rig_origin": [
+    72,
+    -103
+   ]
+  },
+  "phead_mouth_laugh_02": {
+   "group": "profile_head",
+   "file": "sprites/phead_mouth_laugh_02.png",
+   "size": [
+    29,
+    22
+   ],
+   "pivot_in_sprite": [
+    -79,
+    105
+   ],
+   "rig_origin": [
+    79,
+    -105
+   ]
+  },
+  "phead_mouth_laugh_03": {
+   "group": "profile_head",
+   "file": "sprites/phead_mouth_laugh_03.png",
+   "size": [
+    28,
+    22
+   ],
+   "pivot_in_sprite": [
+    -101,
+    105
+   ],
+   "rig_origin": [
+    101,
+    -105
+   ]
+  },
+  "phead_mouth_O_00": {
+   "group": "profile_head",
+   "file": "sprites/phead_mouth_O_00.png",
+   "size": [
+    52,
+    60
+   ],
+   "pivot_in_sprite": [
+    -78,
+    108
+   ],
+   "rig_origin": [
+    78,
+    -108
+   ]
+  },
+  "phead_mouth_O_01": {
+   "group": "profile_head",
+   "file": "sprites/phead_mouth_O_01.png",
+   "size": [
+    40,
+    48
+   ],
+   "pivot_in_sprite": [
+    -84,
+    101
+   ],
+   "rig_origin": [
+    84,
+    -101
+   ]
+  },
+  "phead_nose_00": {
+   "group": "profile_head",
+   "file": "sprites/phead_nose_00.png",
+   "size": [
+    36,
+    44
+   ],
+   "pivot_in_sprite": [
+    -122,
+    156
+   ],
+   "rig_origin": [
+    122,
+    -156
+   ]
+  },
+  "tile_00_D": {
+   "group": "tiles",
+   "file": "sprites/tile_00_D.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_00_D_feet": {
+   "group": "tiles_feet",
+   "file": "sprites/tile_00_D_feet.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_01_O": {
+   "group": "tiles",
+   "file": "sprites/tile_01_O.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_01_O_feet": {
+   "group": "tiles_feet",
+   "file": "sprites/tile_01_O_feet.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_02_U": {
+   "group": "tiles",
+   "file": "sprites/tile_02_U.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_02_U_feet": {
+   "group": "tiles_feet",
+   "file": "sprites/tile_02_U_feet.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_03_K": {
+   "group": "tiles",
+   "file": "sprites/tile_03_K.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_03_K_feet": {
+   "group": "tiles_feet",
+   "file": "sprites/tile_03_K_feet.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_04_I": {
+   "group": "tiles",
+   "file": "sprites/tile_04_I.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_04_I_feet": {
+   "group": "tiles_feet",
+   "file": "sprites/tile_04_I_feet.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_05_P": {
+   "group": "tiles",
+   "file": "sprites/tile_05_P.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_05_P_feet": {
+   "group": "tiles_feet",
+   "file": "sprites/tile_05_P_feet.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_06_U": {
+   "group": "tiles",
+   "file": "sprites/tile_06_U.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_06_U_feet": {
+   "group": "tiles_feet",
+   "file": "sprites/tile_06_U_feet.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_07_D": {
+   "group": "tiles",
+   "file": "sprites/tile_07_D.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_07_D_feet": {
+   "group": "tiles_feet",
+   "file": "sprites/tile_07_D_feet.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_08_O": {
+   "group": "tiles",
+   "file": "sprites/tile_08_O.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_08_O_feet": {
+   "group": "tiles_feet",
+   "file": "sprites/tile_08_O_feet.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_09_N": {
+   "group": "tiles",
+   "file": "sprites/tile_09_N.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_09_N_feet": {
+   "group": "tiles_feet",
+   "file": "sprites/tile_09_N_feet.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_10_K": {
+   "group": "tiles",
+   "file": "sprites/tile_10_K.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_10_K_feet": {
+   "group": "tiles_feet",
+   "file": "sprites/tile_10_K_feet.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_11_T": {
+   "group": "tiles",
+   "file": "sprites/tile_11_T.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_11_T_feet": {
+   "group": "tiles_feet",
+   "file": "sprites/tile_11_T_feet.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_12_A": {
+   "group": "tiles",
+   "file": "sprites/tile_12_A.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_12_A_feet": {
+   "group": "tiles_feet",
+   "file": "sprites/tile_12_A_feet.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_13_N": {
+   "group": "tiles",
+   "file": "sprites/tile_13_N.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "tile_13_N_feet": {
+   "group": "tiles_feet",
+   "file": "sprites/tile_13_N_feet.png",
+   "size": [
+    200,
+    250
+   ],
+   "pivot_in_sprite": [
+    100,
+    182
+   ],
+   "rig_origin": [
+    -100,
+    -182
+   ]
+  },
+  "plaque_clichy": {
+   "group": "signs",
+   "file": "sprites/plaque_clichy.png",
+   "size": [
+    340,
+    176
+   ],
+   "pivot_in_sprite": null,
+   "rig_origin": null
+  },
+  "plaque_chatelet": {
+   "group": "signs",
+   "file": "sprites/plaque_chatelet.png",
+   "size": [
+    340,
+    176
+   ],
+   "pivot_in_sprite": null,
+   "rig_origin": null
+  },
+  "metro_greve": {
+   "group": "signs",
+   "file": "sprites/metro_greve.png",
+   "size": [
+    500,
+    230
+   ],
+   "pivot_in_sprite": null,
+   "rig_origin": null
+  },
+  "tunnel_ring_0": {
+   "group": "tunnel",
+   "file": "sprites/tunnel_ring_0.png",
+   "size": [
+    1440,
+    1080
+   ],
+   "pivot_in_sprite": null,
+   "rig_origin": null
+  },
+  "tunnel_ring_1": {
+   "group": "tunnel",
+   "file": "sprites/tunnel_ring_1.png",
+   "size": [
+    1440,
+    1080
+   ],
+   "pivot_in_sprite": null,
+   "rig_origin": null
+  },
+  "tunnel_ring_2": {
+   "group": "tunnel",
+   "file": "sprites/tunnel_ring_2.png",
+   "size": [
+    1440,
+    1080
+   ],
+   "pivot_in_sprite": null,
+   "rig_origin": null
+  },
+  "tunnel_ring_3": {
+   "group": "tunnel",
+   "file": "sprites/tunnel_ring_3.png",
+   "size": [
+    1440,
+    1080
+   ],
+   "pivot_in_sprite": null,
+   "rig_origin": null
+  },
+  "tunnel_ring_4": {
+   "group": "tunnel",
+   "file": "sprites/tunnel_ring_4.png",
+   "size": [
+    1440,
+    1080
+   ],
+   "pivot_in_sprite": null,
+   "rig_origin": null
+  },
+  "tunnel_ring_5": {
+   "group": "tunnel",
+   "file": "sprites/tunnel_ring_5.png",
+   "size": [
+    1440,
+    1080
+   ],
+   "pivot_in_sprite": null,
+   "rig_origin": null
+  }
+ },
+ "gaps": [
+  "no PD/CC0 tissue-paper scan found; thin book paper stands in",
+  "profile head for full-figure shots is simpler than the CU head (no spring strands; hair secondary is a single 'hair' parameter the editor drives from a spring)",
+  "métro sign: GRÈVE strip covers most of MÉTRO (intended gag, but editor may want the strip lower)",
+  "'reads as laughing sound-off' is self-judged only; independent review pending",
+  "full test-shot sound not re-auditioned (unchanged from r2)"
+ ],
+ "credits_draft": [
+  {
+   "title": "Kraft tileable 1024x1024.png",
+   "author": "Coyau (Wikimedia Commons user)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Kraft_tileable_1024x1024.png",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/47/Kraft_tileable_1024x1024.png",
+   "used_as": "stock 'kraft': fibre of all hair pieces, jumper, skirt, shoes, brows, lashes, mouth interior (dyed by multiply)"
+  },
+  {
+   "title": "Cardboard-546867.jpg",
+   "author": "Humusak (via Pixabay), uploaded to Wikimedia Commons",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Cardboard-546867.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cardboard-546867.jpg/1280px-Cardboard-546867.jpg",
+   "used_as": "stock 'card': orange collar, blue-enamel plaques, métro sign and GRÈVE strip (high-pass fibre, dyed)"
+  },
+  {
+   "title": "Official proceedings (1928) (14761156522).jpg",
+   "author": "Internet Archive Book Images (Flickr), scan of a 1928 publication",
+   "license": "Public domain (US publication of 1928; Commons/Flickr: no known copyright restrictions); blank page, no authored content used",
+   "license_url": "https://www.flickr.com/commons/usage/",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Official_proceedings_(1928)_(14761156522).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Official_proceedings_%281928%29_%2814761156522%29.jpg/1280px-Official_proceedings_%281928%29_%2814761156522%29.jpg",
+   "used_as": "stock 'book1928' (thin paper, standing in for tissue): face sheet, cheeks, ears, nose, neck, limbs' skin, lips"
+  },
+  {
+   "title": "Official proceedings (1929) (14571803228).jpg",
+   "author": "Internet Archive Book Images (Flickr), scan of a 1929 publication",
+   "license": "Public domain (US publication of 1929; Commons/Flickr: no known copyright restrictions); blank page, no authored content used",
+   "license_url": "https://www.flickr.com/commons/usage/",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Official_proceedings_(1929)_(14571803228).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Official_proceedings_%281929%29_%2814571803228%29.jpg/1280px-Official_proceedings_%281929%29_%2814571803228%29.jpg",
+   "used_as": "stock 'book1929': the 14 cream letter tiles and their feet, teeth, eye whites, MÉTRO and plaque letter paper"
+  }
+ ]
+}

@@ -1,5 +1,5 @@
 {
- "shot": "zazie-dans-le-metro TEST SHOT r2 (film 6.0-11.0 s; jump cut at film frame 192). r1 archived in test-shot-r1/",
+ "shot": "zazie-dans-le-metro TEST SHOT r3 (film 6.0-10.0 s; jump cut at film frame 192). r1/r2 archived in test-shot-r1/, test-shot-r2/",
  "foraged": [
   {
    "id": "P1",
@@ -9,11 +9,11 @@
    "license_url": "https://www.loc.gov/rr/print/res/244_phot.html",
    "source_url": "https://www.loc.gov/item/2001698526/",
    "file_url": "https://tile.loc.gov/storage-services/service/pnp/ppmsc/05100/05184v.jpg",
-   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/r2/loc_05184.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/forage/P1_sharp.png",
    "sha256": "124648d19718ac0187c5e8febeaa200b85f24f915a0f6c5336d07238d7e3e963",
    "rights_text_quoted": "No known restrictions on reproduction.",
    "checked_on": "2026-11-16 (re-verified r2)",
-   "used_as": "L1 plate 6.0-8.0 s: crop (318,330,650,579) of the 1024 px file, gamma 1.40, 48% desaturation, tint toward grey-olive, median luma 101, Gaussian defocus r=12 @720"
+   "used_as": "L1 plate 6.0-8.0 s: U2 graded crop (forage/P1_sharp.png), 2x, Gaussian defocus r=12 @720"
   },
   {
    "id": "P2",
@@ -23,25 +23,11 @@
    "license_url": "https://www.loc.gov/rr/print/res/244_phot.html",
    "source_url": "https://www.loc.gov/item/2002707975/",
    "file_url": "https://tile.loc.gov/storage-services/master/pnp/ppmsc/09900/09974u.tif",
-   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/test-shot/hires/09974u.tif",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/forage/P2_sharp.png",
    "sha256": "b60c2116cc9b46df6f538fef10ad744c536e9cd2efc8fe8155e6f46e023d4d84",
    "rights_text_quoted": "No known restrictions on publication.",
    "checked_on": "2026-11-16 (re-verified r2)",
-   "used_as": "L2 plate 8.0-11.0 s, from the 3650 px master TIFF (30.2 MB): tighter crop (122,418,482,688) in 1024-px coords so the native horse tram sits mid-height at frame right beside her ear; gamma 1.40, 58% desaturation, tint toward grey-olive; defocus r=11 @720 with a rack to r=3.5 at 9.0-10.0 s. The tram V is GrabCut from the same pixels (rect seed, largest blob, feathered) and held on a nearer card plane at r=2 @720, +12% light, with a 4-5 px drop shadow. Not mirrored."
-  },
-  {
-   "id": "PAPER1",
-   "title": "Kraft tileable 1024x1024.png",
-   "author": "Coyau (Wikimedia Commons user)",
-   "license": "Public domain",
-   "license_url": "",
-   "source_url": "https://commons.wikimedia.org/wiki/File:Kraft_tileable_1024x1024.png",
-   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/47/Kraft_tileable_1024x1024.png",
-   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/test-shot/paper/kraft.png",
-   "sha256": "1cd268910167e5e5353eaeb3956365df37cd963f5641f2f308c5eeed4e3d3b0d",
-   "rights_text_quoted": "extmetadata LicenseShortName: Public domain; description: 'kraft paper tileable sample.'",
-   "checked_on": "2026-11-16",
-   "used_as": "fibre of every puppet piece and the plaque: per-piece rotated crop of the scan, luma multiplied into the piece colour (dye)"
+   "used_as": "L2 plate 8.0-10.0 s: U2 graded crop of the master TIFF, further desaturated x0.72 and darkened x0.92 (user note), framed so the native tram sits at frame right; defocus r=11 @720 racking to r=3.5 at 9.0-10.0 s"
   },
   {
    "id": "SND1",
@@ -56,6 +42,62 @@
    "rights_text_quoted": "extmetadata LicenseShortName: CC BY-SA 4.0; date 2023-04-04; description: 'A Video depicting strong winds...'",
    "checked_on": "2026-11-16",
    "used_as": "audio only: 0.2-1.26 s of the recording as the gust (6.6-7.67 s), 1.6-3.3 s under the Clichy cut; not auditioned by ear, chosen by spectrum (broadband, flatness 0.14-0.29)"
+  },
+  {
+   "id": "PAPER1",
+   "title": "Kraft tileable 1024x1024.png",
+   "author": "Coyau (Wikimedia Commons user)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Kraft_tileable_1024x1024.png",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/47/Kraft_tileable_1024x1024.png",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/puppet/paper/kraft.png",
+   "sha256": "1cd268910167e5e5353eaeb3956365df37cd963f5641f2f308c5eeed4e3d3b0d",
+   "what_it_shows": "scan of plain brown kraft paper, tileable",
+   "verified_date_or_place": "2026-11-16 (r2 ledger; extmetadata LicenseShortName 'Public domain')",
+   "used_as": "stock 'kraft': fibre of all hair pieces, jumper, skirt, shoes, brows, lashes, mouth interior (dyed by multiply)"
+  },
+  {
+   "id": "PAPER2",
+   "title": "Cardboard-546867.jpg",
+   "author": "Humusak (via Pixabay), uploaded to Wikimedia Commons",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Cardboard-546867.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cardboard-546867.jpg/1280px-Cardboard-546867.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/puppet/paper/cardboard.jpg",
+   "sha256": "996d605b106aafbb6b4df533cd1f157bf600313e3df21f18223c0e1d77fda9c5",
+   "what_it_shows": "flat brown cardboard surface, close (description 'Texture of cardboard'); 1280 px thumbnail of the 6016x4000 original",
+   "verified_date_or_place": "2026-11-16 (Commons API extmetadata read in this session)",
+   "used_as": "stock 'card': orange collar, blue-enamel plaques, métro sign and GRÈVE strip (high-pass fibre, dyed)"
+  },
+  {
+   "id": "PAPER3",
+   "title": "Official proceedings (1928) (14761156522).jpg",
+   "author": "Internet Archive Book Images (Flickr), scan of a 1928 publication",
+   "license": "Public domain (US publication of 1928; Commons/Flickr: no known copyright restrictions); blank page, no authored content used",
+   "license_url": "https://www.flickr.com/commons/usage/",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Official_proceedings_(1928)_(14761156522).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Official_proceedings_%281928%29_%2814761156522%29.jpg/1280px-Official_proceedings_%281928%29_%2814761156522%29.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/puppet/paper/book1928.jpg",
+   "sha256": "6219d53912f7a99bccd399630621c0b57921d89557d7b3585af3405c2f79e714",
+   "what_it_shows": "scan of a page printed only 'RESERVED'; crop (70,90,1210,960) is blank aged book paper above the word",
+   "verified_date_or_place": "2026-11-16 (Commons API extmetadata read in this session); extmetadata LicenseShortName 'No restrictions'",
+   "used_as": "stock 'book1928' (thin paper, standing in for tissue): face sheet, cheeks, ears, nose, neck, limbs' skin, lips"
+  },
+  {
+   "id": "PAPER4",
+   "title": "Official proceedings (1929) (14571803228).jpg",
+   "author": "Internet Archive Book Images (Flickr), scan of a 1929 publication",
+   "license": "Public domain (US publication of 1929; Commons/Flickr: no known copyright restrictions); blank page, no authored content used",
+   "license_url": "https://www.flickr.com/commons/usage/",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Official_proceedings_(1929)_(14571803228).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Official_proceedings_%281929%29_%2814571803228%29.jpg/1280px-Official_proceedings_%281929%29_%2814571803228%29.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/puppet/paper/book1929.jpg",
+   "sha256": "0a8cbd2918f1cafd24a99e5c669857af980c3b094906aeaa4a3faaea99b87e7a",
+   "what_it_shows": "scan of a cream page printed only 'RESERVED'; crop (70,90,1210,960) is blank paper with faint show-through",
+   "verified_date_or_place": "2026-11-16 (Commons API extmetadata read in this session); extmetadata LicenseShortName 'No restrictions'",
+   "used_as": "stock 'book1929': the 14 cream letter tiles and their feet, teeth, eye whites, MÉTRO and plaque letter paper"
   }
  ],
  "handmade": [
@@ -118,6 +160,111 @@
    "source_url": "https://commons.wikimedia.org/wiki/File:Strong_winds_before_the_Rain.ogg",
    "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Strong_winds_before_the_Rain.ogg",
    "used_as": "audio only: 0.2-1.26 s of the recording as the gust (6.6-7.67 s), 1.6-3.3 s under the Clichy cut; not auditioned by ear, chosen by spectrum (broadband, flatness 0.14-0.29)"
+  },
+  {
+   "title": "Cardboard-546867.jpg",
+   "author": "Humusak (via Pixabay), uploaded to Wikimedia Commons",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Cardboard-546867.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cardboard-546867.jpg/1280px-Cardboard-546867.jpg",
+   "used_as": "stock 'card': orange collar, blue-enamel plaques, métro sign and GRÈVE strip (high-pass fibre, dyed)"
+  },
+  {
+   "title": "Official proceedings (1928) (14761156522).jpg",
+   "author": "Internet Archive Book Images (Flickr), scan of a 1928 publication",
+   "license": "Public domain (US publication of 1928; Commons/Flickr: no known copyright restrictions); blank page, no authored content used",
+   "license_url": "https://www.flickr.com/commons/usage/",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Official_proceedings_(1928)_(14761156522).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Official_proceedings_%281928%29_%2814761156522%29.jpg/1280px-Official_proceedings_%281928%29_%2814761156522%29.jpg",
+   "used_as": "stock 'book1928' (thin paper, standing in for tissue): face sheet, cheeks, ears, nose, neck, limbs' skin, lips"
+  },
+  {
+   "title": "Official proceedings (1929) (14571803228).jpg",
+   "author": "Internet Archive Book Images (Flickr), scan of a 1929 publication",
+   "license": "Public domain (US publication of 1929; Commons/Flickr: no known copyright restrictions); blank page, no authored content used",
+   "license_url": "https://www.flickr.com/commons/usage/",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Official_proceedings_(1929)_(14571803228).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Official_proceedings_%281929%29_%2814571803228%29.jpg/1280px-Official_proceedings_%281929%29_%2814571803228%29.jpg",
+   "used_as": "stock 'book1929': the 14 cream letter tiles and their feet, teeth, eye whites, MÉTRO and plaque letter paper"
   }
- ]
+ ],
+ "test_results": {
+  "unit": {
+   "strand_tip_half_response_lag_frames": 3,
+   "lag_ok_2_3": true
+  },
+  "energy": {
+   "energy_peak": 580.7372225031158,
+   "energy_1s_after_gust": 8.17283985787946,
+   "ratio": 0.014073215115526042,
+   "decay_ok": true
+  },
+  "anchor": {
+   "root_dx_px_2x": 0.0,
+   "root_dy_px_2x": 0.0,
+   "ang_deg": 0.0,
+   "mouth_47": 5,
+   "mouth_48": 5,
+   "hair_state_carried": true,
+   "plate_47": "P1",
+   "plate_48": "P2",
+   "crown_delta_px_720": 0.0,
+   "ok": true,
+   "alpha_centroid_191": [
+    380.47,
+    337.6
+   ],
+   "alpha_centroid_192": [
+    380.47,
+    337.6
+   ],
+   "alpha_centroid_delta_px_720": 0.0,
+   "head_width_incl_flyaways_f190": 0.606,
+   "head_width_ratio_f190": 0.532,
+   "head_x_span_f190": [
+    0.272,
+    0.803
+   ]
+  }
+ },
+ "user_notes_addressed": [
+  "laugh opened wider, soft gap-tooth kept (mouths 5/6)",
+  "skin warmed toward #b47059/#b6785e (measured cheek #b76e4f-#bd6f51)",
+  "fringe strands 4-8 sweep across the right eye on the gust (see stills/01.60.png)",
+  "layered hair mass, softer face and grey-olive P1 kept",
+  "Clichy plate saturation pulled down (P2 plate HSV-S ~28 vs ~54 in U2's grade)"
+ ],
+ "measured_picture": {
+  "t7_58": {
+   "p5": 28,
+   "p50": 77,
+   "p95": 131,
+   "max": 188,
+   "sat": 82,
+   "cheek": "#bd6f51",
+   "hair_crown": "#60422b"
+  },
+  "t8_00": {
+   "p5": 23,
+   "p50": 86,
+   "p95": 135,
+   "max": 193,
+   "sat": 74
+  },
+  "t9_50": {
+   "p5": 21,
+   "p50": 79,
+   "p95": 142,
+   "max": 237,
+   "sat": 77
+  },
+  "reference": {
+   "p5": 21,
+   "p50": 90,
+   "p95": 148,
+   "max": 200,
+   "sat": 92
+  }
+ }
 }
