@@ -1,0 +1,807 @@
+{
+ "slug": "moins-dun-quart-de-seconde-pour-vivre",
+ "unit": "plate-artist (U1, HANDMAKE)",
+ "owner": "plate-artist",
+ "date": "2026-11-17",
+ "base": {
+  "plan": "films/swarm/moins-dun-quart-de-seconde-pour-vivre/plan.json (frozen bar, read only)",
+  "base_revision": "proposals/src/plate.py + hand.py (copied to plate/), test-shot-build/plate2.py framing reused; rebuilt per test-shot notes",
+  "test_shot_notes_applied": [
+   "rougher, ragged brush: per-dab radius jitter, ragged/bitten fill outlines, dry-brush bristle tails, occasional contour breaks, heavier ~6.7 px contour",
+   "fuller organic white masses (body, head, ear, arms)",
+   "near ear shortened and swung out over the shoulder; near arm starts below it (separate white shapes, black/fur gap between)",
+   "far ear removed entirely (no stray far-ear tip); bench-post stubs hidden behind the plank",
+   "lettering, tails, B4 and B1 framing notes belong to the letterer/editor: not touched here"
+  ]
+ },
+ "read_set": [
+  "films/swarm/moins-dun-quart-de-seconde-pour-vivre/plan.md",
+  "films/swarm/moins-dun-quart-de-seconde-pour-vivre/plan.json",
+  "paeleo/scion/swarms.json (#17, #38)",
+  "films/swarm/moins-dun-quart-de-seconde-pour-vivre/proposals/kf-1.png",
+  "assets/references/iteration-001.webp (looked at only; not copied or traced)",
+  "films/swarm/moins-dun-quart-de-seconde-pour-vivre/test-shot-build/plate2.py",
+  "films/swarm/moins-dun-quart-de-seconde-pour-vivre/test-page.png"
+ ],
+ "write_set": [
+  "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/",
+  "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate-artist/",
+  "films/swarm/moins-dun-quart-de-seconde-pour-vivre/plate.json",
+  "films/swarm/moins-dun-quart-de-seconde-pour-vivre/deliverables/plate-canonical.png"
+ ],
+ "frozen": true,
+ "plate": {
+  "plate_id": "plate-540-55b62d4cc2a2",
+  "file": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/plate-540.png",
+  "sha256_file": "c3561f38c58b94936c9284dde4372f63726c0300414cee93eb77d799d07c64e4",
+  "sha256_pixels": "55b62d4cc2a235d0a66e9b64c9ff263dfa45cec20e59626171bc7412ce76b827",
+  "mode": "L (8-bit grey; convert(\"RGB\") for RGB compositing, R=G=B)",
+  "size": [
+   540,
+   540
+  ],
+  "crop": [
+   0,
+   0,
+   540,
+   540
+  ],
+  "scale": 1,
+  "frame": "hand brush border (~9 px at 540) inside a ~4 px paper margin, part of the plate raster",
+  "working_raster": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/plate-1080-working.png",
+  "working_px": 1080,
+  "reduction": "once, PIL LANCZOS 1080->540, then tone LUT",
+  "ink": "#141414",
+  "paper": "#FAFAFA",
+  "tones": {
+   "mid_share": 0.0252,
+   "dark_share": 0.6392,
+   "light_share": 0.3356,
+   "mid_on_edge_fraction": 0.9973
+  },
+  "source": "handmade brush strokes (canon.py), no photograph, no filter, no grain",
+  "code": [
+   "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/canon.py",
+   "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/build.py",
+   "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/hand.py",
+   "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/plate.py (proposal base, kept for reference)"
+  ]
+ },
+ "stroke_ledger": {
+  "file": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/strokes.json",
+  "sha256_file": "cc56e7d49ace4e4ee01914f0633e6bdfc8b49e5a40d6df8f63c8d35fc40fbad9",
+  "stroke_count": 41,
+  "op_count": 12169,
+  "order": [
+   "star0",
+   "star1",
+   "star2",
+   "star3",
+   "star4",
+   "star5",
+   "lamp_post",
+   "lamp_collar",
+   "lamp_globe",
+   "lamp_cap",
+   "bench_bpost_l",
+   "bench_bpost_r",
+   "bench_plank1",
+   "bench_plank2",
+   "body",
+   "head",
+   "nostril",
+   "mouth",
+   "ear",
+   "ear_crease",
+   "eye_ball",
+   "eye_lid",
+   "eye_rim",
+   "eye_lidline",
+   "eye_pupil",
+   "far_arm",
+   "near_arm",
+   "envelope",
+   "envelope_flap",
+   "envelope_folds",
+   "envelope_seal",
+   "envelope_address",
+   "hand_left",
+   "hand_right",
+   "bench_seat",
+   "lamp_highlights",
+   "wood_flecks_1",
+   "wood_flecks_2",
+   "wood_flecks_seat",
+   "head_stubble",
+   "fur_body"
+  ],
+  "render": "canon.render_upto(load_ledger(path), n, part=0.0, state=None); canon.render_ops_sequence(ledger, counts, state)",
+  "alternates": [
+   "eye-centre",
+   "eye-closed",
+   "eye-half"
+  ]
+ },
+ "framing": {
+  "head_top_px": 184.3,
+  "head_and_torso_share_of_height": 0.659,
+  "eye_centre_px": [
+   244.1,
+   240.8
+  ],
+  "eye_x_fraction": 0.452,
+  "lamp_globe_bbox_px": [
+   19,
+   28,
+   111,
+   111
+  ],
+  "bench_cropped_by_both_edges": true,
+  "upper_balloon_zone_px": [
+   0,
+   189
+  ],
+  "snout_tip_px": [
+   494,
+   278
+  ],
+  "mouth_px": [
+   [
+    335,
+    292
+   ],
+   [
+    459,
+    285
+   ]
+  ],
+  "envelope_flap_px": [
+   [
+    176,
+    393
+   ],
+   [
+    346,
+    381
+   ],
+   [
+    264,
+    448
+   ]
+  ],
+  "seal_px": [
+   264,
+   438
+  ],
+  "tail_targets_px": {
+   "snout_top_edge": [
+    378,
+    229
+   ],
+   "snout_mid_top": [
+    432,
+    242
+   ],
+   "head_dome_right": [
+    302,
+    203
+   ]
+  }
+ },
+ "library_38": {
+  "max_drawings": 5,
+  "drawings": {
+   "canonical": {
+    "file": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/plate-540.png",
+    "sha256_pixels": "55b62d4cc2a235d0a66e9b64c9ff263dfa45cec20e59626171bc7412ce76b827",
+    "features": [
+     1.0,
+     0.0,
+     0.0
+    ]
+   },
+   "eye-centre": {
+    "file": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/library/eye-centre.png",
+    "mask": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/library/eye-centre-mask.png",
+    "mask_bbox_xyxy": [
+     200,
+     199,
+     288,
+     292
+    ],
+    "diff_bbox_xyxy": [
+     206,
+     202,
+     282,
+     280
+    ],
+    "diff_pixels": 2075,
+    "sha256_pixels": "8f5f5dafe88ce6ba90e53f463101519da28fc7e6cd0b4f5af692ff7a8a24dcd8",
+    "what": "pupil centred, looking out past the snout (start of the settle)",
+    "features": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "construction": "full redraw of the named strokes"
+   },
+   "eye-half": {
+    "file": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/library/eye-half.png",
+    "mask": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/library/eye-half-mask.png",
+    "mask_bbox_xyxy": [
+     200,
+     199,
+     288,
+     292
+    ],
+    "diff_bbox_xyxy": [
+     205,
+     202,
+     285,
+     279
+    ],
+    "diff_pixels": 1739,
+    "sha256_pixels": "9bdc6e65badaae23be45311e2fb3c4fbb04fcad1cf6f17184900341e134f78fd",
+    "what": "pupil halfway between centre and the envelope",
+    "features": [
+     0.5,
+     0.0,
+     0.0
+    ],
+    "construction": "full redraw of the named strokes"
+   },
+   "eye-closed": {
+    "file": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/library/eye-closed.png",
+    "mask": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/library/eye-closed-mask.png",
+    "mask_bbox_xyxy": [
+     200,
+     199,
+     288,
+     292
+    ],
+    "diff_bbox_xyxy": [
+     205,
+     201,
+     285,
+     286
+    ],
+    "diff_pixels": 2113,
+    "sha256_pixels": "d7d7b2bcbb363ad01d32840169a00da01c9e9b5752b4e754c774c57579fc11d3",
+    "what": "lid down: the blink",
+    "features": [
+     0.8,
+     1.0,
+     0.0
+    ],
+    "construction": "full redraw of the named strokes"
+   },
+   "chest-in": {
+    "file": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/library/chest-in.png",
+    "mask": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/library/chest-in-mask.png",
+    "mask_bbox_xyxy": [
+     106,
+     284,
+     405,
+     453
+    ],
+    "diff_bbox_xyxy": [
+     113,
+     316,
+     392,
+     453
+    ],
+    "diff_pixels": 2865,
+    "sha256_pixels": "f3d88aba2d082cc1fd33e3dd6a5521b3787a59b473ddef436e38b941a39dfaf4",
+    "what": "breath held: shoulders/chest mass raised 3 px (5.6 units); the exhale is chest-in -> canonical",
+    "features": [
+     1.0,
+     0.0,
+     1.0
+    ],
+    "construction": "body mass and fur redrawn 5.6 units higher; held cel outside the mask (redraw spill outside the mask, 236 px of contour phase drift, discarded)"
+   }
+  },
+  "decoder": {
+   "fps": 24,
+   "film_window_s": [
+    4.5,
+    5.6
+   ],
+   "frames": 26,
+   "min_hold": 3,
+   "path": [
+    "eye-centre",
+    "eye-centre",
+    "eye-centre",
+    "eye-centre",
+    "eye-centre",
+    "eye-centre",
+    "eye-half",
+    "eye-half",
+    "eye-half",
+    "eye-half",
+    "eye-closed",
+    "eye-closed",
+    "eye-closed",
+    "canonical",
+    "canonical",
+    "canonical",
+    "chest-in",
+    "chest-in",
+    "chest-in",
+    "chest-in",
+    "chest-in",
+    "canonical",
+    "canonical",
+    "canonical",
+    "canonical",
+    "canonical"
+   ],
+   "runs": [
+    [
+     "eye-centre",
+     6
+    ],
+    [
+     "eye-half",
+     4
+    ],
+    [
+     "eye-closed",
+     3
+    ],
+    [
+     "canonical",
+     3
+    ],
+    [
+     "chest-in",
+     5
+    ],
+    [
+     "canonical",
+     5
+    ]
+   ],
+   "total_cost": 1.6799999999999997,
+   "per_frame_error": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.15999999999999992,
+    0.15999999999999992,
+    0.15999999999999992,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "error_histogram": {
+    "0.0": 23,
+    "0.16": 3
+   },
+   "features": "pupil toward envelope (0 centre .. 1 envelope), lid closed (0/1), chest in (0/1)",
+   "states": [
+    "eye-centre",
+    "eye-half",
+    "eye-closed",
+    "canonical",
+    "chest-in"
+   ],
+   "transition_costs": {
+    "eye-centre->eye-half": 0.2,
+    "eye-centre->eye-closed": 1.0,
+    "eye-centre->canonical": 1.5,
+    "eye-centre->chest-in": null,
+    "eye-half->eye-centre": 0.6,
+    "eye-half->eye-closed": 0.3,
+    "eye-half->canonical": 0.3,
+    "eye-half->chest-in": null,
+    "eye-closed->eye-centre": null,
+    "eye-closed->eye-half": 0.6,
+    "eye-closed->canonical": 0.2,
+    "eye-closed->chest-in": null,
+    "canonical->eye-centre": null,
+    "canonical->eye-half": 0.6,
+    "canonical->eye-closed": 0.3,
+    "canonical->chest-in": 0.3,
+    "chest-in->eye-centre": null,
+    "chest-in->eye-half": null,
+    "chest-in->eye-closed": null,
+    "chest-in->canonical": 0.2
+   },
+   "target_curve": [
+    [
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.5,
+     0.0,
+     0.0
+    ],
+    [
+     0.5,
+     0.0,
+     0.0
+    ],
+    [
+     0.5,
+     0.0,
+     0.0
+    ],
+    [
+     0.5,
+     0.0,
+     0.0
+    ],
+    [
+     1.0,
+     1.0,
+     0.0
+    ],
+    [
+     1.0,
+     1.0,
+     0.0
+    ],
+    [
+     1.0,
+     1.0,
+     0.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     1.0,
+     0.0,
+     1.0
+    ],
+    [
+     1.0,
+     0.0,
+     1.0
+    ],
+    [
+     1.0,
+     0.0,
+     1.0
+    ],
+    [
+     1.0,
+     0.0,
+     1.0
+    ],
+    [
+     1.0,
+     0.0,
+     1.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0
+    ]
+   ],
+   "weights": [
+    4.0,
+    3.0,
+    3.0
+   ]
+  }
+ },
+ "safe_mask": {
+  "file": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/safe-mask.png",
+  "upper_file": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/safe-mask-upper.png",
+  "meaning": "safe-mask.png: 255 where a balloon body may sit (panel interior 16 px inside the edge, minus eye, snout tip, envelope flap, lamp globe+cap and the ear, each dilated 10 px). safe-mask-upper.png: the preferred zone, black night ground above the bench (rows < 300) inside safe-mask. Tails may cross toward the tail targets but never into an excluded zone.",
+  "excluded": [
+   "eye (with lid line)",
+   "snout tip + nostril",
+   "envelope flap triangle with seal",
+   "lamp globe + cap",
+   "near ear"
+  ]
+ },
+ "negative_controls": {
+  "plate-crop1px": {
+   "file": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/plate-crop1px.png",
+   "sha256_pixels": "4ef1d937a8f7a9ccc38fb3293ddec7add78e3b5ff3dd0e9e84bd02a014c7c4c0",
+   "what": "canonical plate pasted 1 px to the right (paper column at x=0)"
+  },
+  "plate-mouth-redraw": {
+   "file": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/plate-mouth-redraw.png",
+   "sha256_pixels": "113bc63541a75633efd7e4d44551885e492d34f5bd2c3c35723ff2972657148e",
+   "diff_bbox_xyxy": [
+    332,
+    281,
+    462,
+    295
+   ],
+   "what": "mouth stroke redrawn with a slight downturn at the front (graphic drift)"
+  }
+ },
+ "editor_media": {
+  "dir": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate-artist",
+  "plate": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate-artist/plate-540.png",
+  "prologue_frames": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate-artist/prologue/f000..f143.png",
+  "prologue_schedule": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate-artist/prologue-schedule.json",
+  "prologue_preview": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate-artist/prologue-preview.mp4",
+  "compare": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate-artist/compare.jpg"
+ },
+ "evidence": {
+  "foraged": [],
+  "foraged_note": "No foraged material is used in the plate. The LoC envelope photographs from the proposals (env1861/1862/1865.jpg) are not used (plan.md section 9) and so not credited.",
+  "handmade": [
+   {
+    "item": "canonical brush plate (creature, bench, lamp, envelope with sealed flap and illegible address scribble, stars, hand border)",
+    "made_with": "code brush: dab chains with pressure, ragged dab radii, dry-brush bristle tails",
+    "where": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/plate-540.png"
+   },
+   {
+    "item": "stroke ledger",
+    "where": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/strokes.json"
+   },
+   {
+    "item": "#38 substitution drawings (eye-centre, eye-half, eye-closed, chest-in) + masks",
+    "where": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/library"
+   },
+   {
+    "item": "balloon-safe masks",
+    "where": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/safe-mask.png"
+   },
+   {
+    "item": "negative controls",
+    "where": [
+     "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/plate-crop1px.png",
+     "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/plate-mouth-redraw.png"
+    ]
+   },
+   {
+    "item": "prologue draw-on + settle frames (144) and preview",
+    "where": "films/sources/moins-dun-quart-de-seconde-pour-vivre/plate-artist/prologue"
+   }
+  ],
+  "absences": [
+   "no foraged image enters the plate by design",
+   "no sound made by this unit (U3)"
+  ]
+ },
+ "checks": [
+  {
+   "check": "plate-540.png decodes to the same pixels",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "tones: two-tone, mid share <= 12%",
+   "pass": true,
+   "detail": "mid share 0.025, dark 0.639, light 0.336"
+  },
+  {
+   "check": "tones: mid-tones only on edges",
+   "pass": true,
+   "detail": "fraction of mid pixels on a hard edge 0.9973"
+  },
+  {
+   "check": "ink/paper values",
+   "pass": true,
+   "detail": "min 20 (#141414) max 250 (#FAFAFA)"
+  },
+  {
+   "check": "no colour (single-channel L raster, R=G=B by construction)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "render_upto(all strokes) byte-equal to canonical plate",
+   "pass": true,
+   "detail": "55b62d4cc2a235d0"
+  },
+  {
+   "check": "incremental op sequence ends byte-equal to canonical plate",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "render_upto(0) is the black ground in the hand border",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "library eye-centre differs from canonical only inside its mask",
+   "pass": true,
+   "detail": "diff bbox [206, 202, 282, 280], mask bbox [200, 199, 288, 292], diff px 2075"
+  },
+  {
+   "check": "library eye-centre: full redraw has no spill outside mask",
+   "pass": true,
+   "detail": "spill px 0"
+  },
+  {
+   "check": "library eye-centre equals ledger replay with its alternate eye strokes",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "library eye-half differs from canonical only inside its mask",
+   "pass": true,
+   "detail": "diff bbox [205, 202, 285, 279], mask bbox [200, 199, 288, 292], diff px 1739"
+  },
+  {
+   "check": "library eye-half: full redraw has no spill outside mask",
+   "pass": true,
+   "detail": "spill px 0"
+  },
+  {
+   "check": "library eye-half equals ledger replay with its alternate eye strokes",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "library eye-closed differs from canonical only inside its mask",
+   "pass": true,
+   "detail": "diff bbox [205, 201, 285, 286], mask bbox [200, 199, 288, 292], diff px 2113"
+  },
+  {
+   "check": "library eye-closed: full redraw has no spill outside mask",
+   "pass": true,
+   "detail": "spill px 0"
+  },
+  {
+   "check": "library eye-closed equals ledger replay with its alternate eye strokes",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "library chest-in differs from canonical only inside its mask",
+   "pass": true,
+   "detail": "diff bbox [113, 316, 392, 453], mask bbox [106, 284, 405, 453], diff px 2865"
+  },
+  {
+   "check": "decoded settle path: no hold < 3 frames",
+   "pass": true,
+   "detail": "[['eye-centre', 6], ['eye-half', 4], ['eye-closed', 3], ['canonical', 3], ['chest-in', 5], ['canonical', 5]]"
+  },
+  {
+   "check": "decoded settle path ends on the canonical plate (sha equal)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "decoded settle path never jumps eye-closed <-> chest-in",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "key pose (pupil on envelope, canonical eye) held >= 3 frames before the breath",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "safe mask excludes eye, snout tip, flap, lamp globe, ear",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "upper ~35% of the panel is black ground and balloon-safe (minus lamp globe)",
+   "pass": true,
+   "detail": "safe share of rows 0-189: 0.75"
+  },
+  {
+   "check": "ear clear of the upper balloon zone (ear top below 0.35 height)",
+   "pass": true,
+   "detail": "ear top y=194 px"
+  },
+  {
+   "check": "negative control plate-crop1px fails strict equality",
+   "pass": true,
+   "detail": "diff px 43346"
+  },
+  {
+   "check": "negative control plate-mouth-redraw fails strict equality",
+   "pass": true,
+   "detail": "diff bbox [332, 281, 462, 295], diff px 955"
+  },
+  {
+   "check": "framing: head+torso ~70% of panel height",
+   "pass": true,
+   "detail": "0.659"
+  },
+  {
+   "check": "framing: eye at ~0.45 of panel width",
+   "pass": true,
+   "detail": "0.452"
+  },
+  {
+   "check": "framing: lamp globe top-left",
+   "pass": true,
+   "detail": "[19, 28, 111, 111]"
+  },
+  {
+   "check": "draw-on ends on the eye-centre library drawing (settle starts there, no pop)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "prologue last frame is the canonical plate (sha equal)",
+   "pass": true,
+   "detail": ""
+  }
+ ],
+ "all_checks_pass": true
+}
