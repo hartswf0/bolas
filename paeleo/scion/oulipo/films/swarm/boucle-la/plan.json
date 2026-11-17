@@ -1,0 +1,143 @@
+{
+ "slug": "boucle-la",
+ "frozen": true,
+ "direction": "II Daumier à la colle (proposals/kf-2.png)",
+ "thesis": "The same three drawings and balloons, read twice around one hinge line, change who is on the defensive: before the hinge Odette prosecutes and Gustave denies; the hinge turns the note's face out — « À MA CHÈRE ODETTE » — showing it was meant for the accuser; the identical C B A then play as her deflection, his jab, her lame counter-accusation. Bland if: the hinge only adds a fact without turning speech acts; paired panels differ at all; the crayon figures stay pale/brown; nothing is animated frame by frame; captions explain the reversal; symmetry is flagged before meaning.",
+ "defining_beat": "H at 24.5–37.0 s into B′ at 45.5–52.0 s: at 27.0–28.0 s the note turns face-out between the two heads over 6 drawings; on the face-out frame (28.0 s) the panel ground cuts to spot black and the single bell strikes; Gustave's balloon « À MA CHÈRE ODETTE... » TIENS. C'EST POUR TOI. appears. The viewer points to the note's lettered face in the black hinge panel, and to the identical second 'MOI ?! TU CROIS QUE J'AI QUE ÇA À FAIRE ?' now heard as a jab, not a defence.",
+ "baseline": "Formal: the same page read as A B C H only (no return) — every line keeps its first function. Aesthetic: proposals/kf-2.png beside assets/references/extract-001.webp at equal display size; the build must meet or beat kf-2, especially in darkness and crispness of the figures (kf-2 panel A: ~3% black vs reference ~25–31%).",
+ "acceptance": [
+  {
+   "id": "B1",
+   "kind": "blocking",
+   "evidence": "structurally verified",
+   "text": "HARD PROOF PAGE: assets/pages/boucle-la.png (>=2400 px long side; planned 3200x1800) is one page of exactly seven story occurrences read in natural Z order as A B C (row 1), H (full-width row 2, spot-black ground), C B A (row 3); two people (Odette, Gustave, cut from the Daumier print) dispute who left a note; the hinge balloon and the note's lettered face « À MA CHÈRE ODETTE » show the note was meant for Odette, the accuser; title/loop arrow/route/IDs sit only in the margin and gutters; every balloon is legible at full-page fit on a 1920 px wide screen."
+  },
+  {
+   "id": "B2",
+   "kind": "blocking",
+   "evidence": "measured",
+   "text": "FIXTURE (section 7): fixture.py passes [A,B,C,H,C,B,A]; for each pair the two page crops are pixel-identical (max abs diff 0) and the film's paired occurrences use identical frame sequences (per-frame sha256 equal) with identical speaker, balloon string and voice clip samples; H occurs once. The negative cases — speakers swapped on the second B, letters reversed within one balloon, a 1-px edit to one paired panel — each make the fixture FAIL; a different hinge with the same pair sequence passes as a separately named candidate."
+  },
+  {
+   "id": "B3",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "REVERSAL READS WITHOUT EXPLANATION: a fresh blind reader, after one natural reading of the page or one viewing of the film and before being told of any symmetry, names the hinge line as the one that shifted leverage, names at least one repeated line (B expected) whose meaning changed and states both meanings, and says Odette is on the attack before the hinge and on the defensive after it."
+  },
+  {
+   "id": "B4",
+   "kind": "blocking",
+   "evidence": "structurally verified",
+   "text": "GENUINE MATERIAL, GENUINELY ANIMATED: the figures are cut from the real Daumier lithograph (Rijksmuseum RP-P-OB-41.183, CC0 re-verified from Commons extmetadata, credited); at 100% page view no piece carries fragments of the other figure (Gustave's forearm free of Odette's fingers) and no background islands; lettering, balloons, borders and the note are handmade. In the film every occurrence is animated frame by frame on pinned rigid pieces (>=8 distinct drawings per occurrence; the note turns through >=4 foreshortened drawings in H), joints never visibly detach, and each occurrence lands on and holds exactly its page drawing. Nothing is a pan/fade over a still alone."
+  },
+  {
+   "id": "B5",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "AESTHETIC SIDE BY SIDE: shown beside extract-001.webp and kf-2.png at the same size, the page reads as a crisp black-and-white ink comics page — white ground with no brown paper cast, solid blacks present in every story panel (crayon masses pushed to ink by levels, not a threshold/posterize over the frame), a spot-black hinge panel, hand-lettered capitals in oval balloons with tails, figures framed waist- to knee-up filling >=60% of panel height — and a viewer judges it at least as crisp and dark as kf-2 and closer to the reference than kf-2."
+  },
+  {
+   "id": "B6",
+   "kind": "blocking",
+   "evidence": "measured",
+   "text": "THE FILM PERFORMS THE READING: assets/films/boucle-la.mp4, 55–75 s, plays at normal speed with sound; the camera walks A→B→C→H→C→B→A over the identical page raster; row 3 is visibly waiting as a ghost until the return; exactly one bell onset, within ±1 frame of the note's face-out drawing in H; the whole page is held clean before any route/speech-act annotation appears."
+  },
+  {
+   "id": "V1",
+   "kind": "advisory",
+   "evidence": "measured",
+   "text": "Each of panels A, B, C on the page has >=10% pixels darker than luminance 60 (kf-2 panel A: ~3%; reference rows ~25–31%) and page chroma p99 <= 4."
+  },
+  {
+   "id": "V2",
+   "kind": "advisory",
+   "evidence": "perceptually judged",
+   "text": "Gilliam paper quality: motion on 2s with held drawings, a visible intentional scissor margin and faint contact shadows; head accents land on the voice clip stresses; every beat reads at 480 px width."
+  },
+  {
+   "id": "V3",
+   "kind": "advisory",
+   "evidence": "measured",
+   "text": "FK invariants: bone lengths constant within 0.5 px and joint coincidence error <=1 px over every rendered drawing; the note anchor stays on Odette's hand <=1 px."
+  },
+  {
+   "id": "V4",
+   "kind": "advisory",
+   "evidence": "structurally verified",
+   "text": "mp4 <= 6 MB; films/credits/boucle-la.json lists every foraged item (print, voice clips, bell, rustle) with licence and source URL; notes say plainly what is foraged and what is handmade (synthesized murmur declared if used)."
+  }
+ ],
+ "reader_questions": [
+  "Read the page (or watch the film) once. What are these two people arguing about?",
+  "Which single line shifted who has the upper hand?",
+  "Which line that appears twice changed its meaning the most? What does it mean the first time, and what does it mean the second time?",
+  "Who is on the attack at the start, and who is on the defensive at the end?",
+  "Who was the note meant for, and how can you tell?",
+  "Describe how the page is built. Is anything in the second half drawn or worded differently from the first?"
+ ],
+ "intended_reading": "They argue about who left a note that Odette is holding. The turning line is the hinge: Gustave's « À MA CHÈRE ODETTE... » TIENS. C'EST POUR TOI. as the note is turned to show its address. The repeated line that changes most is B, 'MOI ?! TU CROIS QUE J'AI QUE ÇA À FAIRE ?': first a defensive denial (\"I didn't leave it\"), second a sarcastic jab (\"you think I'd waste time writing YOU notes?\" — so someone else wrote to her). C 'ALORS DE QUI IL EST ?!' goes from pressing interrogation to flustered deflection; A 'ET ÇA ?! C'EST TOI QUI L'AS LAISSÉ, CE MOT ?' goes from accusation to a feeble counter-accusation. Odette attacks first; after the hinge she is on the defensive and Gustave holds the leverage. The note was meant for Odette, the accuser — its face reads « À MA CHÈRE ODETTE ». The page is a palindrome A B C H C B A: the second half repeats the first three panels in reverse with identical drawings and lettering; only adjacency changed.",
+ "deliverables": [
+  "/home/user/bolas/paeleo/scion/oulipo/assets/pages/boucle-la.png",
+  "/home/user/bolas/paeleo/scion/oulipo/assets/pages/boucle-la-annotated.png",
+  "/home/user/bolas/paeleo/scion/oulipo/assets/films/boucle-la.mp4",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/boucle-la/route.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/boucle-la/speech-acts.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/boucle-la/hinge-alternatives.md",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/boucle-la/script.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/boucle-la/cutouts.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/boucle-la/page.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/boucle-la/fixture.py",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/boucle-la/fixture-report.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/boucle-la/turning-point.md",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/boucle-la/status.md",
+  "/home/user/bolas/paeleo/scion/oulipo/films/boucle-la.py",
+  "/home/user/bolas/paeleo/scion/oulipo/films/credits/boucle-la.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/notes/boucle-la.txt"
+ ],
+ "deliverables_note": "Section 9: single readable page (boucle-la.png); panel ID path (route.json); paired speech-act annotations (speech-acts.json + annotated page); hinge alternatives (hinge-alternatives.md with lettered alternates); independently located turning point (turning-point.md, written from the blind readers' answers, not by a maker); readable status view (status.md).",
+ "techniques": [
+  {
+   "id": 29,
+   "title": "GrabCut — Cutout Extraction Swarm",
+   "why": "The direction depends on a clean cut of Daumier's couple from one lithograph: seeded graph cut vs tonal matte vs manual contour per piece; invariant: one connected component per piece, no pixel of one figure in the other's marked region; achievement: deliberate scissor edge keeping the crayon contour, fingers intact."
+  },
+  {
+   "id": 32,
+   "title": "Forward Kinematics — Hierarchical Body Logic",
+   "why": "The palindrome needs the same drawing replayed: pinned paper pieces (feet→body→neck→head; body→elbow→forearm→note) driven by one exposure sheet per panel ID make each pair one data object; invariant: bone lengths ±0.5 px, joint error ≤1 px, note anchored; achievement: each pose reads as its speech act with weight (lean leads from the feet, head lags a drawing)."
+  },
+  {
+   "id": 1,
+   "title": "Terry Gilliam — Comic Cutout Metamorphosis",
+   "why": "Move the smallest fragment of a found print for the gag; the note's back→face substitution at edge-on, held frames and the impact bell on the cut to black carry the hinge; invariant: motion on 2s (each drawing held exactly 2 frames at 24 fps), held end drawing ≥3 s, bell ±1 frame of face-out; achievement: intentional paper edges and the transformation causing the leverage flip."
+  }
+ ],
+ "units": [
+  {
+   "role": "panel-artist",
+   "mode": "both",
+   "output": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/boucle-la/cutouts.json",
+   "task": "Owner of the immutable drawings. Re-verify CC0 of Daumier Moeurs conjugales no.3 (Rijksmuseum RP-P-OB-41.183) via Commons extmetadata; download original resolution to films/sources/boucle-la/panel-artist/. Apply SCION 29 (seeded grabCut vs tonal matte vs manual contour, per piece; export seeds and failure masks) to cut Gustave and Odette into body/head/forearm(+hand) pieces with clean cuts (no fragments of the other figure; optionally a replacement hand from a second CC0 Moeurs conjugales plate) and optionally the print's dark backdrop crayon as a spot-black set piece. Push crayon to ink by per-piece levels only (black point ~L95, white ~L200, no threshold/posterize). Define the SCION 32 rig (joint graph, pivots, bone lengths, note anchor on Odette's hand) and canonical + entry poses for A (accuse: note raised), B (Moi ?! shrug, head jerk), C (pressing lean), H (heads in, he points, she recoils, note face-out). Write cutouts.json (pieces, sha256, seeds, method, levels, rig, poses, licence) and contact sheet cutouts.jpg."
+  },
+  {
+   "role": "dialogue-writer",
+   "mode": "both",
+   "output": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/boucle-la/script.json",
+   "task": "Write the reversible lines (keep or improve the proposal's A/B/C/H) as ExchangePanel records in script.json (id, speaker, exact text, lettering seed, balloon PNG, tail anchor, voice clip path + in/out); write speech-acts.json (act and leverage per occurrence, before/after H) and hinge-alternatives.md (>=4 hinge lines grouped by resulting speech-act change, one lettered alternate balloon per group). Hand-letter with the stroke alphabet (proposals/kf_common.py method, heavier pen) all balloons, the note face « À MA CHÈRE / ODETTE », the margin title 'LE MOT / OU QUI L'A LAISSÉ ?', route 'A B C H C B A', 'ÉTUDE · OUBAPO', as RGBA PNGs at page resolution. Forage sound: short real-speech voice clips (female for A/C, male for B/H) from movingimagearchive.com clips with source sound (forage.py) or Commons audio, one real bell and a paper rustle from Commons; decode with ffmpeg; record licences in sound.json. Media in films/sources/boucle-la/dialogue-writer/."
+  },
+  {
+   "role": "page-animator",
+   "mode": "handmake",
+   "output": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/boucle-la/page.json",
+   "task": "Compose assets/pages/boucle-la.png (3200x1800, white page, margin column, rows A B C / wide black H / C B A, hand-inked borders, panel IDs in gutters) from U1 pieces and U2 lettering, framing figures waist-to-knee-up filling >=60% panel height. Render each panel ID's frame sequence at page scale with SCION 32 posing and SCION 1 timing (on 2s, >=8 drawings, paper jerk, settle, held final drawing equal to the page crop; H: heads swing in 6 drawings, note card-flip with substitution at edge-on over 6 drawings, ground cut to black on the face-out drawing) into films/sources/boucle-la/page-animator/frames/<ID>/ so pairs share one directory. Write page.json (rects, cache keys, sha256 per ID, exposure sheets, face-out frame index), route.json (panel ID path, pairs, hinge) and assets/pages/boucle-la-annotated.png (route line + speech-act tags in gutters only)."
+  },
+  {
+   "role": "validator",
+   "mode": "handmake",
+   "output": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/boucle-la/fixture-report.json",
+   "task": "Write fixture.py (run with python3 -I; must not edit art) testing palindrome identity: [A,B,C,H,C,B,A] passes; paired page crops pixel-identical; paired frame sequences identical by sha256; speaker/balloon string identity from script.json; H unique; negative cases (swap speaker on the second B; reverse letters in one balloon; 1-px edit to a paired panel) must fail; an alternate hinge with the same pairs passes as a named separate candidate; FK invariants from cutouts.json/page.json; once the mp4 exists, held frames match the page crops at film scale and exactly one bell onset within ±1 frame of the face-out drawing. Write fixture-report.json with each test, result and evidence label. Work in films/sources/boucle-la/validator/."
+  }
+ ],
+ "editor_task": "Write films/boucle-la.py with kit.Film (960x540, 24 fps, 66 s) that pastes U3's page raster and frame sequences (never re-draws a panel) and performs the shot list in plan.md §6: page establish 0–3 s, margin/title 3–5, A 5–11.5, B 11.5–18, C 18–24.5, H 24.5–37 (bell exactly on the face-out frame at ~28.0, the only bell), pull-back 37–39 with row 3 ghosted, C′ 39–45.5, B′ 45.5–52, A′ 52–58.5 with identical frames and sample-identical voice clips, clean full-page hold 58.5–61.5, film-only route trace + speech-act tags in gutters 61.5–66. Mix U2's foraged clips, rustle, room tone and one bell. Render assets/films/boucle-la.mp4 (<=6 MB); write films/credits/boucle-la.json (every archive/Commons item), films/notes/boucle-la.txt (60–110 words, foraged vs handmade), and films/swarm/boucle-la/status.md (preview, revision hashes, review, remaining failure).",
+ "aesthetic": "Printed black-and-white ink comics page (Lécroart extract-001; meet or beat kf-2). Medium: real Daumier crayon lithograph cut out and collaged, all furniture and lettering pen. Tonal range: solid ink #0D0D0D (13,13,13) and page #FBFBFB (251,251,251); reference ~24% black overall, 25–31% in rows, ~18% mid-grey (antialias/print), ~57% white; kf-2 panel A only ~3% black — too pale. Levels only: Daumier paper #E4C9B1 → white, dark backdrop ~(99,90,81) and darkest crayon (L~45–58) → solid ink, crayon grain kept as crisp texture. Palette: ink, page, film-only 22% ghost; chroma ~0, no brown cast. Light: flat print light, no gradients/vignettes, only faint 2–4 px paper contact shadows. Texture: litho crayon grain inside figures, pen wobble, 3–4 px white scissor margin; no added grain or filter. Framing: two-shots waist- to knee-up, heads in middle third, figures >=60% panel height, balloons top 35–40% may break the top border, ~6 px black borders at 3200 px, spot-black hinge panel. Typography: single-stroke hand-lettered capitals in irregular oval balloons with pointed tails; big 'LE MOT' title lettered in the left margin. Pacing: 1.5–2.5 s of drawings on 2s per panel then >=3 s hold; hinge ~12 s the only long beat; return at the same pace; one bell, no music."
+}

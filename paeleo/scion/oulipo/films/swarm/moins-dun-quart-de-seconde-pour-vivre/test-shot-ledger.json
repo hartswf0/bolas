@@ -1,0 +1,31 @@
+{
+ "slug": "moins-dun-quart-de-seconde-pour-vivre",
+ "unit": "test-shot",
+ "foraged": [
+  {
+   "title": "Writing with inkpen.ogg",
+   "author": "stephan (via pdsounds.org)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Writing_with_inkpen.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/7c/Writing_with_inkpen.ogg",
+   "used_as": "pen-on-paper scratch, cut into grains: one grain per written stroke (balloon outline + glyph strokes of B2 and B3)",
+   "licence_read_from": "Commons extmetadata LicenseShortName"
+  },
+  {
+   "title": "Field cricket unedited.ogg",
+   "author": "Thatcher (Wikimedia Commons user)",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Field_cricket_unedited.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Field_cricket_unedited.ogg",
+   "used_as": "distant night ambience bed (low-passed, low gain, looped with crossfade)",
+   "licence_read_from": "Commons extmetadata LicenseShortName"
+  }
+ ],
+ "handmade": [
+  {"item": "brush plate (creature on bench, lamp, sealed envelope, stars, hand panel border)", "file": "test-shot-build/plate2.py", "note": "dab-chain brush strokes in code; 540 px occurrence raster, sha256 recorded in test-shot-build/cues.json run output"},
+  {"item": "balloons A1 A2 A4 B1 B2 B3 B4 and page header/labels/footer", "file": "test-shot-build/balloons.py, page.py, hand.py", "note": "single-stroke capital pen hand written stroke by stroke; no typeset font"}
+ ],
+ "not_used": ["env1861.jpg, env1862.jpg, env1865.jpg (LoC envelopes from proposals): not used, per plan.md section 9"]
+}

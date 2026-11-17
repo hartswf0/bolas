@@ -1,0 +1,131 @@
+{
+ "slug": "99-ways-subjective",
+ "direction": "2 PAPER HANDS (proposals/kf-2.png)",
+ "test_shot": "E4",
+ "frozen": true,
+ "story": "household milk anecdote of the chosen direction (not the section-10 station seed); see plan.md",
+ "thesis": "Inside a pair of scissor-cut paper hands on a backlit page, the viewer knows only what the hands touch, where the eye turns, and what a voice from beyond the opaque gutter says; the same six beats as the objective baseline, with access, not events, changed.",
+ "defining_beat": "E4, film 0:27.0-0:39.0 (core 0:29.0-0:36.5), page panel P4: the head turns down-left (stair strip pulled out up-right), the cuffed left forearm rises from below the frame edge, the right hand pinches the cuff back, the wrist turns edge -> 3/4 -> face, the dial reads 1:15, and only then 'Quarter past one!' arrives from below the bottom edge. A viewer can point to: no time-piece anywhere before the turn; the turn bringing it in; 1:15 on the dial matching the answer; the questioner's balloon tail leaving the panel with no one shown.",
+ "baseline": "Madden's Subjective page (assets/references/madden2.webp) and an objective baseline page built here from the same frozen ledger (assets/pages/99-ways-subjective-baseline.png); kf-2.png is the look to meet or beat.",
+ "acceptance": [
+  {
+   "id": "B1",
+   "kind": "blocking",
+   "evidence": "structurally verified",
+   "text": "HARD PROOF ON THE PAGE: assets/pages/99-ways-subjective.png has exactly six panels read P1->P6 and every panel is seen from the protagonist's eyes: the only body parts of the protagonist ever shown are hands/forearms/cuffs entering from lower frame edges; the housemate is never drawn; no panel shows the protagonist's face (no disembodied reverse shot). The errand (milk for the black coffee: caption + MILK note) is legible in P1-P2; P6 ends with the milk bottle visible on the shelf and the hand open and not touching it. There is exactly one unseen interruption ('What time is it?', balloon tail leaving the panel, plus the panned muffled voice in the film), and the watch dial is absent from P1-P3 and from every film frame before the E4 turn starts and present after it (per-frame visibility log from the build, checked against the frozen visibility map)."
+  },
+  {
+   "id": "B2",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "SECTION 7 FIXTURE: two blind readers given only the film and page (no shot list, no plan) each (a) name the errand and say it fails, (b) say the person asking is never seen and place them off-panel/elsewhere, (c) say the time could not be known before the turn and name the downward look/wrist turn as what changed it, (d) give the time as quarter past one/1:15; and neither reports seeing anything the protagonist could not have seen or reads any panel as an outside view of the protagonist. If either reader reads the panels as arbitrary crops of a scene, this fails."
+  },
+  {
+   "id": "B3",
+   "kind": "blocking",
+   "evidence": "measured",
+   "text": "GENUINELY HANDMADE AND ANIMATED: every on-screen element is a handmade cut-paper/lightbox piece built for this work (no foraged pixels on screen; foraged material is reference motion and sound, each item in films/credits/99-ways-subjective.json with an accepted licence). The hands are articulated puppets (forearm, cuff, palm, two-segment fingers, three-piece thumb) on pinned joints with at least 14 distinct pose/replacement drawings, animated frame by frame from exposure sheets in every panel (not pans or fades over still art). Logged per frame: pin residual <= 1 px, joint limits never exceeded, fingertip-to-target residual <= 2 px through every declared contact interval (keys, pencil path, rail, cuff edge, handle), world objects responding 1-3 frames after contact; and in P6 the fingertip-to-bottle distance never falls below 25 px."
+  },
+  {
+   "id": "B4",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "HANDS AND WATCH READ AT PHONE SIZE: viewed at 360 px wide, in every contact/grasp pose the thumb is distinct from the fingers and the open hands show gaps between the fingers (they do not read as gloves or mittens); with colour removed the action of every panel still reads; the E4 wrist turn reads as a turn of one wrist (no scale pop, no detached piece), and 1:15 is readable on the dial at 640 px wide."
+  },
+  {
+   "id": "B5",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "AESTHETIC SIDE BY SIDE with kf-2.png and madden2.webp: a backlit lightbox page. Warm translucent fibrous paper in the panels (cream about #dfd7c9 with a lamp falloff toward the corners), opaque dark board gutters (about #3a3732), near-black silhouettes (about #0f0e0d) with no internal texture or line work, scissor-faceted edges, soft penumbra under near-lamp hands, tiny brass pins, vellum balloon cards on rods; close Madden-like first-person framing past one's own hands. Judged as meeting or beating kf-2 (cleaner fingers, more pose drawings, clearer staging); fails if it reads as vector clip-art, a paper-texture filter over flat shapes, or a film with added grain/boil."
+  },
+  {
+   "id": "B6",
+   "kind": "blocking",
+   "evidence": "measured",
+   "text": "PAGE = FILM, AND THE FILM PERFORMS THE READING: the page PNG is at least 2400 px on its long side; the film (<= 75 s, <= 6 MB, with purposeful foraged sound) walks P1->P6 in the reading order over that same art, animates only the active panel, makes the gutter entry of both other-speech balloons visible (rod emerging from behind the board), and when it pulls back to the full page that frame matches the page PNG downscaled to the same size (mean absolute difference <= 3/255 per channel); it ends with the subjective and objective pages shown together."
+  },
+  {
+   "id": "A1",
+   "kind": "advisory",
+   "evidence": "perceptually judged",
+   "text": "Lettering is the hand-built single-stroke mixed-case alphabet (Madden-like), identical on the page and in the film, not a stock typeface."
+  },
+  {
+   "id": "A2",
+   "kind": "advisory",
+   "evidence": "structurally verified",
+   "text": "The sound is spatialised to the access model: the muffled voice is panned toward the edge its balloon tail leaves through, the watch tick starts only once the dial is visible, and the footsteps stop as the question arrives."
+  },
+  {
+   "id": "A3",
+   "kind": "advisory",
+   "evidence": "structurally verified",
+   "text": "The objective baseline page uses the same event IDs E1-E6, the same lines and the same endpoint (milk on the shelf, note left on the desk board), and shows the housemate and the full figure; the knowledge comparison lists the facts that are accessible only in the objective page."
+  },
+  {
+   "id": "A4",
+   "kind": "advisory",
+   "evidence": "perceptually judged",
+   "text": "Rhythm: balloons arrive on a damped spring, not a fade; contacts land on ones and holds sit on twos; no panel sits motionless for more than 3 s except the final hold of P6 and the paired-page coda."
+  }
+ ],
+ "reader_questions": [
+  "Tell what happens, picture by picture.",
+  "What is the main character setting out to do at the start, and do they manage it? How can you tell?",
+  "Who else is in this story? Where are they, and what do you know about them?",
+  "Before the character answered the question, could you see what time it was? If something changed that, what was it?",
+  "What time is it, and how do you know?",
+  "Whose eyes are we looking through? Is there any picture that shows something that person could not have seen from where they were?",
+  "On the second page shown at the end, what do you learn that the first page did not show you, and does the ending differ?"
+ ],
+ "intended_reading": "Through the protagonist's own eyes (only their hands and forearms are ever shown), they type, see their coffee is black and want milk ('This coffee needs milk.'), write a MILK note, and go downstairs. On the stairs an unseen person in another room (the housemate in the living room, off-panel upper left) asks 'What time is it?'; we know this person only by the balloon whose tail leaves the panel and a muffled voice, never by sight. No clock or watch has been visible; the eye drops and turns, the left forearm comes up, the sleeve is pushed back and the wrist turns, and only then does the watch show 1:15, so the answer is 'Quarter past one!'. The unseen person says 'Thanks!' as the protagonist opens the refrigerator. In front of the shelves, with the milk bottle in plain view, the empty hand hangs and they ask 'What was I after, anyway?!': the errand fails and the milk stays on the shelf. Nothing shown lies outside what that eye could see. The objective page shows the same events and the same ending, plus what the protagonist could not see: the housemate in the armchair with a newspaper, the protagonist's whole figure, and the MILK note left upstairs.",
+ "deliverables": [
+  "/home/user/bolas/paeleo/scion/oulipo/assets/pages/99-ways-subjective.png",
+  "/home/user/bolas/paeleo/scion/oulipo/assets/pages/99-ways-subjective-baseline.png",
+  "/home/user/bolas/paeleo/scion/oulipo/assets/films/99-ways-subjective.mp4",
+  "/home/user/bolas/paeleo/scion/oulipo/assets/films/99-ways-subjective.webp",
+  "/home/user/bolas/paeleo/scion/oulipo/films/99-ways-subjective.py",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways-subjective/continuity/event-ledger.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways-subjective/continuity/visibility-map.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways-subjective/continuity/visibility-map.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways-subjective/continuity/sound-cues.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways-subjective/routes.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways-subjective/knowledge-comparison.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/credits/99-ways-subjective.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/notes/99-ways-subjective.txt"
+ ],
+ "techniques": [
+  {
+   "id": 2,
+   "title": "Lotte Reiniger — Articulated Shadow Theater",
+   "why": "The medium itself: backlit silhouettes, pinned joints, joint limits, foreground/midground shadow planes, replacement profiles for the E4 wrist turn and the P5 door, and exposure sheets. Invariant: pin residual <= 1 px and joint limits held. Achievement: grasps and actions read with colour removed."
+  },
+  {
+   "id": 33,
+   "title": "Inverse Kinematics — Contact and Reach Swarm",
+   "why": "The subjective view is made of hands reaching things: keys, pencil, rail, cuff, handle, and the deliberate non-contact at the milk in P6. Invariant: contact residual <= 2 px, with world objects responding after contact. Achievement: the hands visibly choose their targets, and the last one visibly fails."
+  },
+  {
+   "id": 45,
+   "title": "Occlusion Compositing — Who Is In Front?",
+   "why": "The source anchor of the work, 'derive the picture from who can see what'. The occlusion DAG decides visibility: the gutter board in front of the balloon rods, the cuff as holdout over the watch, the hand against the shelves and door, and the penumbra. Invariant: DAG order holds in every frame, alpha is valid, and the dial area is 0 before the turn. Achievement: the voice is felt to come from beyond the page, and everything shares one stage."
+  }
+ ],
+ "units": [
+  {
+   "role": "continuity-voice",
+   "mode": "both",
+   "output": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways-subjective/continuity/event-ledger.json"
+  },
+  {
+   "role": "hands",
+   "mode": "both",
+   "output": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways-subjective/hands/e4-test.mp4"
+  },
+  {
+   "role": "set",
+   "mode": "handmake",
+   "output": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways-subjective/set/plate-sheet.png"
+  }
+ ]
+}

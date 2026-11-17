@@ -1,0 +1,298 @@
+{
+ "revision": "r0",
+ "frozen": true,
+ "slug": "quatre-vingt-quinze",
+ "direction": "1 · Ombres en croix (proposals/kf-1.png), with CC0 key cutout and FSA Union Station waiting-room plate stencilled in A and H (optionally D)",
+ "common_seed": "used (section 10 station incident); key reveal moved from C to D so that the key precedes E in both routes (see plan.md, 'one deliberate change')",
+ "thesis": "One immutable centre panel, E — the visitor lifting a brass key, head turning up, saying \"C'EST POUR MOI ?\" — answers two different questions by route: across (after D, the key out of the envelope) it asks whether the key is meant for her, in a lost-key story where the key goes home under the closed service door; down (after B, the bell) it asks whether the bell was rung for her, in a story where the capped man behind the door watched, pulled the cord and set the encounter up. The down route discloses what across leaves latent: the shadow in D's window, the one red cord, the 'IL' of G. Bland would be: synonymous routes, a quietly per-route E, a down route that is a dossier rather than a story, clip-art figures, typeface lettering, a slideshow pan over a still page, or an axis change announced by a caption instead of seen in marks and camera.",
+ "defining_beat": "44.0–47.0 s, decisive frame 44.5 s: on the DOWN route, after the bell swings and rings in B (41–44 s), the camera travels down across the B/E gutter past the red paper arrow and the vertical-armed crossing marks into E; the visitor is mid-lift with the key, her drawn head turning up toward the panel top where the bell hangs on the page, and the bell's ring is still decaying under the balloon 'C'EST POUR MOI ?'. The viewer can point to: 'same woman, same key, same words as at 15 s — but this time the bell has just rung and she is asking whether it rang for her.'",
+ "baseline": "The same nine cells read across only (the 3–30 s half alone), where E means only 'is this key for me?'; the beat succeeds only if the down entry into E (44–47 s) reads differently while E's frames are pixel-identical to its across occurrence (15–18 s).",
+ "routes": {
+  "across": [
+   "A",
+   "B",
+   "C",
+   "D",
+   "E",
+   "F",
+   "G",
+   "H",
+   "I"
+  ],
+  "down": [
+   "A",
+   "D",
+   "G",
+   "B",
+   "E",
+   "H",
+   "C",
+   "F",
+   "I"
+  ],
+  "shared_final": "I",
+  "E_predecessor": {
+   "across": "D",
+   "down": "B"
+  }
+ },
+ "cells": {
+  "A": {
+   "rc": [
+    0,
+    0
+   ],
+   "text": [
+    "CAP: GARE DE ST-ROCH, 6 H 10.",
+    "BAL: PERSONNE ?"
+   ],
+   "art": "waiting room (FSA stencil); visitor with sealed envelope; service door shut, small lit empty window"
+  },
+  "B": {
+   "rc": [
+    0,
+    1
+   ],
+   "text": [
+    "SFX: DING ! DING !"
+   ],
+   "art": "bell on bracket swinging, red pull-cord off left edge"
+  },
+  "C": {
+   "rc": [
+    0,
+    2
+   ],
+   "text": [
+    "SFX: TOC TOC."
+   ],
+   "art": "visitor knocking at the shut service door"
+  },
+  "D": {
+   "rc": [
+    1,
+    0
+   ],
+   "text": [
+    "BAL: UNE CLÉ ?"
+   ],
+   "art": "on the bench, envelope torn open, brass key on red thread; capped man's profile watching in the door window"
+  },
+  "E": {
+   "rc": [
+    1,
+    1
+   ],
+   "text": [
+    "BAL: C'EST POUR MOI ?"
+   ],
+   "art": "visitor lifts key at arm's length, head turned up toward panel top (B's bell above), key glint, salmon pool"
+  },
+  "F": {
+   "rc": [
+    1,
+    2
+   ],
+   "text": [
+    "BAL: TANT PIS."
+   ],
+   "art": "key left on bench, red thread trailing off right edge; visitor walks out left"
+  },
+  "G": {
+   "rc": [
+    2,
+    0
+   ],
+   "text": [
+    "CAP: IL TIRE LA CORDE."
+   ],
+   "art": "behind the service door, capped man hauls a red cord rising out of the panel's top-right"
+  },
+  "H": {
+   "rc": [
+    2,
+    1
+   ],
+   "text": [
+    "CAP: PLUS PERSONNE."
+   ],
+   "art": "empty bench (FSA stencil), no key, no visitor; door window goes dark"
+  },
+  "I": {
+   "rc": [
+    2,
+    2
+   ],
+   "text": [
+    "BAL (from behind door): MERCI."
+   ],
+   "art": "service door shut, key half drawn under it on taut red thread; door never opens"
+  }
+ },
+ "film_clock": {
+  "title": [
+   0,
+   3
+  ],
+  "across": [
+   3,
+   30
+  ],
+  "turn": [
+   30,
+   32
+  ],
+  "down": [
+   32,
+   59
+  ],
+  "end": [
+   59,
+   64
+  ],
+  "per_cell_s": 3,
+  "beat_s": 44.5,
+  "assert": "32 + 3*index(down,'E') = 44 <= 44.5 < 47"
+ },
+ "page": {
+  "size": [
+   3360,
+   2400
+  ],
+  "cell": [
+   900,
+   600
+  ],
+  "gutter": 90,
+  "col_x": [
+   240,
+   1230,
+   2220
+  ],
+  "row_y": [
+   260,
+   950,
+   1640
+  ]
+ },
+ "aesthetic": "Match assets/references/extract-003.webp (Lécroart's crossed page) and meet or beat proposals/kf-1.png. Medium: printed comic page — hand-ruled ink panels on white paper, flat salmon-orange colour family plus red spot colour, solid black profile silhouettes, hand-lettered capitals. Tonal range: high contrast paper white vs solid ink (#2b2021 / #16100f), salmon pools as the only midtones, no internal shading in figures. Palette sampled with PIL: paper #fffefe/#f8f2f2/#fefdf9; salmon #ffd7d4 → #ed9283 → #c25850 (mean #d78c82); fringe mauve #7e4b45/#ac8682; red crossing marks mean #b14e3f (kf-1's #c42a1c is too saturated, move toward reference). Light: soft radial pools in salmon cells, lighter at the action, darker at edges; white cells flat; figures backlit. Texture: ink wobble and taper, print-flat colour, FSA plates only as two-level stencil ink; no added grain, no filter. Framing/scale: one dominant profile silhouette at 70–85% of panel height per cell, B a close-up of the bell, one balloon (white oval, ink outline, pointed tail) or upper-left caption box per cell. Typography: handmade single-stroke irregular capitals, red tilted SFX, bold lowercase title with every second glyph turned over; French spacing before ! and ?. Pacing: 3 s per cell, 0.5 s eased camera travel entering from the predecessor's side, 12 drawings/s on 2s, holds on page poses, a 2 s mark-by-mark turn, 5 s end on the printed page.",
+ "techniques": [
+  {
+   "id": 2,
+   "title": "Lotte Reiniger — Articulated Shadow Theater",
+   "why": "The direction is cut-paper silhouette puppetry and Lécroart already uses solid black shadow figures on salmon; Reiniger's theorem (action legible through contour and limited articulation) is exactly what E needs — the double meaning carried by an up-turned head contour, not interior detail. Primitives: backlit shapes, pinned joints with angle limits, replacement profiles, contact planes, exposure sheets. Numeric invariant: pinned joint separation <= 0.5 px every frame; planted feet on the contact line +/-1 px. Perceptual achievement: relations (who holds the key, where she looks, who pulls, which door) read with colour removed and at thumbnail size. Applied in every cell; decisive in E, C, F, G and D's window shadow."
+  },
+  {
+   "id": 32,
+   "title": "Forward Kinematics — Hierarchical Body Logic",
+   "why": "The E lift, C knock, G haul and walk cycles must move with weight and propagate shoulder→elbow→wrist→hand→key, with the key and envelope as explicit wrist attachments. Numeric invariant: bone lengths constant within 0.5 px across all frames; held-prop offset from wrist constant; errors-by-joint report. Perceptual achievement: the key follows the rising shoulder believably with nothing floating; G's haul has weight (fast down-stroke, slower recovery). Applied in A, C, D, E, F, G and the bell/clapper pendulum in B."
+  },
+  {
+   "id": 38,
+   "title": "Dynamic Pose Selection — Drawing Library Swarm",
+   "why": "The direction's named fix for the clip-art risk: a small library (<= 10 per character) of hand-drawn replacement heads and hands, decoded by DP over each cell's action, so the figures read as drawn big-nose profiles. Numeric invariant: no drawing held under 2 frames (on 2s); protected key poses (E up-turned head + pinch-key hand, D surprise head, G effort head) present in the decoded schedule, not averaged away. Perceptual achievement: flicker-free transitions and a distinct drawn head-turn in E that viewers can point to. Applied to heads and hands in A, C, D, E, F, G."
+  }
+ ],
+ "acceptance": [
+  {
+   "id": "B1",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "HARD PROOF WORKS. Watching the film at normal speed and reading the page, the across route (A B C D E F G H I) reads as a lost-key story (she knocks unanswered, opens the envelope, a key that is not hers, leaves it, someone pulls the cord, the key slides home under the shut door: 'MERCI.') and the down route (A D G B E H C F I) reads as a set-up (the capped man watches her open the envelope, pulls the cord, the bell rings, she asks, the window empties, she knocks, gives up, he draws the key in: 'MERCI.'). Each route has its own setup and resolution, both end on cell I, and the service door never opens."
+  },
+  {
+   "id": "B2",
+   "kind": "blocking",
+   "evidence": "measured",
+   "text": "SECTION 7 FIXTURE AND IMMUTABILITY. The routes performed in the film are exactly ABCDEFGHI and ADGBEHCFI, each visiting all nine cells once by legal neighbour edges (structurally verified by the adjacency test). Every frame of cell E's across occurrence (15–18 s) is pixel-identical to the corresponding frame of its down occurrence (44–47 s) in cell space before the camera transform, and likewise for all nine cells; every cell at rest in the film and the last 1.5 s end hold equal the page PNG's cell art and lettering (after identical scaling). No route-specific art, text or own sound cue exists for any cell."
+  },
+  {
+   "id": "B3",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "BLIND READERS. Two independent readers, one starting across and one starting down, each record before seeing the other route an account in which E's 'C'EST POUR MOI ?' refers to the key (across reader) and to the bell / being summoned (down reader); the down reader names the man behind the door as the one who arranged the encounter. If either reader gives the same meaning for E as the other route's intended meaning, the proof fails."
+  },
+  {
+   "id": "B4",
+   "kind": "blocking",
+   "evidence": "structurally verified",
+   "text": "GENUINE MATERIAL AND GENUINE ANIMATION. Every visible and audible element is handmade (cut silhouette puppets with hand-drawn replacement heads and hands, handmade props, single-stroke hand lettering, ruled page) or foraged with its licence read and recorded in films/credits/quatre-vingt-quinze.json (CC0 key, PD FSA plate as two-level stencil, any MIA sound); no typeface lettering on page or film, no filter or fake grain, nothing from Lécroart's page. Cells animate frame by frame on 2s from FK rigs with bone lengths constant within 0.5 px and pinned joints never separating (joint-errors.json), and replacement drawings change visibly (E's head turns up as a distinct drawing); at least E, B, C, G animate with weight and timing, not as pans or fades over stills."
+  },
+  {
+   "id": "B5",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "AESTHETIC AND THE BEAT, SIDE BY SIDE. The 44.5 s frame, viewed beside assets/references/extract-003.webp and proposals/kf-1.png, reads as a drawn and lettered comics page in Lécroart's grammar — white and salmon ink-ruled panels with soft light pools, solid black big-nose profile silhouettes, hand-lettered capital balloons, red barbed crossing marks, flipped-glyph title — and meets or beats kf-1 (figures read as drawn, not clip-art; lettering reads as a hand). In that frame and the second before it, a viewer can see the down route entering E from B (camera travel down the B/E gutter, arrow, vertical long arms on the marks), hear the bell's tail continue under the balloon, and say 'same woman with the key, but this time the bell just rang for her.'"
+  },
+  {
+   "id": "A1",
+   "kind": "advisory",
+   "evidence": "measured",
+   "text": "Page is 3360x2400 px (>= 2400 on the long side); all lettering legible at 25% scale; the across/down axis cue (long arm of the crossing marks, gutter arrow) still distinguishable in a grayscale 320 px wide thumbnail of a film frame from each route."
+  },
+  {
+   "id": "A2",
+   "kind": "advisory",
+   "evidence": "measured",
+   "text": "Film is about 64 s (<= 75 s), <= ~6 MB, 24 fps, with the beat clock assert 32+3*4 = 44 <= 44.5 < 47 passing in the build; sound is purposeful: each cell's own cue is identical on both routes and the across E (15–18 s) carries no bell tail while the down E (44–47 s) does."
+  },
+  {
+   "id": "A3",
+   "kind": "advisory",
+   "evidence": "perceptually judged",
+   "text": "Each reader reports losing direction at no more than one transition per route, and neither loses it at the entry into E; the route returns (C→D, F→G across; G→B, H→C down) are followed by the camera without confusion."
+  },
+  {
+   "id": "A4",
+   "kind": "advisory",
+   "evidence": "structurally verified",
+   "text": "Walkthrough strips, canonical cell PNGs and the registry carry sha256 and revision ids that match the page and the film build; new downloads stay under 75 MB."
+  }
+ ],
+ "reader_questions": [
+  "Read the work in the order you were given. In a few sentences, what happens?",
+  "When the woman says \"C'EST POUR MOI ?\", what is she asking about?",
+  "Did anyone arrange what happens at the station? Who, and what in the work tells you so?",
+  "Where, if anywhere, did you lose the thread or the reading direction?",
+  "What happens in the last panel, and what is \"MERCI.\" thanking someone for?",
+  "(Asked only after your account is recorded and you have seen the other route) What changed between the two readings, and what stayed exactly the same?"
+ ],
+ "intended_reading": "ACROSS reader: a woman arrives at an empty station (St-Roch, 6 h 10) with a sealed envelope; a bell rings; she knocks at the service door, no one answers; on the bench she opens the envelope and finds a brass key; lifting it she asks whether the key is meant for her; deciding it is not ('TANT PIS.') she leaves it on the bench and walks away; someone pulls a cord, the station is empty and the key is gone; the key slides back under the closed service door and a voice behind it says 'MERCI.' — the lost key has gone home to its owner. DOWN reader: she arrives; as she opens the envelope the capped man watches her from the door window; he pulls the cord; the bell rings; she asks whether the bell was rung for her (she has been summoned); the window is empty; she knocks at his door; giving up she leaves the key; he draws it in under the door and thanks her — he set the whole encounter up and she played her part. Centre panel: across = 'is this key for me?', down = 'was that bell for me?'. Both end on I. Likely loss points: the diagonal returns (C→D, F→G; G→B, H→C), and G's 'IL' arriving unannounced on the across route. What stays the same: every panel, every word, every drawing; only the order and the preceding beat change.",
+ "deliverables": [
+  "/home/user/bolas/paeleo/scion/oulipo/assets/pages/quatre-vingt-quinze.png",
+  "/home/user/bolas/paeleo/scion/oulipo/assets/films/quatre-vingt-quinze.mp4",
+  "/home/user/bolas/paeleo/scion/oulipo/assets/pages/quatre-vingt-quinze-across.png",
+  "/home/user/bolas/paeleo/scion/oulipo/assets/pages/quatre-vingt-quinze-down.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/quatre-vingt-quinze/cells/A.png … I.png (nine canonical cells at page resolution)",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/quatre-vingt-quinze/cells/cells.json (canonical cell registry with row, col, text, props, cues, sha256, revision)",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/quatre-vingt-quinze/adjacency_test.py",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/quatre-vingt-quinze/adjacency-results.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/quatre-vingt-quinze/readers/reader-across.md",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/quatre-vingt-quinze/readers/reader-down.md",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/quatre-vingt-quinze/status.md (readable status view: current preview, decisive review, remaining failure, revisions)",
+  "/home/user/bolas/paeleo/scion/oulipo/films/quatre-vingt-quinze.py",
+  "/home/user/bolas/paeleo/scion/oulipo/films/credits/quatre-vingt-quinze.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/notes/quatre-vingt-quinze.txt"
+ ],
+ "units": [
+  {
+   "role": "story-grid-letterer",
+   "mode": "handmake",
+   "output": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/quatre-vingt-quinze/grid/registry.json",
+   "task": "Merged across-story agent, down-story agent, grid designer and letterer. Build the canonical cell registry (id, row, col, lettering, props, cue, outgoing cues, and per-route precondition/effect for each occurrence) exactly per plan.md section 5, solving both routes' contracts on every shared cell before polishing. Handmake the page scaffold at 3360x2400 per plan.md section 6: hand-ruled ink borders with wobble, white/salmon grounds with radial light pools (palette from plan.md section 10), id tabs, margin rails (II en bas vertical; I en travers 3x3), bottom line, neutral red barbed crossing marks plus their across-long, down-long and per-mark turn drawings, the red cut-paper gutter arrow. Draw a handmade single-stroke capital alphabet (with É È Ê, ! ? . and apostrophe) and a bold lowercase title hand; letter every balloon, caption box and SFX and the title with every second glyph turned 180°. Deterministic functions only (no route argument). Write grid/grid.py, grid/page_scaffold.png, grid/registry.json; media to films/sources/quatre-vingt-quinze/grid/. Read SCIONs 2, 32, 38 and kit.py (do not edit)."
+  },
+  {
+   "role": "puppet-cutter-animator",
+   "mode": "handmake",
+   "output": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/quatre-vingt-quinze/puppets/exposure.json",
+   "task": "Merged puppet cutter, hinge engineer, pose illustrator and gesture animator, applying SCIONs 2 (Reiniger), 32 (FK) and 38 (dynamic pose selection) for real. Build two black cut-paper FK silhouette rigs (visitor in cloche hat; man in peaked cap; big-nose Lécroart profiles) with pinned joints and angle limits; a hand-drawn replacement library of <= 10 heads/hands per character decoded by a DP over each cell's action with >= 2-frame holds and protected key poses; handmade props (bell+clapper two-link pendulum, sealed/torn envelope, service door with window, red cord and thread; integrate U3's key cutout). Write per-cell exposure sheets for A–I per plan.md section 5 at 12 drawings/s on 2s, each ending on the page pose, rendered as a function of (cell, local frame) only. Outputs: puppets/puppets.py, puppets/exposure.json (with decoded pose schedules), puppets/E-test.mp4 (cell E's 3 s cycle alone at final size, the test shot cell), puppets/joint-errors.json (bone length and pin separation per joint per frame); media to films/sources/quatre-vingt-quinze/puppets/."
+  },
+  {
+   "role": "forager-sound",
+   "mode": "both",
+   "output": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/quatre-vingt-quinze/forage/ledger.json",
+   "task": "Merged forager, stencil printer and sound designer. Re-verify licences: File:Skeletonkey.png (Blenheimears, CC0) from Commons extmetadata (back off on 429), and LoC 2017843779 (Delano, FSA/OWI 1943, PD) on loc.gov (optionally 2017843789). Copy local sources into films/sources/quatre-vingt-quinze/forage/. Cut the key by density with the bow hole open (key_cut.png, flat brass paper piece plus silhouette variant). Cut two-level stencil plates from the waiting-room photograph for A and H (optionally D, G) with a hand-chosen threshold and hand-placed mask, printed as flat salmon/deep-salmon ink (stencil_A.png, stencil_H.png) at cell resolution 900x600 — a stencil print, not a filter. Forage sound from the Moving Image Archive cache first (bell: 381d177e Communications and Our Town 1947 only if a bell stroke isolates clean of narration; room tone/steps: search station|hall|waiting|footsteps, choose by listening); decode only with ffmpeg; otherwise handmake with kit Mix and say so. Produce one cue per cell (cue_A.wav … cue_I.wav, identical for both routes, with natural tails) and room.wav. Write forage/ledger.json and films/credits/quatre-vingt-quinze.json in the brief's format."
+  }
+ ],
+ "editor_task": "Build /home/user/bolas/paeleo/scion/oulipo/films/quatre-vingt-quinze.py with kit.py (unedited), importing U1 grid.py/registry.json, U2 puppets.py/exposure.json and U3 stencils, key and cues. Render the page /home/user/bolas/paeleo/scion/oulipo/assets/pages/quatre-vingt-quinze.png (3360x2400, every cell at its page pose, neutral marks, both rails) and the film /home/user/bolas/paeleo/scion/oulipo/assets/films/quatre-vingt-quinze.mp4 (1280x720, 24 fps, ~64 s) following the plan.md section 7 timetable exactly: camera rostrum over the same page art, entering each cell from its predecessor's side, gutter arrow, marks long-horizontal across and long-vertical down with the 30–32 s mark-by-mark turn, active rail, paper wash lifting, only the read cell animating, each cell's own cue plus the previous tail, beat assert 44 <= 44.5 < 47, 59–64 s end on the printed page with both route lines arriving in I. Also produce the across/down walkthrough strips, nine canonical cell PNGs and cells.json, adjacency_test.py and adjacency-results.json (route legality, coverage, shared final I, E predecessors D/B, pixel identity of every cell between routes and between page and film rest frames), the status view, notes (60–110 words, foraged vs handmade) and complete credits. Check the 44.5 s frame side by side with extract-003.webp and kf-1.png before finishing."
+}
