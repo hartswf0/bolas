@@ -64,5 +64,8 @@ The only head piece is `page-cartoonist/pieces/clerk.head.png`, cut from Rothste
   - turn him fully away, torso included.
 
   Both are outside this branch's mandate ("leave the staging unchanged"). The new-photograph route would be a handmade photograph of a real sitter, which is allowed as HANDMADE.
-- **Render.** The root volume was at 0-12 MB free for the whole session, because other jobs fill the shared scratchpad. kit.render needs about 13 MB of temp WAV plus about 4 MB of mp4. See the report for whether the render ran.
+- **Render.** The root volume sat at 0-12 MB free for most of the session (it is shared with other jobs). One render attempt broke its pipe and was discarded. Once space returned, it was re-run with `TMPDIR=/dev/shm`:
+  - Outputs: `branch-a/99-ways-template.mp4` (72.5 s, 3.6 MB), `.webp` poster, `99-ways-template.png` (a copy of the r1 page; art unchanged), `editor_checks.json` (all asserts pass).
+  - Frames sampled at 29.8, 36, 41, 44.5 and 70.5 s (`work/contact.jpg`).
+  - Result: identical to r1. P5, P7 and P8 all show the same downcast eyelids, and in P8 he still reads as looking at his fist, with the key at the far left. This is the visual confirmation of Explanation A.
 - **Amendments A-1 to A-4** are untouched (operator decisions). The B1/defining_beat text in plan.json still quotes Madden's line, and it is frozen.

@@ -1,4 +1,9 @@
-# Assembly — 99-ways-template (b1, Direction 2), render r1 (repair round 1)
+# Assembly — 99-ways-template (b1, Direction 2), render r2 (branch A promoted)
+
+**r2 (branch A promoted over r1):** picture and sound are unchanged from r1. The render is byte-identical to `branch-a/99-ways-template.mp4` and to r1. r2 changes the rights record only:
+- `films/credits/99-ways-template.json`: LoC sheet licence quotes LoC's statement, with `license_url`, `file_url` and a credit line. The six Commons PD sounds are recorded as PD-author. Panama by Air (1914) is PD by date only, with no archive statement read. The CC BY 3.0 train is recorded as modified and has a ready attribution line.
+- `films/notes/99-ways-template.txt` (103 words): the cutouts are "pieces cut by hand from the photographs", and the CC BY recordist (Glaneur de sons, modified) is credited.
+- The P8 gaze gap is still open. Branch A found no up-looking head of this sitter in the reachable archives (see `branches.md`).
 
 **Film:** `assets/films/99-ways-template.mp4`
 - 960×540, 24 fps, 72.5 s (1740 frames), 3.6 MB.
