@@ -1,0 +1,90 @@
+{
+ "unit": "test-shot",
+ "plan_revision": "r0",
+ "built": "2026-11-17",
+ "shot": {
+  "film_time": [
+   41.0,
+   47.5
+  ],
+  "route": "down",
+  "cells": "G->B->E->H (travel only into H)",
+  "decisive_frame_s": 44.5,
+  "file": "films/swarm/quatre-vingt-quinze/test-shot.mp4",
+  "size": "1280x720, 24 fps, H.264 + AAC, 6.5 s",
+  "sha256": "a25b33f85558973c1fa8aadfac057d19ef1310d57833dd7235ca93ac45811e51"
+ },
+ "page": {
+  "file": "films/swarm/quatre-vingt-quinze/test-page.png",
+  "size": "3360x2400",
+  "sha256": "204c21277b6692a3f83357fd7d657428ddae87073f4a169be054b884d39dba21",
+  "note": "all nine cells at their page poses, neutral marks, both rails; same cell_image() calls as the film"
+ },
+ "foraged": [
+  {
+   "id": "KEY",
+   "title": "File:Skeletonkey.png",
+   "author": "Blenheimears",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Skeletonkey.png",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/21/Skeletonkey.png",
+   "local": "films/sources/quatre-vingt-quinze/skeletonkey.png (existing copy; cut saved as test-shot/key_cut.png)",
+   "verification": "Commons extmetadata LicenseShortName=CC0 re-read 2026-11-17 (films/sources/quatre-vingt-quinze/test-shot/commons_meta.json)",
+   "used_as": "the brass key: left key of the photograph density-cut (threshold 120, specks filled, bow hole kept open), printed flat brass with an ink edge; held in E (attached to the wrist frame), D, F, I"
+  },
+  {
+   "id": "PLATE",
+   "title": "Chicago, Illinois. The main waiting room of Union Station at 1 a.m.",
+   "author": "Jack Delano, photographer (U.S. Farm Security Administration/Office of War Information)",
+   "license": "Public domain (US government work; LoC rights advisory: No known restrictions)",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017843779/",
+   "file_url": "",
+   "local": "films/sources/la-machine-a-tuer-le-temps/loc_2017843779.jpg (read in place, not copied)",
+   "verification": "rights_advisory and rights fields re-read from loc.gov item JSON 2026-11-17 (films/sources/quatre-vingt-quinze/test-shot/loc_meta.json)",
+   "used_as": "two-level stencils (one hand-chosen threshold, no halftone): colonnade crop printed pale salmon behind A; bench rows crop (figure-free) printed mid salmon in H"
+  },
+  {
+   "id": "BELL",
+   "title": "File:Glockenschlagwerk Bahnhof Fridingen.ogg",
+   "author": "Olga Ernst",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Glockenschlagwerk_Bahnhof_Fridingen.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Glockenschlagwerk_Bahnhof_Fridingen.ogg",
+   "local": "films/sources/la-belle-hortense/forage/sound/Glockenschlagwerk_Bahnhof_Fridingen.ogg.mp3 decoded with ffmpeg to test-shot/bell_fridingen.wav",
+   "verification": "Commons extmetadata LicenseShortName=CC BY-SA 4.0, Artist=Olga Ernst, re-read 2026-11-17",
+   "used_as": "B's cue: the recording's two consecutive strikes at 10.55-11.75 s and 11.75-12.88 s, placed at film 42.36 and 43.56 s where the drawn clapper strikes; convolved with a handmade hall impulse response so the tail decays under E's balloon at 44.5 s"
+  },
+  {
+   "id": "KEYS",
+   "title": "File:Keys hitting tree 2 (Gravity Sound).wav",
+   "author": "Gravity Sound",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Keys_hitting_tree_2_(Gravity_Sound).wav",
+   "file_url": "",
+   "local": "films/sources/la-belle-hortense/forage/sound/Keys_hitting_tree_2_(Gravity_Sound).wav.mp3 decoded to test-shot/keys.wav",
+   "verification": "Commons extmetadata LicenseShortName=CC BY 4.0, Artist=Gravity Sound, re-read 2026-11-17",
+   "used_as": "E's cue: one 0.31 s clink grain (0.31-0.62 s of the recording) at the top of the lift, film 45.0 s"
+  }
+ ],
+ "auditioned_rejected": [
+  {
+   "title": "Communications and Our Town (1947)",
+   "author": "via movingimagearchive.com",
+   "source_url": "https://www.movingimagearchive.com/sources/communications-and-our-town-e75e0b4f?clip=381d177e-aa67-5119-9f0a-eca87325fd86",
+   "reason": "belfry bells overlap narration throughout (spectral check: tonal 458 Hz bursts at 4.0-5.0 s run straight into speech-band energy); no clean stroke or tail could be isolated; not used"
+  }
+ ],
+ "handmade": [
+  "ruled page, grounds and radial salmon pools, id tabs, rails, crossing marks (neutral and down states), red cut-paper arrow",
+  "single-stroke hand-lettering alphabet (letters.py): balloons, captions, SFX, flipped-glyph title, bottom line",
+  "visitor and capped-man FK silhouette rigs; 7 replacement heads and 5 hands drawn as hand-placed contours",
+  "bell, bracket, lever and clapper (two-link pendulum), red cord, envelope, doors and windows, benches, red thread, glint",
+  "room tone (kit Mix.room) and the hall impulse response (decaying filtered noise)"
+ ],
+ "not_used": "nothing from Lécroart's page or other Oubapo material; no typeface on page or film (DejaVu Sans appears only in the labels of test-shot-compare.jpg); no filter, no added grain",
+ "downloads_new_MB": 0.02
+}
