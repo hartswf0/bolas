@@ -1,0 +1,3 @@
+
+## A-1 (editor, r0) — B3 manifest wording
+B3 says every photographic pixel "traces through cutouts/manifest.json". The page and film actually use the page-cartoonist's pieces (films/sources/99-ways-template/page-cartoonist/pieces/manifest.json, with source bbox, pivots, levels), cut from the same Rothstein master reassembly and the same LoC items (2017776093, 2017776111, 2017861739, 2017679951) — the cutout-surgeon's manifest arrived after the page was built. Proposed: B3 accepts either piece manifest provided each piece records its LoC/MIA/Commons item and bbox (both do). The bar is unchanged until the operator decides; the alternative is re-laying the page on cutouts/manifest.json pieces and re-running anim/build_anim.py and the film.

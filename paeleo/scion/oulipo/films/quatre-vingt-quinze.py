@@ -21,6 +21,13 @@ no filter, no typeface.
 Run from the project root:
     python3 films/quatre-vingt-quinze.py                 # page, cells, strips, film
     python3 films/quatre-vingt-quinze.py --stills 44.5   # stills only (kit)
+    QVQ_CUT=across python3 films/quatre-vingt-quinze.py  # reader cut: title + across + end only
+    QVQ_CUT=down   python3 films/quatre-vingt-quinze.py  # reader cut: title + down + end only
+
+r1 (repair round 1): E has a commissioned skyward head (U2 v_sky, 0.50-1.67 s cell time) and a
+retimed lift; B's cue carries strike 13's real ring further (overlap-add of its own ring grains);
+E's clink is ducked; the end shows only the two final route edges arriving in I; single-route
+reader cuts are rendered from the same composite (time-mapped master frames).
 """
 import hashlib
 import json
@@ -48,7 +55,7 @@ import grid as G      # noqa: E402  U1
 import puppets as P   # noqa: E402  U2
 
 SLUG = "quatre-vingt-quinze"
-REVISION = "r0"
+REVISION = "r1"
 REGISTRY = json.load(open(SW / "grid" / "registry.json"))
 EXPOSURE = json.load(open(SW / "puppets" / "exposure.json"))
 
@@ -100,6 +107,23 @@ def phase(K):
     if t < 59:
         return "down"
     return "end"
+
+
+# ------------------------------------------------------------ reader cuts ---
+# A reader cut is a time map onto master frames: (cut start s, cut end s, master start s).
+CUT = os.environ.get("QVQ_CUT")          # None | "across" | "down"
+CUT_SEGMENTS = {"across": [(0, 30, 0), (30, 35, 59)], "down": [(0, 3, 0), (3, 35, 32)]}
+END_FROM = G.U_ACROSS if CUT == "across" else G.U_DOWN   # the route the end hold returns from
+
+
+def master_K(k):
+    if not CUT:
+        return k
+    t = k / FPS
+    for a, b, m in CUT_SEGMENTS[CUT]:
+        if a <= t < b or (b == CUT_SEGMENTS[CUT][-1][1] and t >= b):
+            return int(round((t - a + m) * FPS))
+    return k
 
 
 # ------------------------------------------------------------------ cell art ---
@@ -212,7 +236,7 @@ def marks_state(K):
         return (G.U_DOWN,) * 8
     if t < 59.5:
         k = min(3, 1 + int((K - 59 * FPS) // 4))
-        return (G.turn_states(G.U_DOWN, G.U_NEUTRAL, k),) * 8
+        return (G.turn_states(END_FROM, G.U_NEUTRAL, k),) * 8
     return (G.U_NEUTRAL,) * 8
 
 
@@ -220,10 +244,12 @@ def rail_state(K):
     t = K / FPS
     if t < 1.5:
         return "both"
+    if CUT == "down" and t < 3.0:
+        return "down"
     if t < 31.0:
         return "across"
     if t < 59.5:
-        return "down"
+        return "across" if CUT == "across" else "down"
     return "both"
 
 
@@ -317,21 +343,25 @@ def _partial(pts, frac):
 
 @lru_cache(maxsize=40)
 def END_LINES(n):
-    """59.5-61.5 s: the two route lines draw themselves (n = drawing 1..24), both arriving
-    in I; a hand-ruled thin red pen line (U1's pen), not a vector stroke."""
+    """59.5-61.5 s (r1, simplified): only the two route edges that arrive in I draw themselves
+    (n = drawing 1..24): across H->I from the left, down F->I from above, each in U1's red pen,
+    meeting at one dot in I. No full-route tangle over the page."""
     s = G.SS
     img = Image.new("RGBA", (PW * s, PH * s), (0, 0, 0, 0))
     d = ImageDraw.Draw(img, "RGBA")
     frac = min(1.0, n / 24)
-    for route, off, w in (("across", (0, -70), 5.0), ("down", (-70, 0), 5.0)):
-        pts = _partial(_route_points(route, off), frac)
+    ix, iy = _centre("I")
+    meet = (ix - 150, iy - 120)
+    for prev in (("H"), ("F")):
+        px, py = _centre(prev)
+        start = (px + (120 if prev == "H" else -150), py + (-120 if prev == "H" else 120))
+        pts = _partial([start, meet], frac)
         if len(pts) >= 2:
-            G.pen_stroke(d, [(x * s, y * s) for x, y in pts], w * s, G.RED + (235,), nib=0.6, hair=0.5,
-                         taper=(0.15, 0.15), blob=False)
-        if frac >= 1.0:
-            ex, ey = pts[-1]
-            r = 13
-            d.ellipse([(ex - r) * s, (ey - r) * s, (ex + r) * s, (ey + r) * s], fill=G.RED + (255,))
+            G.pen_stroke(d, [(x * s, y * s) for x, y in pts], 6.0 * s, G.RED + (235,), nib=0.6, hair=0.5,
+                         taper=(0.15, 0.05), blob=False)
+    if frac >= 1.0:
+        r = 14
+        d.ellipse([(meet[0] - r) * s, (meet[1] - r) * s, (meet[0] + r) * s, (meet[1] + r) * s], fill=G.RED + (255,))
     return _sprite(img.resize((PW, PH), Image.LANCZOS))
 
 
@@ -486,21 +516,35 @@ SOUND_SCHEDULE = [(o[3] / FPS, o[2], f"cue_{o[2]}.wav") for o in OCC]   # cue t0
 TURN_CLICKS = [30.0 + 0.25 * j for j in range(8)]
 
 
+def _map_master_t(T):
+    """Cut time of master time T (None when T is outside the cut)."""
+    if not CUT:
+        return T
+    for a, b, m in CUT_SEGMENTS[CUT]:
+        if m <= T < m + (b - a):
+            return T - m + a
+    return None
+
+
 def sound(mix):
     R = mix.rate
+    end_t = SECONDS if not CUT else CUT_SEGMENTS[CUT][-1][1]
     room = _wav(FORAGE / "room.wav")[: mix.n]
     env = np.ones(len(room))
     tt = np.arange(len(room)) / R
     env *= np.clip(tt / 2.5, 0, 1)                       # fades in under the title
-    env *= np.clip((61.5 - tt) / 1.0, 0, 1)              # declared silence after 61.5 s
+    env *= np.clip(((end_t - 2.5) - tt) / 1.0, 0, 1)     # declared silence for the last 2.5 s
     mix.add(room[:, 0] * env / 1.414, 0.0, pan=-1.0)
     mix.add(room[:, 1] * env / 1.414, 0.0, pan=1.0)
     cues = {c: _wav(FORAGE / f"cue_{c}.wav") for c in CELLS}
     for at, c, _ in SOUND_SCHEDULE:                      # each cell's own cue, same on both routes
+        at = _map_master_t(at)
+        if at is None:
+            continue
         x = cues[c]
         mix.add(x[:, 0] / 1.414, at, pan=-1.0)
         mix.add(x[:, 1] / 1.414, at, pan=1.0)
-    for j, at in enumerate(TURN_CLICKS):                 # handmade: a paper click per mark
+    for j, at in enumerate(TURN_CLICKS if not CUT else []):   # handmade: a paper click per mark
         m = G.MARK_TURN_ORDER[j]
         pan = (G.MARKS[m][0] / PW) * 2 - 1
         mix.click(at, gain=0.16, pan=pan * 0.6, bright=3200, seconds=0.025)
@@ -597,22 +641,26 @@ def write_products():
 
 
 # ---------------------------------------------------------------------- film ---
-film = Film(SLUG, seconds=SECONDS, size=(FW, FH), fps=FPS, boil=0, seed=95)
-film.poster_at = 44.5
+if CUT:
+    film = Film(f"{SLUG}-{CUT}-only", seconds=CUT_SEGMENTS[CUT][-1][1], size=(FW, FH), fps=FPS, boil=0, seed=95)
+    film.poster_at = 16.5 if CUT == "across" else 15.5      # E in each cut
+else:
+    film = Film(SLUG, seconds=SECONDS, size=(FW, FH), fps=FPS, boil=0, seed=95)
+    film.poster_at = 44.5
 
 
 @film.picture
 def picture(t, ink):
     ink.paper(grain=False)                # no added grain: the paper is the real scan
-    ink.img.paste(frame_rgb(int(round(t * FPS))))
+    ink.img.paste(frame_rgb(master_K(int(round(t * FPS)))))
 
 
 film.sound(sound)
 
 if __name__ == "__main__":
-    if not (len(sys.argv) > 1 and sys.argv[1] == "--stills"):
+    if not CUT and not (len(sys.argv) > 1 and sys.argv[1] == "--stills"):
         write_products()
     try:
-        film.render(out_dir=_out(PROJECT / "assets" / "films"))
+        film.render(out_dir=_out(SW / "readers" if CUT else PROJECT / "assets" / "films"))
     except ValueError:        # kit prints the path relative to the project; staged output is outside it
         print("wrote (staged)", _out(PROJECT / "assets" / "films" / f"{SLUG}.mp4"))

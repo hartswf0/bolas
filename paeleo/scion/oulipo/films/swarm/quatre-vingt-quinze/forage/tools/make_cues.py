@@ -105,7 +105,30 @@ STEP_GRAINS = [(0.085, 0.30), (0.635, 0.786)]          # the two heel-toe steps 
 KEY_CLINK = (0.31, 0.62)                                 # first clink of Keys hitting tree 2
 KEY_SOFT = (0.73, 1.05)                                  # second, softer clink
 BELL_1 = (11.815, 12.965)                                # strike 13 of the Fridingen station bell
-BELL_2 = (12.965, 15.88)                                 # strike 14, with its own natural ring-out
+BELL_2 = (12.965, 15.88)                                 # strike 14 (r0; it is damped within 0.3 s: unused in r1)
+BELL_12 = (10.465, 11.70)                                # r1: strike 12, its ring up to strike 13
+BELL_13 = (11.715, 12.33)                                # r1: strike 13, attack and first 0.6 s of its natural ring
+BELL_RING = (12.03, 12.33)                               # r1: ring-only part of strike 13 (sustain source)
+BELL_EXT_S, BELL_EXT_DB_PER_S = 3.2, 7.0                 # r1: ring-out extension length and decay rate
+
+
+def bell_extend(x, ring, seconds, db_per_s, seed=95):
+    """r1: continue a real strike's ring past the point where the recording's next strike cut it.
+    Overlap-add of 90 ms Hann grains drawn at random from the recording's own ring-only segment
+    (no synthesis; same partials), under an exponential envelope that continues the decay; the
+    first 60 ms crossfade from the real ring into the extension."""
+    rng = np.random.RandomState(seed)
+    src_ = seg(x, *ring, fade=0.0)
+    g = int(0.09 * RATE); hop = g // 3; win = np.hanning(g)
+    n = int(seconds * RATE)
+    out = np.zeros(n + g)
+    for i in range(0, n, hop):
+        o = rng.randint(0, len(src_) - g)
+        out[i:i + g] += src_[o:o + g] * win
+    out = out[:n] / 1.5                                   # Hann at 1/3 overlap sums to 1.5
+    lvl = np.sqrt(np.mean(src_[-int(0.08 * RATE):] ** 2)) / (np.sqrt(np.mean(out[:int(0.3 * RATE)] ** 2)) + 1e-12)
+    out *= 1.15 * lvl * 10 ** (-db_per_s * np.arange(n) / RATE / 20)
+    return out
 HINGE = [(2.30, 2.58), (3.05, 3.30), (3.90, 4.16), (4.70, 4.98)]   # four squeak slices (rope creak)
 HANDLE = (0.08, 0.75)                                    # door-handle creak (rope taking load)
 
@@ -197,16 +220,22 @@ def cue(c):
             ev.append((seg(S["steps"], a, b), at, 0.95 * (0.9 if k % 2 else 1.0), -0.35 + 0.15 * k))
         info["sources"] = ["Concrete_Steps_2 (two grains alternated)"]
     elif c == "B":
-        b1 = seg(S["bell"], *BELL_1, fade=0.004)
-        b2 = seg(S["bell"], *BELL_2, fade=0.004)
-        b2[-int(0.6 * RATE):] *= np.linspace(1, 0, int(0.6 * RATE))
+        b1 = seg(S["bell"], *BELL_12, fade=0.004)
+        b2r = seg(S["bell"], *BELL_13, fade=0.004)
+        ext = bell_extend(S["bell"], BELL_RING, BELL_EXT_S, BELL_EXT_DB_PER_S)
+        xf = int(0.06 * RATE)                         # crossfade the real ring into its continuation
+        b2 = np.concatenate([b2r, np.zeros(len(ext) - xf)])
+        b2[len(b2r) - xf:len(b2r)] *= np.linspace(1, 0, xf)
+        ext[:xf] *= np.linspace(0, 1, xf)
+        b2[len(b2r) - xf:] += ext
+        b2[-int(0.4 * RATE):] *= np.linspace(1, 0, int(0.4 * RATE))
         off = 0.035                                   # onset offset inside the grain
         s1, s2 = E["strikes_s"]
         ev += [(b1, s1 - off, 0.42, -0.05), (b2, s2 - off, 0.42, 0.0)]
         for p in E["pulls_s"]:                        # the cord jerks: a small creak of the bracket
             ev.append((seg(S["handle"], 0.10, 0.28), p, 0.10, -0.4))
         wet, cap = 0.55, 6.0
-        info["sources"] = ["Fridingen station bell strikes 13 and 14", "Door handle creaking (cord jerk, low)"]
+        info["sources"] = ["Fridingen station bell strikes 12 and 13 (r1); strike 13's ring continued by overlap-add of its own ring grains", "Door handle creaking (cord jerk, low)"]
     elif c == "C":
         if "knock" in S or "knock2" in S:
             info["sources"] = ["Knocking on wood or door (stephan, PD): one three-knock group, one grain per knock"]
@@ -228,8 +257,8 @@ def cue(c):
         ev.append((seg(S["keys"], *KEY_SOFT), E["key_out_s"], 0.22, -0.15))
         info["sources"] = ["handmade paper tear", "Keys hitting tree 2 (soft clink, key out)"]
     elif c == "E":
-        ev.append((seg(S["keys"], *KEY_CLINK), E["key_top_click_s"], 0.40, 0.05))
-        info["sources"] = ["Keys hitting tree 2 (clink at the top of the lift)"]
+        ev.append((seg(S["keys"], *KEY_SOFT), E["key_top_click_s"], 0.12, 0.05))    # r1: ducked, soft grain
+        info["sources"] = ["Keys hitting tree 2 (soft clink at the top of the lift; r1 ducked so B's ring stays audible)"]
     elif c == "F":
         ev.append((seg(S["keys"], *KEY_SOFT), E["key_on_wood_s"], 0.45, 0.25))
         t_thud = np.arange(int(0.12 * RATE)) / RATE
@@ -257,7 +286,7 @@ def cue(c):
         for i, at in enumerate(E["scrape_s"]):
             ev.append((handmade_scrape(m, 0.55 if i == 0 else 0.45, seed=i + 7), at, 0.13 * (1.0 if i == 0 else 0.7), 0.25))
         info["sources"] = ["Keys hitting tree 2 (key on sill)", "handmade scrape (key under the door)"]
-    out = mono_to_hall_stereo(ev, 3.0, wet, cap) if ev else np.zeros((int(3.0 * RATE), 2))
+    out = mono_to_hall_stereo(ev, 5.6 if c == "B" else 3.0, wet, cap) if ev else np.zeros((int(3.0 * RATE), 2))
     info.update(events=E, seconds=round(len(out) / RATE, 3), peak_dbfs=round(20 * np.log10(np.abs(out).max() + 1e-12), 1),
                 wet=wet, cap_s=cap)
     return out, info

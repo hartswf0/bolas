@@ -1,0 +1,119 @@
+{
+ "rest_vs_page_mean_abs": {
+  "S1": {
+   "action_and_balloons_end_f": 68,
+   "at_action_end": 0.0,
+   "at_last_frame": 0.0
+  },
+  "S2": {
+   "action_and_balloons_end_f": 54,
+   "at_action_end": 0.0,
+   "at_last_frame": 0.0
+  },
+  "S3": {
+   "action_and_balloons_end_f": 48,
+   "at_action_end": 0.0,
+   "at_last_frame": 0.0
+  },
+  "S4": {
+   "action_and_balloons_end_f": 60,
+   "at_action_end": 0.0,
+   "at_last_frame": 0.0
+  },
+  "S5": {
+   "action_and_balloons_end_f": 56,
+   "at_action_end": 0.0,
+   "at_last_frame": 0.0
+  },
+  "S6": {
+   "action_and_balloons_end_f": 38,
+   "at_action_end": 0.0,
+   "at_last_frame": 0.0
+  },
+  "S7": {
+   "action_and_balloons_end_f": 54,
+   "at_action_end": 0.0,
+   "at_last_frame": 0.0
+  },
+  "S8": {
+   "action_and_balloons_end_f": 84,
+   "at_action_end": 0.0,
+   "at_last_frame": 0.0
+  }
+ },
+ "film_rest_vs_page_view_mean_abs": {
+  "S1": 0.0,
+  "S2": 0.0,
+  "S3": 0.0,
+  "S4": 0.0,
+  "S5": 0.0,
+  "S6": 0.0,
+  "S7": 0.0,
+  "S8": 0.0
+ },
+ "balloon_land": {
+  "S4.b_what_time": {
+   "land_f": 40,
+   "film_f": 496,
+   "film_s": 20.667
+  },
+  "S5.b_ten_past": {
+   "land_f": 56,
+   "film_f": 632,
+   "film_s": 26.333
+  },
+  "S6.b_thanks": {
+   "land_f": 16,
+   "film_f": 712,
+   "film_s": 29.667
+  },
+  "S8.b_forgot": {
+   "land_f": 84,
+   "film_f": 1020,
+   "film_s": 42.5
+  }
+ },
+ "variants": {
+  "D1.C1": 0.005,
+  "D1.C2": 0.007,
+  "D2.V1": 0.038,
+  "D2.V2": 0.115,
+  "D2.V3": 0.12,
+  "D2.V4": 0.043
+ },
+ "fk_test": {
+  "summary": {
+   "pivot_drift_px_max_all": 0.0,
+   "pivot_drift_pass": true,
+   "key_offset_max_delta_px": 0.0,
+   "key_offset_pass": true,
+   "jamb_max_delta_px": 0.0,
+   "jamb_pass": true,
+   "rest_identity": {
+    "S0": 0.0,
+    "S1": 0.0,
+    "S2": 0.0,
+    "S3": 0.0,
+    "S4": 0.0,
+    "S5": 0.0,
+    "S6": 0.0,
+    "S7": 0.0,
+    "S8": 0.0
+   },
+   "method": "drift = distance between a child's pivot carried by its parent's matrix and by its own matrix, for every distinct pose rendered (page px; panels are at page scale). Key offset = key ring minus hook point, per door pose. Jamb = door's hinge-edge endpoints per door pose."
+  }
+ },
+ "S10_land_film_s": {
+  "b_what_time": 54.583,
+  "b_ten_past": 55.583,
+  "b_thanks": 57.25,
+  "b_forgot": 58.167
+ },
+ "S11_land_film_s": {
+  "b_what_time": 63.167,
+  "b_ten_past": 64.583,
+  "b_thanks": 65.333
+ },
+ "frames": 1716,
+ "seconds": 71.5
+}

@@ -1,325 +1,688 @@
-"""99 Ways to Tell a Story · Template — the neutral baseline, set in the station office.
-The clerk leaves the desk, hears a question from the platform, answers, reaches the key
-cupboard and forgets why. Then a compressed retelling and the porter's point of view."""
+"""99 Ways to Tell a Story - Template (baseline b1), Direction 2: Photo-Fumetti Cutout.
+
+The film PERFORMS the page assets/pages/99-ways-template.png. Nothing here redraws the page its own way:
+
+* page art            assets/pages/99-ways-template.png (page-cartoonist, page/build_page.py)
+* per-frame panels    films/swarm/99-ways-template/anim/panels.py (rig-animator): FK joint overrides on the
+                      page builder's own panel functions; with every override at rest a panel IS the page crop
+* derivative pages    assets/pages/99-ways-template-{compressed,platform}.png + variants/rest/<D>/<panel> layers
+* lettering           page/glyphs.json pen strokes (+ variants/glyphs_extra.json '2','F'; + one '3' authored here
+                      in the same pen for the ledger card)
+* sound               anim/sound/*.wav stems (foraged: Moving Image Archive room tone, Commons PD/CC BY foley;
+                      counter bell + paper handling synthesized and declared by the rig-animator)
+
+Shot list (plan.md section 6): S0 borders rule in, S1-S8 route R0 P1..P8, S9 full-page reading lift,
+S10 D1 compressed, S11 D2 from the platform, S12 ledger card E0-E5 x B/D1/D2.
+
+Panels not yet read show the first pose of their shot (the page "before it happens"); panels already read show
+their rest pose = page art. Every action resolves to the page (asserted below).
+
+Run from the project root:  python3 films/99-ways-template.py [--stills t ...]
+"""
+import json
 import math
-from PIL import Image, ImageDraw
-from kit import *
-from kit_comics import *
+import sys
+import wave
+from pathlib import Path
 
-STYLE["upper"] = False   # Madden letters in mixed case
+import cv2
+import numpy as np
+from PIL import Image
 
-SLUG = "99-ways-template"
-PW, PH = 2400, 1350
-CW, CH = 740, 590
-G = 40
-LS = 36
-FLY = 500                    # office floor line
-DESK = (190, 370)
-CUP = (560, 715)
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent
+SW = HERE / "swarm" / "99-ways-template"
+sys.path.insert(0, str(HERE))
+sys.path.insert(0, str(SW / "anim"))
+from kit import Film  # noqa: E402
+import panels as PN  # noqa: E402  (rig-animator; imports page/build_page.py as PN.bp)
 
-# ---------------------------------------------------------- canonical event ledger
-EVENTS = [("E1", "leaves the desk (errand: the service key)"),
-          ("E2", "a question from the platform: “what time is it?”"),
-          ("E3", "answers: “ten past four!”"),
-          ("E4", "reaches the key cupboard"),
-          ("E5", "forgets why (the key stays on its hook)")]
+bp = PN.bp
+PL = sys.modules["penlib"]
+FPS = 24
+OW, OH = 960, 540
+SURROUND = np.array([24, 23, 22], np.uint8)       # the table the sheet lies on (near-black, the page's ink)
+PAGES = {"B": ROOT / "assets/pages/99-ways-template.png",
+         "D1": ROOT / "assets/pages/99-ways-template-compressed.png",
+         "D2": ROOT / "assets/pages/99-ways-template-platform.png"}
+PAGE = {k: np.asarray(Image.open(p).convert("RGB")).copy() for k, p in PAGES.items()}
+PH_, PW_ = PAGE["B"].shape[:2]
+assert max(PH_, PW_) >= 2400 and (PW_, PH_) == (2550, 3300), "page proof size"
+TIMING = json.load(open(SW / "anim" / "timing.json"))
+
+# ------------------------------------------------------------------------------------------- schedule (frames)
+SEQ = [("S0", 96), ("S1", 120), ("S2", 120), ("S3", 120), ("S4", 120), ("S5", 120), ("S6", 120), ("S7", 120),
+       ("S8", 168), ("S9", 144), ("S10", 168), ("S11", 204), ("S12", 96)]
+START = {}
+_g = 0
+for _s, _n in SEQ:
+    START[_s] = _g
+    _g += _n
+TOTAL = _g
+for _s in ["S%d" % i for i in range(9)]:
+    assert TIMING["shots"][_s]["film_in_f"] == START[_s], (_s, "film offsets drifted from timing.json")
+ROUTE = ["P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8"]
+SHOT_OF = {p: "S%d" % (i + 1) for i, p in enumerate(ROUTE)}
 
 
-def office(ink, w, h, cupboard_open=False, ox=0):
-    ink.d.rectangle([0, 0, w, FLY], fill=(226, 214, 190))
-    ink.d.rectangle([0, FLY - 120, w, FLY], fill=(206, 190, 162))
-    ink.line([(0, FLY - 120), (w, FLY - 120)], INK, 3)
-    ink.d.rectangle([0, FLY, w, h], fill=(170, 136, 100))
-    for k in range(1, 5):
-        yy = FLY + (h - FLY) * (k / 5) ** 1.2
-        ink.line([(0, yy), (w, yy)], (140, 108, 78), 2)
-    ink.line([(0, FLY), (w, FLY)], INK, 3)
-    # doorway to the platform, far left
-    ink.rect(-10 + ox, 170, 120 + ox, FLY, fill=(244, 236, 214), color=INK, width=4)
-    ink.line([(-10 + ox, 430), (120 + ox, 430)], RULE, 2)
-    ink.d.text((55 + ox, 200), "PLATFORM", font=lfont(15, "Bold"), fill=MUTED, anchor="mm")
-    # clock above the desk
-    clock(ink, 250 + ox, 110, 44, 4 + 10 / 60)
-    # desk, lamp, ledger and the errand note
-    x0, x1 = DESK[0] + ox, DESK[1] + ox
-    ink.rect(x0, 380, x1, 396, fill=WOOD, color=INK, width=3)
-    ink.rect(x0 + 8, 396, x0 + 60, FLY, fill=(130, 94, 60), color=INK, width=3)
-    ink.line([(x1 - 14, 396), (x1 - 14, FLY)], INK, 5)
-    ink.poly([(x0 + 70, 380), (x0 + 150, 374), (x0 + 152, 366), (x0 + 72, 372)], fill=PAGE, color=INK, width=2)
-    ink.line([(x1 - 30, 380), (x1 - 30, 330), (x1 - 60, 316)], INK, 3)
-    ink.poly([(x1 - 80, 302), (x1 - 46, 302), (x1 - 52, 324), (x1 - 74, 324)], fill=(120, 140, 90), color=INK, width=2)
-    ink.rect(x0 + 10, 352, x0 + 56, 378, fill=CAPTION, color=INK, width=1.5)
-    ink.d.text((x0 + 33, 365), "KEY!", font=lfont(13, "Bold"), fill=ACCENT, anchor="mm")
-    # key cupboard
-    c0, c1 = CUP[0] + ox, CUP[1] + ox
-    ink.rect(c0, 170, c1, FLY, fill=(120, 88, 60), color=INK, width=4)
-    if cupboard_open:
-        ink.rect(c0 + 12, 182, c1 - 12, FLY - 12, fill=(70, 52, 40), color=INK, width=2)
-        for r, row in enumerate((("S", BRASS), ("", (170, 170, 160)), ("", (170, 170, 160)))):
-            pass
-        for k in range(3):
-            for j in range(3):
-                hx, hy = c0 + 40 + j * 40, 230 + k * 70
-                ink.circle(hx, hy, 3, fill=PAGE, color=INK, width=1, rough=False)
-                col = BRASS if (k, j) == (0, 1) else (176, 176, 168)
-                key_shape(ink, hx, hy + 12, 0.9, angle=math.pi / 2, color=col)
-        # doors swung open
-        ink.poly([(c0, 170), (c0 - 60, 190), (c0 - 60, FLY - 20), (c0, FLY)], fill=(134, 100, 70), color=INK, width=3)
-        ink.poly([(c1, 170), (c1 + 40, 190), (c1 + 40, FLY - 20), (c1, FLY)], fill=(134, 100, 70), color=INK, width=3)
+def which(g):
+    for s, n in SEQ:
+        if START[s] <= g < START[s] + n:
+            return s, g - START[s]
+    return SEQ[-1][0], g - START[SEQ[-1][0]]
+
+
+# ------------------------------------------------------------------------------------------- panel images
+_U8 = {}
+
+
+def u8(a):
+    return np.clip(np.round(a), 0, 255).astype(np.uint8)
+
+
+def panel_img(shot, f):
+    st = PN.state_at(shot, f) if shot != "S0" else {}
+    key = (shot, json.dumps(st, sort_keys=True, default=str))
+    if key not in _U8:
+        if len(_U8) > 300:
+            _U8.pop(next(iter(_U8)))
+        _U8[key] = u8(PN.render_panel(SHOTS_PANEL[shot], st))
+    return _U8[key]
+
+
+SHOTS_PANEL = {s: PN.SHOTS[s]["panel"] for s in PN.SHOTS}
+FIRST = {}
+
+
+def first_img(p):
+    """The first pose of panel p's shot (shown while p is still unread)."""
+    if p not in FIRST:
+        FIRST[p] = panel_img(SHOT_OF[p], 0)
+    return FIRST[p]
+
+
+# ------------------------------------------------------------------------------------------- derivative layers
+def _load_stack(d):
+    L = json.load(open(d / "layers.json"))
+    bg = None
+    stat, groups, border = [], {}, None
+    for l in L["layers"]:
+        a = np.asarray(Image.open(d / l["file"]).convert("RGBA")).astype(np.float32)
+        if bg is None:
+            bg = a[..., :3].copy()
+            continue
+        nm = l["name"]
+        ys, xs = np.nonzero(a[..., 3] > 0)
+        if len(xs) == 0:
+            continue
+        x0, y0, x1, y1 = xs.min(), ys.min(), xs.max() + 1, ys.max() + 1
+        item = (a[y0:y1, x0:x1, :3].copy(), a[y0:y1, x0:x1, 3:4] / 255.0, int(x0), int(y0))
+        if nm == "border":
+            border = item
+        elif nm.startswith("b_") or nm.startswith("visitor"):
+            gid = nm.split(".")[0]
+            groups.setdefault(gid, []).append(item)
+        else:
+            stat.append(item)
+    base = bg
+    for it in stat:
+        _over(base, it, 0, 0)
+    return {"bounds": tuple(L["bounds_page_px"]), "base": base, "groups": groups, "border": border}
+
+
+def _over(out, item, dx, dy):
+    rgb, a, x0, y0 = item
+    h, w = out.shape[:2]
+    X0, Y0 = x0 + int(dx), y0 + int(dy)
+    X1, Y1 = X0 + rgb.shape[1], Y0 + rgb.shape[0]
+    cx0, cy0, cx1, cy1 = max(0, X0), max(0, Y0), min(w, X1), min(h, Y1)
+    if cx0 >= cx1 or cy0 >= cy1:
+        return
+    r = rgb[cy0 - Y0:cy1 - Y0, cx0 - X0:cx1 - X0]
+    aa = a[cy0 - Y0:cy1 - Y0, cx0 - X0:cx1 - X0]
+    o = out[cy0:cy1, cx0:cx1]
+    o *= (1 - aa)
+    o += r * aa
+
+
+STACK = {}
+for _d, _ps in (("D1", ["C1", "C2"]), ("D2", ["V1", "V2", "V3", "V4"])):
+    for _p in _ps:
+        STACK[(_d, _p)] = _load_stack(SW / "variants" / "rest" / _d / _p)
+_DC = {}
+
+
+def dpanel(page, p, state):
+    """Derivative panel composite. state: {group_id: None (rest) | 'hidden' | (dx, dy)}."""
+    key = (page, p, json.dumps(state, sort_keys=True))
+    if key in _DC:
+        return _DC[key]
+    S = STACK[(page, p)]
+    out = S["base"].copy()
+    for gid, items in S["groups"].items():
+        st = state.get(gid)
+        if st == "hidden":
+            continue
+        dx, dy = (0, 0) if st is None else st
+        for it in items:
+            _over(out, it, dx, dy)
+    if S["border"] is not None:
+        _over(out, S["border"], 0, 0)
+    if len(_DC) > 200:
+        _DC.pop(next(iter(_DC)))
+    _DC[key] = u8(out)
+    return _DC[key]
+
+
+def drop(f, land):
+    """Balloon as an impact object, on ones: -150, -55, +9 (bounce), land; hidden before (rig-animator's rule)."""
+    if f < land - 3:
+        return "hidden"
+    return {land - 3: (0, -150), land - 2: (0, -55), land - 1: (0, 9)}.get(f)
+
+
+# ------------------------------------------------------------------------------------------- camera
+def cam_panel(b, pad=60):
+    x0, y0, x1, y1 = b
+    s = min(OH / (y1 - y0 + pad), OW / (x1 - x0 + pad * 2))
+    return ((x0 + x1) / 2, (y0 + y1) / 2, s)
+
+
+S_FULL = (OH - 20) / PH_
+CAM_FULL = (PW_ / 2, PH_ / 2, S_FULL)
+CAM_FILL = (PW_ / 2, 760, OW / PW_)               # the sheet fills the frame (S0 opening)
+CAM = {p: cam_panel(bp.PANELS[p]) for p in ROUTE}
+MEMO = (150 + (149 + 392) / 2, 150 + (732 + 884) / 2)   # memo slip centre, page px (page/rest/P1/10_memo.png)
+CAM_MEMO = (MEMO[0] + 60, MEMO[1] - 40, 1.18)
+
+
+def smooth(u):
+    u = min(1.0, max(0.0, u))
+    return u * u * (3 - 2 * u)
+
+
+def lerp_cam(a, b, u):
+    u = smooth(u)
+    # zoom in log space so the scale change reads evenly
+    s = math.exp(math.log(a[2]) + (math.log(b[2]) - math.log(a[2])) * u)
+    return (a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u, s)
+
+
+def path(f, keys):
+    """keys: [(frame, cam)], held between, eased from one to the next."""
+    if f <= keys[0][0]:
+        return keys[0][1]
+    for (fa, ca), (fb, cb) in zip(keys, keys[1:]):
+        if f < fb:
+            return lerp_cam(ca, cb, (f - fa) / max(1, fb - fa))
+    return keys[-1][1]
+
+
+def b_cam(shot, f):
+    if shot == "S0":
+        return path(f, [(0, CAM_FILL), (8, CAM_FILL), (40, CAM_FULL), (70, CAM_FULL), (94, CAM["P1"])])
+    if shot == "S1":
+        return path(f, [(0, CAM["P1"]), (40, CAM["P1"]), (58, CAM_MEMO), (94, CAM_MEMO), (112, CAM["P1"])])
+    i = ROUTE.index(SHOTS_PANEL[shot])
+    prev, cur = CAM[ROUTE[i - 1]], CAM[ROUTE[i]]
+    T = 16 if ROUTE[i] in ("P4", "P7") else 10
+    return path(f, [(0, prev), (T, cur)])
+
+
+# ------------------------------------------------------------------------------------------- view renderer
+def view(page_arr, cam, overrides=(), lift=None):
+    """Render a camera view of a page. overrides: [(x0, y0, img)] pasted at page px; lift: (bounds, d)."""
+    cx, cy, s = cam
+    w, h = OW / s, OH / s
+    # keep the camera on the sheet while the frame is smaller than it
+    if w <= PW_:
+        cx = min(max(cx, w / 2), PW_ - w / 2)
     else:
-        ink.line([((c0 + c1) / 2, 170), ((c0 + c1) / 2, FLY)], INK, 3)
-        for sx in (-12, 12):
-            ink.circle((c0 + c1) / 2 + sx, 340, 5, fill=BRASS, color=INK, width=1.5)
-    ink.rect(c0 + 34, 140, c1 - 34, 164, fill=PAGE, color=INK, width=2)
-    ink.d.text(((c0 + c1) / 2, 152), "KEYS", font=lfont(14, "Bold"), fill=INK, anchor="mm")
+        cx = PW_ / 2
+    if h <= PH_:
+        cy = min(max(cy, h / 2), PH_ - h / 2)
+    else:
+        cy = PH_ / 2
+    X0, Y0 = cx - w / 2, cy - h / 2
+    ix0, iy0 = max(0, int(math.floor(X0))), max(0, int(math.floor(Y0)))
+    ix1, iy1 = min(PW_, int(math.ceil(X0 + w))), min(PH_, int(math.ceil(Y0 + h)))
+    reg = page_arr[iy0:iy1, ix0:ix1].copy()
+    for (ox, oy, img) in overrides:
+        hh, ww = img.shape[:2]
+        a0, b0 = max(ix0, ox), max(iy0, oy)
+        a1, b1 = min(ix1, ox + ww), min(iy1, oy + hh)
+        if a0 < a1 and b0 < b1:
+            reg[b0 - iy0:b1 - iy0, a0 - ix0:a1 - ix0] = img[b0 - oy:b1 - oy, a0 - ox:a1 - ox]
+    if lift is not None:
+        (bx0, by0, bx1, by1), d = lift
+        if d > 0:
+            reg = _lifted(reg, page_arr, (bx0 - ix0, by0 - iy0, bx1 - ix0, by1 - iy0), d)
+    out = np.empty((OH, OW, 3), np.uint8)
+    out[:] = SURROUND
+    ox0, oy0 = max(0, int(round((ix0 - X0) * s))), max(0, int(round((iy0 - Y0) * s)))
+    ow_, oh_ = int(round((ix1 - ix0) * s)), int(round((iy1 - iy0) * s))
+    ow_, oh_ = min(ow_, OW - ox0), min(oh_, OH - oy0)
+    small = cv2.resize(reg, (ow_, oh_), interpolation=cv2.INTER_AREA if s < 1 else cv2.INTER_CUBIC)
+    out[oy0:oy0 + oh_, ox0:ox0 + ow_] = small
+    return out
 
 
-def offstage(ink, text, cx=240, cy=95, size=LS):
-    """A voice from the platform: the tail runs into the doorway."""
-    return balloon(ink, cx, cy, text, size, tail=(70, 250), maxw=300)
+GROUND = None
 
 
-# ---------------------------------------------------------- baseline panels (objective)
-def b1(ink, w, h):
-    office(ink, w, h)
-    ink.rect(380, FLY - 96, 470, FLY - 84, fill=WOOD, color=INK, width=3)          # chair
-    for lx in (388, 462):
-        ink.line([(lx, FLY - 84), (lx, FLY)], INK, 4)
-    ink.line([(466, FLY - 96), (472, FLY - 190)], INK, 5)
-    person(ink, 430, FLY, 1.2, "clerk", -1, pose="sit", mouth="flat", brows="flat", look=(-0.6, 0.6),
-           arms={"front": (75, 100), "back": (65, 95)})
-    caption_box(ink, w - 14, 14, "Four o'clock. The service key is wanted.", 26, maxw=260, anchor="rt")
+def _lifted(reg, page_arr, b, d):
+    """Reading-order lift: the panel's paper rises one shadow-step up-left, its soft paper shadow falls down-right."""
+    global GROUND
+    if GROUND is None:
+        GROUND = u8(bp.sheet())
+    x0, y0, x1, y1 = b
+    panel = reg[y0:y1, x0:x1].copy()
+    out = reg.astype(np.float32)
+    out[y0:y1, x0:x1] = GROUND[:y1 - y0, :x1 - x0]          # the sheet under the panel
+    m = np.zeros(reg.shape[:2], np.float32)
+    off = int(6 + d * 0.6)
+    m[y0 + off:y1 + off, x0 + off:x1 + off] = 1
+    m = cv2.GaussianBlur(m, (0, 0), 4 + d * 0.4) * 0.35
+    out *= (1 - m[..., None])
+    out[y0 - d:y1 - d, x0 - d:x1 - d] = panel
+    return u8(out)
 
 
-def b2(ink, w, h):
-    office(ink, w, h)
-    person(ink, 430, FLY + 30, 1.2, "clerk", 1, pose="walk", phase=0.15, mouth="flat", look=(1, 0))
-    offstage(ink, "What time is it?")
+def b_overrides(cur_idx, cur_img):
+    """Panels before the current one rest (= page), the current one animates, later ones hold their first pose."""
+    ov = []
+    for j, p in enumerate(ROUTE):
+        x0, y0 = bp.PANELS[p][:2]
+        if j == cur_idx:
+            ov.append((x0, y0, cur_img))
+        elif j > cur_idx:
+            ov.append((x0, y0, first_img(p)))
+    return ov
 
 
-def b3(ink, w, h):
-    office(ink, w, h)
-    person(ink, 440, FLY + 30, 1.2, "clerk", -1, mouth="open", brows="raised", look=(-1, -1))
-    balloon(ink, 560, 90, "Ten past four!", LS, tail=(470, 190), maxw=260)
+# ------------------------------------------------------------------------------------------- S0
+def s0_page(f):
+    page = u8(PN.s0_frame(f))
+    pose = max(0, (f - PN.S0_START) // PN.S0_POSE_FRAMES + 1) if f >= PN.S0_START else 0
+    for j, p in enumerate(ROUTE):
+        if pose - (4 * j + 3) >= 2 and j > 0:          # box closed: lay the panel's first pose, not its rest
+            x0, y0, x1, y1 = bp.PANELS[p]
+            page[y0:y1, x0:x1] = first_img(p)
+    return page
 
 
-def b4(ink, w, h):
-    office(ink, w, h, cupboard_open=True)
-    person(ink, 500, FLY + 30, 1.2, "clerk", 1, mouth="flat", look=(1, 0), arms={"front": (80, 70)})
+# ------------------------------------------------------------------------------------------- full-page renders
+_SMALL = {}
 
 
-def b5(ink, w, h):
-    office(ink, w, h, cupboard_open=True)
-    person(ink, 470, FLY + 30, 1.2, "clerk", 1, mouth="flat", brows="worried", look=(1, -0.3), arms={"front": (10, 5)})
-    balloon(ink, 410, 95, "Hm.", LS + 4, tail=(470, 190), maxw=200)
+def full(page_id, extra_ov=(), lift=None):
+    if not extra_ov and lift is None:
+        if page_id not in _SMALL:
+            _SMALL[page_id] = view(PAGE[page_id], CAM_FULL)
+        return _SMALL[page_id]
+    return view(PAGE[page_id], CAM_FULL, extra_ov, lift)
 
 
-def b6(ink, w, h):
-    office(ink, w, h, cupboard_open=True)
-    person(ink, 470, FLY + 30, 1.2, "clerk", -1, mouth="wavy", brows="worried", look=(-1, -0.5),
-           arms={"front": (160, 200), "back": (-8, -4)})
-    balloon(ink, 300, 100, "...now what did I come over here for?", 32, tail=(450, 195), maxw=330, kind="thought")
+def turn(under, over, u):
+    """Page turn: the next sheet slides in from the right over the last, a soft shadow at its leading edge."""
+    u = smooth(u)
+    dx = int(round(OW * (1 - u)))
+    out = under.astype(np.float32)
+    if dx < OW:
+        x = np.arange(OW)[None, :, None]
+        sh = np.clip(1 - (dx - x) / 40.0, 0, 1) * (x < dx) * 0.45
+        out *= (1 - sh)
+        out[:, dx:] = over[:, :OW - dx]
+    return u8(out)
 
 
-BASE = [make_panel(CW, CH, f, seed=i + 1) for i, f in enumerate((b1, b2, b3, b4, b5, b6))]
-BASE_EVENTS = [["E1"], ["E1", "E2"], ["E3"], ["E4"], ["E5"], ["E5"]]
+# ------------------------------------------------------------------------------------------- S9-S11
+LIFT_START, LIFT_EACH = 30, 12
+LIFT_POSES = [0, 14, 28, 28, 14, 0]        # page px, on twos
 
 
-# ---------------------------------------------------------- compressed retelling (2 panels)
-def c1(ink, w, h):
-    office(ink, w, h)
-    person(ink, 430, FLY + 30, 1.2, "clerk", 1, pose="walk", phase=0.15, mouth="open", look=(-1, -0.5))
-    offstage(ink, "What time is it?", 230, 80, 32)
-    balloon(ink, 560, 210, "Ten past four!", 32, tail=(470, 260), maxw=240)
+def s9(f):
+    if f < 24:
+        return view(PAGE["B"], lerp_cam(CAM["P8"], CAM_FULL, f / 24))
+    k = (f - LIFT_START) // LIFT_EACH
+    if 0 <= k < 8 and f >= LIFT_START:
+        d = LIFT_POSES[min(5, ((f - LIFT_START) % LIFT_EACH) // 2)]
+        return full("B", lift=(bp.PANELS[ROUTE[k]], d))
+    return full("B")
 
 
-def c2(ink, w, h):
-    office(ink, w, h, cupboard_open=True)
-    person(ink, 470, FLY + 30, 1.2, "clerk", -1, mouth="wavy", brows="worried", look=(-1, -0.5),
-           arms={"front": (160, 200), "back": (-8, -4)})
-    balloon(ink, 300, 100, "...what was I getting?", 34, tail=(450, 195), maxw=300, kind="thought")
+D1P = {p["id"]: tuple(p["bounds_px"]) for p in json.load(open(SW / "variants/d1_panels.json"))["panels"]}
+D2P = {p["id"]: tuple(p["bounds_px"]) for p in json.load(open(SW / "variants/d2_panels.json"))["panels"]}
+S10_LAND = {"b_what_time": 62, "b_ten_past": 86, "b_thanks": 126, "b_forgot": 148}
+S11_LAND = {"b_what_time": 100, "b_ten_past": 134, "b_thanks": 152}
+V4_WALK = (168, 200)                        # visitor walks off on twos, from her V1 place to her V4 rest
+V4_FROM = (1201, -9)
 
 
-COMP = [make_panel(CW, CH, f, seed=20 + i) for i, f in enumerate((c1, c2))]
-COMP_EVENTS = [["E1", "E2", "E3"], ["E4", "E5"]]
+def d1_ov(f):
+    c1 = {g: drop(f, S10_LAND[g]) for g in ("b_what_time", "b_ten_past")}
+    c2 = {g: drop(f, S10_LAND[g]) for g in ("b_thanks", "b_forgot")}
+    return [(D1P["C1"][0], D1P["C1"][1], dpanel("D1", "C1", c1)), (D1P["C2"][0], D1P["C2"][1], dpanel("D1", "C2", c2))]
 
 
-# ---------------------------------------------------------- the porter's point of view (3 panels)
-def platform_side(ink, w, h, clerk_pose=None):
-    station_bg(ink, w, h, FLY, dado=330)
-    # the office hatch in the wall: a small window onto the room
-    hx0, hy0, hx1, hy1 = 330, 150, 690, 370
-    ink.rect(hx0 - 10, hy0 - 10, hx1 + 10, hy1 + 10, fill=(90, 74, 62), color=INK, width=3)
-    ink.d.rectangle([hx0, hy0, hx1, hy1], fill=(214, 200, 176))
-    ink.d.text(((hx0 + hx1) / 2, hy0 - 26), "OFFICE", font=lfont(16, "Bold"), fill=INK, anchor="mm")
-    # inside: the cupboard, small, seen through the hatch
-    ink.rect(hx0 + 220, hy0 + 30, hx0 + 300, hy1, fill=(120, 88, 60), color=INK, width=2)
-    if clerk_pose == "cupboard":
-        ink.rect(hx0 + 228, hy0 + 38, hx0 + 292, hy1, fill=(70, 52, 40), color=INK, width=1.5)
-        key_shape(ink, hx0 + 260, hy0 + 70, 0.6, angle=math.pi / 2)
-        person(ink, hx0 + 170, hy1 + 90, 0.62, "clerk", -1, mouth="wavy", brows="worried", look=(-1, -0.5),
-               arms={"front": (160, 200), "back": (-8, -4)})
-    elif clerk_pose == "walk":
-        person(ink, hx0 + 120, hy1 + 90, 0.62, "clerk", 1, pose="walk", phase=0.15, mouth="open", look=(-1, 0))
-    ink.d.rectangle([hx0 - 12, hy1 + 11, hx1 + 12, FLY - 2], fill=WALL2)      # wall hides the legs
-    ink.rect(hx0, hy1 - 6, hx1, hy1 + 14, fill=WOOD, color=INK, width=3)  # counter ledge
-    bench_s(ink, 170, FLY + 40, 260, 1.1)
+def s10(f):
+    ov = d1_ov(f)
+    if f < 12:
+        return turn(full("B"), full("D1", ov), f / 12)
+    cam = path(f, [(12, CAM_FULL), (30, CAM_FULL), (48, cam_panel(D1P["C1"])), (102, cam_panel(D1P["C1"])),
+                   (118, cam_panel(D1P["C2"]))])
+    return view(PAGE["D1"], cam, ov)
 
 
-def v1(ink, w, h):
-    platform_side(ink, w, h, "walk")
-    person(ink, 150, FLY + 40, 1.15, "porter", 1, pose="sit", mouth="open", look=(1, -0.6))
-    balloon(ink, 180, 80, "What time is it?", LS, tail=(160, 215), maxw=260)
+def v4_state(f):
+    a, b = V4_WALK
+    if f >= b:
+        return None
+    pose = max(0, (f - a)) // 2                 # on twos
+    n = (b - a) // 2
+    u = min(1.0, pose / n)
+    u = u * u * (3 - 2 * u) * 0.25 + u * 0.75   # walk, easing into the exit
+    bob = -10 if pose % 2 else 0                # Gilliam stepping: no legs, the whole cut-out bobs a step
+    return (int(round(V4_FROM[0] * (1 - u))), int(round(V4_FROM[1] * (1 - u) + (bob if u < 1 else 0))))
 
 
-def v2(ink, w, h):
-    platform_side(ink, w, h, None)
-    o = person(ink, 150, FLY + 40, 1.15, "porter", 1, pose="sit", mouth="flat", look=(0.3, 1), arms={"front": (70, 140)})
-    hx, hy = o["hands"]["front"]
-    ink.circle(hx + 8, hy - 6, 13, fill=BRASS, color=INK, width=2.5)   # his own watch, unopened
-    balloon(ink, 510, 70, "Ten past four!", LS, tail=(500, 160), maxw=260)
+def d2_ov(f):
+    ov = []
+    st = {"V1": {}, "V2": {"b_what_time": drop(f, S11_LAND["b_what_time"])},
+          "V3": {"b_ten_past": drop(f, S11_LAND["b_ten_past"]), "b_thanks": drop(f, S11_LAND["b_thanks"])},
+          "V4": {"visitor": v4_state(f)}}
+    for p in ["V1", "V2", "V3", "V4"]:
+        ov.append((D2P[p][0], D2P[p][1], dpanel("D2", p, st[p])))
+    return ov
 
 
-def v3(ink, w, h):
-    platform_side(ink, w, h, "cupboard")
-    person(ink, 150, FLY + 40, 1.15, "porter", 1, pose="sit", mouth="smirk", brows="raised", look=(1, -0.4),
-           arms={"front": (40, 90)})
-    balloon(ink, 510, 70, "...?", LS, tail=(500, 180), maxw=160, kind="thought")
-    caption_box(ink, 14, 14, "From the bench he never saw why the clerk got up.", 24, maxw=260)
+def s11(f):
+    ov = d2_ov(f)
+    if f < 12:
+        return turn(full("D1"), full("D2", ov), f / 12)
+    cam = path(f, [(12, CAM_FULL), (26, CAM_FULL), (42, cam_panel(D2P["V1"])), (78, cam_panel(D2P["V1"])),
+                   (92, cam_panel(D2P["V2"])), (114, cam_panel(D2P["V2"])), (126, cam_panel(D2P["V3"])),
+                   (158, cam_panel(D2P["V3"])), (170, cam_panel(D2P["V4"]))])
+    return view(PAGE["D2"], cam, ov)
 
 
-POV = [make_panel(CW, CH, f, seed=30 + i) for i, f in enumerate((v1, v2, v3))]
-POV_EVENTS = [["E2"], ["E3"], ["E4", "E5"]]
+# ------------------------------------------------------------------------------------------- S12 ledger card
+PL.GLYPHS.update({k: (v[0], [tuple(st) for st in v[1]])
+                  for k, v in json.load(open(SW / "variants/glyphs_extra.json"))["glyphs"].items()})
+# '3' in the same pen (cap height 1, baseline 0, y up), authored for the ledger card's E3/E3b rows (HANDMADE)
+PL.GLYPHS["3"] = (0.48, [("L", ((0.05, 0.88), (0.17, 0.99), (0.31, 1.0), (0.42, 0.9), (0.42, 0.74),
+                                (0.33, 0.6), (0.18, 0.55))),
+                         ("L", ((0.18, 0.55), (0.36, 0.5), (0.46, 0.34), (0.44, 0.14), (0.32, 0.02),
+                                (0.17, 0.0), (0.03, 0.1)))])
+COV = json.load(open(SW / "coverage.json"))["pages"]
+EV = [("E0", "reads the memo"), ("E1", "leaves the desk"), ("E2", "What time is it?"), ("E3", "Ten past four!"),
+      ("E3b", "Thanks!"), ("E4", "opens the cupboard"), ("E5", "forgets the key")]
+CW_, CH_ = 1920, 1080
+COLS = [(130, 930), (930, 1240), (1240, 1560), (1560, 1860)]
+ROW0, ROWH = 300, 82
+CUES = ["implied, by its cue:  D1 E4 - the door is already open on its hinge,",
+        "D2 E1 - the desk is empty through the glass,  D2 E4 - the open cupboard, far back.",
+        "Outcome on every page: the key stays on its hook, the SERVICE door stays closed."]
 
 
-# ---------------------------------------------------------- pages
-def page(panels, cols, title, sub):
-    rows = (len(panels) + cols - 1) // cols
-    ph = 150 + rows * CH + (rows - 1) * G + 60
-    b = Board(PW, max(ph, 760))
-    gx = (PW - cols * CW - (cols - 1) * G) / 2
-    ink = b.ink()
-    ink.text((b.m + gx, b.m + 70), title, "serif", 60, INK, anchor="ls")
-    ink.label((b.m + gx, b.m + 112), sub, 24, MUTED)
-    rects = []
-    for k, im in enumerate(panels):
-        r, c = divmod(k, cols)
-        rects.append(b.place(im, gx + c * (CW + G), 150 + r * (CH + G)))
-    return b, rects
+def _text(lines, cap, seed):
+    for ln in lines:
+        for c in ln:
+            assert c in PL.GLYPHS, ("no glyph", c, ln)
+    return PL.letter_lines(lines, cap, seed)
 
 
-PAGES = [page(BASE, 3, "Template", "the baseline · six panels · one fixed, objective view"),
-         page(COMP, 2, "Compressed", "the same five events in two panels"),
-         page(POV, 3, "From the bench", "the porter's point of view: E1 is out of his reach")]
-PAGE_EVENTS = [BASE_EVENTS, COMP_EVENTS, POV_EVENTS]
-for evs in PAGE_EVENTS:
-    assert {e for p in evs for e in p} <= {e for e, _ in EVENTS}
-assert sorted({e for p in BASE_EVENTS for e in p}) == [e for e, _ in EVENTS]
-assert sorted({e for p in COMP_EVENTS for e in p}) == [e for e, _ in EVENTS]
+def _ledger_setup():
+    g = bp.sheet().astype(np.float32)
+    band = g[900:900 + int(2550 * CH_ / CW_)]
+    ground = cv2.resize(band, (CW_, CH_), interpolation=cv2.INTER_AREA)
+    items = []          # (appear_frame, mask_full, reveal_axis_box)
+
+    def put(mask, x, y, anchor="l"):
+        m = np.zeros((CH_, CW_), np.uint8)
+        h, w = mask.shape
+        if anchor == "c":
+            x = int(x - w / 2)
+        y = int(y - h / 2)
+        x0, y0 = max(0, x), max(0, y)
+        x1, y1 = min(CW_, x + w), min(CH_, y + h)
+        m[y0:y1, x0:x1] = np.maximum(m[y0:y1, x0:x1], mask[y0 - y:y1 - y, x0 - x:x1 - x])
+        return m, (x0, x1)
+
+    items.append((14,) + put(_text(["Time-table of events  (ledger b1)"], 46, 501), COLS[0][0] - 20, 110))
+    for i, (lab, sub) in enumerate([("B", "the page"), ("D1", "compressed"), ("D2", "platform")]):
+        cx = (COLS[i + 1][0] + COLS[i + 1][1]) / 2
+        items.append((22 + 2 * i,) + put(_text([lab], 42, 510 + i), cx, 205, "c"))
+        items.append((22 + 2 * i,) + put(_text([sub], 22, 520 + i), cx, 252, "c"))
+    for r, (eid, what) in enumerate(EV):
+        y = ROW0 + ROWH * r + ROWH / 2
+        fr = 30 + 5 * r
+        items.append((fr,) + put(_text([eid], 36, 600 + r), COLS[0][0], y))
+        items.append((fr,) + put(_text([what], 30, 620 + r), COLS[0][0] + 130, y))
+        for c, pg in enumerate(["B", "D1", "D2"]):
+            stt = COV[pg]["events"][eid]["status"]
+            cx = (COLS[c + 1][0] + COLS[c + 1][1]) / 2
+            items.append((fr + 2,) + put(_text([stt], 30, 640 + 10 * r + c), cx, y, "c"))
+    for i, ln in enumerate(CUES):
+        items.append((62 + 2 * i,) + put(_text([ln], 21, 700 + i), COLS[0][0], ROW0 + ROWH * 7 + 42 + 34 * i))
+    rules = []          # (start_frame, mask)
+    yb = ROW0 + ROWH * 7
+    specs = [((COLS[0][0] - 20, 160), (COLS[-1][1], 160), 7), ((COLS[0][0] - 20, ROW0), (COLS[-1][1], ROW0), 6),
+             ((COLS[0][0] - 20, yb), (COLS[-1][1], yb), 7)]
+    specs += [((COLS[0][0] - 20, ROW0 + ROWH * r), (COLS[-1][1], ROW0 + ROWH * r), 2.5) for r in range(1, 7)]
+    specs += [((x, 160), (x, yb), 3.5) for x in (COLS[1][0], COLS[2][0], COLS[3][0])]
+    for k, (a, b, w) in enumerate(specs):
+        m = np.zeros((CH_, CW_), np.uint8)
+        PL.brush_line(m, [a, b], w, 800 + k)
+        rules.append((2 + 2 * k, m, a, b))
+    return {"ground": ground, "items": items, "rules": rules}
 
 
-def baseline_board():
-    """Used by 99-ways-subjective for the side-by-side comparison."""
-    return PAGES[0][0]
+LEDGER = {}
 
 
-# ---------------------------------------------------------- reading script
-if __name__ == "__main__" or True:
-    TITLE = 2.6
-    SEG = []
-    T = TITLE
-    SPEAK = []
-    for pi, (b, rects) in enumerate(PAGES):
-        if pi > 0:
-            SEG.append((T, T + 1.6, "card", pi))
-            T += 1.6
-        sh = Shots()
-        full = fit_box(b.page(), pad=0.0)
-        sh.add(full, 2.0 if pi == 0 else 1.2, 0)
-        for k, r in enumerate(rects):
-            hold = 2.5 if pi == 0 else 2.6
-            sh.add(fit_box(r, pad=0.03), hold, 0.5)
-            SPEAK.append((T + sh.t - hold, pi, k))
-        sh.add(full, 4.0 if pi == 0 else 2.6, 0.8)
-        SEG.append((T, T + sh.t, "page", (b, sh)))
-        T += sh.t
-    SEG.append((T, T + 6.5, "ledger", None))
-    DUR = round(T + 6.5, 2)
-
-CARDS = {1: ("Retelling 1 · compressed", "fewer panels, same incident"),
-         2: ("Retelling 2 · another point of view", "the porter, from the platform bench")}
-
-film = Film(SLUG, seconds=DUR, boil=0, wobble=0)
-grayscale_frames(film)
-film.poster_at = TITLE + 2.0 + 3 * 3.0 + 1.0
+def ledger_card(f):
+    if not LEDGER:
+        LEDGER.update(_ledger_setup())
+    L = LEDGER
+    out = L["ground"].copy()
+    for (fr, m, a, b) in L["rules"]:
+        if f < fr:
+            continue
+        prog = min(1.0, (f - fr) // 2 * 0.5 + 0.5)      # each rule over two poses (half, whole), on twos
+        mm = m.copy()
+        if a[1] == b[1]:
+            cut = int(a[0] + (b[0] - a[0]) * prog)
+            mm[:, cut + 6:] = 0
+        else:
+            cut = int(a[1] + (b[1] - a[1]) * prog)
+            mm[cut + 6:, :] = 0
+        PL.ink_onto(out, mm)
+    for (fr, m, (x0, x1)) in L["items"]:
+        if f < fr:
+            continue
+        prog = min(1.0, ((f - fr) // 2 + 1) / 2.0)       # the pen writes left to right over two poses
+        mm = m.copy()
+        mm[:, int(x0 + (x1 - x0) * prog):] = 0
+        PL.ink_onto(out, mm)
+    return cv2.resize(u8(out), (OW, OH), interpolation=cv2.INTER_AREA)
 
 
-def ledger(ink, lt):
-    ink.fill(NIGHT)
-    ink.text((W / 2, 50), "event ledger", "serif", 36, PAGE, anchor="mm")
-    cols = [("baseline", BASE_EVENTS), ("compressed", COMP_EVENTS), ("porter", POV_EVENTS)]
-    x0, y0 = 60, 120
-    for j, (name, _) in enumerate(cols):
-        ink.label((560 + j * 130, y0 - 24), name, 15, BRASS, anchor="mm")
-    for i, (eid, desc) in enumerate(EVENTS):
-        y = y0 + 18 + i * 62
-        ink.label((x0, y), eid, 18, ACCENT)
-        ink.text((x0 + 48, y - 3), desc, "sans", 19, PAGE)
-        for j, (name, evs) in enumerate(cols):
-            ps = [str(k + 1) for k, p in enumerate(evs) if eid in p]
-            s = "p" + ",".join(ps) if ps else "—"
-            ink.label((560 + j * 130, y + 8), s, 17, PAGE if ps else MUTED, anchor="mm")
-    ink.label((W / 2, H - 46), "outcome fixed in every version: the brass key stays on its hook", 15, RULE, anchor="mm")
-    a = min(1, lt / 0.5)
-    if a < 1:
-        ink.d.rectangle([0, 0, W, H], fill=NIGHT + (int(255 * (1 - a)),))
+def s12(f):
+    if f < 12:
+        return turn(full("D2"), ledger_card(0), f / 12)
+    return ledger_card(f)
+
+
+# ------------------------------------------------------------------------------------------- the picture
+def render_frame(g):
+    shot, f = which(g)
+    if shot == "S0":
+        return view(s0_page(f), b_cam("S0", f))
+    if shot in SHOT_OF.values():
+        i = ROUTE.index(SHOTS_PANEL[shot])
+        return view(PAGE["B"], b_cam(shot, f), b_overrides(i, panel_img(shot, f)))
+    if shot == "S9":
+        return s9(f)
+    if shot == "S10":
+        return s10(f)
+    if shot == "S11":
+        return s11(f)
+    return s12(f)
+
+
+# ------------------------------------------------------------------------------------------- checks
+def checks():
+    rep = {"rest_vs_page_mean_abs": {}, "film_rest_vs_page_view_mean_abs": {}, "balloon_land": {}, "variants": {}}
+    pg = PAGE["B"].astype(np.float32)
+    for p in ROUTE:
+        s = SHOT_OF[p]
+        x0, y0, x1, y1 = bp.PANELS[p]
+        crop = pg[y0:y1, x0:x1]
+        ae = max([TIMING["shots"][s]["action_end_f"]] + [b["land"] for b in TIMING["shots"][s]["balloons"]])
+        last = TIMING["shots"][s]["frames"] - 1
+        d_end = float(np.abs(panel_img(s, ae).astype(np.float32) - crop).mean())
+        d_last = float(np.abs(panel_img(s, last).astype(np.float32) - crop).mean())
+        assert d_end <= 4 and d_last <= 4, (s, d_end, d_last)
+        rep["rest_vs_page_mean_abs"][s] = {"action_and_balloons_end_f": ae, "at_action_end": round(d_end, 3),
+                                          "at_last_frame": round(d_last, 3)}
+        # film scale: the rendered film frame vs the same camera over the untouched page, inside this panel
+        g = START[s] + last
+        cam = b_cam(s, last)
+        a = render_frame(g).astype(np.float32)
+        ref = view(PAGE["B"], cam).astype(np.float32)
+        cx, cy, sc = cam
+        w, h = OW / sc, OH / sc
+        cx = min(max(cx, w / 2), PW_ - w / 2)
+        cy = min(max(cy, h / 2), PH_ - h / 2)
+        X0, Y0 = cx - w / 2, cy - h / 2
+        bx0, by0 = int((x0 - X0) * sc) + 3, int((y0 - Y0) * sc) + 3
+        bx1, by1 = int((x1 - X0) * sc) - 3, int((y1 - Y0) * sc) - 3
+        bx0, by0, bx1, by1 = max(0, bx0), max(0, by0), min(OW, bx1), min(OH, by1)
+        dv = float(np.abs(a[by0:by1, bx0:bx1] - ref[by0:by1, bx0:bx1]).mean())
+        assert dv <= 4, (s, "film view", dv)
+        rep["film_rest_vs_page_view_mean_abs"][s] = round(dv, 3)
+        for b in PN.SHOTS[s].get("balloons", []):
+            land = b["land"]
+            assert land in TIMING["checks"]["balloon_land_frames"][s], (s, land)
+            assert b["id"] not in PN.state_at(s, land).get("balloons", {}), (s, "balloon not at rest on land")
+            assert PN.state_at(s, land - 1)["balloons"][b["id"]] == (0, 9), (s, "no bounce before land")
+            assert PN.state_at(s, land - 4)["balloons"][b["id"]] == "hidden"
+            rep["balloon_land"][f"{s}.{b['id']}"] = {"land_f": land, "film_f": START[s] + land,
+                                                   "film_s": round((START[s] + land) / FPS, 3)}
+    for (d, p), S in STACK.items():
+        x0, y0, x1, y1 = S["bounds"]
+        dv = float(np.abs(dpanel(d, p, {}).astype(np.float32) - PAGE[d][y0:y1, x0:x1].astype(np.float32)).mean())
+        assert dv <= 4, (d, p, dv)
+        rep["variants"][f"{d}.{p}"] = round(dv, 3)
+    fk = json.load(open(SW / "anim" / "fk_test.json"))
+    rep["fk_test"] = {k: fk[k] for k in fk if k in ("pass", "summary", "invariants", "result")} or "see anim/fk_test.json"
+    rep["S10_land_film_s"] = {k: round((START["S10"] + v) / FPS, 3) for k, v in S10_LAND.items()}
+    rep["S11_land_film_s"] = {k: round((START["S11"] + v) / FPS, 3) for k, v in S11_LAND.items()}
+    rep["frames"], rep["seconds"] = TOTAL, TOTAL / FPS
+    json.dump(rep, open(SW / "editor_checks.json", "w"), indent=1)
+    print("checks passed ->", SW / "editor_checks.json")
+
+
+# ------------------------------------------------------------------------------------------- sound
+SND = SW / "anim" / "sound"
+_W = {}
+
+
+def wav(name):
+    if name not in _W:
+        with wave.open(str(SND / f"{name}.wav")) as wf:
+            n, ch = wf.getnframes(), wf.getnchannels()
+            a = np.frombuffer(wf.readframes(n), np.int16).astype(np.float64) / 32768
+            _W[name] = a.reshape(-1, ch).mean(1) if ch > 1 else a
+    return _W[name]
+
+
+def db(x):
+    return 10 ** (x / 20)
+
+
+def sound(mix):
+    sec = lambda g: g / FPS
+    # room tone (Moving Image Archive, Panama by Air 1914: the print's noise floor), an 11 s seamless loop
+    rt = wav("room_tone")
+    t = 0.0
+    while t < TOTAL / FPS:
+        mix.add(rt, t, 1.0)
+        t += len(rt) / 44100
+    step_k = [0]
+
+    def step(at, gain):
+        step_k[0] += 1
+        mix.add(wav(f"footstep_{(step_k[0] - 1) % 6 + 1}"), at, gain, pan=0.1)
+
+    for s in ["S%d" % i for i in range(9)]:
+        for c in TIMING["shots"][s]["sounds"]:
+            at = sec(START[s] + c["f"])
+            cue = c["cue"]
+            if cue == "room_tone":
+                continue
+            if cue == "footstep":
+                step(at, db(-6) if s in ("S2", "S3") else db(-9))
+            elif cue == "counter_bell":
+                mix.add(wav("counter_bell"), at, 1.0, pan=-0.3)
+            elif cue == "platform_distant":
+                sig = wav("platform_distant")[: int(c.get("len_f", 96) / FPS * 44100)].copy()
+                fade = 4410
+                sig[-fade:] *= np.linspace(1, 0, fade)
+                mix.add(sig, at, db(-6), pan=-0.5)
+            elif cue == "steps_receding":
+                mix.add(wav("steps_receding"), at, db(-3), pan=-0.5)
+            elif cue == "paper_handling":
+                mix.add(wav("paper_handling"), at, 1.0)
+            else:
+                mix.add(wav(cue), at, 1.0)
+    # S9: the reading lift is quiet: room tone only. Page turns (declared synthesized paper handling).
+    for s in ("S10", "S11", "S12"):
+        mix.add(wav("paper_handling"), sec(START[s]), 1.0)
+    # S10 D1 compressed: bell, taps, creak
+    b = START["S10"]
+    mix.add(wav("counter_bell"), sec(b + 52), db(-3), pan=-0.3)
+    for g in S10_LAND.values():
+        mix.add(wav("paper_tap"), sec(b + g), 1.0)
+    mix.add(wav("door_creak"), sec(b + 106), db(-3))
+    # S11 D2 from the platform: the platform (CC BY 3.0, Glaneur de sons), the bell from outside, her steps
+    b = START["S11"]
+    sig = wav("platform_distant")[: int(204 / FPS * 44100)].copy()
+    sig[:4410] *= np.linspace(0, 1, 4410)
+    sig[-8820:] *= np.linspace(1, 0, 8820)
+    mix.add(sig, sec(b), 1.0, pan=-0.2)
+    mix.add(wav("counter_bell"), sec(b + 60), db(-6), pan=0.2)
+    for g in S11_LAND.values():
+        mix.add(wav("paper_tap"), sec(b + g), 1.0)
+    for g in range(V4_WALK[0], V4_WALK[1], 4):
+        step(sec(b + g), db(-12))
+    mix.add(wav("steps_receding"), sec(b + V4_WALK[1] - 6), db(-6), pan=-0.6)
+    # S12 ledger: a tick, then a single bell
+    b = START["S12"]
+    mix.add(wav("clock_tick"), sec(b + 30), 1.0)
+    mix.add(wav("clock_tick"), sec(b + 54), 1.0)
+    mix.add(wav("counter_bell"), sec(b + 78), db(-4), pan=-0.1)
+
+
+# ------------------------------------------------------------------------------------------- film
+film = Film("99-ways-template", seconds=TOTAL / FPS, boil=0, wobble=0)
+film.poster_at = (START["S8"] + 140) / FPS        # the defining beat's hold: key on its hook, pencil at chin
 
 
 @film.picture
-def frame(t, ink):
-    if t < TITLE:
-        ink.card("99 Ways · Template", "a neutral baseline for the station office")
-        if t > TITLE - 0.4:
-            ink.d.rectangle([0, 0, W, H], fill=PAPER + (int(255 * (t - TITLE + 0.4) / 0.4),))
-        return
-    for t0, t1, kind, pay in SEG:
-        if t0 <= t < t1:
-            break
-    if kind == "page":
-        b, sh = pay
-        ink.paste(view(b.img, sh.at(t - t0)))
-    elif kind == "card":
-        title, sub = CARDS[pay]
-        ink.card(title, sub)
-    else:
-        ledger(ink, t - t0)
+def picture(t, ink):
+    ink.paper(grain=False)                          # no synthetic grain: only the photographs' own
+    g = min(TOTAL - 1, int(round(t * FPS)))
+    ink.img.paste(Image.fromarray(render_frame(g)), (0, 0))
 
 
-@film.sound
-def sound(mix):
-    mix.room(0, DUR, 0.03)
-    # a station clock ticking in the office
-    k = 0
-    while k * 1.0 < DUR - 7:
-        mix.click(TITLE + k, 0.035, -0.5, 3000, 0.02)
-        k += 1
-    lines = {(0, 1): ("What time is it?", 108, -0.8), (0, 2): ("Ten past four!", 150, 0.1),
-             (0, 4): ("Hm.", 150, 0.1), (1, 0): ("What time is it? Ten past four!", 130, -0.3),
-             (2, 0): ("What time is it?", 108, -0.3), (2, 1): ("Ten past four!", 150, 0.6)}
-    for t, pi, k in SPEAK:
-        if (pi, k) in lines:
-            s, p, pan = lines[(pi, k)]
-            voice(mix, t + 0.3, s, p, pan, 0.08)
-        if (pi, k) in ((0, 1), (1, 0)):
-            mix.steps(t + 0.2, t + 1.8, 0.45, 0.14, "wood")
-        if (pi, k) in ((0, 3), (1, 1)):
-            mix.click(t + 0.3, 0.2, 0.4, 1500, 0.25)  # cupboard door creak
-    for t0, t1, kind, pay in SEG:
-        if kind == "card":
-            mix.note(t0 + 0.1, 392, 1.0, 0.07, 0, "tri")
-    mix.reverb(0.15)
-
+film.sound(sound)
 
 if __name__ == "__main__":
-    print("dur", DUR)
-    film.render()
+    if len(sys.argv) > 1 and sys.argv[1] == "--checks":
+        checks()
+    else:
+        if not (len(sys.argv) > 1 and sys.argv[1] == "--stills"):
+            checks()
+        film.render()

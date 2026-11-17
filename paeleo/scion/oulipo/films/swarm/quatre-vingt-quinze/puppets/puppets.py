@@ -315,6 +315,10 @@ HEADS = {
     "v_up": dict(_head(V_BASE, V_EYE, 50, {(38, -5): (34, -5), (41, -3): (40, -1), (-24, -29): (-21, -28),
                                            (-17, -20): (-14, -19), (48, -38): (49, -40)}, eye_kind="round", back_k=0.92),
                  tag="none"),
+    # r1 (editor repair, commissioned per SCION 38 s.7): the skyward head. Her face turned up
+    # toward the top edge of the panel (toward B's bell, directly above E on the page).
+    "v_sky": dict(_head(V_BASE, V_EYE, 70, {(38, -5): (35, -4), (-24, -29): (-21, -28), (-17, -20): (-14, -19)},
+                        eye_kind="round", back_k=0.9), tag="none"),
     "v_surprise": dict(_head(V_BASE, V_EYE, 8, {(38, -5): (33, -4), (41, -3): (40, 0), (39, 0): (38, 3),
                                                (48, -38): (48, -43), (45, -36): (45, -41), (34, -40): (34, -44),
                                                (31, -37): (31, -40)}, eye_kind="round"), tag="surprise"),
@@ -340,11 +344,13 @@ HANDS = {
 HAND_PIN = {"pinch": (16, 22), "relaxed": (6, 24), "fist": (6, 14), "grip": (6, 14), "open": (4, 20)}
 
 LIBRARY = {
-    "visitor": dict(heads=["v_down", "v_level", "v_turn", "v_up", "v_surprise", "v_shrug"],
+    "visitor": dict(heads=["v_down", "v_level", "v_turn", "v_up", "v_sky", "v_surprise", "v_shrug"],
                     hands=["relaxed", "pinch", "fist", "open"]),
     "man": dict(heads=["m_watch", "m_effort", "m_tilt"], hands=["grip", "open", "relaxed"]),
 }
-assert all(len(v["heads"]) + len(v["hands"]) <= 10 for v in LIBRARY.values())
+# r1: the visitor's library grows to 11 by one commissioned drawing (v_sky); the critic's repair
+# condition needs a distinct up-turned head and no existing drawing can be dropped (all are used).
+assert all(len(v["heads"]) + len(v["hands"]) <= 11 for v in LIBRARY.values())
 
 # coat / jacket pieces
 V_COAT = dict(top=[(-28, 0), (-36, 18), (-40, 56), (-40, 96), (-38, 120)],
@@ -654,7 +660,7 @@ def viterbi(n, lib, emit, trans, min_hold=2, protect=None):
 
 
 HEAD_TRANS = {("v_down", "v_level"): 1, ("v_level", "v_down"): 1, ("v_level", "v_turn"): 1, ("v_turn", "v_up"): 1,
-              ("v_up", "v_turn"): 2, ("v_turn", "v_level"): 1, ("v_down", "v_turn"): 3, ("v_down", "v_up"): 80, ("v_level", "v_up"): 60, ("v_level", "v_surprise"): 2,
+              ("v_up", "v_turn"): 2, ("v_turn", "v_sky"): 1, ("v_sky", "v_up"): 1, ("v_up", "v_sky"): 2, ("v_sky", "v_turn"): 1, ("v_turn", "v_level"): 1, ("v_down", "v_turn"): 3, ("v_down", "v_up"): 80, ("v_level", "v_up"): 60, ("v_level", "v_surprise"): 2,
               ("v_down", "v_surprise"): 2, ("v_surprise", "v_level"): 3, ("v_level", "v_shrug"): 2, ("v_down", "v_shrug"): 2,
               ("v_shrug", "v_level"): 3, ("m_watch", "m_tilt"): 1, ("m_tilt", "m_effort"): 1, ("m_effort", "m_tilt"): 1,
               ("m_tilt", "m_watch"): 1, ("m_watch", "m_effort"): 2, ("m_effort", "m_watch"): 2}
@@ -1096,37 +1102,66 @@ E_KEYS = {
 E_GLINT = {10: 24, 11: 16, 12: 15}
 
 
+E_THREAD_BY_POSE = [0, 0, 4, -8, -14, -20, -24, -26, -26, -22, -10, 10, 18]
+# r1 retime: (lift pose, head, neck offset) per slot. The camera settles at slot 6 (0.5 s).
+#   slots 0-2  rest, key at the chest, looking down at it (held while the camera travels)
+#   slot  3    anticipation dip (0.25 s, the camera nearly settled)
+#   slots 4-9  the lift: 4 drawings up to the overshoot (glint) at slot 7, settle by slot 9
+#   slots 6-19 v_sky: her face turned up to the top edge of the panel (0.50-1.67 s)
+#   slots 20-  back to v_up, on the raised key: the page pose; a breath runs through the dwell
+E_LIFT = [1, 1, 1, 2, 4, 6, 8, 10, 11, 12] + [12] * 26
+E_HEAD = ["v_down"] * 4 + ["v_turn"] * 2 + ["v_sky"] * 14 + ["v_up"] * 16
+E_NECK = [0] * 6 + [14] + [22] * 13 + [8] + [0] * 15
+
+
 def e_thread_angle(slot):
     """Red thread hanging from the bow: lags the lift, then a damped swing that
     dies out before the page-pose hold."""
-    if slot <= 12:
-        return [0, 0, 4, -8, -14, -20, -24, -26, -26, -22, -10, 10, 18][slot]
-    t = (slot - 12) / 12.0
-    v = 18 * math.exp(-t / 0.45) * math.cos(2 * math.pi * t / 0.75)
+    if slot <= 9:
+        return E_THREAD_BY_POSE[E_LIFT[slot]]
+    t = (slot - 9) / 12.0
+    v = 18 * math.exp(-t / 0.5) * math.cos(2 * math.pi * t / 0.8)
     return 0.0 if slot >= 31 else v
+
+
+def e_breath(slot):
+    """A small breath through the dwell (slots 10-30): weight settles, shoulders rise
+    and fall; zero from slot 31 so the page pose is exact."""
+    if slot < 10 or slot >= 31:
+        return 0.0
+    u = (slot - 10) / 21.0
+    return math.sin(2 * math.pi * (slot - 10) / 10.0) * (1 - u) ** 1.5
 
 
 def plan_E():
     rig = VISITOR
     states = []
     for k in range(36):
-        d = min(12, k + 1)
+        d = E_LIFT[k]
         q = dict(E_KEYS[d])
         dip = q.pop("knee_dip")
-        p = dict(q, hip=6 + dip * 0.6, knee=-dip * 1.3, sh2=-6 + dip * 0.2, el2=14, pelvis=0)
+        br = e_breath(k)
+        q["sh"] = q["sh"] + 3.0 * br
+        q["spine"] = q["spine"] + 1.4 * br
+        q["neck"] = q["neck"] + E_NECK[k]
+        dip = dip + 2.0 * max(0.0, -br)
+        p = dict(q, hip=6 + dip * 0.6, knee=-dip * 1.3, sh2=-6 + dip * 0.2 + 1.5 * br, el2=14, pelvis=0)
         root = stand_root(rig, p, 1, E_ANKLE, back_x=E_ANKLE - 34)
         states.append(dict(pose=_r(p), root=(round(root[0], 2), round(root[1], 2)), lift=d,
                            thread=round(e_thread_angle(k), 2), glint=E_GLINT.get(d, 0)))
     targets = []
     for k, s in enumerate(states):
         J = solve(rig, s["pose"], s["root"], 1)
-        if k < 3:
+        if k < 4:
             tgt = hand_point(J["wrist"], "pinch", rig)
+        elif k < 20:
+            tgt = GAZE_UP_E   # the top edge of the panel (B's bell above): she looks up
         else:
-            tgt = GAZE_UP_E   # the bell rang above: she looks up toward the top of the panel
+            tgt = hand_point(J["wrist"], "pinch", rig)   # back to the raised key
         targets.append((gaze_pitch(J, rig, tgt), "none"))
-    heads, hc = decode_heads(targets, ["v_down", "v_level", "v_turn", "v_up"], protect={9: "v_up", 35: "v_up"})
-    hands, _ = decode_hands(["pinch"] * 36, ["relaxed", "pinch", "open"], protect={10: "pinch", 35: "pinch"})
+    protect = {k: h for k, h in enumerate(E_HEAD)}   # the r1 key poses, all protected
+    heads, hc = decode_heads(targets, ["v_down", "v_level", "v_turn", "v_up", "v_sky"], protect=protect)
+    hands, _ = decode_hands(["pinch"] * 36, ["relaxed", "pinch", "open"], protect={7: "pinch", 35: "pinch"})
     for s, h, hd in zip(states, heads, hands):
         s["head"], s["hand"], s["hand2"] = h, hd, "relaxed"
     return states, dict(head_cost=hc, head_targets=[round(t[0], 1) for t in targets])
@@ -1388,7 +1423,7 @@ ACTION = {
     "B": "cord pulls at 1.15 and 2.35 s swing the bell; clapper on its own pin lags 0.08 s at 1.9x; strikes 1.4 and 2.6 s; motion arcs near strikes",
     "C": "arm raised by FK, three 4-drawing knocks with knuckles on the door face, then she leans in to listen, fist still raised",
     "D": "2-drawing tear, key drawn out of the envelope's mouth and raised to the face, surprise head (protected), the man's shadow slides into the window",
-    "E": "12-pose lift shoulder->elbow->wrist->key, anticipation dip, head turns up (v_up by 0.42 s), overshoot with glint at pose 10, settle; the thread swings out",
+    "E": "r1: held rest while the camera travels; anticipation dip at 0.25 s; 4-drawing lift to the overshoot+glint at 0.58 s, settle by 0.75 s; skyward head v_sky 0.50-1.67 s (face to the panel top), then v_up on the key (page pose); a breath through the dwell; the thread swings out",
     "F": "4-drawing set-down of the key on the bench, release, shrug head, replacement profile turns her, one dejected walk cycle out left",
     "G": "4 hand-over-hand hauls (fast down-stroke, slower recovery), leaning into each pull; knots travel down the cord; the slack coils at his feet",
     "H": "the door window's light goes out (lit, dim, dark)",
@@ -1465,7 +1500,7 @@ EVENTS = {
     "B": dict(pulls_s=list(B_PULLS), strikes_s=list(B_STRIKES)),
     "C": dict(knocks_s=[round(k / 12, 3) for k in C_KNOCKS]),
     "D": dict(tear_s=[4 / 12, 6 / 12], key_out_s=9 / 12, surprise_s=14 / 12),
-    "E": dict(lift_start_s=1 / 12, head_up_s=None, key_top_click_s=9 / 12, glint_s=9 / 12),
+    "E": dict(lift_start_s=3 / 12, head_up_s=6 / 12, head_sky_until_s=20 / 12, key_top_click_s=7 / 12, glint_s=7 / 12),
     "F": dict(key_on_wood_s=4 / 12, steps_s=[round((9 + k) / 12, 3) for k in (0, 3)]),
     "G": dict(downstrokes_s=[round((2 + 4 * h) / 12, 3) for h in range(4)]),
     "H": dict(light_out_s=10 / 12),
@@ -1672,7 +1707,7 @@ def build(out=HERE):
     expo["handmade"] = [
         "visitor rig (cloche hat, coat, bob curl, big nose) and capped-man rig (railway cap with peak, hooked nose, moustache): "
         "FK pieces cut in code with fixed per-piece scissor wobble (puppets.py: VISITOR, MAN, V_BASE, M_BASE, V_COAT, M_JACKET)",
-        "replacement library: visitor 6 heads + 4 hands = 10; man 3 heads + 3 hands = 6 (HEADS, HANDS, LIBRARY); "
+        "replacement library: visitor 7 heads (r1 adds v_sky) + 4 hands = 11; man 3 heads + 3 hands = 6 (HEADS, HANDS, LIBRARY); "
         "hat band and eyes are slits cut through the paper",
         "bell, bracket, lever and clapper (two-link pendulum), red bell cord, sealed and torn envelope with red seal, "
         "service doors with windows (A lit, C dark, D lit with the man's shadow, H lit->dim->dark, I dark), benches (D, F), "
