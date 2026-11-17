@@ -265,7 +265,14 @@ def kf2():
     base = paper(0.3)
     roth = cv2.imread(str(SRC / "loc" / "8b16710v.jpg"))
     g = cv2.cvtColor(roth, cv2.COLOR_BGR2GRAY)
-    gt = tone(g, 28, 215, 0.85)  # high-key print, blacks held
+    # the clerk: GrabCut from the desk plate, cut at the waist
+    fg = grabcut_person(roth, (530, 335, 350, 320), 612)
+    cv2.ellipse(fg, (706, 408), (39, 46), 0, 0, 360, 255, -1, cv2.LINE_AA)  # hair lost against the dark wall
+    # he has left: fill his place in the plate from the surrounding office (Telea inpaint)
+    hole = cv2.dilate(fg, np.ones((15, 15), np.uint8))
+    g_empty = cv2.inpaint(g, hole, 9, cv2.INPAINT_TELEA)
+    gt = tone(g, 30, 205, 0.8)  # high-key print, blacks held
+    gte = tone(g_empty, 30, 205, 0.8)
     # panel A (narrow): the ticket window; "Thanks!" comes back from the platform
     ax0, ay0, ax1, ay1 = 46, 52, 400, 668
     crop = gt[170:470, 40:280]
@@ -274,13 +281,13 @@ def kf2():
     # panel B (wide): the cupboard, door swung on a paper hinge, the clerk cut from his own desk
     bx0, by0, bx1, by1 = 430, 52, 1234, 668
     bw, bh = bx1 - bx0, by1 - by0
-    plate = gt[150:470, 640:1015]  # cupboard wall, boxes above
+    plate = gte[120:470, 655:985]  # cupboard wall, boxes above (film-edge lettering excluded)
     sc = max(bw / plate.shape[1], bh / plate.shape[0])
     plate = cv2.resize(plate, (int(plate.shape[1] * sc), int(plate.shape[0] * sc)), interpolation=cv2.INTER_CUBIC)
     ox = (plate.shape[1] - bw) // 2
     stage = np.repeat(plate[:bh, ox:ox + bw, None], 3, 2).copy()
     # cut the left cupboard door (source x 745..860, y 185..440) and swing it open on its hinge
-    dx0, dy0, dx1, dy1 = [int(v) for v in ((745 - 640) * sc - ox, (182 - 150) * sc, (862 - 640) * sc - ox, (445 - 150) * sc)]
+    dx0, dy0, dx1, dy1 = [int(v) for v in ((745 - 655) * sc - ox, (182 - 120) * sc, (862 - 655) * sc - ox, (445 - 120) * sc)]
     door = stage[dy0:dy1, dx0:dx1].copy()
     stage[dy0:dy1, dx0:dx1] = (18, 17, 16)  # dark interior behind the opened door
     # shelves inside, cut from the ticket rack of the same photograph
@@ -299,13 +306,11 @@ def kf2():
     paste(stage, np.zeros_like(dw), (sh * 0.5).astype(np.uint8), dx0 - open_w - 4, dy0 - 4)
     paste(stage, dw, da, dx0 - open_w, dy0 - 22)
     # the clerk: GrabCut from the desk plate, cut at the waist, head on its own hinge
-    rect = (535, 355, 345, 300)
-    fg = grabcut_person(roth, rect, 612)
     ys, xs = np.nonzero(fg)
     y0, y1, x0, x1 = ys.min(), ys.max() + 1, xs.min(), xs.max() + 1
-    fig = np.repeat(gt[y0:y1, x0:x1, None], 3, 2)
-    fa = fg[y0:y1, x0:x1]
-    s2 = 1.55
+    fig = np.repeat(gt[y0:y1, x0:x1, None], 3, 2)[:, ::-1].copy()  # turned to face the cupboard
+    fa = fg[y0:y1, x0:x1][:, ::-1].copy()
+    s2 = 1.7
     fig = cv2.resize(fig, None, fx=s2, fy=s2, interpolation=cv2.INTER_CUBIC)
     fa = cv2.resize(fa, None, fx=s2, fy=s2, interpolation=cv2.INTER_LINEAR)
     # articulate the head: split at the collar and tilt it back toward the shelves (FK hinge)
@@ -313,14 +318,14 @@ def kf2():
     head, ha = fig[:neck].copy(), fa[:neck].copy()
     fa_body = fa.copy()
     fa_body[:neck - 6] = 0
-    pivot = (int((700 - x0) * s2), neck)
-    M = cv2.getRotationMatrix2D(pivot, 9, 1.0)
+    pivot = (int((x1 - 700) * s2), neck)
+    M = cv2.getRotationMatrix2D(pivot, -6, 1.0)
     head = cv2.warpAffine(head, M, (fig.shape[1], neck), borderValue=(0, 0, 0))
     ha = cv2.warpAffine(ha, M, (fig.shape[1], neck))
     # white scissor margin around each piece, then a cast shadow on the plate
     def margin(a, r=5):
         return cv2.dilate(a, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * r + 1, 2 * r + 1)))
-    px, py = int(bw * 0.52), bh - fig.shape[0] + 30
+    px, py = int(bw * 0.40), bh - fig.shape[0] + 40
     full = np.zeros(fa.shape, np.uint8)
     full = np.maximum(full, margin(fa_body))
     full[:neck] = np.maximum(full[:neck], margin(ha))
@@ -378,7 +383,7 @@ def puppet(mask, hip, s, pose, seed):
     head = []
     for i in range(18):
         a = math.radians(i * 20)
-        head.append((hx + 19 * s * math.cos(a), hy + 22 * s * math.sin(a)))
+        head.append((hx + 22 * s * math.cos(a), hy + 25 * s * math.sin(a)))
     parts.append(head)
     parts.append([(hx + 16 * s * f, hy - 6 * s), (hx + 29 * s * f, hy + 6 * s), (hx + 17 * s * f, hy + 9 * s)])  # nose
     parts.append([(hx + 12 * s * f, hy + 14 * s), (hx + 20 * s * f, hy + 18 * s), (hx + 6 * s * f, hy + 26 * s)])  # chin
@@ -389,11 +394,12 @@ def puppet(mask, hip, s, pose, seed):
         th, e1 = limb(hip, pose[side + "_thigh"], 62 * s, 13 * s, 9 * s)
         sh, e2 = limb(e1, pose[side + "_shin"], 60 * s, 9 * s, 6 * s)
         a = math.radians(pose[side + "_shin"])
-        foot = [(e2[0] - 6 * s, e2[1] - 3 * s), (e2[0] + 24 * s * f * math.cos(a), e2[1] + 3 * s),
-                (e2[0] + 22 * s * f, e2[1] + 8 * s), (e2[0] - 8 * s, e2[1] + 8 * s)]
+        wd = pose.get("walk", 1)  # feet point the way he walks, not the way he looks
+        foot = [(e2[0] - 6 * s * wd, e2[1] - 3 * s), (e2[0] + 24 * s * wd * math.cos(a), e2[1] + 3 * s),
+                (e2[0] + 22 * s * wd, e2[1] + 8 * s), (e2[0] - 8 * s * wd, e2[1] + 8 * s)]
         sho = (neck[0] - 4 * s, neck[1] + 12 * s)
-        ua, e3 = limb(sho, pose[side + "_upper"], 50 * s, 9 * s, 7 * s)
-        fa, e4 = limb(e3, pose[side + "_fore"], 46 * s, 7 * s, 5 * s)
+        ua, e3 = limb(sho, pose[side + "_upper"], 52 * s, 11 * s, 9 * s)
+        fa, e4 = limb(e3, pose[side + "_fore"], 46 * s, 9 * s, 6 * s)
         hand = [(e4[0] + 7 * s * math.cos(i * 0.9), e4[1] + 7 * s * math.sin(i * 0.9)) for i in range(7)]
         parts += [th, sh, foot, ua, fa, hand]
     for i, p in enumerate(parts):
@@ -419,11 +425,16 @@ def kf3():
     for x in (610, 660, 710):
         cv2.line(far, (x, 150), (x, 330), 0, 6)
     cv2.line(far, (560, 240), (760, 240), 0, 6)
-    cv2.circle(far, (470, 170), 34, 255, -1, cv2.LINE_AA)
-    cv2.circle(far, (470, 170), 27, 0, -1, cv2.LINE_AA)
-    cv2.line(far, (470, 170), (470, 148), 255, 4, cv2.LINE_AA)  # ten past four on the station clock
-    cv2.line(far, (470, 170), (488, 176), 255, 4, cv2.LINE_AA)
-    cv2.line(far, (470, 170), (482, 151), 255, 3, cv2.LINE_AA)
+    C = (330, 290)
+    cv2.circle(far, C, 38, 255, -1, cv2.LINE_AA)
+    cv2.circle(far, C, 30, 0, -1, cv2.LINE_AA)
+    for i in range(12):
+        a = i * math.pi / 6
+        cv2.line(far, (int(C[0] + 24 * math.sin(a)), int(C[1] - 24 * math.cos(a))),
+                 (int(C[0] + 29 * math.sin(a)), int(C[1] - 29 * math.cos(a))), 255, 3)
+    cv2.line(far, C, (C[0] + 3, C[1] - 25), 255, 4, cv2.LINE_AA)   # ten past four on the office clock
+    cv2.line(far, C, (C[0] + 15, C[1] + 7), 255, 5, cv2.LINE_AA)
+    cv2.line(far, (C[0], C[1] - 38), (C[0], C[1] - 70), 255, 3)
     farb = cv2.GaussianBlur(far, (0, 0), 3.2)
     stage = stage * (1 - farb[..., None] / 255 * 0.52)
     # near layer (card on the glass): floor, desk and lamp, cupboard with key hooks, the clerk
@@ -457,7 +468,7 @@ def kf3():
     # the clerk mid-stride toward the cupboard, head turned back to answer the platform
     pose = dict(lean=-4, face=-1, near_thigh=-26, near_shin=-6, far_thigh=24, far_shin=48,
                 near_upper=-24, near_fore=-48, far_upper=22, far_fore=8)
-    puppet(near, (790, 470), 1.25, pose, 50)
+    puppet(near, (858, 462), 1.42, pose, 50)
     # a little blur ghost under the card: it lifts off the glass at the toes (secondary)
     halo = cv2.GaussianBlur(near, (0, 0), 6)
     stage = stage * (1 - halo[..., None] / 255 * 0.25)
@@ -494,7 +505,7 @@ def board(kfs, names):
     hei = 2 * (th + lab) + pad * 3
     b = Image.new("RGB", (wid, hei), (240, 238, 232))
     d = ImageDraw.Draw(b)
-    labels = ["Reference: Madden, Template (2005)"] + names
+    labels = ["Reference: Madden, Template"] + names
     y = pad
     k = 0
     for row in (row1, row2):

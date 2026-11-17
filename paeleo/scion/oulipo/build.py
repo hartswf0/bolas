@@ -250,6 +250,9 @@ def main():
                 "script": f"films/{entry['slug']}.py",
                 "note": note.read_text().strip() if note.is_file() else "",
             }
+            page = PROJECT / "assets" / "pages" / f"{entry['slug']}.png"
+            if page.is_file():
+                entry["film"]["page"] = f"assets/pages/{entry['slug']}.png"
             credits = PROJECT / "films" / "credits" / f"{entry['slug']}.json"
             if credits.is_file():
                 entry["film"]["credits"] = json.loads(credits.read_text())

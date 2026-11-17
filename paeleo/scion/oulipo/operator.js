@@ -167,6 +167,11 @@ function renderFilm(entry) {
   file.href = root + entry.film.src;
   file.download = entry.slug + ".mp4";
   links.append(script, document.createTextNode("  ·  "), file);
+  if (entry.film.page) {
+    const page = element("a", "The page (.png)");
+    page.href = root + entry.film.page;
+    links.append(document.createTextNode("  ·  "), page);
+  }
   caption.append(links);
   if (entry.film.credits && entry.film.credits.length) {
     const credits = element("details", null, "film-credits");
