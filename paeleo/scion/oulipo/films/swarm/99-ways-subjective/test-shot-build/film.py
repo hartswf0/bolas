@@ -46,23 +46,16 @@ def sound(mix):
     r = mix.rate
     # 1) watch tick: single ticks cut from a PD clock recording, high-passed to a small wristwatch voice,
     #    re-timed to a 5-beat/s watch escapement; starts only when the dial faces the eye (local 6.5)
-    clk = decode(SRC / 'Clock_ticking.ogg')
-    w = int(0.06 * r)
-    ticks = []
-    for sec in range(3):
-        seg = clk[sec * r: sec * r + r]
-        k = int(np.argmax(np.abs(seg)))
-        a = max(0, k - int(0.008 * r))
-        tk = seg[a:a + w].copy()
-        tk = mix.band(tk, 2200, 9000) * np.exp(-np.linspace(0, 7, len(tk)))
-        ticks.append(tk / (np.abs(tk).max() + 1e-9))
+    wt = decode(SRC / 'Watch_tick.ogg')          # CC0 recording of a ticking watch (one beat)
+    wt = wt / (np.abs(wt).max() + 1e-9)
+    ticks = [wt, mix.band(wt, 1800, 12000) / (np.abs(mix.band(wt, 1800, 12000)).max() + 1e-9)]   # tick, and a thinner tock
     t = 6.5; n = 0
     while t < e4.DUR:
         g = 0.10 * min(1.0, (t - 6.5) / 0.5 + 0.25) * (1.0 if n % 2 == 0 else 0.75)
         if t > 8.4: g *= 0.8                                    # quiet under the answer
         mix.add(ticks[n % len(ticks)], t, g, -0.25)             # the watch sits centre-left
         t += 0.2; n += 1
-    SOUND_LOG.append(dict(cue='watch tick', start=6.5, rate_hz=5, pan=-0.25, source='Clock_ticking.ogg'))
+    SOUND_LOG.append(dict(cue='watch tick', start=6.5, rate_hz=5, pan=-0.25, source='Watch_tick.ogg (CC0)'))
     # 2) the last footfall settling at the foot of the stair (local 0.12), from the foraged stair recording
     pas = decode(SRC / 'Pasos_en_escalera_de_caracol.ogg')
     env = np.convolve(np.abs(pas), np.ones(441) / 441, 'same')

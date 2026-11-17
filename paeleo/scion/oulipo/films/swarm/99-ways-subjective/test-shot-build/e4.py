@@ -444,13 +444,15 @@ class Shot:
             bx0, by0, bx1, by1 = max(a - x0, 0), max(b - y0, 0), min(c - x0, w), min(d - y0, h)
             if bx1 > bx0 and by1 > by0:
                 board[by0:by1, bx0:bx1] = 0
-        setd = R.blank(); self.strip.draw(R, setd, t)
+        win = R.blank()   # P4 window: everything of this panel lives behind/inside it (other panels untouched)
+        R.fill(win, np.array([[70, 910], [1600, 910], [1600, 1730], [70, 1730]], float))
+        setd = R.blank(); self.strip.draw(R, setd, t); setd *= win
         PL = self.left.pose(t)
         DL, inl, pinsL, infoL = self.left.draw(R, PL)
         tgt = self.left.pinch_target(PL)
         PR = self.right.pose(t, tgt)
         DR, pinsR, infoR = self.right.draw(R, PR, tgt)
-        inl *= (1 - DR)
+        DL *= win; DR *= win; inl *= (1 - DR) * win
         # inlay light: D2 dim (oblique), D3 rising to full on twos
         level = 0.0
         if PL['dr'] == 'D2': level = 0.55
@@ -462,11 +464,11 @@ class Shot:
         qp = q_card_pos(t, self.strip)
         if qp[1] > -400 and not page_mode:
             dk, vl, ik = R.blank(), R.blank(), R.blank()
-            Q_CARD.draw(R, dk, vl, ik, qp + O); cards.append((dk, vl, ik))
+            Q_CARD.draw(R, dk, vl, ik, qp + O); cards.append((dk * win, vl * win, ik * win))
         ap = a_card_pos(t)
         if ap is not None:
             dk, vl, ik = R.blank(), R.blank(), R.blank()
-            A_CARD.draw(R, dk, vl, ik, ap + O); cards.append((dk, vl, ik))
+            A_CARD.draw(R, dk, vl, ik, ap + O); cards.append((dk * win, vl * win, ik * win))
         pins = pinsL + pinsR
         # pins under the right hand are hidden
         pins2 = []

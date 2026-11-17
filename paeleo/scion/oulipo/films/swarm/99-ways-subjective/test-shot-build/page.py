@@ -53,13 +53,13 @@ def hand_at(R, O_, target, h_deg, t=9.0):
 def build_p3(R, O3, paper):
     st = e4.Strip()
     setd = R.blank()
-    off = np.array([-300.0, 330.0]) + O3
+    off = np.array([-420.0, 280.0]) + O3
     for p in st.pieces[:-4]:                       # stair, balusters, rail, post (no floor seams on the stair)
         R.fill(setd, p + off)
-    R.fill(setd, facet(dense_poly([(30, 470), (250, 470), (250, 805), (30, 805)]), 61) + O3)   # dark doorway, lower left
+    R.fill(setd, facet(dense_poly([(20, 470), (175, 470), (175, 805), (20, 805)]), 61) + O3)   # dark doorway, lower left
     rail = lambda x: 300 - 0.857 * (x - 700)
-    tgt = np.array([1020.0 - 300, rail(1020) + 330 + 14])
-    D = hand_at(R, O3, tgt, -128)
+    tgt = np.array([900.0 - 420, rail(900) + 280 + 10])
+    D = hand_at(R, O3, tgt, -150)
     dk, vl, ik = R.blank(), R.blank(), R.blank()
     Card('What time\nis it?', 50, tail_vec=(-400, -250), seed=31, rod_vec=(0, -1)).draw(R, dk, vl, ik, O3 + [330.0, 178.0])
     return setd, [(D, 1.9, (5, 4), 0.42)], [(dk, vl, ik)], paper
@@ -84,11 +84,13 @@ def build_p5(R, O5, paper):
             (115, 650, 80, 70), (240, 650, 40, 100)]
     for j, (x, y, w, h) in enumerate(jars):
         R.fill(setd, A(facet(dense_poly([(x, y), (x, y - h + 12), (x + 8, y - h), (x + w - 8, y - h), (x + w, y - h + 12), (x + w, y)]), 80 + j)))
-    door = dense_poly([(440, 55), (690, 20), (700, 820), (440, 820)])
+    door = dense_poly([(440, 55), (560, 25), (572, 820), (440, 820)])
     R.fill(setd, A(facet(door, 90)))
-    R.fill(setd, A(facet(dense_poly([(610, 250), (622, 250), (624, 520), (612, 520)]), 91)), 0.0)  # light slot behind the handle
-    tgt = np.array([600.0, 400.0])
-    D = hand_at(R, O5, tgt, -96)
+    R.fill(setd, A(facet(dense_poly([(560, 300), (600, 296), (604, 330), (562, 334)]), 91)))   # handle, standing off the door edge
+    R.fill(setd, A(facet(dense_poly([(568, 500), (604, 498), (606, 530), (570, 532)]), 92)))
+    R.fill(setd, A(facet(dense_poly([(588, 300), (604, 300), (606, 530), (590, 530)]), 93)))
+    tgt = np.array([598.0, 420.0])
+    D = hand_at(R, O5, tgt, -168)
     dk, vl, ik = R.blank(), R.blank(), R.blank()
     Card('Thanks!', 52, tail_vec=(-320, 40), seed=41, rod_vec=(-1, 0)).draw(R, dk, vl, ik, O5 + [250.0, 150.0])
     return setd, [(D, 1.9, (5, 4), 0.42)], [(dk, vl, ik)], paper
