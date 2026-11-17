@@ -75,43 +75,6 @@ def _cut(name):
     return a[..., 0], a[..., 3] / 255.0
 
 
-@functools.lru_cache(None)
-def _crowd(seed, treatment):
-    SS = S.SS; Hd, Wd = H * SS, W * SS
-    alpha = np.zeros((Hd, Wd), np.float32); fill = np.full((Hd, Wd), 128, np.float32)
-    r = S.rng(seed, "crowd")
-    feet_y = S.side_ground_y(S.WORLD["crowd_z"])
-    plan = []
-    x = 728 + r.uniform(-4, 10)
-    for nm in CROWD_RIGHT:
-        plan.append((nm, x)); x += r.uniform(30, 44)
-    x = 6 + r.uniform(-6, 6)
-    for nm in CROWD_LEFT:
-        plan.append((nm, x)); x += r.uniform(40, 52)
-    for nm, x0 in plan:
-        g, a = _cut(nm)
-        ys = np.nonzero(a.sum(1) > 0)[0]
-        hh = ys.max() - ys.min() + 1
-        target = r.uniform(100, 114) * (0.86 if nm.startswith(("E_", "H_", "F_")) else 1.0)
-        sc = target / hh * SS
-        tw, th = max(1, int(a.shape[1] * sc)), max(1, int(a.shape[0] * sc))
-        cm = cv2.resize(a, (tw, th), interpolation=cv2.INTER_AREA)
-        cg = cv2.resize(g, (tw, th), interpolation=cv2.INTER_AREA)
-        X = int(x0 * SS); Y = int(feet_y * SS - ys.max() * sc)
-        x0_, y0_ = max(0, X), max(0, Y); x1_, y1_ = min(Wd, X + tw), min(Hd, Y + th)
-        if x1_ <= x0_ or y1_ <= y0_:
-            continue
-        aa = cm[y0_ - Y:y1_ - Y, x0_ - X:x1_ - X]
-        fill[y0_:y1_, x0_:x1_] = fill[y0_:y1_, x0_:x1_] * (1 - aa) + cg[y0_ - Y:y1_ - Y, x0_ - X:x1_ - X] * aa
-        alpha[y0_:y1_, x0_:x1_] = np.maximum(alpha[y0_:y1_, x0_:x1_], aa)
-    if treatment == "cut-paper":
-        a = S.print_block(np.clip(alpha * 1.15, 0, 1), seed, "crowd", starve=0.04, edge=0.3)
-        img = np.empty((Hd, Wd, 3), np.float32); img[:] = S.INK2
-        return img, a
-    return S._grade(fill), cv2.GaussianBlur(alpha, (0, 0), 0.6)
-
-
-S._crowd = _crowd   # stage.crowd() resolves _crowd at call time
 
 # ------------------------------------------------------------------ photographic puppet fills (U1 swatches)
 SWATCH_FOR = {"man": "coat_dark_long", "jostler": "coat_light_overcoat", "conductor": "cape_officer"}
@@ -145,13 +108,260 @@ def photo_fill(P):
 
 R._bourse_fill = lambda: _tex("coat_dark_long")   # the 1933 plate is not used anywhere in the film
 
+# ------------------------------------------------------------------ outline-preserving stage (repair round 1)
+# Treatment is a FILL change only: every stage layer keeps the baseline's outline (same block masks,
+# same printed alpha) and is refilled with real plate texture in photographic-plate.
+SSs = S.SS
+OUTLINES = {}          # (layer, seed, treatment) -> the binary outline mask actually laid (for IoU checks)
+
+
+@functools.lru_cache(None)
+def _shop_hatch(seed):
+    """Cut-paper: dense horizontal gouge hatching cut through the dark arcade band (cream streaks)."""
+    r = S.rng(seed, "shop-hatch")
+    im, d = S.canvas()
+    shop0, shop1 = S.WORLD["shop_band"]
+    for _ in range(520):
+        S.gouge(d, r.uniform(-80, W), r.uniform(shop0 + 5, shop1 - 1), r.uniform(14, 90), r.uniform(.45, 1.25), r.uniform(-.004, .004), r=r)
+    x = r.uniform(0, 20)
+    while x < W:                                    # vertical pier joints, short knife nicks
+        for y in np.arange(shop0 + 8, shop1 - 4, r.uniform(9, 14)):
+            d.line([(x * SSs, y * SSs), (x * SSs, (y + r.uniform(4, 7)) * SSs)], fill=255, width=SSs)
+        x += r.uniform(38, 60)
+    m = S.arr(im)
+    band = np.zeros_like(m); band[int((shop0 + 3) * SSs):int(shop1 * SSs)] = 1
+    return m * band
+
+
+@functools.lru_cache(None)
+def _blocks(seed):
+    fk, ft, fd, fs, fc = S._facade_blocks(seed)
+    sk, st, ss_, sc = S._street_blocks(seed)
+    return dict(shade=np.clip(fs + ss_, 0, 1), tint=np.clip(ft + st, 0, 1), cut=np.clip(fc + sc, 0, 1), fcut=np.clip(fc, 0, 1),
+                dtint=fd, key=np.clip(fk + sk, 0, 1))
+
+
+@functools.lru_cache(None)
+def _plate_tex(seed):
+    """Full-frame grey texture from the Rol 1916 plate: rectified upper-storey stone for the facade and
+    shop band (no shopfront crop, so no real pedestrians enter), rectified cobbles for the street."""
+    (fac, _shp), _ = S._rol_facade_plate()
+    cob, _ = S._rol_cobble_plate()
+    Hd, Wd = H * SSs, W * SSs
+    shop1 = S.WORLD["shop_band"][1]
+    off = int(S.rng(seed, "photo-facade").uniform(0, 200))
+    fh = int(shop1 * SSs)
+    t = cv2.resize(fac, (int(fac.shape[1] * fh / fac.shape[0]), fh), interpolation=cv2.INTER_AREA).astype(np.float32)
+    t = np.concatenate([t] * (Wd // t.shape[1] + 3), 1)[:, off:off + Wd]
+    out = np.zeros((Hd, Wd), np.float32); out[:fh] = t
+    out[fh:] = cv2.resize(cob, (Wd, Hd - fh), interpolation=cv2.INTER_AREA).astype(np.float32)
+    return out
+
+
+def _photo_col(tex, tone, gain=1.0):
+    """Real plate texture placed at a block's tone: high-pass detail of the plate around that level."""
+    g0 = float((np.asarray(tone, np.float32) - S.INK).mean() / (S.PAPER - S.INK).mean()) * 255
+    hp = tex - cv2.GaussianBlur(tex, (0, 0), 14)
+    lo = tex - tex.mean()
+    return S._grade(np.clip(g0 + hp * 1.5 * gain + lo * 0.30 * gain, 0, 255))
+
+
+@functools.lru_cache(None)
+def _backdrop_cut(seed):
+    B = _blocks(seed)
+    img = S.paper_ground(seed)
+    img = S.lay(img, B["shade"], S.SHADE)
+    img = S.lay(img, S.print_block(B["tint"], seed, "tint-bg", starve=0, edge=0.25) * 0.9, S.TINT)
+    img = S.lay(img, B["cut"] * 0.85, S.SHADE)
+    img = S.lay(img, S.print_block(B["dtint"], seed, "dtint-bg", starve=0.05, edge=0.25) * 0.95, S.DTINT)
+    img = S.lay(img, B["fcut"] * 0.85, S.SHADE)
+    img = S.lay(img, _shop_hatch(seed) * B["dtint"] * 0.62, S.SHADE)          # gouged arcade band
+    key = S.print_block(B["key"], seed, "key-bg", starve=0.08)
+    OUTLINES[("backdrop", seed, "cut-paper")] = key > 0.5
+    return S.lay(img, key, S.INK)
+
+
+@functools.lru_cache(None)
+def _backdrop_photo(seed):
+    """Photographic-plate: the SAME carved blocks (same masks, same printed key), each refilled with the
+    Rol 1916 plate's own texture at the block's tone. No new architecture, no new figures."""
+    B = _blocks(seed); tex = _plate_tex(seed)
+    img = _photo_col(tex, S.PAPER, 0.8)
+    img = S.lay(img, B["shade"], _photo_col(tex, S.SHADE))
+    img = S.lay(img, S.print_block(B["tint"], seed, "tint-bg", starve=0, edge=0.25) * 0.9, _photo_col(tex, S.TINT))
+    img = S.lay(img, B["cut"] * 0.85, _photo_col(tex, S.SHADE))
+    img = S.lay(img, S.print_block(B["dtint"], seed, "dtint-bg", starve=0.05, edge=0.25) * 0.95, _photo_col(tex, S.DTINT))
+    img = S.lay(img, B["fcut"] * 0.85, _photo_col(tex, S.SHADE))
+    img = S.lay(img, _shop_hatch(seed) * B["dtint"] * 0.62, _photo_col(tex, S.SHADE))
+    key = S.print_block(B["key"], seed, "key-bg", starve=0.08)
+    OUTLINES[("backdrop", seed, "photographic-plate")] = key > 0.5
+    return S.lay(img, key, _photo_col(tex, S.INK, 0.7))
+
+
+S._backdrop_cut = _backdrop_cut
+S._backdrop_photo = _backdrop_photo
+
+
+def backdrop_outline(seed, tr):
+    """Binary key-block outline laid by the backdrop in treatment tr (SS px)."""
+    S.backdrop(seed, tr)
+    if (("backdrop", seed, tr)) not in OUTLINES:     # lru-cached before OUTLINES was filled in this process
+        (_backdrop_cut if tr == "cut-paper" else _backdrop_photo).__wrapped__(seed)
+    return OUTLINES[("backdrop", seed, tr)]
+
+
+@functools.lru_cache(None)
+def _crowd(seed, treatment):
+    """Waiting crowd from U1's Vilgrain 1919 GrabCut cutouts. One printed alpha for both treatments;
+    cut-paper = ink with a few cream gouge lines inside, photographic-plate = the cutouts' own greys."""
+    SS = SSs; Hd, Wd = H * SS, W * SS
+    alpha = np.zeros((Hd, Wd), np.float32); fill = np.full((Hd, Wd), 128, np.float32)
+    r = S.rng(seed, "crowd")
+    feet_y = S.side_ground_y(S.WORLD["crowd_z"])
+    plan = []
+    x = 728 + r.uniform(-4, 10)
+    for nm in CROWD_RIGHT:
+        plan.append((nm, x)); x += r.uniform(30, 44)
+    x = 6 + r.uniform(-6, 6)
+    for nm in CROWD_LEFT:
+        plan.append((nm, x)); x += r.uniform(40, 52)
+    for nm, x0 in plan:
+        g, a = _cut(nm)
+        ys = np.nonzero(a.sum(1) > 0)[0]
+        hh = ys.max() - ys.min() + 1
+        target = r.uniform(100, 114) * (0.86 if nm.startswith(("E_", "H_", "F_")) else 1.0)
+        sc = target / hh * SS
+        tw, th = max(1, int(a.shape[1] * sc)), max(1, int(a.shape[0] * sc))
+        cm = cv2.resize(a, (tw, th), interpolation=cv2.INTER_AREA)
+        cg = cv2.resize(g, (tw, th), interpolation=cv2.INTER_AREA)
+        X = int(x0 * SS); Y = int(feet_y * SS - ys.max() * sc)
+        x0_, y0_ = max(0, X), max(0, Y); x1_, y1_ = min(Wd, X + tw), min(Hd, Y + th)
+        if x1_ <= x0_ or y1_ <= y0_:
+            continue
+        aa = cm[y0_ - Y:y1_ - Y, x0_ - X:x1_ - X]
+        fill[y0_:y1_, x0_:x1_] = fill[y0_:y1_, x0_:x1_] * (1 - aa) + cg[y0_ - Y:y1_ - Y, x0_ - X:x1_ - X] * aa
+        alpha[y0_:y1_, x0_:x1_] = np.maximum(alpha[y0_:y1_, x0_:x1_], aa)
+    a = S.print_block(np.clip(alpha * 1.15, 0, 1), seed, "crowd", starve=0.04, edge=0.3)   # one outline, both treatments
+    if treatment == "cut-paper":
+        img = np.empty((Hd, Wd, 3), np.float32); img[:] = S.INK2
+        inner = cv2.erode((alpha > 0.5).astype(np.uint8), np.ones((5, 5), np.uint8)).astype(np.float32)
+        rr = S.rng(seed, "crowd-carve")
+        n = S.smooth_noise(rr, Hd, Wd, 2, 40)
+        streak = np.clip((n - 0.80) * 9, 0, 1)                 # sparse long horizontal gouges, fixed per seed
+        g = np.clip(fill / 255.0, 0, 1)
+        lit = np.clip((g - 0.62) * 4, 0, 1)                    # where the real 1919 cloth catches light
+        img = S.lay(img, np.clip(streak * 0.55 + lit * 0.45, 0, 1) * inner, S.SHADE)
+        return img, a
+    return S._grade(fill), a
+
+
+S._crowd = _crowd
+
+
+def bus_front(seed, treatment="cut-paper"):
+    """Stanchion + chain: same printed alpha in both treatments; photographic fill from the bus plate."""
+    hw = S._hardware(seed)
+    a = S.print_block(hw["front_ink"], seed, "front", starve=0, edge=0.2)
+    if treatment == "cut-paper":
+        img = np.empty(a.shape + (3,), np.float32); img[:] = S.INK
+    else:
+        dark, _ = S._photo_textures()
+        img = S._grade(dark * 0.8)
+    return S.to_rgba(img, a)
+
+
+S.bus_front = bus_front
+
+# ------------------------------------------------------------------ carved interior lines in the cut-paper puppets
+CARVE = tuple(S.PALETTE["shade"])
+
+
+def _carve_fill(P, pose_):
+    """INK fill with cream knife lines where a front part overlaps the body (sleeve over coat, coat
+    tail over leg, hat brim over head), the way a relief cutter separates parts inside a silhouette.
+    Derived from the drawn geometry only, so the lines move on twos and never boil."""
+    bb = R._bbox(P, pose_)
+    out = np.empty((H, W, 3), np.float32); out[:] = R.INK
+    if bb is None:
+        return out
+    x0, y0, x1, y1 = bb
+    k = 3
+    polys, _, _ = R.parts_world(P)
+    acc = Image.new("L", ((x1 - x0) * k, (y1 - y0) * k), 0); da = ImageDraw.Draw(acc)
+    lines = Image.new("L", acc.size, 0); dl = ImageDraw.Draw(lines)
+    for z, nm, p in polys:                             # back to front
+        q = [((u - x0) * k, (v - y0) * k) for u, v in p]
+        if nm in ("arm_n", "fore_n", "arm_f", "fore_f", "coat", "tail", "skirt", "hat", "thigh_n", "shin_n") or "hand" in nm:
+            prev = np.asarray(acc, np.uint8)
+            tmp = Image.new("L", acc.size, 0); ImageDraw.Draw(tmp).line(q + [q[0]], fill=255, width=k)
+            inside = cv2.erode(prev, np.ones((2 * k + 1, 2 * k + 1), np.uint8))
+            lines = Image.fromarray(np.maximum(np.asarray(lines), np.minimum(np.asarray(tmp), inside)))
+        da.polygon(q, fill=255)
+    ln = cv2.resize(np.asarray(lines, np.float32) / 255.0, (x1 - x0, y1 - y0), interpolation=cv2.INTER_AREA)
+    ln = np.clip(ln * 1.5, 0, 1)[..., None] * 0.85
+    reg = out[y0:y1, x0:x1]
+    out[y0:y1, x0:x1] = reg * (1 - ln) + np.array(CARVE, np.float32) * ln
+    return out
+
+
+def carve_fill(pose_):
+    f = {P["id"]: _carve_fill(P, pose_) for P in pose_["puppets"]}
+    f["default"] = R.INK
+    return f
+
+
+# ------------------------------------------------------------------ overhead: the rear-bay roof-light (seat A cell)
+# From above the seat is under the roof. The plan roof gets one cut opening over seat A (the rear bay
+# of the saloon), so the seat being vacated (A5v) and taken (A6) read as hat discs leaving/entering
+# the cell. Same world x/z as the side pose; nothing drawn from any RNG.
+CELL = (571.0, 184.0, 610.0, 283.0)      # plan screen px at rest (x0, y0, x1, y1)
+
+
+def cell_rect(dx):
+    x0, y0, x1, y1 = CELL
+    return (x0 + dx, y0, x1 + dx, y1)
+
+
+def seat_cell_mask(pose_, ids=None, ss=False):
+    """Plan forms of the seated (window-group) puppets, clipped to the roof-light cell."""
+    P2 = dict(pose_)
+    P2["puppets"] = [dict(q, plan_visible=True) for q in pose_["puppets"]
+                     if q["group"] == "window" and (ids is None or q["id"] in ids)]
+    m = R.plan_mask(P2, ss=True)
+    x0, y0, x1, y1 = cell_rect(pose_["dx"])
+    c = np.zeros_like(m); k = R.SS
+    c[int((y0 + 2) * k):int((y1 - 2) * k), int((x0 + 2) * k):int((x1 - 2) * k)] = 1
+    m = m * c
+    return m if ss else cv2.resize(m, (W, H), interpolation=cv2.INTER_AREA)
+
+
+def draw_cell(img, pose_):
+    seed = pose_["seed"]; r = S.rng(seed, "roof-light")
+    im, d = S.canvas(); fl, df = S.canvas(); bn, db = S.canvas()
+    x0, y0, x1, y1 = cell_rect(pose_["dx"])
+    S.wobbly_quad(d, r, x0 - 3, y0 - 3, x1 + 3, y1 + 3, amp=0.4)            # ink rim of the cut
+    S.wobbly_quad(df, r, x0, y0, x1, y1, amp=0.4)                           # saloon floor seen below
+    S.wobbly_quad(db, r, x0, y1 - 22, x1, y1 - 3, amp=0.3)                  # near-side bench
+    S.wobbly_quad(db, r, x0, y0 + 3, x1, y0 + 14, amp=0.3)                  # far-side bench
+    rim, flo, ben = S.arr(im), S.arr(fl), S.arr(bn)
+    base = np.asarray(img.convert("RGB"), np.float32)
+    big = cv2.resize(base, (W * SSs, H * SSs), interpolation=cv2.INTER_LINEAR)
+    big = S.lay(big, S.print_block(np.clip(rim - flo, 0, 1), seed, "cell-rim", starve=0, edge=0.2), S.INK)
+    big = S.lay(big, flo, S.SHADE)
+    big = S.lay(big, S.print_block(ben, seed, "cell-bench", starve=0, edge=0.2) * 0.9, S.TINT)
+    out = S.to_rgba(big)
+    a = R.print_puppets(seat_cell_mask(pose_, ss=True), seed)[..., None]
+    o = np.asarray(out, np.float32).copy()
+    o[..., :3] = o[..., :3] * (1 - a) + np.array(R.INK, np.float32) * a
+    return Image.fromarray(np.clip(o, 0, 255).astype(np.uint8), "RGBA")
+
 # ------------------------------------------------------------------ render(M, seed, t)
 def render(M, seed, t):
     """One clip frame (untagged RGB) for manifest M at clip time t."""
     seed = int(seed)
     P = R.pose(seed, t)
     if M["camera"] == "overhead":
-        img = S.plan_stage(seed, t)
+        img = draw_cell(S.plan_stage(seed, t), P)
         return R.draw_plan(img, P, R.INK).convert("RGB")
     tr = M["treatment"]
     dx = P["dx"]
@@ -161,7 +371,7 @@ def render(M, seed, t):
         tile, (cx, cy) = S.wheel(seed, name, S.wheel_angle_for(travel), tr)
         layers.append((tile, (cx + dx - tile.size[0] / 2, cy - tile.size[1] / 2)))
     img = S.compose(layers)
-    fill = R.INK if tr == "cut-paper" else photo_fill(P)
+    fill = carve_fill(P) if tr == "cut-paper" else photo_fill(P)
     halo = True                      # the cleared rim: a cut edge, in both treatments (fill-independent)
     img = R.draw_side(img, P, fill, group="window", halo=halo)
     img = R.draw_side(img, P, fill, group="platform", halo=halo)
@@ -288,7 +498,7 @@ def card_manifest(k):
     return img
 
 
-def card_delta(k, field, old, new, effect):
+def card_delta(k, field, old, new, effect, note=""):
     """S3/S6: the changed line is struck through over 6 frames, then the new value is typed."""
     img = _paper(); d = ImageDraw.Draw(img)
     dtext(d, (64, 56), f"Δ {field}", kit.font("serif", 50), INKC)
@@ -313,6 +523,8 @@ def card_delta(k, field, old, new, effect):
     if k > 30:
         d.text((64, 410), f"diff keys: {{{field}}}   (asserted: exactly one)", font=kit.font("mono", 15), fill=INKC)
         d.text((64, 434), f"intended effect: “{effect}”", font=kit.font("mono", 15), fill=INKC)
+        if note:
+            d.text((64, 460), note, font=kit.font("mono", 13), fill=DTINT)
     return img
 
 
@@ -337,22 +549,31 @@ def card_coverage(k):
     ie = C["intended_effect_rate"]
     lost = C["lost_anchor_ids"]["d-camera"]; part = C["partial_anchor_ids"]["d-camera"]
     pred = C["predicted_losses_overhead"]["predicted"]
-    iou = C["outline_iou"]["puppets"]["min"]
-    au = pcm_report()
+    iou = min(C["outline_iou"]["puppets"]["min"], C["outline_iou"].get("stage_min", 0.0))
+    au = C.get("audio_pcm", {})
+    if au.get("status") == "measured" and au.get("identical"):
+        snd = "bed+bell PCM identical: 6 clip windows + grid"
+        sha = next(iter(au["clips"].values()))["pcm_sha1"]
+        snd2 = "pre-encode sha1 %s (7 of 7)" % sha[:16]
+    else:
+        snd = "PCM identity NOT verified (%s)" % au.get("status", "missing"); snd2 = ""
+    aac = au.get("aac_decoded") or {}
+    snd3 = ("AAC 96k is lossy: decoded windows differ, min SNR %.0f dB" % aac["min_snr_db"]) if aac.get("min_snr_db") is not None else "AAC 96k is lossy: decoded windows not bit-identical"
     rows = [
         ("intended effect", ""),
         ("  baseline", ie["baseline"]["rate"]),
-        ("  Δ treatment", ie["d-treatment"]["rate"] + f" · IoU {iou:.1f}"),
+        ("  Δ treatment", ie["d-treatment"]["rate"] + f" · IoU {iou:.1f} all layers"),
         ("  Δ camera", ie["d-camera"]["rate"] + " · shove = shift"),
         ("lost in overhead", " ".join(lost)),
-        ("  predicted", " ".join(pred) + " · others unpredicted"),
+        ("  predicted", " ".join(pred) + (" · others unpredicted" if set(lost) - set(pred) else " · no others")),
         ("partial in overhead", " ".join(part)),
         ("seeds", "procedural generator, seeds repeatable,"),
         ("", "verified by frame hash (frames 0 29 132 × 6)"),
         ("", "seed moves runners (7 vs 8) only;"),
         ("", "protected masks identical"),
-        ("sound", ("bed + bell PCM identical in all 7 clip windows" if au["identical"] else "PCM DIFFERS across clip windows")),
-        ("", "sha1 " + au["sha1"][0][:16] + " · hold: declared silence"),
+        ("sound", snd),
+        ("", snd2),
+        ("", snd3 + " · hold: silence"),
         ("not claimed", "anything about text-to-video"),
         ("", "generators in general"),
     ]
@@ -376,6 +597,12 @@ def card_coverage(k):
                f"{ce['observed']['runners_side']} side", font=kit.font("mono", 12), fill=INKC)
         for j, b in enumerate(ce["broken"]):
             d.text((x0, y0 + st.size[1] + 34 + j * 15), ("fails: " if j == 0 else "       ") + b, font=kit.font("mono", 11), fill=INKC)
+    if k > 20:
+        d = ImageDraw.Draw(img)
+        d.text((42, 500), "photographs: Agence Rol 1916, 1919 (BnF Gallica via Wikimedia Commons, public domain) · street: cori (PD) · bell: qubodup (CC0)",
+               font=kit.font("mono", 10), fill=DTINT)
+        d.text((42, 515), "engine: Work With Sounds / Technical Museum of Slovenia, WWS CityBusMANSG220engine, CC BY 4.0 · everything else handmade",
+               font=kit.font("mono", 10), fill=DTINT)
     return img
 
 
@@ -439,7 +666,8 @@ SHOTS = [  # (start, end, kind, args)
     (0.0, 4.0, "card0", None),
     (4.0, 11.0, "clip", ("baseline", 417)),
     (11.0, 18.0, "clip", ("baseline", 418)),
-    (18.0, 20.0, "delta", ("treatment", "cut-paper", "photographic-plate", "same outlines, photographic fill")),
+    (18.0, 20.0, "delta", ("treatment", "cut-paper", "photographic-plate", "same outlines, photographic fill",
+                           "fill = Rol 1916 bus + facade/cobble texture, Rol 1919 crowd + cloth; board handmade")),
     (20.0, 27.0, "clip", ("d-treatment", 417)),
     (27.0, 34.0, "clip", ("d-treatment", 418)),
     (34.0, 36.0, "delta", ("camera", "street-side", "overhead", "plan view; shove as displacement")),

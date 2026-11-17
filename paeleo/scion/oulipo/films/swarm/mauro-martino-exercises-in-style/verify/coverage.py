@@ -57,13 +57,17 @@ def rel(p):
         return str(p)
 
 
-def load_rig():
-    spec = importlib.util.spec_from_file_location("rig", WS / "rig/rig.py")
-    R = importlib.util.module_from_spec(spec); sys.modules["rig"] = R; spec.loader.exec_module(R)
-    return R, R.stage()
+def load_film():
+    """Import the delivered film script as a module (no rendering): its render(M, seed, t) is the
+    render path checked here, with its stage rebinds (Vilgrain/Wilson crowd and fills, outline-
+    preserving photographic layers, roof-light cell) applied to stage.py/rig.py in-process."""
+    sys.path.insert(0, str(ROOT / "films"))
+    spec = importlib.util.spec_from_file_location("mmes_film", SCRIPT)
+    F = importlib.util.module_from_spec(spec); sys.modules["mmes_film"] = F; spec.loader.exec_module(F)
+    return F, F.R, F.S
 
 
-R, S = load_rig()
+F, R, S = load_film()
 
 
 # ================================================================== (1) manifests + PromptDeltas
@@ -97,7 +101,8 @@ def manifests():
                               "same seeds, same anchor times, same runner count; long neck and seat-in-window predicted lost"),
          dict(id="d-treatment", baseline_hash=h0, field="treatment", old="cut-paper", new="photographic-plate",
               intended_effect="same outlines, photographic fill: every puppet outline identical (IoU 1.0), the bus, facade and cobbles "
-                              "in the 1916 plate's own greys, puppet parts filled with 1933 coat texture")]
+                              "refilled with Rol 1916 plate texture inside the baseline's carved outlines, crowd in the Rol 1919 cutouts' own greys, "
+                              "puppet parts filled with Rol 1919 cloth swatches")]
     out = dict(schema=dict(Manifest="{scene, camera, treatment, seeds, duration, fps, drawings_per_second, size, generator_rev, destination}",
                            PromptDelta="{baseline_hash, field, old, new, intended_effect}"),
                canonical_form="json.dumps(m, sort_keys=True, separators=(',', ':'), ensure_ascii=False); sha1 of UTF-8",
@@ -120,16 +125,8 @@ def manifests():
 
 # ================================================================== rendering the six samples
 def render(cond, seed, t):
-    """One sample frame (RGB PIL). The photographic fill is the rig's 1933 coat-texture fill."""
-    if cond == "baseline":
-        im, _ = R.side_frame(seed, t, "cut-paper")
-    elif cond == "d-treatment":
-        im, _ = R.side_frame(seed, t, "photographic-plate", fill=R._bourse_fill())
-    elif cond == "d-camera":
-        im, _ = R.plan_frame(seed, t)
-    else:
-        raise ValueError(cond)
-    return im.convert("RGB")
+    """One sample frame (RGB PIL), exactly as the film renders it: F.render(F.manifest(cond), seed, t)."""
+    return F.render(F.manifest(cond), seed, t).convert("RGB")
 
 
 def frame_hash(im):
@@ -280,9 +277,13 @@ def cover(cond, seed):
                     why = "plan arm bars of the man %d px: the open hand raised toward the jostler projects only as a short bar; head turn not readable from above" % px
                 else:
                     mask = R.plan_mask(Pz, ids=("man",)); px = int((mask > 0.3).sum())
-                    if aid in ("A6", "A6w"):
+                    if aid == "A6":
+                        mask = F.seat_cell_mask(Pz, ids=("man",)); px = int((mask > 0.3).sum())
                         status = "visible" if px > 20 else "lost"
-                        why = "man plan px at t %.2f: %d (plan_visible=%s; he is under the roof)" % (t, px, M.get("plan_visible"))
+                        why = "man's hat disc + cord ring inside the rear-bay roof-light cell at t %.2f: %d px (seat A taken, seen from above)" % (t, px)
+                    elif aid == "A6w":
+                        mask = np.zeros((R.H, R.W), np.float32); px = 0; status = "lost"
+                        why = "the rear side pane is a feature of the side elevation; from above there is no window to see the seat through (the seat itself reads via the roof-light, A6)"
                     else:
                         status = "partial" if px > 20 else "lost"
                         why = "man plan px %d: his disc moves toward the bulkhead; the stoop itself has no plan form" % px
@@ -294,7 +295,10 @@ def cover(cond, seed):
                 status = "visible" if abs(int((m0 > 0.3).sum()) - px) > 50 else "partial"
                 why = "window-group px %d at t 4.0 vs %d at t 3.5 (seed vacates %s)" % (px, int((m0 > 0.3).sum()), Pz["vacate"])
             else:
-                px = 0; status = "lost"; why = "seated passengers are under the roof (plan_visible False)"
+                mask = F.seat_cell_mask(Pz); px = int((mask > 0.3).sum())
+                m0 = F.seat_cell_mask(R.pose(seed, 3.5)); px0 = int((m0 > 0.3).sum())
+                status = "visible" if abs(px0 - px) > 50 else ("partial" if abs(px0 - px) > 0 else "lost")
+                why = "roof-light cell: seated plan px %d at t 3.5 vs %d at t 4.0 (p1 slides out of seat A)" % (px0, px)
         elif aid == "A7":
             if side:
                 Pb = R.pose(seed, 5.80 + 1e-6)
@@ -352,25 +356,32 @@ def iou(a, b):
 
 def outline_iou():
     frames = sorted(set(list(range(0, NF, 8)) + [int(round(ANCHOR_T[k] * FPS)) for k in ANCHOR_T] + [29, 132]))
-    rows = []; photo = R._bourse_fill()
+    rows = []
     for s in SEEDS:
         for f in frames:
             Pz = R.pose(s, f / FPS)
-            rows.append(dict(seed=s, f=f, iou=iou(puppet_alpha(Pz, R.INK), puppet_alpha(Pz, photo))))
+            rows.append(dict(seed=s, f=f, iou=iou(puppet_alpha(Pz, F.carve_fill(Pz)), puppet_alpha(Pz, F.photo_fill(Pz)))))
     st = {}
-    for nm, fn in (("bus_body", lambda s, tr: S.bus_body(s, tr)), ("bus_front", lambda s, tr: S.bus_front(s, tr)),
-                   ("wheel_front", lambda s, tr: S.wheel(s, "front", 0.0, tr)[0]), ("crowd", lambda s, tr: S.crowd(s, tr))):
+    for nm, fn in (("backdrop_key_blocks", lambda s, tr: F.backdrop_outline(s, tr)),
+                   ("crowd", lambda s, tr: S.crowd(s, tr)), ("bus_shadow", lambda s, tr: S.bus_shadow(s, 0.0)),
+                   ("bus_body", lambda s, tr: S.bus_body(s, tr)), ("bus_front", lambda s, tr: S.bus_front(s, tr)),
+                   ("bell_tassel", lambda s, tr: S.bell_tassel(s, 0.6, tr)),
+                   ("wheel_front", lambda s, tr: S.wheel(s, "front", 37.0, tr)[0]), ("wheel_rear", lambda s, tr: S.wheel(s, "rear", 37.0, tr)[0])):
         vals = []
         for s in SEEDS:
-            a = np.asarray(fn(s, "cut-paper"))[..., 3] > 127; b = np.asarray(fn(s, "photographic-plate"))[..., 3] > 127
+            a, b = fn(s, "cut-paper"), fn(s, "photographic-plate")
+            a = a if isinstance(a, np.ndarray) else np.asarray(a)[..., 3] > 127
+            b = b if isinstance(b, np.ndarray) else np.asarray(b)[..., 3] > 127
             vals.append(round(iou(a, b), 5))
         st[nm] = vals
     v = [r["iou"] for r in rows]
+    smin = min(min(x) for x in st.values())
+    assert min(v) == 1.0 and smin == 1.0, ("outline leak between treatments", min(v), st)
     return dict(puppets=dict(frames_checked=len(rows), min=min(v), all_equal_1=all(x == 1.0 for x in v),
-                             method="draw_side on a transparent layer with fill=INK vs fill=1933 coat texture; alpha>127; IoU per frame, both seeds",
+                             method="rig.draw_side on a transparent layer with the film's cut-paper fill (ink + carved lines) vs its photographic fill (Rol 1919 swatches); alpha>127; IoU per frame, both seeds",
                              worst=sorted(rows, key=lambda r: r["iou"])[:3]),
-                stage_layers_iou_seed417_418=st,
-                note="Stage layer outlines are reported, not asserted: the photographic bus/crowd may use the plate's own cutout alpha.")
+                stage_layers_iou_seed417_418=st, stage_min=smin, asserted=True,
+                note="Asserted 1.0 for puppets and every stage layer (backdrop key blocks as laid, crowd, bus shadow, bus body, bus front, bell tassel, both wheels): Δ treatment changes fill only.")
 
 
 # ================================================================== (3c) protected-mask identity between seeds
@@ -437,34 +448,50 @@ def replay():
 
 # ================================================================== (3e) audio
 def audio_hashes():
-    txt = SCRIPT.read_text() if SCRIPT.exists() else ""
-    if not ("photographic-plate" in txt and "rig" in txt):
-        return dict(status="pending", reason="the editor's rebuilt film script (%s) does not exist yet (the file present is the earlier "
-                                              "kit_cinema_b draft); rerun coverage.py after the editor's mix exists" % rel(SCRIPT))
-    sys.path.insert(0, str(ROOT / "films"))
     import kit
-    kit.Film.render = lambda self, *a, **k: None          # build the film object only; never encode
-    g = runpy.run_path(str(SCRIPT), run_name="coverage_import")
-    film = next(v for v in g.values() if isinstance(v, kit.Film))
+    film = F.film
     mix = kit.Mix(film.seconds, seed=film.seed)
     if film._sound:
         film._sound(mix)
     pcm = mix.master(); rate = kit.RATE; arr_ = np.asarray(pcm).reshape(-1, 2)
     rows = {}
-    for (c, s), at in CLIP_AT.items():
+    wins = dict(("%s/%04d" % k, v) for k, v in CLIP_AT.items()); wins["grid/S9"] = 50.0
+    for k, at in wins.items():
         a0 = int(round(at * rate)); a1 = a0 + int(round(7.0 * rate))
-        rows["%s/%04d" % (c, s)] = dict(film_window=[at, at + 7.0], samples=[a0, a1], pcm_sha1=sha1b(arr_[a0:a1].tobytes()))
+        rows[k] = dict(film_window=[at, at + 7.0], samples=[a0, a1], pcm_sha1=sha1b(arr_[a0:a1].tobytes()))
     hs = {r["pcm_sha1"] for r in rows.values()}
-    return dict(status="measured", rate=rate, clips=rows, identical=len(hs) == 1,
-                method="kit.Mix rebuilt in-process from the film script's sound function (Film.render patched to a no-op); s16 PCM sliced per clip window")
+    # stems (before mastering): the one clip track the script lays under every window
+    stem = np.asarray(F.clip_audio())
+    out = dict(status="measured", rate=rate, clips=rows, identical=len(hs) == 1, windows=len(rows),
+               stem_sha1=sha1b(np.ascontiguousarray(stem).tobytes()),
+               method="kit.Mix rebuilt in-process from the film module's sound function, mastered exactly as Film.render does, s16 PCM sliced per 7.0 s window "
+                      "(6 clip windows + the S9 grid window), hashed BEFORE the AAC encode")
+    mp4 = ROOT / "assets/films" / (SLUG + ".mp4")
+    if mp4.exists():
+        raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", str(mp4), "-f", "s16le", "-ac", "2", "-ar", str(rate), "-"],
+                             check=True, capture_output=True).stdout
+        dec = np.frombuffer(raw, np.int16).reshape(-1, 2).astype(np.float64)
+        ref = None; snr = {}
+        for k, r_ in rows.items():
+            a0, a1 = r_["samples"]
+            seg = dec[a0:a1]
+            if ref is None:
+                ref = seg
+            n = min(len(ref), len(seg))
+            e = seg[:n] - ref[:n]
+            snr[k] = None if k == next(iter(rows)) else round(10 * math.log10((ref[:n] ** 2).mean() / max((e ** 2).mean(), 1e-9)), 1)
+        vals = [v for v in snr.values() if v is not None]
+        out["aac_decoded"] = dict(file=rel(mp4), file_sha1=sha1f(mp4), snr_db_vs_first_window=snr, min_snr_db=min(vals),
+                                  note="the mp4's AAC 96 kb/s track is lossy and its 1024-sample frames do not align with the 7.0 s windows, "
+                                       "so decoded windows are NOT bit-identical; identity is claimed for the PCM before encoding only")
+    return out
 
 
 # ================================================================== (4) counterexample: RNG-coupled overhead projector
 def project_honest(seed, t):
     """The real overhead projector: plan forms from the side pose's world (x, z); draws no RNG."""
     Pz = R.pose(seed, t)
-    img = S.plan_stage(seed, t)
-    return R.draw_plan(img, Pz, R.INK).convert("RGB"), Pz
+    return render("d-camera", seed, t), Pz
 
 
 def project_drift(seed, t):
@@ -485,7 +512,7 @@ def project_drift(seed, t):
         q["x"] = float(shared.uniform(40, 700)); q["z"] = float(shared.uniform(*S.WORLD["runner_z"]))
         new_street.append(q)
     P2 = dict(Pz); P2["puppets"] = rest + new_street
-    img = S.plan_stage(seed, t)
+    img = F.draw_cell(S.plan_stage(seed, t), P2)
     return R.draw_plan(img, P2, R.INK).convert("RGB"), P2
 
 
@@ -544,7 +571,7 @@ def check_projector(proj, label):
 
 
 def counterexample():
-    good = check_projector(project_honest, "rig.plan_frame (accepted)")
+    good = check_projector(project_honest, "film render, camera=overhead (accepted)")
     bad = check_projector(project_drift, "project_drift: RNG-coupled overhead projector (built on purpose)")
     # strip: seed 0417 at t 1.00 / 1.20 / 1.333 - side baseline, accepted overhead, rejected overhead
     ts = (1.0, 1.2, 4 / 3); tw, th = 400, 225
@@ -612,7 +639,10 @@ def comparison_sheet():
     cw, ch = 480, 270; t = 1.20 + 1e-6
     ref = Image.open(REF).convert("RGB")
     base = render("baseline", 417, t)
-    mb, mr = measure(base), measure(ref)
+    film_k = int(round(5.2 * FPS))
+    film_frame = F.film.frame(film_k).convert("RGB")          # the delivered film's frame 0:05.2 (tag included)
+    film_frame.save(MEDIA / "film_0005.2.png")
+    mb, mr = measure(film_frame), measure(ref)
     H2 = 360; bw = int(960 * H2 / 540); rw = int(ref.size[0] * H2 / ref.size[1])
     Wt = max(2 * cw + 40, bw + rw + 60)
     sheet = Image.new("RGB", (Wt, 50 + 3 * (ch + 30) + 30 + H2 + 150), PAPER_TOK); d = ImageDraw.Draw(sheet)
@@ -629,12 +659,12 @@ def comparison_sheet():
             d.rectangle([x, y, x + 12 + int(d.textlength(lab, font=font(12))), y + 21], fill=INK_TOK)
             d.text((x + 6, y + 3), lab, fill=PAPER_TOK, font=font(12))
     y = 50 + 3 * (ch + 30) + 20
-    d.text((20, y - 4), "baseline frame (film 0:05.2) beside martinoCharcoal.webp at equal height (reference consulted, never copied)", fill=INK_TOK, font=font(13))
+    d.text((20, y - 4), "film frame 0:05.2 (frame %d of the film's own frame function, = clip t %.3f) beside martinoCharcoal.webp at equal height (reference consulted, never copied)" % (film_k, film_k / FPS - 4.0), fill=INK_TOK, font=font(12))
     y += 18; xb = (Wt - bw - rw - 30) // 2
-    sheet.paste(base.resize((bw, H2), Image.LANCZOS), (xb, y)); sheet.paste(ref.resize((rw, H2), Image.LANCZOS), (xb + bw + 30, y))
+    sheet.paste(film_frame.resize((bw, H2), Image.LANCZOS), (xb, y)); sheet.paste(ref.resize((rw, H2), Image.LANCZOS), (xb + bw + 30, y))
     for k, (m, x) in enumerate(((mb, xb), (mr, xb + bw + 30))):
         p = m["p2_25_50_75_98"]
-        lines = ["%s" % ("FILM baseline seed 0417" if k == 0 else "REFERENCE martinoCharcoal"),
+        lines = ["%s" % ("FILM 0:05.2 baseline seed 0417" if k == 0 else "REFERENCE martinoCharcoal"),
                  "p2/25/50/75/98  %d/%d/%d/%d/%d" % tuple(p), "mid L70-170  %.1f %%   chroma %.1f" % (100 * m["mid_70_170"], m["chroma"]),
                  "paper #%02x%02x%02x  ΔE %.1f to #eee6d6" % (tuple(m["paper_rgb"]) + (m["dE76_paper_to_eee6d6"],)),
                  "ink   #%02x%02x%02x  ΔE %.1f to #22211f" % (tuple(m["ink_rgb"]) + (m["dE76_ink_to_22211f"],))]
@@ -645,7 +675,7 @@ def comparison_sheet():
     for c in CONDS:
         for s in SEEDS:
             meas["%s/%04d" % (c, s)] = measure(Image.open(MEDIA / ("sample_%s_%04d_t1.20.png" % (c, s))))
-    return dict(baseline=mb, reference=mr, bar5_baseline=bar5(mb), bar5_pass=all(bar5(mb).values()), all_samples=meas, frame_sha1=hashes)
+    return dict(baseline=mb, baseline_frame="film frame %d (0:05.2), %s" % (film_k, rel(MEDIA / "film_0005.2.png")), reference=mr, bar5_baseline=bar5(mb), bar5_pass=all(bar5(mb).values()), all_samples=meas, frame_sha1=hashes)
 
 
 # ================================================================== (2) render attempts
@@ -666,9 +696,9 @@ def render_attempts(files_read, replay_doc, man):
             at = CLIP_AT[(c, s)]
             rows.append(dict(id="%s/%04d" % (c, s), shot=SHOT[(c, s)], engine="kit.py procedural animatic", generator_rev=rev, manifest_sha1=mid[c], seed=s,
                              settings=dict(fps=FPS, size=[960, 540], duration=7.0, frames=NF, drawings="on twos (12/s)",
-                                           projection="plan (rig.plan_frame)" if c == "d-camera" else "side elevation (rig.side_frame)",
+                                           projection="plan (film render: stage.plan_stage + roof-light cell + rig.draw_plan)" if c == "d-camera" else "side elevation (film render)",
                                            treatment="photographic-plate" if c == "d-treatment" else "cut-paper",
-                                           puppet_fill="rig._bourse_fill() (1933 coat texture)" if c == "d-treatment" else "INK (34,33,31)"),
+                                           puppet_fill="film photo_fill: Rol 1919 cloth swatches" if c == "d-treatment" else ("INK + carved lines" if c == "baseline" else "INK")),
                              conditioning=dict(exposure_sheet_sha1=sha1f(exp), anchors_sha1=sha1f(anc), plates_sha1=plates),
                              output=dict(film_seconds=[at, at + 7.0], film_frames=[int(round(at * FPS)), int(round(at * FPS)) + NF - 1],
                                          defining_beat_film_t=round(at + 1.2, 2),
@@ -685,40 +715,34 @@ def render_attempts(files_read, replay_doc, man):
 
 # ================================================================== evidence
 def evidence(files_read):
-    def meta(name):
-        p = MEDIA / "meta" / name
-        try:
-            d = json.loads(p.read_text()); ii = list(d["query"]["pages"].values())[0]["imageinfo"][0]; e = ii["extmetadata"]
-            return dict(url=ii["url"], sha1=ii["sha1"], lic=e["LicenseShortName"]["value"], lic_code=e.get("License", {}).get("value"),
-                        date=e.get("DateTimeOriginal", {}).get("value", "").split("<")[0], file=rel(p))
-        except Exception:
-            return None
-    rol, bou = meta("rol.json"), meta("bourse.json")
-    old_rol = ROOT / "films/sources" / SLUG / "test-shot/rol-meta.json"
-    F = [dict(id="F1-rol1916", title="1-6-16, nouvel autobus Madeleine-Bastille : [photographie de presse] / [Agence Rol]",
-              author="Agence Rol (Bibliotheque nationale de France, Gallica)", license=(rol or {}).get("lic", "Public domain"), license_url="",
-              source_url="https://commons.wikimedia.org/wiki/File:1-6-16,_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
-              file_url=(rol or {}).get("url", "https://upload.wikimedia.org/wikipedia/commons/e/ee/1-6-16%2C_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg"),
-              local_path=rel(S.ROL), local_sha1=sha1f(S.ROL),
-              what_it_shows="CGO motor bus on the Madeleine-Bastille line, Paris, 1 June 1916; Grand Hotel facade at right; cobbled roadway",
-              verified_date_or_place=("Commons extmetadata re-read 2026-11-17 by U4: LicenseShortName '%s', License '%s', DateTimeOriginal %s (%s)" % (rol["lic"], rol["lic_code"], rol["date"], rol["file"])) if rol else
-              "U4 re-read refused (HTTP 429 after backoff); relies on the 2026-11-16 extmetadata read (LicenseShortName 'Public domain', License 'pd', 1916): %s" % rel(old_rol),
-              used_as="(verifier) rendered through stage.py in every sample: printed bus/wheels in baseline and overhead-adjacent sheets, own greys in Δ treatment; frames on comparison-sheet.jpg"),
-         dict(id="F2-bourse1933", title="Greve des autobus - Place de la Bourse, le public attendant la reprise",
-              author="Peyriras (photographe, actif vers 1930) (Bibliotheque nationale de France, Gallica)", license=(bou or {}).get("lic", "unverified"), license_url="",
-              source_url="https://commons.wikimedia.org/wiki/File:Gr%C3%A8ve_des_autobus_-_Place_de_la_Bourse,_le_public_attendant_la_reprise_-_btv1b90350369.jpg",
-              file_url=(bou or {}).get("url", ""), local_path=rel(S.BOURSE), local_sha1=sha1f(S.BOURSE),
-              what_it_shows="crowd in overcoats and hats waiting during the 1933 Paris bus strike, Place de la Bourse",
-              verified_date_or_place=("Commons extmetadata re-read 2026-11-17 by U4: LicenseShortName '%s', License '%s', DateTimeOriginal %s (%s); "
-                                      "PD basis is the Commons/Gallica tag, the photographer's death date is not given" % (bou["lic"], bou["lic_code"], bou["date"], bou["file"])) if bou else "unverified",
-              used_as="(verifier) crowd mid-layer in the side samples; rig._bourse_fill() coat texture for puppet parts in the Δ treatment samples")]
-    derived = sorted(rel(p) for p in files_read if "/films/sources/" in p and Path(p).exists() and "/commons/" not in p)
-    return dict(foraged=F, derived_plates_read_by_renders=derived,
-                handmade=[dict(item="coverage harness, per-anchor masks, outline IoU, replay, RNG probe", where=rel(Path(__file__))),
+    """Foraged = exactly the rows of films/credits/<slug>.json (what appears in the film), joined to U1's
+    plates.json ledger for local paths, sha1s and the licence read. The dropped 1933 plate is an absence."""
+    credits = json.loads((ROOT / "films/credits" / (SLUG + ".json")).read_text())
+    ledger = {r["id"]: r for r in json.loads((WS / "plates/plates.json").read_text())["items"]}
+    key = {"1-6-16": "rol1916", "Mars 1919": "vilgrain1919", "14-3-19": "wilson1919", "WWS City": "engine", "Bell-ring": "bell", "Sunday in": "street"}
+    rows = []
+    for c in credits:
+        lid = next(v for k, v in key.items() if c["title"].startswith(k))
+        L = ledger.get(lid, {})
+        lp = ROOT / L["local_path"] if L.get("local_path") else None
+        rows.append(dict(c, id="F-" + lid, local_path=L.get("local_path"), local_sha1=sha1f(lp) if lp and lp.exists() else None,
+                         read_by_film_render=bool(lp) and any(p == str(lp.resolve()) for p in files_read) if lid not in ("engine", "bell", "street") else "audio (mix)",
+                         verified=L.get("verified_date_or_place", "")))
+    derived = sorted(rel(p) for p in files_read if "/films/sources/" in p and Path(p).exists())
+    bourse_read = any("bourse1933" in p for p in files_read)
+    assert not bourse_read, "the dropped 1933 plate was read by a film render"
+    return dict(foraged=rows, files_read_by_film_renders=derived, bourse1933_read_by_any_render=bourse_read,
+                handmade=[dict(item="carved facade/arcade/pavement blocks, platform, board, plan stage, roof-light cell, puppets and their carved lines, cards",
+                               where="stage/stage.py, rig/rig.py, films/%s.py" % SLUG),
+                          dict(item="coverage harness, per-anchor masks, outline IoU, replay, RNG probe", where=rel(Path(__file__))),
                           dict(item="counterexample RNG-coupled overhead projector (rejected)", where=rel(Path(__file__)) + " project_drift; frames in " + rel(MEDIA / "quarantine")),
                           dict(item="comparison sheet, mask sheets, rejected-drift strip", where=rel(MEDIA))],
-                absences=["U4 foraged nothing new; the only network requests were two Commons extmetadata re-reads for F1/F2",
-                          "no audio mix to hash yet (editor's rebuilt script not present); PCM hashes pending"])
+                absences=[dict(id="F2-bourse1933", title="Greve des autobus - Place de la Bourse, le public attendant la reprise (Peyriras, 1933)",
+                               status="dropped: Commons tags it PD France only, with no US rationale; a 1933 photograph is probably under restored US copyright, so not verifiably PD",
+                               check="no film render reads films/sources/%s/commons/bourse1933.jpg (traced: %s)" % (SLUG, not bourse_read)),
+                          "nothing usable came from the Moving Image Archive cache (U1 logged the 28 sound-clip matches as narrated, scored or hiss)",
+                          "no openly licensed pre-1930 motorbus engine or conductor's bell on Commons: a 1991 diesel and a bicycle bell stand in (declared)",
+                          "U4 foraged nothing new"])
 
 
 # ================================================================== main
@@ -780,6 +804,7 @@ def main():
     lost = {c: sorted({a for s in SEEDS for a, v in samples["%s/%04d" % (c, s)].items() if v["status"] == "lost"}) for c in CONDS}
     partial = {c: sorted({a for s in SEEDS for a, v in samples["%s/%04d" % (c, s)].items() if v["status"] == "partial"}) for c in CONDS}
     pred = ["A-neck", "A6w"]
+    assert "A6" not in lost["d-camera"], "protected action A6 (seat taken) lost in overhead"
     doc = dict(
         film=SLUG, unit="U4 verify", run_seconds=round(time.time() - t0), generator_rev=ra["generator_rev"]["sha1"],
         manifests=dict(baseline_sha1=man["baseline"]["sha1"], deltas={d["id"]: dict(field=d["field"], diff_keys=d["diff_keys"], ok=d["assert_diff_eq_field"]) for d in man["deltas"]},
