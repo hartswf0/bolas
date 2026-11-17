@@ -262,17 +262,23 @@ def stranger(cv, at, s=1.0, f=-1, seed=0):
     pen(cv, p([(-11, -372), (-12, -352)]), 3, seed + 13)
     pen(cv, p([(11, -372), (12, -352)]), 3, seed + 14)
     # face: a smaller oval, lashes, a cupid's-bow mouth
-    pen(cv, p(oval(0, -412, 34, 42)), 4.2, seed + 15, closed=True)
-    pen(cv, p(oval(14, -414, 4.5, 3, 8)), 2.5, seed + 16, closed=True)                           # eye
-    pen(cv, p([(10, -419), (6, -426)]), 2.2, seed + 17)                                           # lashes
-    pen(cv, p([(16, -420), (15, -428)]), 2.2, seed + 18)
-    pen(cv, p([(20, -419), (24, -425)]), 2.2, seed + 19)
+    # the face oval only below the cloche's brim (the hat hides the brow and crown)
+    brim = lambda x: -404 + (x + 48) * (-32 / 102)
+    fo = oval(0, -412, 34, 42, 48)
+    vis = [q[1] > brim(q[0]) + 2 for q in fo]
+    k0 = next(i for i in range(len(fo)) if vis[i] and not vis[i - 1])
+    arc = [fo[(k0 + i) % len(fo)] for i in range(len(fo)) if vis[(k0 + i) % len(fo)]]
+    pen(cv, p(arc), 4.2, seed + 15)
+    pen(cv, p(oval(14, -414, 5, 3.2, 8)), 2.6, seed + 16, closed=True)                           # eye
+    pen(cv, p([(12, -418), (8, -426)]), 2.6, seed + 17)                                           # lashes
+    pen(cv, p([(19, -418), (21, -427)]), 2.6, seed + 18)
     pen(cv, p([(31, -418), (39, -402), (31, -398)]), 3, seed + 20)                                # nose
     pen(cv, p([(16, -386), (21, -390), (24, -387), (27, -390), (31, -386), (24, -381), (16, -386)]), 2.6, seed + 21)  # lips
     pen(cv, b3.circle_pts(*p([(-26, -394)])[0], 3.6 * s, 8), 2.6, seed + 22, closed=True)          # earring
     # bobbed hair below the hat: curls at the nape and a kiss curl on the cheek
-    pen(cv, p([(-34, -430), (-46, -412), (-42, -392), (-52, -380), (-42, -366), (-30, -372)]), 3.5, seed + 23)
-    pen(cv, p([(-30, -404), (-36, -388), (-28, -380)]), 3, seed + 24)
+    pen(cv, p([(-46, -404), (-50, -388), (-56, -376), (-48, -362), (-36, -366), (-28, -360), (-22, -370)]), 3.8, seed + 23)
+    for k, (hx, hy) in enumerate(((-40, -398), (-32, -400), (-24, -402))):                       # the bob, hatched
+        pen(cv, p([(hx, hy), (hx - 6, hy + 16), (hx + 2, hy + 30)]), 3, seed + 40 + k)
     pen(cv, p([(30, -436), (36, -426), (28, -420), (24, -428), (30, -432)]), 2.8, seed + 25)    # kiss curl
     # cloche: a close bell crown pulled down to the brow, its brim turned down round the head
     pen(cv, p([(-48, -404), (-50, -440), (-44, -474), (-22, -496), (6, -500), (30, -490), (44, -468), (48, -444),
@@ -354,7 +360,8 @@ def panel(n, ground):
             TIPS[n] = m
         else:
             m, _ = agent(cv, (180 if n == 2 else 150, FL), S, 1, arms="walk", walk=True, seed=1890 + n)
-            TIPS[n] = st_mouth
+            # the thanks (panel 4): she has turned away, so the tail stops at the back of her head, not across her face
+            TIPS[n] = st_mouth if n == 2 else (sx - 50 * 0.92, 712 - 404 * 0.92)
     else:
         b3.service_door(cv, 560, 150, 700, FL, 1900 + n)
         b3.cupboard(cv, 300, 210, 500, FL - 4, 1.0 if n == 6 else 0.82, 1910 + n)
