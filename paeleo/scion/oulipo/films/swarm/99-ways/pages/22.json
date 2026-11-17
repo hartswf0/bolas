@@ -1,0 +1,133 @@
+{
+ "n": 22,
+ "id": "ballad",
+ "title": "Ballad",
+ "family": "voice and language",
+ "medium": "stencil-dye",
+ "canon_revision": "c1",
+ "rule": "Each panel carries one rhymed couplet; the page is a ballad of eight couplets.",
+ "declares": "lines set to rhyme inside the couplets",
+ "file": "assets/pages/99-ways/22-ballad.jpg",
+ "master": "films/sources/99-ways/masters/22-ballad.png",
+ "beats_dir": "films/sources/99-ways/beats/22",
+ "build": "films/swarm/99-ways/build/p22_ballad.py (stencil-dye kit: build/p08_lipogram.py; figures build/b1m2.py)",
+ "sources": [
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "eight panels printed as HANDMADE stencils in flat dyes (the page 08 stencil-dye method: one cut stencil per colour with paper ties, fixed misregistration, mottled dye pooling at the edges) from the b1m2 cut model, on the LoC 1934 sheet",
+  "the ANRC 1922 key cutout used as a stencil in ochre, hanging on its drawn hook on the inside of the open cupboard leaf, with a SERVICE tag slip",
+  "eight rhymed couplets (ours) in the shared pen hand on pale paper strips across the top of each panel; each couplet's two rhyme words lettered in madder",
+  "the memo slip, TICKET OFFICE window lettering and SERVICE cards in the pen hand; hand-ruled borders; folio '22 / Ballad'"
+ ],
+ "couplets": [
+  [
+   "His memo said, as plain could be:",
+   "'Four-fifteen, SERVICE door - with key.'"
+  ],
+  [
+   "So up he got from desk and chair",
+   "to fetch the key from cupboard there."
+  ],
+  [
+   "A lady tapped the glass - a chime:",
+   "'Pardon me - have you the right time?'"
+  ],
+  [
+   "He looked up at the wall, took stock:",
+   "'Ten past four, by the clock.'"
+  ],
+  [
+   "'Much obliged!' she said with grace,",
+   "and left the window, left the place."
+  ],
+  [
+   "He reached the cupboard, swung it wide:",
+   "the brass key hung, tagged SERVICE, inside."
+  ],
+  [
+   "He stood before the cupboard door:",
+   "'Well, here I am... and what for?'"
+  ],
+  [
+   "The brass key on its hook would stay;",
+   "the SERVICE door stayed shut that day."
+  ]
+ ],
+ "rhymes": [
+  [
+   "be",
+   "key"
+  ],
+  [
+   "chair",
+   "there"
+  ],
+  [
+   "chime",
+   "time"
+  ],
+  [
+   "stock",
+   "clock"
+  ],
+  [
+   "grace",
+   "place"
+  ],
+  [
+   "wide",
+   "inside"
+  ],
+  [
+   "door",
+   "for"
+  ],
+  [
+   "stay",
+   "day"
+  ]
+ ],
+ "events": {
+  "E0": "couplets 1-2: the memo; he rises to fetch the key",
+  "E1": "couplet 3: 'Pardon me - have you the right time?' (whole second line)",
+  "E2": "couplet 4: 'Ten past four, by the clock.' (whole second line)",
+  "E3": "couplet 5: 'Much obliged!' she said with grace",
+  "E4": "couplet 6: the cupboard swung wide, the key tagged SERVICE inside",
+  "E5": "couplet 7: 'Well, here I am... and what for?' (whole second line); couplet 8: the key stays, the door stays shut"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "none: the four lines are kept word for word and set inside the couplets (declared: lines set to rhyme inside the couplets); the em dash is lettered as the pen hand's dash",
+ "beat": "the ballad grows panel by panel; the last panel is printed dye by dye (wall wash, then ochre and verdigris, then indigo, madder, skin and umber) and its couplet is pasted on last",
+ "beat_frames": [
+  "b01: panel 1 with couplet 1",
+  "b02: panels 1-3",
+  "b03: panels 1-5",
+  "b04: panels 1-7",
+  "b05: panel 8: wall wash only",
+  "b06: panel 8: + ochre and verdigris (cupboard, door)",
+  "b07: panel 8: all dyes, no couplet",
+  "b08: couplet 8 pasted (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1046148,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "couplets": 8,
+  "every_caption_two_lines": true,
+  "rhyme_check": "end words asserted at build time: be/key, chair/there, chime/time, stock/clock, grace/place, wide/inside, door/for, stay/day",
+  "lines_verbatim": true,
+  "pending": "independent blind reading not run by the maker"
+ }
+}

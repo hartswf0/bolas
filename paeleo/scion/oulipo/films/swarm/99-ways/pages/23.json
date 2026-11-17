@@ -1,0 +1,99 @@
+{
+ "n": 23,
+ "id": "libretto",
+ "title": "Libretto",
+ "family": "genre",
+ "medium": "stencil-dye",
+ "canon_revision": "c1",
+ "rule": "An opera: the lines set as sung parts under ruled staves, with stage directions.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/23-libretto.jpg",
+ "master": "films/sources/99-ways/masters/23-libretto.png",
+ "beats_dir": "films/sources/99-ways/beats/23",
+ "build": "films/swarm/99-ways/build/p23_libretto.py",
+ "sources": [
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "four stage pictures printed as HANDMADE stencils in flat dyes (wash, ochre, verdigris, indigo, madder, skin, umber), the page-08 stencil method: one cut stencil per colour from the b1m2 cut model, paper ties, fixed misregistration, mottled dye pooling at the edges, on the LoC 1934 sheet",
+  "a stencilled proscenium in every picture: madder curtains and valance with cut fold slits, umber apron and boards, ochre footlights",
+  "the ANRC 1922 key cutout used as the ochre key stencil in picture 4",
+  "title 'THE SERVICE KEY' stencilled in madder with a bridge (tie) cut across every letter",
+  "ruled five-line staves (pen line), pen treble clefs and 4/4, notes stencilled in umber (filled and open heads, stems, flags, ledger lines), our own melodies; the canon lines underlaid syllable by syllable",
+  "role names AGENT / STRANGER / Orch. at the staves; stage directions in parentheses, the pen hand sheared to an italic, in a madder rubric; numbers and tempo marks (No. 1 Prelude, No. 2 Recitative, No. 3 Duettino, No. 4 Aria)",
+  "picture 2 re-staged: the agent stands right of the ticket window and faces it (left), the wall clock hangs high behind him on the right, clear of his head; every agent stencil recoloured to the canon marks: indigo waistcoat over white shirtsleeves and shirt front (sleeve and shirt shapes cut out of every dye stencil, an umber cut-edge line and garter band printed round them)"
+ ],
+ "events": {
+  "E0": "No. 1 Prelude: direction (memo on the desk, he rises and sets off); picture 1 desk, memo slip, agent setting off; orchestra staff 'tick tock'",
+  "E1": "No. 2 Recitative: direction (stranger at the ticket window stops him); STRANGER sings the question",
+  "E2": "No. 3 Duettino: direction (he looks up at the clock: ten past four); picture 3 clock at 4:10; AGENT sings the answer",
+  "E3": "No. 3: STRANGER sings 'Much obliged!'; direction (She leaves the window.)",
+  "E4": "No. 4 Aria: direction (he opens the cupboard; the key on its hook, tagged SERVICE); picture 4",
+  "E5": "No. 4: AGENT sings the forgetting line, pencil at chin; closing direction: key stays on its hook, SERVICE door stays closed, slow curtain"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "none: the four lines verbatim as sung text (syllables hyphenated only)",
+ "beat": "the score is filled number by number as it is sung (empty staves, then prelude, question, answer, thanks, aria), then the stencilled curtain closes over the last picture",
+ "beat_frames": [
+  "b01: pictures and empty staves",
+  "b02: + No. 1 prelude notes (Orch.)",
+  "b03: + No. 2 STRANGER: the question",
+  "b04: + No. 3 AGENT: the answer",
+  "b05: + No. 3 STRANGER: the thanks",
+  "b06: + No. 4 AGENT: the aria (the finished page)",
+  "b07: the curtain half closed over picture 4",
+  "b08: the curtain closed"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1145609,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "check": "A reader finds staves, role names and stage directions (maker's judgement from the full-size page: five ruled staves with clefs and notes, role names at each staff, parenthesised italic directions in red; blind reading pending)",
+  "staves": 5,
+  "roles": [
+   "Orch.",
+   "STRANGER",
+   "AGENT"
+  ],
+  "lines_verbatim": true,
+  "evidence": "measured (size, bytes) and perceptually judged (from frames) by the maker",
+  "picture2_clock_vs_head": {
+   "mask_overlap_px": 0,
+   "head_box_scene": [
+    523,
+    113,
+    587,
+    187
+   ],
+   "clock_box_scene": [
+    674,
+    91,
+    755,
+    172
+   ],
+   "bbox_gap_page_px": 81.2,
+   "required_px": 40,
+   "agent_faces": "left, toward the TICKET OFFICE window"
+  },
+  "canon_marks": "waistcoat (indigo) over white shirtsleeves in all four pictures"
+ },
+ "weaknesses": [
+  "the stranger's figure behind the window glass is small and partly crossed by the glazing bars",
+  "eighth-note flags are crude stencil curls; the music is notation-shaped rather than engraved",
+  "in picture 4 his forearm is hidden behind the open cupboard leaf; only the pencil at his chin shows"
+ ],
+ "repairs": [
+  "repair 2026-11-17 (batch 3): picture 2 clock moved off the agent's head (81 px clear, masks disjoint), agent faces the window; waistcoat and shirtsleeves"
+ ]
+}

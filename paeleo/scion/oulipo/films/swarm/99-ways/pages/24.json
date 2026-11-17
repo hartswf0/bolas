@@ -1,0 +1,87 @@
+{
+ "n": 24,
+ "id": "stone",
+ "title": "Stone",
+ "family": "medium and material",
+ "medium": "daumier-collage",
+ "canon_revision": "c1",
+ "rule": "A one-tone satirical lithograph with a caption beneath, the agent as a type of officialdom.",
+ "declares": "E0-E5 in at most four pictures",
+ "file": "assets/pages/99-ways/24-stone.jpg",
+ "master": "films/sources/99-ways/masters/24-stone.png",
+ "beats_dir": "films/sources/99-ways/beats/24",
+ "build": "films/swarm/99-ways/build/p24_stone.py",
+ "sources": [
+  "99-ways:daumier-gens-de-justice-01",
+  "99-ways:daumier-proprietaire-1846",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "a plate of an invented satirical series THE COMPANY'S MEN (no. 7): series title and plate number at the head, three small pictures and one large, each with its caption beneath in the lithographic convention (dialogue set off by dashes)",
+  "collage: the AGENT is Daumier's waistcoated man (Les Gens de Justice no. 1) cut as a two-piece puppet, head pivoted at the neck, in four poses: (1) the upper body cut at the waist, behind his desk, leaning over the memo with his head bowed, the crayon chair pushed back (rising); (2) turned (flipped) toward the wall clock, head tipped up to read it; (3) bowing the public out, head nodding; (4) upright before the open cupboard",
+  "picture 4: his own hanging coat sleeve cut into two strips (upper arm, forearm) and re-glued as a bent far arm from the shoulder, elbow forward; the barrister's hand from the same plate joined at its cuff to the forearm, fingers at his chin, a crayon pencil in it",
+  "the STRANGER is the bonneted old woman in her dark shawl from Daumier's Les bons bourgeois no. 18 (Rijksmuseum CC0), cut at the hands, her darks given a density curve: behind the single-pane ticket-window glass facing him in picture 2, turned away in picture 3",
+  "the key in the big picture is the ANRC 1922 key cutout (99-ways-template) hung by its bow on a crayon hook, its photograph tones mapped to the one ink, on a scraped light ground, crayon string to the SERVICE tag",
+  "the set drawn HANDMADE in lithographic crayon strokes and hatching in code: wall strokes, desk, memo slip (pencilled), ticket window lettered TICKET OFFICE (one pane, two glint strokes), office chair, clock at 4:10, cupboard open on its left jamb, SERVICE tag, the SERVICE door shut with its card",
+  "all printed in ONE ink tone on the LoC 1934 sheet (every element, cut-outs included, mapped to the one ink; a 0.7 px spread for the stone print); the book photograph's camera noise reduced on the cut piece"
+ ],
+ "events": {
+  "E0": "picture 1: he leans up from behind the desk over the memo slip ('4:15 - open SERVICE door. Key in cupboard.'), chair pushed back; caption: he rises at once to obey",
+  "E1": "picture 2: the woman behind the ticket window; caption: '- Pardon me — have you the right time?'",
+  "E2": "picture 2: he has turned to the wall clock and looks up at it (4:10); caption: '- Ten past four, by the clock.'",
+  "E3": "picture 3: he bows; the woman turned away from the glass; caption: '- Much obliged! The public, served, withdraws.'",
+  "E4": "large picture: the cupboard open, the ANRC key on its hook, tagged SERVICE",
+  "E5": "large picture: his own arm raised, hand and pencil at his chin; caption: 'THE AGENT AT HIS POST. - Well, here I am... and what for?' + the satirical gloss: key safe on its hook, door shut, nothing lost but the errand"
+ },
+ "pictures": 4,
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "none: the four lines verbatim in the captions",
+ "beat": "the stone is printed picture by picture: the head, then the three small pictures with their captions (he rises from the desk, turns to the clock, bows her out), then the large one; last, his arm comes up from the shoulder and the hand with the pencil reaches his chin",
+ "beat_frames": [
+  "b01: series title only",
+  "b02: + picture 1 (E0: rising from the desk)",
+  "b03: + picture 2 (E1-E2: turned to the clock)",
+  "b04: + picture 3 (E3: bowing, she turns away)",
+  "b05: + the large picture (E4-E5), arm down, head level",
+  "b06: + the arm raised, hand and pencil at his chin (the finished page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1199371,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "check": "A reader names the print as satire and finds one tone (maker's judgement: series-title head, caption satire on 'the Company', every mark in one ink; blind reading pending)",
+  "one_tone": true,
+  "pictures": 4,
+  "lines_verbatim": true,
+  "evidence": "measured (size, bytes) and perceptually judged (from frames) by the maker",
+  "figure_poses": {
+   "1": "upper body (cut at the waist), facing right, body +7 deg, head +14 deg, s 0.525",
+   "2": "full figure, flipped (faces left, to the clock), body -2 deg, head -16 deg (up), s 0.525",
+   "3": "full figure, facing right, body +6 deg (bow), head +12 deg, s 0.513",
+   "4": "full figure, facing right, body 0 deg, head +4 deg, s 1.249, plus the bent sleeve arm and hand at the chin"
+  },
+  "poses_distinct": true,
+  "key": "ANRC 1922 key cutout mapped to the single ink tone",
+  "stranger": "Daumier bonneted woman (Les bons bourgeois no. 18), darks densified"
+ },
+ "weaknesses": [
+  "the bent arm is a collage graft made from his own sleeve: the joins show as paper margins (intended as cut-paper collage, but it is visibly assembled)",
+  "the bonneted woman is old and stooped; she reads as a woman in a bonnet rather than a lady traveller",
+  "picture 1 shows him leaning up from behind the desk; the rise is implied by the pushed-back chair, not a full standing figure",
+  "the 1280 px Commons renditions are upscaled about 1.25x in the large picture"
+ ],
+ "repairs": [
+  "repair 2026-11-17 (batch 3): four distinct poses of the Daumier man (two-piece cut), ANRC key cutout in the one ink, arm cut from his own sleeve joined at the shoulder, stranger replaced by the darker bonneted woman of Les bons bourgeois no. 18"
+ ]
+}

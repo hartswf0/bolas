@@ -1,0 +1,76 @@
+{
+ "n": 14,
+ "id": "double-take",
+ "title": "Double take",
+ "family": "genre",
+ "medium": "brush-plate",
+ "canon_revision": "c1",
+ "rule": "Vaudeville timing: a double take at the clock, a near miss with the cupboard door, no fall; the gag is the forgetting.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/14-double-take.jpg",
+ "master": "films/sources/99-ways/masters/14-double-take.png",
+ "beats_dir": "films/sources/99-ways/beats/14",
+ "build": "films/swarm/99-ways/build/p14_double_take.py (the plate: build/p07_two_panels.py; brush: build/brushkit.py; figures: build/b1m2.py)",
+ "sources": [
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "the ONE HANDMADE brush plate of the office made for page 07 (dab-chain brush after the moins-dun-quart-de-seconde-pour-vivre plate method), printed again unchanged in all nine panels and framed by camera crops; plate ink sha256 a2b261037f7e77a12e22de2421bc85ab942cbdbf5f8272d1c58db6a6308024e4",
+  "brushed figures from the b1m2 model; a head-turn rig made here (the head of a right-facing figure pinned at the neck of a left-facing body) for the glance, the look away and the snap back",
+  "brushed whip lines round the snapping head (P5); brushed swoosh arcs tracing the cupboard leaf's swing (P7)",
+  "a pasted paper overlay opening the cupboard on its left jamb, the leaf at 250 px for the near miss and 112 px at rest; the ANRC 1922 key printed in ink on its hook with a SERVICE tag",
+  "timing slips in the pen hand ('a glance...', 'away...', 'and back!', 'whoosh... missed!', 'beat.'), brushed balloons with the four canon lines; folio by pen99.folio"
+ ],
+ "events": {
+  "E0": "P1 seated at the desk behind the memo slip ('4:15 - open SERVICE door. Key in cupboard.'); P2 he is up and walking toward the cupboard",
+  "E1": "P2 the stranger at the TICKET OFFICE window, question balloon; he looks back over his shoulder",
+  "E2": "P3 a glance up at the clock; P4 head back to the window; P5 head snaps back to the clock (the double take, whip lines) and the answer; the clock reads 4:10 in every crop",
+  "E3": "P6 she turns away, thanks balloon into the window",
+  "E4": "P7 he pulls the cupboard open; the leaf swings out and stops a whisker from his nose, he leans back, no fall (the near miss); key on its hook; P8 held beat on the key",
+  "E5": "P9 in the open doorway, pencil to his chin, the forgetting line; key unmoved; SERVICE door closed"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "beat": "row 2: the head is away from the clock, then snaps back to it with whip lines, then the answer is laid; row 3: the cupboard leaf swings out toward his nose and he leans back",
+ "beat_frames": [
+  "b01: P5 head still away from the clock (no answer), cupboard closed in P7",
+  "b02: P5 head snapped back to the clock with whip lines",
+  "b03: + answer balloon",
+  "b04: P7 leaf half out (120 px), he begins to lean",
+  "b05: leaf full out, a whisker from his nose, swoosh lines",
+  "b06: + forgetting balloon in P9 (the finished page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 958698,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "beat_frames": 6,
+  "panels": 9,
+  "plate_prints": 9,
+  "plate_prints_identical": true,
+  "double_take": "P3 head to the clock (tilt -20), P4 head back to the window, P5 head to the clock again (tilt -30) with whip lines: two head turns to the clock in consecutive takes",
+  "near_miss_gap_px_plate": 34,
+  "balloon_cap_px": [
+   46,
+   50
+  ],
+  "check": "A reader finds the double take (two consecutive head turns to the clock). -> row 2 shows the turn to the clock, the look away and the snap back (maker's judgement from the full-size page; blind reading pending)",
+  "evidence": "measured (plate hash, size) and perceptually judged (from frames) by the maker; independent readers not yet run"
+ },
+ "weaknesses": [
+  "the check asks for two consecutive head turns to the clock; the page puts a look-away panel between them (glance, away, back), which is the classic double take but a strict reader may count panels differently",
+  "the near miss reads as 'leaning back from the swinging door' rather than a sharp gag; the stopped leaf and his face overlap in silhouette scale",
+  "the plate is page 07's plate, so the set is identical to page 07 by design (one repeated plate); the page differs by camera crops and timing",
+  "P1 crops the clock's pendulum oddly at the top edge"
+ ]
+}

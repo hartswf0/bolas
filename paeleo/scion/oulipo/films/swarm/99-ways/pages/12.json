@@ -1,0 +1,74 @@
+{
+ "n": 12,
+ "id": "loop",
+ "title": "Loop",
+ "family": "time and order",
+ "medium": "daumier-collage",
+ "canon_revision": "c1",
+ "rule": "The last panel leads back into the first: he returns to the desk, reads the memo and sets off again, so the page reads round forever.",
+ "declares": "E0 repeated after E5 (the loop seam)",
+ "file": "assets/pages/99-ways/12-loop.jpg",
+ "master": "films/sources/99-ways/masters/12-loop.png",
+ "beats_dir": "films/sources/99-ways/beats/12",
+ "build": "films/swarm/99-ways/build/p12_loop.py (collage kit: build/daumier12.py; forage record: films/sources/99-ways/forage/p12-daumier/meta.json)",
+ "sources": [
+  "99-ways:daumier-proprietaire-1846",
+  "99-ways:daumier-premier-voyage-1846",
+  "99-ways:daumier-grand-tunnel-1843",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "FORAGED: three Daumier lithographs (CC0, Rijksmuseum via Commons; licence read from the Commons API extmetadata 2026-11-17), 1280 px renders, levelled once per print (red-filter luminance to drop the newsprint foxing, black/white points, a 0.8 px softening of the newsprint speckle; no threshold or posterize)",
+  "HANDMADE cuts: hand-placed scissor polygons for the agent's head and body (cut apart at the collar so the head tilts: down to the memo, up to the clock), the woman, the clasped hands, the window and the door; set pieces (desk, counter, cupboard and leaf, clock ring, dial and case, pencil) cut out of the prints' own crayon tone; every piece glued with a narrow paper rim and cast shadow on the LoC 1934 sheet",
+  "the ANRC 1922 key cutout (99-ways-template piece) glued in the cupboard, warmed to brass, with a SERVICE tag slip",
+  "the loop: eight panels in a ring round the memo, read clockwise from the top left; pen arrows in the gutters; the seam arrow from P8 (back to the desk) up into P1 (the memo again) drawn heavier; a ring of arrows and 'round and round' round the central memo",
+  "pen-hand clock numerals and hands at 4:10, captions, the four canon lines in cut-paper balloons, the TICKET OFFICE and SERVICE slips; folio by pen99.folio"
+ ],
+ "events": {
+  "E0": "P1 at his desk, the memo again ('4:15 - open SERVICE door. Key in cupboard.'), head bent to it; P2 he sets off for the key; the memo also sits large at the centre of the ring",
+  "E1": "P3 the woman behind the TICKET OFFICE window; question balloon",
+  "E2": "P4 head tilted up to the clock at 4:10; answer balloon",
+  "E3": "P5 she turns away from the window; thanks balloon",
+  "E4": "P6 the cupboard open, the key on its hook",
+  "E5": "P7 hands at his chin, the forgetting line; the key still on its hook, the SERVICE door shut",
+  "loop seam (declared)": "P8 he walks back to his desk; the arrow runs from P8 up into P1, where he reads the memo and sets off again"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "beat": "the loop seam: in P8 he walks back to the desk (three positions), the heavy seam arrow appears from P8 into P1, and in P1 his head bends to the memo again",
+ "beat_frames": [
+  "b01: P8 he turns back, P1 head level, no seam arrow",
+  "b02: P8 halfway to the desk",
+  "b03: P8 at the desk",
+  "b04: the seam arrow P8 -> P1 is drawn",
+  "b05: P1 his head bends to the memo",
+  "b06: the finished page"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1193176,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "beat_frames": 6,
+  "panels": 8,
+  "layout": "3x3 ring, centre cell the memo; reading clockwise from top left; P8 at middle left leads up into P1",
+  "check": "A reader can continue from the last panel straight into the first. -> P8's caption 'And back he goes to his desk...' and the heavy arrow lead straight into P1's 'The memo again...' (maker's judgement from the full-size page; blind reading pending)",
+  "evidence": "measured (size) and perceptually judged (from frames) by the maker; independent readers not yet run"
+ },
+ "weaknesses": [
+  "the agent is a Daumier bourgeois in a top hat and tail-coat (waistcoat kept, shirt-sleeves not); the hat indoors is the price of a print whose figure stands whole",
+  "the agent is the same cut-out in every panel (only head tilt, flip and position change): his walk is a glide, not a stride",
+  "the clasped hands at his chin in P7 are grafted from another figure; at phone width they read as a white bundle under his chin more than as a pondering gesture",
+  "the panel grounds are one stretched patch of the stairwell wall and floor, softened to keep the JPEG under 1.2 MB; they read as tone, not as a station office",
+  "the clock is built (tone ring, pale dial, pen hands) rather than found: no Daumier clock was in the three prints"
+ ]
+}

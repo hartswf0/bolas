@@ -1,0 +1,86 @@
+{
+ "n": 25,
+ "id": "inventory",
+ "title": "Inventory",
+ "family": "reduction and expansion",
+ "medium": "busch-fold",
+ "canon_revision": "c1",
+ "rule": "Every object of the incident laid out as a labelled specimen chart; numbered threads tell the story in order.",
+ "declares": "people shown only as their objects and lines",
+ "file": "assets/pages/99-ways/25-inventory.jpg",
+ "master": "films/sources/99-ways/masters/25-inventory.png",
+ "beats_dir": "films/sources/99-ways/beats/25",
+ "build": "films/swarm/99-ways/build/p25_inventory.py",
+ "sources": [
+  "les-caids-de-la-gaudriole:busch-mm-016",
+  "les-caids-de-la-gaudriole:vintage-paper",
+  "les-caids-de-la-gaudriole:wood-table",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "a specimen plate on the les-caids tabletop (the page-11 grounds: vintage paper scan graded neutral, greyed wood), folded in four and opened again (two valley creases, the quarters lit differently), laid a hair off square with its shadow",
+  "eight specimens drawn HANDMADE in Busch-manner ink line and hatching: clock at 4:10 with case and pendulum, memo slip (pasted paper, pencilled, sized to sit inside its cell), ticket window lettered TICKET OFFICE, pencil, cupboard with its door open on the left jamb and the empty hook, SERVICE door with card, the brass key (ochre wash) on its hook with paper SERVICE tag",
+  "the stranger's hat cut by hand from Busch's Max und Moritz plate mm_016 (the widow's cap) with a paper scissor margin",
+  "labels 'Fig. 1 ... Fig. 8' with notes; the four canon lines as pinned paper slips attributed to 'the owner of Fig. 2' (hat) and 'the owner of Fig. 5' (pencil): people only as their objects and lines; each slip kept inside its own cell, clear of every label",
+  "a red cotton thread pinned object to object in story order, ROUTED round every text box on the plate (labels, slips, memo text, title, legend): an A* path on an 8 px grid with a clearance margin, pulled taut, so the thread bends only round eight small grey guide pins; ten numbered paper tags, each placed in the first free direction clear of text, thread and other tags; a legend THE THREAD numbered 1-10"
+ ],
+ "events": {
+  "E0": "thread 1 memo (Fig. 3: he reads it and rises), 2 pencil (sets off)",
+  "E1": "thread 3 ticket window (stopped), 4 hat: the question slip",
+  "E2": "thread 5 clock at 4:10: the answer slip (owner of the pencil)",
+  "E3": "thread 6 hat: 'Much obliged!' slip, she goes",
+  "E4": "thread 7 cupboard opened, 8 key on its hook tagged SERVICE",
+  "E5": "thread 9 pencil to chin: the forgetting slip; 10 the SERVICE door stays closed, the key stays on its hook"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "none: lines verbatim; speakers named by their objects ('the owner of Fig. 2' = the stranger's hat, 'Fig. 5' = the agent's pencil)",
+ "beat": "the red thread is pinned from object to object, tag by tag, and the four line slips are pinned as their moments come",
+ "beat_frames": [
+  "b01: the plate, specimens only",
+  "b02: thread 1-2",
+  "b03: thread to 4 + the question slip",
+  "b04: thread to 5 + the answer slip",
+  "b05: thread to 6 + the thanks slip",
+  "b06: thread to 8",
+  "b07: thread to 9 + the forgetting slip",
+  "b08: thread to 10 (the finished page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1016827,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "check": "A reader follows the numbers from object to object to retell the incident (maker's judgement: ten numbered tags on one red thread plus the numbered legend; blind reading pending)",
+  "thread_stops": 10,
+  "specimens": 8,
+  "lines_verbatim": true,
+  "evidence": "measured (size, bytes) and perceptually judged (from frames) by the maker",
+  "text_box_intersections": {
+   "thread_vs_text_boxes": 0,
+   "slip_vs_text_boxes": 0,
+   "tag_vs_text_boxes": 0,
+   "text_boxes_checked": 26,
+   "guide_pins": 8,
+   "method": "thread polylines rasterised 7 px wide, slips and tags as rectangles/circles, against tight bounding boxes of every label line, slip, the memo text, title and legend"
+  },
+  "fig3_label": "reads in full",
+  "memo_inside_cell": true
+ },
+ "weaknesses": [
+  "the Busch cap is a nightcap with ribbon: read as 'a lady's hat' mostly through its label",
+  "only the hat is cut from a Busch plate; the other seven specimens are code-drawn ink line in a Busch manner",
+  "the routed thread runs long detours along the gutters and round the plate's left margin, so spans 2-3 and 3-4 are long",
+  "labels at cap 28-32 and slips at cap 27 are small at phone width (the legend carries the order)"
+ ],
+ "repairs": [
+  "repair 2026-11-17 (batch 3): thread re-routed round all text (0 intersections), slips moved inside their cells and clear of labels, tags placed clear of text, memo resized inside its cell"
+ ]
+}

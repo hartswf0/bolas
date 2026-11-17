@@ -1,0 +1,81 @@
+{
+ "n": 15,
+ "id": "lightbox",
+ "title": "Lightbox",
+ "family": "medium and material",
+ "medium": "paper-hands",
+ "canon_revision": "c1",
+ "rule": "Translucent papers laid one over another: each later beat on a new sheet, all visible at once in fading strength.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/15-lightbox.jpg",
+ "master": "films/sources/99-ways/masters/15-lightbox.png",
+ "beats_dir": "films/sources/99-ways/beats/15",
+ "build": "films/swarm/99-ways/build/p15_lightbox.py",
+ "sources": [
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "a lightbox rendered as transmitted light: lamp-lit glass, then six translucent animation sheets laid in order; each sheet has its own transmittance (0.52), room-light reflection (0.41) and a scatter blur (2.2 px) of everything beneath it, so each earlier beat shows through every later sheet that overlaps it, softer and fainter",
+  "HANDMADE sheet paper: cloud and fibre texture generated per sheet (method after the 99-ways-subjective lightbox sheet), three punched peg holes that let the bare light through, tape strips at the top corners, sheet numbers 1-6 in the pen hand",
+  "first-person cut-paper hands (black paper, opaque on the box): back of the hand, four fingers and thumb with per-finger curl, forearm out of the bottom of the field; the pencil cut as a tapered strip",
+  "the set pen-drawn on each sheet in the shared pen line (desk edge and inkwell, ticket window with TICKET OFFICE, clock at 4:10 with pendulum case, cupboard with its leaf swung on the left jamb, SERVICE door)",
+  "the stranger cut from grey tissue behind the window (half transparent); balloons, the memo slip and the SERVICE tags are glued slips of heavier bond, which block more light and read greyer",
+  "the ANRC 1922 key cutout (99-ways-template piece) glued down as an opaque piece on its pen hook",
+  "folio by pen99.folio on the glass"
+ ],
+ "events": {
+  "E0": "sheet 1: his hands at the desk, the memo slip ('4:15 - open SERVICE door. Key in cupboard.'), pencil in his right hand",
+  "E1": "sheet 2: the stranger in grey tissue behind the TICKET OFFICE window; question balloon; his pencil hand at the edge",
+  "E2": "sheet 3: the clock at 4:10 filling his view; the answer balloon with its tail running off the bottom (his own voice)",
+  "E3": "sheet 4: the window, her shoulder leaving at its right jamb; thanks balloon",
+  "E4": "sheet 5: his left hand on the swung leaf; the cupboard open, the key on its hook, tag SERVICE",
+  "E5": "sheet 6: the key still on its hook, the SERVICE door shut at the right, his pencil hand rising toward his chin; the forgetting balloon from below"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "beat": "the sheets are laid on the lightbox one at a time; with each new sheet the earlier beats sink under it and fade",
+ "beat_frames": [
+  "b01: 1 sheet(s) on the box",
+  "b02: 2 sheet(s) on the box",
+  "b03: 3 sheet(s) on the box",
+  "b04: 4 sheet(s) on the box",
+  "b05: 5 sheet(s) on the box",
+  "b06: 6 sheet(s) on the box"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 673591,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "beat_frames": 6,
+  "sheets": 6,
+  "optics": {
+   "T_sheet": 0.52,
+   "R_sheet": 0.41,
+   "scatter_px": 2.2,
+   "contrast_of_ink_under_n_sheets": {
+    "0": 0.94,
+    "1": 0.489,
+    "2": 0.254,
+    "3": 0.132
+   }
+  },
+  "balloon_cap_px": 50,
+  "check": "A reader sees earlier beats show through later ones. -> sheet 1's hands show through sheet 3, sheet 3's balloon tail and sheet 5's hand show through sheets 5 and 6, sheet 2's window lines through sheet 4 (maker's judgement from the full-size page; blind reading pending)",
+  "evidence": "measured (optics parameters, size) and perceptually judged (from frames) by the maker; independent readers not yet run"
+ },
+ "weaknesses": [
+  "first person: the agent is never seen, only his hands; that is the paper-hands medium, but a reader must infer who 'I' is from the memo and the pencil",
+  "the fading is by overlap only: where a sheet is not covered it is seen at full strength, so 'fading' shows in the overlaps, not as a uniform dimming of older sheets",
+  "the hands are simple cut shapes; at phone width they read as hands but not as specifically his (no sleeve or waistcoat)",
+  "sheets 5 and 6 repeat the same cupboard; the change (hand on leaf -> pencil rising, SERVICE door entering) is small"
+ ]
+}

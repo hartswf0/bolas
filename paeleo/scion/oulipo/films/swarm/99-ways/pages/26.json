@@ -1,0 +1,99 @@
+{
+ "n": 26,
+ "id": "a-to-z",
+ "title": "A to Z",
+ "family": "formal / Oulipian rule",
+ "medium": "engraving-puppet",
+ "canon_revision": "c1",
+ "rule": "Twenty-six small captions in order, the first word of each beginning with the next letter of the alphabet.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/26-a-to-z.jpg",
+ "master": "films/sources/99-ways/masters/26-a-to-z.png",
+ "beats_dir": "films/sources/99-ways/beats/26",
+ "build": "films/swarm/99-ways/build/p26_a_to_z.py",
+ "sources": [
+  "99-ways:loc-harpers-1863-army-telegraph-operator",
+  "99-ways:loc-1867-dickens-tickets-steinway",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "storyboard sheet of seven boards (six half-width, the last full width) on the LoC 1934 sheet, each with a graphite header naming its letters ('board 3   F - H')",
+  "the page-03 engraving puppets reused: AGENT = the 1863 telegraph operator cut into pinned limbs (brass pins), STRANGER = the 1867 Steinway Hall woman; the engraved window and table from the same plates",
+  "set in the shared pen hand (HANDMADE): clock (4:08 / 4:10 / 4:11), memo, cupboard hinged on the left jamb with the key on its hook and SERVICE tag, SERVICE door",
+  "26 pasted torn slips pinned with brass pins, one caption each, each opening on a larger red pen initial; the captions run A to Z in board order"
+ ],
+ "captions": [
+  "At Randolph, the agent at his desk.",
+  "Before him, a memo:",
+  "Clear enough: '4:15 - open SERVICE door. Key in cupboard.'",
+  "Dutifully he rises.",
+  "Errand in mind, he sets off across the office.",
+  "From the window, a voice.",
+  "Gloved, hatted, a stranger leans in.",
+  "Her words: 'Pardon me — have you the right time?'",
+  "In reply he turns to the clock.",
+  "Just ten past four.",
+  "Kindly he answers: 'Ten past four, by the clock.'",
+  "Lightly she nods.",
+  "'Much obliged!' she says.",
+  "Now the window is empty.",
+  "On he goes to the cupboard.",
+  "Pulling the door, he opens it.",
+  "Quite plainly:",
+  "Right on its hook, the key, tagged SERVICE.",
+  "Silence.",
+  "The pencil drifts to his chin.",
+  "Unable to think why he came, he asks himself:",
+  "Very quietly: 'Well, here I am... and what for?'",
+  "Words fail him.",
+  "X marks the spot: the key still hangs there.",
+  "Yet he never takes it.",
+  "Zero errands done: the SERVICE door stays closed."
+ ],
+ "initials": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+ "events": {
+  "E0": "board 1 (A-C) desk and memo; board 2 (D-E) he rises and sets off",
+  "E1": "board 3 (F-H) the window; H quotes the question",
+  "E2": "board 4 (I-K) clock at 4:10; K quotes the answer",
+  "E3": "board 5 (L-N) she nods and goes; M quotes the thanks",
+  "E4": "board 6 (O-R) the cupboard opened, the key on its hook tagged SERVICE",
+  "E5": "board 7 (S-Z) pencil to chin; V quotes the forgetting line; X/Y/Z: the key still hangs, he never takes it, the SERVICE door stays closed"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "none: the four lines verbatim, quoted inside captions H, K, M (opening quote mark before its M) and V",
+ "beat": "the boards fill with their slips one board at a time, the red initials marching A to Z",
+ "beat_frames": [
+  "b01: boards only, no slips",
+  "b02: + A-C",
+  "b03: + D-E",
+  "b04: + F-H",
+  "b05: + I-K",
+  "b06: + L-N",
+  "b07: + O-R",
+  "b08: + S-Z (the finished page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1193871,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "check": "The caption initials run A to Z (measured: first letter of each of the 26 captions asserted ABCDEFGHIJKLMNOPQRSTUVWXYZ at build time; caption M begins with an opening quote mark before 'Much')",
+  "captions": 26,
+  "lines_verbatim": true,
+  "evidence": "measured (initials, size, bytes) and perceptually judged (from frames) by the maker"
+ },
+ "weaknesses": [
+  "X is the usual cheat ('X marks the spot')",
+  "the puppets and the window plate repeat page 03's material closely; boards 3-5 share one composition",
+  "the engraved puppets are dark and busy at the small board scale; the slips carry most of the story"
+ ]
+}

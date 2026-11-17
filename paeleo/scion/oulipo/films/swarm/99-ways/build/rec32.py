@@ -1,0 +1,41 @@
+"""Record + credits for page 32 (How to forget a key)."""
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import b1m2 as B
+
+N, PID = 32, "how-to-forget"
+size = (B.PAGES_OUT / f"{N:02d}-{PID}.jpg").stat().st_size
+src = ["99-ways-template:loc-blank-sheet-1934", "99-ways-template:anrc-gold-key-1922", "99-ways:handmade"]
+B.credit_pages(src, N)
+B.write_record({
+    "n": N, "id": PID, "title": "How to forget a key", "family": "genre", "medium": "pen-hand", "canon_revision": "c1",
+    "rule": "An instruction sheet: numbered steps and arrowed diagrams teach the reader to forget a key.",
+    "declares": "keeps E0-E5, the four lines and the outcome",
+    "file": f"assets/pages/99-ways/{N:02d}-{PID}.jpg", "master": f"films/sources/99-ways/masters/{N:02d}-{PID}.png",
+    "beats_dir": f"films/sources/99-ways/beats/{N:02d}", "build": "films/swarm/99-ways/build/p32_how_to_forget.py",
+    "sources": src,
+    "made": [
+        "an instruction sheet on the LoC 1934 sheet (its grain softened by a 0.6 px blur to hold the file-size target), all in the shared pen hand (pen99 / penlib.letter_lines, penlib.brush_line): title HOW TO FORGET A KEY, 'Instruction sheet / Randolph station office / one person', 'Time required: 5 minutes (4:10 - 4:15) / No tools', a ruled head",
+        "YOU WILL NEED: six drawn parts with counts (1 x memo with its canon text, pencil, wall clock at 4:10, stranger at the ticket window, cupboard, brass key with its SERVICE tag)",
+        "six numbered boxed steps, each an imperative in the pen hand with the four canon lines verbatim, each with an arrowed line diagram: pen outlines traced from the b1m2 control-point agent, stranger, desk, window, clock, cupboard and SERVICE door (visible part of each piece, z-ordered), the key's outline from the ANRC 1922 key silhouette (99-ways-template cutout)",
+        "diagram devices: curved path arrows, a dashed floor path cut by a stop bar, a dashed eye-line to the clock, a magnifier callout on the key and its SERVICE tag, two red 'do not' signs (taking the key; opening the door) in a second pen",
+        "a result line: 'the key stays on its hook; the SERVICE door stays shut'; folio '32 / How to forget a key' (pen99.folio)"],
+    "events": {"E0": "step 1: read the memo (canon text), get up, set off for the cupboard; diagram desk -> arrow -> cupboard",
+               "E1": "step 2: let a stranger at the ticket window stop you + the question; diagram: path interrupted, arrow from window",
+               "E2": "step 3: look up at the clock (4:10), answer + the answer; diagram: eye-line to the clock at 4:10",
+               "E3": "step 4: accept her thanks + 'Much obliged!', let her go, walk on; diagram: she turns to the platform",
+               "E4": "step 5: open the cupboard, look at the key on its hook (tag SERVICE); diagram: open cupboard, LOOK arrow, magnifier",
+               "E5": "step 6: pencil to chin, ask the forgetting line, leave the key; diagram: '?', key on hook, SERVICE door shut, two do-not signs; result line"},
+    "lines": {"question": "Pardon me — have you the right time?", "answer": "Ten past four, by the clock.",
+              "thanks": "Much obliged!", "forgetting": "Well, here I am... and what for?"},
+    "beat": "the sheet is written step by step: head and parts list, then each numbered step and its diagram, ending with the do-not signs and the result line",
+    "beat_frames": ["b01: head + YOU WILL NEED", "b02: + step 1 (E0)", "b03: + step 2 (E1)", "b04: + step 3 (E2)",
+                    "b05: + step 4 (E3)", "b06: + step 5 (E4)", "b07: + step 6 and the result line (E5) = the page"],
+    "self_check": {"size_px": [2200, 2850], "jpeg_bytes": size, "jpeg_quality": 90,
+                   "in_target_0.4_1.2MB": 400000 <= size <= 1200000,
+                   "numbered_steps": 6, "imperatives": ["Read", "Get up", "let", "Look up", "Answer", "Accept", "Let her go", "Walk on", "Open", "Look", "Put", "Ask", "Leave"],
+                   "lines_verbatim": True,
+                   "check": "A reader finds numbered imperative steps (1-6 in circled numbers, each an imperative) with arrowed diagrams (maker's judgement from the full-size page; blind reading pending)"},
+})
+print(size)

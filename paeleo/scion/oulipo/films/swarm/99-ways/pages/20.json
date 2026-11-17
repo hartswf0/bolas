@@ -1,0 +1,65 @@
+{
+ "n": 20,
+ "id": "across-the-tracks",
+ "title": "Across the tracks",
+ "family": "point of view",
+ "medium": "charcoal-card",
+ "canon_revision": "c1",
+ "rule": "Seen from the far platform: the station a small lit box, the figures tiny in its windows, the balloons long-tailed across the rails.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/20-across-the-tracks.jpg",
+ "master": "films/sources/99-ways/masters/20-across-the-tracks.png",
+ "beats_dir": "films/sources/99-ways/beats/20",
+ "build": "films/swarm/99-ways/build/p20_across_the_tracks.py (kit: build/charcoal99.py, figures build/b1m2.py)",
+ "sources": [
+  "teuf-teuf:cueva-de-las-manos",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "one far viewpoint repeated in all seven panels: our own platform edge (pale painted edge line) at the foot, two tracks of charcoal-card sleepers and rails between, the station a small dark card box with a hipped roof, a RANDOLPH name board and three lit windows; hills, trees and telegraph poles behind as paler cards; the charcoal-card wall (teuf-teuf Cueva plain-rock relief, ramp-printed) as the sky's grain",
+  "the lit office rendered on its own and seen only through the cut windows: the b1m2 agent at 0.14 scale (about 100 px tall) at his desk (W1), crossing past the ticket window (W2) under the office clock, and at the cupboard (W3); cupboard, its door leaf with the brass key and paper tag on its hook, and the SERVICE door with a pale card fleck, cut as plain cards at this distance",
+  "the stranger: a small back-view card puppet made for this page (hat, head, coat, skirt, legs), outside on the station platform against the lit ticket window, then walking off down the platform",
+  "panel 1 adds a big dark lamp post and bench end on our platform for scale",
+  "the four canonical lines verbatim in cut-card balloons laid on our side of the rails, their long tails running across both tracks to the tiny speaker; short captions on pale cards in the shared pen hand",
+  "hand-ruled borders (penlib.border_mask); folio '20 / Across the tracks' (pen99.folio)"
+ ],
+ "events": {
+  "E0": "P1: the agent at his desk in the left window (caption: reads his memo); P2: 4:09, he crosses past the ticket window; the stranger approaches along the far platform",
+  "E1": "P3: the stranger at the lit ticket window; her balloon tailed across the rails",
+  "E2": "P4: he looks up at the office clock; his balloon",
+  "E3": "P5: she walks off down the platform; 'Much obliged!' tailed to her",
+  "E4": "P6: the cupboard open in the right window, the key on its hook on the door leaf",
+  "E5": "P7: pencil to chin before the open cupboard; his line; the SERVICE door shut (caption)"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "none (lines verbatim)",
+ "beat": "the far view fills panel by panel; each balloon arrives after its panel, its tail stretched across the rails",
+ "beat_frames": [
+  "b01: P1 (establishing far view, agent at desk)",
+  "b02: + P2 (he crosses; she approaches)",
+  "b03: + P3 without balloon",
+  "b04: P3 balloon laid across the rails (question)",
+  "b05: + P4 with answer, + P5 without balloon",
+  "b06: P5 thanks balloon laid",
+  "b07: + P6, + P7 without balloon",
+  "b08: P7 forgetting balloon laid (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1168051,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "viewer": "every panel framed from beyond two tracks: our platform's painted edge at the foot of each frame, rails between, figures about 100 px tall in a station 530 px wide; panel 1's near lamp post and bench give the scale",
+  "lines_verbatim": true,
+  "pending": "independent blind reading not run by the maker"
+ }
+}
