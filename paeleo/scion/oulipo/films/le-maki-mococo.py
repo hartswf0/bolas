@@ -392,7 +392,11 @@ def sound(mix):
         mix.add(vp, FT["S3"]["at"], 0.95, -0.15)                                  # S3 identical bytes
         mix.add(load_wav(VOICE_DIR / "voice_binturong.wav"), FT["S6"]["at"], 0.85, -0.15)
         mix.add(load_wav(VOICE_DIR / "voice_L1.wav"), FT["S8"]["at"], 0.95, -0.15)
-    ev = G.events(HANG_CUES) if not IMAGE_FIRST else [e for e in G.events(HANG_CUES) if e["kind"] in ("flop", "creak") and e["t"] < 10]
+    if not IMAGE_FIRST:
+        ev = G.events(HANG_CUES)
+    else:   # no gong is ever built in the baseline (G.events would wait forever on wedges that were never placed)
+        k0 = G.T_KICK + (CUES["Q_image"] - G.T_IMAGE_DEFAULT)
+        ev = [dict(t=k0, kind="flop", gain=0.18, pan=0.55), dict(t=k0 + G.T_B / 4, kind="creak", gain=0.07, pan=0.55)]
     if not IMAGE_FIRST:
         invariant_7_no_ring(ev)
     for e in ev:
