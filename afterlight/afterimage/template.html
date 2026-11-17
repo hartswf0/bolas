@@ -1,0 +1,122 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Afterimage · Afterlight</title>
+<meta name="description" content="The eye keeps the glow. Public-domain archive footage seen through a retina that adapts to light and keeps a complementary afterimage: the cold clinical light it is forced to watch comes back as pink.">
+<meta property="og:title" content="Afterimage"><meta property="og:description" content="The eye keeps the glow. The light it is forced to watch comes back as its own pink afterimage."><meta property="og:image" content="https://hartswf0.github.io/bolas/media/afterlight/afterimage.jpg"><meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one screen at the top with its retina meter underneath, the reading below in a single column. Single dark theme: a projection room. */
+:root{
+  --bg:#07080b; --panel:#0f1116; --line:#262a35;
+  --ink:#e4e2da; --mute:#8f93a0;
+  --clinic:#c7f0d4; --pink:#ee7fb6; --lid:#b8361a;
+  --f-title:'IM Fell English SC','IM Fell English',Georgia,serif;
+  --f-fell:'IM Fell English',Georgia,serif;
+  --f-body:'Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6}
+a{color:var(--pink)}
+.wrap{max-width:920px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 64px;display:grid;gap:40px}
+.crumbs{font-family:var(--f-mono);font-size:12px;color:var(--mute);margin:0}
+.crumbs a{color:var(--mute)}
+header{display:grid;gap:6px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:0}
+h1{font-family:var(--f-title);font-weight:400;font-size:clamp(46px,9vw,88px);line-height:.95;margin:0;text-wrap:balance}
+.sub{font-family:var(--f-fell);font-style:italic;font-size:clamp(20px,3vw,26px);margin:0;color:var(--pink)}
+.screen{display:grid;gap:0;border:1px solid var(--line);background:#000}
+video{display:block;width:100%;height:auto;aspect-ratio:4/3;background:#000}
+.meter{position:relative;background:var(--panel);border-top:1px solid var(--line);padding:10px 12px 8px}
+.meter svg{display:block;width:100%;height:96px}
+.meter .key{display:flex;flex-wrap:wrap;gap:4px 16px;font-family:var(--f-mono);font-size:11px;color:var(--mute);margin-top:6px}
+.meter .key i{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px}
+h2{font-family:var(--f-title);font-weight:400;font-size:30px;margin:0 0 10px;line-height:1.05}
+section p{margin:0 0 12px;max-width:66ch}
+.lead{font-family:var(--f-fell);font-size:22px;line-height:1.45;max-width:36em}
+.moves{display:grid;gap:14px;margin:0;padding:0;list-style:none}
+.moves li{border-left:3px solid var(--k);padding:2px 0 2px 16px;max-width:66ch}
+.moves b{font-family:var(--f-title);font-weight:400;font-size:22px;display:block}
+.moves .when{font-family:var(--f-mono);font-size:12px;color:var(--mute)}
+.lineage{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:14px}
+.lineage a{display:block;min-width:0;background:var(--panel);border:1px solid var(--line);padding:14px 16px;text-decoration:none;color:var(--ink)}
+.lineage a:hover,.lineage a:focus-visible{border-color:var(--pink)}
+.lineage .t{font-family:var(--f-title);font-size:20px;display:block}
+.lineage .d{font-size:14px;color:var(--mute)}
+.tests{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.tests li{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline}
+.pill{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border:1px solid var(--ok,#6fbfa8);color:#6fbfa8}
+.pill.wait{border-color:var(--mute);color:var(--mute)}
+.verdict{background:var(--panel);border:1px solid var(--line);padding:16px 18px}
+.verdict p{margin:0 0 8px}
+.src{width:100%;border-collapse:collapse;font-size:14px}
+.tablewrap{overflow-x:auto}
+.src th,.src td{text-align:left;padding:8px 10px 8px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.src th{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-weight:400}
+.mono{font-family:var(--f-mono);font-size:13px}
+footer{font-size:13px;color:var(--mute)}
+:focus-visible{outline:2px solid var(--pink);outline-offset:2px}
+</style></head><body>
+<main class="wrap">
+<p class="crumbs"><a href="../../">CRASH LAB</a> / <a href="../">Afterlight</a> / Afterimage</p>
+<header><p class="eyebrow">Afterlight · a study · 51 s · archive footage, public domain</p><h1>Afterimage</h1><p class="sub">the eye keeps the glow</p></header>
+
+<div class="screen">
+<video id="film" controls playsinline preload="metadata" poster="../../media/afterlight/afterimage.jpg"><source src="../../media/afterlight/afterimage.mp4" type="video/mp4"></video>
+<div class="meter" aria-label="Retina meter: how much afterimage the eye is holding at each moment">
+<svg id="m" viewBox="0 0 1000 100" preserveAspectRatio="none" role="img" aria-label="Afterimage held by the retina over the film's 45.5 seconds"></svg>
+<div class="key"><span><i style="background:var(--pink)"></i>afterimage held by the retina</span><span><i style="background:var(--lid)"></i>blinks</span><span>I held · II release · III carry</span></div>
+</div>
+</div>
+
+<section><p class="lead">Stare at a cold green-white light and look away, and the eye shows you pink. That pink is not in the world. The eye makes it, out of what it was made to look at.</p>
+<p>This study treats the screen as a retina. It adapts to the archive's light and, where the light has gone, keeps the complementary image. The projector light is tinted a clinical green-white, so everything the eye is forced to watch returns as pink. Nobody paints it on.</p>
+<p>It joins three ideas on this site. <i>A Clockwork Pink</i> held an eye open with a clamp. <i>Paradiso</i> kept every cut frame in a tin. Here the eye is the tin: it keeps what was taken away, and the glow it carries afterwards is its own.</p></section>
+
+<section><h2>Three movements</h2><ol class="moves">
+<li style="--k:var(--clinic)"><b>I · Held</b><span class="when">0:00–0:18</span><br>An eye from a 1950s hospital film, a camera lens, a light bulb and a lighthouse. The cuts come faster each time, after the Ludovico sequence. The eye is never allowed to blink, so each image burns pink into the next.</li>
+<li style="--k:var(--lid)"><b>II · Release</b><span class="when">0:18–0:30</span><br>The cutting stops on the eye. A hand lifts a miner's lantern, in its own warm light, untinted. Then the first blink, with red light through the lid, and the retina rests.</li>
+<li style="--k:var(--pink)"><b>III · Carry</b><span class="when">0:30–0:45</span><br>Darkness. The eye's own pink afterimage is the only light left. A flower opens inside it, and when the eye comes back it carries the flower's ghost. The sound in this movement is the glow itself: its loudness follows how much afterimage the eye still holds.</li>
+</ol></section>
+
+<section><h2>Lineage</h2><div class="lineage">
+<a href="../v/20-sun/"><span class="t">AFL-20 · Sun in Your Eyes</span><span class="d">The Retina technique this study grows from: adaptation, a complementary afterimage, and the blink as red light through the lid.</span></a>
+<a href="../../paradiso/"><span class="t">Paradiso</span><span class="d">The censor's bell and the tin of cut touches. The afterimage is the eye's own tin.</span></a>
+<a href="../../paradiso/"><span class="t">A Clockwork Pink · proof 0</span><span class="d">The clamp and the hand. The pink there was painted; here the eye makes it.</span></a>
+</div></section>
+
+<section><h2>What was measured</h2><p>The retina writes a log of how much afterimage it holds on every frame. A check reads that log. These checks do not say whether the study works. That is the critic's job.</p><ul class="tests">
+<li><span class="pill">pass</span><span>No blink is allowed during <i>Held</i>.</span></li>
+<li><span class="pill">pass</span><span>The burn builds. The afterimage in the last four seconds of <i>Held</i> is __BURN__.</span></li>
+<li><span class="pill">pass</span><span>Every blink lets the retina rest: its adaptation drops across each blink.</span></li>
+<li><span class="pill">pass</span><span>The glow is carried. In the dark, with no new light on screen, the afterimage never falls below __DARK__.</span></li>
+<li><span class="pill">pass</span><span>Some glow is still there at the end, before the fade.</span></li>
+</ul></section>
+
+<section><h2>Critic</h2><div class="verdict" id="critic">__CRITIC__</div></section>
+
+<section><h2>Sources</h2><p>Every shot is public-domain archive film from the Internet Archive, cut into frames by <a href="https://github.com/hartswf0/secondhand-motion">secondhand-motion</a>. The footage is retimed, cropped, tinted and composited, never drawn on. The sound is synthesized.</p>
+<div class="tablewrap"><table class="src"><thead><tr><th>Shot</th><th>Film</th><th>Rights</th></tr></thead><tbody>
+__SOURCES__
+</tbody></table></div></section>
+
+<footer><p>A study by CONSEQUENCE WORKS · Watson Hartsoe · built with Claude. Source: <span class="mono">tools/afterimage/</span> in <a href="https://github.com/hartswf0/bolas">hartswf0/bolas</a>.</p></footer>
+</main>
+<script>
+(()=>{const P=__METER__,D=45.5,svg=document.getElementById('m'),v=document.getElementById('film');
+const mx=Math.max(...P.map(p=>p[1])),X=t=>t/D*1000,Y=a=>94-a/mx*86;
+const ns='http://www.w3.org/2000/svg',el=(n,a)=>{const e=document.createElementNS(ns,n);for(const k in a)e.setAttribute(k,a[k]);svg.appendChild(e);return e};
+const css=getComputedStyle(document.documentElement),pk=css.getPropertyValue('--pink').trim(),ln=css.getPropertyValue('--line').trim(),lid=css.getPropertyValue('--lid').trim();
+for(const t of [18,30])el('line',{x1:X(t),x2:X(t),y1:0,y2:100,stroke:ln,'stroke-width':2,'vector-effect':'non-scaling-stroke'});
+for(const t of [25.25,28.65,43.25])el('line',{x1:X(t),x2:X(t),y1:4,y2:96,stroke:lid,'stroke-width':2,'stroke-dasharray':'3 3','vector-effect':'non-scaling-stroke'});
+const d=P.filter(p=>p[0]<=D).map((p,i)=>(i?'L':'M')+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1)).join(' ');
+el('path',{d:d+` L${X(D)} 96 L0 96 Z`,fill:pk,'fill-opacity':.18,stroke:'none'});
+el('path',{d,fill:'none',stroke:pk,'stroke-width':2,'vector-effect':'non-scaling-stroke'});
+const head=el('line',{x1:0,x2:0,y1:0,y2:100,stroke:'#e4e2da','stroke-width':1.5,'vector-effect':'non-scaling-stroke'});
+const upd=()=>{const x=X(Math.min(D,v.currentTime||0));head.setAttribute('x1',x);head.setAttribute('x2',x)};
+v.addEventListener('timeupdate',upd);v.addEventListener('seeked',upd);
+svg.style.cursor='pointer';svg.addEventListener('click',e=>{const r=svg.getBoundingClientRect();v.currentTime=(e.clientX-r.left)/r.width*D;upd()});
+})();
+</script>
+</body></html>
