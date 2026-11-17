@@ -344,7 +344,7 @@ def panel(n, ground):
         wx0, wx1 = 400, 715
         if n != 3:      # panel 3 turns to the clock; the window is out of shot to the right
             sx = (wx0 + wx1) / 2 + (40 if n == 4 else 0)
-            st_mouth = stranger(cv, (sx, 590), 0.64, f=(1 if n == 4 else -1), seed=1860 + n)
+            st_mouth = stranger(cv, (sx, 712), 0.92, f=(1 if n == 4 else -1), seed=1860 + n)   # seen to the waist; the counter hides the rest
             cv[590 - 22:FL - 2, wx0:wx1] = ground[590 - 22:FL - 2, wx0:wx1]          # the counter hides her below the glass
             window(cv, wx0, 110, wx1, 590, 1870 + n)
             pen(cv, [(wx0 - 30, 614), (wx0 - 30, FL)], 4, 1875 + n)
