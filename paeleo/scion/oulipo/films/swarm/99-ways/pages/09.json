@@ -1,0 +1,70 @@
+{
+ "n": 9,
+ "id": "the-memo",
+ "title": "The memo itself",
+ "family": "reader and object",
+ "medium": "pen-hand",
+ "canon_revision": "c1",
+ "rule": "The page is the agent's memo slip, both sides, the incident told in his notes, crossings-out and one doodle.",
+ "declares": "E1-E5 as his later notes",
+ "file": "assets/pages/99-ways/09-the-memo.jpg",
+ "master": "films/sources/99-ways/masters/09-the-memo.png",
+ "beats_dir": "films/sources/99-ways/beats/09",
+ "build": "films/swarm/99-ways/build/p09_memo.py",
+ "sources": [
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "the memo slip drawn full-page in the shared pen hand (penlib.letter_lines via pen99, penlib.brush_line): torn pad edge, printed head 'MEMO / Randolph Sta. / C.V.RY.', ruled lines; the back of the slip below it",
+  "the canon memo text '4:15 - open SERVICE door. Key in cupboard.' as his pencil, then his later pencil notes E1-E5 quoting the four canon lines verbatim",
+  "three crossings-out (4:12 -> 4:10; desk -> cupboard; 'Came for: stamps, ledger, lamp oil ?')",
+  "one doodle: the brass key on its hook with the SERVICE tag and a question mark, set small in the back's lower right where no show-through falls",
+  "the front's pencil showing through the back: mirror-reversed about the slip's vertical centre (lines start at the back's right margin), faint (darkest show-through pixel capped at Lab L 200 of 255), kept clear of the doodle (hard box) and of a thin halo round his back notes; the same layer in beats b05-b07; folio by pen99.folio"
+ ],
+ "events": {
+  "E0": "front: '4:15 - open SERVICE door. Key in cupboard.'; 'Got up from desk to fetch it.'",
+  "E1": "front: 'Lady at window, platform side:' + the question quoted",
+  "E2": "front: 'Looked at the clock: (4:12 struck) 4:10.' + the answer quoted",
+  "E3": "front: 'She: \"Much obliged!\" and off she went.'",
+  "E4": "back: 'Went on to the (desk struck) cupboard. Opened it. Key there on its hook, tag says SERVICE.' + doodle",
+  "E5": "back: 'Stood there, pencil to chin:' + the forgetting line; guesses crossed out; 'Key still on hook. Door still shut.'"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "beat": "the slip is written on: from the bare 4:15 errand, note by note down the front, over to the back, the doodle, the forgetting line, the crossed-out guesses",
+ "beat_frames": [
+  "b01: the slip with only the 4:15 errand (E0)",
+  "b02: + got up, the lady's question (E1)",
+  "b03: + the clock, 4:12 crossed out to 4:10, his answer (E2)",
+  "b04: + her thanks, (over) (E3)",
+  "b05: back of slip: cupboard (desk crossed out), key on hook, the doodle (E4)",
+  "b06: + the forgetting line (E5)",
+  "b07: + 'Came for:' guesses crossed out; 'Key still on hook. Door still shut.'"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 988056,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "note_cap_px": 58,
+  "crossings_out": 5,
+  "doodles": 1,
+  "show_through": {
+   "mirrored": "horizontal flip about the slip's vertical centre (x=1100)",
+   "changed_px": 282809,
+   "darkest_L_of_darkened_px_lab255": 206,
+   "darkened_px_in_doodle_box": 0,
+   "in_beats": "b05-b07 built with the same layer"
+  },
+  "check": "A reader says the page is the memo, and finds E0-E5 in its notes (maker's judgement from the full-size page; blind reading pending)",
+  "evidence": "measured (size, bytes) and perceptually judged (from frames) by the maker"
+ }
+}

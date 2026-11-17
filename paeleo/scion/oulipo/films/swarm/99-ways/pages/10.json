@@ -1,0 +1,80 @@
+{
+ "n": 10,
+ "id": "one-room-one-picture",
+ "title": "One room, one picture",
+ "family": "layout and page grammar",
+ "medium": "photo-cutout",
+ "canon_revision": "c1",
+ "rule": "The whole incident in a single panel: the agent appears several times along his path through one continuous office.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/10-one-room-one-picture.jpg",
+ "master": "films/sources/99-ways/masters/10-one-room-one-picture.png",
+ "beats_dir": "films/sources/99-ways/beats/10",
+ "build": "films/swarm/99-ways/build/p10_one_room.py",
+ "sources": [
+  "99-ways-template:rothstein-randolph-agent-1937",
+  "99-ways-template:rothstein-tavern-clock-1937",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:bubley-stranger-1943",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "one print: the 99-ways-template clerk-removed Rothstein set plate (editor/set.plate.r1.png, cupboard opened) whole, mounted with a white print border and four black paper photo corners on the LoC 1934 sheet",
+  "the agent laid four times with the 99-ways-template FK rig (build_page.lay_clerk), each with its own pose: seated behind the desk with the memo (E0); at the ticket window, mirrored to turn toward the glass, head turned to the pane, forearm lowered (E1); under the clock, head tipped back on the collar hinge toward it, pencil at his temple (E2); in the open cupboard right of the swung leaf, mirrored to face the key on the leaf, pencil at his chin by the FK solve (E4-E5)",
+  "occlusion by real plate objects only: each standing figure is laid so his shirt's lower edge falls just below the counter top and the plate's counter is re-laid over that strip only within the figure's own footprint (no rectangle, so the open leaf is untouched); his own left forearm and fist and his pencil forearm stay in front, resting on the counter, so the counter edge never runs across a whole figure; E0 is occluded the same way by the desk",
+  "the Bubley 1943 figure behind the glass (clipped to the pane, 30% of the pane's own pixels laid back over her): at the glass for both her lines",
+  "the Rothstein clock case and its own hands re-set to 4:10; the cupboard door on its jamb with hook, ANRC key and SERVICE tag (build_page.lay_door_key); the SERVICE card on the closed right-hand door",
+  "a dotted pencil track with arrowheads joining his appearances (handmade)",
+  "four cut-paper balloons lettered with the canon lines in the shared pen hand, pasted over the print's top and bottom edges in reading order; caption and folio in the pen hand"
+ ],
+ "events": {
+  "E0": "agent behind the desk, memo slip on it (centre foreground)",
+  "E1": "agent at the ticket window, turned toward the glass; stranger behind it; question balloon (top left) tailed from the upper right to her mouth's right corner",
+  "E2": "agent under the wall clock (4:10), head tipped back toward it, pencil at his temple; answer balloon (top centre) tailed to his mouth's right",
+  "E3": "thanks balloon (left, below) tailed from below-left to her mouth's left corner; her face left clear",
+  "E4": "cupboard open, key on its hook with its SERVICE tag",
+  "E5": "agent before the open cupboard, pencil to chin, forgetting balloon (bottom right); SERVICE door shut"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "beat": "on one unchanging print the agent is laid down again and again along a dotted track: desk, window, clock, then the cupboard is opened and he stands before it",
+ "beat_frames": [
+  "b01: the empty office on the print (cupboard shut, clock at 4:10, SERVICE card)",
+  "b02: + the agent at the desk with the memo (E0)",
+  "b03: + the agent at the ticket window, the stranger behind the glass, her question; first leg of the track (E1)",
+  "b04: + the agent under the clock, his answer; second leg (E2)",
+  "b05: + her thanks (E3)",
+  "b06: the cupboard opened, the key on its hook; third leg (E4)",
+  "b07: + the agent at the open cupboard, pencil to chin, the forgetting line (E5) = the page"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1068664,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "panels": 1,
+  "agent_appearances": 4,
+  "balloon_cap_px": 58,
+  "longest_horizontal_occlusion_edge_px_per_figure": {
+   "E1": 24,
+   "E2": 15,
+   "E4-E5": 34,
+   "E0": 39
+  },
+  "occlusion": "counter/desk re-laid only inside each figure's footprint; fist and pencil forearm kept in front",
+  "check": "A reader finds the agent more than once in one frame and orders his appearances E0 to E5 (maker's judgement from the full-size page; blind reading pending)",
+  "evidence": "measured (size, bytes, appearance count) and perceptually judged (from frames) by the maker"
+ },
+ "weaknesses": [
+  "the agent source is one frontal, downcast Rothstein photograph: the FK rig can mirror, turn the head in the picture plane and move the pencil forearm, but cannot give a true profile (E1) or raise his eyes (E2: the head tips back, the eyelids stay down)",
+  "the three standing appearances still share one torso cut-out, scaled alike behind the same counter"
+ ]
+}

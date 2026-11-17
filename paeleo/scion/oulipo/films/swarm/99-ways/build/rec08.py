@@ -1,0 +1,49 @@
+import sys
+sys.path.insert(0, "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways/build")
+from p08_lipogram import TEXT, all_text, check_no_e
+from b1m2 import *
+jp = PAGES_OUT / "08-without-e.jpg"
+im = Image.open(jp)
+src = ["99-ways-template:anrc-gold-key-1922", "99-ways-template:loc-blank-sheet-1934", "99-ways:handmade"]
+credit_pages(src, 8)
+strings = all_text() + ["08"]
+rec = {
+ "n": 8, "id": "without-e", "title": "Lipogram", "family": "formal / Oulipian rule", "medium": "stencil-dye", "canon_revision": "c1",
+ "rule": "No letter e anywhere on the page, folio title included; the four lines are rewritten to fit.",
+ "declares": "lines rewritten without e",
+ "file": "assets/pages/99-ways/08-without-e.jpg", "master": "films/sources/99-ways/masters/08-without-e.png",
+ "beats_dir": "films/sources/99-ways/beats/08",
+ "build": "films/swarm/99-ways/build/p08_lipogram.py (figure model: build/b1m2.py)",
+ "sources": src,
+ "made": [
+  "six panels printed as HANDMADE stencils in five flat dyes plus a wall wash (indigo, madder, ochre, verdigris, umber, skin): one cut stencil per colour from the b1m2 cut model, paper ties (bridges) cut across every large opening, a fixed misregistration per colour, mottled dye with pooling at the stencil edges, on the LoC 1934 sheet",
+  "the ANRC 1922 key cutout used as a stencil, printed in ochre; the memo's 'key' drawn as a small umber key instead of written",
+  "captions and rewritten lines in the shared pen hand (all strings asserted e-free at build time); folio 'Lipogram 08' by pen99.folio"
+ ],
+ "substitutions": {
+  "question": {"canon": "Pardon me — have you the right time?", "page": "Pardon! Do you know what o'clock it is?"},
+  "answer": {"canon": "Ten past four, by the clock.", "page": "It's 4:10, by that clock."},
+  "thanks": {"canon": "Much obliged!", "page": "Thank you kindly!"},
+  "forgetting": {"canon": "Well, here I am... and what for?", "page": "So, I'm at my cupboard... and what for?"},
+  "SERVICE card and tag": "SRVC",
+  "TICKET OFFICE window board": "RANDOLPH STATION",
+  "memo": "'4:15: unlock SRVC door. [drawn key] in cupboard.'"
+ },
+ "page_strings": strings,
+ "events": {"E0": "P1: the memo slip on the desk, the agent rising to go", "E1": "P2: the stranger at the window, question",
+            "E2": "P3: the clock at 4:10, answer", "E3": "P4: she turns away, thanks",
+            "E4": "P5: cupboard open, brass key on its hook, tag SRVC", "E5": "P6: pencil to chin, the forgetting line; key on its hook, SRVC door shut"},
+ "beat": "the page is printed stencil by stencil: wall wash, ochre, verdigris, indigo, madder and skin, umber; then the e-free lettering is laid",
+ "beat_frames": ["b01: wall wash", "b02: + ochre (desk, cupboard, key)", "b03: + verdigris (floor, SRVC door)", "b04: + indigo (waistcoat, window)",
+                 "b05: + madder and skin (clock, her coat, faces)", "b06: + umber (trousers, hair, hands of the clock)", "b07: + lettering (the finished page)"],
+ "self_check": {
+  "size_px": list(im.size), "jpeg_bytes": jp.stat().st_size, "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": 400000 <= jp.stat().st_size <= 1200000,
+  "no_letter_e": check_no_e() and not any(c in "eE" for c in "".join(strings)),
+  "check": "No letter e (upper or lower case) appears anywhere, folio title included: every lettered string on the page is listed in page_strings and asserted e-free at build time (measured); the photographs and stencils carry no lettering",
+  "evidence": "measured (strings) and perceptually judged (from frames) by the maker"
+ },
+ "weaknesses": ["'4:10' is written in figures to avoid 'ten'", "the cupboard reads as an open frame more than a solid piece of furniture"]
+}
+write_record(rec)
+print(rec["self_check"])
