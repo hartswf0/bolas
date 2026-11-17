@@ -1,291 +1,269 @@
-"""Les caïds de la gaudriole — a folded dialogue. Two open panels argue over a
-borrowed key; one marked fold (fold back so A meets B) joins two existing text
-fragments and the porter's hand to the key. Only ink already on the sheet."""
-import math
+"""Les caids de la gaudriole -- "Folded dialogue" (SCION swarm, montage editor).
+
+A printed two-panel strip (Wilhelm Busch's 1865 Max und Moritz plates cut out as
+puppets, pen-drawn balloons, lettering, key, forearm and service door, printed on
+a real paper scan) lies on a real wood table. Its puppets settle into the printed
+pose; then the sheet folds by stop-motion (mountain A, valley M) until A lies on
+B and the two half-panels read as one: "THE KEY? I HAD IT / IN MY POCKET / ALL
+ALONG." -- "OH? REALLY?". It unfolds, refolds, and ends on a light box that
+shows every hidden layer, mirrored or not, where the fold geometry puts it.
+
+Sources of every frame (nothing is drawn here except the two pen-lettered cards):
+  shots 1, 5, 7, 8 : exposures rendered by the tabletop unit
+                      (sources/les-caids-de-la-gaudriole/tabletop/shot-N/eNNN.png)
+  shots 2, 3, 4, 6 : rendered here, per exposure, with the tabletop unit's own
+                      renderer (swarm/.../shots/build/render_shots.py) and the
+                      puppet rig (puppets/rig.json, poses.json) -- 2 and 3 with the
+                      corrected reading drift, 4 = pull-back to the open strip,
+                      6 = hold + stepped push-in on the settled folded state.
+All strip art comes from swarm/.../strip/strip-art.png (the page's art, sha256 in
+strip/sheet.json). Stop-motion on twos: 12 exposures/s in a 24 fps container.
+
+Sound: the tabletop unit's foraged effect stems (paper ticks per exposure, thud,
+bell strike, light-box switch; declared synthetic lamp hum) laid at each shot's
+start, the foraged room tone (Wreckless, 1935) under all of it, and one more bell
+strike at 0:40 on "OH? REALLY?". Run from the project root:
+    python3 films/les-caids-de-la-gaudriole.py [--stills t ...]
+"""
+import os
+import sys
+import wave
+
 import numpy as np
-from PIL import Image, ImageDraw, ImageFilter
-from kit import *
-from kit_comics import *
+from PIL import Image, ImageDraw
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+from kit import Film, RATE  # noqa: E402
 
 SLUG = "les-caids-de-la-gaudriole"
-SW, SH = 2400, 840            # the printable sheet (strip) in px
-PY0, PHT = 40, 760            # panel band
-P1 = (0, 1170)
-P2 = (1230, 2400)
-A, B = 760, 1640              # fold back so A meets B
-D = B - A                     # hidden width; right part moves by -D
-M = (A + B) / 2               # the second crease, in the gutter's middle
-FLOOR_Y = 600
-LS = 44
-BAL_Y = 120                   # balloon centre (panel coords)
+WS = os.path.join(HERE, "swarm", SLUG)
+BUILD = os.path.join(WS, "shots", "build")
+STRIP = os.path.join(WS, "strip")
+SRC = os.path.join(HERE, "sources", SLUG)
+TAB = os.path.join(SRC, "tabletop")
+SND = os.path.join(WS, "shots", "sound")
+sys.path.insert(0, BUILD)
+sys.path.insert(0, STRIP)
 
-U = 1.75                      # figure scale
-PORTER_X = 556
-# the porter's arm: computed once so the key in panel 2 can be registered to the hand
-_probe = Ink(0, 0, (10, 10), boil=0)
-_o = person(_probe, PORTER_X, 735, U, "porter", 1, arms={"front": (74, 84), "back": (-8, -4)})
-HAND = _o["hands"]["front"]   # panel-1 coords == sheet x (panel 1 starts at 0)
-KEY_Y = HAND[1]
-KEY_BOW_X = HAND[0] + 8.5 * U + 9 * 2.6 - 4 + D   # bow meets the hand once folded
+import render_shots as RS  # noqa: E402  (tabletop unit's renderer; reads strip/strip-art.png)
+from pen import pen, text_width  # noqa: E402  (handmade stroke alphabet)
+
+W, H, XPS = 960, 540, 12      # frame size, exposures per second (on twos)
+
+# ------------------------------------------------------------- renderer -----
+_R = None
 
 
-def bg(ink, w, h, x_off):
-    station_bg(ink, w, h, FLOOR_Y, dado=380)
+def R():
+    global _R
+    if _R is None:
+        _R = RS.Renderer()
+        _R.open_cs = RS.section(*RS.OPEN)
+        _R.flat_cs = RS.section(*RS.FLAT)
+        _R.rest = RS.PUP.render({}).astype(np.int16)
+    return _R
 
 
-def panel1(ink, w, h):
-    bg(ink, w, h, 0)
-    person(ink, PORTER_X, 735, U, "porter", 1, mouth="shout", brows="angry", look=(1, 0),
-           arms={"front": (74, 84), "back": (-8, -4)})
-    # hidden band of panel 1: the visitor and her envelope
-    person(ink, 1010, 735, 1.45, "visitor", -1, mouth="smile", brows="raised", look=(-1, 0),
-           arms={"front": (40, 90), "back": (30, 80)},
-           holding=lambda k, hf, hb: envelope_s(k, hf[0] - 6, hf[1] - 6, 90, 58))
-    # the big balloon: fragment left of A + fragment in the band
-    f = lfont(LS, "Bold")
-    x0, x1 = 50, 1130
-    _balloon_frame(ink, x0, x1, BAL_Y, tail=(PORTER_X + 20, 255))
-    pen_text(ink.d, (A - 7, BAL_Y), "THE KEY IS", f, INK, "rm")
-    pen_text(ink.d, (A + 7, BAL_Y), "MISSING!", f, INK, "lm")
-    balloon(ink, 985, 224, "You borrowed it!", 28, tail=(800, 250), maxw=330)
-    balloon(ink, 985, 318, "This? Just a dull envelope.", 28, tail=(1000, 378), maxw=250)
+def u8(img):
+    return np.clip(img, 0, 255).astype(np.uint8)
 
 
-def panel2(ink, w, h):
-    ox = P2[0]
-    bg(ink, w, h, ox)
-    door_s(ink, 2060 - ox, FLOOR_Y, 150, 280, u=1.3)
-    bell_s(ink, 2250 - ox, 210, 1.5)
-    bench_s(ink, 2290 - ox, 735, 380, 1.4)
-    # a key rack on the wall: one brass clip holds the key level, bow toward the band
-    for px in (B + 60 - ox, B + 118 - ox):
-        ink.rect(px - 6, KEY_Y + 2, px + 6, KEY_Y + 18, fill=BRASS, color=INK, width=2)
-    key_shape(ink, KEY_BOW_X - ox, KEY_Y, 2.6)
-    # hidden band of panel 2: the visitor shows empty hands
-    person(ink, 1420 - ox, 735, U, "visitor", 1, mouth="open", brows="raised", look=(1, -0.3),
-           arms={"front": (120, 150), "back": (-120, -150)})
-    f = lfont(LS, "Bold")
-    x0, x1 = 1250, 2370
-    _balloon_frame(ink, x0 - ox, x1 - ox, BAL_Y, tail=(1440 - ox, 260))
-    pen_text(ink.d, (B - 7 - ox, BAL_Y), "LOOK: NOTHING", f, INK, "rm")
-    pen_text(ink.d, (B + 7 - ox, BAL_Y), "IN MY HAND.", f, INK, "lm")
+def cam_shift(c, d):
+    d = np.asarray(d, float)
+    return (c[0] + d, c[1] + d, c[2])
 
 
-def _balloon_frame(ink, x0, x1, cy, tail):
-    """A wide speech balloon whose top and bottom run level through the fold lines."""
-    rx, ry = (x1 - x0) / 2, 62
-    cx = (x0 + x1) / 2
-    pts = []
-    for k in range(160):
-        a = 2 * math.pi * k / 160
-        c, s = math.cos(a), math.sin(a)
-        pts.append((cx + rx * math.copysign(abs(c) ** (2 / 6), c), cy + ry * math.copysign(abs(s) ** (2 / 6), s)))
-    tx, ty = tail
-    b1, b2 = (tx - 22, cy + ry - 4), (tx + 22, cy + ry - 4)
-    ink.d.polygon(pts, fill=PAGE)
-    ink.d.polygon([b1, b2, (tx, ty)], fill=PAGE)
-    ink.line(pts + [pts[0]], INK, 4, rough=False)
-    ink.d.polygon([(b1[0] + 3, b1[1] - 6), (b2[0] - 3, b2[1] - 6), (tx, ty - 4)], fill=PAGE)
-    ink.line([b1, (tx, ty), b2], INK, 4, rough=False)
+def puppet_exposure(ex, jit, gain):
+    r = R()
+    pos, tgt, foc = ex["cam"]
+    cam = RS.Cam(pos + jit, tgt + jit * 0.5, foc)
+    pr = RS.PUP.render(ex["pose"]).astype(np.int16)
+    sheet = np.where(np.abs(pr - r.rest) > 2, pr, RS.ART).astype(np.uint8)
+    r.set_art(sheet)
+    img = r.frame(cam, r.open_cs, gain)
+    r.set_art(RS.ART)
+    return u8(img)
 
 
-def build_sheet():
-    sheet = Ink(0, 0, (SW, SH), boil=0, wobble=0.8, seed=5)
-    sheet.d.rectangle([0, 0, SW, SH], fill=PAGE)
-    im1 = make_panel(P1[1] - P1[0], PHT, panel1, seed=1)
-    im2 = make_panel(P2[1] - P2[0], PHT, panel2, seed=2)
-    sheet.img.paste(im1, (P1[0], PY0))
-    sheet.img.paste(im2, (P2[0], PY0))
-    sheet.d = ImageDraw.Draw(sheet.img, "RGBA")
-    # fold marks in the margins only
-    for x, lab in ((A, "A"), (B, "B")):
-        for y0, y1 in ((0, PY0 - 4), (PY0 + PHT + 4, SH)):
-            for yy in range(int(y0), int(y1), 10):
-                sheet.d.line([(x, yy), (x, min(y1, yy + 5))], fill=INK, width=3)
-        sheet.d.polygon([(x - 9, 0), (x + 9, 0), (x, 14)], fill=INK)
-        sheet.d.text((x + (-14 if lab == "A" else 14), 18), lab, font=lfont(22), fill=INK, anchor="rm" if lab == "A" else "lm")
-    sheet.d.text(((A + B) / 2, PY0 + PHT + 20), "FOLD BACK SO A MEETS B", font=lfont(18, "SemiBold"), fill=MUTED, anchor="mm")
-    return sheet.img.convert("RGB")
+# reading drift corrected (the tabletop unit's own fix, see its report)
+DRIFT2 = (45, -15, 0)
+DRIFT3 = (40, -10, 0)
+END2 = cam_shift(RS.CAM_P1, DRIFT2)
+END3 = cam_shift(RS.CAM_P2, DRIFT3)
+SEQ2 = RS.seq_puppet(2, RS.CAM_WIDE, RS.CAM_P1, DRIFT2)
+SEQ3 = RS.seq_puppet(3, END2, RS.CAM_P2, DRIFT3)
+_rng = np.random.RandomState(40)
+JIT = {s: [(_rng.normal(0, 1.0, 3), 1 + _rng.uniform(-0.02, 0.02)) if ex.get("jit") else (np.zeros(3), 1.0)
+           for ex in seq] for s, seq in (("2", SEQ2), ("3", SEQ3))}
+
+# shot 6: hold on the settled fold, then a stepped push-in that reads the joined
+# balloon left to right across the seam, drops to the sleeve->hand->key join, and
+# pans to the boys' "OH? REALLY?" (bell at its exposure 72 = 0:40).
+C_HOLD = RS.CAM_PACKET
+C_L1 = RS.cam_at(1590, 205, 1180, 24, 1150)    # "THE KEY? I HAD IT" (left of the seam)
+C_L2 = RS.cam_at(1930, 205, 1180, 24, 1150)    # "...IN MY POCKET / ALL ALONG." across it
+C_JOIN = RS.cam_at(1800, 560, 1180, 24, 1150)  # the miller's sleeve into the porter's hand + key
+C_OH = RS.cam_at(2070, 450, 1240, 24, 1150)    # the boys, "OH? REALLY?"
+SHOT6 = ([C_HOLD] * 12 +
+         [RS.cam_mix(C_HOLD, C_L1, RS.ease((i + 1) / 12)) for i in range(12)] +
+         [C_L1] * 6 +
+         [RS.cam_mix(C_L1, C_L2, RS.ease((i + 1) / 14)) for i in range(14)] +
+         [C_L2] * 10 +
+         [RS.cam_mix(C_L2, C_JOIN, RS.ease((i + 1) / 8)) for i in range(8)] +
+         [C_JOIN] * 10 +
+         [RS.cam_mix(C_JOIN, C_OH, RS.ease((i + 1) / 6)) for i in range(6)] +
+         [C_OH] * 18)
+assert len(SHOT6) == 96, len(SHOT6)
+
+# shot 4: pull back, stepped, from the end of shot 3 to the whole open strip; hold.
+SHOT4 = [RS.cam_mix(END3, RS.CAM_WIDE, RS.ease((i + 1) / 12)) for i in range(12)] + [RS.CAM_WIDE] * 24
 
 
-SHEET = build_sheet()
-SA = np.asarray(SHEET).astype(np.float32)
-SHEET.save(HERE / "stills" / f"{SLUG}-sheet.png") if (HERE / "stills").exists() else None
-
-# registration check: at the folded state the hand's right edge and the key bow meet at the seam
-seam_gap = (KEY_BOW_X - 9 * 2.6 - D) - (HAND[0] + 8.5 * U)
-assert abs(seam_gap) < 12, seam_gap
+def flat_or_open(cam, folded):
+    r = R()
+    pos, tgt, foc = cam
+    return u8(r.frame(RS.Cam(pos, tgt, foc), r.flat_cs if folded else r.open_cs, 1.0))
 
 
-def folded(theta):
-    """Two creases (valley at A, mountain at M): each reflection maps x -> 2f - x;
-    composed they translate the right part by -2(M - A) = -D. Orthographic view."""
-    c, s = math.cos(theta), math.sin(theta)
-    h = D / 2
-    ow = int(round(SW - D * (1 - c)))
-    xs = np.arange(ow, dtype=np.float32)
-    src = np.empty(ow, np.float32)
-    shade = np.ones(ow, np.float32)
-    depth = np.zeros(ow, np.float32)
-    s1 = A + h * c
-    s2 = A + 2 * h * c
-    m0 = xs < A
-    m1 = (xs >= A) & (xs < s1)
-    m2 = (xs >= s1) & (xs < s2)
-    m3 = xs >= s2
-    src[m0] = xs[m0]
-    if c > 1e-3:
-        f1 = (xs[m1] - A) / (h * c)
-        src[m1] = A + f1 * h
-        depth[m1] = f1
-        shade[m1] = 1 - 0.38 * s
-        f2 = (xs[m2] - s1) / (h * c)
-        src[m2] = M + f2 * h
-        depth[m2] = 1 - f2
-        shade[m2] = 1 - 0.12 * s
-    src[m3] = xs[m3] + D * (1 - c)
-    src = np.clip(src, 0, SW - 1)
-    k = 1 - 0.10 * s * depth           # receding pleat shrinks a little
-    ys = np.arange(SH, dtype=np.float32)[:, None]
-    cy = SH / 2
-    sy = np.clip(cy + (ys - cy) / k[None, :], 0, SH - 1)
-    out = SA[sy.astype(np.int32), np.broadcast_to(src.astype(np.int32), (SH, ow))]
-    outside = (sy != np.clip(cy + (ys - cy) / k[None, :], -1e9, 1e9))
-    out = out * shade[None, :, None]
-    img = Image.fromarray(out.clip(0, 255).astype(np.uint8))
-    # blank where perspective pulled the pleat inside its bounds
-    return img, ow
+# --------------------------------------------------------- pen cards --------
+_paper = None
 
 
-# board canvas
-CWID, CHGT = 3000, 1500
-CX, CY = CWID / 2, CHGT / 2
-BASE = Image.new("RGB", (CWID, CHGT), BOARD)
+def card_paper():
+    """The same neutralised paper scan the strip is printed on, lit by the key lamp."""
+    global _paper
+    if _paper is None:
+        p = Image.open(os.path.join(SRC, "paper-engineer-writer", "paper-front-4800x1800.png")).convert("RGB")
+        p = np.asarray(p.crop((700, 0, 3900, 1800)).resize((W * 2, H * 2), Image.LANCZOS), np.float32)
+        fall = R().fall
+        _paper = p * np.clip(fall, 0.86, 1.04)[..., None]
+    return _paper
 
 
-def canvas(theta):
-    img, ow = folded(theta)
-    cv = BASE.copy()
-    x0 = int(CX - ow / 2)
-    y0 = int(CY - SH / 2)
-    sh = Image.new("L", cv.size, 0)
-    ImageDraw.Draw(sh).rectangle([x0 + 14, y0 + 18, x0 + ow + 14, y0 + SH + 18], fill=150)
-    cv.paste(Image.new("RGB", cv.size, (20, 18, 18)), (0, 0), sh.filter(ImageFilter.GaussianBlur(16)))
-    cv.paste(img, (x0, y0))
-    return cv, x0, y0, ow
+def card(lines, e, write_xps=None):
+    """lines: (text, cap_px_at_2x, y_at_2x). Written stroke by stroke: with write_xps,
+    `write_xps` letters appear per exposure (straight-ahead, on twos)."""
+    m = Image.new("L", (W * 2, H * 2), 0)
+    d = ImageDraw.Draw(m)
+    shown = 10 ** 6 if write_xps is None else int(e * write_xps)
+    for i, (s, size, y) in enumerate(lines):
+        k = max(0, min(len(s), shown))
+        shown -= len(s)
+        if k == 0:
+            continue
+        x0 = W - text_width(s, size) / 2
+        pen(d, s[:k], x0, y, size, ink=255, seed=31 + i)
+    ink = np.asarray(m, np.float32)[..., None] / 255.0
+    img = card_paper() * (1 - 0.93 * ink)
+    return np.asarray(Image.fromarray(u8(img)).resize((W, H), Image.LANCZOS))
 
 
-OPEN = canvas(0.0)
-SHUT = canvas(math.pi / 2)
+TITLE = [("FOLDED DIALOGUE", 92, 400),
+         ("AFTER LÉCROART - OUBAPO - FIGURES W. BUSCH 1865", 30, 600)]
+CREDITS = [(t, 30, 220 + 82 * i) for i, t in enumerate([
+    "FIGURES: W. BUSCH, MAX UND MORITZ 1865, PD, COMMONS",
+    "PAPER: J. PUCKETT, CC BY 2.0 - TABLE: BANGO, CC0",
+    "PAPER, THUD, SWITCH: STEPHAN, GREGORYWEIR, MKFI (PD)",
+    "BELL: WORK WITH SOUNDS / LVR-INDUSTRIEMUSEUM, CC BY 4.0",
+    "ROOM TONE: WRECKLESS (1935), MOVINGIMAGEARCHIVE.COM",
+    "HANDMADE: LETTERING, BALLOONS, KEY, DOOR, LIGHT BOX",
+    "FOLD AND PUPPETS: STOP-MOTION, ONE EXPOSURE AT A TIME",
+    "LAMP HUM SYNTHESISED"])]
 
 
-def sheet_box(state, x0, x1, y0=PY0, y1=PY0 + PHT, pad=0.03):
-    _, ox, oy, _ = state
-    return fit_box((ox + x0, oy + y0, ox + x1, oy + y1), pad=pad)
+# --------------------------------------------------------- timeline ---------
+def tab(shot):
+    return lambda e: np.asarray(Image.open(os.path.join(TAB, f"shot-{shot}", f"e{e:03d}.png")).convert("RGB"))
 
 
-FULL_OPEN = sheet_box(OPEN, 0, SW, 0, SH, 0.02)
-FULL_SHUT = sheet_box(SHUT, 0, SW - D, 0, SH, 0.06)
-SEAM = sheet_box(SHUT, A - 330, A + 330, PY0, PY0 + 520, 0.02)
+SEGMENTS = [  # (name, exposures, exposure -> HxWx3 uint8)
+    ("title", 36, lambda e: card(TITLE, e, write_xps=3)),
+    ("shot1", 48, tab(1)),
+    ("shot2", 96, lambda e: puppet_exposure(SEQ2[e], *JIT["2"][e])),
+    ("shot3", 96, lambda e: puppet_exposure(SEQ3[e], *JIT["3"][e])),
+    ("shot4", 36, lambda e: flat_or_open(SHOT4[e], False)),
+    ("shot5", 96, tab(5)),
+    ("shot6", 96, lambda e: flat_or_open(SHOT6[e], True)),
+    ("shot7", 96, tab(7)),
+    ("shot8", 108, tab(8)),
+    ("credits", 48, lambda e: card(CREDITS, e)),
+]
+STARTS, _t = {}, 0.0
+for name, n, _ in SEGMENTS:
+    STARTS[name] = _t
+    _t += n / XPS
+SECONDS = _t
 
-# timeline: (t0, t1, kind, args)
-TITLE = 2.8
-segs = []
-t = TITLE
-sh = Shots(start=0)
-sh.add(FULL_OPEN, 2.2, 0)
-VO = []
-for x0, x1, who, line in ((0, 900, "porter", "The key is missing!"), (700, 1170, "visitor", "This? Just a dull envelope."),
-                          (1230, 1900, "visitor", "Look: nothing in my hand."), (1700, 2400, None, "")):
-    sh.add(sheet_box(OPEN, x0, x1), 2.9, 0.6)
-    VO.append((sh.t - 2.9, who, line))
-sh.add(FULL_OPEN, 2.6, 0.8)
-OPEN_SHOTS = sh
-T_FOLD1 = TITLE + sh.t
-FOLD1 = 3.4
-T_SHUT1 = T_FOLD1 + FOLD1
-sh2 = Shots()
-sh2.add(FULL_SHUT, 1.8, 0)
-sh2.add(SEAM, 3.6, 1.0)
-sh2.add(FULL_SHUT, 1.0, 0.9)
-T_UN = T_SHUT1 + sh2.t
-UNF = 2.0
-T_RE = T_UN + UNF + 1.2
-REF = 2.0
-T_END = T_RE + REF
-FINAL = 5.0
-DUR = round(T_END + FINAL, 2)
-
-film = Film(SLUG, seconds=DUR, boil=0, wobble=0)
-grayscale_frames(film)
-film.poster_at = T_SHUT1 + 3.0
-
-_fold_cache = {}
+_last = {}
 
 
-def fold_frame(theta):
-    key = round(theta, 3)
-    if key not in _fold_cache:
-        if len(_fold_cache) > 4:
-            _fold_cache.clear()
-        st = canvas(theta)
-        box = lerp_box(FULL_OPEN, FULL_SHUT, theta / (math.pi / 2))
-        _fold_cache[key] = view(st[0], box)
-    return _fold_cache[key]
+def exposure_at(t):
+    for name, n, fn in SEGMENTS:
+        t0 = STARTS[name]
+        if t0 <= t < t0 + n / XPS or name == SEGMENTS[-1][0]:
+            e = min(n - 1, int((t - t0) * XPS + 1e-6))
+            key = (name, e)
+            if _last.get("key") != key:
+                _last["key"], _last["img"] = key, fn(e)
+            return _last["img"]
+
+
+film = Film(SLUG, seconds=SECONDS, boil=0, wobble=0)
+film.poster_at = STARTS["shot6"] + 3.0
 
 
 @film.picture
 def frame(t, ink):
-    if t < TITLE:
-        ink.card("Les caïds de la gaudriole", "two panels, one marked fold · no new ink")
-        if t > TITLE - 0.4:
-            ink.d.rectangle([0, 0, W, H], fill=PAPER + (int(255 * (t - TITLE + 0.4) / 0.4),))
-        return
-    if t < T_FOLD1:
-        ink.paste(view(OPEN[0], OPEN_SHOTS.at(t - TITLE)))
-        if t > T_FOLD1 - 2.0:
-            ink.caption("fold back along the marks so that A meets B", min(1, (t - T_FOLD1 + 2.0) / 0.4), y=H - 30, size=20, kind="sans")
-        return
-    if t < T_SHUT1:
-        th = (math.pi / 2) * smooth((t - T_FOLD1) / FOLD1)
-        ink.paste(fold_frame(th))
-        return
-    if t < T_UN:
-        ink.paste(view(SHUT[0], sh2.at(t - T_SHUT1)))
-        return
-    if t < T_UN + UNF:
-        th = (math.pi / 2) * (1 - smooth((t - T_UN) / UNF))
-        ink.paste(fold_frame(th))
-        return
-    if t < T_RE:
-        ink.paste(view(OPEN[0], FULL_OPEN))
-        return
-    if t < T_END:
-        th = (math.pi / 2) * smooth((t - T_RE) / REF)
-        ink.paste(fold_frame(th))
-        return
-    ink.paste(view(SHUT[0], FULL_SHUT))
-    a = min(1, (t - T_END) / 0.5)
-    ink.caption(f"same ink · creases at x={A} and x={int(M)} · x > {B} moves to x - {D}", a, y=H - 26, size=17, kind="sans")
+    ink.paper(grain=False)        # no added grain: the texture is the paper scan itself
+    ink.paste(Image.fromarray(exposure_at(t)), (0, 0))
+
+
+# --------------------------------------------------------------- sound ------
+def read_wav(path):
+    with wave.open(path) as w:
+        assert w.getframerate() == RATE
+        a = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(np.float64) / 32768.0
+        return a.reshape(-1, w.getnchannels())
 
 
 @film.sound
 def sound(mix):
-    mix.room(0, DUR, 0.03)
-    for t0, who, line in VO:
-        if who:
-            voice(mix, TITLE + t0 + 0.3, line, 108 if who == "porter" else 182, -0.3 if who == "porter" else 0.3, 0.09)
-    for t0, dur in ((T_FOLD1, FOLD1), (T_UN, UNF), (T_RE, REF)):
-        mix.whoosh(t0 + 0.2, dur * 0.8, 0.10)
-        for k in range(6):
-            mix.click(t0 + 0.3 + k * dur * 0.11, 0.06, 0, 7000, 0.06)   # paper creak
-        mix.click(t0 + dur - 0.05, 0.25, 0, 3000, 0.05)                    # crease lands
-    mix.note(T_SHUT1 + 0.1, 196, 1.4, 0.10, 0, "tri")
-    mix.bell(T_SHUT1 + 2.9, 523, 3.0, 0.12)
-    mix.bell(T_END + 0.2, 392, 4.0, 0.10)
-    mix.reverb(0.15)
+    n = mix.n
+    # foraged room tone (Wreckless, 1935), looped with 0.4 s crossfades, whole film
+    room = read_wav(os.path.join(SND, "roomtone-10s.wav"))[:, 0]
+    room = room[int(0.4 * RATE):int(9.6 * RATE)]
+    xf = int(0.4 * RATE)
+    win = np.ones(len(room))
+    win[:xf] = np.linspace(0, 1, xf)
+    win[-xf:] = np.linspace(1, 0, xf)
+    bed = np.zeros(n + len(room))
+    pos = 0
+    while pos < n:
+        bed[pos:pos + len(room)] += room * win
+        pos += len(room) - xf
+    bed = bed[:n]
+    tt = np.arange(n) / RATE
+    duck = 1 - 0.45 * np.clip(np.minimum((tt - 34.0) / 0.6, (40.0 - tt) / 0.6), 0, 1)  # near silence on the reveal
+    fade = np.clip(np.minimum(tt / 1.0, (SECONDS - tt) / 2.0), 0, 1)
+    bed = bed * duck * fade
+    mix.L[:n] += bed
+    mix.R[:n] += bed
+    # per-shot foraged effects stems (paper tick per moving exposure, thud, bell at 0:08, switch)
+    for name, shot in (("shot1", 1), ("shot2", 2), ("shot3", 3), ("shot5", 5), ("shot7", 7), ("shot8", 8)):
+        st = read_wav(os.path.join(SND, f"shot-{shot}-fx.wav"))
+        i = int(STARTS[name] * RATE)
+        m = min(len(st), n - i)
+        mix.L[i:i + m] += st[:m, 0]
+        mix.R[i:i + m] += st[:m, 1]
+    # the second station-bell strike, on "OH? REALLY?" (shot 6 exposure 72 = 0:40)
+    bell = read_wav(os.path.join(SND, "bell-strike.wav"))[:, 0]
+    mix.add(bell, STARTS["shot6"] + 72 / XPS, 0.6, pan=0.25)
+    # keep the stems' relative levels: scale the whole bed so kit's master leaves it as is
+    pk = max(np.abs(mix.L).max(), np.abs(mix.R).max())
+    mix.L *= 0.8 / pk
+    mix.R *= 0.8 / pk
 
 
 if __name__ == "__main__":
-    print("seam gap px", seam_gap, "dur", DUR)
     film.render()

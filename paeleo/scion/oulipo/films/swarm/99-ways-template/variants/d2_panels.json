@@ -1,0 +1,146 @@
+{
+ "slug": "99-ways-template",
+ "derived_from": "b1",
+ "operator": "viewpoint: the VISITOR's side of the ticket window",
+ "page": "assets/pages/99-ways-template-platform.png",
+ "page_px": [
+  2550,
+  3300
+ ],
+ "dpi": 300,
+ "label_box_px": [
+  160,
+  168,
+  1275,
+  349
+ ],
+ "route": [
+  "V1",
+  "V2",
+  "V3",
+  "V4"
+ ],
+ "balloon_order": "top-left first within a panel",
+ "panels": [
+  {
+   "id": "V1",
+   "bounds_px": [
+    150,
+    330,
+    2400,
+    1330
+   ],
+   "speech": [],
+   "rest_layers": "films/swarm/99-ways-template/variants/rest/D2/V1/layers.json"
+  },
+  {
+   "id": "V2",
+   "bounds_px": [
+    150,
+    1400,
+    1245,
+    2350
+   ],
+   "speech": [
+    {
+     "id": "b_what_time",
+     "box_panel_px": [
+      440,
+      271,
+      975,
+      949
+     ],
+     "centre_panel_px": [
+      700.0,
+      430.0
+     ],
+     "tail_tip_panel_px": [
+      569.4,
+      980.0
+     ],
+     "tail_exits_panel": true,
+     "cap_px": 66,
+     "lines": [
+      "What time",
+      "is it?"
+     ],
+     "speaker": "VISITOR",
+     "tail_target": "off-panel bottom: the viewpoint is hers"
+    }
+   ],
+   "rest_layers": "films/swarm/99-ways-template/variants/rest/D2/V2/layers.json"
+  },
+  {
+   "id": "V3",
+   "bounds_px": [
+    1305,
+    1400,
+    2400,
+    2350
+   ],
+   "speech": [
+    {
+     "id": "b_ten_past",
+     "box_panel_px": [
+      47,
+      15,
+      542,
+      654
+     ],
+     "centre_panel_px": [
+      300.0,
+      175.0
+     ],
+     "tail_tip_panel_px": [
+      516.3653697529701,
+      647.1178730905708
+     ],
+     "tail_exits_panel": false,
+     "cap_px": 66,
+     "lines": [
+      "Ten past",
+      "four!"
+     ],
+     "speaker": "CLERK",
+     "tail_target": "clerk's mouth, through the glass"
+    },
+    {
+     "id": "b_thanks",
+     "box_panel_px": [
+      575,
+      691,
+      989,
+      949
+     ],
+     "centre_panel_px": [
+      780.0,
+      790.0
+     ],
+     "tail_tip_panel_px": [
+      657.0,
+      980.0
+     ],
+     "tail_exits_panel": true,
+     "cap_px": 62,
+     "lines": [
+      "Thanks!"
+     ],
+     "speaker": "VISITOR",
+     "tail_target": "off-panel bottom: hers"
+    }
+   ],
+   "rest_layers": "films/swarm/99-ways-template/variants/rest/D2/V3/layers.json"
+  },
+  {
+   "id": "V4",
+   "bounds_px": [
+    150,
+    2420,
+    2400,
+    3150
+   ],
+   "speech": [],
+   "rest_layers": "films/swarm/99-ways-template/variants/rest/D2/V4/layers.json"
+  }
+ ]
+}

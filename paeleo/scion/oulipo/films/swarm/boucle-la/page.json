@@ -1,0 +1,3550 @@
+{
+ "slug": "boucle-la",
+ "unit": "U3 page-animator",
+ "owner": "page-animator",
+ "date": "2026-11-17",
+ "mode": "handmake",
+ "acceptance": "Page 3200x1800 with A B C / H / C B A; each pair's page crops pixel-identical and equal to the held drawing of ONE frame directory; every ID >= 8 distinct drawings on 2s with paper jerk, settle and a held final drawing; H face-out frame indexed; annotations in gutters only.",
+ "base_revision": {
+  "cutouts_json": "440addb6827d570827b3ef71d8580cb7824fc5a7423b9f15ce344852a6921819",
+  "script_json": "789273b95abd23456b26a403fb320363c174fbe001ac0e8f1d4e7c0bd3186704",
+  "plan_json": "f3c2921ac7904821fc357cac221a9f786baebf24a3f0080e5980424c3d5b5f69",
+  "lettering_json": "94953e2f5f158d3d4b2f418d29facb99a4ef3458b8b639ba14184efb401f7c74",
+  "code": {
+   "panels.py": "1fda47052f208fd6d1513ba805780c8af58dc960af7958628e2b0a6b2c0c5dc2",
+   "build.py": "d0145fdfa62e05c705f7e17bf6bb6c6e35d700cb6414b91502e8ed6b5a20edbf",
+   "rig.py": "da76dca05af827a4e19bf1a87fa0f1e2e08616c32a4ead096b87c57f96da4823",
+   "letter.py": "f5d2621b963f28cdacc6e7f5d8018de9bc310393d3cfb0ee5483a3a2ddc0e11f"
+  },
+  "pieces": {
+   "gustave_head": "0e67ca24c249e1be562e2eb8b7f1a730ec11a67a08104846fe66776f6dd5d838",
+   "gustave_body": "d188334d6b356c7bf9c766e18ec7cc6074250d8e8fab2b948feceaa07d53f222",
+   "gustave_fore": "2ee2b6e8ae3d1fc7d724781e9ea63de404a1c1e0ef536eb4c3720b04300e1960",
+   "odette_head": "d927cf94cbfcb476066ae042761f3d531ae8227b6ec1f5a58c7735ca6ad3bad5",
+   "odette_body": "816bfb1343c8c0d2a36f9a93bf4e25a33346354202a9946d454eaebf12f0e34e",
+   "odette_fore": "c946c359fe7e9d98212883c7332ebbb8a0f53b36570cc490db9ca9b472c5dbf2",
+   "backdrop": "413cab8b82af74ce1c73f3a4ea17a01d8f14eec1923c18e1ec4923b5c9916741"
+  }
+ },
+ "read_set": [
+  "films/swarm/boucle-la/plan.md",
+  "plan.json",
+  "cutouts.json",
+  "panel-artist/rig.py",
+  "script.json",
+  "dialogue-writer-build/letter.py",
+  "films/sources/boucle-la/panel-artist/cut/*.png",
+  "films/sources/boucle-la/dialogue-writer/lettering/*.png",
+  "test-shot-ledger.json"
+ ],
+ "write_set": [
+  "assets/pages/boucle-la.png",
+  "assets/pages/boucle-la-annotated.png",
+  "films/swarm/boucle-la/page.json",
+  "films/swarm/boucle-la/route.json",
+  "films/swarm/boucle-la/page-animator-build/*",
+  "films/sources/boucle-la/page-animator/**"
+ ],
+ "page": {
+  "file": "assets/pages/boucle-la.png",
+  "sha256": "37e666ab5deb69862944fe1fbf844213be0d39119f2e068c7bf04cbe7d5bcb6c",
+  "size": [
+   3200,
+   1800
+  ],
+  "ground": "#FBFBFB",
+  "ink": "#0D0D0D",
+  "layout": "margin column 0-540 (U2 margin-column.png); rows A B C / H (full width, spot black) / C B A; hand-inked borders ~6 px (H 7 px), one border drawing per ID",
+  "panel_rects": {
+   "r1c1": [
+    560,
+    40,
+    1410,
+    620
+   ],
+   "r1c2": [
+    1440,
+    40,
+    2290,
+    620
+   ],
+   "r1c3": [
+    2320,
+    40,
+    3170,
+    620
+   ],
+   "r2": [
+    560,
+    650,
+    3170,
+    1150
+   ],
+   "r3c1": [
+    560,
+    1180,
+    1410,
+    1760
+   ],
+   "r3c2": [
+    1440,
+    1180,
+    2290,
+    1760
+   ],
+   "r3c3": [
+    2320,
+    1180,
+    3170,
+    1760
+   ]
+  },
+  "crop_pad": {
+   "l": 6,
+   "t": 6,
+   "r": 6,
+   "b": 6
+  },
+  "panel_id_rects": {
+   "r1c1": [
+    1417,
+    599,
+    1433,
+    620
+   ],
+   "r1c2": [
+    2297,
+    598,
+    2313,
+    620
+   ],
+   "r1c3": [
+    3177,
+    598,
+    3193,
+    620
+   ],
+   "r2": [
+    3177,
+    1130,
+    3193,
+    1150
+   ],
+   "r3c1": [
+    1417,
+    1738,
+    1433,
+    1760
+   ],
+   "r3c2": [
+    2297,
+    1738,
+    2313,
+    1760
+   ],
+   "r3c3": [
+    3177,
+    1739,
+    3193,
+    1760
+   ]
+  },
+  "panel_ids_note": "U2's id letters, tight-cropped and scaled to 16 px wide, in the right-hand gutter beside each panel's bottom-right corner (outside every crop)",
+  "tone": {
+   "r1c1": {
+    "id": "A",
+    "black_lt60": 0.2325,
+    "mid": 0.0988,
+    "white_gt200": 0.6687
+   },
+   "r1c2": {
+    "id": "B",
+    "black_lt60": 0.2353,
+    "mid": 0.0994,
+    "white_gt200": 0.6653
+   },
+   "r1c3": {
+    "id": "C",
+    "black_lt60": 0.225,
+    "mid": 0.097,
+    "white_gt200": 0.6781
+   },
+   "r2": {
+    "id": "H",
+    "black_lt60": 0.8344,
+    "mid": 0.0244,
+    "white_gt200": 0.1412
+   },
+   "r3c1": {
+    "id": "C",
+    "black_lt60": 0.225,
+    "mid": 0.097,
+    "white_gt200": 0.6781
+   },
+   "r3c2": {
+    "id": "B",
+    "black_lt60": 0.2353,
+    "mid": 0.0994,
+    "white_gt200": 0.6653
+   },
+   "r3c3": {
+    "id": "A",
+    "black_lt60": 0.2325,
+    "mid": 0.0988,
+    "white_gt200": 0.6687
+   },
+   "page": {
+    "black_lt60": 0.3304,
+    "white_gt200": 0.6096,
+    "chroma_p99": 0.0
+   }
+  },
+  "v1_check": {
+   "min_black_ABC": 0.225,
+   "chroma_p99": 0.0
+  },
+  "framing": "s = 1.20 page px per thumb px; heads top ~188 px (A B C, panel 580 high: heads in the middle third, figures 67 % of height, waist-up); H heads top ~112 px of 500 (figures 78 %); balloons in the top 35-40 %"
+ },
+ "annotated": {
+  "file": "assets/pages/boucle-la-annotated.png",
+  "sha256": "04550d0f479c59046f9abb05131660c2b24177e703f08dc13647ca246eb85b15",
+  "route_polyline": [
+   [
+    575,
+    635
+   ],
+   [
+    3186,
+    635
+   ],
+   [
+    3186,
+    1165
+   ],
+   [
+    547,
+    1165
+   ],
+   [
+    547,
+    1781
+   ],
+   [
+    3150,
+    1781
+   ]
+  ],
+  "tags": [
+   {
+    "occurrence": 1,
+    "slot": "r1c1",
+    "id": "A",
+    "tag": "ACCUSE",
+    "rect": [
+     960,
+     628,
+     1010,
+     643
+    ]
+   },
+   {
+    "occurrence": 2,
+    "slot": "r1c2",
+    "id": "B",
+    "tag": "DENY",
+    "rect": [
+     1848,
+     628,
+     1882,
+     643
+    ]
+   },
+   {
+    "occurrence": 3,
+    "slot": "r1c3",
+    "id": "C",
+    "tag": "PRESS",
+    "rect": [
+     2725,
+     628,
+     2765,
+     643
+    ]
+   },
+   {
+    "occurrence": 4,
+    "slot": "r2",
+    "id": "H",
+    "tag": "REVEAL",
+    "rect": [
+     1842,
+     1158,
+     1889,
+     1173
+    ]
+   },
+   {
+    "occurrence": 5,
+    "slot": "r3c1",
+    "id": "C",
+    "tag": "DEFLECT",
+    "rect": [
+     958,
+     1774,
+     1012,
+     1789
+    ]
+   },
+   {
+    "occurrence": 6,
+    "slot": "r3c2",
+    "id": "B",
+    "tag": "JAB",
+    "rect": [
+     1852,
+     1774,
+     1878,
+     1789
+    ]
+   },
+   {
+    "occurrence": 7,
+    "slot": "r3c3",
+    "id": "A",
+    "tag": "COUNTER-ACCUSE",
+    "rect": [
+     2691,
+     1774,
+     2800,
+     1789
+    ]
+   }
+  ],
+  "rule": "route line and speech-act tags drawn only in the gutters/margins; asserted: no annotation pixel inside any panel crop",
+  "film_layer": {
+   "file": "films/sources/boucle-la/page-animator/annotation-layer.png",
+   "sha256": "b9071d0a6abe3c6fbcf51b1ffc2f678c043041777f124b56a52faf43922c8216",
+   "what": "RGBA ink layer of the same annotations for the film's section 4"
+  }
+ },
+ "editor_media": {
+  "page": "films/sources/boucle-la/page-animator/page.png",
+  "ghost_page": {
+   "file": "films/sources/boucle-la/page-animator/page-ghost.png",
+   "what": "every story panel at 22 % ink over page; furniture inked (film only)"
+  },
+  "frames_root": "films/sources/boucle-la/page-animator/frames",
+  "annotation_layer": "films/sources/boucle-la/page-animator/annotation-layer.png",
+  "paste_rule": "paste frames/<ID>/f####.png at the occurrence's crop_rect top-left on the page raster; after the last frame hold the last frame (== page crop)"
+ },
+ "panels": {
+  "A": {
+   "speaker": "odette",
+   "text": "ET ÇA ?! C'EST TOI QUI L'AS LAISSÉ, CE MOT ?",
+   "slots": [
+    "r1c1",
+    "r3c3"
+   ],
+   "occurrences": [
+    1,
+    7
+   ],
+   "panel_rects": {
+    "r1c1": [
+     560,
+     40,
+     1410,
+     620
+    ],
+    "r3c3": [
+     2320,
+     1180,
+     3170,
+     1760
+    ]
+   },
+   "crop_rects": {
+    "r1c1": [
+     554,
+     34,
+     1416,
+     626
+    ],
+    "r3c3": [
+     2314,
+     1174,
+     3176,
+     1766
+    ]
+   },
+   "raster_size": [
+    862,
+    592
+   ],
+   "frame_s_ox_oy": [
+    1.2,
+    -205.0,
+    -176.8
+   ],
+   "cache_key": "565f809c5c59be56df200772a888597461c9580aa70074c5727bdcf203ad4488",
+   "held_drawing": {
+    "file": "films/sources/boucle-la/page-animator/frames/A/d019.png",
+    "sha256": "0dc9c861b94ce99d4e1b65f885062214a30fe472c69b2e3677e2d59a61b4c8d3"
+   },
+   "page_crop_pixels_sha256": {
+    "r1c1": "b191d14985c294e6698611ef68153fb9edb4eae6dd15468467ab973fb9f747fb",
+    "r3c3": "b191d14985c294e6698611ef68153fb9edb4eae6dd15468467ab973fb9f747fb"
+   },
+   "held_equals_page_crop": true,
+   "frames_dir": "films/sources/boucle-la/page-animator/frames/A",
+   "drawings": 20,
+   "frames": 40,
+   "on": "2s (every drawing exposed exactly 2 frames at 24 fps; f####.png are hard links to d###.png)",
+   "act_s": 1.667,
+   "hold_after_last_frame_min_s": 3.0,
+   "balloon_drawing": 7,
+   "balloon_frame": 14,
+   "face_out_drawing": null,
+   "face_out_frame": null,
+   "balloon": {
+    "text": "ET ÇA ?! C'EST TOI QUI L'AS LAISSÉ, CE MOT ?",
+    "speaker": "odette",
+    "seed": 3042,
+    "cap": 38,
+    "maxw": 580,
+    "centre_in_panel": [
+     508.7,
+     112
+    ],
+    "tail_tip_in_panel": [
+     458.9,
+     286.7
+    ],
+    "mouth_in_panel": [
+     448.5,
+     319.1
+    ],
+    "offset_in_panel": [
+     169,
+     4
+    ],
+    "size": [
+     679,
+     299
+    ],
+    "wrapped_lines": [
+     "ET ÇA ?! C'EST TOI QUI",
+     "L'AS LAISSÉ, CE MOT ?"
+    ],
+    "file": "films/sources/boucle-la/page-animator/lettering/balloon-A.png",
+    "sha256": "bea87897a95d24d2dcceddee2b41eb6f6f14864ba5c35df34d1992b1711ea542"
+   },
+   "fk_selfcheck": {
+    "joint_coincidence_err_px": 0.0,
+    "bone_length_dev_px": 0.0,
+    "note_anchor_err_px": 0.0
+   },
+   "tone": {
+    "id": "A",
+    "black_lt60": 0.2325,
+    "mid": 0.0988,
+    "white_gt200": 0.6687
+   },
+   "exposure_sheet": [
+    {
+     "drawing": 0,
+     "frames": [
+      0,
+      1
+     ],
+     "sha256": "8f2ac13088b6a8efdce27510208f7ed232240dec1a448b42c712004a357853f1",
+     "pose": {
+      "gustave": {
+       "lean": -0.048,
+       "head": 0,
+       "fore": 4
+      },
+      "odette": {
+       "lean": 0.455,
+       "head": 2,
+       "fore": 6,
+       "note_turn": 0,
+       "note_tilt": -4
+      }
+     },
+     "paper_jerk_px": [
+      0.62,
+      0.361
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 1,
+     "frames": [
+      2,
+      3
+     ],
+     "sha256": "4a37293e9392f949745ec743cbf766039914d37a5f31308fe9b55c69a04f5933",
+     "pose": {
+      "gustave": {
+       "lean": 0.158,
+       "head": 0.0,
+       "fore": 4.0
+      },
+      "odette": {
+       "lean": 1.053,
+       "head": 4.0,
+       "fore": 0.0,
+       "note_turn": 0.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.658,
+      0.486
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 2,
+     "frames": [
+      4,
+      5
+     ],
+     "sha256": "69b7734891bf1dcf7535ec9a5d1339163b445f8aa27be4fd70c740de62877480",
+     "pose": {
+      "gustave": {
+       "lean": -1.016,
+       "head": -0.5,
+       "fore": 7.0
+      },
+      "odette": {
+       "lean": -0.049,
+       "head": 1.5,
+       "fore": 12.0,
+       "note_turn": 0.0,
+       "note_tilt": -7.0
+      }
+     },
+     "paper_jerk_px": [
+      0.821,
+      0.627
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 3,
+     "frames": [
+      6,
+      7
+     ],
+     "sha256": "000769f7a034c4091e0329eaadd7bd914330c8d4444fe3feedacbd7cfa4a73c5",
+     "pose": {
+      "gustave": {
+       "lean": -1.578,
+       "head": -1.0,
+       "fore": 10.0
+      },
+      "odette": {
+       "lean": -0.738,
+       "head": -1.0,
+       "fore": 24.0,
+       "note_turn": 0.0,
+       "note_tilt": -10.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.472,
+      0.062
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 4,
+     "frames": [
+      8,
+      9
+     ],
+     "sha256": "50a1c9788a12a4f3c6843b720f226695df405b2fb9b39bdc01ff236841c2045a",
+     "pose": {
+      "gustave": {
+       "lean": -1.562,
+       "head": -3.0,
+       "fore": 13.0
+      },
+      "odette": {
+       "lean": -1.907,
+       "head": -3.5,
+       "fore": 35.0,
+       "note_turn": 0.0,
+       "note_tilt": -10.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.475,
+      -0.556
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 5,
+     "frames": [
+      10,
+      11
+     ],
+     "sha256": "313873ad0456498b5ca86bf037d3b508f1968bce309b17100ed8e7209047c509",
+     "pose": {
+      "gustave": {
+       "lean": -1.323,
+       "head": -5.0,
+       "fore": 16.0
+      },
+      "odette": {
+       "lean": -2.335,
+       "head": -6.0,
+       "fore": 46.0,
+       "note_turn": 0.0,
+       "note_tilt": -10.0
+      }
+     },
+     "paper_jerk_px": [
+      0.221,
+      0.339
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 6,
+     "frames": [
+      12,
+      13
+     ],
+     "sha256": "8378365e19b96c1bc17bb3a850a0d54a65ae170cf43e10381a550872c14534b5",
+     "pose": {
+      "gustave": {
+       "lean": -1.859,
+       "head": -8.5,
+       "fore": 15.5
+      },
+      "odette": {
+       "lean": -2.643,
+       "head": -8.5,
+       "fore": 43.0,
+       "note_turn": 0.0,
+       "note_tilt": -10.0
+      }
+     },
+     "paper_jerk_px": [
+      0.528,
+      0.451
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 7,
+     "frames": [
+      14,
+      15
+     ],
+     "sha256": "276eedb395e29a0247855a08a2b491a54e1a144976a7e1a22488e9e1eca7f7ed",
+     "pose": {
+      "gustave": {
+       "lean": -2.109,
+       "head": -12.0,
+       "fore": 15.0
+      },
+      "odette": {
+       "lean": -2.657,
+       "head": -11.0,
+       "fore": 40.0,
+       "note_turn": 0.0,
+       "note_tilt": -10.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.317,
+      -0.489
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 8,
+     "frames": [
+      16,
+      17
+     ],
+     "sha256": "c37d6e690a6be181999f59f81228c181bd2f120c21546855e33ab9b775feacce",
+     "pose": {
+      "gustave": {
+       "lean": -2.224,
+       "head": -11.0,
+       "fore": 14.5
+      },
+      "odette": {
+       "lean": -2.077,
+       "head": -8.5,
+       "fore": 38.5,
+       "note_turn": 0.0,
+       "note_tilt": -10.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.492,
+      0.647
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 9,
+     "frames": [
+      18,
+      19
+     ],
+     "sha256": "42205efa94df255c591e325a7f8fd241b5076293240eec2204a0a70173a61122",
+     "pose": {
+      "gustave": {
+       "lean": -2.017,
+       "head": -10.0,
+       "fore": 14.0
+      },
+      "odette": {
+       "lean": -1.78,
+       "head": -6.0,
+       "fore": 37.0,
+       "note_turn": 0.0,
+       "note_tilt": -10.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.067,
+      -0.177
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 10,
+     "frames": [
+      20,
+      21
+     ],
+     "sha256": "e4963e0575e3e9211a36d5b59268ac839c937af70d16c0d29f4ddd3545ed347f",
+     "pose": {
+      "gustave": {
+       "lean": -1.675,
+       "head": -9.326,
+       "fore": 14.0
+      },
+      "odette": {
+       "lean": -2.176,
+       "head": -6.415,
+       "fore": 37.389,
+       "note_turn": 0.0,
+       "note_tilt": -10.0
+      }
+     },
+     "paper_jerk_px": [
+      0.129,
+      -0.1
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 11,
+     "frames": [
+      22,
+      23
+     ],
+     "sha256": "28b923c1e8c03c74526067c715a0df2c49728a82ce2395f959670ffa66fc4cc2",
+     "pose": {
+      "gustave": {
+       "lean": -1.323,
+       "head": -8.074,
+       "fore": 14.0
+      },
+      "odette": {
+       "lean": -2.021,
+       "head": -7.185,
+       "fore": 38.111,
+       "note_turn": 0.0,
+       "note_tilt": -10.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.086,
+      0.084
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 12,
+     "frames": [
+      24,
+      25
+     ],
+     "sha256": "b69e5dd3e8b7f78cd35b1706c321ceaf94d999e2b10e3ced43a548e8c73d0a36",
+     "pose": {
+      "gustave": {
+       "lean": -1.4,
+       "head": -7.4,
+       "fore": 14.0
+      },
+      "odette": {
+       "lean": -2.214,
+       "head": -7.6,
+       "fore": 38.5,
+       "note_turn": 0.0,
+       "note_tilt": -10.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.046,
+      0.22
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 13,
+     "frames": [
+      26,
+      27
+     ],
+     "sha256": "b38aeb36360c0f6c4e1ade4163d46094d2718c19e3c12b044f2f3466b824d09d",
+     "pose": {
+      "gustave": {
+       "lean": -1.39,
+       "head": -7.633,
+       "fore": 14.0
+      },
+      "odette": {
+       "lean": -1.79,
+       "head": -7.393,
+       "fore": 38.37,
+       "note_turn": 0.0,
+       "note_tilt": -10.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.434,
+      0.259
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 14,
+     "frames": [
+      28,
+      29
+     ],
+     "sha256": "a22a5affa8b0bd9e9f01bdcb24b13e3456a7a0efe0ffc631a014ab27e9339bfe",
+     "pose": {
+      "gustave": {
+       "lean": -1.409,
+       "head": -8.067,
+       "fore": 14.0
+      },
+      "odette": {
+       "lean": -1.736,
+       "head": -7.007,
+       "fore": 38.13,
+       "note_turn": 0.0,
+       "note_tilt": -10.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.708,
+      0.284
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 15,
+     "frames": [
+      30,
+      31
+     ],
+     "sha256": "b4ee479796cc39547383733e5c5e90a2265913d76c5360f5fa4635d030e0f56b",
+     "pose": {
+      "gustave": {
+       "lean": -1.358,
+       "head": -8.3,
+       "fore": 14.0
+      },
+      "odette": {
+       "lean": -2.205,
+       "head": -6.8,
+       "fore": 38.0,
+       "note_turn": 0.0,
+       "note_tilt": -10.0
+      }
+     },
+     "paper_jerk_px": [
+      0.837,
+      -0.684
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 16,
+     "frames": [
+      32,
+      33
+     ],
+     "sha256": "469037cc2d55e945024ce7c9e7435ae2a5f928d9420483a216165f31f89051b3",
+     "pose": {
+      "gustave": {
+       "lean": -1.525,
+       "head": -8.253,
+       "fore": 14.0
+      },
+      "odette": {
+       "lean": -2.016,
+       "head": -6.831,
+       "fore": 38.0,
+       "note_turn": 0.0,
+       "note_tilt": -10.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.125,
+      -0.014
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 17,
+     "frames": [
+      34,
+      35
+     ],
+     "sha256": "ad4550c78b71939d129f95ffca0762ffe801c0a00828f103c3c4686f67e25047",
+     "pose": {
+      "gustave": {
+       "lean": -1.362,
+       "head": -8.15,
+       "fore": 14.0
+      },
+      "odette": {
+       "lean": -2.063,
+       "head": -6.9,
+       "fore": 38.0,
+       "note_turn": 0.0,
+       "note_tilt": -10.0
+      }
+     },
+     "paper_jerk_px": [
+      0.02,
+      0.215
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 18,
+     "frames": [
+      36,
+      37
+     ],
+     "sha256": "96d0d9d5e52e2f62d09422d924ae34abd076da5e54ce57e3908739a16be474a2",
+     "pose": {
+      "gustave": {
+       "lean": -1.55,
+       "head": -8.047,
+       "fore": 14.0
+      },
+      "odette": {
+       "lean": -2.091,
+       "head": -6.969,
+       "fore": 38.0,
+       "note_turn": 0.0,
+       "note_tilt": -10.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.287,
+      0.113
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 19,
+     "frames": [
+      38,
+      39
+     ],
+     "sha256": "0dc9c861b94ce99d4e1b65f885062214a30fe472c69b2e3677e2d59a61b4c8d3",
+     "pose": {
+      "gustave": {
+       "lean": -1.5,
+       "head": -8,
+       "fore": 14
+      },
+      "odette": {
+       "lean": -2.0,
+       "head": -7,
+       "fore": 38,
+       "note_turn": 0,
+       "note_tilt": -10
+      }
+     },
+     "paper_jerk_px": [
+      0.0,
+      0.0
+     ],
+     "balloon": true,
+     "ground": "page"
+    }
+   ],
+   "reads_as": "accuse: her forearm raises the note at his face; her head nods on the stress (drawing 7); his head lags back; settle; hold"
+  },
+  "B": {
+   "speaker": "gustave",
+   "text": "MOI ?! TU CROIS QUE J'AI QUE ÇA À FAIRE ?",
+   "slots": [
+    "r1c2",
+    "r3c2"
+   ],
+   "occurrences": [
+    2,
+    6
+   ],
+   "panel_rects": {
+    "r1c2": [
+     1440,
+     40,
+     2290,
+     620
+    ],
+    "r3c2": [
+     1440,
+     1180,
+     2290,
+     1760
+    ]
+   },
+   "crop_rects": {
+    "r1c2": [
+     1434,
+     34,
+     2296,
+     626
+    ],
+    "r3c2": [
+     1434,
+     1174,
+     2296,
+     1766
+    ]
+   },
+   "raster_size": [
+    862,
+    592
+   ],
+   "frame_s_ox_oy": [
+    1.2,
+    -205.0,
+    -176.8
+   ],
+   "cache_key": "8afd861ec245d3114371330b0d69acaa0cf51b0283eb4aaba38f8591d0ea5411",
+   "held_drawing": {
+    "file": "films/sources/boucle-la/page-animator/frames/B/d019.png",
+    "sha256": "d7f6e7a9c4d97089999cdb8541285832daacaf85a709a1b3e2f27bb8b7a6018c"
+   },
+   "page_crop_pixels_sha256": {
+    "r1c2": "f4d9607649aa621aa525ec20413a2c329bcf1d383cda3ca016f17284ae4965d1",
+    "r3c2": "f4d9607649aa621aa525ec20413a2c329bcf1d383cda3ca016f17284ae4965d1"
+   },
+   "held_equals_page_crop": true,
+   "frames_dir": "films/sources/boucle-la/page-animator/frames/B",
+   "drawings": 20,
+   "frames": 40,
+   "on": "2s (every drawing exposed exactly 2 frames at 24 fps; f####.png are hard links to d###.png)",
+   "act_s": 1.667,
+   "hold_after_last_frame_min_s": 3.0,
+   "balloon_drawing": 5,
+   "balloon_frame": 10,
+   "face_out_drawing": null,
+   "face_out_frame": null,
+   "balloon": {
+    "text": "MOI ?! TU CROIS QUE J'AI QUE ÇA À FAIRE ?",
+    "speaker": "gustave",
+    "seed": 2863,
+    "cap": 38,
+    "maxw": 580,
+    "centre_in_panel": [
+     367.0,
+     112
+    ],
+    "tail_tip_in_panel": [
+     322.7,
+     247.8
+    ],
+    "mouth_in_panel": [
+     319.7,
+     281.6
+    ],
+    "offset_in_panel": [
+     2,
+     4
+    ],
+    "size": [
+     730,
+     260
+    ],
+    "wrapped_lines": [
+     "MOI ?! TU CROIS QUE J'AI",
+     "QUE ÇA À FAIRE ?"
+    ],
+    "file": "films/sources/boucle-la/page-animator/lettering/balloon-B.png",
+    "sha256": "6846bee03dc259bfbc46bfa684e631f155fb47d96ff5eb2c8623a6a610398e69"
+   },
+   "fk_selfcheck": {
+    "joint_coincidence_err_px": 0.0,
+    "bone_length_dev_px": 0.0,
+    "note_anchor_err_px": 0.0
+   },
+   "tone": {
+    "id": "B",
+    "black_lt60": 0.2353,
+    "mid": 0.0994,
+    "white_gt200": 0.6653
+   },
+   "exposure_sheet": [
+    {
+     "drawing": 0,
+     "frames": [
+      0,
+      1
+     ],
+     "sha256": "a7f65c0080b20d760d07c8697b6ba844921fb6025d86be40b71c898784db1a96",
+     "pose": {
+      "gustave": {
+       "lean": 0.559,
+       "head": 4,
+       "fore": 8
+      },
+      "odette": {
+       "lean": -0.088,
+       "head": 2,
+       "fore": 10,
+       "note_turn": 0,
+       "note_tilt": -2
+      }
+     },
+     "paper_jerk_px": [
+      0.499,
+      0.238
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 1,
+     "frames": [
+      2,
+      3
+     ],
+     "sha256": "54d65309754089dd4515c421dd0669b428bb22faee67f6e490d360d97ef0b4ff",
+     "pose": {
+      "gustave": {
+       "lean": 1.556,
+       "head": 7.0,
+       "fore": 12.0
+      },
+      "odette": {
+       "lean": 0.218,
+       "head": 2.0,
+       "fore": 10.0,
+       "note_turn": 0.0,
+       "note_tilt": -2.0
+      }
+     },
+     "paper_jerk_px": [
+      0.534,
+      -0.618
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 2,
+     "frames": [
+      4,
+      5
+     ],
+     "sha256": "eb0c4477d91e1901a2a9064f070b0382749d3d9fad0d0ede802c598a4fffaf24",
+     "pose": {
+      "gustave": {
+       "lean": 0.033,
+       "head": 3.0,
+       "fore": -14.0
+      },
+      "odette": {
+       "lean": -0.222,
+       "head": 2.0,
+       "fore": 6.0,
+       "note_turn": 0.0,
+       "note_tilt": -2.0
+      }
+     },
+     "paper_jerk_px": [
+      0.038,
+      -0.11
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 3,
+     "frames": [
+      6,
+      7
+     ],
+     "sha256": "c4781bafd81580aee263e3b4e51ea2239f3a6157c38a9b8e9f20ad788d41deda",
+     "pose": {
+      "gustave": {
+       "lean": -1.867,
+       "head": -5.0,
+       "fore": -46.0
+      },
+      "odette": {
+       "lean": 0.468,
+       "head": 4.0,
+       "fore": 0.0,
+       "note_turn": 0.0,
+       "note_tilt": 6.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.005,
+      -0.196
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 4,
+     "frames": [
+      8,
+      9
+     ],
+     "sha256": "0a8354966527b7a9570b0bf93905a5ca237ecc3b88dcde6b7751bafe25d5e1d1",
+     "pose": {
+      "gustave": {
+       "lean": -3.532,
+       "head": -14.0,
+       "fore": -66.0
+      },
+      "odette": {
+       "lean": 0.616,
+       "head": 4.0,
+       "fore": -6.0,
+       "note_turn": 0.0,
+       "note_tilt": 6.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.142,
+      0.667
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 5,
+     "frames": [
+      10,
+      11
+     ],
+     "sha256": "50fe3130af1f449272dd12b0a5c420b29328c62ab01a06f3e548130460a50196",
+     "pose": {
+      "gustave": {
+       "lean": -3.378,
+       "head": -22.0,
+       "fore": -60.0
+      },
+      "odette": {
+       "lean": 0.726,
+       "head": 4.0,
+       "fore": -11.0,
+       "note_turn": 0.0,
+       "note_tilt": 6.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.03,
+      0.563
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 6,
+     "frames": [
+      12,
+      13
+     ],
+     "sha256": "82cde3b7617d846abec022a60649736c4ab905c7d07bb4bde2f8308e950490df",
+     "pose": {
+      "gustave": {
+       "lean": -3.493,
+       "head": -18.0,
+       "fore": -57.5
+      },
+      "odette": {
+       "lean": 0.758,
+       "head": 4.5,
+       "fore": -11.5,
+       "note_turn": 0.0,
+       "note_tilt": 6.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.276,
+      -0.38
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 7,
+     "frames": [
+      14,
+      15
+     ],
+     "sha256": "f375b0553ed1d685d0dfa931724cf0d85b9521c92b653aa8acb9ed5269600561",
+     "pose": {
+      "gustave": {
+       "lean": -2.944,
+       "head": -14.0,
+       "fore": -55.0
+      },
+      "odette": {
+       "lean": 0.732,
+       "head": 5.0,
+       "fore": -12.0,
+       "note_turn": 0.0,
+       "note_tilt": 6.0
+      }
+     },
+     "paper_jerk_px": [
+      0.641,
+      0.421
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 8,
+     "frames": [
+      16,
+      17
+     ],
+     "sha256": "d4050ed98e001bd335eaa8c5e8da77ee1c1da971f85b21a22c2655e0c2f1a63e",
+     "pose": {
+      "gustave": {
+       "lean": -3.096,
+       "head": -15.75,
+       "fore": -57.25
+      },
+      "odette": {
+       "lean": 0.625,
+       "head": 4.5,
+       "fore": -11.0,
+       "note_turn": 0.0,
+       "note_tilt": 6.0
+      }
+     },
+     "paper_jerk_px": [
+      0.036,
+      0.642
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 9,
+     "frames": [
+      18,
+      19
+     ],
+     "sha256": "c7db62daa4ae386af93c15b42641f694a30a1c06570dd9e0eb5e70126388aeb2",
+     "pose": {
+      "gustave": {
+       "lean": -3.253,
+       "head": -17.5,
+       "fore": -59.5
+      },
+      "odette": {
+       "lean": 0.514,
+       "head": 4.0,
+       "fore": -10.0,
+       "note_turn": 0.0,
+       "note_tilt": 6.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.576,
+      -0.018
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 10,
+     "frames": [
+      20,
+      21
+     ],
+     "sha256": "db8c60c05e31b39c50f3ccb3e928ad278616ab0ee0721e296815ab84d5b5d5c9",
+     "pose": {
+      "gustave": {
+       "lean": -3.152,
+       "head": -16.956,
+       "fore": -59.007
+      },
+      "odette": {
+       "lean": 0.25,
+       "head": 4.0,
+       "fore": -10.0,
+       "note_turn": 0.0,
+       "note_tilt": 6.0
+      }
+     },
+     "paper_jerk_px": [
+      0.308,
+      0.499
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 11,
+     "frames": [
+      22,
+      23
+     ],
+     "sha256": "65575999a13ef3568264cb2527ba867300c7f66bb9de15e102f80f035eea3eb1",
+     "pose": {
+      "gustave": {
+       "lean": -3.194,
+       "head": -15.944,
+       "fore": -58.093
+      },
+      "odette": {
+       "lean": 0.465,
+       "head": 4.0,
+       "fore": -10.0,
+       "note_turn": 0.0,
+       "note_tilt": 6.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.24,
+      -0.657
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 12,
+     "frames": [
+      24,
+      25
+     ],
+     "sha256": "b547f46932c7fd6cb5908a82a8df62db32b0a2c9a7e2f97f3c6dcc5d63df87cc",
+     "pose": {
+      "gustave": {
+       "lean": -3.175,
+       "head": -15.4,
+       "fore": -57.6
+      },
+      "odette": {
+       "lean": 0.218,
+       "head": 4.0,
+       "fore": -10.0,
+       "note_turn": 0.0,
+       "note_tilt": 6.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.291,
+      -0.497
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 13,
+     "frames": [
+      26,
+      27
+     ],
+     "sha256": "36d9d639f81204f9ded40d2eebeb3974dab830d78eb37e586a342f22906057ea",
+     "pose": {
+      "gustave": {
+       "lean": -2.887,
+       "head": -15.659,
+       "fore": -57.704
+      },
+      "odette": {
+       "lean": 0.635,
+       "head": 4.104,
+       "fore": -10.0,
+       "note_turn": 0.0,
+       "note_tilt": 6.0
+      }
+     },
+     "paper_jerk_px": [
+      0.73,
+      0.372
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 14,
+     "frames": [
+      28,
+      29
+     ],
+     "sha256": "2aa59b72473b53db171de89e263209d9dc2df8c6550682bb4093a7eac357c4a5",
+     "pose": {
+      "gustave": {
+       "lean": -3.279,
+       "head": -16.141,
+       "fore": -57.896
+      },
+      "odette": {
+       "lean": 0.458,
+       "head": 4.296,
+       "fore": -10.0,
+       "note_turn": 0.0,
+       "note_tilt": 6.0
+      }
+     },
+     "paper_jerk_px": [
+      0.028,
+      -0.365
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 15,
+     "frames": [
+      30,
+      31
+     ],
+     "sha256": "c658f28078873873f4cbf7bc60746c1507419d2729b00393f372f0509600139b",
+     "pose": {
+      "gustave": {
+       "lean": -2.739,
+       "head": -16.4,
+       "fore": -58.0
+      },
+      "odette": {
+       "lean": 0.492,
+       "head": 4.4,
+       "fore": -10.0,
+       "note_turn": 0.0,
+       "note_tilt": 6.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.713,
+      -0.279
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 16,
+     "frames": [
+      32,
+      33
+     ],
+     "sha256": "de4a3dfd7c041d98ad81c5f18c97c22f9d05d8c93373183c818f84b209f5be28",
+     "pose": {
+      "gustave": {
+       "lean": -3.045,
+       "head": -16.337,
+       "fore": -58.0
+      },
+      "odette": {
+       "lean": 0.518,
+       "head": 4.338,
+       "fore": -10.0,
+       "note_turn": 0.0,
+       "note_tilt": 6.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.122,
+      -0.077
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 17,
+     "frames": [
+      34,
+      35
+     ],
+     "sha256": "58fde70480ba4d7fedabb63ecae3a36f73066e72ab8f8489d5437028c263aec0",
+     "pose": {
+      "gustave": {
+       "lean": -3.093,
+       "head": -16.2,
+       "fore": -58.0
+      },
+      "odette": {
+       "lean": 0.378,
+       "head": 4.2,
+       "fore": -10.0,
+       "note_turn": 0.0,
+       "note_tilt": 6.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.017,
+      0.095
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 18,
+     "frames": [
+      36,
+      37
+     ],
+     "sha256": "1a09d835de89360fca35c971a360ecdeb33d63aed1ee592f9996bed1336d8f6d",
+     "pose": {
+      "gustave": {
+       "lean": -2.937,
+       "head": -16.062,
+       "fore": -58.0
+      },
+      "odette": {
+       "lean": 0.553,
+       "head": 4.062,
+       "fore": -10.0,
+       "note_turn": 0.0,
+       "note_tilt": 6.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.095,
+      0.19
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 19,
+     "frames": [
+      38,
+      39
+     ],
+     "sha256": "d7f6e7a9c4d97089999cdb8541285832daacaf85a709a1b3e2f27bb8b7a6018c",
+     "pose": {
+      "gustave": {
+       "lean": -3.0,
+       "head": -16,
+       "fore": -58
+      },
+      "odette": {
+       "lean": 0.5,
+       "head": 4,
+       "fore": -10,
+       "note_turn": 0,
+       "note_tilt": 6
+      }
+     },
+     "paper_jerk_px": [
+      0.0,
+      0.0
+     ],
+     "balloon": true,
+     "ground": "page"
+    }
+   ],
+   "reads_as": "'MOI ?!': anticipation dip, forearm flips up palm-out (overshoot drawing 4), head jerks back nose-up one drawing later (5 = balloon), her note drops; settle; hold"
+  },
+  "C": {
+   "speaker": "odette",
+   "text": "ALORS DE QUI IL EST ?!",
+   "slots": [
+    "r1c3",
+    "r3c1"
+   ],
+   "occurrences": [
+    3,
+    5
+   ],
+   "panel_rects": {
+    "r1c3": [
+     2320,
+     40,
+     3170,
+     620
+    ],
+    "r3c1": [
+     560,
+     1180,
+     1410,
+     1760
+    ]
+   },
+   "crop_rects": {
+    "r1c3": [
+     2314,
+     34,
+     3176,
+     626
+    ],
+    "r3c1": [
+     554,
+     1174,
+     1416,
+     1766
+    ]
+   },
+   "raster_size": [
+    862,
+    592
+   ],
+   "frame_s_ox_oy": [
+    1.2,
+    -205.0,
+    -176.8
+   ],
+   "cache_key": "727b16d297c0a42e75a02dd7349d7dc5151f55ab1c8c218c815172ba8dab2dea",
+   "held_drawing": {
+    "file": "films/sources/boucle-la/page-animator/frames/C/d019.png",
+    "sha256": "e41efa65acf6b47721da09500ad7f370961fae607187ae2d6c4fa886c72f1645"
+   },
+   "page_crop_pixels_sha256": {
+    "r1c3": "042d0c86a807321e1c943e752bba9d6ce17a793c6780a0a66e098843e73f997f",
+    "r3c1": "042d0c86a807321e1c943e752bba9d6ce17a793c6780a0a66e098843e73f997f"
+   },
+   "held_equals_page_crop": true,
+   "frames_dir": "films/sources/boucle-la/page-animator/frames/C",
+   "drawings": 20,
+   "frames": 40,
+   "on": "2s (every drawing exposed exactly 2 frames at 24 fps; f####.png are hard links to d###.png)",
+   "act_s": 1.667,
+   "hold_after_last_frame_min_s": 3.0,
+   "balloon_drawing": 6,
+   "balloon_frame": 12,
+   "face_out_drawing": null,
+   "face_out_frame": null,
+   "balloon": {
+    "text": "ALORS DE QUI IL EST ?!",
+    "speaker": "odette",
+    "seed": 1469,
+    "cap": 42,
+    "maxw": 660,
+    "centre_in_panel": [
+     470,
+     100
+    ],
+    "tail_tip_in_panel": [
+     423.5,
+     297.1
+    ],
+    "mouth_in_panel": [
+     415.7,
+     330.2
+    ],
+    "offset_in_panel": [
+     92,
+     14
+    ],
+    "size": [
+     756,
+     300
+    ],
+    "wrapped_lines": [
+     "ALORS DE QUI IL EST ?!"
+    ],
+    "file": "films/sources/boucle-la/page-animator/lettering/balloon-C.png",
+    "sha256": "69631c047ce1c02e3563d105be2f7e851ea13e1ec6df4e5ab25c716a1d9a82ad"
+   },
+   "fk_selfcheck": {
+    "joint_coincidence_err_px": 0.0,
+    "bone_length_dev_px": 0.0,
+    "note_anchor_err_px": 0.0
+   },
+   "tone": {
+    "id": "C",
+    "black_lt60": 0.225,
+    "mid": 0.097,
+    "white_gt200": 0.6781
+   },
+   "exposure_sheet": [
+    {
+     "drawing": 0,
+     "frames": [
+      0,
+      1
+     ],
+     "sha256": "8fb49bc1864dd0f31051ec8e180ecb5f3c1fe1e1b0737164842e6920687a21c8",
+     "pose": {
+      "gustave": {
+       "lean": -0.015,
+       "head": -2,
+       "fore": 10
+      },
+      "odette": {
+       "lean": 0.961,
+       "head": 1,
+       "fore": 8,
+       "note_turn": 0,
+       "note_tilt": -6
+      }
+     },
+     "paper_jerk_px": [
+      -0.093,
+      0.626
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 1,
+     "frames": [
+      2,
+      3
+     ],
+     "sha256": "4d120db42554bfbd91a2f6dfdbb3ace284d6c6ea91945f271eeea72175683537",
+     "pose": {
+      "gustave": {
+       "lean": -0.268,
+       "head": -2.0,
+       "fore": 10.0
+      },
+      "odette": {
+       "lean": 2.091,
+       "head": 3.0,
+       "fore": 5.0,
+       "note_turn": 0.0,
+       "note_tilt": -6.0
+      }
+     },
+     "paper_jerk_px": [
+      0.156,
+      -0.193
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 2,
+     "frames": [
+      4,
+      5
+     ],
+     "sha256": "727b6f372f612509737cfdc4d38f567b6c1f8fb1ba2a229aac081e8463f1c77d",
+     "pose": {
+      "gustave": {
+       "lean": -0.333,
+       "head": -3.0,
+       "fore": 16.0
+      },
+      "odette": {
+       "lean": -0.662,
+       "head": 1.0,
+       "fore": 8.5,
+       "note_turn": 0.0,
+       "note_tilt": -7.5
+      }
+     },
+     "paper_jerk_px": [
+      0.409,
+      0.0
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 3,
+     "frames": [
+      6,
+      7
+     ],
+     "sha256": "4a00f5df3294f1c294e232dcbef2e3dc3110d4ca566f22eef232eb117de39304",
+     "pose": {
+      "gustave": {
+       "lean": -0.884,
+       "head": -4.0,
+       "fore": 22.0
+      },
+      "odette": {
+       "lean": -3.53,
+       "head": -1.0,
+       "fore": 12.0,
+       "note_turn": 0.0,
+       "note_tilt": -9.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.697,
+      0.651
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 4,
+     "frames": [
+      8,
+      9
+     ],
+     "sha256": "dbd0e0c924b0fdf4a125b112bbe1858d90897122f8d4482acfd1f421f55a381a",
+     "pose": {
+      "gustave": {
+       "lean": -1.176,
+       "head": -2.5,
+       "fore": 22.0
+      },
+      "odette": {
+       "lean": -5.178,
+       "head": -3.0,
+       "fore": 17.0,
+       "note_turn": 0.0,
+       "note_tilt": -13.5
+      }
+     },
+     "paper_jerk_px": [
+      0.044,
+      0.405
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 5,
+     "frames": [
+      10,
+      11
+     ],
+     "sha256": "53b2c645ef8c739aa85bf3f25265feef4b79e820a639a07e8dc8e509f2154696",
+     "pose": {
+      "gustave": {
+       "lean": -1.174,
+       "head": -1.0,
+       "fore": 22.0
+      },
+      "odette": {
+       "lean": -6.711,
+       "head": -5.0,
+       "fore": 22.0,
+       "note_turn": 0.0,
+       "note_tilt": -18.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.089,
+      -0.593
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 6,
+     "frames": [
+      12,
+      13
+     ],
+     "sha256": "ee9f43310072e78c515afe8887c14951139745c25fde8bf5dea6410253f39be5",
+     "pose": {
+      "gustave": {
+       "lean": -1.353,
+       "head": -6.0,
+       "fore": 22.0
+      },
+      "odette": {
+       "lean": -6.306,
+       "head": -12.0,
+       "fore": 21.0,
+       "note_turn": 0.0,
+       "note_tilt": -16.0
+      }
+     },
+     "paper_jerk_px": [
+      0.099,
+      -0.6
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 7,
+     "frames": [
+      14,
+      15
+     ],
+     "sha256": "5fd8a47bf8b9b4b5e71433855e531f1af7e6ce29a685c6f5be74167d5dcf0f7d",
+     "pose": {
+      "gustave": {
+       "lean": -1.08,
+       "head": -4.6,
+       "fore": 22.0
+      },
+      "odette": {
+       "lean": -5.158,
+       "head": -10.1,
+       "fore": 20.5,
+       "note_turn": 0.0,
+       "note_tilt": -16.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.535,
+      0.226
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 8,
+     "frames": [
+      16,
+      17
+     ],
+     "sha256": "c388818c6b0e1243163a5d8853e0d12513cb998f9b5310cf7928908e96e59cff",
+     "pose": {
+      "gustave": {
+       "lean": -1.069,
+       "head": -3.2,
+       "fore": 22.0
+      },
+      "odette": {
+       "lean": -4.87,
+       "head": -8.2,
+       "fore": 20.0,
+       "note_turn": 0.0,
+       "note_tilt": -16.0
+      }
+     },
+     "paper_jerk_px": [
+      0.702,
+      0.061
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 9,
+     "frames": [
+      18,
+      19
+     ],
+     "sha256": "b77b569aa8c3d62af1af8712e014f740f21f5e3c63bba8e40348b8a5880b6eb5",
+     "pose": {
+      "gustave": {
+       "lean": -0.904,
+       "head": -3.511,
+       "fore": 22.0
+      },
+      "odette": {
+       "lean": -4.484,
+       "head": -8.563,
+       "fore": 20.0,
+       "note_turn": 0.0,
+       "note_tilt": -16.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.41,
+      0.551
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 10,
+     "frames": [
+      20,
+      21
+     ],
+     "sha256": "e06c2a36b647baac65312c01245e998a07d092641c045f8ceb7d57e793f25673",
+     "pose": {
+      "gustave": {
+       "lean": -1.163,
+       "head": -4.089,
+       "fore": 22.0
+      },
+      "odette": {
+       "lean": -5.091,
+       "head": -9.237,
+       "fore": 20.0,
+       "note_turn": 0.0,
+       "note_tilt": -16.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.65,
+      -0.019
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 11,
+     "frames": [
+      22,
+      23
+     ],
+     "sha256": "0eea2dd220acda9011d6d39a49e97f09a0405de0929404269b27f52f64badcf7",
+     "pose": {
+      "gustave": {
+       "lean": -1.151,
+       "head": -4.4,
+       "fore": 22.0
+      },
+      "odette": {
+       "lean": -5.415,
+       "head": -9.6,
+       "fore": 20.0,
+       "note_turn": 0.0,
+       "note_tilt": -16.0
+      }
+     },
+     "paper_jerk_px": [
+      0.033,
+      0.572
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 12,
+     "frames": [
+      24,
+      25
+     ],
+     "sha256": "9a7f146d9e45028494726cb264866e91e1bec1ca9774791fcf3a6e078bb95a24",
+     "pose": {
+      "gustave": {
+       "lean": -1.103,
+       "head": -4.338,
+       "fore": 22.0
+      },
+      "odette": {
+       "lean": -5.532,
+       "head": -9.475,
+       "fore": 20.0,
+       "note_turn": 0.0,
+       "note_tilt": -16.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.726,
+      -0.189
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 13,
+     "frames": [
+      26,
+      27
+     ],
+     "sha256": "aa4c13dac9c77c7317b548bce976a6cc0a4b7b84a0c5d7fa5ddae02cff5256d1",
+     "pose": {
+      "gustave": {
+       "lean": -1.059,
+       "head": -4.2,
+       "fore": 22.0
+      },
+      "odette": {
+       "lean": -4.86,
+       "head": -9.2,
+       "fore": 20.0,
+       "note_turn": 0.0,
+       "note_tilt": -16.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.135,
+      -0.627
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 14,
+     "frames": [
+      28,
+      29
+     ],
+     "sha256": "a1a3892c00609282502f3d7a7d48ef2113f54bf2540717f120084e0864c5bcc1",
+     "pose": {
+      "gustave": {
+       "lean": -0.75,
+       "head": -4.062,
+       "fore": 22.0
+      },
+      "odette": {
+       "lean": -4.698,
+       "head": -8.925,
+       "fore": 20.0,
+       "note_turn": 0.0,
+       "note_tilt": -16.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.332,
+      -0.142
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 15,
+     "frames": [
+      30,
+      31
+     ],
+     "sha256": "cbc4256413fd06d2a1fc2278b2a9b93dffeeb95ea7d1131acc801d89e9e383a1",
+     "pose": {
+      "gustave": {
+       "lean": -0.712,
+       "head": -4.0,
+       "fore": 22.0
+      },
+      "odette": {
+       "lean": -5.122,
+       "head": -8.8,
+       "fore": 20.0,
+       "note_turn": 0.0,
+       "note_tilt": -16.0
+      }
+     },
+     "paper_jerk_px": [
+      0.408,
+      0.196
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 16,
+     "frames": [
+      32,
+      33
+     ],
+     "sha256": "12e775a41fe4228424cb3bbfb879070dfaf2c6ad90b0be36938d5de21e23c012",
+     "pose": {
+      "gustave": {
+       "lean": -0.882,
+       "head": -4.0,
+       "fore": 22.0
+      },
+      "odette": {
+       "lean": -4.803,
+       "head": -8.831,
+       "fore": 20.0,
+       "note_turn": 0.0,
+       "note_tilt": -16.0
+      }
+     },
+     "paper_jerk_px": [
+      0.214,
+      -0.036
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 17,
+     "frames": [
+      34,
+      35
+     ],
+     "sha256": "e4ef5a1adfef38b3349b37efc383cecb41497dac91d817e6792f66624632cb3e",
+     "pose": {
+      "gustave": {
+       "lean": -1.054,
+       "head": -4.0,
+       "fore": 22.0
+      },
+      "odette": {
+       "lean": -4.947,
+       "head": -8.9,
+       "fore": 20.0,
+       "note_turn": 0.0,
+       "note_tilt": -16.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.271,
+      -0.11
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 18,
+     "frames": [
+      36,
+      37
+     ],
+     "sha256": "53b50f6fc724119be3d3c0dfc939656c0e93aaf1868bdfca22d369088db3867e",
+     "pose": {
+      "gustave": {
+       "lean": -0.962,
+       "head": -4.0,
+       "fore": 22.0
+      },
+      "odette": {
+       "lean": -4.982,
+       "head": -8.969,
+       "fore": 20.0,
+       "note_turn": 0.0,
+       "note_tilt": -16.0
+      }
+     },
+     "paper_jerk_px": [
+      0.03,
+      -0.331
+     ],
+     "balloon": true,
+     "ground": "page"
+    },
+    {
+     "drawing": 19,
+     "frames": [
+      38,
+      39
+     ],
+     "sha256": "e41efa65acf6b47721da09500ad7f370961fae607187ae2d6c4fa886c72f1645",
+     "pose": {
+      "gustave": {
+       "lean": -1.0,
+       "head": -4,
+       "fore": 22
+      },
+      "odette": {
+       "lean": -5.0,
+       "head": -9,
+       "fore": 20,
+       "note_turn": 0,
+       "note_tilt": -16
+      }
+     },
+     "paper_jerk_px": [
+      0.0,
+      0.0
+     ],
+     "balloon": true,
+     "ground": "page"
+    }
+   ],
+   "reads_as": "press: she rocks back, then the lean leads from the feet (overshoot 5), head arrives a drawing later (6 = balloon), note pushed out; settle; hold"
+  },
+  "H": {
+   "speaker": "gustave",
+   "text": "« À MA CHÈRE ODETTE... » TIENS. C'EST POUR TOI.",
+   "slots": [
+    "r2"
+   ],
+   "occurrences": [
+    4
+   ],
+   "panel_rects": {
+    "r2": [
+     560,
+     650,
+     3170,
+     1150
+    ]
+   },
+   "crop_rects": {
+    "r2": [
+     554,
+     644,
+     3176,
+     1156
+    ]
+   },
+   "raster_size": [
+    2622,
+    512
+   ],
+   "frame_s_ox_oy": [
+    1.2,
+    820.0,
+    -252.8
+   ],
+   "cache_key": "7ce9eff21dab7901b204fffaf72d11522779679a1db966b23f7c3949b919cc13",
+   "held_drawing": {
+    "file": "films/sources/boucle-la/page-animator/frames/H/d032.png",
+    "sha256": "33cc545792843b7a6ca466309653ed6a6c10e1d831c0c2003c08adae04e75001"
+   },
+   "page_crop_pixels_sha256": {
+    "r2": "0d59b695fdcae803e2f01c34da4adebce4fbee779e8aa5b2fd31931a0c1c0db7"
+   },
+   "held_equals_page_crop": true,
+   "frames_dir": "films/sources/boucle-la/page-animator/frames/H",
+   "drawings": 33,
+   "frames": 66,
+   "on": "2s (every drawing exposed exactly 2 frames at 24 fps; f####.png are hard links to d###.png)",
+   "act_s": 2.75,
+   "hold_after_last_frame_min_s": 3.0,
+   "balloon_drawing": 30,
+   "balloon_frame": 60,
+   "face_out_drawing": 24,
+   "face_out_frame": 48,
+   "balloon": {
+    "text": "« À MA CHÈRE ODETTE... » TIENS. C'EST POUR TOI.",
+    "speaker": "gustave",
+    "seed": 3516,
+    "cap": 42,
+    "maxw": 700,
+    "centre_in_panel": [
+     800,
+     150
+    ],
+    "tail_tip_in_panel": [
+     1260.0,
+     236.9
+    ],
+    "mouth_in_panel": [
+     1418.4,
+     250.9
+    ],
+    "offset_in_panel": [
+     396,
+     33
+    ],
+    "size": [
+     880,
+     234
+    ],
+    "wrapped_lines": [
+     "« À MA CHÈRE ODETTE... »",
+     "TIENS. C'EST POUR TOI."
+    ],
+    "file": "films/sources/boucle-la/page-animator/lettering/balloon-H.png",
+    "sha256": "1d88988b4f1f9e4185320938ddf644afa6e2410e79c3c1b60baaf7442bec6a7a"
+   },
+   "fk_selfcheck": {
+    "joint_coincidence_err_px": 0.0,
+    "bone_length_dev_px": 0.0,
+    "note_anchor_err_px": 0.0
+   },
+   "tone": {
+    "id": "H",
+    "black_lt60": 0.8344,
+    "mid": 0.0244,
+    "white_gt200": 0.1412
+   },
+   "exposure_sheet": [
+    {
+     "drawing": 0,
+     "frames": [
+      0,
+      1
+     ],
+     "sha256": "47cb877a48d81a568ff1ba9161e8a61d2ef888d46dc9246e4bc4543c2ab6b37e",
+     "pose": {
+      "gustave": {
+       "lean": -0.132,
+       "head": 0,
+       "fore": 0
+      },
+      "odette": {
+       "lean": 0.088,
+       "head": 0,
+       "fore": 16,
+       "note_turn": 0,
+       "note_tilt": -4
+      }
+     },
+     "paper_jerk_px": [
+      0.25,
+      -0.263
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 1,
+     "frames": [
+      2,
+      3
+     ],
+     "sha256": "2242e17712942e7ffdf70516fb69a33a0854a489e2211a7b855c8dd202595a98",
+     "pose": {
+      "gustave": {
+       "lean": 0.161,
+       "head": 1.6,
+       "fore": 0.0
+      },
+      "odette": {
+       "lean": -0.304,
+       "head": -1.0,
+       "fore": 16.0,
+       "note_turn": 0.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.376,
+      -0.078
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 2,
+     "frames": [
+      4,
+      5
+     ],
+     "sha256": "c59fb3bf899fcce1ffe9ade1789a1744d4af2486d2194771023cf798980dfbcd",
+     "pose": {
+      "gustave": {
+       "lean": 0.439,
+       "head": 3.2,
+       "fore": 0.0
+      },
+      "odette": {
+       "lean": -0.563,
+       "head": -2.0,
+       "fore": 16.0,
+       "note_turn": 0.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.546,
+      0.187
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 3,
+     "frames": [
+      6,
+      7
+     ],
+     "sha256": "c06bd5f4cd7bd0d7fff8a1a5c99d6079b4513410ac5df79dfc408e23c2ae6537",
+     "pose": {
+      "gustave": {
+       "lean": 1.052,
+       "head": 6.4,
+       "fore": 0.0
+      },
+      "odette": {
+       "lean": -0.658,
+       "head": -4.4,
+       "fore": 16.0,
+       "note_turn": 0.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      0.101,
+      0.32
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 4,
+     "frames": [
+      8,
+      9
+     ],
+     "sha256": "afcab72e4580eb5a08951cd5caf9d26b46e87e488fcfefc77e7775d19f753452",
+     "pose": {
+      "gustave": {
+       "lean": 1.148,
+       "head": 9.6,
+       "fore": 0.0
+      },
+      "odette": {
+       "lean": -0.835,
+       "head": -6.8,
+       "fore": 16.0,
+       "note_turn": 0.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.01,
+      -0.411
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 5,
+     "frames": [
+      10,
+      11
+     ],
+     "sha256": "561044bb5d141d462718b8f6717b3e05fecc9d68fd43e9e1c24df1b6d24291f3",
+     "pose": {
+      "gustave": {
+       "lean": 1.401,
+       "head": 8.6,
+       "fore": 0.0
+      },
+      "odette": {
+       "lean": -1.17,
+       "head": -6.0,
+       "fore": 16.0,
+       "note_turn": 0.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      0.412,
+      0.439
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 6,
+     "frames": [
+      12,
+      13
+     ],
+     "sha256": "ad3c1fe56908ab2e5727a34306fe802209ef4264a8599810ef4476d39dd0f62a",
+     "pose": {
+      "gustave": {
+       "lean": 1.681,
+       "head": 8.6,
+       "fore": -4.0
+      },
+      "odette": {
+       "lean": -0.735,
+       "head": -6.0,
+       "fore": 17.0,
+       "note_turn": 0.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      0.376,
+      0.288
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 7,
+     "frames": [
+      14,
+      15
+     ],
+     "sha256": "2bd1587f9b29afe3df1fb28259c29e9057a706dde55ca4348a898f24103bb618",
+     "pose": {
+      "gustave": {
+       "lean": 1.971,
+       "head": 8.6,
+       "fore": -9.704
+      },
+      "odette": {
+       "lean": -1.039,
+       "head": -6.0,
+       "fore": 19.074,
+       "note_turn": 0.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      0.303,
+      -0.171
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 8,
+     "frames": [
+      16,
+      17
+     ],
+     "sha256": "55f33c9058d5a41742a9f90c25637ffeb12502494415132a676844daf5c0daa1",
+     "pose": {
+      "gustave": {
+       "lean": 1.969,
+       "head": 8.6,
+       "fore": -20.296
+      },
+      "odette": {
+       "lean": -1.258,
+       "head": -6.0,
+       "fore": 22.926,
+       "note_turn": 0.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.429,
+      -0.667
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 9,
+     "frames": [
+      18,
+      19
+     ],
+     "sha256": "13383b1040110184e81d02c23bd05b41ef717c4b115d5333b7b27d6e63968476",
+     "pose": {
+      "gustave": {
+       "lean": 2.289,
+       "head": 8.6,
+       "fore": -26.0
+      },
+      "odette": {
+       "lean": -0.702,
+       "head": -6.0,
+       "fore": 25.0,
+       "note_turn": 0.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.069,
+      -0.223
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 10,
+     "frames": [
+      20,
+      21
+     ],
+     "sha256": "380e77bad13b21e64737c35f61f8eff345b90d6b04013c3e7b99a11ffd1600c3",
+     "pose": {
+      "gustave": {
+       "lean": 2.329,
+       "head": 8.6,
+       "fore": -24.0
+      },
+      "odette": {
+       "lean": -1.076,
+       "head": -6.0,
+       "fore": 24.5,
+       "note_turn": 0.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      0.264,
+      0.08
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 11,
+     "frames": [
+      22,
+      23
+     ],
+     "sha256": "b51a1b7e63831e8929a253b6e232bf577119c4dd5f815825df85166a7d6e3a7e",
+     "pose": {
+      "gustave": {
+       "lean": 2.213,
+       "head": 8.6,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": -0.767,
+       "head": -6.0,
+       "fore": 24.0,
+       "note_turn": 0.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.451,
+      0.179
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 12,
+     "frames": [
+      24,
+      25
+     ],
+     "sha256": "5a5c24db740032f1ddb9d2a153a9e8826ea0d24df764acf53e7a2f6b111afa07",
+     "pose": {
+      "gustave": {
+       "lean": 2.217,
+       "head": 9.8,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": -0.885,
+       "head": -6.0,
+       "fore": 24.0,
+       "note_turn": 0.0,
+       "note_tilt": -5.5
+      }
+     },
+     "paper_jerk_px": [
+      -0.421,
+      0.412
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 13,
+     "frames": [
+      26,
+      27
+     ],
+     "sha256": "3ef042e0a2e39a5c444acb2f41740ea414f88dd68b5c775dc978aac4d7d60977",
+     "pose": {
+      "gustave": {
+       "lean": 2.725,
+       "head": 11.0,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": -0.732,
+       "head": -6.0,
+       "fore": 24.0,
+       "note_turn": 0.0,
+       "note_tilt": -7.0
+      }
+     },
+     "paper_jerk_px": [
+      0.331,
+      0.449
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 14,
+     "frames": [
+      28,
+      29
+     ],
+     "sha256": "5da03b359db2681a96fefe71365d3f2085b2358210fef8f9f4dc38d94f1c4914",
+     "pose": {
+      "gustave": {
+       "lean": 2.537,
+       "head": 9.7,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": -1.226,
+       "head": -6.0,
+       "fore": 24.0,
+       "note_turn": 0.0,
+       "note_tilt": -6.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.701,
+      0.085
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 15,
+     "frames": [
+      30,
+      31
+     ],
+     "sha256": "415ee24c2857bbe64cf230df0489a859216f42f3ab5e6ed20503e3d030a1eccc",
+     "pose": {
+      "gustave": {
+       "lean": 2.079,
+       "head": 8.4,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": -1.265,
+       "head": -6.0,
+       "fore": 24.0,
+       "note_turn": 0.0,
+       "note_tilt": -5.0
+      }
+     },
+     "paper_jerk_px": [
+      0.403,
+      0.291
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 16,
+     "frames": [
+      32,
+      33
+     ],
+     "sha256": "043b47af31cc770b7bba8af4d00a5de0dd020166957695f3e69207405f3ad7b1",
+     "pose": {
+      "gustave": {
+       "lean": 2.02,
+       "head": 8.8,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": -1.251,
+       "head": -6.0,
+       "fore": 24.0,
+       "note_turn": 0.0,
+       "note_tilt": -4.5
+      }
+     },
+     "paper_jerk_px": [
+      0.348,
+      -0.282
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 17,
+     "frames": [
+      34,
+      35
+     ],
+     "sha256": "75fb7bc267e4c2002be37804eb67fea08bd99482a0685f116f90bb301c1d12ea",
+     "pose": {
+      "gustave": {
+       "lean": 2.675,
+       "head": 9.2,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": -0.873,
+       "head": -6.0,
+       "fore": 24.0,
+       "note_turn": 0.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      0.292,
+      -0.63
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 18,
+     "frames": [
+      36,
+      37
+     ],
+     "sha256": "9727ab9aecd47b6729b957a7c63e1dc35e8c8a01bfcbde6e4089872c69c92c47",
+     "pose": {
+      "gustave": {
+       "lean": 2.663,
+       "head": 9.0,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": -1.221,
+       "head": -6.0,
+       "fore": 24.0,
+       "note_turn": 0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.131,
+      -0.31
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 19,
+     "frames": [
+      38,
+      39
+     ],
+     "sha256": "cb9ff3c1314bcca43c2005aa5f69015c2052ff359c7906553086c5472544ab2e",
+     "pose": {
+      "gustave": {
+       "lean": 2.576,
+       "head": 9.0,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": -0.742,
+       "head": -6.0,
+       "fore": 24.0,
+       "note_turn": 30.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.268,
+      0.396
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 20,
+     "frames": [
+      40,
+      41
+     ],
+     "sha256": "bcd9428d2dc1e5031f8739336ca23ef240cd55edefc5e60f0d7e6ade2e362a9a",
+     "pose": {
+      "gustave": {
+       "lean": 2.324,
+       "head": 9.0,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": -0.764,
+       "head": -6.0,
+       "fore": 24.33,
+       "note_turn": 60.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.116,
+      -0.058
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 21,
+     "frames": [
+      42,
+      43
+     ],
+     "sha256": "352e7a0d74df4a92b397a39d662107ef7f7de5098b86158691c3fa9458b7f1b9",
+     "pose": {
+      "gustave": {
+       "lean": 2.202,
+       "head": 9.0,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": -0.908,
+       "head": -6.0,
+       "fore": 24.66,
+       "note_turn": 90.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      0.193,
+      0.562
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 22,
+     "frames": [
+      44,
+      45
+     ],
+     "sha256": "56bd8429af71b90d834186b70a35488ebcd22b63380226057941eca10331e03d",
+     "pose": {
+      "gustave": {
+       "lean": 2.446,
+       "head": 9.0,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": -1.125,
+       "head": -6.0,
+       "fore": 24.99,
+       "note_turn": 120.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.09,
+      0.441
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 23,
+     "frames": [
+      46,
+      47
+     ],
+     "sha256": "671d97eddcb68e2ede38c711a8466e502b71e514950bec30164b23c5ffbe53de",
+     "pose": {
+      "gustave": {
+       "lean": 2.642,
+       "head": 9.0,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": -1.015,
+       "head": -6.0,
+       "fore": 25.32,
+       "note_turn": 150.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      0.14,
+      -0.115
+     ],
+     "balloon": false,
+     "ground": "page"
+    },
+    {
+     "drawing": 24,
+     "frames": [
+      48,
+      49
+     ],
+     "sha256": "2376293821279f95bdb6e61f13f32dae7877a864d4ca7516eefe45e93ae2428a",
+     "pose": {
+      "gustave": {
+       "lean": 2.49,
+       "head": 9.0,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": -1.173,
+       "head": -6.0,
+       "fore": 25.65,
+       "note_turn": 180.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.641,
+      -0.548
+     ],
+     "balloon": false,
+     "ground": "spot black"
+    },
+    {
+     "drawing": 25,
+     "frames": [
+      50,
+      51
+     ],
+     "sha256": "91c86a1398cc877c1ab9cab2f0878d8bca6d3affb1139e292e1aae35d4d8453d",
+     "pose": {
+      "gustave": {
+       "lean": 2.664,
+       "head": 9.0,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": 0.422,
+       "head": -3.0,
+       "fore": 25.65,
+       "note_turn": 180.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.805,
+      0.516
+     ],
+     "balloon": false,
+     "ground": "spot black"
+    },
+    {
+     "drawing": 26,
+     "frames": [
+      52,
+      53
+     ],
+     "sha256": "8d041620d2578fe5f566c751050740532c9e6df01f61bbb30ca190688fd4155f",
+     "pose": {
+      "gustave": {
+       "lean": 2.68,
+       "head": 9.0,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": 2.046,
+       "head": 1.0,
+       "fore": 25.65,
+       "note_turn": 180.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      0.069,
+      0.555
+     ],
+     "balloon": false,
+     "ground": "spot black"
+    },
+    {
+     "drawing": 27,
+     "frames": [
+      54,
+      55
+     ],
+     "sha256": "afc4e98fc38f980d619501f4c349a3cac5ccd89efab165d10f5943e3597aa241",
+     "pose": {
+      "gustave": {
+       "lean": 2.719,
+       "head": 9.0,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": 2.626,
+       "head": 6.5,
+       "fore": 25.65,
+       "note_turn": 180.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.567,
+      0.432
+     ],
+     "balloon": false,
+     "ground": "spot black"
+    },
+    {
+     "drawing": 28,
+     "frames": [
+      56,
+      57
+     ],
+     "sha256": "a76b399a5d8d5e24bdd68e4638fc1ace6d99c714cecdc7c6fb7ef1ea59378463",
+     "pose": {
+      "gustave": {
+       "lean": 2.32,
+       "head": 9.0,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": 2.626,
+       "head": 12.0,
+       "fore": 25.65,
+       "note_turn": 180.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      0.297,
+      0.209
+     ],
+     "balloon": false,
+     "ground": "spot black"
+    },
+    {
+     "drawing": 29,
+     "frames": [
+      58,
+      59
+     ],
+     "sha256": "e283bdd93ca48107e87ed8c628513091121e933065dcc7b545a1b97ae29eba75",
+     "pose": {
+      "gustave": {
+       "lean": 2.429,
+       "head": 10.0,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": 2.585,
+       "head": 11.0,
+       "fore": 25.65,
+       "note_turn": 180.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      0.006,
+      0.199
+     ],
+     "balloon": false,
+     "ground": "spot black"
+    },
+    {
+     "drawing": 30,
+     "frames": [
+      60,
+      61
+     ],
+     "sha256": "c2ccca778577b4e2641c2092f606ef4516f661a38db9299143f8ea39ecad0f50",
+     "pose": {
+      "gustave": {
+       "lean": 2.531,
+       "head": 11.2,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": 2.358,
+       "head": 10.4,
+       "fore": 25.65,
+       "note_turn": 180.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      -0.245,
+      0.178
+     ],
+     "balloon": true,
+     "ground": "spot black"
+    },
+    {
+     "drawing": 31,
+     "frames": [
+      62,
+      63
+     ],
+     "sha256": "65d91ddbf791268c9356411caa5ef42e0ac4213ac5f4c63e4ec9159d06809358",
+     "pose": {
+      "gustave": {
+       "lean": 2.638,
+       "head": 9.6,
+       "fore": -22.0
+      },
+      "odette": {
+       "lean": 2.417,
+       "head": 10.0,
+       "fore": 25.65,
+       "note_turn": 180.0,
+       "note_tilt": -4.0
+      }
+     },
+     "paper_jerk_px": [
+      0.117,
+      -0.051
+     ],
+     "balloon": true,
+     "ground": "spot black"
+    },
+    {
+     "drawing": 32,
+     "frames": [
+      64,
+      65
+     ],
+     "sha256": "33cc545792843b7a6ca466309653ed6a6c10e1d831c0c2003c08adae04e75001",
+     "pose": {
+      "gustave": {
+       "lean": 2.5,
+       "head": 9,
+       "fore": -22
+      },
+      "odette": {
+       "lean": 2.5,
+       "head": 10,
+       "fore": 26,
+       "note_turn": 180,
+       "note_tilt": -4
+      }
+     },
+     "paper_jerk_px": [
+      0.0,
+      0.0
+     ],
+     "balloon": true,
+     "ground": "spot black"
+    }
+   ],
+   "reads_as": "reveal: heads swing in (drawings 0-5, overshoot 4); he points with the open hand, she lifts the note (6-11); he nods at it (12-18); card flip over 6 drawings 19-24 (turn 30,60,90 edge-on substitution back->face,120,150,180); drawing 24 face-out: ground cuts to spot black, the bell; recoil (lean leads 25-27, head lags, overshoot 28), his nod accent 30 = balloon, settle to the held drawing 32"
+  }
+ },
+ "occurrences": {
+  "o1": {
+   "id": "A",
+   "slot": "r1c1",
+   "slot_s": [
+    5.0,
+    11.5
+   ],
+   "seq_start_s": 5.5,
+   "act_end_s": 7.167,
+   "hold_s": 4.333,
+   "balloon_s": 6.083
+  },
+  "o2": {
+   "id": "B",
+   "slot": "r1c2",
+   "slot_s": [
+    11.5,
+    18.0
+   ],
+   "seq_start_s": 12.0,
+   "act_end_s": 13.667,
+   "hold_s": 4.333,
+   "balloon_s": 12.417
+  },
+  "o3": {
+   "id": "C",
+   "slot": "r1c3",
+   "slot_s": [
+    18.0,
+    24.5
+   ],
+   "seq_start_s": 18.5,
+   "act_end_s": 20.167,
+   "hold_s": 4.333,
+   "balloon_s": 19.0
+  },
+  "o4": {
+   "id": "H",
+   "slot": "r2",
+   "slot_s": [
+    24.5,
+    37.0
+   ],
+   "seq_start_s": 26.0,
+   "act_end_s": 28.75,
+   "hold_s": 8.25,
+   "balloon_s": 28.5,
+   "face_out_s": 28.0,
+   "bell_onset_s": 28.0,
+   "rustle_s": 27.0
+  },
+  "o5": {
+   "id": "C",
+   "slot": "r3c1",
+   "slot_s": [
+    39.0,
+    45.5
+   ],
+   "seq_start_s": 39.5,
+   "act_end_s": 41.167,
+   "hold_s": 4.333,
+   "balloon_s": 40.0
+  },
+  "o6": {
+   "id": "B",
+   "slot": "r3c2",
+   "slot_s": [
+    45.5,
+    52.0
+   ],
+   "seq_start_s": 46.0,
+   "act_end_s": 47.667,
+   "hold_s": 4.333,
+   "balloon_s": 46.417
+  },
+  "o7": {
+   "id": "A",
+   "slot": "r3c3",
+   "slot_s": [
+    52.0,
+    58.5
+   ],
+   "seq_start_s": 52.5,
+   "act_end_s": 54.167,
+   "hold_s": 4.333,
+   "balloon_s": 53.083
+  }
+ },
+ "face_out": {
+  "id": "H",
+  "drawing": 24,
+  "frame_in_sequence": 48,
+  "film_s": 28.0,
+  "note": "frame 48 of frames/H/ (sequence starting at film 26.0 s) is the first face-out frame: ground cut to spot black + the single bell onset"
+ },
+ "techniques": {
+  "scion32": "U1's rig (feet->body->neck->head, body->elbow->forearm->hand->note), matrices root->leaf in fixed order; poses = U1 canonical + U1 entry; in-betweens keyed by hand per ID; joint coincidence and bone-length self-check measured on every drawing (see fk_selfcheck)",
+  "scion1": "on 2s; anticipation, snap with few in-betweens, overshoot, head lags the body by one drawing, 3-6 settle drawings; paper jerk = seeded +/-0.9 px frame jitter and +/-0.3 deg root jitter per drawing (zero on the final drawing); note = substitution object (back drawing -> face drawing at edge-on); the cut to black on the face-out drawing",
+  "scion29": "pieces cut by U1 (cutouts.json); not re-cut here"
+ },
+ "evidence": [
+  {
+   "id": "daumier-moeurs-conjugales-3",
+   "title": "Honoré Daumier, Mœurs conjugales no. 3, « Et les cinq francs de ce matin ?… » (1839), Rijksmuseum RP-P-OB-41.183",
+   "author": "Honoré Daumier (print, 1839); Aubert & Cie (printer/publisher); scan Rijksmuseum",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Echtpaar_bespreekt_huishoudelijke_financi%C3%ABn_in_de_slaapkamer_Et_les_cinq_francs_de_ce_matin_(..)_(titel_op_object)_Gezinssituaties_(serietitel)_Moeurs_conjugales_(serietitel_op_object),_RP-P-OB-41.183.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/79/Echtpaar_bespreekt_huishoudelijke_financi%C3%ABn_in_de_slaapkamer_Et_les_cinq_francs_de_ce_matin_%28..%29_%28titel_op_object%29_Gezinssituaties_%28serietitel%29_Moeurs_conjugales_%28serietitel_op_object%29%2C_RP-P-OB-41.183.jpg",
+   "local_path": "films/sources/boucle-la/panel-artist/daumier-1920.jpg (via U1's cut pieces films/sources/boucle-la/panel-artist/cut/*.png)",
+   "what_it_shows": "a married couple in nightcaps and nightshirts quarrelling at the bedside, the man left, the woman right, hands meeting; crayon lithograph",
+   "verified_date_or_place": "Commons extmetadata in films/sources/boucle-la/panel-artist/meta-raw.json (fetched 2026-11-17 by U1): LicenseShortName=CC0, UsageTerms 'Creative Commons Zero, Public Domain Dedication', DateTimeOriginal 1839, Paris (Rijksmuseum record); read by U3 from that file, not re-fetched",
+   "used_as": "all figure pieces (heads, bodies, forearms) and the backdrop crayon of every panel, via U1's rig; levels by U1 only"
+  }
+ ],
+ "handmade": [
+  {
+   "item": "panel borders (one wobbly pen rectangle per panel ID, seeded 101-104)",
+   "how": "supersampled round-pen polyline, ~6 px (H 7 px)",
+   "where": "page-animator-build/panels.py"
+  },
+  {
+   "item": "balloons A B C H with tails re-aimed from the rig's mouth anchors",
+   "how": "U2's letter.balloon() with U2's exact text, seed, cap and max width (letterforms unchanged); only the tail tip moves",
+   "where": "films/sources/boucle-la/page-animator/lettering/balloon-*.png"
+  },
+  {
+   "item": "the note card (back with crease; face À MA CHÈRE / ODETTE) at panel scale 110x72 px",
+   "how": "U2's letter.note_card(); card flip by perspective foreshortening, edge-on drawn as one pen stroke, substitution at 90 deg",
+   "where": "panels.py draw_note"
+  },
+  {
+   "item": "route line with arrowheads, gutter layout of panel IDs and speech-act tags",
+   "how": "pen polyline through gutters; U2's tag lettering scaled to 15 px",
+   "where": "assets/pages/boucle-la-annotated.png, page-animator/annotation-layer.png"
+  },
+  {
+   "item": "exposure sheets, in-betweens, paper jerk",
+   "how": "hand-keyed per ID",
+   "where": "page-animator-build/build.py"
+  }
+ ],
+ "absences": [
+  "No new downloads by U3 (all material from U1 and U2).",
+  "U1's original-resolution file is not in films/sources/boucle-la/panel-artist/orig/ (empty); pieces come from the 1920 px Commons thumbnail. At s=1.2 the page uses ~0.6 page px per source px, so resolution is sufficient.",
+  "Plan allows balloons to break the top border; at this framing none needs to, so the crop pad is 6 px and the gutters stay free for the annotation route.",
+  "B: where Gustave's forearm flips up, the vacated lower sleeve on his body piece reads as a near-blank white patch (U1's reclothed area); not U3's piece to change.",
+  "Panel blacks: A/B/C ~23 % below L60 (reference rows 25-31 %); chroma p99 0. U3 did not re-level U1's pieces.",
+  "Voice clips are not in U3's scope (U2 prepared them; default mix: bell + rustle only)."
+ ],
+ "builds": [
+  "films/swarm/boucle-la/page-animator-build/panels.py",
+  "build.py",
+  "records.py"
+ ]
+}

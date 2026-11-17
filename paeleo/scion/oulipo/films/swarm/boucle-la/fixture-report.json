@@ -1,0 +1,1497 @@
+{
+ "slug": "boucle-la",
+ "unit": "U4 palindrome validator",
+ "fixture": "films/swarm/boucle-la/fixture.py",
+ "run": "python3 -I films/swarm/boucle-la/fixture.py",
+ "date": "2026-11-17T06:16:59Z",
+ "edits_art": false,
+ "suites": {
+  "build": {
+   "overall": "PASS",
+   "note": "the real deliverable; PENDING rows wait for U3 (page.png, page.json, route.json, frames) and the editor (mp4)"
+  },
+  "testpage": {
+   "overall": "INFO",
+   "expected": "strict rows FAIL by design here: the old test page drew borders per position; the build page draws one border per ID and passes",
+   "note": "Calibration on the approved test page at the plan's rects. Interiors (10 px inset) of all three pairs are pixel-identical; the full rects differ only within 10 px of the edge, i.e. the hand-inked wobbly border is drawn per POSITION, not per panel ID. B2 requires the full crops identical (max abs diff 0): U3 must draw each border with a seed keyed by panel ID (or paste one border raster per ID) so the paired crops match edge to edge. Diff maps: films/sources/boucle-la/validator/testpage-diff-*.png"
+  },
+  "mutations": {
+   "overall": "PASS",
+   "base": "the real build (page.png + page.json)",
+   "note": "mutations are applied in memory to copies of the real build records, page crops and U3's frame sequences (synthetic frames only if U3's frames are absent); nothing is written over art"
+  },
+  "fk": {
+   "overall": "PASS (with INFO rows)",
+   "drawing_source": "page.json exposure sheets"
+  },
+  "film": {
+   "overall": "PASS"
+  },
+  "film-calibration": {
+   "overall": "PASS"
+  },
+  "film-selftest": {
+   "overall": "PASS"
+  },
+  "testpage-strict": {
+   "overall": "AS EXPECTED"
+  },
+  "testpage-interior": {
+   "overall": "AS EXPECTED"
+  }
+ },
+ "tests": [
+  {
+   "suite": "build",
+   "test": "inputs present",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": {
+    "page_png": true,
+    "page_json": true,
+    "route_json": true,
+    "script_json": true,
+    "speech_acts_json": true
+   }
+  },
+  {
+   "suite": "build",
+   "test": "sequence source",
+   "result": "INFO",
+   "expected": "PASS",
+   "as_expected": null,
+   "evidence": "structurally verified",
+   "detail": {
+    "from": "route.json",
+    "seq": [
+     "A",
+     "B",
+     "C",
+     "H",
+     "C",
+     "B",
+     "A"
+    ]
+   }
+  },
+  {
+   "suite": "build",
+   "test": "route.json / script.json / speech-acts.json agree on the ID at each occurrence",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": {
+    "mismatches": []
+   }
+  },
+  {
+   "suite": "build",
+   "test": "page size >= 2400 px long side",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "size_wh": [
+     3200,
+     1800
+    ],
+    "sha256": "37e666ab5deb69862944fe1fbf844213be0d39119f2e068c7bf04cbe7d5bcb6c"
+   }
+  },
+  {
+   "suite": "build",
+   "test": "page.json balloon record (text, seed, lines, speaker) agrees with script.json and speech-acts.json",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": {
+    "o1": true,
+    "o2": true,
+    "o3": true,
+    "o4": true,
+    "o5": true,
+    "o6": true,
+    "o7": true
+   }
+  },
+  {
+   "suite": "build",
+   "test": "independent FK mouth of the speaker (held drawing) == page.json mouth_in_panel (<= 1 px)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "o1": 0.05,
+    "o2": 0.05,
+    "o3": 0.06,
+    "o4": 0.03,
+    "o5": 0.06,
+    "o6": 0.05,
+    "o7": 0.05
+   }
+  },
+  {
+   "suite": "build",
+   "test": "page.png sha256 == page.json record == editor_media copy",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "recorded": "37e666ab5deb69862944fe1fbf844213be0d39119f2e068c7bf04cbe7d5bcb6c",
+    "editor_copy": "films/sources/boucle-la/page-animator/page.png"
+   }
+  },
+  {
+   "suite": "build",
+   "test": "exposure sheets: every drawing file and its 2 frames match the recorded sha256; >= 8 distinct drawings per ID",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "problems": [],
+    "distinct_drawings": {
+     "A": 20,
+     "B": 20,
+     "C": 20,
+     "H": 33
+    }
+   }
+  },
+  {
+   "suite": "build",
+   "test": "annotated page: route line and speech-act tags touch no pixel inside any panel crop rect (incl. 6 px border pad)",
+   "result": "FAIL",
+   "expected": "PASS",
+   "as_expected": false,
+   "evidence": "measured",
+   "detail": {
+    "changed_px_inside_crop": {
+     "o1": {
+      "px": 0,
+      "max_level_diff": 0,
+      "where_page_xy": []
+     },
+     "o2": {
+      "px": 0,
+      "max_level_diff": 0,
+      "where_page_xy": []
+     },
+     "o3": {
+      "px": 0,
+      "max_level_diff": 0,
+      "where_page_xy": []
+     },
+     "o4": {
+      "px": 0,
+      "max_level_diff": 0,
+      "where_page_xy": []
+     },
+     "o5": {
+      "px": 3,
+      "max_level_diff": 4,
+      "where_page_xy": [
+       [
+        555,
+        1473
+       ],
+       [
+        554,
+        1474
+       ],
+       [
+        554,
+        1475
+       ]
+      ]
+     },
+     "o6": {
+      "px": 0,
+      "max_level_diff": 0,
+      "where_page_xy": []
+     },
+     "o7": {
+      "px": 0,
+      "max_level_diff": 0,
+      "where_page_xy": []
+     }
+    },
+    "severity": "advisory (annotated page only; B2 crops are on the clean page)"
+   }
+  },
+  {
+   "suite": "build",
+   "test": "annotated page: no annotation pixel inside any panel rect (border and art)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "changed_px": {
+     "o1": 0,
+     "o2": 0,
+     "o3": 0,
+     "o4": 0,
+     "o5": 0,
+     "o6": 0,
+     "o7": 0
+    }
+   }
+  },
+  {
+   "suite": "build",
+   "test": "rects source",
+   "result": "INFO",
+   "expected": "PASS",
+   "as_expected": null,
+   "evidence": "structurally verified",
+   "detail": {
+    "1": {
+     "rect": [
+      554,
+      34,
+      1416,
+      626
+     ],
+     "from": "page.json"
+    },
+    "2": {
+     "rect": [
+      1434,
+      34,
+      2296,
+      626
+     ],
+     "from": "page.json"
+    },
+    "3": {
+     "rect": [
+      2314,
+      34,
+      3176,
+      626
+     ],
+     "from": "page.json"
+    },
+    "4": {
+     "rect": [
+      554,
+      644,
+      3176,
+      1156
+     ],
+     "from": "page.json"
+    },
+    "5": {
+     "rect": [
+      554,
+      1174,
+      1416,
+      1766
+     ],
+     "from": "page.json"
+    },
+    "6": {
+     "rect": [
+      1434,
+      1174,
+      2296,
+      1766
+     ],
+     "from": "page.json"
+    },
+    "7": {
+     "rect": [
+      2314,
+      1174,
+      3176,
+      1766
+     ],
+     "from": "page.json"
+    }
+   }
+  },
+  {
+   "suite": "build",
+   "test": "P1 len(seq)==7",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": "seq=['A', 'B', 'C', 'H', 'C', 'B', 'A']"
+  },
+  {
+   "suite": "build",
+   "test": "route == [A,B,C,H,C,B,A] (or same pairs around a named hinge)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": "seq=['A', 'B', 'C', 'H', 'C', 'B', 'A'], hinge=H"
+  },
+  {
+   "suite": "build",
+   "test": "P2 hinge unique at seq[3]",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": "seq[3]=H, count(H)=1"
+  },
+  {
+   "suite": "build",
+   "test": "P3 seq[i]==seq[6-i], three distinct paired ids",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": "pairs=[('A', 'A'), ('B', 'B'), ('C', 'C')]"
+  },
+  {
+   "suite": "build",
+   "test": "P5 speaker identical, pair o1/o7 (A)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": "odette vs odette (script.json: odette)"
+  },
+  {
+   "suite": "build",
+   "test": "P5 balloon tail points to the speaker, pair o1/o7 (A)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": "tail -> ('odette', 'odette') by nearest FK mouth (held drawing); speakers ('odette', 'odette')"
+  },
+  {
+   "suite": "build",
+   "test": "P5 balloon string, lines and lettering seed identical, pair o1/o7 (A)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": "\"ET ÇA ?! C'EST TOI QUI L'AS LAISSÉ, CE MOT ?\" / \"ET ÇA ?! C'EST TOI QUI L'AS LAISSÉ, CE MOT ?\"; seeds 3042/3042; utf8 sha ok True/True"
+  },
+  {
+   "suite": "build",
+   "test": "balloon PNG byte-identical and matches its record, pair o1/o7 (A)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "films/sources/boucle-la/page-animator/lettering/balloon-A.png sha bea87897a95d24d2 / bea87897a95d24d2 rec bea87897a95d24d2"
+  },
+  {
+   "suite": "build",
+   "test": "voice clip byte-identical and matches its record, pair o1/o7 (A)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "films/sources/boucle-la/dialogue-writer/sound/voice-A-female.wav sha 3318fee28da82add / 3318fee28da82add rec 3318fee28da82add"
+  },
+  {
+   "suite": "build",
+   "test": "P4 page crops pixel-identical (full rect), pair o1/o7 (A)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "max abs diff 0, differing px 0, sha e33cbd1cd34259e0 / e33cbd1cd34259e0"
+  },
+  {
+   "suite": "build",
+   "test": "P4 frame sequences identical (per-frame sha256), pair o1/o7 (A)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "40 / 40 frames; first differing index None"
+  },
+  {
+   "suite": "build",
+   "test": "P5 speaker identical, pair o2/o6 (B)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": "gustave vs gustave (script.json: gustave)"
+  },
+  {
+   "suite": "build",
+   "test": "P5 balloon tail points to the speaker, pair o2/o6 (B)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": "tail -> ('gustave', 'gustave') by nearest FK mouth (held drawing); speakers ('gustave', 'gustave')"
+  },
+  {
+   "suite": "build",
+   "test": "P5 balloon string, lines and lettering seed identical, pair o2/o6 (B)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": "\"MOI ?! TU CROIS QUE J'AI QUE ÇA À FAIRE ?\" / \"MOI ?! TU CROIS QUE J'AI QUE ÇA À FAIRE ?\"; seeds 2863/2863; utf8 sha ok True/True"
+  },
+  {
+   "suite": "build",
+   "test": "balloon PNG byte-identical and matches its record, pair o2/o6 (B)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "films/sources/boucle-la/page-animator/lettering/balloon-B.png sha 6846bee03dc259bf / 6846bee03dc259bf rec 6846bee03dc259bf"
+  },
+  {
+   "suite": "build",
+   "test": "voice clip byte-identical and matches its record, pair o2/o6 (B)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "films/sources/boucle-la/dialogue-writer/sound/voice-B-male.wav sha 7fc52e37b7d075cb / 7fc52e37b7d075cb rec 7fc52e37b7d075cb"
+  },
+  {
+   "suite": "build",
+   "test": "P4 page crops pixel-identical (full rect), pair o2/o6 (B)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "max abs diff 0, differing px 0, sha ac210f41fdd5668e / ac210f41fdd5668e"
+  },
+  {
+   "suite": "build",
+   "test": "P4 frame sequences identical (per-frame sha256), pair o2/o6 (B)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "40 / 40 frames; first differing index None"
+  },
+  {
+   "suite": "build",
+   "test": "P5 speaker identical, pair o3/o5 (C)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": "odette vs odette (script.json: odette)"
+  },
+  {
+   "suite": "build",
+   "test": "P5 balloon tail points to the speaker, pair o3/o5 (C)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": "tail -> ('odette', 'odette') by nearest FK mouth (held drawing); speakers ('odette', 'odette')"
+  },
+  {
+   "suite": "build",
+   "test": "P5 balloon string, lines and lettering seed identical, pair o3/o5 (C)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": "'ALORS DE QUI IL EST ?!' / 'ALORS DE QUI IL EST ?!'; seeds 1469/1469; utf8 sha ok True/True"
+  },
+  {
+   "suite": "build",
+   "test": "balloon PNG byte-identical and matches its record, pair o3/o5 (C)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "films/sources/boucle-la/page-animator/lettering/balloon-C.png sha 69631c047ce1c02e / 69631c047ce1c02e rec 69631c047ce1c02e"
+  },
+  {
+   "suite": "build",
+   "test": "voice clip byte-identical and matches its record, pair o3/o5 (C)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "films/sources/boucle-la/dialogue-writer/sound/voice-C-female.wav sha 182b3f152639abb3 / 182b3f152639abb3 rec 182b3f152639abb3"
+  },
+  {
+   "suite": "build",
+   "test": "P4 page crops pixel-identical (full rect), pair o3/o5 (C)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "max abs diff 0, differing px 0, sha ec6c75436abc12f7 / ec6c75436abc12f7"
+  },
+  {
+   "suite": "build",
+   "test": "P4 frame sequences identical (per-frame sha256), pair o3/o5 (C)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "40 / 40 frames; first differing index None"
+  },
+  {
+   "suite": "build",
+   "test": "final frame of o1 (A) equals its page crop",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "shapes (592, 862, 3) (592, 862, 3)"
+  },
+  {
+   "suite": "build",
+   "test": "final frame of o2 (B) equals its page crop",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "shapes (592, 862, 3) (592, 862, 3)"
+  },
+  {
+   "suite": "build",
+   "test": "final frame of o3 (C) equals its page crop",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "shapes (592, 862, 3) (592, 862, 3)"
+  },
+  {
+   "suite": "build",
+   "test": "final frame of o4 (H) equals its page crop",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "shapes (512, 2622, 3) (512, 2622, 3)"
+  },
+  {
+   "suite": "build",
+   "test": "final frame of o5 (C) equals its page crop",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "shapes (592, 862, 3) (592, 862, 3)"
+  },
+  {
+   "suite": "build",
+   "test": "final frame of o6 (B) equals its page crop",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "shapes (592, 862, 3) (592, 862, 3)"
+  },
+  {
+   "suite": "build",
+   "test": "final frame of o7 (A) equals its page crop",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "shapes (592, 862, 3) (592, 862, 3)"
+  },
+  {
+   "suite": "testpage-strict",
+   "test": "P4 page crops pixel-identical (full rect), pair o1/o7 (A)",
+   "result": "FAIL",
+   "expected": "FAIL",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "max abs diff 238, differing px 10509, sha 9bf4f353264fa871 / 4a6693cae136951b"
+  },
+  {
+   "suite": "testpage-strict",
+   "test": "P4 page crops pixel-identical (full rect), pair o2/o6 (B)",
+   "result": "FAIL",
+   "expected": "FAIL",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "max abs diff 238, differing px 10675, sha 6255806202165cc9 / 9c5b3d76bab3433e"
+  },
+  {
+   "suite": "testpage-strict",
+   "test": "P4 page crops pixel-identical (full rect), pair o3/o5 (C)",
+   "result": "FAIL",
+   "expected": "FAIL",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "max abs diff 238, differing px 11926, sha 383b3e12ab552afd / 7f7a9a070f56a7c4"
+  },
+  {
+   "suite": "testpage-interior",
+   "test": "P4 page crops pixel-identical (interior), pair o1/o7 (A)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "max abs diff 0, differing px 0, sha 57f204d6827a30fa / 57f204d6827a30fa"
+  },
+  {
+   "suite": "testpage-interior",
+   "test": "P4 page crops pixel-identical (interior), pair o2/o6 (B)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "max abs diff 0, differing px 0, sha 56f5202e41ed2e2a / 56f5202e41ed2e2a"
+  },
+  {
+   "suite": "testpage-interior",
+   "test": "P4 page crops pixel-identical (interior), pair o3/o5 (C)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": "max abs diff 0, differing px 0, sha 8419e02c3c09d81c / 8419e02c3c09d81c"
+  },
+  {
+   "suite": "mutations",
+   "test": "M0 base passes (the real build (page.png + page.json))",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "failing": [],
+    "pending": []
+   }
+  },
+  {
+   "suite": "mutations",
+   "test": "N1 speakers swapped on the second B must FAIL",
+   "result": "FAIL",
+   "expected": "FAIL",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "failing": [
+     "P5 speaker identical, pair o2/o6 (B)",
+     "P4 page crops pixel-identical (full rect), pair o2/o6 (B)",
+     "P4 frame sequences identical (per-frame sha256), pair o2/o6 (B)"
+    ]
+   }
+  },
+  {
+   "suite": "mutations",
+   "test": "N1b speaker swapped on the second B (record only, art untouched) must FAIL",
+   "result": "FAIL",
+   "expected": "FAIL",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": {
+    "failing": [
+     "P5 speaker identical, pair o2/o6 (B)",
+     "P5 balloon tail points to the speaker, pair o2/o6 (B)"
+    ]
+   }
+  },
+  {
+   "suite": "mutations",
+   "test": "N2 letters reversed within one balloon (o5) must FAIL",
+   "result": "FAIL",
+   "expected": "FAIL",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": {
+    "failing": [
+     "P5 balloon string, lines and lettering seed identical, pair o3/o5 (C)"
+    ],
+    "mutated_text": "!? TSE LI IUQ ED SROLA"
+   }
+  },
+  {
+   "suite": "mutations",
+   "test": "N3 one-pixel edit (+1 level at the centre of o6) must FAIL",
+   "result": "FAIL",
+   "expected": "FAIL",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "failing": [
+     "P4 page crops pixel-identical (full rect), pair o2/o6 (B)",
+     "P4 frame sequences identical (per-frame sha256), pair o2/o6 (B)"
+    ],
+    "pixel": [
+     431,
+     296
+    ]
+   }
+  },
+  {
+   "suite": "mutations",
+   "test": "N3b one-pixel edit to one in-between frame of o6 must FAIL",
+   "result": "FAIL",
+   "expected": "FAIL",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "failing": [
+     "P4 frame sequences identical (per-frame sha256), pair o2/o6 (B)"
+    ]
+   }
+  },
+  {
+   "suite": "mutations",
+   "test": "N4 H occurring twice must FAIL",
+   "result": "FAIL",
+   "expected": "FAIL",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": {
+    "failing": [
+     "route == [A,B,C,H,C,B,A] (or same pairs around a named hinge)",
+     "P2 hinge unique at seq[3]",
+     "P3 seq[i]==seq[6-i], three distinct paired ids"
+    ]
+   }
+  },
+  {
+   "suite": "mutations",
+   "test": "ALT hinge H-G4 with the same pairs passes as a separately named candidate",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": {
+    "candidate": "[A,B,C,H-G4,C,B,A]",
+    "text": "IL FAIT FROID ICI.",
+    "lettered_balloon_sha_ok": true,
+    "failing": [],
+    "note": "a different named branch, not a violation; G4 is the plan's 'legal but inert' case (structure passes, act_of unchanged): the blind-reader test B3, not this fixture, rejects it"
+   }
+  },
+  {
+   "suite": "mutations",
+   "test": "ALT hinge H-G3 with the same pairs passes as a separately named candidate",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": {
+    "candidate": "[A,B,C,H-G3,C,B,A]",
+    "text": "C'EST DE MOI, GROSSE BÊTE. BONNE FÊTE, ODETTE.",
+    "lettered_balloon_sha_ok": true,
+    "failing": [],
+    "note": "a different named branch, not a violation; G4 is the plan's 'legal but inert' case (structure passes, act_of unchanged): the blind-reader test B3, not this fixture, rejects it"
+   }
+  },
+  {
+   "suite": "mutations",
+   "test": "ALT hinge H-G2 with the same pairs passes as a separately named candidate",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": {
+    "candidate": "[A,B,C,H-G2,C,B,A]",
+    "text": "« MON CHER ALFRED... » C'EST BIEN TON ÉCRITURE, NON ?",
+    "lettered_balloon_sha_ok": true,
+    "failing": [],
+    "note": "a different named branch, not a violation; G4 is the plan's 'legal but inert' case (structure passes, act_of unchanged): the blind-reader test B3, not this fixture, rejects it"
+   }
+  },
+  {
+   "suite": "mutations",
+   "test": "ALT hinge H-G1b with the same pairs passes as a separately named candidate",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "structurally verified",
+   "detail": {
+    "candidate": "[A,B,C,H-G1b,C,B,A]",
+    "text": "LIS DONC L'ADRESSE, MA CHÈRE ODETTE.",
+    "lettered_balloon_sha_ok": true,
+    "failing": [],
+    "note": "a different named branch, not a violation; G4 is the plan's 'legal but inert' case (structure passes, act_of unchanged): the blind-reader test B3, not this fixture, rejects it"
+   }
+  },
+  {
+   "suite": "fk",
+   "test": "pieces: file sha256 == manifest, alpha is one connected component (alpha>127, 8-conn), chosen method trespass 0",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "pieces": [
+     "gustave_head",
+     "gustave_body",
+     "gustave_fore",
+     "odette_head",
+     "odette_body",
+     "odette_fore",
+     "backdrop"
+    ],
+    "problems": []
+   }
+  },
+  {
+   "suite": "fk",
+   "test": "recorded bone lengths == joint distances (<=0.5 px)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "gustave.feet-neck": 0.0004,
+    "gustave.feet-elbow": 0.0002,
+    "gustave.neck-elbow": 0.0004,
+    "gustave.elbow-hand": 0.0003,
+    "gustave.neck-mouth": 0.0002,
+    "odette.feet-neck": 0.0005,
+    "odette.feet-elbow": 0.0002,
+    "odette.neck-elbow": 0.0001,
+    "odette.elbow-hand": 0.0002,
+    "odette.neck-mouth": 0.0003
+   }
+  },
+  {
+   "suite": "fk",
+   "test": "bone lengths constant within 0.5 px over every drawing (neck->elbow across head/body pins, elbow->hand)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "drawings": 93,
+    "source": "page.json exposure sheets",
+    "max_dev_px": {
+     "neck-elbow": 0.0,
+     "elbow-hand": 0.0
+    }
+   }
+  },
+  {
+   "suite": "fk",
+   "test": "joint coincidence error <= 1 px (neck, elbow)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "drawings": 93,
+    "max_err_px": {
+     "neck coincidence": 0.0,
+     "elbow coincidence": 0.0
+    }
+   }
+  },
+  {
+   "suite": "fk",
+   "test": "recorded per-drawing joints in page.json agree with FK (<= 1 px)",
+   "result": "INFO",
+   "expected": "PASS",
+   "as_expected": null,
+   "evidence": "structurally verified (U3 self-report)",
+   "detail": {
+    "joints_compared": 0,
+    "max_err_px": 0.0,
+    "u3_fk_selfcheck": {
+     "A": {
+      "joint_coincidence_err_px": 0.0,
+      "bone_length_dev_px": 0.0,
+      "note_anchor_err_px": 0.0
+     },
+     "B": {
+      "joint_coincidence_err_px": 0.0,
+      "bone_length_dev_px": 0.0,
+      "note_anchor_err_px": 0.0
+     },
+     "C": {
+      "joint_coincidence_err_px": 0.0,
+      "bone_length_dev_px": 0.0,
+      "note_anchor_err_px": 0.0
+     },
+     "H": {
+      "joint_coincidence_err_px": 0.0,
+      "bone_length_dev_px": 0.0,
+      "note_anchor_err_px": 0.0
+     }
+    },
+    "note": "page.json records poses, not per-drawing joints; the independent evidence is the build row 'independent FK mouth == page.json mouth_in_panel' (<= 0.06 px). Bone-length and pin-coincidence rows are exact by construction for rigid pinned pieces; they prove the sheets use the rig's fixed order, not the pixels."
+   }
+  },
+  {
+   "suite": "fk",
+   "test": "note anchor stays on Odette's hand (<= 1 px)",
+   "result": "INFO",
+   "expected": "PASS",
+   "as_expected": null,
+   "evidence": "structurally verified (U3 self-report)",
+   "detail": {
+    "drawings_with_note_anchor": 0,
+    "max_err_px": 0.0,
+    "u3_note_anchor_err_px": {
+     "A": 0.0,
+     "B": 0.0,
+     "C": 0.0,
+     "H": 0.0
+    }
+   }
+  },
+  {
+   "suite": "fk",
+   "test": "exposure on 2s (every drawing exactly 2 frames) and each occurrence holds its last drawing >= 3.0 s",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "ids": 4,
+    "not_on_2s": {},
+    "hold_s": {
+     "o1": 4.333,
+     "o2": 4.333,
+     "o3": 4.333,
+     "o4": 8.25,
+     "o5": 4.333,
+     "o6": 4.333,
+     "o7": 4.333
+    },
+    "short_holds": {},
+    "note": "hold_s is the editor's plan in page.json; the film check measures it once the mp4 exists"
+   }
+  },
+  {
+   "suite": "fk",
+   "test": "independent FK == rig.py Rig().fk (<= 0.01 px)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "max_err_px": 0.0,
+    "drawings": 60
+   }
+  },
+  {
+   "suite": "film-calibration",
+   "test": "test-shot.mp4: exactly one bell onset within +-1 frame of the face-out drawing",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "face_out_s": 2.0,
+    "onsets": [
+     {
+      "t_s": 1.9916,
+      "ncc": 0.981,
+      "jump_db": 26.1,
+      "counted": true
+     }
+    ],
+    "candidates": [
+     {
+      "t_s": 1.9916,
+      "ncc": 0.981,
+      "jump_db": 26.1,
+      "counted": true
+     },
+     {
+      "t_s": 2.1799,
+      "ncc": 0.815,
+      "jump_db": 2.3,
+      "counted": false
+     },
+     {
+      "t_s": 3.7179,
+      "ncc": 0.651,
+      "jump_db": 2.3,
+      "counted": false
+     },
+     {
+      "t_s": 4.0975,
+      "ncc": 0.691,
+      "jump_db": 2.7,
+      "counted": false
+     },
+     {
+      "t_s": 4.4781,
+      "ncc": 0.63,
+      "jump_db": 3.1,
+      "counted": false
+     },
+     {
+      "t_s": 5.0548,
+      "ncc": 0.655,
+      "jump_db": 2.5,
+      "counted": false
+     },
+     {
+      "t_s": 5.2431,
+      "ncc": 0.65,
+      "jump_db": 2.5,
+      "counted": false
+     },
+     {
+      "t_s": 5.8041,
+      "ncc": 0.583,
+      "jump_db": 2.5,
+      "counted": false
+     }
+    ]
+   }
+  },
+  {
+   "suite": "film-calibration",
+   "test": "test-shot.mp4: held frames located against test-page crops (matcher calibration)",
+   "result": "INFO",
+   "expected": "PASS",
+   "as_expected": null,
+   "evidence": "measured",
+   "detail": {
+    "4.5s": {
+     "best": "C",
+     "scores": {
+      "A": {
+       "ncc": 0.445,
+       "scale": 0.2709,
+       "mad": 85.99
+      },
+      "B": {
+       "ncc": 0.46,
+       "scale": 1.0222,
+       "mad": 77.64
+      },
+      "C": {
+       "ncc": 0.474,
+       "scale": 0.2709,
+       "mad": 81.58
+      },
+      "H": {
+       "ncc": 0.396,
+       "scale": 0.25,
+       "mad": 67.53
+      }
+     }
+    },
+    "9.5s": {
+     "best": "B",
+     "scores": {
+      "A": {
+       "ncc": 0.461,
+       "scale": 0.9432,
+       "mad": 67.4
+      },
+      "B": {
+       "ncc": 0.853,
+       "scale": 0.906,
+       "mad": 30.25
+      },
+      "C": {
+       "ncc": 0.514,
+       "scale": 0.906,
+       "mad": 62.9
+      },
+      "H": {
+       "ncc": 0.38,
+       "scale": 0.2603,
+       "mad": 114.27
+      }
+     }
+    }
+   }
+  },
+  {
+   "suite": "film-selftest",
+   "test": "bell counter: one bell at 2.000 s (+ rustle at 1.0 s)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "onsets": [
+     {
+      "t_s": 2.0,
+      "ncc": 1.0,
+      "jump_db": 31.2,
+      "counted": true
+     }
+    ]
+   }
+  },
+  {
+   "suite": "film-selftest",
+   "test": "bell counter: two bells (2.0 s and 6.0 s) must FAIL",
+   "result": "FAIL",
+   "expected": "FAIL",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "onsets": [
+     {
+      "t_s": 1.68,
+      "ncc": 0.739,
+      "jump_db": 38.0,
+      "counted": true
+     },
+     {
+      "t_s": 2.0,
+      "ncc": 1.0,
+      "jump_db": 31.2,
+      "counted": true
+     },
+     {
+      "t_s": 5.998,
+      "ncc": 0.922,
+      "jump_db": 8.8,
+      "counted": true
+     }
+    ]
+   }
+  },
+  {
+   "suite": "film-selftest",
+   "test": "bell counter: bell 3 frames late must FAIL",
+   "result": "FAIL",
+   "expected": "FAIL",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "onsets": []
+   }
+  },
+  {
+   "suite": "film-selftest",
+   "test": "bell counter: rustle only, no bell must FAIL",
+   "result": "FAIL",
+   "expected": "FAIL",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "onsets": []
+   }
+  },
+  {
+   "suite": "film",
+   "test": "held frames match the page crops at film scale (each occurrence)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "criterion": "TM_CCOEFF_NORMED >= 0.90 and mean abs diff <= 10 levels on the central 60 %",
+    "per_occurrence": {
+     "1": {
+      "id": "A",
+      "t_s": 9.767,
+      "ncc": 0.994,
+      "scale": 0.803,
+      "mad": 6.46,
+      "ok": true
+     },
+     "2": {
+      "id": "B",
+      "t_s": 16.267,
+      "ncc": 0.994,
+      "scale": 0.803,
+      "mad": 6.56,
+      "ok": true
+     },
+     "3": {
+      "id": "C",
+      "t_s": 22.767,
+      "ncc": 0.995,
+      "scale": 0.803,
+      "mad": 6.11,
+      "ok": true
+     },
+     "4": {
+      "id": "H",
+      "t_s": 30.0,
+      "ncc": 0.991,
+      "scale": 0.559,
+      "mad": 4.9,
+      "ok": true
+     },
+     "5": {
+      "id": "C",
+      "t_s": 43.767,
+      "ncc": 0.995,
+      "scale": 0.803,
+      "mad": 6.12,
+      "ok": true
+     },
+     "6": {
+      "id": "B",
+      "t_s": 50.267,
+      "ncc": 0.994,
+      "scale": 0.803,
+      "mad": 6.88,
+      "ok": true
+     },
+     "7": {
+      "id": "A",
+      "t_s": 56.767,
+      "ncc": 0.995,
+      "scale": 0.803,
+      "mad": 6.14,
+      "ok": true
+     }
+    },
+    "times_from": "page.json occurrences act_end_s + 0.6*hold_s"
+   }
+  },
+  {
+   "suite": "film",
+   "test": "paired held frames identical in the film (o1/o7, o2/o6, o3/o5)",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "criterion": "mean abs diff <= 3 levels between the decoded held frames (codec noise only)",
+    "pairs": {
+     "o1/o7": {
+      "mad": 1.41,
+      "same_scale": true
+     },
+     "o2/o6": {
+      "mad": 1.39,
+      "same_scale": true
+     },
+     "o3/o5": {
+      "mad": 1.36,
+      "same_scale": true
+     }
+    }
+   }
+  },
+  {
+   "suite": "film",
+   "test": "exactly one bell onset, within +-1 frame of the face-out drawing",
+   "result": "PASS",
+   "expected": "PASS",
+   "as_expected": true,
+   "evidence": "measured",
+   "detail": {
+    "face_out_s": 28.0,
+    "face_out_from": "page.json face_out.film_s",
+    "onsets": [
+     {
+      "t_s": 28.0,
+      "ncc": 1.0,
+      "jump_db": 31.2,
+      "counted": true
+     }
+    ],
+    "candidates": [
+     {
+      "t_s": 27.6869,
+      "ncc": 0.664,
+      "jump_db": 4.2,
+      "counted": false
+     },
+     {
+      "t_s": 28.0,
+      "ncc": 1.0,
+      "jump_db": 31.2,
+      "counted": true
+     },
+     {
+      "t_s": 28.3747,
+      "ncc": 0.774,
+      "jump_db": 4.1,
+      "counted": false
+     },
+     {
+      "t_s": 28.5846,
+      "ncc": 0.761,
+      "jump_db": 2.9,
+      "counted": false
+     },
+     {
+      "t_s": 28.769,
+      "ncc": 0.709,
+      "jump_db": 3.6,
+      "counted": false
+     },
+     {
+      "t_s": 28.9573,
+      "ncc": 0.695,
+      "jump_db": 3.2,
+      "counted": false
+     },
+     {
+      "t_s": 29.1466,
+      "ncc": 0.694,
+      "jump_db": 3.0,
+      "counted": false
+     },
+     {
+      "t_s": 29.7234,
+      "ncc": 0.673,
+      "jump_db": 2.9,
+      "counted": false
+     },
+     {
+      "t_s": 29.9146,
+      "ncc": 0.687,
+      "jump_db": 2.8,
+      "counted": false
+     },
+     {
+      "t_s": 30.1069,
+      "ncc": 0.693,
+      "jump_db": 2.7,
+      "counted": false
+     },
+     {
+      "t_s": 30.2952,
+      "ncc": 0.677,
+      "jump_db": 3.3,
+      "counted": false
+     },
+     {
+      "t_s": 30.8719,
+      "ncc": 0.657,
+      "jump_db": 2.4,
+      "counted": false
+     },
+     {
+      "t_s": 31.2525,
+      "ncc": 0.65,
+      "jump_db": 2.6,
+      "counted": false
+     },
+     {
+      "t_s": 31.4447,
+      "ncc": 0.649,
+      "jump_db": 2.3,
+      "counted": false
+     },
+     {
+      "t_s": 31.6331,
+      "ncc": 0.645,
+      "jump_db": 2.4,
+      "counted": false
+     },
+     {
+      "t_s": 31.8292,
+      "ncc": 0.652,
+      "jump_db": 2.0,
+      "counted": false
+     },
+     {
+      "t_s": 32.0176,
+      "ncc": 0.635,
+      "jump_db": 2.7,
+      "counted": false
+     },
+     {
+      "t_s": 32.5904,
+      "ncc": 0.637,
+      "jump_db": 2.6,
+      "counted": false
+     },
+     {
+      "t_s": 32.7826,
+      "ncc": 0.647,
+      "jump_db": 2.2,
+      "counted": false
+     }
+    ]
+   }
+  }
+ ],
+ "expected_page_json_schema": {
+  "occurrences": [
+   {
+    "o": "1..7",
+    "id": "A|B|C|H",
+    "rect": "[x0,y0,x1,y1] page px, full panel incl. border",
+    "frames_dir": "films/sources/boucle-la/page-animator/frames/<ID>/ (pairs use the SAME dir)",
+    "rig_frame": "[s, ox, oy] as in cutouts.json frame_convention",
+    "exposure": [
+     {
+      "pose": {
+       "gustave": {},
+       "odette": {}
+      },
+      "hold": "frames (2 on 2s; last >= 72)",
+      "joints": {
+       "gustave": {
+        "neck": "[x,y] output px",
+        "elbow": "...",
+        "hand": "...",
+        "feet": "..."
+       },
+       "odette": {}
+      },
+      "note_anchor": "[x,y] output px"
+     }
+    ]
+   }
+  ],
+  "film": {
+   "face_out_s": "film time of H's face-out drawing",
+   "hold_sample_s": {
+    "1": "a film time inside o1's held drawing",
+    "...": "..."
+   }
+  }
+ },
+ "summary": {
+  "counts": {
+   "PASS": 59,
+   "FAIL": 13,
+   "PENDING": 0,
+   "INFO": 5
+  },
+  "unexpected": [
+   "build: annotated page: route line and speech-act tags touch no pixel inside any panel crop rect (incl. 6 px border pad) -> FAIL (expected PASS)"
+  ],
+  "B2_status": "PASS",
+  "fixture_discriminates": true
+ },
+ "evidence": {
+  "foraged_by_this_unit": [],
+  "note": "U4 foraged nothing and downloaded nothing. It reads the foraged items already recorded by U1 (cutouts.json evidence: Daumier, Mœurs conjugales no. 3, 1839, Rijksmuseum RP-P-OB-41.183, CC0) and U2 (sound.json: bell CC0, rustle PD, voice grains via movingimagearchive.com, rights unverified, off in the default mix) and checks their local files by sha256 against those records.",
+  "inputs_checked": {
+   "page_png": "37e666ab5deb69862944fe1fbf844213be0d39119f2e068c7bf04cbe7d5bcb6c",
+   "annotated_png": "04550d0f479c59046f9abb05131660c2b24177e703f08dc13647ca246eb85b15",
+   "page_json": "86bbf06a0775bed4b5f3ef60ac1fc6d7fd6501124b947b1dd02f79433943a5db",
+   "route_json": "d2d62b25a7526325c69ffe7df8866a41a54c1b2ddcaeed17ac7c6fe9c20c77bf",
+   "script_json": "789273b95abd23456b26a403fb320363c174fbe001ac0e8f1d4e7c0bd3186704",
+   "speech_acts_json": "94fa814605f4a50fd2fabc92f2b2177ed041eab5e0a9d5c2172f5d6c351f93b3",
+   "cutouts_json": "440addb6827d570827b3ef71d8580cb7824fc5a7423b9f15ce344852a6921819",
+   "bell_wav": "76cab96bbaaff31ba44f390d845b9efb7366b226465db92233482a4bc20a67fb",
+   "rustle_wav": "e1e79836bc8a3530f2dc6bca78a4189b6575860d573e93c3f7878a51496cc616",
+   "test_shot_mp4": "016b73e205bb3fe9dd3e66d023ebc1fe6e1127f0dd2a9df55ace926c82d1676a",
+   "film_mp4": "ae5c844e750b6beacae56ee15a55a7e2590a4b75835b5c3ec75ed244c2e70fb9"
+  }
+ },
+ "handmade": [
+  {
+   "item": "palindrome fixture (Mirror(seq,h) preconditions P1-P5, crop/frame identity, negatives, alternate hinges, independent FK, bell-onset counter by NCC with the foraged bell's own strike, held-frame template matcher)",
+   "where": "films/swarm/boucle-la/fixture.py"
+  },
+  {
+   "item": "evidence images: test-page diff maps, decoded test-shot stills, film hold stills once the mp4 is current",
+   "where": "films/sources/boucle-la/validator/"
+  }
+ ],
+ "absences": [
+  "assets/films/boucle-la.mp4 on disk is an earlier version (2026-11-15, 41.8 s); the held-frame and bell checks on the real film are PENDING until the editor renders. Rerun: python3 -I films/swarm/boucle-la/fixture.py",
+  "page.json records poses per drawing, not output-px joints or note anchors: the FK pixel check rests on the speaker's mouth (independent FK vs page.json mouth_in_panel, <= 0.06 px); the note-anchor row reports U3's self-check only.",
+  "Voice grains are off in the default mix (user note); their pair identity is checked at file level (sha256), not in the mix.",
+  "The test page (test-page.png) fails strict pair identity at the borders (borders drawn per position); this is the old test material, the build page draws one border per ID and passes."
+ ]
+}

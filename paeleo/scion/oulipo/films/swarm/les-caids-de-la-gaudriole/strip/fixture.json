@@ -1,0 +1,937 @@
+{
+ "strip_art": "strip/strip-art.png",
+ "strip_art_sha256": "44b0d0c3e02adf6ed1e116f7a4b08262733a0a71ea15e4f9670bbf9d79fbd137",
+ "sheet_rev": 1,
+ "1_folded_eq_V": {
+  "independent_top_view_max_abs_diff": 0,
+  "columns_checked": 1219,
+  "back_face_columns_visible": 0,
+  "mismatched_columns": [],
+  "crease_edge_columns_xprime": [
+   619
+  ],
+  "crease_edge_note": "columns where the pressed curl (0.5 u radius) is the top surface; the rolled edge of the same paper, excluded from the pixel test",
+  "facet_map_err_u": {
+   "F0": 1.3603767001768574e-09,
+   "F1": 7.964899850776419e-10
+  },
+  "layer_heights_u": [
+   1.0185916357869114,
+   2.037183271573678
+  ],
+  "layer_order": [
+   [
+    "F0",
+    "F1"
+   ],
+   [
+    "F0",
+    "F2"
+   ],
+   [
+    "F0",
+    "F3"
+   ],
+   [
+    "F1",
+    "F2"
+   ],
+   [
+    "F1",
+    "F3"
+   ]
+  ],
+  "strip_folded_png_max_abs_diff": 0,
+  "pass": true
+ },
+ "2_seams": [
+  {
+   "id": "C7",
+   "what": "frame top border",
+   "P1_at_A": [
+    47,
+    53
+   ],
+   "P2_at_B": [
+    47,
+    53
+   ],
+   "residual_u": 0.0,
+   "width_diff_u": 0,
+   "pass_": true
+  },
+  {
+   "id": "C9",
+   "what": "balloon top border",
+   "P1_at_A": [
+    77,
+    82
+   ],
+   "P2_at_B": [
+    77,
+    82
+   ],
+   "residual_u": 0.0,
+   "width_diff_u": 0,
+   "pass_": true
+  },
+  {
+   "id": "C10",
+   "what": "balloon bottom border",
+   "P1_at_A": [
+    272,
+    278
+   ],
+   "P2_at_B": [
+    272,
+    278
+   ],
+   "residual_u": 0.0,
+   "width_diff_u": 0,
+   "pass_": true
+  },
+  {
+   "id": "C11",
+   "what": "floor line",
+   "P1_at_A": [
+    789,
+    793
+   ],
+   "P2_at_B": [
+    790,
+    794
+   ],
+   "residual_u": 1.0,
+   "width_diff_u": 0,
+   "pass_": true
+  },
+  {
+   "id": "C8",
+   "what": "frame bottom border",
+   "P1_at_A": [
+    846,
+    853
+   ],
+   "P2_at_B": [
+    846,
+    853
+   ],
+   "residual_u": 0.0,
+   "width_diff_u": 0,
+   "pass_": true
+  },
+  {
+   "id": "C12",
+   "what": "miller cuff at A / porter wrist at B",
+   "runs": [
+    {
+     "P1_at_A": [
+      522,
+      528
+     ],
+     "P2_at_B": [
+      523,
+      529
+     ],
+     "residual_u": 1.0
+    },
+    {
+     "P1_at_A": [
+      565,
+      579
+     ],
+     "P2_at_B": [
+      563,
+      580
+     ],
+     "residual_u": 0.5
+    },
+    {
+     "P1_at_A": [
+      582,
+      588
+     ],
+     "P2_at_B": [
+      584,
+      589
+     ],
+     "residual_u": 1.5
+    }
+   ],
+   "n_runs": [
+    3,
+    3
+   ],
+   "envelope_A": [
+    522,
+    588
+   ],
+   "envelope_B": [
+    523,
+    589
+   ],
+   "width_A": 67,
+   "width_B": 67,
+   "residual_u": 1.5,
+   "rule": "every P1 contour run at A has a P2 partner at B within tau; outer envelope top/bottom within tau (interior cuff/wrist hatching may differ)",
+   "pass_": true
+  }
+ ],
+ "2_all_crossings": {
+  "P1_at_A": [
+   [
+    8,
+    19
+   ],
+   [
+    47,
+    53
+   ],
+   [
+    77,
+    82
+   ],
+   [
+    272,
+    278
+   ],
+   [
+    522,
+    528
+   ],
+   [
+    565,
+    579
+   ],
+   [
+    582,
+    588
+   ],
+   [
+    789,
+    793
+   ],
+   [
+    824,
+    826
+   ],
+   [
+    846,
+    853
+   ],
+   [
+    881,
+    892
+   ]
+  ],
+  "P2_at_B": [
+   [
+    8,
+    19
+   ],
+   [
+    47,
+    53
+   ],
+   [
+    77,
+    82
+   ],
+   [
+    272,
+    278
+   ],
+   [
+    523,
+    529
+   ],
+   [
+    563,
+    580
+   ],
+   [
+    584,
+    589
+   ],
+   [
+    790,
+    794
+   ],
+   [
+    824,
+    826
+   ],
+   [
+    846,
+    853
+   ],
+   [
+    881,
+    892
+   ]
+  ]
+ },
+ "2_pass": true,
+ "3_no_orphan_ink": {
+  "small_components_touching_seam": [],
+  "components_total": 400,
+  "every_V_pixel_has_sheet_source": true,
+  "pass_": true
+ },
+ "4_ghosts": [
+  {
+   "id": "P1.miller.line1.L",
+   "text": "THE KEY?",
+   "sheet_bbox": [
+    378.8,
+    112,
+    608,
+    148
+   ],
+   "layer": 1,
+   "mirrored": false,
+   "visible": true,
+   "expected_x": [
+    378.8,
+    608
+   ],
+   "map_matches_sheet_json": true,
+   "pass_": true
+  },
+  {
+   "id": "P1.miller.line1.R",
+   "text": "I SWEAR, NOT",
+   "sheet_bbox": [
+    632,
+    112,
+    950.0,
+    148
+   ],
+   "layer": 2,
+   "mirrored": true,
+   "visible": false,
+   "expected_x": [
+    290.0,
+    608
+   ],
+   "map_matches_sheet_json": true,
+   "found_left_px": 287,
+   "expected_left_px": 287,
+   "found_err_u": 0,
+   "found_y_err_u": 0,
+   "pass_": true
+  },
+  {
+   "id": "P1.miller.line2.L",
+   "text": "IN MY",
+   "sheet_bbox": [
+    477.2,
+    168,
+    608,
+    204
+   ],
+   "layer": 1,
+   "mirrored": false,
+   "visible": true,
+   "expected_x": [
+    477.2,
+    608
+   ],
+   "map_matches_sheet_json": true,
+   "pass_": true
+  },
+  {
+   "id": "P1.miller.line2.R",
+   "text": "ENVELOPE!",
+   "sheet_bbox": [
+    632,
+    168,
+    894.8,
+    204
+   ],
+   "layer": 2,
+   "mirrored": true,
+   "visible": false,
+   "expected_x": [
+    345.20000000000005,
+    608
+   ],
+   "map_matches_sheet_json": true,
+   "found_left_px": 342,
+   "expected_left_px": 342,
+   "found_err_u": 0,
+   "found_y_err_u": 0,
+   "pass_": true
+  },
+  {
+   "id": "P1.miller.line3.L",
+   "text": "ALL",
+   "sheet_bbox": [
+    521.6,
+    224,
+    608,
+    260
+   ],
+   "layer": 1,
+   "mirrored": false,
+   "visible": true,
+   "expected_x": [
+    521.6,
+    608
+   ],
+   "map_matches_sheet_json": true,
+   "pass_": true
+  },
+  {
+   "id": "P1.miller.line3.R",
+   "text": "I CARRY IS PAPER.",
+   "sheet_bbox": [
+    632,
+    224,
+    1085.6,
+    260
+   ],
+   "layer": 2,
+   "mirrored": true,
+   "visible": false,
+   "expected_x": [
+    154.4000000000001,
+    608
+   ],
+   "map_matches_sheet_json": true,
+   "found_left_px": 151,
+   "expected_left_px": 151,
+   "found_err_u": 0,
+   "found_y_err_u": 0,
+   "pass_": true
+  },
+  {
+   "id": "P2.porter.line1.L",
+   "text": "HERE! SILLY ME -",
+   "sheet_bbox": [
+    1351.2,
+    112,
+    1788,
+    148
+   ],
+   "layer": 3,
+   "mirrored": false,
+   "visible": false,
+   "expected_x": [
+    171.20000000000005,
+    608
+   ],
+   "map_matches_sheet_json": true,
+   "found_left_px": 167,
+   "expected_left_px": 167,
+   "found_err_u": 0,
+   "found_y_err_u": 0,
+   "pass_": true
+  },
+  {
+   "id": "P2.porter.line1.R",
+   "text": "I HAD IT",
+   "sheet_bbox": [
+    1812,
+    112,
+    2016.0,
+    148
+   ],
+   "layer": 3,
+   "mirrored": false,
+   "visible": true,
+   "expected_x": [
+    632,
+    836.0
+   ],
+   "map_matches_sheet_json": true,
+   "pass_": true
+  },
+  {
+   "id": "P2.porter.line2.L",
+   "text": "IN THE COAT",
+   "sheet_bbox": [
+    1484.4,
+    168,
+    1788,
+    204
+   ],
+   "layer": 3,
+   "mirrored": false,
+   "visible": false,
+   "expected_x": [
+    304.4000000000001,
+    608
+   ],
+   "map_matches_sheet_json": true,
+   "found_left_px": 300,
+   "expected_left_px": 300,
+   "found_err_u": 0,
+   "found_y_err_u": 0,
+   "pass_": true
+  },
+  {
+   "id": "P2.porter.line2.R",
+   "text": "POCKET",
+   "sheet_bbox": [
+    1812,
+    168,
+    1992.0,
+    204
+   ],
+   "layer": 3,
+   "mirrored": false,
+   "visible": true,
+   "expected_x": [
+    632,
+    812.0
+   ],
+   "map_matches_sheet_json": true,
+   "pass_": true
+  },
+  {
+   "id": "P2.porter.line3.L",
+   "text": "ALL",
+   "sheet_bbox": [
+    1701.6,
+    224,
+    1788,
+    260
+   ],
+   "layer": 3,
+   "mirrored": false,
+   "visible": false,
+   "expected_x": [
+    521.5999999999999,
+    608
+   ],
+   "map_matches_sheet_json": true,
+   "found_left_px": 517,
+   "expected_left_px": 517,
+   "found_err_u": 0,
+   "found_y_err_u": 0,
+   "pass_": true
+  },
+  {
+   "id": "P2.porter.line3.R",
+   "text": "ALONG.",
+   "sheet_bbox": [
+    1812,
+    224,
+    1974.0,
+    260
+   ],
+   "layer": 3,
+   "mirrored": false,
+   "visible": true,
+   "expected_x": [
+    632,
+    794.0
+   ],
+   "map_matches_sheet_json": true,
+   "pass_": true
+  },
+  {
+   "id": "P1.porter.ask",
+   "text": "WHO BORROWED / IT, THEN?",
+   "sheet_bbox": [
+    856.3,
+    315.4,
+    1163.7,
+    518.6
+   ],
+   "layer": 2,
+   "mirrored": true,
+   "visible": false,
+   "expected_x": [
+    76.29999999999995,
+    383.70000000000005
+   ],
+   "map_matches_sheet_json": true,
+   "found_left_px": 73,
+   "expected_left_px": 73,
+   "found_err_u": 0,
+   "found_y_err_u": 0,
+   "pass_": true
+  },
+  {
+   "id": "P2.boys.say",
+   "text": "OH? / REALLY?",
+   "sheet_bbox": [
+    2113.7,
+    373.4,
+    2316.3,
+    576.6
+   ],
+   "layer": 3,
+   "mirrored": false,
+   "visible": true,
+   "expected_x": [
+    933.6999999999998,
+    1136.3000000000002
+   ],
+   "map_matches_sheet_json": true,
+   "pass_": true
+  },
+  {
+   "id": "P1.miller.body",
+   "text": "miller body, sack, sleeve cut at A (cuff crosses x=A)",
+   "sheet_bbox": [
+    44,
+    300,
+    620,
+    846
+   ],
+   "layer": 1,
+   "mirrored": false,
+   "visible": true,
+   "expected_x": [
+    44,
+    620
+   ],
+   "map_matches_sheet_json": true,
+   "pass_": true
+  },
+  {
+   "id": "P1.miller.hand-open",
+   "text": "miller's empty open hand reaching past A (open state only)",
+   "sheet_bbox": [
+    620,
+    420,
+    760,
+    640
+   ],
+   "layer": 2,
+   "mirrored": true,
+   "visible": false,
+   "expected_x": [
+    480,
+    620
+   ],
+   "map_matches_sheet_json": true,
+   "pass_": true
+  },
+  {
+   "id": "P1.porter",
+   "text": "porter (Busch farmer, mirrored) listening, neck joint",
+   "sheet_bbox": [
+    800,
+    330,
+    1176,
+    846
+   ],
+   "layer": 2,
+   "mirrored": true,
+   "visible": false,
+   "expected_x": [
+    64,
+    440
+   ],
+   "map_matches_sheet_json": true,
+   "pass_": true
+  },
+  {
+   "id": "P2.porter",
+   "text": "porter (Busch farmer) with pen-drawn striped forearm to the wrist at B",
+   "sheet_bbox": [
+    1232,
+    290,
+    1800,
+    846
+   ],
+   "layer": 3,
+   "mirrored": false,
+   "visible": false,
+   "expected_x": [
+    52,
+    620
+   ],
+   "map_matches_sheet_json": true,
+   "pass_": true
+  },
+  {
+   "id": "P2.door",
+   "text": "closed service door, pen-drawn, behind the porter (common seed)",
+   "sheet_bbox": [
+    1236,
+    300,
+    1560,
+    790
+   ],
+   "layer": 3,
+   "mirrored": false,
+   "visible": false,
+   "expected_x": [
+    56,
+    380
+   ],
+   "map_matches_sheet_json": true,
+   "pass_": true
+  },
+  {
+   "id": "P2.hand-key",
+   "text": "hand + brass bit-key beyond B (reads as the miller's hand when folded)",
+   "sheet_bbox": [
+    1800,
+    420,
+    1960,
+    700
+   ],
+   "layer": 3,
+   "mirrored": false,
+   "visible": true,
+   "expected_x": [
+    620,
+    780
+   ],
+   "map_matches_sheet_json": true,
+   "pass_": true
+  },
+  {
+   "id": "P2.boys",
+   "text": "the two boys (Busch plate 001)",
+   "sheet_bbox": [
+    1880,
+    560,
+    2356,
+    846
+   ],
+   "layer": 3,
+   "mirrored": false,
+   "visible": true,
+   "expected_x": [
+    700,
+    1176
+   ],
+   "map_matches_sheet_json": true,
+   "pass_": true
+  }
+ ],
+ "4_pass": true,
+ "6_lettering_at_frozen_bbox": [
+  {
+   "id": "P1.miller.line1.L",
+   "text": "THE KEY?",
+   "frozen_x": [
+    378.8,
+    608
+   ],
+   "ink_x": [
+    377,
+    607
+   ],
+   "max_err_u": 1.8,
+   "clearance_to_crease_u": 13,
+   "pass_": true
+  },
+  {
+   "id": "P1.miller.line1.R",
+   "text": "I SWEAR, NOT",
+   "frozen_x": [
+    632,
+    950.0
+   ],
+   "ink_x": [
+    636,
+    951
+   ],
+   "max_err_u": 4,
+   "clearance_to_crease_u": 16,
+   "pass_": true
+  },
+  {
+   "id": "P1.miller.line2.L",
+   "text": "IN MY",
+   "frozen_x": [
+    477.2,
+    608
+   ],
+   "ink_x": [
+    480,
+    609
+   ],
+   "max_err_u": 2.8,
+   "clearance_to_crease_u": 11,
+   "pass_": true
+  },
+  {
+   "id": "P1.miller.line2.R",
+   "text": "ENVELOPE!",
+   "frozen_x": [
+    632,
+    894.8
+   ],
+   "ink_x": [
+    630,
+    896
+   ],
+   "max_err_u": 2,
+   "clearance_to_crease_u": 10,
+   "pass_": true
+  },
+  {
+   "id": "P1.miller.line3.L",
+   "text": "ALL",
+   "frozen_x": [
+    521.6,
+    608
+   ],
+   "ink_x": [
+    518,
+    606
+   ],
+   "max_err_u": 3.6,
+   "clearance_to_crease_u": 14,
+   "pass_": true
+  },
+  {
+   "id": "P1.miller.line3.R",
+   "text": "I CARRY IS PAPER.",
+   "frozen_x": [
+    632,
+    1085.6
+   ],
+   "ink_x": [
+    635,
+    1088
+   ],
+   "max_err_u": 3,
+   "clearance_to_crease_u": 15,
+   "pass_": true
+  },
+  {
+   "id": "P2.porter.line1.L",
+   "text": "HERE! SILLY ME -",
+   "frozen_x": [
+    1351.2,
+    1788
+   ],
+   "ink_x": [
+    1347,
+    1782
+   ],
+   "max_err_u": 6,
+   "clearance_to_crease_u": 18,
+   "pass_": true
+  },
+  {
+   "id": "P2.porter.line1.R",
+   "text": "I HAD IT",
+   "frozen_x": [
+    1812,
+    2016.0
+   ],
+   "ink_x": [
+    1814,
+    2017
+   ],
+   "max_err_u": 2,
+   "clearance_to_crease_u": 14,
+   "pass_": true
+  },
+  {
+   "id": "P2.porter.line2.L",
+   "text": "IN THE COAT",
+   "frozen_x": [
+    1484.4,
+    1788
+   ],
+   "ink_x": [
+    1484,
+    1791
+   ],
+   "max_err_u": 3,
+   "clearance_to_crease_u": 9,
+   "pass_": true
+  },
+  {
+   "id": "P2.porter.line2.R",
+   "text": "POCKET",
+   "frozen_x": [
+    1812,
+    1992.0
+   ],
+   "ink_x": [
+    1808,
+    1997
+   ],
+   "max_err_u": 5.0,
+   "clearance_to_crease_u": 8,
+   "pass_": true
+  },
+  {
+   "id": "P2.porter.line3.L",
+   "text": "ALL",
+   "frozen_x": [
+    1701.6,
+    1788
+   ],
+   "ink_x": [
+    1700,
+    1785
+   ],
+   "max_err_u": 3,
+   "clearance_to_crease_u": 15,
+   "pass_": true
+  },
+  {
+   "id": "P2.porter.line3.R",
+   "text": "ALONG.",
+   "frozen_x": [
+    1812,
+    1974.0
+   ],
+   "ink_x": [
+    1809,
+    1975
+   ],
+   "max_err_u": 3,
+   "clearance_to_crease_u": 9,
+   "pass_": true
+  }
+ ],
+ "6_pass": true,
+ "5_seam_crops": {
+  "path": "strip/seam-100x.png",
+  "crops": [
+   {
+    "name": "BALLOON TOP",
+    "center_folded": [
+     620,
+     80
+    ],
+    "size_u": 40,
+    "px_per_u": 25
+   },
+   {
+    "name": "BALLOON BOTTOM",
+    "center_folded": [
+     620,
+     276
+    ],
+    "size_u": 40,
+    "px_per_u": 25
+   },
+   {
+    "name": "FLOOR LINE",
+    "center_folded": [
+     620,
+     792
+    ],
+    "size_u": 40,
+    "px_per_u": 25
+   },
+   {
+    "name": "SLEEVE / HAND",
+    "center_folded": [
+     620,
+     530
+    ],
+    "size_u": 40,
+    "px_per_u": 25
+   }
+  ],
+  "magnification": "each 4 x 4 mm crop is 1000 px: 100x when shown at 0.4 mm per screen pixel"
+ },
+ "pass_all": true
+}

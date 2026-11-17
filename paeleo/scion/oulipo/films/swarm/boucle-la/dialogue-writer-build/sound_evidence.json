@@ -1,0 +1,79 @@
+{
+ "slug": "boucle-la",
+ "unit": "U2 dialogue-writer",
+ "decoder": "ffmpeg only (atrim/asetpts/afade), mono wav",
+ "default_mix": [
+  "snd-bell (once, H face-out)",
+  "snd-rustle (H note turn)"
+ ],
+ "voice_policy": "Voice grains prepared but OFF by default per the user's test-shot note (drop the English narration voice; keep only bell and paper). Voice is carried by the lettered balloons.",
+ "pairing_rule": "if voices are restored, each pair uses the SAME file (one per panel ID), so C/C', B/B', A/A' are sample-identical by construction",
+ "items": [
+  {
+   "id": "snd-bell",
+   "title": "274316 the-very-real-horst ghanta-leather-mallet-2015-05-16.wav",
+   "author": "the_very_Real_Horst (freesound 274316)",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:274316_the-very-real-horst_ghanta-leather-mallet-2015-05-16.wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/cf/274316_the-very-real-horst_ghanta-leather-mallet-2015-05-16.wav",
+   "local_path": "films/sources/boucle-la/dialogue-writer/sound/bell.wav",
+   "sha256": "76cab96bbaaff31ba44f390d845b9efb7366b226465db92233482a4bc20a67fb",
+   "what_it_shows": "a brass ghanta (hand bell) struck once with a leather mallet, with long decay; 6.0 s cut, strike onset at 0.31 s",
+   "verified_date_or_place": "Commons extmetadata re-read 2026-11-17 by U2: LicenseShortName=CC0; DateTimeOriginal 2015-05-16",
+   "used_as": "the single bell on H's face-out drawing; decoded with ffmpeg (from the test shot's decode of the Commons mp3 transcode), 44.1 kHz mono"
+  },
+  {
+   "id": "snd-rustle",
+   "title": "Book paper pages assorted.ogg",
+   "author": "stephan (via pdsounds.org)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Book_paper_pages_assorted.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/79/Book_paper_pages_assorted.ogg",
+   "local_path": "films/sources/boucle-la/dialogue-writer/sound/rustle.wav",
+   "sha256": "e1e79836bc8a3530f2dc6bca78a4189b6575860d573e93c3f7878a51496cc616",
+   "what_it_shows": "handled book paper; this 1.6 s cut (taken by the test shot from about file 13.0 s) is a single sheet turn, onset 0.84 s",
+   "verified_date_or_place": "Commons extmetadata re-read 2026-11-17 by U2: LicenseShortName=Public domain; DateTimeOriginal 2007-05-07",
+   "used_as": "paper rustle for the note's card-flip in H"
+  },
+  {
+   "id": "snd-voice-female",
+   "title": "Going Steady? (1951)",
+   "author": "via movingimagearchive.com",
+   "license": "Rights as listed by movingimagearchive.com (largely public domain); not independently verified",
+   "license_url": "",
+   "source_url": "https://www.movingimagearchive.com/sources/going-steady?clip=983d6d92-e09d-59ae-b20b-6bbb1ec9f189",
+   "file_url": "",
+   "local_path": "films/sources/boucle-la/dialogue-writer/sound/voice-A-female.wav; films/sources/boucle-la/dialogue-writer/sound/voice-C-female.wav",
+   "sha256": {
+    "A": "3318fee28da82add8a437d4ea8a32752bae5598b3178aa47fe81d2e6a2face3c",
+    "C": "182b3f152639abb39ff7f45663ca16afd0b7a8dbc868b4e61556f1154985b75c"
+   },
+   "what_it_shows": "a teenage girl at a mirror; her own voice (median f0 ~250 Hz) speaking English; archive clip 534.834-545.512 s of the film",
+   "verified_date_or_place": "unverified (archive listing only; 1951 Coronet educational film, Prelinger-type holding; no copyright notice seen on the listing)",
+   "used_as": "female voice grains: A = clip 2.40-4.05 s, C = clip 7.25-8.85 s; NOT in the default mix (user note: drop English voice)"
+  },
+  {
+   "id": "snd-voice-male",
+   "title": "Working Together: A Case History in Labor-Management Cooperation (1951)",
+   "author": "via movingimagearchive.com",
+   "license": "Rights as listed by movingimagearchive.com (largely public domain); not independently verified",
+   "license_url": "",
+   "source_url": "https://www.movingimagearchive.com/sources/working-together-a-case-history-in-labor-management-cooperation-1f8b859c?clip=28f53082-ba26-5045-8f59-ad48b6285a70",
+   "file_url": "",
+   "local_path": "films/sources/boucle-la/dialogue-writer/sound/voice-B-male.wav; films/sources/boucle-la/dialogue-writer/sound/voice-H-male.wav",
+   "sha256": {
+    "B": "7fc52e37b7d075cbd4c76e7fa529905150ab16b6e4aa419e7e1bdd9abd1a3c62",
+    "H": "f6b0a2fc278f2fb4623be3e8a10dddf748d7e855a9a8897c07728c601a086d3e"
+   },
+   "what_it_shows": "a male speaker (English) in a labour-management meeting; archive clip 701.0-721.0 s of the film",
+   "verified_date_or_place": "unverified (archive listing only)",
+   "used_as": "male voice grains: B = clip 15.77-17.32 s, H = clip 11.19-13.34 s (same in/out as the approved test shot); NOT in the default mix"
+  }
+ ],
+ "absences": [
+  "no openly licensed French speech found in the archive cache (Toute La Bande, 1970: status unverifiable, not used)",
+  "no room tone foraged (optional in plan)"
+ ]
+}

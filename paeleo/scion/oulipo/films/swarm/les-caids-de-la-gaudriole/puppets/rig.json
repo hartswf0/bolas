@@ -1,0 +1,804 @@
+{
+ "id": "caids-rig-r1",
+ "sheet": "strip/sheet.json rev 1",
+ "units": "u (1 u = 0.1 mm)",
+ "art_layers": "puppets/art-layers.png",
+ "art_layers_sha256": "44b0d0c3e02adf6ed1e116f7a4b08262733a0a71ea15e4f9670bbf9d79fbd137",
+ "compositing": "for each part in draw_order: canvas = canvas*(1-matte) + matte (card holds out what lies behind); canvas *= (1 - ink). Back layer first, front layer (balloons, lettering, frames, marks) drawn last.",
+ "transform": "world(part) = world(parent) @ L2P @ R(angle - base, pivot); array pixel -> local = + origin; R = visual counter-clockwise rotation in y-down coordinates",
+ "draw_order": [
+  "layer-back.png",
+  "boys",
+  "porter.body",
+  "porter.forearm",
+  "porter.hand",
+  "porter.key",
+  "miller.body",
+  "miller.arm",
+  "miller.forearm",
+  "miller.hand",
+  "porter1.body",
+  "porter1.head",
+  "layer-front.png"
+ ],
+ "layers": {
+  "back": "parts/layer-back.png (floor lines + boards, closed service door; handmade pen)",
+  "front": "parts/layer-front.png (balloons, pen.py lettering, panel frames, fold marks; handmade pen)"
+ },
+ "parts": [
+  {
+   "name": "miller.body",
+   "png": "parts/miller.body.png",
+   "png_mode": "LA (L = printed ink on white card, A = card matte)",
+   "parent": null,
+   "joint": "root (cutout lies on the sheet)",
+   "pivot_local": [
+    240.0,
+    550.0
+   ],
+   "pivot_world_rest": [
+    382.0,
+    830.0
+   ],
+   "base_deg": 0,
+   "rest_deg": 0,
+   "origin_local": [
+    0,
+    0
+   ],
+   "L2P": [
+    [
+     1.0,
+     0.0,
+     142.0
+    ],
+    [
+     0.0,
+     1.0,
+     280.0
+    ]
+   ],
+   "world_rest": [
+    [
+     1.0,
+     0.0,
+     142.0
+    ],
+    [
+     0.0,
+     1.0,
+     280.0
+    ]
+   ],
+   "source_plate": "mm_082",
+   "crop_box_plate_px": [
+    660,
+    100,
+    1140,
+    680
+   ],
+   "handmade_box_world_u": null,
+   "made": "Busch plate cut with scissors (card silhouette), arm lifted away"
+  },
+  {
+   "name": "miller.arm",
+   "png": "parts/miller.arm.png",
+   "png_mode": "LA (L = printed ink on white card, A = card matte)",
+   "parent": "miller.body",
+   "joint": "shoulder hinge",
+   "pivot_local": [
+    376.0,
+    226.0
+   ],
+   "pivot_world_rest": [
+    518.0,
+    506.0
+   ],
+   "base_deg": 0.0,
+   "rest_deg": 52.0,
+   "origin_local": [
+    0,
+    0
+   ],
+   "L2P": [
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0
+    ]
+   ],
+   "world_rest": [
+    [
+     0.615661,
+     0.788011,
+     108.420855
+    ],
+    [
+     -0.788011,
+     0.615661,
+     663.15255
+    ]
+   ],
+   "source_plate": "mm_082",
+   "crop_box_plate_px": [
+    660,
+    100,
+    1140,
+    680
+   ],
+   "handmade_box_world_u": null,
+   "made": "Busch upper sleeve, re-hinged at the shoulder (printed rest 52 deg)"
+  },
+  {
+   "name": "miller.forearm",
+   "png": "parts/miller.forearm.png",
+   "png_mode": "LA (L = printed ink on white card, A = card matte)",
+   "parent": "miller.arm",
+   "joint": "elbow (pen sleeve extension, rest straight)",
+   "pivot_local": [
+    581.854,
+    544.467
+   ],
+   "pivot_world_rest": [
+    581.854,
+    544.467
+   ],
+   "base_deg": 0.0,
+   "rest_deg": 0.0,
+   "origin_local": [
+    563,
+    504
+   ],
+   "L2P": [
+    [
+     0.615661,
+     -0.788011,
+     455.820797
+    ],
+    [
+     0.788011,
+     0.615661,
+     -493.714277
+    ]
+   ],
+   "world_rest": [
+    [
+     1.0,
+     0.0,
+     -0.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0
+    ]
+   ],
+   "source_plate": "handmade",
+   "crop_box_plate_px": null,
+   "handmade_box_world_u": [
+    563.5588885687764,
+    504.1582895247768,
+    666.0429838418743,
+    600.8480301550429
+   ],
+   "made": "pen-drawn sleeve extension (black coat with Busch-style white streaks) ending in the shared cuff band at A"
+  },
+  {
+   "name": "miller.hand",
+   "png": "parts/miller.hand.png",
+   "png_mode": "LA (L = printed ink on white card, A = card matte)",
+   "parent": "miller.forearm",
+   "joint": "wrist",
+   "pivot_local": [
+    385.0,
+    300.0
+   ],
+   "pivot_world_rest": [
+    642.0,
+    562.467
+   ],
+   "base_deg": 0.0,
+   "rest_deg": 40.0,
+   "origin_local": [
+    0,
+    0
+   ],
+   "L2P": [
+    [
+     1.0,
+     -0.0,
+     257.0
+    ],
+    [
+     0.0,
+     1.0,
+     262.466852
+    ]
+   ],
+   "world_rest": [
+    [
+     0.766044,
+     0.642788,
+     154.236606
+    ],
+    [
+     -0.642788,
+     0.766044,
+     580.126749
+    ]
+   ],
+   "source_plate": "mm_082",
+   "crop_box_plate_px": [
+    660,
+    100,
+    1140,
+    680
+   ],
+   "handmade_box_world_u": null,
+   "made": "Busch cuff + hand cut from the miller's arm (wrist joint)"
+  },
+  {
+   "name": "porter.body",
+   "png": "parts/porter.body.png",
+   "png_mode": "LA (L = printed ink on white card, A = card matte)",
+   "parent": null,
+   "joint": "root",
+   "pivot_local": [
+    300.5,
+    530.0
+   ],
+   "pivot_world_rest": [
+    1674.5,
+    773.297
+   ],
+   "base_deg": 0,
+   "rest_deg": 0,
+   "origin_local": [
+    0,
+    0
+   ],
+   "L2P": [
+    [
+     1.0,
+     0.0,
+     1374.0
+    ],
+    [
+     0.0,
+     1.0,
+     243.296543
+    ]
+   ],
+   "world_rest": [
+    [
+     1.0,
+     0.0,
+     1374.0
+    ],
+    [
+     0.0,
+     1.0,
+     243.296543
+    ]
+   ],
+   "source_plate": "mm_031",
+   "crop_box_plate_px": [
+    140,
+    30,
+    570,
+    610
+   ],
+   "handmade_box_world_u": null,
+   "made": "Busch farmer as the porter; stick and stick-hand cut away"
+  },
+  {
+   "name": "porter.forearm",
+   "png": "parts/porter.forearm.png",
+   "png_mode": "LA (L = printed ink on white card, A = card matte)",
+   "parent": "porter.body",
+   "joint": "elbow",
+   "pivot_local": [
+    1674.5,
+    518.297
+   ],
+   "pivot_world_rest": [
+    1674.5,
+    518.297
+   ],
+   "base_deg": 0.0,
+   "rest_deg": 0.0,
+   "origin_local": [
+    1652,
+    476
+   ],
+   "L2P": [
+    [
+     1.0,
+     0.0,
+     -1374.0
+    ],
+    [
+     0.0,
+     1.0,
+     -243.296543
+    ]
+   ],
+   "world_rest": [
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0
+    ]
+   ],
+   "source_plate": "handmade",
+   "crop_box_plate_px": null,
+   "handmade_box_world_u": [
+    1652.58,
+    476.3753393704356,
+    1848.0429838418743,
+    604.8480301550429
+   ],
+   "made": "pen-drawn striped forearm (Busch knit ribbing + underside hatching), elbow joint at the Busch sleeve end"
+  },
+  {
+   "name": "porter1.body",
+   "png": "parts/porter1.body.png",
+   "png_mode": "LA (L = printed ink on white card, A = card matte)",
+   "parent": null,
+   "joint": "root",
+   "pivot_local": [
+    260.0,
+    530.0
+   ],
+   "pivot_world_rest": [
+    976.5,
+    816.0
+   ],
+   "base_deg": 0,
+   "rest_deg": 0,
+   "origin_local": [
+    0,
+    0
+   ],
+   "L2P": [
+    [
+     -0.75,
+     0.0,
+     1171.5
+    ],
+    [
+     0.0,
+     0.75,
+     418.5
+    ]
+   ],
+   "world_rest": [
+    [
+     -0.75,
+     0.0,
+     1171.5
+    ],
+    [
+     0.0,
+     0.75,
+     418.5
+    ]
+   ],
+   "source_plate": "mm_031",
+   "crop_box_plate_px": [
+    140,
+    30,
+    570,
+    610
+   ],
+   "handmade_box_world_u": null,
+   "made": "Busch farmer, mirrored, as the porter listening in P1"
+  },
+  {
+   "name": "porter1.head",
+   "png": "parts/porter1.head.png",
+   "png_mode": "LA (L = printed ink on white card, A = card matte)",
+   "parent": "porter1.body",
+   "joint": "neck",
+   "pivot_local": [
+    265.0,
+    202.0
+   ],
+   "pivot_world_rest": [
+    972.75,
+    570.0
+   ],
+   "base_deg": 0,
+   "rest_deg": 0,
+   "origin_local": [
+    0,
+    0
+   ],
+   "L2P": [
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0
+    ]
+   ],
+   "world_rest": [
+    [
+     -0.75,
+     0.0,
+     1171.5
+    ],
+    [
+     0.0,
+     0.75,
+     418.5
+    ]
+   ],
+   "source_plate": "mm_031",
+   "crop_box_plate_px": [
+    140,
+    30,
+    570,
+    610
+   ],
+   "handmade_box_world_u": null,
+   "made": "Busch farmer's head and cap, cut at the neck (neck joint)"
+  },
+  {
+   "name": "porter.hand",
+   "png": "parts/porter.hand.png",
+   "png_mode": "LA (L = printed ink on white card, A = card matte)",
+   "parent": "porter.forearm",
+   "joint": "wrist",
+   "pivot_local": [
+    385.0,
+    300.0
+   ],
+   "pivot_world_rest": [
+    1822.0,
+    562.467
+   ],
+   "base_deg": 0.0,
+   "rest_deg": 40.0,
+   "origin_local": [
+    0,
+    0
+   ],
+   "L2P": [
+    [
+     1.0,
+     0.0,
+     1437.0
+    ],
+    [
+     0.0,
+     1.0,
+     262.466852
+    ]
+   ],
+   "world_rest": [
+    [
+     0.766044,
+     0.642788,
+     1334.236606
+    ],
+    [
+     -0.642788,
+     0.766044,
+     580.126749
+    ]
+   ],
+   "source_plate": "mm_082",
+   "crop_box_plate_px": [
+    660,
+    100,
+    1140,
+    680
+   ],
+   "handmade_box_world_u": null,
+   "made": "Busch cuff + hand cut from the miller's arm (wrist joint)"
+  },
+  {
+   "name": "porter.key",
+   "png": "parts/porter.key.png",
+   "png_mode": "LA (L = printed ink on white card, A = card matte)",
+   "parent": "porter.hand",
+   "joint": "pendulum (key ring through the fingers)",
+   "pivot_local": [
+    1893.807,
+    593.592
+   ],
+   "pivot_world_rest": [
+    1893.807,
+    593.592
+   ],
+   "base_deg": 0.0,
+   "rest_deg": 0.0,
+   "origin_local": [
+    1863,
+    581
+   ],
+   "L2P": [
+    [
+     0.766044,
+     -0.642788,
+     -649.186252
+    ],
+    [
+     0.642788,
+     0.766044,
+     -1302.033632
+    ]
+   ],
+   "world_rest": [
+    [
+     1.0,
+     -0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     -0.0
+    ]
+   ],
+   "source_plate": "handmade",
+   "crop_box_plate_px": null,
+   "handmade_box_world_u": [
+    1863.8066881872219,
+    581.5923970709379,
+    1933.8066881872219,
+    725.5923970709379
+   ],
+   "made": "pen-drawn brass bit-key, hung from the porter's fingers as a pendulum"
+  },
+  {
+   "name": "boys",
+   "png": "parts/boys.png",
+   "png_mode": "LA (L = printed ink on white card, A = card matte)",
+   "parent": null,
+   "joint": "root (static card)",
+   "pivot_local": [
+    235.5,
+    311.0
+   ],
+   "pivot_world_rest": [
+    2114.5,
+    848.0
+   ],
+   "base_deg": 0,
+   "rest_deg": 0,
+   "origin_local": [
+    0,
+    0
+   ],
+   "L2P": [
+    [
+     1.0,
+     0.0,
+     1879.0
+    ],
+    [
+     0.0,
+     1.0,
+     537.0
+    ]
+   ],
+   "world_rest": [
+    [
+     1.0,
+     0.0,
+     1879.0
+    ],
+    [
+     0.0,
+     1.0,
+     537.0
+    ]
+   ],
+   "source_plate": "mm_001",
+   "crop_box_plate_px": [
+    64,
+    122,
+    1241,
+    900
+   ],
+   "handmade_box_world_u": null,
+   "made": "Busch's Max and Moritz, cut as one card"
+  }
+ ],
+ "rest_angles_note": "miller.arm rest 52 deg = the Busch hanging arm swung forward at the shoulder (printed). miller.hand / porter.hand rest 40 deg = the Busch hand turned forward at the wrist. All other joints rest at 0 (stored in their printed orientation).",
+ "seam_check": {
+  "sleeve_edges_at_f-12": {
+   "A": [
+    520.0,
+    585.0
+   ],
+   "B": [
+    520.0,
+    585.0
+   ],
+   "d_top": 0.0,
+   "d_bot": 0.0,
+   "width_A": 65.0,
+   "width_B": 65.0
+  },
+  "sleeve_edges_at_f-3": {
+   "A": [
+    522.0,
+    588.0
+   ],
+   "B": [
+    522.0,
+    588.0
+   ],
+   "d_top": 0.0,
+   "d_bot": 0.0,
+   "width_A": 66.0,
+   "width_B": 66.0
+  },
+  "sleeve_edges_at_f+3": {
+   "A": [
+    523.0,
+    589.0
+   ],
+   "B": [
+    523.0,
+    589.0
+   ],
+   "d_top": 0.0,
+   "d_bot": 0.0,
+   "width_A": 66.0,
+   "width_B": 66.0
+  },
+  "slope_top_edge": {
+   "A": 0.2222,
+   "B": 0.2222,
+   "d_deg": 0.0
+  },
+  "frame_top": {
+   "y_at_A": 50.0,
+   "y_at_B": 50.0,
+   "d": 0.0
+  },
+  "frame_bottom": {
+   "y_at_A": 849.5,
+   "y_at_B": 849.5,
+   "d": 0.0
+  },
+  "balloon_top": {
+   "y_at_A": 79.5,
+   "y_at_B": 79.0,
+   "d": 0.5
+  },
+  "balloon_bottom": {
+   "y_at_A": 275.5,
+   "y_at_B": 275.0,
+   "d": 0.5
+  },
+  "floor_line": {
+   "y_at_A": 791.0,
+   "y_at_B": 792.0,
+   "d": -1.0
+  },
+  "floor_line_2": {
+   "y_at_A": 825.0,
+   "y_at_B": 825.0,
+   "d": 0.0
+  },
+  "C12_y_band_ok": true,
+  "max_residual_u": 1.0,
+  "tau_u": 5,
+  "pass": true,
+  "regions": {
+   "miller.body": {
+    "x_min": 150.0,
+    "x_max": 604.0,
+    "rule": "< 620"
+   },
+   "porter.body": {
+    "x_min": 1383.0,
+    "x_max": 1787.0,
+    "rule": "< 1800"
+   },
+   "porter1.body": {
+    "x_min": 861.8,
+    "x_max": 1164.8,
+    "rule": "in (632, 1198)"
+   },
+   "porter1.head": {
+    "x_min": 912.8,
+    "x_max": 1029.0,
+    "rule": "in (632, 1198)"
+   },
+   "boys": {
+    "x_min": 1879.0,
+    "x_max": 2348.0,
+    "rule": "> 1812"
+   }
+  }
+ },
+ "poses": "puppets/poses.json",
+ "final_exposure_equals_rest_maxdiff": {
+  "2": 0,
+  "3": 0
+ },
+ "evidence": [
+  {
+   "id": "busch-mm_082",
+   "title": "File:Max und Moritz (Busch) 082.png",
+   "author": "Wilhelm Busch (1832-1908)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Max_und_Moritz_(Busch)_082.png",
+   "file_url": "",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/les-caids-de-la-gaudriole/busch/mm_082.png (1280 px wide copy; Commons original is larger)",
+   "what_it_shows": "the miller carrying a sack, bent forward, arm hanging; attic with door and the boys",
+   "verified_date_or_place": "Commons API rate-limited 2026-11-17 (2 retries); extmetadata not re-read live. PD by age (1865, author d. 1908); recorded PD by the test-shot unit. unverified (live)",
+   "used_as": "miller.body, miller.arm (shoulder hinge), miller.hand and porter.hand (two prints of the same Busch hand cut)"
+  },
+  {
+   "id": "busch-mm_031",
+   "title": "File:Max und Moritz (Busch) 031.png",
+   "author": "Wilhelm Busch (1832-1908)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Max_und_Moritz_(Busch)_031.png",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Max_und_Moritz_%28Busch%29_031.png",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/les-caids-de-la-gaudriole/busch/mm_031.png (1280 px wide copy; Commons original is larger)",
+   "what_it_shows": "the farmer with a stick leaning over a brick gate post; trees and the boys behind a bush",
+   "verified_date_or_place": "Commons extmetadata read live 2026-11-17: LicenseShortName 'Public domain', License 'pd', Copyrighted False, date 'before 1864'",
+   "used_as": "porter.body (P2, stick and stick-hand cut away), porter1.body + porter1.head (P1, mirrored, neck joint)"
+  },
+  {
+   "id": "busch-mm_001",
+   "title": "File:Max und Moritz (Busch) 001.png",
+   "author": "Wilhelm Busch (1832-1908)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Max_und_Moritz_(Busch)_001.png",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Max_und_Moritz_%28Busch%29_001.png",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/les-caids-de-la-gaudriole/busch/mm_001.png (1280 px wide copy; Commons original is larger)",
+   "what_it_shows": "Max and Moritz, the two boys, half figures",
+   "verified_date_or_place": "Commons extmetadata read live 2026-11-17: LicenseShortName 'Public domain', License 'pd', Copyrighted False, date 'before 1864'",
+   "used_as": "boys (P2, one card, right of B)"
+  },
+  {
+   "id": "handmade-panel-artist",
+   "title": "Pen-drawn strip furniture and puppet parts",
+   "author": "made for this work (SCION swarm, U2 panel artist + puppet fabricator)",
+   "license": "handmade",
+   "license_url": "",
+   "source_url": "films/swarm/les-caids-de-la-gaudriole/puppets/rig_build.py",
+   "file_url": "",
+   "local_path": "puppets/parts/*.png, puppets/art-layers.png",
+   "what_it_shows": "miller.forearm: short pen sleeve extension (Busch-style diagonal hatching) ending in a cuff band; porter.forearm: striped forearm with close Busch knit ribbing (5 u pitch, swelling toward the shadow side); identical cuff band on both sleeves across A/B; porter.key: bit-key with bow shading; layer-back: floor line, second board line, board joints, the closed (locked: keyhole) service door with recessed panels, hinges, jamb and lintel hatching; layer-front: balloons, pen.py lettering (sheet.json text), panel frames, fold marks A/M/B top and bottom",
+   "verified_date_or_place": "made 2026-11-17 in puppets/rig_build.py",
+   "used_as": "strip art (art-layers.png) and rig parts"
+  }
+ ],
+ "absences": [
+  "Commons live re-read of mm_082 extmetadata blocked by rate limit (429-style 'too many requests') on 2026-11-17; operator or a later unit should re-read it once.",
+  "No new downloads were made by this unit (0 MB); plates reused from films/sources/les-caids-de-la-gaudriole/busch/."
+ ],
+ "design_notes": [
+  "Miller arm: the Busch arm (rest 52 deg at the shoulder) is too short to reach A without the hat brim crossing A (brim overhangs the cuff by ~18 u at 52 deg). The miller is therefore placed wholly left of A (body x <= 604) and a short pen sleeve (miller.forearm, elbow joint, rest 0) carries the arm to a cuff band at A; this removes the hard cut/white column at the seam.",
+  "Seam by construction: both sleeves end in the same cuff band segment (x A-20..wrist and B-20..wrist, shifted by D), and both wrists carry the same Busch hand cut at the same rest angle (40 deg), so the cuff at A and the wrist at B coincide exactly (measured residual 0 u for edges, width and slope).",
+  "Key pendulum lives only in shot 3 (before the art settles); it ends at the printed rest and the folded hold shows the printed key still (as proposed by the test-shot unit in amendments.md).",
+  "No plate backgrounds are carried: every figure is a card silhouette, so nothing ends in a rectangular crop edge."
+ ]
+}

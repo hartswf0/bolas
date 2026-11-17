@@ -1,0 +1,44 @@
+{
+ "panel": "V2_interior",
+ "page": "D2",
+ "bounds_page_px": [
+  150,
+  1400,
+  1245,
+  2350
+ ],
+ "composite": "over, in order, starting from 00_bg (opaque)",
+ "layers": [
+  {
+   "order": 0,
+   "file": "00_bg.png",
+   "name": "bg"
+  },
+  {
+   "order": 1,
+   "file": "01_memo.shadow.png",
+   "name": "memo.shadow"
+  },
+  {
+   "order": 2,
+   "file": "02_memo.png",
+   "name": "memo"
+  },
+  {
+   "order": 3,
+   "file": "03_memo.print.png",
+   "name": "memo.print"
+  },
+  {
+   "order": 4,
+   "file": "04_memo.pencil.png",
+   "name": "memo.pencil"
+  },
+  {
+   "order": 5,
+   "file": "05_border.png",
+   "name": "border"
+  }
+ ],
+ "note": "the room behind the glass; enters the panel only through 'interior_through_glass'"
+}

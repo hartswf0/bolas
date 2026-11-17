@@ -1,0 +1,51 @@
+{
+ "panel": "V1",
+ "page": "D2",
+ "bounds_page_px": [
+  150,
+  330,
+  2400,
+  1330
+ ],
+ "composite": "over, in order, starting from 00_bg (opaque)",
+ "layers": [
+  {
+   "order": 0,
+   "file": "00_bg.png",
+   "name": "bg"
+  },
+  {
+   "order": 1,
+   "file": "01_visitor.shadow.png",
+   "name": "visitor.shadow"
+  },
+  {
+   "order": 2,
+   "file": "02_visitor.png",
+   "name": "visitor",
+   "piece": "bubley.visitor.hi",
+   "matrix": [
+    [
+     0.543478,
+     0.0,
+     1209.23913
+    ],
+    [
+     0.0,
+     0.543478,
+     532.065217
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 3,
+   "file": "03_border.png",
+   "name": "border"
+  }
+ ]
+}

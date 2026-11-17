@@ -1,0 +1,795 @@
+{
+ "slug": "boucle-la",
+ "unit": "panel-artist (U1)",
+ "date": "2026-11-17",
+ "source": {
+  "file": "films/sources/boucle-la/panel-artist/daumier-1920.jpg",
+  "sha256": "48c303a5683cf1efd8b6950307648e1b15354db3c3cbc357b7097625ed04c52e",
+  "K": 2.0,
+  "note": "geometry in 960-px-wide view px ('thumb'); x K = source px. If the original-resolution file replaces the 1920 px file, rerun cutouts.py then manifest.py: all geometry rescales."
+ },
+ "licence": {
+  "checked": "2026-11-17, Commons API prop=imageinfo&iiprop=url|extmetadata|size|mime|sha1 (meta-raw.json)",
+  "title": "File:Echtpaar bespreekt huishoudelijke financiën in de slaapkamer Et les cinq francs de ce matin (..) (titel op object) Gezinssituaties (serietitel) Moeurs conjugales (serietitel op object), RP-P-OB-41.183.jpg",
+  "LicenseShortName": "CC0",
+  "License": "cc0",
+  "LicenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "UsageTerms": "Creative Commons Zero, Public Domain Dedication",
+  "Artist_field": "Rijksmuseum",
+  "Credit": "http://hdl.handle.net/10934/RM0001.COLLECT.102208",
+  "DateTimeOriginal": "1839",
+  "Copyrighted_flag": "True",
+  "Copyrighted_flag_note": "Commons sets this flag for any licensed file; the CC0 dedication waives all rights. The print (1839, Daumier d. 1879) is public domain in any case.",
+  "original": {
+   "size": 2382322,
+   "width": 3558,
+   "height": 4666,
+   "sha1": "cdfd3117e351145ae665fbd73c13e13a6bc192f1",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/7/79/Echtpaar_bespreekt_huishoudelijke_financi%C3%ABn_in_de_slaapkamer_Et_les_cinq_francs_de_ce_matin_%28..%29_%28titel_op_object%29_Gezinssituaties_%28serietitel%29_Moeurs_conjugales_%28serietitel_op_object%29%2C_RP-P-OB-41.183.jpg"
+  },
+  "description_url": "https://commons.wikimedia.org/wiki/File:Echtpaar_bespreekt_huishoudelijke_financi%C3%ABn_in_de_slaapkamer_Et_les_cinq_francs_de_ce_matin_(..)_(titel_op_object)_Gezinssituaties_(serietitel)_Moeurs_conjugales_(serietitel_op_object),_RP-P-OB-41.183.jpg",
+  "verdict": "CC0 confirmed"
+ },
+ "pieces": {
+  "gustave_head": {
+   "file": "films/sources/boucle-la/panel-artist/cut/gustave_head.png",
+   "sha256": "0e67ca24c249e1be562e2eb8b7f1a730ec11a67a08104846fe66776f6dd5d838",
+   "offset": [
+    752,
+    608
+   ],
+   "size": [
+    256,
+    267
+   ],
+   "pin": [
+    810.0,
+    848.0
+   ],
+   "pin_thumb": [
+    405,
+    424
+   ],
+   "method": "grabcut",
+   "components": 1,
+   "levels": {
+    "black_point": 112,
+    "white_point": 196,
+    "gamma": 1.45,
+    "luminance": "0.70 R + 0.30 G (red filter; drops orange foxing)",
+    "map": "ink 13 .. page 251, linear then gamma; no threshold/posterize/sharpen"
+   },
+   "tone_stats": {
+    "frac_below_L60": 0.3401,
+    "frac_mid_60_200": 0.2073,
+    "frac_white_ge200": 0.4525
+   },
+   "underlap_px": 2018
+  },
+  "gustave_body": {
+   "file": "films/sources/boucle-la/panel-artist/cut/gustave_body.png",
+   "sha256": "d188334d6b356c7bf9c766e18ec7cc6074250d8e8fab2b948feceaa07d53f222",
+   "offset": [
+    435,
+    773
+   ],
+   "size": [
+    488,
+    841
+   ],
+   "pin": null,
+   "pin_thumb": null,
+   "method": "grabcut",
+   "components": 1,
+   "levels": {
+    "black_point": 128,
+    "white_point": 200,
+    "gamma": 1.6,
+    "luminance": "0.70 R + 0.30 G (red filter; drops orange foxing)",
+    "map": "ink 13 .. page 251, linear then gamma; no threshold/posterize/sharpen"
+   },
+   "tone_stats": {
+    "frac_below_L60": 0.2067,
+    "frac_mid_60_200": 0.1018,
+    "frac_white_ge200": 0.6916
+   },
+   "reclothed_px": 10345,
+   "reclothed_from_thumb_box": [
+    262,
+    600,
+    340,
+    690
+   ]
+  },
+  "gustave_fore": {
+   "file": "films/sources/boucle-la/panel-artist/cut/gustave_fore.png",
+   "sha256": "2ee2b6e8ae3d1fc7d724781e9ea63de404a1c1e0ef536eb4c3720b04300e1960",
+   "offset": [
+    731,
+    1049
+   ],
+   "size": [
+    389,
+    167
+   ],
+   "pin": [
+    772.0,
+    1096.0
+   ],
+   "pin_thumb": [
+    386,
+    548
+   ],
+   "method": "manual",
+   "components": 1,
+   "levels": {
+    "black_point": 128,
+    "white_point": 200,
+    "gamma": 1.6,
+    "luminance": "0.70 R + 0.30 G (red filter; drops orange foxing)",
+    "map": "ink 13 .. page 251, linear then gamma; no threshold/posterize/sharpen"
+   },
+   "tone_stats": {
+    "frac_below_L60": 0.1379,
+    "frac_mid_60_200": 0.1109,
+    "frac_white_ge200": 0.7512
+   }
+  },
+  "odette_head": {
+   "file": "films/sources/boucle-la/panel-artist/cut/odette_head.png",
+   "sha256": "d927cf94cbfcb476066ae042761f3d531ae8227b6ec1f5a58c7735ca6ad3bad5",
+   "offset": [
+    1115,
+    633
+   ],
+   "size": [
+    238,
+    256
+   ],
+   "pin": [
+    1268.0,
+    864.0
+   ],
+   "pin_thumb": [
+    634,
+    432
+   ],
+   "method": "grabcut",
+   "components": 1,
+   "levels": {
+    "black_point": 118,
+    "white_point": 198,
+    "gamma": 1.5,
+    "luminance": "0.70 R + 0.30 G (red filter; drops orange foxing)",
+    "map": "ink 13 .. page 251, linear then gamma; no threshold/posterize/sharpen"
+   },
+   "tone_stats": {
+    "frac_below_L60": 0.2034,
+    "frac_mid_60_200": 0.2108,
+    "frac_white_ge200": 0.5858
+   },
+   "underlap_px": 2482
+  },
+  "odette_body": {
+   "file": "films/sources/boucle-la/panel-artist/cut/odette_body.png",
+   "sha256": "816bfb1343c8c0d2a36f9a93bf4e25a33346354202a9946d454eaebf12f0e34e",
+   "offset": [
+    1159,
+    799
+   ],
+   "size": [
+    381,
+    845
+   ],
+   "pin": null,
+   "pin_thumb": null,
+   "method": "grabcut",
+   "components": 1,
+   "levels": {
+    "black_point": 130,
+    "white_point": 200,
+    "gamma": 1.65,
+    "luminance": "0.70 R + 0.30 G (red filter; drops orange foxing)",
+    "map": "ink 13 .. page 251, linear then gamma; no threshold/posterize/sharpen"
+   },
+   "tone_stats": {
+    "frac_below_L60": 0.1515,
+    "frac_mid_60_200": 0.096,
+    "frac_white_ge200": 0.7526
+   },
+   "reclothed_px": 15735,
+   "reclothed_from_thumb_box": [
+    690,
+    640,
+    740,
+    720
+   ]
+  },
+  "odette_fore": {
+   "file": "films/sources/boucle-la/panel-artist/cut/odette_fore.png",
+   "sha256": "c946c359fe7e9d98212883c7332ebbb8a0f53b36570cc490db9ca9b472c5dbf2",
+   "offset": [
+    1026,
+    1094
+   ],
+   "size": [
+    327,
+    152
+   ],
+   "pin": [
+    1310.0,
+    1192.0
+   ],
+   "pin_thumb": [
+    655,
+    596
+   ],
+   "method": "manual",
+   "components": 1,
+   "levels": {
+    "black_point": 130,
+    "white_point": 200,
+    "gamma": 1.6,
+    "luminance": "0.70 R + 0.30 G (red filter; drops orange foxing)",
+    "map": "ink 13 .. page 251, linear then gamma; no threshold/posterize/sharpen"
+   },
+   "tone_stats": {
+    "frac_below_L60": 0.1742,
+    "frac_mid_60_200": 0.1104,
+    "frac_white_ge200": 0.7154
+   }
+  },
+  "backdrop": {
+   "file": "films/sources/boucle-la/panel-artist/cut/backdrop.png",
+   "sha256": "413cab8b82af74ce1c73f3a4ea17a01d8f14eec1923c18e1ec4923b5c9916741",
+   "offset": [
+    320,
+    500
+   ],
+   "size": [
+    1061,
+    621
+   ],
+   "pin": null,
+   "method": "manual",
+   "components": 1,
+   "levels": {
+    "black_point": 100,
+    "white_point": 190,
+    "gamma": 1.2
+   },
+   "tone_stats": {
+    "frac_below_L60": 0.7714
+   },
+   "note": "the print's own dark bed-curtain/wall crayon; spot-black set piece behind the heads (A B C)"
+  }
+ },
+ "methods": {
+  "gustave_head": {
+   "candidates": {
+    "grabcut": {
+     "components": 1,
+     "trespass": 0,
+     "edge_dark_frac": 0.3591,
+     "interior_lost_frac": 0.0017,
+     "area": 40911,
+     "snips": 32
+    },
+    "tonal": {
+     "components": 1,
+     "trespass": 0,
+     "edge_dark_frac": 0.3781,
+     "interior_lost_frac": 0.1165,
+     "area": 36501,
+     "snips": 53
+    },
+    "manual": {
+     "components": 1,
+     "trespass": 0,
+     "edge_dark_frac": 0.4223,
+     "interior_lost_frac": 0.0,
+     "area": 42703,
+     "snips": 24
+    }
+   },
+   "chosen": "grabcut"
+  },
+  "gustave_body": {
+   "candidates": {
+    "grabcut": {
+     "components": 1,
+     "trespass": 0,
+     "edge_dark_frac": 0.3606,
+     "interior_lost_frac": 0.0169,
+     "area": 290270,
+     "snips": 83
+    },
+    "tonal": {
+     "components": 1,
+     "trespass": 0,
+     "edge_dark_frac": 0.3122,
+     "interior_lost_frac": 0.1121,
+     "area": 263581,
+     "snips": 70
+    },
+    "manual": {
+     "components": 1,
+     "trespass": 0,
+     "edge_dark_frac": 0.4273,
+     "interior_lost_frac": 0.0003,
+     "area": 302039,
+     "snips": 37
+    }
+   },
+   "chosen": "grabcut"
+  },
+  "gustave_fore": {
+   "candidates": {
+    "grabcut": {
+     "components": 1,
+     "trespass": 0,
+     "edge_dark_frac": 0.1421,
+     "interior_lost_frac": 0.0105,
+     "area": 26245,
+     "snips": 28
+    },
+    "tonal": {
+     "components": 1,
+     "trespass": 16,
+     "edge_dark_frac": 0.1216,
+     "interior_lost_frac": 0.0012,
+     "area": 32093,
+     "snips": 27
+    },
+    "manual": {
+     "components": 1,
+     "trespass": 0,
+     "edge_dark_frac": 0.1121,
+     "interior_lost_frac": 0.0,
+     "area": 29217,
+     "snips": 22
+    }
+   },
+   "chosen": "manual"
+  },
+  "odette_head": {
+   "candidates": {
+    "grabcut": {
+     "components": 1,
+     "trespass": 0,
+     "edge_dark_frac": 0.4094,
+     "interior_lost_frac": 0.0064,
+     "area": 37584,
+     "snips": 30
+    },
+    "tonal": {
+     "components": 1,
+     "trespass": 0,
+     "edge_dark_frac": 0.3479,
+     "interior_lost_frac": 0.0661,
+     "area": 35678,
+     "snips": 28
+    },
+    "manual": {
+     "components": 1,
+     "trespass": 0,
+     "edge_dark_frac": 0.5703,
+     "interior_lost_frac": 0.0,
+     "area": 40536,
+     "snips": 19
+    }
+   },
+   "chosen": "grabcut"
+  },
+  "odette_body": {
+   "candidates": {
+    "grabcut": {
+     "components": 1,
+     "trespass": 0,
+     "edge_dark_frac": 0.37,
+     "interior_lost_frac": 0.0149,
+     "area": 237401,
+     "snips": 68
+    },
+    "tonal": {
+     "components": 1,
+     "trespass": 0,
+     "edge_dark_frac": 0.3108,
+     "interior_lost_frac": 0.0655,
+     "area": 236144,
+     "snips": 65
+    },
+    "manual": {
+     "components": 1,
+     "trespass": 0,
+     "edge_dark_frac": 0.4947,
+     "interior_lost_frac": 0.0,
+     "area": 257678,
+     "snips": 39
+    }
+   },
+   "chosen": "grabcut"
+  },
+  "odette_fore": {
+   "candidates": {
+    "grabcut": {
+     "components": 1,
+     "trespass": 0,
+     "edge_dark_frac": 0.0988,
+     "interior_lost_frac": 0.0202,
+     "area": 20983,
+     "snips": 20
+    },
+    "tonal": {
+     "components": 1,
+     "trespass": 24,
+     "edge_dark_frac": 0.0811,
+     "interior_lost_frac": 0.0,
+     "area": 27860,
+     "snips": 23
+    },
+    "manual": {
+     "components": 1,
+     "trespass": 0,
+     "edge_dark_frac": 0.0781,
+     "interior_lost_frac": 0.0,
+     "area": 25205,
+     "snips": 19
+    }
+   },
+   "chosen": "manual"
+  }
+ },
+ "method_note": "SCION 29: per piece three candidates (seeded grabCut on the colour print; tonal matte on blurred luminance; manual contour = hand-placed scissor snips) scored by components==1, trespass==0 into the other figure's hand-marked region, interior paper lost < 2%, then least dark backdrop along the edge. Seeds: masks/seeds_<piece>.png (0 BG, 85 FG, 170 PR_BG, 255 PR_FG). Failure masks: masks/fail_<piece>_<method>.png (red = paper lost, blue = beyond the hand-marked part, orange = dark backdrop on the cut edge). Candidates: masks/cand_<piece>_<method>.png.",
+ "joints_note": "Heads sit BEHIND their bodies; the neck underlap (disk r=24 thumb px about the neck pin, inside the body) tucks under Daumier's drawn collar line, so no straight cut or throat gap shows when the head turns. Forearms sit ON TOP; the round elbow cap (r=20) lies over the upper sleeve. The torso area the forearm vacates is re-clothed with the same figure's own shirt crayon (cloned patch, reclothed_px per body). Seams follow drawn lines; the white scissor margin (3.5 thumb px ~ 3.8 page px) is only on the silhouette's outside edge.",
+ "levels_note": "Per-piece levels only (black point, white point, gamma) on red-weighted luminance 0.70R+0.30G; paper #E4C9B1 -> page white; backdrop (99,90,81) and the darkest crayon -> solid ink; crayon grain kept. No threshold, no posterize, no sharpening, no added grain.",
+ "rig": {
+  "graph": [
+   "feet(root, lean) -> body",
+   "body -> neck pin -> head",
+   "body -> elbow pin -> forearm(+hand)",
+   "forearm -> hand anchor",
+   "odette hand anchor -> note"
+  ],
+  "order": "M_piece = Base(frame) . R_lean(feet) [. R_head(neck) | . R_fore(elbow)]; root->leaf, fixed",
+  "draw_order": [
+   "backdrop",
+   "gustave_head",
+   "gustave_body",
+   "gustave_fore",
+   "odette_head",
+   "odette_body",
+   "odette_fore",
+   "note (U2/U3)"
+  ],
+  "joints_thumb": {
+   "gustave": {
+    "feet": [
+     380,
+     930
+    ],
+    "neck": [
+     405,
+     424
+    ],
+    "elbow": [
+     386,
+     548
+    ],
+    "hand": [
+     530,
+     563
+    ],
+    "mouth": [
+     474,
+     404
+    ]
+   },
+   "odette": {
+    "feet": [
+     660,
+     930
+    ],
+    "neck": [
+     634,
+     432
+    ],
+    "elbow": [
+     655,
+     596
+    ],
+    "hand": [
+     572,
+     580
+    ],
+    "mouth": [
+     566,
+     401
+    ]
+   }
+  },
+  "joints": {
+   "gustave": {
+    "feet": [
+     380,
+     930
+    ],
+    "neck": [
+     405,
+     424
+    ],
+    "elbow": [
+     386,
+     548
+    ],
+    "hand": [
+     530,
+     563
+    ],
+    "mouth": [
+     474,
+     404
+    ]
+   },
+   "odette": {
+    "feet": [
+     660,
+     930
+    ],
+    "neck": [
+     634,
+     432
+    ],
+    "elbow": [
+     655,
+     596
+    ],
+    "hand": [
+     572,
+     580
+    ],
+    "mouth": [
+     566,
+     401
+    ]
+   }
+  },
+  "bone_lengths_source_px": {
+   "gustave": {
+    "feet-neck": 1013.234,
+    "feet-elbow": 764.094,
+    "neck-elbow": 250.894,
+    "elbow-hand": 289.558,
+    "neck-mouth": 143.68
+   },
+   "odette": {
+    "feet-neck": 997.357,
+    "feet-elbow": 668.075,
+    "neck-elbow": 330.678,
+    "elbow-hand": 169.056,
+    "neck-mouth": 149.466
+   }
+  },
+  "angle_convention": "image-space degrees, clockwise positive (y down). gustave: lean + toward her; head + nods in, - jerks back; fore - raises. odette: lean - toward him, + recoils; head - forward/down, + back; fore + raises.",
+  "frame_convention": "frame=(s, ox, oy): s = output px per thumb px; (ox,oy) = output position of thumb (0,0). Panel A/B/C plan: s~1.10; H: s~1.30.",
+  "module": "films/swarm/boucle-la/panel-artist/rig.py (Rig().fk / Rig().render)",
+  "note": {
+   "anchor": "odette hand (rig joint odette.hand), the note's right edge held in her grip",
+   "size_thumb": [
+    92,
+    60
+   ],
+   "size_previous_test_shot": [
+    118,
+    78
+   ],
+   "why": "slightly smaller relative to the hands (user note), still legible: at page scale 1.1 it is ~101x66 px, at H scale 1.3 ~120x78 px; lettering cap >= 14 px",
+   "offset_from_anchor_thumb": [
+    -0.42,
+    -0.42
+   ],
+   "offset_units": "fractions of note w,h (card centre left of and above the hand)",
+   "turn": "0 = back to reader, 180 = face out; substitute back->face drawing at 90 (edge-on)"
+  },
+  "selfcheck": {
+   "bone_dev_px": 0.0,
+   "joint_err_px": 0.0,
+   "poses_tested": 49,
+   "frame_scale": 1.1
+  }
+ },
+ "poses": {
+  "neutral": {
+   "pose": {
+    "gustave": {
+     "lean": 0,
+     "head": 0,
+     "fore": 0
+    },
+    "odette": {
+     "lean": 0,
+     "head": 0,
+     "fore": 0,
+     "note_turn": 0,
+     "note_tilt": 0
+    }
+   },
+   "reads_as": "the print as Daumier drew it (hands meeting)"
+  },
+  "A": {
+   "canonical": {
+    "gustave": {
+     "lean": -1.5,
+     "head": -8,
+     "fore": 14
+    },
+    "odette": {
+     "lean": -2.0,
+     "head": -7,
+     "fore": 38,
+     "note_turn": 0,
+     "note_tilt": -10
+    }
+   },
+   "entry": {
+    "gustave": {
+     "lean": 0,
+     "head": 0,
+     "fore": 4
+    },
+    "odette": {
+     "lean": 0.6,
+     "head": 2,
+     "fore": 6,
+     "note_turn": 0,
+     "note_tilt": -4
+    }
+   },
+   "accent_drawing": "her head nod -7 lands with the note at the top of the raise",
+   "reads_as": "ACCUSE: Odette's forearm raised, the note held up at his face, her head tilted forward and down at him; Gustave's head drawn back, his hand withdrawn"
+  },
+  "B": {
+   "canonical": {
+    "gustave": {
+     "lean": -3.0,
+     "head": -16,
+     "fore": -58
+    },
+    "odette": {
+     "lean": 0.5,
+     "head": 4,
+     "fore": -10,
+     "note_turn": 0,
+     "note_tilt": 6
+    }
+   },
+   "entry": {
+    "gustave": {
+     "lean": 0.8,
+     "head": 4,
+     "fore": 8
+    },
+    "odette": {
+     "lean": 0,
+     "head": 2,
+     "fore": 10,
+     "note_turn": 0,
+     "note_tilt": -2
+    }
+   },
+   "accent_drawing": "head jerk overshoot gh=-19 one drawing after the forearm flips (head lags), settle to -16",
+   "reads_as": "'MOI ?!' SHRUG: Gustave's forearm flipped up, open hand palm-out beside his chest, head jerked back nose-up, body back; her note lowered"
+  },
+  "C": {
+   "canonical": {
+    "gustave": {
+     "lean": -1.0,
+     "head": -4,
+     "fore": 22
+    },
+    "odette": {
+     "lean": -5.0,
+     "head": -9,
+     "fore": 20,
+     "note_turn": 0,
+     "note_tilt": -16
+    }
+   },
+   "entry": {
+    "gustave": {
+     "lean": 0,
+     "head": -2,
+     "fore": 10
+    },
+    "odette": {
+     "lean": 0.8,
+     "head": 1,
+     "fore": 8,
+     "note_turn": 0,
+     "note_tilt": -6
+    }
+   },
+   "accent_drawing": "the lean leads from the feet; her head arrives one drawing later (-11 overshoot, settle -9)",
+   "reads_as": "PRESSING LEAN: Odette's whole body leans forward about the feet, the note pushed toward him; his forearm down"
+  },
+  "H": {
+   "canonical": {
+    "gustave": {
+     "lean": 2.5,
+     "head": 9,
+     "fore": -22
+    },
+    "odette": {
+     "lean": 2.5,
+     "head": 10,
+     "fore": 26,
+     "note_turn": 180,
+     "note_tilt": -4
+    }
+   },
+   "entry": {
+    "gustave": {
+     "lean": 0,
+     "head": 0,
+     "fore": 0
+    },
+    "odette": {
+     "lean": 0,
+     "head": 0,
+     "fore": 16,
+     "note_turn": 0,
+     "note_tilt": -4
+    }
+   },
+   "accent_drawing": "heads swing in (gh +7, oh -6) over 6 drawings; note turns back->face over 6 drawings (substitution at edge-on, turn=90); on face-out she recoils: lean +2.5 leads, head +10 lags one drawing (overshoot +12)",
+   "reads_as": "REVEAL: he leans in pointing at the note with his open hand, she recoils head back; the note face-out between them at chest height"
+  }
+ },
+ "evidence": [
+  {
+   "id": "daumier-mc3",
+   "title": "Honoré Daumier, Mœurs conjugales no. 3, « Et les cinq francs de ce matin ?… » (1839), lithograph, Rijksmuseum RP-P-OB-41.183",
+   "author": "Honoré Daumier (print); Rijksmuseum (scan)",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Echtpaar_bespreekt_huishoudelijke_financi%C3%ABn_in_de_slaapkamer_Et_les_cinq_francs_de_ce_matin_(..)_(titel_op_object)_Gezinssituaties_(serietitel)_Moeurs_conjugales_(serietitel_op_object),_RP-P-OB-41.183.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Echtpaar_bespreekt_huishoudelijke_financi%C3%ABn_in_de_slaapkamer_Et_les_cinq_francs_de_ce_matin_%28..%29_%28titel_op_object%29_Gezinssituaties_%28serietitel%29_Moeurs_conjugales_%28serietitel_op_object%29%2C_RP-P-OB-41.183.jpg/1920px-Echtpaar_bespreekt_huishoudelijke_financi%C3%ABn_in_de_slaapkamer_Et_les_cinq_francs_de_ce_matin_%28..%29_%28titel_op_object%29_Gezinssituaties_%28serietitel%29_Moeurs_conjugales_%28serietitel_op_object%29%2C_RP-P-OB-41.183.jpg",
+   "original_file_url": "https://upload.wikimedia.org/wikipedia/commons/7/79/Echtpaar_bespreekt_huishoudelijke_financi%C3%ABn_in_de_slaapkamer_Et_les_cinq_francs_de_ce_matin_%28..%29_%28titel_op_object%29_Gezinssituaties_%28serietitel%29_Moeurs_conjugales_%28serietitel_op_object%29%2C_RP-P-OB-41.183.jpg",
+   "original_size": [
+    3558,
+    4666
+   ],
+   "original_sha1": "cdfd3117e351145ae665fbd73c13e13a6bc192f1",
+   "local_path": "films/sources/boucle-la/panel-artist/daumier-1920.jpg",
+   "what_it_shows": "an elderly couple in nightclothes quarrelling in their bedroom over the household money, hands meeting over a hanging cloth; dark crayon backdrop, bed curtain at right",
+   "verified_date_or_place": "1839 (Commons DateTimeOriginal); licence re-read from Commons extmetadata 2026-11-17: LicenseShortName=CC0, UsageTerms='Creative Commons Zero, Public Domain Dedication' (films/sources/boucle-la/panel-artist/licence-check.json, meta-raw.json)",
+   "used_as": "Gustave and Odette cut into head/body/forearm(+hand) pieces, and the dark backdrop crayon as a spot-black set piece; levels only"
+  }
+ ],
+ "handmade": [
+  {
+   "item": "cut geometry (scissor envelopes, head/forearm polygons, hand-ownership regions, pins), per-piece levels, rig and poses",
+   "where": "films/swarm/boucle-la/panel-artist/cutouts.py, manifest.py, rig.py"
+  },
+  {
+   "item": "re-clothing of the torso area the forearm vacates",
+   "how": "cloned patch of the same figure's own shirt crayon from the print (no drawing added)",
+   "where": "pieces.*_body.reclothed_px"
+  },
+  {
+   "item": "contact-sheet note stand-in (plain card + two lines)",
+   "where": "cutouts.jpg only; the real lettered note is U2's handmade card, not part of these pieces"
+  }
+ ],
+ "absences": [
+  "Original-resolution file (3558x4666, 2.38 MB) NOT downloaded: upload.wikimedia.org answered HTTP 429 (rate limit) on every attempt across ~15 min of backed-off retries. Pieces are cut from the 1920x2518 Commons thumbnail of the same file (K=2.0; sha256 48c303a5...). All geometry is in 960-px view coordinates, so rerunning cutouts.py then manifest.py after placing the original at films/sources/boucle-la/panel-artist/orig/daumier-original.jpg rescales everything (K=3.706); piece sha256s would then change and U3 must re-render.",
+  "No second Moeurs conjugales plate fetched: not needed; Gustave's own open, extended hand (fingers kept whole, cut clear of Odette's index finger) raised by the forearm reads as palm-out in B.",
+  "The hanging cloth/towel under the hands is not cut (belongs to neither figure)."
+ ],
+ "test_shot_fixes": {
+  "deeper_blacks": "per-piece levels with gamma 1.45-1.65 on red-filter luminance; figure pieces now 14-34% below L60 (test shot ~3-8%); backdrop 73%",
+  "joints_hidden": "heads behind bodies with neck underlap under Daumier's collar line; forearms on top with round elbow cap over the sleeve; vacated torso re-clothed; scissor margin only on the outside silhouette",
+  "bigger_poses": "B: forearm -58 deg (open hand up, palm out, not a fist), head -16 (overshoot -19); A: her forearm +38, note at his face; C: lean -5 from the feet; H: heads in (+9/+10) then recoil",
+  "note_smaller": "92x60 thumb px (was 118x78)"
+ }
+}

@@ -1,0 +1,838 @@
+{
+ "what": "typed joint graph per panel; transforms compose parent @ about(pivot, R(angle)) in source coords, then the panel placement",
+ "builder": "page/build_page.py (page-cartoonist) lays the rest pose; anim/panels.py overrides only these DOFs per frame",
+ "panels": {
+  "P1": {
+   "clerk": {
+    "type": "body",
+    "frame": "source coords = Rothstein 8b16710u master at every 3rd px (cutout pieces' frame); panel px = page px",
+    "joints": [
+     {
+      "id": "root",
+      "parent": null,
+      "piece": "clerk.torso",
+      "pivot_src": [
+       3010.0,
+       2680.0
+      ],
+      "dof": "panel transform (translate/rotate/mirror) = the clerk's place"
+     },
+     {
+      "id": "collar",
+      "parent": "root",
+      "piece": "clerk.head",
+      "pivot_src": [
+       3010.0,
+       2092.0
+      ],
+      "dof": "rotate (head, deg)",
+      "limits_deg": [
+       -15,
+       18
+      ]
+     },
+     {
+      "id": "elbow",
+      "parent": "root",
+      "piece": "clerk.forearm",
+      "pivot_src": [
+       3732.0,
+       2632.0
+      ],
+      "dof": "rotate (arm, deg)",
+      "limits_deg": [
+       -40,
+       10
+      ],
+      "note": "the shoulder->upper arm is part of the torso piece as photographed; the rig's pencil-arm hinge is the elbow"
+     },
+     {
+      "id": "grip",
+      "parent": "elbow",
+      "piece": "clerk.pencil",
+      "pivot_src": [
+       3194.0,
+       1994.0
+      ],
+      "dof": "rotate (pencil, deg)",
+      "tip_src": [
+       3138.0,
+       1744.0
+      ]
+     },
+     {
+      "id": "chin",
+      "parent": "collar",
+      "piece": null,
+      "point_src": [
+       3016.0,
+       2080.0
+      ],
+      "dof": "target (pencil tip meets it in P8)"
+     }
+    ],
+    "order": [
+     "clerk.torso",
+     "clerk.head",
+     "clerk.forearm",
+     "clerk.pencil"
+    ],
+    "pose_chin": {
+     "arm": -27.75,
+     "pencil": 59.35465005249709,
+     "head": 0.0
+    },
+    "pose_source": {
+     "arm": 0.0,
+     "pencil": 0.0,
+     "head": 0.0
+    },
+    "pose_arrive": {
+     "arm": -34.0,
+     "pencil": 24.0,
+     "head": 0.0
+    }
+   }
+  },
+  "P2": {
+   "clerk": {
+    "type": "body",
+    "frame": "source coords = Rothstein 8b16710u master at every 3rd px (cutout pieces' frame); panel px = page px",
+    "joints": [
+     {
+      "id": "root",
+      "parent": null,
+      "piece": "clerk.torso",
+      "pivot_src": [
+       3010.0,
+       2680.0
+      ],
+      "dof": "panel transform (translate/rotate/mirror) = the clerk's place"
+     },
+     {
+      "id": "collar",
+      "parent": "root",
+      "piece": "clerk.head",
+      "pivot_src": [
+       3010.0,
+       2092.0
+      ],
+      "dof": "rotate (head, deg)",
+      "limits_deg": [
+       -15,
+       18
+      ]
+     },
+     {
+      "id": "elbow",
+      "parent": "root",
+      "piece": "clerk.forearm",
+      "pivot_src": [
+       3732.0,
+       2632.0
+      ],
+      "dof": "rotate (arm, deg)",
+      "limits_deg": [
+       -40,
+       10
+      ],
+      "note": "the shoulder->upper arm is part of the torso piece as photographed; the rig's pencil-arm hinge is the elbow"
+     },
+     {
+      "id": "grip",
+      "parent": "elbow",
+      "piece": "clerk.pencil",
+      "pivot_src": [
+       3194.0,
+       1994.0
+      ],
+      "dof": "rotate (pencil, deg)",
+      "tip_src": [
+       3138.0,
+       1744.0
+      ]
+     },
+     {
+      "id": "chin",
+      "parent": "collar",
+      "piece": null,
+      "point_src": [
+       3016.0,
+       2080.0
+      ],
+      "dof": "target (pencil tip meets it in P8)"
+     }
+    ],
+    "order": [
+     "clerk.torso",
+     "clerk.head",
+     "clerk.forearm",
+     "clerk.pencil"
+    ],
+    "pose_chin": {
+     "arm": -27.75,
+     "pencil": 59.35465005249709,
+     "head": 0.0
+    },
+    "pose_source": {
+     "arm": 0.0,
+     "pencil": 0.0,
+     "head": 0.0
+    },
+    "pose_arrive": {
+     "arm": -34.0,
+     "pencil": 24.0,
+     "head": 0.0
+    }
+   },
+   "note": "seated pose = inverse of the page's lift"
+  },
+  "P3": {
+   "clerk": {
+    "type": "body",
+    "frame": "source coords = Rothstein 8b16710u master at every 3rd px (cutout pieces' frame); panel px = page px",
+    "joints": [
+     {
+      "id": "root",
+      "parent": null,
+      "piece": "clerk.torso",
+      "pivot_src": [
+       3010.0,
+       2680.0
+      ],
+      "dof": "panel transform (translate/rotate/mirror) = the clerk's place"
+     },
+     {
+      "id": "collar",
+      "parent": "root",
+      "piece": "clerk.head",
+      "pivot_src": [
+       3010.0,
+       2092.0
+      ],
+      "dof": "rotate (head, deg)",
+      "limits_deg": [
+       -15,
+       18
+      ]
+     },
+     {
+      "id": "elbow",
+      "parent": "root",
+      "piece": "clerk.forearm",
+      "pivot_src": [
+       3732.0,
+       2632.0
+      ],
+      "dof": "rotate (arm, deg)",
+      "limits_deg": [
+       -40,
+       10
+      ],
+      "note": "the shoulder->upper arm is part of the torso piece as photographed; the rig's pencil-arm hinge is the elbow"
+     },
+     {
+      "id": "grip",
+      "parent": "elbow",
+      "piece": "clerk.pencil",
+      "pivot_src": [
+       3194.0,
+       1994.0
+      ],
+      "dof": "rotate (pencil, deg)",
+      "tip_src": [
+       3138.0,
+       1744.0
+      ]
+     },
+     {
+      "id": "chin",
+      "parent": "collar",
+      "piece": null,
+      "point_src": [
+       3016.0,
+       2080.0
+      ],
+      "dof": "target (pencil tip meets it in P8)"
+     }
+    ],
+    "order": [
+     "clerk.torso",
+     "clerk.head",
+     "clerk.forearm",
+     "clerk.pencil"
+    ],
+    "pose_chin": {
+     "arm": -27.75,
+     "pencil": 59.35465005249709,
+     "head": 0.0
+    },
+    "pose_source": {
+     "arm": 0.0,
+     "pencil": 0.0,
+     "head": 0.0
+    },
+    "pose_arrive": {
+     "arm": -34.0,
+     "pencil": 24.0,
+     "head": 0.0
+    }
+   },
+   "walk": "Gilliam stepping slide: root translate on twos, bob +-14 src px (= +-5.9 page px), head lags one pose"
+  },
+  "P4": {
+   "clerk": {
+    "type": "body",
+    "frame": "source coords = Rothstein 8b16710u master at every 3rd px (cutout pieces' frame); panel px = page px",
+    "joints": [
+     {
+      "id": "root",
+      "parent": null,
+      "piece": "clerk.torso",
+      "pivot_src": [
+       3010.0,
+       2680.0
+      ],
+      "dof": "panel transform (translate/rotate/mirror) = the clerk's place"
+     },
+     {
+      "id": "collar",
+      "parent": "root",
+      "piece": "clerk.head",
+      "pivot_src": [
+       3010.0,
+       2092.0
+      ],
+      "dof": "rotate (head, deg)",
+      "limits_deg": [
+       -15,
+       18
+      ]
+     },
+     {
+      "id": "elbow",
+      "parent": "root",
+      "piece": "clerk.forearm",
+      "pivot_src": [
+       3732.0,
+       2632.0
+      ],
+      "dof": "rotate (arm, deg)",
+      "limits_deg": [
+       -40,
+       10
+      ],
+      "note": "the shoulder->upper arm is part of the torso piece as photographed; the rig's pencil-arm hinge is the elbow"
+     },
+     {
+      "id": "grip",
+      "parent": "elbow",
+      "piece": "clerk.pencil",
+      "pivot_src": [
+       3194.0,
+       1994.0
+      ],
+      "dof": "rotate (pencil, deg)",
+      "tip_src": [
+       3138.0,
+       1744.0
+      ]
+     },
+     {
+      "id": "chin",
+      "parent": "collar",
+      "piece": null,
+      "point_src": [
+       3016.0,
+       2080.0
+      ],
+      "dof": "target (pencil tip meets it in P8)"
+     }
+    ],
+    "order": [
+     "clerk.torso",
+     "clerk.head",
+     "clerk.forearm",
+     "clerk.pencil"
+    ],
+    "pose_chin": {
+     "arm": -27.75,
+     "pencil": 59.35465005249709,
+     "head": 0.0
+    },
+    "pose_source": {
+     "arm": 0.0,
+     "pencil": 0.0,
+     "head": 0.0
+    },
+    "pose_arrive": {
+     "arm": -34.0,
+     "pencil": 24.0,
+     "head": 0.0
+    }
+   },
+   "visitor": {
+    "type": "layer behind glass",
+    "joints": [
+     {
+      "id": "visitor",
+      "parent": "glass",
+      "piece": "visitor",
+      "dof": "translate x (panel px), diffused 3 px, 70% transmission"
+     }
+    ]
+   },
+   "balloons": [
+    {
+     "type": "dropped paper object",
+     "id": "b_what_time",
+     "dof": "translate y (rigid with its tail); drop -150,-55,+9,0 over 4 frames on ones; lands on the page position"
+    }
+   ]
+  },
+  "P5": {
+   "clerk": {
+    "type": "body",
+    "frame": "source coords = Rothstein 8b16710u master at every 3rd px (cutout pieces' frame); panel px = page px",
+    "joints": [
+     {
+      "id": "root",
+      "parent": null,
+      "piece": "clerk.torso",
+      "pivot_src": [
+       3010.0,
+       2680.0
+      ],
+      "dof": "panel transform (translate/rotate/mirror) = the clerk's place"
+     },
+     {
+      "id": "collar",
+      "parent": "root",
+      "piece": "clerk.head",
+      "pivot_src": [
+       3010.0,
+       2092.0
+      ],
+      "dof": "rotate (head, deg)",
+      "limits_deg": [
+       -15,
+       18
+      ]
+     },
+     {
+      "id": "elbow",
+      "parent": "root",
+      "piece": "clerk.forearm",
+      "pivot_src": [
+       3732.0,
+       2632.0
+      ],
+      "dof": "rotate (arm, deg)",
+      "limits_deg": [
+       -40,
+       10
+      ],
+      "note": "the shoulder->upper arm is part of the torso piece as photographed; the rig's pencil-arm hinge is the elbow"
+     },
+     {
+      "id": "grip",
+      "parent": "elbow",
+      "piece": "clerk.pencil",
+      "pivot_src": [
+       3194.0,
+       1994.0
+      ],
+      "dof": "rotate (pencil, deg)",
+      "tip_src": [
+       3138.0,
+       1744.0
+      ]
+     },
+     {
+      "id": "chin",
+      "parent": "collar",
+      "piece": null,
+      "point_src": [
+       3016.0,
+       2080.0
+      ],
+      "dof": "target (pencil tip meets it in P8)"
+     }
+    ],
+    "order": [
+     "clerk.torso",
+     "clerk.head",
+     "clerk.forearm",
+     "clerk.pencil"
+    ],
+    "pose_chin": {
+     "arm": -27.75,
+     "pencil": 59.35465005249709,
+     "head": 0.0
+    },
+    "pose_source": {
+     "arm": 0.0,
+     "pencil": 0.0,
+     "head": 0.0
+    },
+    "pose_arrive": {
+     "arm": -34.0,
+     "pencil": 24.0,
+     "head": 0.0
+    }
+   },
+   "clock": {
+    "type": "mechanism",
+    "joints": [
+     {
+      "id": "case",
+      "parent": null,
+      "piece": "clock.case"
+     },
+     {
+      "id": "arbor",
+      "parent": "case",
+      "pivot": "arbor",
+      "children": [
+       "clock.hour",
+       "clock.minute"
+      ],
+      "dof": "rotate each hand; minute steps 6 deg per minute",
+      "rest": "4:10 (hour 125 deg, minute 60 deg)"
+     }
+    ]
+   },
+   "balloons": [
+    {
+     "type": "dropped paper object",
+     "id": "b_ten_past",
+     "dof": "translate y (rigid with its tail); drop -150,-55,+9,0 over 4 frames on ones; lands on the page position"
+    }
+   ]
+  },
+  "P6": {
+   "lamp": {
+    "type": "pendulum",
+    "joints": [
+     {
+      "id": "cord_top",
+      "parent": null,
+      "piece": "lamp (GrabCut from P6 plate + cord band)",
+      "dof": "rotate deg about the cord top",
+      "rest_deg": 0
+     }
+    ]
+   },
+   "balloons": [
+    {
+     "type": "dropped paper object",
+     "id": "b_thanks",
+     "dof": "translate y (rigid with its tail); drop -150,-55,+9,0 over 4 frames on ones; lands on the page position"
+    }
+   ]
+  },
+  "P7": {
+   "clerk": {
+    "type": "body",
+    "frame": "source coords = Rothstein 8b16710u master at every 3rd px (cutout pieces' frame); panel px = page px",
+    "joints": [
+     {
+      "id": "root",
+      "parent": null,
+      "piece": "clerk.torso",
+      "pivot_src": [
+       3010.0,
+       2680.0
+      ],
+      "dof": "panel transform (translate/rotate/mirror) = the clerk's place"
+     },
+     {
+      "id": "collar",
+      "parent": "root",
+      "piece": "clerk.head",
+      "pivot_src": [
+       3010.0,
+       2092.0
+      ],
+      "dof": "rotate (head, deg)",
+      "limits_deg": [
+       -15,
+       18
+      ]
+     },
+     {
+      "id": "elbow",
+      "parent": "root",
+      "piece": "clerk.forearm",
+      "pivot_src": [
+       3732.0,
+       2632.0
+      ],
+      "dof": "rotate (arm, deg)",
+      "limits_deg": [
+       -40,
+       10
+      ],
+      "note": "the shoulder->upper arm is part of the torso piece as photographed; the rig's pencil-arm hinge is the elbow"
+     },
+     {
+      "id": "grip",
+      "parent": "elbow",
+      "piece": "clerk.pencil",
+      "pivot_src": [
+       3194.0,
+       1994.0
+      ],
+      "dof": "rotate (pencil, deg)",
+      "tip_src": [
+       3138.0,
+       1744.0
+      ]
+     },
+     {
+      "id": "chin",
+      "parent": "collar",
+      "piece": null,
+      "point_src": [
+       3016.0,
+       2080.0
+      ],
+      "dof": "target (pencil tip meets it in P8)"
+     }
+    ],
+    "order": [
+     "clerk.torso",
+     "clerk.head",
+     "clerk.forearm",
+     "clerk.pencil"
+    ],
+    "pose_chin": {
+     "arm": -27.75,
+     "pencil": 59.35465005249709,
+     "head": 0.0
+    },
+    "pose_source": {
+     "arm": 0.0,
+     "pencil": 0.0,
+     "head": 0.0
+    },
+    "pose_arrive": {
+     "arm": -34.0,
+     "pencil": 24.0,
+     "head": 0.0
+    }
+   },
+   "cupboard": {
+    "type": "set",
+    "joints": [
+     {
+      "id": "cupboard",
+      "parent": null,
+      "piece": "set.plate",
+      "dof": "fixed"
+     },
+     {
+      "id": "jamb",
+      "parent": "cupboard",
+      "piece": null,
+      "edge_src": [
+       [
+        3124,
+        796
+       ],
+       [
+        3124,
+        1904
+       ]
+      ],
+      "dof": "fixed hinge edge"
+     },
+     {
+      "id": "door",
+      "parent": "jamb",
+      "piece": "cupboard.door",
+      "dof": "swing theta deg: scaleX=|cos theta| about the jamb, outer face theta<90, inner face (mirrored, shade .78) theta>90; far edge grows 5.3%*sin theta (comes toward us)",
+      "rest_theta_deg": 109.88
+     },
+     {
+      "id": "hook",
+      "parent": "door",
+      "piece": "hook (handmade)",
+      "point_door_uv": [
+       0.52,
+       0.4
+      ]
+     },
+     {
+      "id": "key",
+      "parent": "hook",
+      "piece": "key",
+      "pivot": "ring_top",
+      "dof": "none: constant offset (0, 8*s) below the hook"
+     },
+     {
+      "id": "tag",
+      "parent": "key",
+      "piece": "tag (handmade)",
+      "dof": "none"
+     }
+    ]
+   }
+  },
+  "P8": {
+   "clerk": {
+    "type": "body",
+    "frame": "source coords = Rothstein 8b16710u master at every 3rd px (cutout pieces' frame); panel px = page px",
+    "joints": [
+     {
+      "id": "root",
+      "parent": null,
+      "piece": "clerk.torso",
+      "pivot_src": [
+       3010.0,
+       2680.0
+      ],
+      "dof": "panel transform (translate/rotate/mirror) = the clerk's place"
+     },
+     {
+      "id": "collar",
+      "parent": "root",
+      "piece": "clerk.head",
+      "pivot_src": [
+       3010.0,
+       2092.0
+      ],
+      "dof": "rotate (head, deg)",
+      "limits_deg": [
+       -15,
+       18
+      ]
+     },
+     {
+      "id": "elbow",
+      "parent": "root",
+      "piece": "clerk.forearm",
+      "pivot_src": [
+       3732.0,
+       2632.0
+      ],
+      "dof": "rotate (arm, deg)",
+      "limits_deg": [
+       -40,
+       10
+      ],
+      "note": "the shoulder->upper arm is part of the torso piece as photographed; the rig's pencil-arm hinge is the elbow"
+     },
+     {
+      "id": "grip",
+      "parent": "elbow",
+      "piece": "clerk.pencil",
+      "pivot_src": [
+       3194.0,
+       1994.0
+      ],
+      "dof": "rotate (pencil, deg)",
+      "tip_src": [
+       3138.0,
+       1744.0
+      ]
+     },
+     {
+      "id": "chin",
+      "parent": "collar",
+      "piece": null,
+      "point_src": [
+       3016.0,
+       2080.0
+      ],
+      "dof": "target (pencil tip meets it in P8)"
+     }
+    ],
+    "order": [
+     "clerk.torso",
+     "clerk.head",
+     "clerk.forearm",
+     "clerk.pencil"
+    ],
+    "pose_chin": {
+     "arm": -27.75,
+     "pencil": 59.35465005249709,
+     "head": 0.0
+    },
+    "pose_source": {
+     "arm": 0.0,
+     "pencil": 0.0,
+     "head": 0.0
+    },
+    "pose_arrive": {
+     "arm": -34.0,
+     "pencil": 24.0,
+     "head": 0.0
+    }
+   },
+   "cupboard": {
+    "type": "set",
+    "joints": [
+     {
+      "id": "cupboard",
+      "parent": null,
+      "piece": "set.plate",
+      "dof": "fixed"
+     },
+     {
+      "id": "jamb",
+      "parent": "cupboard",
+      "piece": null,
+      "edge_src": [
+       [
+        3124,
+        796
+       ],
+       [
+        3124,
+        1904
+       ]
+      ],
+      "dof": "fixed hinge edge"
+     },
+     {
+      "id": "door",
+      "parent": "jamb",
+      "piece": "cupboard.door",
+      "dof": "swing theta deg: scaleX=|cos theta| about the jamb, outer face theta<90, inner face (mirrored, shade .78) theta>90; far edge grows 5.3%*sin theta (comes toward us)",
+      "rest_theta_deg": 109.88
+     },
+     {
+      "id": "hook",
+      "parent": "door",
+      "piece": "hook (handmade)",
+      "point_door_uv": [
+       0.52,
+       0.4
+      ]
+     },
+     {
+      "id": "key",
+      "parent": "hook",
+      "piece": "key",
+      "pivot": "ring_top",
+      "dof": "none: constant offset (0, 8*s) below the hook"
+     },
+     {
+      "id": "tag",
+      "parent": "key",
+      "piece": "tag (handmade)",
+      "dof": "none"
+     }
+    ]
+   },
+   "balloons": [
+    {
+     "type": "dropped paper object",
+     "id": "b_forgot",
+     "dof": "translate y (rigid with its tail); drop -150,-55,+9,0 over 4 frames on ones; lands on the page position"
+    }
+   ]
+  }
+ }
+}

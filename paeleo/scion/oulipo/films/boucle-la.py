@@ -1,172 +1,345 @@
-"""Boucle-là ! — one page, seven occurrences A B C H C B A. Two people dispute who
-left a note; the hinge shows it was addressed to the accuser."""
+"""boucle-la : LE MOT (ou qui l'a laissé ?) -- the editor's assembly.
+
+The film PERFORMS the reading of the one page assets/pages/boucle-la.png:
+a camera walks A B C | H | C B A over the page raster built by U3 (page-animator).
+Panels are never re-drawn here: each occurrence pastes U3's frame sequence
+(films/sources/boucle-la/page-animator/frames/<ID>/, one directory per ID, so a
+pair plays the same files) at its crop rect on the page, then holds the last
+frame, which is pixel-identical to the page crop.  Unread panels wait as U3's
+22 % ghost (page-ghost.png).  The route/speech-act layer is U3's
+annotation-layer.png, traced along its own route polyline at the end.
+
+Sound (foraged only, decoded by ffmpeg into wav by U2):
+  * bell.wav  (Commons, CC0)            -- once, onset on H's face-out frame (28.0 s)
+  * rustle.wav (Commons, public domain) -- the note's turn in H; a short paper
+    tick (head of the same file) on each occurrence's paper jerk, identical per pair;
+    one full rustle as the page is laid down.
+  * voice grains (movingimagearchive.com, English) are OFF by default, per the
+    user's note on the approved test shot ("drop the English voice, keep only bell
+    and paper").  `--voices` restores them, one file per panel ID (pairs identical).
+No room tone was foraged; none is synthesized.
+
+Run from the project root:
+    python3 films/boucle-la.py                 # renders assets/films/boucle-la.mp4 (+ .webp)
+    python3 films/boucle-la.py --stills 9.8 28.0 ...
+"""
+
+from __future__ import annotations
+
+import json
 import math
+import sys
+import wave
+from pathlib import Path
+
+import numpy as np
 from PIL import Image, ImageDraw
-from kit import *
-from kit_comics import *
 
-SLUG = "boucle-la"
-PW, PH = 2400, 1350
-G = 40
-RH = (PH - 2 * 60 - 2 * G) / 3          # row height
-CW = (PW - 2 * 50 - 2 * G) / 3          # small panel width
-HW = PW - 2 * 50                        # hinge width
-CW, RH, HW = int(CW), int(RH), int(HW)
-LS = 38
-FL = 330
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import kit  # noqa: E402
+from kit import Film, ease  # noqa: E402
 
+VOICES = "--voices" in sys.argv
+if VOICES:
+    sys.argv.remove("--voices")
 
-def bg(ink, w, h):
-    station_bg(ink, w, h, FL, dado=200)
+ROOT = kit.PROJECT
+SW = ROOT / "films/swarm/boucle-la"
+PA = ROOT / "films/sources/boucle-la/page-animator"
+SND = ROOT / "films/sources/boucle-la/dialogue-writer/sound"
 
-
-def folded_note(k, x, y, s=1.0):
-    k.poly([(x - 30 * s, y - 20 * s), (x + 30 * s, y - 24 * s), (x + 32 * s, y + 18 * s), (x - 28 * s, y + 22 * s)], fill=PAGE, color=INK, width=3)
-    k.line([(x - 29 * s, y), (x + 31 * s, y - 3 * s)], RULE, 2)
-
-
-def pA(ink, w, h):
-    bg(ink, w, h)
-    o = person(ink, 230, 560, 1.35, "porter", 1, mouth="shout", brows="angry", look=(1, 0),
-               arms={"front": (120, 150), "back": (-6, -3)},
-               holding=lambda k, hf, hb: None)
-    hx, hy = o["hands"]["front"]
-    folded_note(ink, hx + 10, hy - 30, 1.5)
-    person(ink, 640, 560, 1.35, "visitor", -1, mouth="flat", brows="flat", look=(-1, 0))
-    balloon(ink, 400, 72, "Who left this note on the bench?", LS, tail=(280, 165), maxw=520)
+PAGEJ = json.loads((SW / "page.json").read_text())
+FPS = 24
+SECONDS = 66.0
+PAD = 240                      # white margin around the page so the camera never clamps
+WHITE = (251, 251, 251)        # #FBFBFB page ground
+OW, OH = 960, 540
 
 
-def pB(ink, w, h):
-    bg(ink, w, h)
-    person(ink, 380, 580, 1.45, "visitor", -1, mouth="smirk", brows="sly", look=(-1, 0), eyes="side",
-           arms={"front": (40, 150), "back": (-40, -150)})
-    balloon(ink, 520, 70, "Don't look at me.", LS + 2, tail=(420, 170), maxw=360)
+def load(p):
+    with Image.open(p) as im:
+        return im.convert("RGB")
 
 
-def pC(ink, w, h):
-    bg(ink, w, h)
-    o = person(ink, 330, 590, 1.5, "porter", 1, mouth="frown", brows="angry", eyes="side", look=(1, 0),
-               arms={"front": (85, 95), "back": (-6, -3)})
-    point_hand(ink, o["hands"]["front"], 1, 1.5)
-    balloon(ink, 470, 70, "Then why are you smiling?", LS, tail=(370, 170), maxw=440)
+def padded(img):
+    c = Image.new("RGB", (img.width + 2 * PAD, img.height + 2 * PAD), WHITE)
+    c.paste(img, (PAD, PAD))
+    return c
 
 
-def pH(ink, w, h):
-    bg(ink, w, h)
-    bench_s(ink, 300, 420, 420, 1.2)
-    person(ink, 380, 600, 1.45, "porter", 1, mouth="o", brows="worried", eyes="wide", look=(1, 0),
-           arms={"front": (20, 10), "back": (-10, -5)})
-    # the note, opened, held by the visitor toward the reader
-    vx = 1720
-    person(ink, vx, 600, 1.45, "visitor", -1, mouth="smile", brows="raised", look=(-1, 0),
-           arms={"front": (110, 80), "back": (100, 120)})
-    nx0, ny0, nx1, ny1 = 900, 40, 1500, 350
-    ink.poly([(nx0, ny0 + 8), (nx1, ny0), (nx1 + 6, ny1), (nx0 + 4, ny1 + 6)], fill=PAGE, color=INK, width=4)
-    ink.line([(nx0 + 2, (ny0 + ny1) / 2 + 4), (nx1 + 3, (ny0 + ny1) / 2)], RULE, 3)
-    ink.text((nx0 + 40, ny0 + 30), "For the Porter —", "serif", 52, (40, 50, 110))
-    ink.text((nx0 + 40, ny0 + 105), "the brass key is yours.", "serif", 44, (40, 50, 110))
-    ink.text((nx0 + 40, ny0 + 165), "You know which door.", "serif", 44, (40, 50, 110))
-    key_shape(ink, nx1 - 150, ny1 - 50, 2.3, angle=-0.2)
-    ink.rect(nx1 - 175, ny1 - 70, nx1 - 135, ny1 - 40, fill=(240, 236, 200, 170), color=None, width=0)  # tape
-    for sx in (nx0 - 10, nx1 + 10):
-        pass
-    balloon(ink, 1980, 80, "It says “for the Porter.”", LS, tail=(1770, 190), maxw=420)
+PAGE = padded(load(PA / "page.png"))
+GHOST = padded(load(PA / "page-ghost.png"))
+with Image.open(PA / "annotation-layer.png") as _a:
+    ANNOT = _a.convert("RGBA")
+ROUTE = [tuple(p) for p in PAGEJ["annotated"]["route_polyline"]]
+
+# ---- drawings: frame index -> drawing file, from U3's exposure sheets
+SEQ = {}
+for pid, rec in PAGEJ["panels"].items():
+    frames = {}
+    for e in rec["exposure_sheet"]:
+        for f in e["frames"]:
+            frames[f] = e["drawing"]
+    n = max(frames) + 1
+    SEQ[pid] = {"n": n, "map": [frames[i] for i in range(n)], "dir": ROOT / rec["frames_dir"], "crops": rec["crop_rects"]}
+_cache = {}
 
 
-PANELS = {"A": make_panel(CW, RH, pA, seed=1), "B": make_panel(CW, RH, pB, seed=2),
-          "C": make_panel(CW, RH, pC, seed=3), "H": make_panel(HW, RH, pH, seed=4)}
-IDS = {k: art_id(v) for k, v in PANELS.items()}
-ORDER = list("ABCHCBA")
-assert ORDER == ORDER[::-1] and ORDER.count("H") == 1
-LINES = {"A": ("porter", "Who left this note on the bench?"), "B": ("visitor", "Don't look at me."),
-         "C": ("porter", "Then why are you smiling?"), "H": ("visitor", "It says for the Porter.")}
-ACTS = ["accuses", "denies", "presses", "reveals", "squirms", "gloats", "pleads"]
+def drawing(pid, idx):
+    s = SEQ[pid]
+    d = s["map"][max(0, min(idx, s["n"] - 1))]
+    key = (pid, d)
+    if key not in _cache:
+        _cache[key] = load(s["dir"] / f"d{d:03d}.png")
+    return _cache[key]
 
-board = Board(PW, PH)
-RECTS = []
-for k, pid in enumerate(ORDER):
-    if k < 3:
-        RECTS.append(board.place(PANELS[pid], 50 + k * (CW + G), 60))
-    elif k == 3:
-        RECTS.append(board.place(PANELS[pid], 50, 60 + RH + G))
+
+# ---- occurrences (slots and sequence starts from page.json; frames are integers)
+OCC = []
+for o in range(1, 8):
+    v = PAGEJ["occurrences"][f"o{o}"]
+    OCC.append({"o": o, "id": v["id"], "slot": v["slot"], "t0": v["slot_s"][0], "t1": v["slot_s"][1],
+                "S": int(round(v["seq_start_s"] * FPS)), "rect": PAGEJ["panels"][v["id"]]["crop_rects"][v["slot"]]})
+
+
+def rect_centre(r):
+    return ((r[0] + r[2]) // 2, (r[1] + r[3]) // 2)
+
+
+# ---- camera: keys (t, cx, cy, view width) in page coordinates; eased between keys
+FULL = (1600, 900, 3200)
+MARGIN = (440, 300, 900)
+# film scales are placed on the validator's matcher grid 0.25*5**(k/40) (fixture.match_crop),
+# so held frames are compared at the scale they were shown: panels k=29 (0.802), H k=20 (0.559)
+GRID = lambda k: 0.25 * 5 ** (k / 40)
+PANEL_VW = OW / GRID(29)
+
+
+def P(slot):
+    r = PAGEJ["page"]["panel_rects"][slot]
+    cr = [r[0] - 6, r[1] - 6, r[2] + 6, r[3] + 6]
+    return snap(rect_centre(cr), PANEL_VW, cr)
+
+
+def snap(c, vw, r):
+    """Shift a framing by < 1 output px so the crop's corner lands on a whole output pixel
+    (the held drawing is then resampled on the same grid the validator's matcher uses)."""
+    s = OW / vw
+    vh = vw * OH / OW
+    x0 = r[0] - round((r[0] - (c[0] - vw / 2)) * s) / s
+    y0 = r[1] - round((r[1] - (c[1] - vh / 2)) * s) / s
+    return (x0 + vw / 2, y0 + vh / 2, vw)
+
+
+HWIDE = snap((1812, 900), OW / GRID(20), PAGEJ["panels"]["H"]["crop_rects"]["r2"])      # the whole H drama, balloon to note; contains H's central 60 %
+HNOTE = (2000, 950, 820)       # push toward the note's lettered face, both heads in frame
+
+CAM = [
+    (0.0, FULL), (3.0, FULL), (3.9, MARGIN), (4.6, MARGIN), (5.5, P("r1c1")),
+    (11.5, P("r1c1")), (12.0, P("r1c2")),
+    (18.0, P("r1c2")), (18.5, P("r1c3")),
+    (24.5, P("r1c3")), (25.3, HWIDE),
+    (31.0, HWIDE), (35.0, HNOTE), (37.0, HNOTE),
+    (38.2, FULL), (38.6, FULL), (39.5, P("r3c1")),
+    (45.5, P("r3c1")), (46.0, P("r3c2")),
+    (52.0, P("r3c2")), (52.5, P("r3c3")),
+    (58.5, P("r3c3")), (59.4, FULL), (66.0, FULL),
+]
+
+
+def camera(t):
+    for (ta, a), (tb, b) in zip(CAM, CAM[1:]):
+        if ta <= t <= tb:
+            x = ease(t, ta, tb)
+            if a == b:
+                return a
+            # zoom in log space so pushes and pull-backs feel even
+            vw = math.exp(math.log(a[2]) + (math.log(b[2]) - math.log(a[2])) * x)
+            return (a[0] + (b[0] - a[0]) * x, a[1] + (b[1] - a[1]) * x, vw)
+    return CAM[-1][1]
+
+
+# ---- reading spotlight: while an occurrence is held, everything outside its crop goes to page white
+SPOT = [  # (arrive, depart, crop rect)
+    (5.5, 11.5, OCC[0]["rect"]), (12.0, 18.0, OCC[1]["rect"]), (18.5, 24.5, OCC[2]["rect"]),
+    (25.3, 37.0, OCC[3]["rect"]),
+    (39.5, 45.5, OCC[4]["rect"]), (46.0, 52.0, OCC[5]["rect"]), (52.5, 58.5, OCC[6]["rect"]),
+]
+
+
+def spotlight(t):
+    for a, b, r in SPOT:
+        if a - 0.3 <= t <= b:
+            return min(ease(t, a - 0.3, a), 1 - ease(t, b - 0.25, b)), r
+    return 0.0, None
+
+
+# ---- annotation trace (film only, 61.5-66 s): U3's layer revealed along its own route polyline
+def _cum(pts):
+    out = [0.0]
+    for p, q in zip(pts, pts[1:]):
+        out.append(out[-1] + math.hypot(q[0] - p[0], q[1] - p[1]))
+    return out
+
+
+ROUTE_LEN = _cum(ROUTE)
+
+
+def route_mask(frac):
+    m = Image.new("L", ANNOT.size, 0)
+    d = ImageDraw.Draw(m)
+    L = frac * ROUTE_LEN[-1]
+    pts = [ROUTE[0]]
+    for i in range(1, len(ROUTE)):
+        if ROUTE_LEN[i] <= L:
+            pts.append(ROUTE[i])
+        else:
+            a, b = ROUTE[i - 1], ROUTE[i]
+            x = (L - ROUTE_LEN[i - 1]) / (ROUTE_LEN[i] - ROUTE_LEN[i - 1])
+            pts.append((a[0] + (b[0] - a[0]) * x, a[1] + (b[1] - a[1]) * x))
+            break
+    d.line(pts, fill=255, width=64, joint="curve")
+    return m
+
+
+T_TRACE0, T_TRACE1, T_FADE0, T_FADE1 = 61.6, 64.4, 65.2, 65.9
+
+
+def page_state(k, t):
+    """The page raster at film frame k: ghost, plus every occurrence that has started."""
+    if t >= 58.5:
+        img = PAGE.copy()
     else:
-        RECTS.append(board.place(PANELS[pid], 50 + (k - 4) * (CW + G), 60 + 2 * (RH + G)))
-bi = board.ink()
-bi.label((board.m + PW / 2, board.m + 30), "BOUCLE-LÀ", 22, MUTED, anchor="mm")
-for r, pid in zip(RECTS, ORDER):
-    assert art_id(board.img.crop(tuple(int(v) for v in r))) == IDS[pid]
-
-# ---------------------------------------------------------- reading
-FULL = fit_box(board.page(), pad=0.0)
-sh = Shots()
-sh.add(FULL, 2.4, 0)
-EV = []
-for k, (r, pid) in enumerate(zip(RECTS, ORDER)):
-    if pid == "H":
-        x0, y0, x1, y1 = r
-        sh.add(fit_box((x0, y0, x0 + 1150, y1), pad=0.03), 1.6, 0.6)
-        EV.append((sh.t - 1.6, pid, k))
-        sh.add(fit_box((x0 + 1100, y0, x1, y1), pad=0.03), 3.2, 1.2)
-    else:
-        sh.add(fit_box(r, pad=0.04), 2.5, 0.55)
-        EV.append((sh.t - 2.5, pid, k))
-sh.add(FULL, 4.0, 0.9)
-T_ANN = sh.t
-sh.add(FULL, 7.0, 0)
-TITLE = 2.6
-DUR = round(TITLE + sh.t, 2)
-
-film = Film(SLUG, seconds=DUR, boil=0, wobble=0)
-grayscale_frames(film)
-film.poster_at = TITLE + EV[3][0] + 2.5
+        img = GHOST.copy()
+        for oc in OCC:
+            if t >= oc["t0"]:
+                r = oc["rect"]
+                img.paste(drawing(oc["id"], k - oc["S"]), (r[0] + PAD, r[1] + PAD))
+    if T_TRACE0 <= t <= T_FADE1:
+        frac = ease(t, T_TRACE0, T_TRACE1)
+        fade = 1 - ease(t, T_FADE0, T_FADE1)
+        if frac > 0 and fade > 0:
+            a = np.asarray(ANNOT.getchannel("A"), np.float32) * (np.asarray(route_mask(frac), np.float32) / 255) * fade
+            lay = ANNOT.copy()
+            lay.putalpha(Image.fromarray(a.astype(np.uint8)))
+            img.paste(lay, (PAD, PAD), lay)
+    return img
 
 
-def to_screen(box, pt):
-    x0, y0, x1, y1 = box
-    return ((pt[0] - x0) / (x1 - x0) * W, (pt[1] - y0) / (y1 - y0) * H)
+film = Film("boucle-la", seconds=SECONDS, boil=0, wobble=0)
+film.poster_at = 30.0   # H held: the note face-out on spot black, Gustave's balloon
 
 
 @film.picture
 def frame(t, ink):
-    if t < TITLE:
-        ink.card("Boucle-là", "three panels · one hinge · the same three, backwards")
-        if t > TITLE - 0.4:
-            ink.d.rectangle([0, 0, W, H], fill=PAPER + (int(255 * (t - TITLE + 0.4) / 0.4),))
-        return
-    tt = t - TITLE
-    box = sh.at(tt)
-    ink.paste(view(board.img, box))
-    if tt >= T_ANN:
-        a = min(1, (tt - T_ANN) / 0.6)
-        for k, r in enumerate(RECTS):
-            if ORDER[k] == "H":
-                x, y = to_screen(FULL, (r[0] + 20, r[3] - 20))
-            else:
-                x, y = to_screen(FULL, (r[0] + 14, r[3] - 14))
-            s = f"{k + 1}·{ORDER[k]} {ACTS[k]}"
-            tw, th = ink.text_size(s, "mono", 14)
-            ink.d.rectangle([x, y - th - 10, x + tw + 12, y], fill=NIGHT + (int(220 * a),))
-            ink.label((x + 6, y - th - 7), s, 14, PAGE if ORDER[k] != "H" else BRASS, alpha=int(255 * a))
+    ink.paper(WHITE, grain=False)       # no added grain: print light only
+    k = ink.i
+    cx, cy, vw = camera(t)
+    vh = vw * OH / OW
+    x0, y0 = cx - vw / 2 + PAD, cy - vh / 2 + PAD
+    # resample from an integer-aligned sub-image with the box rounded in relative terms, so two
+    # framings that differ by whole page pixels (a pair, row 1 vs row 3) give bit-identical frames
+    ix, iy = math.floor(x0) - 4, math.floor(y0) - 4
+    sub = page_state(k, t).crop((ix, iy, math.ceil(x0 + vw) + 4, math.ceil(y0 + vh) + 4))
+    rx, ry, rw = round(x0 - ix, 6), round(y0 - iy, 6), round(vw, 6)
+    img = sub.resize((OW, OH), Image.BICUBIC, box=(rx, ry, rx + rw, ry + round(rw * OH / OW, 6)))
+    s, r = spotlight(t)
+    if s > 0:
+        sc = OW / vw
+        bx = [int(round(round(r[0] + PAD - x0, 6) * sc)), int(round(round(r[1] + PAD - y0, 6) * sc)),
+              int(round(round(r[2] + PAD - x0, 6) * sc)), int(round(round(r[3] + PAD - y0, 6) * sc))]
+        m = Image.new("L", (OW, OH), int(round(255 * s)))
+        ImageDraw.Draw(m).rectangle([bx[0], bx[1], bx[2] - 1, bx[3] - 1], fill=0)
+        img = Image.composite(Image.new("RGB", (OW, OH), WHITE), img, m)
+    ink.paste(img, (0, 0))
+
+
+# ------------------------------------------------------------------ sound
+def wav(path):
+    with wave.open(str(path), "rb") as w:
+        sr, ch, n = w.getframerate(), w.getnchannels(), w.getnframes()
+        x = np.frombuffer(w.readframes(n), np.int16).astype(np.float64) / 32768
+    if ch > 1:
+        x = x.reshape(-1, ch).mean(1)
+    if sr != kit.RATE:  # linear resample (voice grains are 48 kHz)
+        t = np.arange(int(len(x) * kit.RATE / sr)) * sr / kit.RATE
+        x = np.interp(t, np.arange(len(x)), x)
+    return x
+
+
+BELL_ONSET = 0.31      # strike onset inside bell.wav (sound.json)
+RUSTLE_ONSET = 0.84    # sheet-turn onset inside rustle.wav (sound.json)
+FACE_OUT_S = OCC[3]["S"] / FPS + PAGEJ["face_out"]["frame_in_sequence"] / FPS   # 28.0
+RUSTLE_START = 27.30                                                             # paper lifts, before the flip
+FLIP_S = OCC[3]["S"] / FPS + 38 / FPS                                            # drawing 19, the first turned drawing
 
 
 @film.sound
 def sound(mix):
-    mix.room(0, DUR, 0.025)
-    mix.bell(0.3, 523, 2.5, 0.10)
-    for t, pid, k in EV:
-        who, line = LINES[pid]
-        t += TITLE
-        if pid == "H":
-            mix.click(t + 0.1, 0.2, 0.1, 7000, 0.2)    # paper unfolds
-            mix.click(t + 0.35, 0.16, 0.1, 7000, 0.15)
-            mix.bell(t + 0.6, 330, 3.5, 0.16)          # the single hinge cue
-            voice(mix, t + 2.0, line, 182, 0.35, 0.09, seed=ord(pid))
-        else:
-            # repeated voice clips: the same seed for both occurrences of a panel
-            voice(mix, t + 0.25, line, 108 if who == "porter" else 182, -0.35 if who == "porter" else 0.35, 0.09, seed=ord(pid))
-    mix.reverb(0.15)
+    bell = wav(SND / "bell.wav")
+    rustle = wav(SND / "rustle.wav")
+    n0 = int((RUSTLE_ONSET - 0.03) * kit.RATE)
+    tick = rustle[n0:n0 + int(0.38 * kit.RATE)].copy()
+    tick *= np.minimum(1, np.linspace(6, 0, len(tick)))           # short paper tick, fades out
+    mix.add(rustle[int((RUSTLE_ONSET - 0.2) * kit.RATE):], 0.2, gain=0.35)  # the page is laid down (onset 0.4 s)
+    for oc in OCC:
+        if oc["id"] != "H":                                       # same tick, same offset, both halves of a pair
+            mix.add(tick, oc["S"] / FPS - 0.03, gain=0.30, pan=-0.1)
+    # the note turns: the sheet-turn starts as the card lifts and is faded out before the strike,
+    # so the bell's onset stands alone (>= 8 dB jump over the preceding 150 ms)
+    turn = rustle.copy()
+    n_end = int((RUSTLE_ONSET + (FACE_OUT_S - 0.2) - RUSTLE_START) * kit.RATE)
+    turn[n_end - int(0.12 * kit.RATE):n_end] *= np.linspace(1, 0, int(0.12 * kit.RATE))
+    turn[n_end:] = 0
+    mix.add(turn, RUSTLE_START - RUSTLE_ONSET, gain=0.55)
+    mix.add(bell, FACE_OUT_S - BELL_ONSET, gain=0.9)              # the only bell
+    if VOICES:
+        for oc in OCC:
+            rec = PAGEJ["panels"][oc["id"]]
+            v = SND / {"A": "voice-A-female.wav", "B": "voice-B-male.wav", "C": "voice-C-female.wav", "H": "voice-H-male.wav"}[oc["id"]]
+            mix.add(wav(v), oc["S"] / FPS + rec["balloon_frame"] / FPS, gain=0.6)
+
+
+def write_edit_json():
+    holds = {}
+    for oc in OCC:
+        v = PAGEJ["occurrences"][f"o{oc['o']}"]
+        holds[str(oc["o"])] = 30.0 if oc["id"] == "H" else round(v["act_end_s"] + 0.6 * v["hold_s"], 3)
+    rec = {"slug": "boucle-la", "unit": "editor", "script": "films/boucle-la.py",
+           "face_out_s": FACE_OUT_S, "bell_onset_s": FACE_OUT_S, "rustle_onset_s": RUSTLE_START, "flip_first_drawing_s": round(FLIP_S, 3),
+           "hold_sample_s": holds,
+           "hold_note": "o4 sampled at 30.0 s, inside H's held drawing at the wide H framing (31-35 s is the push toward the note)",
+           "camera_keys": [[t, list(c)] for t, c in CAM], "spotlight": [[a, b, r] for a, b, r in SPOT],
+           "voices_in_mix": VOICES}
+    (SW / "edit.json").write_text(json.dumps(rec, indent=1, ensure_ascii=False))
+
+
+def verify_pairs():
+    """Film-frame identity of each pair, from its sequence start to the start of its departure."""
+    import hashlib
+    out = {}
+    for a, b in ((0, 6), (1, 5), (2, 4)):
+        A, B = OCC[a], OCC[b]
+        n = int(round((A["t1"] - 0.25) * FPS)) - A["S"]
+        same = 0
+        for off in range(n):
+            ha = hashlib.sha256(film.frame(A["S"] + off).tobytes()).hexdigest()
+            hb = hashlib.sha256(film.frame(B["S"] + off).tobytes()).hexdigest()
+            same += ha == hb
+        out[f"o{A['o']}/o{B['o']}"] = {"id": A["id"], "frames_compared": n, "sha256_equal": same,
+                                       "film_s": [[A["S"] / FPS, (A["S"] + n) / FPS], [B["S"] / FPS, (B["S"] + n) / FPS]]}
+    rec = json.loads((SW / "edit.json").read_text())
+    rec["pair_film_frame_identity"] = out
+    (SW / "edit.json").write_text(json.dumps(rec, indent=1, ensure_ascii=False))
+    print(json.dumps(out, indent=1))
 
 
 if __name__ == "__main__":
-    print("art ids", IDS, "dur", DUR)
-    film.render()
+    write_edit_json()
+    if "--verify" in sys.argv:
+        verify_pairs()
+    else:
+        # BOUCLE_OUT lets the render land on another volume (e.g. /dev/shm) when the disk is full;
+        # copy the mp4/webp into assets/films/ afterwards
+        import os
+        film.render(Path(os.environ["BOUCLE_OUT"]) if os.environ.get("BOUCLE_OUT") else kit.OUT)

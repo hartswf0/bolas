@@ -1,0 +1,1869 @@
+{
+ "rig": "puppets/rig.json",
+ "exposures_per_s": 12,
+ "container_fps": 24,
+ "on": "twos (each exposure held 2 container frames)",
+ "rest": {
+  "miller.body": 0,
+  "miller.arm": 52.0,
+  "miller.forearm": 0.0,
+  "miller.hand": 40.0,
+  "porter.body": 0,
+  "porter.forearm": 0.0,
+  "porter1.body": 0,
+  "porter1.head": 0,
+  "porter.hand": 40.0,
+  "porter.key": 0.0,
+  "boys": 0
+ },
+ "note": "Joints not listed in an exposure stay at rest. Every track ends exactly at the printed rest; the final exposure of each shot renders identical to art-layers.png.",
+ "shots": {
+  "2": {
+   "desc": "camera on P1: the miller shrugs on his shoulder hinge (3 damped swings, sleeve lags), then the porter-P1 tilts his head on the neck joint while 'WHO BORROWED IT, THEN?' is read",
+   "n": 96,
+   "exposures": [
+    {
+     "i": 0,
+     "t": 0.0,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 1,
+     "t": 0.0833,
+     "joints": {
+      "miller.arm": 52.9453,
+      "miller.forearm": -0.3309,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 2,
+     "t": 0.1667,
+     "joints": {
+      "miller.arm": 55.4375,
+      "miller.forearm": -1.0542,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 3,
+     "t": 0.25,
+     "joints": {
+      "miller.arm": 58.9609,
+      "miller.forearm": -1.813,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 4,
+     "t": 0.3333,
+     "joints": {
+      "miller.arm": 63.0,
+      "miller.forearm": -2.4108,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 5,
+     "t": 0.4167,
+     "joints": {
+      "miller.arm": 67.0391,
+      "miller.forearm": -2.7396,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 6,
+     "t": 0.5,
+     "joints": {
+      "miller.arm": 70.5625,
+      "miller.forearm": -2.74,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 7,
+     "t": 0.5833,
+     "joints": {
+      "miller.arm": 73.0547,
+      "miller.forearm": -2.3793,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 8,
+     "t": 0.6667,
+     "joints": {
+      "miller.arm": 74.0,
+      "miller.forearm": -1.6395,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 9,
+     "t": 0.75,
+     "joints": {
+      "miller.arm": 71.9504,
+      "miller.forearm": -0.1844,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 10,
+     "t": 0.8333,
+     "joints": {
+      "miller.arm": 66.6647,
+      "miller.forearm": 1.7486,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 11,
+     "t": 0.9167,
+     "joints": {
+      "miller.arm": 59.4373,
+      "miller.forearm": 3.4913,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 12,
+     "t": 1.0,
+     "joints": {
+      "miller.arm": 51.5627,
+      "miller.forearm": 4.6764,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 13,
+     "t": 1.0833,
+     "joints": {
+      "miller.arm": 44.3353,
+      "miller.forearm": 5.1016,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 14,
+     "t": 1.1667,
+     "joints": {
+      "miller.arm": 39.0496,
+      "miller.forearm": 4.6559,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 15,
+     "t": 1.25,
+     "joints": {
+      "miller.arm": 37.0,
+      "miller.forearm": 3.2781,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 16,
+     "t": 1.3333,
+     "joints": {
+      "miller.arm": 38.7726,
+      "miller.forearm": 1.1825,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 17,
+     "t": 1.4167,
+     "joints": {
+      "miller.arm": 43.344,
+      "miller.forearm": -0.9496,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 18,
+     "t": 1.5,
+     "joints": {
+      "miller.arm": 49.5948,
+      "miller.forearm": -2.71,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 19,
+     "t": 1.5833,
+     "joints": {
+      "miller.arm": 56.4052,
+      "miller.forearm": -3.8742,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 20,
+     "t": 1.6667,
+     "joints": {
+      "miller.arm": 62.656,
+      "miller.forearm": -4.3186,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 21,
+     "t": 1.75,
+     "joints": {
+      "miller.arm": 67.2274,
+      "miller.forearm": -3.9752,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 22,
+     "t": 1.8333,
+     "joints": {
+      "miller.arm": 69.0,
+      "miller.forearm": -2.8068,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 23,
+     "t": 1.9167,
+     "joints": {
+      "miller.arm": 67.5598,
+      "miller.forearm": -1.0396,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 24,
+     "t": 2.0,
+     "joints": {
+      "miller.arm": 63.8455,
+      "miller.forearm": 0.7282,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 25,
+     "t": 2.0833,
+     "joints": {
+      "miller.arm": 58.7668,
+      "miller.forearm": 2.1781,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 26,
+     "t": 2.1667,
+     "joints": {
+      "miller.arm": 53.2332,
+      "miller.forearm": 3.1347,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 27,
+     "t": 2.25,
+     "joints": {
+      "miller.arm": 48.1545,
+      "miller.forearm": 3.5016,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 28,
+     "t": 2.3333,
+     "joints": {
+      "miller.arm": 44.4402,
+      "miller.forearm": 3.2259,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 29,
+     "t": 2.4167,
+     "joints": {
+      "miller.arm": 43.0,
+      "miller.forearm": 2.2783,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 30,
+     "t": 2.5,
+     "joints": {
+      "miller.arm": 43.9417,
+      "miller.forearm": 0.9235,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 31,
+     "t": 2.5833,
+     "joints": {
+      "miller.arm": 46.3703,
+      "miller.forearm": -0.3421,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 32,
+     "t": 2.6667,
+     "joints": {
+      "miller.arm": 49.691,
+      "miller.forearm": -1.3504,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 33,
+     "t": 2.75,
+     "joints": {
+      "miller.arm": 53.309,
+      "miller.forearm": -2.009,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 34,
+     "t": 2.8333,
+     "joints": {
+      "miller.arm": 56.6297,
+      "miller.forearm": -2.2672,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 35,
+     "t": 2.9167,
+     "joints": {
+      "miller.arm": 59.0583,
+      "miller.forearm": -2.097,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 36,
+     "t": 3.0,
+     "joints": {
+      "miller.arm": 60.0,
+      "miller.forearm": -1.4829,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 37,
+     "t": 3.0833,
+     "joints": {
+      "miller.arm": 59.3907,
+      "miller.forearm": -0.6023,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 38,
+     "t": 3.1667,
+     "joints": {
+      "miller.arm": 57.8192,
+      "miller.forearm": 0.2187,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 39,
+     "t": 3.25,
+     "joints": {
+      "miller.arm": 55.6706,
+      "miller.forearm": 0.8723,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 40,
+     "t": 3.3333,
+     "joints": {
+      "miller.arm": 53.3294,
+      "miller.forearm": 1.2992,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 41,
+     "t": 3.4167,
+     "joints": {
+      "miller.arm": 51.1808,
+      "miller.forearm": 1.4666,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 42,
+     "t": 3.5,
+     "joints": {
+      "miller.arm": 49.6093,
+      "miller.forearm": 1.3566,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 43,
+     "t": 3.5833,
+     "joints": {
+      "miller.arm": 49.0,
+      "miller.forearm": 0.9594,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 44,
+     "t": 3.6667,
+     "joints": {
+      "miller.arm": 49.2493,
+      "miller.forearm": 0.4404,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 45,
+     "t": 3.75,
+     "joints": {
+      "miller.arm": 49.8921,
+      "miller.forearm": 0.0172,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 46,
+     "t": 3.8333,
+     "joints": {
+      "miller.arm": 50.7711,
+      "miller.forearm": -0.2982,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 47,
+     "t": 3.9167,
+     "joints": {
+      "miller.arm": 51.7289,
+      "miller.forearm": -0.4992,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 48,
+     "t": 4.0,
+     "joints": {
+      "miller.arm": 52.6079,
+      "miller.forearm": -0.5822,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 49,
+     "t": 4.0833,
+     "joints": {
+      "miller.arm": 53.2507,
+      "miller.forearm": -0.5452,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 50,
+     "t": 4.1667,
+     "joints": {
+      "miller.arm": 53.5,
+      "miller.forearm": -0.3871,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 51,
+     "t": 4.25,
+     "joints": {
+      "miller.arm": 53.3889,
+      "miller.forearm": -0.174,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 52,
+     "t": 4.3333,
+     "joints": {
+      "miller.arm": 53.1111,
+      "miller.forearm": 0.0015,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 53,
+     "t": 4.4167,
+     "joints": {
+      "miller.arm": 52.75,
+      "miller.forearm": 0.1272,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 54,
+     "t": 4.5,
+     "joints": {
+      "miller.arm": 52.3889,
+      "miller.forearm": 0.1964,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 55,
+     "t": 4.5833,
+     "joints": {
+      "miller.arm": 52.1111,
+      "miller.forearm": 0.2052,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 56,
+     "t": 4.6667,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.1265,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 57,
+     "t": 4.75,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0556,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 58,
+     "t": 4.8333,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.023,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 59,
+     "t": 4.9167,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0084,
+      "porter1.head": 0.936
+     }
+    },
+    {
+     "i": 60,
+     "t": 5.0,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0023,
+      "porter1.head": 3.168
+     }
+    },
+    {
+     "i": 61,
+     "t": 5.0833,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 5.832
+     }
+    },
+    {
+     "i": 62,
+     "t": 5.1667,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 8.064
+     }
+    },
+    {
+     "i": 63,
+     "t": 5.25,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 9.0
+     }
+    },
+    {
+     "i": 64,
+     "t": 5.3333,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 9.3704
+     }
+    },
+    {
+     "i": 65,
+     "t": 5.4167,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 10.2963
+     }
+    },
+    {
+     "i": 66,
+     "t": 5.5,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 11.5
+     }
+    },
+    {
+     "i": 67,
+     "t": 5.5833,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 12.7037
+     }
+    },
+    {
+     "i": 68,
+     "t": 5.6667,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 13.6296
+     }
+    },
+    {
+     "i": 69,
+     "t": 5.75,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 14.0
+     }
+    },
+    {
+     "i": 70,
+     "t": 5.8333,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 13.9314
+     }
+    },
+    {
+     "i": 71,
+     "t": 5.9167,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 13.7476
+     }
+    },
+    {
+     "i": 72,
+     "t": 6.0,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 13.4815
+     }
+    },
+    {
+     "i": 73,
+     "t": 6.0833,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 13.166
+     }
+    },
+    {
+     "i": 74,
+     "t": 6.1667,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 12.834
+     }
+    },
+    {
+     "i": 75,
+     "t": 6.25,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 12.5185
+     }
+    },
+    {
+     "i": 76,
+     "t": 6.3333,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 12.2524
+     }
+    },
+    {
+     "i": 77,
+     "t": 6.4167,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 12.0686
+     }
+    },
+    {
+     "i": 78,
+     "t": 6.5,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 12.0
+     }
+    },
+    {
+     "i": 79,
+     "t": 6.5833,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 11.5015
+     }
+    },
+    {
+     "i": 80,
+     "t": 6.6667,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 10.2157
+     }
+    },
+    {
+     "i": 81,
+     "t": 6.75,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 8.4577
+     }
+    },
+    {
+     "i": 82,
+     "t": 6.8333,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 6.5423
+     }
+    },
+    {
+     "i": 83,
+     "t": 6.9167,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 4.7843
+     }
+    },
+    {
+     "i": 84,
+     "t": 7.0,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 3.4985
+     }
+    },
+    {
+     "i": 85,
+     "t": 7.0833,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 3.0
+     }
+    },
+    {
+     "i": 86,
+     "t": 7.1667,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 2.688
+     }
+    },
+    {
+     "i": 87,
+     "t": 7.25,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 1.944
+     }
+    },
+    {
+     "i": 88,
+     "t": 7.3333,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 1.056
+     }
+    },
+    {
+     "i": 89,
+     "t": 7.4167,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 0.312
+     }
+    },
+    {
+     "i": 90,
+     "t": 7.5,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 91,
+     "t": 7.5833,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 92,
+     "t": 7.6667,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 93,
+     "t": 7.75,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 94,
+     "t": 7.8333,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 0.0
+     }
+    },
+    {
+     "i": 95,
+     "t": 7.9167,
+     "joints": {
+      "miller.arm": 52.0,
+      "miller.forearm": 0.0,
+      "porter1.head": 0
+     }
+    }
+   ]
+  },
+  "3": {
+   "desc": "camera on P2: the porter's forearm swings out from the coat on the elbow, the wrist lags, the key swings as a damped pendulum (driven by the hand's acceleration) and settles",
+   "n": 96,
+   "exposures": [
+    {
+     "i": 0,
+     "t": 0.0,
+     "joints": {
+      "porter.forearm": -58.0,
+      "porter.hand": 72.0,
+      "porter.key": 26.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 1,
+     "t": 0.0833,
+     "joints": {
+      "porter.forearm": -58.0,
+      "porter.hand": 72.0,
+      "porter.key": 26.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 2,
+     "t": 0.1667,
+     "joints": {
+      "porter.forearm": -58.0,
+      "porter.hand": 72.0,
+      "porter.key": 26.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 3,
+     "t": 0.25,
+     "joints": {
+      "porter.forearm": -58.0,
+      "porter.hand": 72.0,
+      "porter.key": 26.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 4,
+     "t": 0.3333,
+     "joints": {
+      "porter.forearm": -58.0,
+      "porter.hand": 72.0,
+      "porter.key": 26.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 5,
+     "t": 0.4167,
+     "joints": {
+      "porter.forearm": -58.0,
+      "porter.hand": 72.0,
+      "porter.key": 26.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 6,
+     "t": 0.5,
+     "joints": {
+      "porter.forearm": -58.0,
+      "porter.hand": 72.0,
+      "porter.key": 26.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 7,
+     "t": 0.5833,
+     "joints": {
+      "porter.forearm": -58.0,
+      "porter.hand": 72.0,
+      "porter.key": 26.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 8,
+     "t": 0.6667,
+     "joints": {
+      "porter.forearm": -58.0,
+      "porter.hand": 72.0,
+      "porter.key": 26.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 9,
+     "t": 0.75,
+     "joints": {
+      "porter.forearm": -58.0,
+      "porter.hand": 72.0,
+      "porter.key": 26.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 10,
+     "t": 0.8333,
+     "joints": {
+      "porter.forearm": -58.0,
+      "porter.hand": 72.0,
+      "porter.key": 26.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 11,
+     "t": 0.9167,
+     "joints": {
+      "porter.forearm": -58.0,
+      "porter.hand": 72.0,
+      "porter.key": 26.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 12,
+     "t": 1.0,
+     "joints": {
+      "porter.forearm": -58.0,
+      "porter.hand": 72.0,
+      "porter.key": 26.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 13,
+     "t": 1.0833,
+     "joints": {
+      "porter.forearm": -56.7211,
+      "porter.hand": 71.4169,
+      "porter.key": 24.7168
+     },
+     "key_world_deg": -0.587
+    },
+    {
+     "i": 14,
+     "t": 1.1667,
+     "joints": {
+      "porter.forearm": -53.1852,
+      "porter.hand": 69.7843,
+      "porter.key": 21.7069
+     },
+     "key_world_deg": -1.694
+    },
+    {
+     "i": 15,
+     "t": 1.25,
+     "joints": {
+      "porter.forearm": -47.8438,
+      "porter.hand": 67.277,
+      "porter.key": 19.2001
+     },
+     "key_world_deg": -1.367
+    },
+    {
+     "i": 16,
+     "t": 1.3333,
+     "joints": {
+      "porter.forearm": -41.1481,
+      "porter.hand": 64.07,
+      "porter.key": 18.5888
+     },
+     "key_world_deg": 1.511
+    },
+    {
+     "i": 17,
+     "t": 1.4167,
+     "joints": {
+      "porter.forearm": -33.5498,
+      "porter.hand": 60.3382,
+      "porter.key": 18.8393
+     },
+     "key_world_deg": 5.628
+    },
+    {
+     "i": 18,
+     "t": 1.5,
+     "joints": {
+      "porter.forearm": -25.5,
+      "porter.hand": 56.2566,
+      "porter.key": 17.9858
+     },
+     "key_world_deg": 8.742
+    },
+    {
+     "i": 19,
+     "t": 1.5833,
+     "joints": {
+      "porter.forearm": -17.4502,
+      "porter.hand": 52.0,
+      "porter.key": 14.7676
+     },
+     "key_world_deg": 9.317
+    },
+    {
+     "i": 20,
+     "t": 1.6667,
+     "joints": {
+      "porter.forearm": -9.8519,
+      "porter.hand": 47.7434,
+      "porter.key": 9.045
+     },
+     "key_world_deg": 6.937
+    },
+    {
+     "i": 21,
+     "t": 1.75,
+     "joints": {
+      "porter.forearm": -3.1562,
+      "porter.hand": 43.6618,
+      "porter.key": 1.2918
+     },
+     "key_world_deg": 1.797
+    },
+    {
+     "i": 22,
+     "t": 1.8333,
+     "joints": {
+      "porter.forearm": 2.1852,
+      "porter.hand": 39.93,
+      "porter.key": -7.9105
+     },
+     "key_world_deg": -5.795
+    },
+    {
+     "i": 23,
+     "t": 1.9167,
+     "joints": {
+      "porter.forearm": 5.7211,
+      "porter.hand": 36.723,
+      "porter.key": -17.9068
+     },
+     "key_world_deg": -15.463
+    },
+    {
+     "i": 24,
+     "t": 2.0,
+     "joints": {
+      "porter.forearm": 7.0,
+      "porter.hand": 34.2157,
+      "porter.key": -27.7106
+     },
+     "key_world_deg": -26.495
+    },
+    {
+     "i": 25,
+     "t": 2.0833,
+     "joints": {
+      "porter.forearm": 6.2222,
+      "porter.hand": 32.5831,
+      "porter.key": -32.3008
+     },
+     "key_world_deg": -33.495
+    },
+    {
+     "i": 26,
+     "t": 2.1667,
+     "joints": {
+      "porter.forearm": 4.2778,
+      "porter.hand": 32.0,
+      "porter.key": -21.3086
+     },
+     "key_world_deg": -25.031
+    },
+    {
+     "i": 27,
+     "t": 2.25,
+     "joints": {
+      "porter.forearm": 1.75,
+      "porter.hand": 32.6647,
+      "porter.key": 6.3361
+     },
+     "key_world_deg": 0.751
+    },
+    {
+     "i": 28,
+     "t": 2.3333,
+     "joints": {
+      "porter.forearm": -0.7778,
+      "porter.hand": 34.379,
+      "porter.key": 31.237
+     },
+     "key_world_deg": 24.838
+    },
+    {
+     "i": 29,
+     "t": 2.4167,
+     "joints": {
+      "porter.forearm": -2.7222,
+      "porter.hand": 36.723,
+      "porter.key": 33.2033
+     },
+     "key_world_deg": 27.204
+    },
+    {
+     "i": 30,
+     "t": 2.5,
+     "joints": {
+      "porter.forearm": -3.5,
+      "porter.hand": 39.277,
+      "porter.key": 14.5951
+     },
+     "key_world_deg": 10.372
+    },
+    {
+     "i": 31,
+     "t": 2.5833,
+     "joints": {
+      "porter.forearm": -3.1519,
+      "porter.hand": 41.621,
+      "porter.key": -4.4987
+     },
+     "key_world_deg": -6.03
+    },
+    {
+     "i": 32,
+     "t": 2.6667,
+     "joints": {
+      "porter.forearm": -2.2815,
+      "porter.hand": 43.3353,
+      "porter.key": -12.7375
+     },
+     "key_world_deg": -11.684
+    },
+    {
+     "i": 33,
+     "t": 2.75,
+     "joints": {
+      "porter.forearm": -1.15,
+      "porter.hand": 44.0,
+      "porter.key": -14.3738
+     },
+     "key_world_deg": -11.524
+    },
+    {
+     "i": 34,
+     "t": 2.8333,
+     "joints": {
+      "porter.forearm": -0.0185,
+      "porter.hand": 43.6296,
+      "porter.key": -15.1808
+     },
+     "key_world_deg": -11.57
+    },
+    {
+     "i": 35,
+     "t": 2.9167,
+     "joints": {
+      "porter.forearm": 0.8519,
+      "porter.hand": 42.7037,
+      "porter.key": -15.7901
+     },
+     "key_world_deg": -12.235
+    },
+    {
+     "i": 36,
+     "t": 3.0,
+     "joints": {
+      "porter.forearm": 1.2,
+      "porter.hand": 41.5,
+      "porter.key": -14.8691
+     },
+     "key_world_deg": -12.169
+    },
+    {
+     "i": 37,
+     "t": 3.0833,
+     "joints": {
+      "porter.forearm": 1.1111,
+      "porter.hand": 40.2963,
+      "porter.key": -10.9405
+     },
+     "key_world_deg": -9.533
+    },
+    {
+     "i": 38,
+     "t": 3.1667,
+     "joints": {
+      "porter.forearm": 0.8889,
+      "porter.hand": 39.3704,
+      "porter.key": -2.3655
+     },
+     "key_world_deg": -2.106
+    },
+    {
+     "i": 39,
+     "t": 3.25,
+     "joints": {
+      "porter.forearm": 0.6,
+      "porter.hand": 39.0,
+      "porter.key": 7.7996
+     },
+     "key_world_deg": 7.4
+    },
+    {
+     "i": 40,
+     "t": 3.3333,
+     "joints": {
+      "porter.forearm": 0.3111,
+      "porter.hand": 39.0741,
+      "porter.key": 12.834
+     },
+     "key_world_deg": 12.219
+    },
+    {
+     "i": 41,
+     "t": 3.4167,
+     "joints": {
+      "porter.forearm": 0.0889,
+      "porter.hand": 39.2593,
+      "porter.key": 9.6937
+     },
+     "key_world_deg": 9.042
+    },
+    {
+     "i": 42,
+     "t": 3.5,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 39.5,
+      "porter.key": 1.9267
+     },
+     "key_world_deg": 1.427
+    },
+    {
+     "i": 43,
+     "t": 3.5833,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 39.7407,
+      "porter.key": -4.3349
+     },
+     "key_world_deg": -4.594
+    },
+    {
+     "i": 44,
+     "t": 3.6667,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 39.9259,
+      "porter.key": -6.0313
+     },
+     "key_world_deg": -6.105
+    },
+    {
+     "i": 45,
+     "t": 3.75,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -3.8627
+     },
+     "key_world_deg": -3.863
+    },
+    {
+     "i": 46,
+     "t": 3.8333,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -0.2456
+     },
+     "key_world_deg": -0.246
+    },
+    {
+     "i": 47,
+     "t": 3.9167,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 2.4543
+     },
+     "key_world_deg": 2.454
+    },
+    {
+     "i": 48,
+     "t": 4.0,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 2.8928
+     },
+     "key_world_deg": 2.893
+    },
+    {
+     "i": 49,
+     "t": 4.0833,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 1.3113
+     },
+     "key_world_deg": 1.311
+    },
+    {
+     "i": 50,
+     "t": 4.1667,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -0.7672
+     },
+     "key_world_deg": -0.767
+    },
+    {
+     "i": 51,
+     "t": 4.25,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -1.8484
+     },
+     "key_world_deg": -1.848
+    },
+    {
+     "i": 52,
+     "t": 4.3333,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -1.4502
+     },
+     "key_world_deg": -1.45
+    },
+    {
+     "i": 53,
+     "t": 4.4167,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -0.1845
+     },
+     "key_world_deg": -0.184
+    },
+    {
+     "i": 54,
+     "t": 4.5,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.9058
+     },
+     "key_world_deg": 0.906
+    },
+    {
+     "i": 55,
+     "t": 4.5833,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 1.1392
+     },
+     "key_world_deg": 1.139
+    },
+    {
+     "i": 56,
+     "t": 4.6667,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.5626
+     },
+     "key_world_deg": 0.563
+    },
+    {
+     "i": 57,
+     "t": 4.75,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -0.2512
+     },
+     "key_world_deg": -0.251
+    },
+    {
+     "i": 58,
+     "t": 4.8333,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -0.7072
+     },
+     "key_world_deg": -0.707
+    },
+    {
+     "i": 59,
+     "t": 4.9167,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -0.5871
+     },
+     "key_world_deg": -0.587
+    },
+    {
+     "i": 60,
+     "t": 5.0,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -0.1061
+     },
+     "key_world_deg": -0.106
+    },
+    {
+     "i": 61,
+     "t": 5.0833,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.3321
+     },
+     "key_world_deg": 0.332
+    },
+    {
+     "i": 62,
+     "t": 5.1667,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.4471
+     },
+     "key_world_deg": 0.447
+    },
+    {
+     "i": 63,
+     "t": 5.25,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.2387
+     },
+     "key_world_deg": 0.239
+    },
+    {
+     "i": 64,
+     "t": 5.3333,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -0.0789
+     },
+     "key_world_deg": -0.079
+    },
+    {
+     "i": 65,
+     "t": 5.4167,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -0.2695
+     },
+     "key_world_deg": -0.269
+    },
+    {
+     "i": 66,
+     "t": 5.5,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -0.2366
+     },
+     "key_world_deg": -0.237
+    },
+    {
+     "i": 67,
+     "t": 5.5833,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -0.0546
+     },
+     "key_world_deg": -0.055
+    },
+    {
+     "i": 68,
+     "t": 5.6667,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.1208
+     },
+     "key_world_deg": 0.121
+    },
+    {
+     "i": 69,
+     "t": 5.75,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.1748
+     },
+     "key_world_deg": 0.175
+    },
+    {
+     "i": 70,
+     "t": 5.8333,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.1003
+     },
+     "key_world_deg": 0.1
+    },
+    {
+     "i": 71,
+     "t": 5.9167,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -0.0232
+     },
+     "key_world_deg": -0.023
+    },
+    {
+     "i": 72,
+     "t": 6.0,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -0.0937
+     },
+     "key_world_deg": -0.094
+    },
+    {
+     "i": 73,
+     "t": 6.0833,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -0.0791
+     },
+     "key_world_deg": -0.079
+    },
+    {
+     "i": 74,
+     "t": 6.1667,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -0.0198
+     },
+     "key_world_deg": -0.02
+    },
+    {
+     "i": 75,
+     "t": 6.25,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.029
+     },
+     "key_world_deg": 0.029
+    },
+    {
+     "i": 76,
+     "t": 6.3333,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.0398
+     },
+     "key_world_deg": 0.04
+    },
+    {
+     "i": 77,
+     "t": 6.4167,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.0209
+     },
+     "key_world_deg": 0.021
+    },
+    {
+     "i": 78,
+     "t": 6.5,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -0.0025
+     },
+     "key_world_deg": -0.003
+    },
+    {
+     "i": 79,
+     "t": 6.5833,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -0.0129
+     },
+     "key_world_deg": -0.013
+    },
+    {
+     "i": 80,
+     "t": 6.6667,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -0.0095
+     },
+     "key_world_deg": -0.009
+    },
+    {
+     "i": 81,
+     "t": 6.75,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": -0.002
+     },
+     "key_world_deg": -0.002
+    },
+    {
+     "i": 82,
+     "t": 6.8333,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.0013
+     },
+     "key_world_deg": 0.001
+    },
+    {
+     "i": 83,
+     "t": 6.9167,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 84,
+     "t": 7.0,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 85,
+     "t": 7.0833,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 86,
+     "t": 7.1667,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 87,
+     "t": 7.25,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 88,
+     "t": 7.3333,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 89,
+     "t": 7.4167,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 90,
+     "t": 7.5,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 91,
+     "t": 7.5833,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 92,
+     "t": 7.6667,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 93,
+     "t": 7.75,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 94,
+     "t": 7.8333,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.0
+     },
+     "key_world_deg": 0.0
+    },
+    {
+     "i": 95,
+     "t": 7.9167,
+     "joints": {
+      "porter.forearm": 0.0,
+      "porter.hand": 40.0,
+      "porter.key": 0.0
+     },
+     "key_world_deg": 0.0
+    }
+   ],
+   "pendulum": {
+    "L_u": 95.0,
+    "g_u_s2": 11000.0,
+    "damping_per_s": 3.2,
+    "substeps": 24,
+    "settle": "blend to 0 from exposure 72, exact from 84"
+   }
+  }
+ },
+ "final_exposure_equals_rest_maxdiff": {
+  "2": 0,
+  "3": 0
+ }
+}

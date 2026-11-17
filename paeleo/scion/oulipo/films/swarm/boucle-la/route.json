@@ -1,0 +1,162 @@
+{
+ "slug": "boucle-la",
+ "owner": "U3 page-animator",
+ "reading_route": [
+  {
+   "occurrence": 1,
+   "id": "A",
+   "slot": "r1c1",
+   "rect": [
+    560,
+    40,
+    1410,
+    620
+   ]
+  },
+  {
+   "occurrence": 2,
+   "id": "B",
+   "slot": "r1c2",
+   "rect": [
+    1440,
+    40,
+    2290,
+    620
+   ]
+  },
+  {
+   "occurrence": 3,
+   "id": "C",
+   "slot": "r1c3",
+   "rect": [
+    2320,
+    40,
+    3170,
+    620
+   ]
+  },
+  {
+   "occurrence": 4,
+   "id": "H",
+   "slot": "r2",
+   "rect": [
+    560,
+    650,
+    3170,
+    1150
+   ]
+  },
+  {
+   "occurrence": 5,
+   "id": "C",
+   "slot": "r3c1",
+   "rect": [
+    560,
+    1180,
+    1410,
+    1760
+   ]
+  },
+  {
+   "occurrence": 6,
+   "id": "B",
+   "slot": "r3c2",
+   "rect": [
+    1440,
+    1180,
+    2290,
+    1760
+   ]
+  },
+  {
+   "occurrence": 7,
+   "id": "A",
+   "slot": "r3c3",
+   "rect": [
+    2320,
+    1180,
+    3170,
+    1760
+   ]
+  }
+ ],
+ "panel_id_path": [
+  "A",
+  "B",
+  "C",
+  "H",
+  "C",
+  "B",
+  "A"
+ ],
+ "path_string": "A B C H C B A",
+ "pairs": [
+  {
+   "id": "A",
+   "slots": [
+    "r1c1",
+    "r3c3"
+   ],
+   "occurrences": [
+    1,
+    7
+   ]
+  },
+  {
+   "id": "B",
+   "slots": [
+    "r1c2",
+    "r3c2"
+   ],
+   "occurrences": [
+    2,
+    6
+   ]
+  },
+  {
+   "id": "C",
+   "slots": [
+    "r1c3",
+    "r3c1"
+   ],
+   "occurrences": [
+    3,
+    5
+   ]
+  }
+ ],
+ "hinge": {
+  "id": "H",
+  "slot": "r2",
+  "occurrence": 4,
+  "unpaired": true,
+  "ground": "spot black"
+ },
+ "page_direction_note": "row 3 is read left to right (C B A) as page grammar requires, so the story runs backward through the mirror",
+ "annotated_route_polyline": [
+  [
+   575,
+   635
+  ],
+  [
+   3186,
+   635
+  ],
+  [
+   3186,
+   1165
+  ],
+  [
+   547,
+   1165
+  ],
+  [
+   547,
+   1781
+  ],
+  [
+   3150,
+   1781
+  ]
+ ]
+}

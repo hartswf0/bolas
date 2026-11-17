@@ -1,0 +1,699 @@
+{
+ "slug": "99-ways-template",
+ "revision": "b1",
+ "page": "assets/pages/99-ways-template.png",
+ "page_px": [
+  2550,
+  3300
+ ],
+ "dpi": 300,
+ "margins_px": 150,
+ "gutters_px": {
+  "horizontal": 60,
+  "vertical": 70
+ },
+ "tiers": [
+  [
+   150,
+   1090
+  ],
+  [
+   1160,
+   2100
+  ],
+  [
+   2170,
+   3150
+  ]
+ ],
+ "route_R0": [
+  "P1",
+  "P2",
+  "P3",
+  "P4",
+  "P5",
+  "P6",
+  "P7",
+  "P8"
+ ],
+ "balloon_order": "top-left first within a panel",
+ "tone": {
+  "page": {
+   "pct_L_gt_220": 48.2,
+   "pct_L_gt_230": 44.8,
+   "pct_L_lt_40": 11.2,
+   "median": 213.0
+  },
+  "panels_only": {
+   "pct_L_gt_220": 31.5,
+   "pct_L_gt_230": 28.4,
+   "pct_L_lt_40": 13.4,
+   "median": 164.0
+  }
+ },
+ "rest_identity": {
+  "P1": {
+   "rest_layers_vs_page_mean_abs": 0.01,
+   "max_abs": 1.0
+  },
+  "P2": {
+   "rest_layers_vs_page_mean_abs": 0.006,
+   "max_abs": 1.0
+  },
+  "P3": {
+   "rest_layers_vs_page_mean_abs": 0.008,
+   "max_abs": 1.0
+  },
+  "P4": {
+   "rest_layers_vs_page_mean_abs": 0.028,
+   "max_abs": 1.0
+  },
+  "P5": {
+   "rest_layers_vs_page_mean_abs": 0.009,
+   "max_abs": 1.0
+  },
+  "P6": {
+   "rest_layers_vs_page_mean_abs": 0.007,
+   "max_abs": 1.0
+  },
+  "P7": {
+   "rest_layers_vs_page_mean_abs": 0.01,
+   "max_abs": 1.0
+  },
+  "P8": {
+   "rest_layers_vs_page_mean_abs": 0.012,
+   "max_abs": 1.0
+  }
+ },
+ "panels": [
+  {
+   "id": "P1",
+   "bounds_px": [
+    150,
+    150,
+    890,
+    1090
+   ],
+   "events": [
+    "E0"
+   ],
+   "viewpoint": "objective eye level, medium-wide: desk, clerk seated (Rothstein's own framing)",
+   "speech": [],
+   "visible_evidence": [
+    "clerk seated at desk",
+    "memo slip legible: 4:15 - open / SERVICE door. / Key in cupboard.",
+    "pencil at temple"
+   ],
+   "film_in_out_s": [
+    4,
+    9
+   ],
+   "rest_layers": "films/swarm/99-ways-template/page/rest/P1/layers.json",
+   "rig_rest": {
+    "pose": {
+     "arm": 0.0,
+     "pencil": 0.0,
+     "head": 0.0
+    },
+    "Mw": [
+     [
+      0.423,
+      0.0,
+      -888.3
+     ],
+     [
+      0.0,
+      0.423,
+      -372.24
+     ],
+     [
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "collar_px": [
+     384.93000000000006,
+     512.6759999999999
+    ],
+    "elbow_px": [
+     690.336,
+     741.096
+    ],
+    "pencil_tip_px": [
+     439.07400000000007,
+     365.472
+    ],
+    "chin_px": [
+     387.4680000000001,
+     507.5999999999999
+    ]
+   }
+  },
+  {
+   "id": "P2",
+   "bounds_px": [
+    950,
+    150,
+    1610,
+    1090
+   ],
+   "events": [
+    "E1"
+   ],
+   "viewpoint": "same camera as P1, shifted 0.2 panel right: the desk left empty",
+   "speech": [],
+   "visible_evidence": [
+    "desk empty, memo still on it",
+    "clerk rising out of the right edge"
+   ],
+   "film_in_out_s": [
+    9,
+    14
+   ],
+   "rest_layers": "films/swarm/99-ways-template/page/rest/P2/layers.json",
+   "rig_rest": {
+    "pose": {
+     "arm": -34.0,
+     "pencil": 24.0,
+     "head": 3.0
+    },
+    "Mw": [
+     [
+      0.42139,
+      0.036867,
+      -648.088212
+     ],
+     [
+      -0.036867,
+      0.42139,
+      -328.866851
+     ],
+     [
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "collar_px": [
+     697.4222750408313,
+     441.71246991182863
+    ],
+    "elbow_px": [
+     1021.574227764659,
+     642.6453760803539
+    ],
+    "pencil_tip_px": [
+     624.6278365251394,
+     480.1150949612109
+    ],
+    "chin_px": [
+     699.7815791145439,
+     436.5509871512487
+    ]
+   }
+  },
+  {
+   "id": "P3",
+   "bounds_px": [
+    1670,
+    150,
+    2400,
+    1090
+   ],
+   "events": [
+    "E1"
+   ],
+   "viewpoint": "same scale, toward the back of the office: cupboard + SERVICE door",
+   "speech": [],
+   "visible_evidence": [
+    "clerk mid-step",
+    "closed door with SERVICE sign-card",
+    "cupboard"
+   ],
+   "film_in_out_s": [
+    14,
+    19
+   ],
+   "rest_layers": "films/swarm/99-ways-template/page/rest/P3/layers.json",
+   "rig_rest": {
+    "pose": {
+     "arm": -34.0,
+     "pencil": -20.0,
+     "head": -3.0
+    },
+    "Mw": [
+     [
+      0.42242,
+      -0.022138,
+      -751.084949
+     ],
+     [
+      0.022138,
+      0.42242,
+      -471.162095
+     ],
+     [
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "collar_px": [
+     474.08720838057025,
+     479.17686759770334
+    ],
+    "elbow_px": [
+     767.1200809468119,
+     723.2675409786758
+    ],
+    "pencil_tip_px": [
+     335.96517738129046,
+     561.0080499100471
+    ],
+    "chin_px": [
+     476.62520838057026,
+     474.1008675977033
+    ]
+   }
+  },
+  {
+   "id": "P4",
+   "bounds_px": [
+    150,
+    1160,
+    710,
+    2100
+   ],
+   "events": [
+    "E2"
+   ],
+   "viewpoint": "inside the ticket office, at the TICKET OFFICE window (narrow vertical)",
+   "speech": [
+    {
+     "id": "b_what_time",
+     "box_panel_px": [
+      0,
+      2,
+      518,
+      472
+     ],
+     "centre_panel_px": [
+      250.0,
+      165.0
+     ],
+     "tail_tip_panel_px": [
+      -30.0,
+      500.0
+     ],
+     "tail_exits_panel": true,
+     "cap_px": 66,
+     "lines": [
+      "What time",
+      "is it?"
+     ],
+     "speaker": "VISITOR",
+     "tail_target": "off-panel left, through the ticket-window glass (the platform)"
+    }
+   ],
+   "visible_evidence": [
+    "visitor as soft shape behind frosted TICKET OFFICE glass",
+    "clerk's head turned to the window",
+    "tail exits left edge"
+   ],
+   "film_in_out_s": [
+    19,
+    24
+   ],
+   "rest_layers": "films/swarm/99-ways-template/page/rest/P4/layers.json",
+   "rig_rest": {
+    "pose": {
+     "arm": -34.0,
+     "pencil": 24.0,
+     "head": 0.0
+    },
+    "Mw": [
+     [
+      -0.7,
+      0.0,
+      2598.0
+     ],
+     [
+      0.0,
+      0.7,
+      -732.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "collar_px": [
+     491.0,
+     732.3999999999999
+    ],
+    "elbow_px": [
+     -14.400000000000091,
+     1110.4
+    ],
+    "pencil_tip_px": [
+     616.5439955240558,
+     785.2095193314094
+    ],
+    "chin_px": [
+     486.8000000000002,
+     724.0
+    ]
+   }
+  },
+  {
+   "id": "P5",
+   "bounds_px": [
+    770,
+    1160,
+    1740,
+    2100
+   ],
+   "events": [
+    "E3"
+   ],
+   "viewpoint": "medium close on the clerk under the office clock",
+   "speech": [
+    {
+     "id": "b_ten_past",
+     "box_panel_px": [
+      33,
+      0,
+      650,
+      750
+     ],
+     "centre_panel_px": [
+      300.0,
+      160.0
+     ],
+     "tail_tip_panel_px": [
+      642.0999999999999,
+      743.0999999999999
+     ],
+     "tail_exits_panel": false,
+     "cap_px": 70,
+     "lines": [
+      "Ten past",
+      "four!"
+     ],
+     "speaker": "CLERK",
+     "tail_target": "clerk's mouth"
+    }
+   ],
+   "visible_evidence": [
+    "clock at 4:10",
+    "clerk answering"
+   ],
+   "film_in_out_s": [
+    24,
+    29
+   ],
+   "rest_layers": "films/swarm/99-ways-template/page/rest/P5/layers.json",
+   "rig_rest": {
+    "pose": {
+     "arm": 0.0,
+     "pencil": 0.0,
+     "head": 0.0
+    },
+    "Mw": [
+     [
+      -0.95,
+      0.0,
+      3530.5
+     ],
+     [
+      0.0,
+      0.95,
+      -1182.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "collar_px": [
+     671.0,
+     805.3999999999999
+    ],
+    "elbow_px": [
+     -14.899999999999636,
+     1318.4
+    ],
+    "pencil_tip_px": [
+     549.4000000000001,
+     474.79999999999995
+    ],
+    "chin_px": [
+     665.3000000000002,
+     794.0
+    ]
+   }
+  },
+  {
+   "id": "P6",
+   "bounds_px": [
+    1800,
+    1160,
+    2400,
+    2100
+   ],
+   "events": [
+    "E3b"
+   ],
+   "viewpoint": "the ticket window again, empty (narrow vertical)",
+   "speech": [
+    {
+     "id": "b_thanks",
+     "box_panel_px": [
+      0,
+      57,
+      576,
+      324
+     ],
+     "centre_panel_px": [
+      345.0,
+      170.0
+     ],
+     "tail_tip_panel_px": [
+      -30.0,
+      330.0
+     ],
+     "tail_exits_panel": true,
+     "cap_px": 70,
+     "lines": [
+      "Thanks!"
+     ],
+     "speaker": "VISITOR",
+     "tail_target": "off-panel left, out through the ticket window (she is leaving)"
+    }
+   ],
+   "visible_evidence": [
+    "empty ticket window",
+    "Thanks! tail exits left edge"
+   ],
+   "film_in_out_s": [
+    29,
+    34
+   ],
+   "rest_layers": "films/swarm/99-ways-template/page/rest/P6/layers.json",
+   "rig_rest": null
+  },
+  {
+   "id": "P7",
+   "bounds_px": [
+    150,
+    2170,
+    1150,
+    3150
+   ],
+   "events": [
+    "E4"
+   ],
+   "viewpoint": "wide on the cupboard, door open on its jamb",
+   "speech": [],
+   "visible_evidence": [
+    "cupboard door open on jamb",
+    "brass key on hook with SERVICE tag",
+    "SERVICE door closed"
+   ],
+   "film_in_out_s": [
+    34,
+    39
+   ],
+   "rest_layers": "films/swarm/99-ways-template/page/rest/P7/layers.json",
+   "rig_rest": {
+    "pose": {
+     "arm": -34.0,
+     "pencil": 24.0,
+     "head": 0.0
+    },
+    "Mw": [
+     [
+      -0.62,
+      0.0,
+      2731.4
+     ],
+     [
+      0.0,
+      0.62,
+      -651.6
+     ],
+     [
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "collar_px": [
+     865.1999999999996,
+     645.44
+    ],
+    "elbow_px": [
+     417.55999999999995,
+     980.2400000000001
+    ],
+    "pencil_tip_px": [
+     976.3961103213064,
+     692.2141456935342
+    ],
+    "chin_px": [
+     861.4799999999996,
+     638.0
+    ]
+   },
+   "key_hook": {
+    "hook_px": [
+     167.68720626724343,
+     488.2060700438725
+    ],
+    "ring_px": [
+     167.68720626724343,
+     494.8560700438725
+    ],
+    "offset": [
+     0.0,
+     6.649999999999977
+    ]
+   }
+  },
+  {
+   "id": "P8",
+   "bounds_px": [
+    1210,
+    2170,
+    2400,
+    3150
+   ],
+   "events": [
+    "E5"
+   ],
+   "viewpoint": "medium close: clerk before the open cupboard, key in view",
+   "speech": [
+    {
+     "id": "b_forgot",
+     "box_panel_px": [
+      76,
+      0,
+      761,
+      523
+     ],
+     "centre_panel_px": [
+      420.0,
+      190.0
+     ],
+     "tail_tip_panel_px": [
+      747.7199999999998,
+      516.1199999999999
+     ],
+     "tail_exits_panel": false,
+     "cap_px": 68,
+     "lines": [
+      "What the hell",
+      "was I looking",
+      "for, anyway?"
+     ],
+     "speaker": "CLERK",
+     "tail_target": "clerk's mouth"
+    }
+   ],
+   "visible_evidence": [
+    "key on hook, unmoved",
+    "clerk's eyes away from the key",
+    "pencil at chin",
+    "SERVICE door closed"
+   ],
+   "film_in_out_s": [
+    39,
+    46
+   ],
+   "rest_layers": "films/swarm/99-ways-template/page/rest/P8/layers.json",
+   "rig_rest": {
+    "pose": {
+     "arm": -27.75,
+     "pencil": 59.35465005249709,
+     "head": 0.0
+    },
+    "Mw": [
+     [
+      -0.74,
+      0.0,
+      2957.8
+     ],
+     [
+      0.0,
+      0.74,
+      -973.2
+     ],
+     [
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "collar_px": [
+     730.3999999999996,
+     574.8799999999999
+    ],
+    "elbow_px": [
+     196.1199999999999,
+     974.4799999999997
+    ],
+    "pencil_tip_px": [
+     706.6208268949367,
+     562.751634035654
+    ],
+    "chin_px": [
+     725.9599999999996,
+     566.0
+    ]
+   },
+   "key_hook": {
+    "hook_px": [
+     193.7289840536369,
+     507.31558449503535
+    ],
+    "ring_px": [
+     193.7289840536369,
+     515.3155844950354
+    ],
+    "offset": [
+     0.0,
+     8.000000000000057
+    ]
+   }
+  }
+ ],
+ "pose_pencil_to_chin": {
+  "arm": -27.75,
+  "pencil": 59.35465005249709,
+  "head": 0.0
+ },
+ "coords": "speech/balloon/rig coordinates are panel-local px (add bounds x0,y0 for page px); rig matrices map source S3 px (Rothstein master/3) to panel px"
+}

@@ -1,0 +1,845 @@
+{
+ "slug": "boucle-la",
+ "unit": "U2 dialogue-writer",
+ "owner": "dialogue-writer",
+ "date": "2026-11-17",
+ "base_revision": {
+  "plan_json_sha256": "f3c2921ac7904821fc357cac221a9f786baebf24a3f0080e5980424c3d5b5f69",
+  "kf_common_sha256": "89b93dee0775c5841586fb20b51431cd7f8124a501c4eafe7b3eb083a67281ef",
+  "letter_py_sha256": "f5d2621b963f28cdacc6e7f5d8018de9bc310393d3cfb0ee5483a3a2ddc0e11f"
+ },
+ "read_set": [
+  "films/swarm/boucle-la/plan.md",
+  "films/swarm/boucle-la/plan.json",
+  "proposals/kf_common.py",
+  "test-shot-ledger.json",
+  "test-shot-build/shot.py"
+ ],
+ "write_set": [
+  "films/swarm/boucle-la/script.json",
+  "speech-acts.json",
+  "hinge-alternatives.md",
+  "films/sources/boucle-la/dialogue-writer/**"
+ ],
+ "acceptance": "Each pair of occurrences resolves to ONE balloon PNG and ONE voice file (byte identical by construction); every line reads as a different act after H (speech-acts.json); lettering legible at 1920 px page fit.",
+ "sequence": [
+  "A",
+  "B",
+  "C",
+  "H",
+  "C",
+  "B",
+  "A"
+ ],
+ "lines_decision": "The proposal's four lines are kept verbatim (they are also the plan's frozen 'Balloon (exact)' strings). Each is reversible: see speech-acts.json.",
+ "exchange_panels": [
+  {
+   "id": "A",
+   "speaker": "odette",
+   "text": "ET ÇA ?! C'EST TOI QUI L'AS LAISSÉ, CE MOT ?",
+   "text_utf8_sha256": "cd763f4ace648274184824b98a603643eb8bcccbbf8dd396164d72a15d6c4ca5",
+   "lettering_seed": 3042,
+   "seed_rule": "sum(map(ord, id + text)); line i uses seed + 13*i",
+   "wrapped_lines": [
+    "ET ÇA ?! C'EST TOI QUI",
+    "L'AS LAISSÉ, CE MOT ?"
+   ],
+   "cap_px": 38,
+   "pen_px": 9.88,
+   "balloon_outline_px": 5.0,
+   "balloon_png": "films/sources/boucle-la/dialogue-writer/lettering/balloon-A.png",
+   "balloon_png_sha256": "6d071ac3cf4a08d42eeded2c302387003f81e9183e305a3fc308cd6b0d5d0274",
+   "balloon_size": [
+    679,
+    274
+   ],
+   "balloon_offset_in_panel": [
+    169,
+    4
+   ],
+   "tail_anchor": {
+    "tip_in_panel": [
+     585,
+     262
+    ],
+    "points_to": "Odette's mouth (right figure)",
+    "status": "PROVISIONAL (test-shot rig). U3: compute the tip from U1's mouth anchor in the canonical pose and re-render with `python3 -I letter.py --tail A X Y`; text, seed and letterforms do not change, and both occurrences of the pair use the one re-rendered PNG."
+   },
+   "occurrences": [
+    1,
+    7
+   ],
+   "voice_clip": {
+    "path": "films/sources/boucle-la/dialogue-writer/sound/voice-A-female.wav",
+    "sha256": "3318fee28da82add8a437d4ea8a32752bae5598b3178aa47fe81d2e6a2face3c",
+    "source": "going-steady",
+    "voice": "female",
+    "in_s_in_archive_clip": 2.4,
+    "out_s_in_archive_clip": 4.05,
+    "in_s_in_source_film": 537.234,
+    "out_s_in_source_film": 538.884,
+    "duration_s": 1.65,
+    "sample_rate": 48000,
+    "channels": 1,
+    "start_on": "the frame the balloon appears (speaker's head accent)",
+    "in_mix_default": false,
+    "mix_note": "OFF by default. The user's note on the approved test shot says: drop the English narration voice, keep only the bell and paper sounds. These grains are real English speech (1951 US educational films). They are prepared and logged so the editor or operator can restore them; the default mix is bell + rustle (+ optional room tone) only. Balloons carry the voice (captions), as the brief allows."
+   }
+  },
+  {
+   "id": "B",
+   "speaker": "gustave",
+   "text": "MOI ?! TU CROIS QUE J'AI QUE ÇA À FAIRE ?",
+   "text_utf8_sha256": "bee09161104993d54f54513c64a0720bcefc18e88b6d20bc2f9bf533262cae81",
+   "lettering_seed": 2863,
+   "seed_rule": "sum(map(ord, id + text)); line i uses seed + 13*i",
+   "wrapped_lines": [
+    "MOI ?! TU CROIS QUE J'AI",
+    "QUE ÇA À FAIRE ?"
+   ],
+   "cap_px": 38,
+   "pen_px": 9.88,
+   "balloon_outline_px": 5.0,
+   "balloon_png": "films/sources/boucle-la/dialogue-writer/lettering/balloon-B.png",
+   "balloon_png_sha256": "e5bfaaeb984994e0e8dc60711aba6b1ba6d39741ef380331ee0ef50ce09c19cb",
+   "balloon_size": [
+    730,
+    270
+   ],
+   "balloon_offset_in_panel": [
+    2,
+    4
+   ],
+   "tail_anchor": {
+    "tip_in_panel": [
+     265,
+     258
+    ],
+    "points_to": "Gustave's mouth/cheek (left figure); in H from the left to the back of his head",
+    "status": "PROVISIONAL (test-shot rig). U3: compute the tip from U1's mouth anchor in the canonical pose and re-render with `python3 -I letter.py --tail B X Y`; text, seed and letterforms do not change, and both occurrences of the pair use the one re-rendered PNG."
+   },
+   "occurrences": [
+    2,
+    6
+   ],
+   "voice_clip": {
+    "path": "films/sources/boucle-la/dialogue-writer/sound/voice-B-male.wav",
+    "sha256": "7fc52e37b7d075cbd4c76e7fa529905150ab16b6e4aa419e7e1bdd9abd1a3c62",
+    "source": "working-together",
+    "voice": "male",
+    "in_s_in_archive_clip": 15.77,
+    "out_s_in_archive_clip": 17.32,
+    "in_s_in_source_film": 716.771,
+    "out_s_in_source_film": 718.321,
+    "duration_s": 1.55,
+    "sample_rate": 48000,
+    "channels": 1,
+    "start_on": "the frame the balloon appears (speaker's head accent)",
+    "in_mix_default": false,
+    "mix_note": "OFF by default. The user's note on the approved test shot says: drop the English narration voice, keep only the bell and paper sounds. These grains are real English speech (1951 US educational films). They are prepared and logged so the editor or operator can restore them; the default mix is bell + rustle (+ optional room tone) only. Balloons carry the voice (captions), as the brief allows."
+   }
+  },
+  {
+   "id": "C",
+   "speaker": "odette",
+   "text": "ALORS DE QUI IL EST ?!",
+   "text_utf8_sha256": "37f12a68bb960e80f7f4304b12a8317920a03d6d2d9a3094585b1640325690bb",
+   "lettering_seed": 1469,
+   "seed_rule": "sum(map(ord, id + text)); line i uses seed + 13*i",
+   "wrapped_lines": [
+    "ALORS DE QUI IL EST ?!"
+   ],
+   "cap_px": 42,
+   "pen_px": 10.92,
+   "balloon_outline_px": 5.0,
+   "balloon_png": "films/sources/boucle-la/dialogue-writer/lettering/balloon-C.png",
+   "balloon_png_sha256": "63dfbeacb9a007e3c612e51b47ed9c1748c583bd0e87dca4b1cad8fd545b85c7",
+   "balloon_size": [
+    756,
+    252
+   ],
+   "balloon_offset_in_panel": [
+    92,
+    14
+   ],
+   "tail_anchor": {
+    "tip_in_panel": [
+     610,
+     250
+    ],
+    "points_to": "Odette's mouth (right figure)",
+    "status": "PROVISIONAL (test-shot rig). U3: compute the tip from U1's mouth anchor in the canonical pose and re-render with `python3 -I letter.py --tail C X Y`; text, seed and letterforms do not change, and both occurrences of the pair use the one re-rendered PNG."
+   },
+   "occurrences": [
+    3,
+    5
+   ],
+   "voice_clip": {
+    "path": "films/sources/boucle-la/dialogue-writer/sound/voice-C-female.wav",
+    "sha256": "182b3f152639abb39ff7f45663ca16afd0b7a8dbc868b4e61556f1154985b75c",
+    "source": "going-steady",
+    "voice": "female",
+    "in_s_in_archive_clip": 7.25,
+    "out_s_in_archive_clip": 8.85,
+    "in_s_in_source_film": 542.084,
+    "out_s_in_source_film": 543.684,
+    "duration_s": 1.6,
+    "sample_rate": 48000,
+    "channels": 1,
+    "start_on": "the frame the balloon appears (speaker's head accent)",
+    "in_mix_default": false,
+    "mix_note": "OFF by default. The user's note on the approved test shot says: drop the English narration voice, keep only the bell and paper sounds. These grains are real English speech (1951 US educational films). They are prepared and logged so the editor or operator can restore them; the default mix is bell + rustle (+ optional room tone) only. Balloons carry the voice (captions), as the brief allows."
+   }
+  },
+  {
+   "id": "H",
+   "speaker": "gustave",
+   "text": "« À MA CHÈRE ODETTE... » TIENS. C'EST POUR TOI.",
+   "text_utf8_sha256": "83fced6578ee0be7732b02e386836ee88aa7f6a86b56bdee03e7cf4313108969",
+   "lettering_seed": 3516,
+   "seed_rule": "sum(map(ord, id + text)); line i uses seed + 13*i",
+   "wrapped_lines": [
+    "« À MA CHÈRE ODETTE... »",
+    "TIENS. C'EST POUR TOI."
+   ],
+   "cap_px": 42,
+   "pen_px": 10.92,
+   "balloon_outline_px": 5.0,
+   "balloon_png": "films/sources/boucle-la/dialogue-writer/lettering/balloon-H.png",
+   "balloon_png_sha256": "3a9b2251e0696aa2de0c3f55d10daae07527fe28207fa0654955adb848b3e72b",
+   "balloon_size": [
+    850,
+    234
+   ],
+   "balloon_offset_in_panel": [
+    556,
+    11
+   ],
+   "tail_anchor": {
+    "tip_in_panel": [
+     1390,
+     175
+    ],
+    "points_to": "Gustave's mouth/cheek (left figure); in H from the left to the back of his head",
+    "status": "PROVISIONAL (test-shot rig). U3: compute the tip from U1's mouth anchor in the canonical pose and re-render with `python3 -I letter.py --tail H X Y`; text, seed and letterforms do not change, and both occurrences of the pair use the one re-rendered PNG."
+   },
+   "occurrences": [
+    4
+   ],
+   "voice_clip": {
+    "path": "films/sources/boucle-la/dialogue-writer/sound/voice-H-male.wav",
+    "sha256": "f6b0a2fc278f2fb4623be3e8a10dddf748d7e855a9a8897c07728c601a086d3e",
+    "source": "working-together",
+    "voice": "male",
+    "in_s_in_archive_clip": 11.19,
+    "out_s_in_archive_clip": 13.34,
+    "in_s_in_source_film": 712.191,
+    "out_s_in_source_film": 714.341,
+    "duration_s": 2.15,
+    "sample_rate": 48000,
+    "channels": 1,
+    "start_on": "the frame the balloon appears (speaker's head accent)",
+    "in_mix_default": false,
+    "mix_note": "OFF by default. The user's note on the approved test shot says: drop the English narration voice, keep only the bell and paper sounds. These grains are real English speech (1951 US educational films). They are prepared and logged so the editor or operator can restore them; the default mix is bell + rustle (+ optional room tone) only. Balloons carry the voice (captions), as the brief allows."
+   }
+  }
+ ],
+ "note": {
+  "face_text": [
+   "À MA CHÈRE",
+   "ODETTE"
+  ],
+  "files": {
+   "face-page": {
+    "file": "films/sources/boucle-la/dialogue-writer/lettering/note-face-page.png",
+    "size": [
+     140,
+     92
+    ],
+    "sha256": "57d0b9a521cf3e6ab3ff35acdb23dfabcd9cdbfed917d9a0823530f36396d1c3"
+   },
+   "back-page": {
+    "file": "films/sources/boucle-la/dialogue-writer/lettering/note-back-page.png",
+    "size": [
+     140,
+     92
+    ],
+    "sha256": "c7eec6f144f73d5e3a492b89efdb43edfe728236ffd1294b05a2d1b8752d54ea"
+   },
+   "face-x4": {
+    "file": "films/sources/boucle-la/dialogue-writer/lettering/note-face-x4.png",
+    "size": [
+     560,
+     368
+    ],
+    "sha256": "3904e72a12c0c7eb8c4fd20a530ce60e9eb6a1d51b50c8741778d391230c63a6"
+   },
+   "back-x4": {
+    "file": "films/sources/boucle-la/dialogue-writer/lettering/note-back-x4.png",
+    "size": [
+     560,
+     368
+    ],
+    "sha256": "61b96fed84cb0a26d33967ac7099eb219342aa6f0dce93b73e69a1163bb93d92"
+   },
+   "face-G2-alternate": {
+    "file": "films/sources/boucle-la/dialogue-writer/lettering/note-face-G2-alfred-page.png",
+    "size": [
+     140,
+     92
+    ],
+    "sha256": "f6651052282524955dde8695a18fd98134d02f5ccf1978f45f06121c9f73447a",
+    "face_text": [
+     "MON CHER",
+     "ALFRED"
+    ]
+   }
+  },
+  "how": "page size 140x92 px is ~12 % smaller than the test shot's card (per the user's note: slightly smaller relative to the hands, still legible: cap ~20 px at page scale, ~12 px at 1920 px page fit)"
+ },
+ "furniture": {
+  "title-le-mot": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/title-le-mot.png",
+   "page_xy": [
+    25,
+    56
+   ],
+   "size": [
+    505,
+    147
+   ],
+   "sha256": "09014fd1d1fa29910f7bc48d8c09396ebda0388e9fcab9c3bee9a7f9aaea37ae",
+   "strings": [
+    "LE MOT"
+   ],
+   "seeds": [
+    3
+   ],
+   "caps": [
+    112
+   ],
+   "pens": [
+    19
+   ]
+  },
+  "title-subtitle": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/title-subtitle.png",
+   "page_xy": [
+    41,
+    249
+   ],
+   "size": [
+    349,
+    160
+   ],
+   "sha256": "1d60a05a1124a21a54016abafcff9df7fd2acbebd8701a0db1d1963055d8eba6",
+   "strings": [
+    "OU QUI L'A",
+    "LAISSÉ ?"
+   ],
+   "seeds": [
+    4,
+    5
+   ],
+   "caps": [
+    52,
+    52
+   ],
+   "pens": [
+    10,
+    10
+   ]
+  },
+  "route": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/route.png",
+   "page_xy": [
+    48,
+    1508
+   ],
+   "size": [
+    401,
+    72
+   ],
+   "sha256": "71da862a2dcb88c6fb365888e3d4514a4315bd0f2e781aa92f68652ab20b179f",
+   "strings": [
+    "A B C H C B A"
+   ],
+   "seeds": [
+    40
+   ],
+   "caps": [
+    46
+   ],
+   "pens": [
+    8.5
+   ]
+  },
+  "etude-oubapo": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/etude-oubapo.png",
+   "page_xy": [
+    45,
+    1618
+   ],
+   "size": [
+    331,
+    61
+   ],
+   "sha256": "2ceec5b755395444563a08451c8a21db40df9807330d46789c1938d496d28870",
+   "strings": [
+    "ÉTUDE · OUBAPO"
+   ],
+   "seeds": [
+    60
+   ],
+   "caps": [
+    32
+   ],
+   "pens": [
+    6
+   ]
+  },
+  "credit-daumier": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/credit-daumier.png",
+   "page_xy": [
+    45,
+    1686
+   ],
+   "size": [
+    349,
+    50
+   ],
+   "sha256": "befc03c0d5c8874bd602fa5c32e2f61e4b86eb94d94d46a5fd041abaf19989d8",
+   "strings": [
+    "D'APRÈS DAUMIER, 1839"
+   ],
+   "seeds": [
+    61
+   ],
+   "caps": [
+    24
+   ],
+   "pens": [
+    4.5
+   ]
+  },
+  "loop-arrow": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/loop-arrow.png",
+   "page_xy": [
+    108,
+    520
+   ],
+   "size": [
+    324,
+    850
+   ],
+   "sha256": "f97dac5f2a5253273b35f0c36983fb741f9e8b5223a7d177571ee07efea6edbb",
+   "what": "hand-drawn pen loop (ellipse + arrowhead)"
+  },
+  "margin-column": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/margin-column.png",
+   "page_xy": [
+    0,
+    0
+   ],
+   "size": [
+    540,
+    1800
+   ],
+   "sha256": "6e8649ae1f4fdd168af8f2e6b5bc66acc2a7d63fa8d9c621cac8451781a50a56",
+   "what": "all margin furniture in one layer, page coords 0..540 x 0..1800"
+  },
+  "id-A": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/id-A.png",
+   "page_xy": [
+    0,
+    0
+   ],
+   "size": [
+    26,
+    31
+   ],
+   "sha256": "ddfd54380f3082a1059f8cfbc100a5b2b5053df9e586fb9169ced8a4084c4acc",
+   "string": "A",
+   "note": "paste at panel (x1-26, y1+6); page_xy is relative"
+  },
+  "id-B": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/id-B.png",
+   "page_xy": [
+    0,
+    0
+   ],
+   "size": [
+    25,
+    31
+   ],
+   "sha256": "b39ed16b57878110d75a99c74b753f5d3b71d7de44af0882e18aaacb984be040",
+   "string": "B",
+   "note": "paste at panel (x1-26, y1+6); page_xy is relative"
+  },
+  "id-C": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/id-C.png",
+   "page_xy": [
+    0,
+    0
+   ],
+   "size": [
+    26,
+    32
+   ],
+   "sha256": "284b4475c965fd21eaeebf873a4afa7e447f5faff559a562dcc1d80a87d1eb87",
+   "string": "C",
+   "note": "paste at panel (x1-26, y1+6); page_xy is relative"
+  },
+  "id-H": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/id-H.png",
+   "page_xy": [
+    0,
+    0
+   ],
+   "size": [
+    27,
+    33
+   ],
+   "sha256": "c977fe304213e48ac436c4af5208e3212c15c7257994691a83bb8a7a9a92c1b9",
+   "string": "H",
+   "note": "paste at panel (x1-26, y1+6); page_xy is relative"
+  },
+  "tag-o1": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/tag-o1-accuse.png",
+   "page_xy": [
+    0,
+    0
+   ],
+   "size": [
+    126,
+    42
+   ],
+   "sha256": "80af7188386750392589e0e497d0843d79960f7ec876008ed7d470123990cad6",
+   "string": "ACCUSE",
+   "occurrence": 1,
+   "note": "film-only annotation layer / annotated page, gutters only"
+  },
+  "tag-o2": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/tag-o2-deny.png",
+   "page_xy": [
+    0,
+    0
+   ],
+   "size": [
+    88,
+    40
+   ],
+   "sha256": "ed85ac85aa78d77fbca4e81b6c4e56eb73237bef5f7de8e4c3893e7d15404319",
+   "string": "DENY",
+   "occurrence": 2,
+   "note": "film-only annotation layer / annotated page, gutters only"
+  },
+  "tag-o3": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/tag-o3-press.png",
+   "page_xy": [
+    0,
+    0
+   ],
+   "size": [
+    102,
+    41
+   ],
+   "sha256": "9393e37e1e0f596d0680a8aa1c9c12bd0dc64702a2a02a63bce3b04067d92ca0",
+   "string": "PRESS",
+   "occurrence": 3,
+   "note": "film-only annotation layer / annotated page, gutters only"
+  },
+  "tag-o4": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/tag-o4-reveal.png",
+   "page_xy": [
+    0,
+    0
+   ],
+   "size": [
+    121,
+    41
+   ],
+   "sha256": "4abc470b00804eb555dff6208b0f7d6b55dffacce698bcf791beab6db6266fe7",
+   "string": "REVEAL",
+   "occurrence": 4,
+   "note": "film-only annotation layer / annotated page, gutters only"
+  },
+  "tag-o5": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/tag-o5-deflect.png",
+   "page_xy": [
+    0,
+    0
+   ],
+   "size": [
+    137,
+    43
+   ],
+   "sha256": "b5d70a16f359a5c81b3a970f83bcc1a6a5a12f3d70ceebf27f3dde2f0024479b",
+   "string": "DEFLECT",
+   "occurrence": 5,
+   "note": "film-only annotation layer / annotated page, gutters only"
+  },
+  "tag-o6": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/tag-o6-jab.png",
+   "page_xy": [
+    1,
+    0
+   ],
+   "size": [
+    68,
+    41
+   ],
+   "sha256": "823444a461678166b26ffa427acf65de940270592832329a9d2fe99779728567",
+   "string": "JAB",
+   "occurrence": 6,
+   "note": "film-only annotation layer / annotated page, gutters only"
+  },
+  "tag-o7": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/tag-o7-counter-accuse.png",
+   "page_xy": [
+    1,
+    0
+   ],
+   "size": [
+    269,
+    42
+   ],
+   "sha256": "38561312d1252e593d6fc2022ca6bbb32fd2cfd11a3a91870f5e5913ec1941a7",
+   "string": "COUNTER-ACCUSE",
+   "occurrence": 7,
+   "note": "film-only annotation layer / annotated page, gutters only"
+  }
+ },
+ "hinge_alternates": {
+  "H-G2": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/balloon-H-G2.png",
+   "offset_in_panel": [
+    546,
+    -21
+   ],
+   "size": [
+    860,
+    298
+   ],
+   "seed": 3796,
+   "cap": 42,
+   "pen": 10.92,
+   "outline": 5.0,
+   "maxw": 700,
+   "centre_in_panel": [
+    960,
+    128
+   ],
+   "tail_tip_in_panel": [
+    1390,
+    175
+   ],
+   "wrapped_lines": [
+    "« MON CHER ALFRED... »",
+    "C'EST BIEN TON ÉCRITURE,",
+    "NON ?"
+   ],
+   "speaker": "gustave",
+   "text": "« MON CHER ALFRED... » C'EST BIEN TON ÉCRITURE, NON ?",
+   "sha256": "9c7efefc28514fac9bb9d64c8b3c3e88cbc5ce89fac93b413d88566083624739"
+  },
+  "H-G3": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/balloon-H-G3.png",
+   "offset_in_panel": [
+    529,
+    11
+   ],
+   "size": [
+    877,
+    234
+   ],
+   "seed": 3320,
+   "cap": 42,
+   "pen": 10.92,
+   "outline": 5.0,
+   "maxw": 700,
+   "centre_in_panel": [
+    960,
+    128
+   ],
+   "tail_tip_in_panel": [
+    1390,
+    175
+   ],
+   "wrapped_lines": [
+    "C'EST DE MOI, GROSSE",
+    "BÊTE. BONNE FÊTE, ODETTE."
+   ],
+   "speaker": "gustave",
+   "text": "C'EST DE MOI, GROSSE BÊTE. BONNE FÊTE, ODETTE.",
+   "sha256": "f7c85348ba9ddabaffbdeb71e0ed6c9082c2c6b6d24d95f5447ff75dc0da4252"
+  },
+  "H-G4": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/balloon-H-G4.png",
+   "offset_in_panel": [
+    654,
+    42
+   ],
+   "size": [
+    752,
+    172
+   ],
+   "seed": 1240,
+   "cap": 42,
+   "pen": 10.92,
+   "outline": 5.0,
+   "maxw": 700,
+   "centre_in_panel": [
+    960,
+    128
+   ],
+   "tail_tip_in_panel": [
+    1390,
+    175
+   ],
+   "wrapped_lines": [
+    "IL FAIT FROID ICI."
+   ],
+   "speaker": "gustave",
+   "text": "IL FAIT FROID ICI.",
+   "sha256": "be9a6b3e1ea8e5aac3f6d9a78b5488d22d6f4507fedc29a581c036a72f2d73c9"
+  },
+  "H-G1b": {
+   "file": "films/sources/boucle-la/dialogue-writer/lettering/balloon-H-G1b.png",
+   "offset_in_panel": [
+    570,
+    11
+   ],
+   "size": [
+    836,
+    234
+   ],
+   "seed": 2565,
+   "cap": 42,
+   "pen": 10.92,
+   "outline": 5.0,
+   "maxw": 700,
+   "centre_in_panel": [
+    960,
+    128
+   ],
+   "tail_tip_in_panel": [
+    1390,
+    175
+   ],
+   "wrapped_lines": [
+    "LIS DONC L'ADRESSE, MA",
+    "CHÈRE ODETTE."
+   ],
+   "speaker": "gustave",
+   "text": "LIS DONC L'ADRESSE, MA CHÈRE ODETTE.",
+   "sha256": "55f5c8c32cb281503bdd0bf51fecb422e02816ea679e527374f27aa3427254a9"
+  }
+ },
+ "lettering_manifest": "films/sources/boucle-la/dialogue-writer/lettering/lettering.json",
+ "build": [
+  "films/swarm/boucle-la/dialogue-writer-build/letter.py",
+  "films/swarm/boucle-la/dialogue-writer-build/records.py"
+ ],
+ "sound_manifest": "films/swarm/boucle-la/sound.json",
+ "sound_default_mix": {
+  "bell": {
+   "path": "films/sources/boucle-la/dialogue-writer/sound/bell.wav",
+   "strike_onset_s_in_file": 0.31,
+   "place": "file 0.31 s on the face-out drawing of H (plan: film 28.0 s), exactly once"
+  },
+  "rustle": {
+   "path": "films/sources/boucle-la/dialogue-writer/sound/rustle.wav",
+   "onset_s_in_file": 0.84,
+   "place": "the note turn in H (plan: from 27.0 s)"
+  },
+  "voices": "off (user note)"
+ },
+ "evidence": [
+  {
+   "id": "snd-bell",
+   "title": "274316 the-very-real-horst ghanta-leather-mallet-2015-05-16.wav",
+   "author": "the_very_Real_Horst (freesound 274316)",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:274316_the-very-real-horst_ghanta-leather-mallet-2015-05-16.wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/cf/274316_the-very-real-horst_ghanta-leather-mallet-2015-05-16.wav",
+   "local_path": "films/sources/boucle-la/dialogue-writer/sound/bell.wav",
+   "sha256": "76cab96bbaaff31ba44f390d845b9efb7366b226465db92233482a4bc20a67fb",
+   "what_it_shows": "a brass ghanta (hand bell) struck once with a leather mallet, with long decay; 6.0 s cut, strike onset at 0.31 s",
+   "verified_date_or_place": "Commons extmetadata re-read 2026-11-17 by U2: LicenseShortName=CC0; DateTimeOriginal 2015-05-16",
+   "used_as": "the single bell on H's face-out drawing; decoded with ffmpeg (from the test shot's decode of the Commons mp3 transcode), 44.1 kHz mono"
+  },
+  {
+   "id": "snd-rustle",
+   "title": "Book paper pages assorted.ogg",
+   "author": "stephan (via pdsounds.org)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Book_paper_pages_assorted.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/79/Book_paper_pages_assorted.ogg",
+   "local_path": "films/sources/boucle-la/dialogue-writer/sound/rustle.wav",
+   "sha256": "e1e79836bc8a3530f2dc6bca78a4189b6575860d573e93c3f7878a51496cc616",
+   "what_it_shows": "handled book paper; this 1.6 s cut (taken by the test shot from about file 13.0 s) is a single sheet turn, onset 0.84 s",
+   "verified_date_or_place": "Commons extmetadata re-read 2026-11-17 by U2: LicenseShortName=Public domain; DateTimeOriginal 2007-05-07",
+   "used_as": "paper rustle for the note's card-flip in H"
+  },
+  {
+   "id": "snd-voice-female",
+   "title": "Going Steady? (1951)",
+   "author": "via movingimagearchive.com",
+   "license": "Rights as listed by movingimagearchive.com (largely public domain); not independently verified",
+   "license_url": "",
+   "source_url": "https://www.movingimagearchive.com/sources/going-steady?clip=983d6d92-e09d-59ae-b20b-6bbb1ec9f189",
+   "file_url": "",
+   "local_path": "films/sources/boucle-la/dialogue-writer/sound/voice-A-female.wav; films/sources/boucle-la/dialogue-writer/sound/voice-C-female.wav",
+   "sha256": {
+    "A": "3318fee28da82add8a437d4ea8a32752bae5598b3178aa47fe81d2e6a2face3c",
+    "C": "182b3f152639abb39ff7f45663ca16afd0b7a8dbc868b4e61556f1154985b75c"
+   },
+   "what_it_shows": "a teenage girl at a mirror; her own voice (median f0 ~250 Hz) speaking English; archive clip 534.834-545.512 s of the film",
+   "verified_date_or_place": "unverified (archive listing only; 1951 Coronet educational film, Prelinger-type holding; no copyright notice seen on the listing)",
+   "used_as": "female voice grains: A = clip 2.40-4.05 s, C = clip 7.25-8.85 s; NOT in the default mix (user note: drop English voice)"
+  },
+  {
+   "id": "snd-voice-male",
+   "title": "Working Together: A Case History in Labor-Management Cooperation (1951)",
+   "author": "via movingimagearchive.com",
+   "license": "Rights as listed by movingimagearchive.com (largely public domain); not independently verified",
+   "license_url": "",
+   "source_url": "https://www.movingimagearchive.com/sources/working-together-a-case-history-in-labor-management-cooperation-1f8b859c?clip=28f53082-ba26-5045-8f59-ad48b6285a70",
+   "file_url": "",
+   "local_path": "films/sources/boucle-la/dialogue-writer/sound/voice-B-male.wav; films/sources/boucle-la/dialogue-writer/sound/voice-H-male.wav",
+   "sha256": {
+    "B": "7fc52e37b7d075cbd4c76e7fa529905150ab16b6e4aa419e7e1bdd9abd1a3c62",
+    "H": "f6b0a2fc278f2fb4623be3e8a10dddf748d7e855a9a8897c07728c601a086d3e"
+   },
+   "what_it_shows": "a male speaker (English) in a labour-management meeting; archive clip 701.0-721.0 s of the film",
+   "verified_date_or_place": "unverified (archive listing only)",
+   "used_as": "male voice grains: B = clip 15.77-17.32 s, H = clip 11.19-13.34 s (same in/out as the approved test shot); NOT in the default mix"
+  }
+ ],
+ "handmade": [
+  {
+   "item": "all balloons A B C H and hinge alternates H-G1b, H-G2, H-G3, H-G4",
+   "how": "single-stroke pen alphabet (proposals/kf_common.py glyph polylines), round pen at cap*0.26, track 0.8, supersampled x3, irregular superellipse balloon with pointed tail, 5 px outline; seeded per balloon",
+   "where": "films/sources/boucle-la/dialogue-writer/lettering/"
+  },
+  {
+   "item": "note card face « À MA CHÈRE / ODETTE », back with crease, alternate face « MON CHER / ALFRED »",
+   "how": "cut-card quad with pen outline, lettered in the same hand",
+   "where": "lettering/note-*.png"
+  },
+  {
+   "item": "margin: LE MOT, OU QUI L'A / LAISSÉ ?, loop arrow, route A B C H C B A, ÉTUDE · OUBAPO, D'APRÈS DAUMIER, 1839; panel IDs; film-only speech-act tags",
+   "how": "same pen alphabet; loop arrow a wobbly pen ellipse with arrowhead",
+   "where": "lettering/*.png, margin-column.png"
+  }
+ ],
+ "absences": [
+  "No openly licensed FRENCH real-speech recording was found in the archive cache: the only French-language clip (Toute La Bande, 1970) has no verifiable free status and was not used.",
+  "Voice grains are English and band-unlimited; per the user's note they are not in the default mix.",
+  "Room tone not foraged by this unit (the plan lists it as optional; the editor may take silence).",
+  "Tail anchors are provisional until U1's rig mouth anchors exist."
+ ]
+}

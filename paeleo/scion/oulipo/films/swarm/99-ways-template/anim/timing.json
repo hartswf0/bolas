@@ -1,0 +1,2404 @@
+{
+ "fps": 24,
+ "poses": "on twos (12 poses/s); a key holds until the next key; balloon drops are impact objects on ones (4 frames: -150, -55, +9 px bounce, land), then held",
+ "shots": {
+  "S0": {
+   "panel": "PAGE",
+   "film_in_f": 0,
+   "film_out_f": 96,
+   "film_in_s": 0.0,
+   "frames": 96,
+   "keys": [
+    {
+     "f": 0,
+     "label": "blank sheet",
+     "rest": true,
+     "state": {}
+    }
+   ],
+   "balloons": [],
+   "action_end_f": null,
+   "holds": {},
+   "sounds": [
+    {
+     "f": 0,
+     "cue": "paper_handling"
+    },
+    {
+     "f": 0,
+     "cue": "room_tone",
+     "len_f": 96
+    }
+   ],
+   "note": "32 hand-ruled border strokes (8 panels x top,right,bottom,left), each drawn over two poses on twos from f6; each panel's art is laid on the pose its box closes; panels.s0_frame(f)",
+   "last_stroke_done_f": 132,
+   "end_frame_vs_page_mean_abs": 29.787
+  },
+  "S1": {
+   "panel": "P1",
+   "film_in_f": 96,
+   "film_out_f": 216,
+   "film_in_s": 4.0,
+   "frames": 120,
+   "keys": [
+    {
+     "f": 0,
+     "label": "rest: reading",
+     "rest": true,
+     "state": {}
+    },
+    {
+     "f": 24,
+     "label": "dip 1",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "dpose": {
+        "head": 3.0
+       }
+      }
+     }
+    },
+    {
+     "f": 26,
+     "label": "dip 2 (extreme)",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "dpose": {
+        "head": 6.0
+       }
+      }
+     }
+    },
+    {
+     "f": 36,
+     "label": "return",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "dpose": {
+        "head": 3.0
+       }
+      }
+     }
+    },
+    {
+     "f": 38,
+     "label": "rest",
+     "rest": true,
+     "state": {}
+    },
+    {
+     "f": 60,
+     "label": "pencil tap 1",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "dpose": {
+        "pencil": -5.0
+       }
+      }
+     }
+    },
+    {
+     "f": 62,
+     "label": "rest",
+     "rest": true,
+     "state": {}
+    },
+    {
+     "f": 66,
+     "label": "pencil tap 2",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "dpose": {
+        "pencil": -5.0
+       }
+      }
+     }
+    },
+    {
+     "f": 68,
+     "label": "rest (action end)",
+     "rest": true,
+     "state": {}
+    }
+   ],
+   "balloons": [],
+   "action_end_f": 68,
+   "holds": {},
+   "sounds": [
+    {
+     "f": 10,
+     "cue": "clock_tick"
+    },
+    {
+     "f": 34,
+     "cue": "clock_tick"
+    },
+    {
+     "f": 58,
+     "cue": "clock_tick"
+    },
+    {
+     "f": 61,
+     "cue": "pencil_tap"
+    },
+    {
+     "f": 67,
+     "cue": "pencil_tap"
+    },
+    {
+     "f": 82,
+     "cue": "clock_tick"
+    },
+    {
+     "f": 106,
+     "cue": "clock_tick"
+    }
+   ],
+   "action_end_vs_page_mean_abs": 0.0,
+   "last_frame_vs_page_mean_abs": 0.0,
+   "distinct_poses": 9,
+   "pose_changes_on_twos": true
+  },
+  "S2": {
+   "panel": "P2",
+   "film_in_f": 216,
+   "film_out_f": 336,
+   "film_in_s": 9.0,
+   "frames": 120,
+   "keys": [
+    {
+     "f": 0,
+     "label": "seated (as photographed)",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.996195,
+         -0.087156,
+         -746.055931
+        ],
+        [
+         0.087156,
+         0.996195,
+         -168.200106
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "pose": {
+        "arm": 0.0,
+        "pencil": 0.0,
+        "head": 0.0
+       }
+      }
+     }
+    },
+    {
+     "f": 20,
+     "label": "anticipation dip",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.996195,
+         -0.087156,
+         -747.093084
+        ],
+        [
+         0.087156,
+         0.996195,
+         -156.345389
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "pose": {
+        "arm": 0.0,
+        "pencil": 0.0,
+        "head": 2.0
+       }
+      }
+     }
+    },
+    {
+     "f": 22,
+     "label": "anticipation extreme",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.995396,
+         -0.095846,
+         -721.844868
+        ],
+        [
+         0.095846,
+         0.995396,
+         -175.281746
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "pose": {
+        "arm": 0.0,
+        "pencil": 0.0,
+        "head": 3.0
+       }
+      }
+     }
+    },
+    {
+     "f": 24,
+     "label": "rise 1 (head lags)",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.998135,
+         -0.061049,
+         -816.677171
+        ],
+        [
+         0.061049,
+         0.998135,
+         -154.090478
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "pose": {
+        "arm": -4.0,
+        "pencil": 3.0,
+        "head": 4.0
+       }
+      }
+     }
+    },
+    {
+     "f": 26,
+     "label": "rise 2",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999391,
+         -0.034899,
+         -865.085245
+        ],
+        [
+         0.034899,
+         0.999391,
+         -144.781002
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "pose": {
+        "arm": -9.0,
+        "pencil": 7.0,
+        "head": 3.0
+       }
+      }
+     }
+    },
+    {
+     "f": 28,
+     "label": "rise 3 (overshoot)",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999962,
+         -0.008727,
+         -912.681092
+        ],
+        [
+         0.008727,
+         0.999962,
+         -120.015665
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "pose": {
+        "arm": -14.0,
+        "pencil": 11.0,
+        "head": 0.5
+       }
+      }
+     }
+    },
+    {
+     "f": 30,
+     "label": "rise 4 (head overlaps past)",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         1.0,
+         -0.0,
+         -927.457264
+        ],
+        [
+         -0.0,
+         1.0,
+         -81.141996
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "pose": {
+        "arm": -17.0,
+        "pencil": 13.0,
+        "head": -1.5
+       }
+      }
+     }
+    },
+    {
+     "f": 40,
+     "label": "slide 1 (step down)",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         1.0,
+         -0.0,
+         -801.579213
+        ],
+        [
+         -0.0,
+         1.0,
+         -58.183638
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "pose": {
+        "arm": -19.125,
+        "pencil": 14.375,
+        "head": -1.0
+       }
+      }
+     }
+    },
+    {
+     "f": 42,
+     "label": "slide 2",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         1.0,
+         -0.0,
+         -683.389563
+        ],
+        [
+         -0.0,
+         1.0,
+         -59.78884
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "pose": {
+        "arm": -21.25,
+        "pencil": 15.75,
+        "head": 1.5
+       }
+      }
+     }
+    },
+    {
+     "f": 44,
+     "label": "slide 3 (step down)",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         1.0,
+         -0.0,
+         -547.748804
+        ],
+        [
+         -0.0,
+         1.0,
+         -35.976355
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "pose": {
+        "arm": -23.375,
+        "pencil": 17.125,
+        "head": 4.5
+       }
+      }
+     }
+    },
+    {
+     "f": 46,
+     "label": "slide 4",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         1.0,
+         -0.0,
+         -429.559154
+        ],
+        [
+         -0.0,
+         1.0,
+         -37.581556
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "pose": {
+        "arm": -25.5,
+        "pencil": 18.5,
+        "head": 2.0
+       }
+      }
+     }
+    },
+    {
+     "f": 48,
+     "label": "slide 5 (step down)",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         1.0,
+         -0.0,
+         -293.918395
+        ],
+        [
+         -0.0,
+         1.0,
+         -13.769071
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "pose": {
+        "arm": -27.625,
+        "pencil": 19.875,
+        "head": 4.5
+       }
+      }
+     }
+    },
+    {
+     "f": 50,
+     "label": "slide 6",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         1.0,
+         -0.0,
+         -185.491453
+        ],
+        [
+         -0.0,
+         1.0,
+         -16.228399
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "pose": {
+        "arm": -29.75,
+        "pencil": 21.25,
+        "head": 2.5
+       }
+      }
+     }
+    },
+    {
+     "f": 52,
+     "label": "slide 7 (step down)",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         1.0,
+         -0.0,
+         -69.07978
+        ],
+        [
+         -0.0,
+         1.0,
+         2.488771
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "pose": {
+        "arm": -31.875,
+        "pencil": 22.625,
+        "head": 3.5
+       }
+      }
+     }
+    },
+    {
+     "f": 54,
+     "label": "rest: half out of the panel, empty chair (action end)",
+     "rest": true,
+     "state": {}
+    }
+   ],
+   "balloons": [],
+   "action_end_f": 54,
+   "holds": {},
+   "sounds": [
+    {
+     "f": 22,
+     "cue": "chair_scrape"
+    },
+    {
+     "f": 40,
+     "cue": "footstep"
+    },
+    {
+     "f": 44,
+     "cue": "footstep"
+    },
+    {
+     "f": 48,
+     "cue": "footstep"
+    },
+    {
+     "f": 52,
+     "cue": "footstep"
+    }
+   ],
+   "action_end_vs_page_mean_abs": 0.0,
+   "last_frame_vs_page_mean_abs": 0.0,
+   "distinct_poses": 15,
+   "pose_changes_on_twos": true
+  },
+  "S3": {
+   "panel": "P3",
+   "film_in_f": 336,
+   "film_out_f": 456,
+   "film_in_s": 14.0,
+   "frames": 120,
+   "keys": [
+    {
+     "f": 0,
+     "label": "empty office (he has not entered)",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "hidden": true
+      }
+     }
+    },
+    {
+     "f": 8,
+     "label": "step 1 contact",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999657,
+         -0.026177,
+         -1354.695244
+        ],
+        [
+         0.026177,
+         0.999657,
+         10.87222
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "dpose": {
+        "head": 0.0,
+        "arm": 3.0
+       }
+      }
+     }
+    },
+    {
+     "f": 10,
+     "label": "step 1 pass",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999962,
+         -0.008727,
+         -1331.781213
+        ],
+        [
+         0.008727,
+         0.999962,
+         44.862544
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "dpose": {
+        "head": -2.0,
+        "arm": 0.0
+       }
+      }
+     }
+    },
+    {
+     "f": 12,
+     "label": "step 1 up",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999962,
+         0.008727,
+         -1307.957466
+        ],
+        [
+         -0.008727,
+         0.999962,
+         79.677191
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "dpose": {
+        "head": 0.0,
+        "arm": -3.0
+       }
+      }
+     }
+    },
+    {
+     "f": 14,
+     "label": "step 1 pass",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999962,
+         -0.008727,
+         -1189.119851
+        ],
+        [
+         0.008727,
+         0.999962,
+         37.385978
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "dpose": {
+        "head": 2.0,
+        "arm": 0.0
+       }
+      }
+     }
+    },
+    {
+     "f": 16,
+     "label": "step 2 contact",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999657,
+         -0.026177,
+         -1069.37252
+        ],
+        [
+         0.026177,
+         0.999657,
+         -4.08091
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "dpose": {
+        "head": 0.0,
+        "arm": 3.0
+       }
+      }
+     }
+    },
+    {
+     "f": 18,
+     "label": "step 2 pass",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999962,
+         -0.008727,
+         -1046.458489
+        ],
+        [
+         0.008727,
+         0.999962,
+         29.909413
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "dpose": {
+        "head": -2.0,
+        "arm": 0.0
+       }
+      }
+     }
+    },
+    {
+     "f": 20,
+     "label": "step 2 up",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999962,
+         0.008727,
+         -1022.634742
+        ],
+        [
+         -0.008727,
+         0.999962,
+         64.724061
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "dpose": {
+        "head": 0.0,
+        "arm": -3.0
+       }
+      }
+     }
+    },
+    {
+     "f": 22,
+     "label": "step 2 pass",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999962,
+         -0.008727,
+         -903.797127
+        ],
+        [
+         0.008727,
+         0.999962,
+         22.432848
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "dpose": {
+        "head": 2.0,
+        "arm": 0.0
+       }
+      }
+     }
+    },
+    {
+     "f": 24,
+     "label": "step 3 contact",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999657,
+         -0.026177,
+         -784.049796
+        ],
+        [
+         0.026177,
+         0.999657,
+         -19.034041
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "dpose": {
+        "head": 0.0,
+        "arm": 3.0
+       }
+      }
+     }
+    },
+    {
+     "f": 26,
+     "label": "step 3 pass",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999962,
+         -0.008727,
+         -761.135765
+        ],
+        [
+         0.008727,
+         0.999962,
+         14.956283
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "dpose": {
+        "head": -2.0,
+        "arm": 0.0
+       }
+      }
+     }
+    },
+    {
+     "f": 28,
+     "label": "step 3 up",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999962,
+         0.008727,
+         -737.312017
+        ],
+        [
+         -0.008727,
+         0.999962,
+         49.77093
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "dpose": {
+        "head": 0.0,
+        "arm": -3.0
+       }
+      }
+     }
+    },
+    {
+     "f": 30,
+     "label": "step 3 pass",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999962,
+         -0.008727,
+         -618.474403
+        ],
+        [
+         0.008727,
+         0.999962,
+         7.479718
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "dpose": {
+        "head": 2.0,
+        "arm": 0.0
+       }
+      }
+     }
+    },
+    {
+     "f": 32,
+     "label": "step 4 contact",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999657,
+         -0.026177,
+         -498.727072
+        ],
+        [
+         0.026177,
+         0.999657,
+         -33.987171
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "dpose": {
+        "head": 0.0,
+        "arm": 3.0
+       }
+      }
+     }
+    },
+    {
+     "f": 34,
+     "label": "step 4 pass",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999962,
+         -0.008727,
+         -475.813041
+        ],
+        [
+         0.008727,
+         0.999962,
+         0.003152
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "dpose": {
+        "head": -2.0,
+        "arm": 0.0
+       }
+      }
+     }
+    },
+    {
+     "f": 36,
+     "label": "step 4 up",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999962,
+         0.008727,
+         -451.989293
+        ],
+        [
+         -0.008727,
+         0.999962,
+         34.8178
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "dpose": {
+        "head": 0.0,
+        "arm": -3.0
+       }
+      }
+     }
+    },
+    {
+     "f": 38,
+     "label": "step 4 pass",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999962,
+         -0.008727,
+         -333.151679
+        ],
+        [
+         0.008727,
+         0.999962,
+         -7.473413
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "dpose": {
+        "head": 2.0,
+        "arm": 0.0
+       }
+      }
+     }
+    },
+    {
+     "f": 40,
+     "label": "step 5 contact",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999657,
+         -0.026177,
+         -213.404348
+        ],
+        [
+         0.026177,
+         0.999657,
+         -48.940301
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "dpose": {
+        "head": 0.0,
+        "arm": 3.0
+       }
+      }
+     }
+    },
+    {
+     "f": 42,
+     "label": "step 5 pass",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999962,
+         -0.008727,
+         -190.490316
+        ],
+        [
+         0.008727,
+         0.999962,
+         -14.949978
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "dpose": {
+        "head": -2.0,
+        "arm": 0.0
+       }
+      }
+     }
+    },
+    {
+     "f": 44,
+     "label": "step 5 up",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999962,
+         0.008727,
+         -166.666569
+        ],
+        [
+         -0.008727,
+         0.999962,
+         19.86467
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "dpose": {
+        "head": 0.0,
+        "arm": -3.0
+       }
+      }
+     }
+    },
+    {
+     "f": 46,
+     "label": "step 5 pass",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "post": [
+        [
+         0.999962,
+         -0.008727,
+         -47.828954
+        ],
+        [
+         0.008727,
+         0.999962,
+         -22.426543
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "dpose": {
+        "head": 2.0,
+        "arm": 0.0
+       }
+      }
+     }
+    },
+    {
+     "f": 48,
+     "label": "rest: mid-step past the SERVICE door (action end)",
+     "rest": true,
+     "state": {}
+    }
+   ],
+   "balloons": [],
+   "action_end_f": 48,
+   "holds": {},
+   "sounds": [
+    {
+     "f": 8,
+     "cue": "footstep"
+    },
+    {
+     "f": 16,
+     "cue": "footstep"
+    },
+    {
+     "f": 24,
+     "cue": "footstep"
+    },
+    {
+     "f": 32,
+     "cue": "footstep"
+    },
+    {
+     "f": 40,
+     "cue": "footstep"
+    }
+   ],
+   "action_end_vs_page_mean_abs": 0.0,
+   "last_frame_vs_page_mean_abs": 0.0,
+   "distinct_poses": 22,
+   "pose_changes_on_twos": true
+  },
+  "S4": {
+   "panel": "P4",
+   "film_in_f": 456,
+   "film_out_f": 576,
+   "film_in_s": 19.0,
+   "frames": 120,
+   "keys": [
+    {
+     "f": 0,
+     "label": "window, visitor beyond the glass",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "hidden": true
+      },
+      "visitor_dx": -24.0,
+      "balloons": {}
+     }
+    },
+    {
+     "f": 4,
+     "label": "steps in 1",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pre": [
+        [
+         1,
+         0,
+         170.0
+        ],
+        [
+         0,
+         1,
+         6.0
+        ],
+        [
+         0,
+         0,
+         1
+        ]
+       ],
+       "dpose": {
+        "head": 12.0
+       }
+      },
+      "visitor_dx": -24.0
+     }
+    },
+    {
+     "f": 6,
+     "label": "steps in 2",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pre": [
+        [
+         1,
+         0,
+         130.0
+        ],
+        [
+         0,
+         1,
+         0.0
+        ],
+        [
+         0,
+         0,
+         1
+        ]
+       ],
+       "dpose": {
+        "head": 13.5
+       }
+      },
+      "visitor_dx": -24.0
+     }
+    },
+    {
+     "f": 8,
+     "label": "steps in 3",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pre": [
+        [
+         1,
+         0,
+         90.0
+        ],
+        [
+         0,
+         1,
+         -6.0
+        ],
+        [
+         0,
+         0,
+         1
+        ]
+       ],
+       "dpose": {
+        "head": 12.0
+       }
+      },
+      "visitor_dx": -24.0
+     }
+    },
+    {
+     "f": 10,
+     "label": "steps in 4",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pre": [
+        [
+         1,
+         0,
+         55.0
+        ],
+        [
+         0,
+         1,
+         0.0
+        ],
+        [
+         0,
+         0,
+         1
+        ]
+       ],
+       "dpose": {
+        "head": 13.5
+       }
+      },
+      "visitor_dx": -24.0
+     }
+    },
+    {
+     "f": 12,
+     "label": "steps in 5",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pre": [
+        [
+         1,
+         0,
+         25.0
+        ],
+        [
+         0,
+         1,
+         6.0
+        ],
+        [
+         0,
+         0,
+         1
+        ]
+       ],
+       "dpose": {
+        "head": 12.0
+       }
+      },
+      "visitor_dx": -24.0
+     }
+    },
+    {
+     "f": 14,
+     "label": "HALT (bell): torso overshoots, head overlaps",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pre": [
+        [
+         1,
+         0,
+         -7.0
+        ],
+        [
+         0,
+         1,
+         2.0
+        ],
+        [
+         0,
+         0,
+         1
+        ]
+       ],
+       "dpose": {
+        "head": 16.0
+       }
+      },
+      "visitor_dx": -24.0
+     }
+    },
+    {
+     "f": 16,
+     "label": "settle",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pre": [
+        [
+         1,
+         0,
+         0.0
+        ],
+        [
+         0,
+         1,
+         0.0
+        ],
+        [
+         0,
+         0,
+         1
+        ]
+       ],
+       "dpose": {
+        "head": 13.5
+       }
+      },
+      "visitor_dx": -24.0
+     }
+    },
+    {
+     "f": 18,
+     "label": "hold, head still away",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "dpose": {
+        "head": 12.0
+       }
+      },
+      "visitor_dx": -24.0
+     }
+    },
+    {
+     "f": 22,
+     "label": "visitor shifts 1",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "dpose": {
+        "head": 12.0
+       }
+      },
+      "visitor_dx": -15.0
+     }
+    },
+    {
+     "f": 24,
+     "label": "visitor shifts 2",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "dpose": {
+        "head": 12.0
+       }
+      },
+      "visitor_dx": -6.0
+     }
+    },
+    {
+     "f": 26,
+     "label": "visitor at rest",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "dpose": {
+        "head": 12.0
+       }
+      },
+      "visitor_dx": 0.0
+     }
+    },
+    {
+     "f": 56,
+     "label": "head swing 1",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "dpose": {
+        "head": 8.0
+       }
+      }
+     }
+    },
+    {
+     "f": 58,
+     "label": "head swing 2",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "dpose": {
+        "head": 3.5
+       }
+      }
+     }
+    },
+    {
+     "f": 60,
+     "label": "head swing 3 = rest, facing the window (action end)",
+     "rest": true,
+     "state": {}
+    }
+   ],
+   "balloons": [
+    {
+     "id": "b_what_time",
+     "land": 40,
+     "drop_frames": [
+      37,
+      38,
+      39,
+      40
+     ],
+     "read_hold_until": 76,
+     "land_vs_page_mean_abs": "action still running at land; final frame checked"
+    }
+   ],
+   "action_end_f": 60,
+   "holds": {},
+   "sounds": [
+    {
+     "f": 4,
+     "cue": "footstep"
+    },
+    {
+     "f": 10,
+     "cue": "footstep"
+    },
+    {
+     "f": 14,
+     "cue": "counter_bell"
+    },
+    {
+     "f": 40,
+     "cue": "paper_tap"
+    }
+   ],
+   "action_end_vs_page_mean_abs": 0.0,
+   "last_frame_vs_page_mean_abs": 0.0,
+   "distinct_poses": 19,
+   "pose_changes_on_twos": true
+  },
+  "S5": {
+   "panel": "P5",
+   "film_in_f": 576,
+   "film_out_f": 696,
+   "film_in_s": 24.0,
+   "frames": 120,
+   "keys": [
+    {
+     "f": 0,
+     "label": "head down, clock at 4:09",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "dpose": {
+        "head": 6.0
+       }
+      },
+      "minute_delta_deg": -6.0
+     }
+    },
+    {
+     "f": 18,
+     "label": "head up 1",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "dpose": {
+        "head": 3.0
+       }
+      },
+      "minute_delta_deg": -6.0
+     }
+    },
+    {
+     "f": 20,
+     "label": "head up 2 = rest (looks up at the clock)",
+     "rest": false,
+     "state": {
+      "minute_delta_deg": -6.0
+     }
+    },
+    {
+     "f": 36,
+     "label": "minute hand jumps onto the 2 (overshoot)",
+     "rest": false,
+     "state": {
+      "minute_delta_deg": 1.2
+     }
+    },
+    {
+     "f": 38,
+     "label": "settles: 4:10 = rest (action end)",
+     "rest": true,
+     "state": {}
+    }
+   ],
+   "balloons": [
+    {
+     "id": "b_ten_past",
+     "land": 56,
+     "drop_frames": [
+      53,
+      54,
+      55,
+      56
+     ],
+     "read_hold_until": 92,
+     "land_vs_page_mean_abs": 0.0
+    }
+   ],
+   "action_end_f": 38,
+   "holds": {},
+   "sounds": [
+    {
+     "f": 12,
+     "cue": "clock_tick"
+    },
+    {
+     "f": 36,
+     "cue": "clock_tick_close"
+    },
+    {
+     "f": 56,
+     "cue": "paper_tap"
+    },
+    {
+     "f": 84,
+     "cue": "clock_tick"
+    }
+   ],
+   "action_end_vs_page_mean_abs": 18.302,
+   "last_frame_vs_page_mean_abs": 0.0,
+   "distinct_poses": 9,
+   "pose_changes_on_twos": true
+  },
+  "S6": {
+   "panel": "P6",
+   "film_in_f": 696,
+   "film_out_f": 816,
+   "film_in_s": 29.0,
+   "frames": 120,
+   "keys": [
+    {
+     "f": 0,
+     "label": "empty window",
+     "rest": true,
+     "state": {}
+    },
+    {
+     "f": 26,
+     "label": "lamp sway 1",
+     "rest": false,
+     "state": {
+      "lamp": 2.2
+     }
+    },
+    {
+     "f": 30,
+     "label": "lamp sway 2",
+     "rest": false,
+     "state": {
+      "lamp": -1.4
+     }
+    },
+    {
+     "f": 34,
+     "label": "lamp settles",
+     "rest": false,
+     "state": {
+      "lamp": 0.5
+     }
+    },
+    {
+     "f": 38,
+     "label": "rest (action end)",
+     "rest": true,
+     "state": {}
+    }
+   ],
+   "balloons": [
+    {
+     "id": "b_thanks",
+     "land": 16,
+     "drop_frames": [
+      13,
+      14,
+      15,
+      16
+     ],
+     "read_hold_until": 52,
+     "land_vs_page_mean_abs": "action still running at land; final frame checked"
+    }
+   ],
+   "action_end_f": 38,
+   "holds": {},
+   "sounds": [
+    {
+     "f": 16,
+     "cue": "paper_tap"
+    },
+    {
+     "f": 20,
+     "cue": "steps_receding",
+     "len_f": 70
+    },
+    {
+     "f": 24,
+     "cue": "platform_distant",
+     "len_f": 96
+    }
+   ],
+   "action_end_vs_page_mean_abs": 0.0,
+   "last_frame_vs_page_mean_abs": 0.0,
+   "distinct_poses": 9,
+   "pose_changes_on_twos": true
+  },
+  "S7": {
+   "panel": "P7",
+   "film_in_f": 816,
+   "film_out_f": 936,
+   "film_in_s": 34.0,
+   "frames": 120,
+   "keys": [
+    {
+     "f": 0,
+     "label": "cupboard shut",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "hidden": true
+      },
+      "door": {
+       "theta": 0.0
+      }
+     }
+    },
+    {
+     "f": 6,
+     "label": "arrives, step 1",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pre": [
+        [
+         1,
+         0,
+         300.0
+        ],
+        [
+         0,
+         1,
+         7.0
+        ],
+        [
+         0,
+         0,
+         1
+        ]
+       ],
+       "dpose": {
+        "head": 1.5
+       }
+      },
+      "door": {
+       "theta": 0.0
+      }
+     }
+    },
+    {
+     "f": 8,
+     "label": "arrives, step 2",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pre": [
+        [
+         1,
+         0,
+         240.0
+        ],
+        [
+         0,
+         1,
+         0.0
+        ],
+        [
+         0,
+         0,
+         1
+        ]
+       ],
+       "dpose": {
+        "head": 0
+       }
+      },
+      "door": {
+       "theta": 0.0
+      }
+     }
+    },
+    {
+     "f": 10,
+     "label": "arrives, step 3",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pre": [
+        [
+         1,
+         0,
+         180.0
+        ],
+        [
+         0,
+         1,
+         -7.0
+        ],
+        [
+         0,
+         0,
+         1
+        ]
+       ],
+       "dpose": {
+        "head": -1.5
+       }
+      },
+      "door": {
+       "theta": 0.0
+      }
+     }
+    },
+    {
+     "f": 12,
+     "label": "arrives, step 4",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pre": [
+        [
+         1,
+         0,
+         125.0
+        ],
+        [
+         0,
+         1,
+         0.0
+        ],
+        [
+         0,
+         0,
+         1
+        ]
+       ],
+       "dpose": {
+        "head": 0
+       }
+      },
+      "door": {
+       "theta": 0.0
+      }
+     }
+    },
+    {
+     "f": 14,
+     "label": "arrives, step 5",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pre": [
+        [
+         1,
+         0,
+         75.0
+        ],
+        [
+         0,
+         1,
+         7.0
+        ],
+        [
+         0,
+         0,
+         1
+        ]
+       ],
+       "dpose": {
+        "head": 1.5
+       }
+      },
+      "door": {
+       "theta": 0.0
+      }
+     }
+    },
+    {
+     "f": 16,
+     "label": "arrives, step 6",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pre": [
+        [
+         1,
+         0,
+         35.0
+        ],
+        [
+         0,
+         1,
+         0.0
+        ],
+        [
+         0,
+         0,
+         1
+        ]
+       ],
+       "dpose": {
+        "head": 0
+       }
+      },
+      "door": {
+       "theta": 0.0
+      }
+     }
+    },
+    {
+     "f": 18,
+     "label": "arrives, step 7",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pre": [
+        [
+         1,
+         0,
+         10.0
+        ],
+        [
+         0,
+         1,
+         -3.0
+        ],
+        [
+         0,
+         0,
+         1
+        ]
+       ],
+       "dpose": {
+        "head": -0.5
+       }
+      },
+      "door": {
+       "theta": 0.0
+      }
+     }
+    },
+    {
+     "f": 20,
+     "label": "at the cupboard (clerk at rest), door shut",
+     "rest": false,
+     "state": {
+      "door": {
+       "theta": 0.0
+      }
+     }
+    },
+    {
+     "f": 40,
+     "label": "latch gives",
+     "rest": false,
+     "state": {
+      "door": {
+       "theta": 4.0
+      }
+     }
+    },
+    {
+     "f": 42,
+     "label": "swing 1 scaleX .87",
+     "rest": false,
+     "state": {
+      "door": {
+       "theta": 30.0
+      }
+     }
+    },
+    {
+     "f": 44,
+     "label": "swing 2 scaleX .57",
+     "rest": false,
+     "state": {
+      "door": {
+       "theta": 55.0
+      }
+     }
+    },
+    {
+     "f": 46,
+     "label": "swing 3 scaleX .26",
+     "rest": false,
+     "state": {
+      "door": {
+       "theta": 75.0
+      }
+     }
+    },
+    {
+     "f": 48,
+     "label": "swing 4 edge-on .03",
+     "rest": false,
+     "state": {
+      "door": {
+       "theta": 88.0
+      }
+     }
+    },
+    {
+     "f": 50,
+     "label": "swing 5 inner face .17, key shows",
+     "rest": false,
+     "state": {
+      "door": {
+       "theta": 100.0
+      }
+     }
+    },
+    {
+     "f": 52,
+     "label": "swing 6 overshoot .39",
+     "rest": false,
+     "state": {
+      "door": {
+       "theta": 113.0
+      }
+     }
+    },
+    {
+     "f": 54,
+     "label": "door at rest (swing .34), key on its hook (action end)",
+     "rest": true,
+     "state": {}
+    }
+   ],
+   "balloons": [],
+   "action_end_f": 54,
+   "holds": {},
+   "sounds": [
+    {
+     "f": 6,
+     "cue": "footstep"
+    },
+    {
+     "f": 14,
+     "cue": "footstep"
+    },
+    {
+     "f": 40,
+     "cue": "door_latch"
+    },
+    {
+     "f": 42,
+     "cue": "door_creak",
+     "len_f": 12
+    }
+   ],
+   "action_end_vs_page_mean_abs": 0.0,
+   "last_frame_vs_page_mean_abs": 0.0,
+   "distinct_poses": 17,
+   "pose_changes_on_twos": true
+  },
+  "S8": {
+   "panel": "P8",
+   "film_in_f": 936,
+   "film_out_f": 1104,
+   "film_in_s": 39.0,
+   "frames": 168,
+   "keys": [
+    {
+     "f": 0,
+     "label": "faces the shelves, head down, arm at his side",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pose": {
+        "arm": -34.0,
+        "pencil": 24.0,
+        "head": 9.0
+       }
+      }
+     }
+    },
+    {
+     "f": 10,
+     "label": "head tilt 1",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pose": {
+        "arm": -34.0,
+        "pencil": 24.0,
+        "head": 6.0
+       }
+      }
+     }
+    },
+    {
+     "f": 14,
+     "label": "head tilt 2",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pose": {
+        "arm": -34.0,
+        "pencil": 24.0,
+        "head": 3.0
+       }
+      }
+     }
+    },
+    {
+     "f": 18,
+     "label": "head tilt 3 (up at the racks)",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pose": {
+        "arm": -34.0,
+        "pencil": 24.0,
+        "head": 0.0
+       }
+      }
+     }
+    },
+    {
+     "f": 26,
+     "label": "arm anticipation (dips)",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pose": {
+        "arm": -36.0,
+        "pencil": 19.0,
+        "head": 0.0
+       }
+      }
+     }
+    },
+    {
+     "f": 28,
+     "label": "arm rise 1",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pose": {
+        "arm": -32.125,
+        "pencil": 34.60639501574913,
+        "head": 0.0
+       }
+      }
+     }
+    },
+    {
+     "f": 30,
+     "label": "arm rise 2",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pose": {
+        "arm": -29.75,
+        "pencil": 48.04116203569802,
+        "head": 0.0
+       }
+      }
+     }
+    },
+    {
+     "f": 32,
+     "label": "arm rise 3",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pose": {
+        "arm": -28.1875,
+        "pencil": 56.8798245488223,
+        "head": 0.0
+       }
+      }
+     }
+    },
+    {
+     "f": 34,
+     "label": "arm rise 4 (overshoot)",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "pose": {
+        "arm": -27.5625,
+        "pencil": 60.415289554072004,
+        "head": 0.0
+       }
+      }
+     }
+    },
+    {
+     "f": 36,
+     "label": "pencil at the chin = rest; HOLD",
+     "rest": true,
+     "state": {}
+    },
+    {
+     "f": 58,
+     "label": "scratch 1",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "dpose": {
+        "pencil": 5.0,
+        "arm": 1.0
+       }
+      }
+     }
+    },
+    {
+     "f": 60,
+     "label": "rest",
+     "rest": true,
+     "state": {}
+    },
+    {
+     "f": 62,
+     "label": "scratch 2",
+     "rest": false,
+     "state": {
+      "clerk": {
+       "dpose": {
+        "pencil": 5.0,
+        "arm": 1.0
+       }
+      }
+     }
+    },
+    {
+     "f": 64,
+     "label": "rest (action end); key never moves",
+     "rest": true,
+     "state": {}
+    }
+   ],
+   "balloons": [
+    {
+     "id": "b_forgot",
+     "land": 84,
+     "drop_frames": [
+      81,
+      82,
+      83,
+      84
+     ],
+     "read_hold_until": 120,
+     "land_vs_page_mean_abs": 0.0
+    }
+   ],
+   "action_end_f": 64,
+   "holds": {
+    "read_hold": [
+     84,
+     120
+    ],
+    "final_hold_2s": [
+     120,
+     168
+    ]
+   },
+   "sounds": [
+    {
+     "f": 84,
+     "cue": "paper_tap"
+    },
+    {
+     "f": 140,
+     "cue": "clock_tick"
+    }
+   ],
+   "action_end_vs_page_mean_abs": 25.35,
+   "last_frame_vs_page_mean_abs": 0.0,
+   "distinct_poses": 18,
+   "pose_changes_on_twos": true
+  }
+ },
+ "total_frames_S0_S8": 1104
+}

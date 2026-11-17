@@ -1,0 +1,63 @@
+{
+ "panel": "V4",
+ "page": "D2",
+ "bounds_page_px": [
+  150,
+  2420,
+  2400,
+  3150
+ ],
+ "composite": "over, in order, starting from 00_bg (opaque)",
+ "layers": [
+  {
+   "order": 0,
+   "file": "00_bg.png",
+   "name": "bg"
+  },
+  {
+   "order": 1,
+   "file": "01_interior_through_glass.png",
+   "name": "interior_through_glass",
+   "through_glass": "interior x t (t 0.62->0.4 down the pane) + window pixels x (1-t)"
+  },
+  {
+   "order": 2,
+   "file": "02_glass_decals.png",
+   "name": "glass_decals",
+   "through_glass": "neon sign / blind hanging inside the glass, re-laid in front"
+  },
+  {
+   "order": 3,
+   "file": "03_visitor.shadow.png",
+   "name": "visitor.shadow"
+  },
+  {
+   "order": 4,
+   "file": "04_visitor.png",
+   "name": "visitor",
+   "piece": "bubley.visitor.hi",
+   "matrix": [
+    [
+     1.024895,
+     0.071668,
+     -280.234783
+    ],
+    [
+     -0.071668,
+     1.024895,
+     117.320362
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 5,
+   "file": "05_border.png",
+   "name": "border"
+  }
+ ]
+}
