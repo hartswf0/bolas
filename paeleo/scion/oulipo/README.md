@@ -1,6 +1,6 @@
 # Oulipo SCION
 
-Twenty-five production swarm prompts and one system-instruction compiler.
+42 production swarm prompts and one system-instruction compiler.
 
 [Open the operator](https://hartswf0.github.io/bolas/paeleo/scion/oulipo/).
 
@@ -34,3 +34,20 @@ Edit the entries in `catalogue/` and run `python3 build.py` from this directory 
 | La Belle Hortense | [Markdown](prompts/la-belle-hortense.md) · [POML](prompts/la-belle-hortense.poml) |
 | Le Maki Mococo | [Markdown](prompts/le-maki-mococo.md) · [POML](prompts/le-maki-mococo.poml) |
 | Any prompt or system | [Markdown](prompts/system-instruction-compiler.md) · [POML](prompts/system-instruction-compiler.poml) |
+| Oulipo | [Markdown](prompts/oulipo.md) · [POML](prompts/oulipo.poml) |
+| Oulipopo | [Markdown](prompts/oulipopo.md) · [POML](prompts/oulipopo.poml) |
+| Oucipo | [Markdown](prompts/oucipo.md) · [POML](prompts/oucipo.poml) |
+| Oupeinpo | [Markdown](prompts/oupeinpo.md) · [POML](prompts/oupeinpo.poml) |
+| ALAMO | [Markdown](prompts/alamo.md) · [POML](prompts/alamo.poml) |
+| Oucuipo | [Markdown](prompts/oucuipo.md) · [POML](prompts/oucuipo.poml) |
+| Outrapo | [Markdown](prompts/outrapo.md) · [POML](prompts/outrapo.poml) |
+| Oubapo | [Markdown](prompts/oubapo.md) · [POML](prompts/oubapo.poml) |
+| Ouhispo | [Markdown](prompts/ouhispo.md) · [POML](prompts/ouhispo.poml) |
+| Ouphopo | [Markdown](prompts/ouphopo.md) · [POML](prompts/ouphopo.poml) |
+| Oumupo | [Markdown](prompts/oumupo.md) · [POML](prompts/oumupo.poml) |
+| Ou’inpo | [Markdown](prompts/ouinpo.md) · [POML](prompts/ouinpo.poml) |
+| Outypopo | [Markdown](prompts/outypopo.md) · [POML](prompts/outypopo.poml) |
+| Ouarchpo | [Markdown](prompts/ouarchpo.md) · [POML](prompts/ouarchpo.poml) |
+| Ougrapo | [Markdown](prompts/ougrapo.md) · [POML](prompts/ougrapo.poml) |
+| Oupolpot | [Markdown](prompts/oupolpot.md) · [POML](prompts/oupolpot.poml) |
+| Exercices de style · Animated | [Markdown](prompts/exercices-de-style-animated.md) · [POML](prompts/exercices-de-style-animated.poml) |
