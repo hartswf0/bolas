@@ -317,7 +317,7 @@ def V4():
     gm = glass_mask((h, w), [bp(Mp, p) for p in GLASS])
     through_glass(P, I.c, gm, plate, transmission_top=0.62, transmission_bottom=0.40, decal=neon_decal(plate, [bp(Mp, p) for p in SIGN]))
     # she walks off past the left edge: the same cut piece, moved along the station front, pitched into the step
-    Mv = Mp @ T(-2685, 10) @ T(*VIS_O) @ about(VIS_HIP, R(-5)) @ T(-VIS_O[0], -VIS_O[1])
+    Mv = Mp @ T(-2372, 10) @ T(*VIS_O) @ about(VIS_HIP, R(-5)) @ T(-VIS_O[0], -VIS_O[1])
     lay_visitor(P, Mv)
     SPEECH["V4"] = []
     return P, I

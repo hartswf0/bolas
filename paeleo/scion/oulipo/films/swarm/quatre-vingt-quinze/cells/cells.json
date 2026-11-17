@@ -1,0 +1,1148 @@
+{
+ "revision": "r0",
+ "page": "assets/pages/quatre-vingt-quinze.png",
+ "page_sha256": "422521e7b4178ab48b20417504b202d1f25b43131e2294a5cea4ac379fea8f6e",
+ "registry_sha256": "da63198504bb685e7e4d858b360a2bbd0fe1ec88a34accde341d92c6ff6a5080",
+ "exposure_sha256": "7acadec4661a6af2eea70814d0a052616282856012380512424acb80829446b4",
+ "film_script_sha256": "7bd63a605a969c0ad0bae9c22db4887c5019f84d6a7211217d106dca56931b22",
+ "routes": {
+  "across": "ABCDEFGHI",
+  "down": "ADGBEHCFI"
+ },
+ "composite_order": "U1 ground -> U3 stencil -> U2 puppets/props (page pose) -> U1 lettering (tail = puppets.mouth_anchor) -> U1 borders/tab",
+ "cells": {
+  "A": {
+   "row": 0,
+   "col": 0,
+   "page_origin": [
+    240,
+    260
+   ],
+   "lettering": [
+    {
+     "kind": "caption",
+     "text": "GARE DE ST-ROCH, 6 H 10.",
+     "seed": 1
+    },
+    {
+     "kind": "balloon",
+     "lines": [
+      "PERSONNE ?"
+     ],
+     "at": [
+      470,
+      150
+     ],
+     "tail_to": [
+      372,
+      206
+     ],
+     "size": 34,
+     "seed": 2
+    }
+   ],
+   "props": [
+    "sealed cream envelope (in visitor's front hand)",
+    "service door, shut, small lit EMPTY window",
+    "FSA waiting-room stencil (pale salmon, U3)"
+   ],
+   "cue": "cue_A.wav",
+   "cue_sha256": "bbb49dc863efd2757932493d32fe0823a53643106a3544cd80163c9ceba56cb6",
+   "outgoing_cues": [
+    "lit empty door window (answered in D by the man's profile)",
+    "the envelope (opened in D)",
+    "the shut door (knocked at in C, closed to the end in I)"
+   ],
+   "balloon_tail_to": [
+    298.2,
+    154.8
+   ],
+   "exposure_sheet": [
+    "A00",
+    "A00",
+    "A01",
+    "A01",
+    "A02",
+    "A02",
+    "A03",
+    "A03",
+    "A04",
+    "A04",
+    "A05",
+    "A05",
+    "A06",
+    "A06",
+    "A07",
+    "A07",
+    "A08",
+    "A08",
+    "A09",
+    "A09",
+    "A10",
+    "A10",
+    "A11",
+    "A11",
+    "A12",
+    "A12",
+    "A12",
+    "A12",
+    "A14",
+    "A14",
+    "A14",
+    "A14",
+    "A14",
+    "A14",
+    "A14",
+    "A14",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18"
+   ],
+   "page_drawing": "A18",
+   "stencil": "stencil_A.png",
+   "film_windows_s": {
+    "across": [
+     3.0,
+     6.0
+    ],
+    "down": [
+     32.0,
+     35.0
+    ]
+   },
+   "png": "films/swarm/quatre-vingt-quinze/cells/A.png",
+   "sha256": "7fcd67f2e76e62c9bc0e469e32a410fb98afb4a8b6bb6b2ec872f1250e4e1887",
+   "revision": "r0"
+  },
+  "B": {
+   "row": 0,
+   "col": 1,
+   "page_origin": [
+    1230,
+    260
+   ],
+   "lettering": [
+    {
+     "kind": "sfx",
+     "text": "DING !",
+     "at": [
+      715,
+      165
+     ],
+     "size": 72,
+     "tilt": -12,
+     "seed": 11
+    },
+    {
+     "kind": "sfx",
+     "text": "DING !",
+     "at": [
+      748,
+      318
+     ],
+     "size": 72,
+     "tilt": -5,
+     "seed": 12
+    }
+   ],
+   "props": [
+    "bell on wall bracket (close-up)",
+    "red pull-cord off the left edge"
+   ],
+   "cue": "cue_B.wav",
+   "cue_sha256": "93eef832f0b5da5b0c5eb5ff677a7b2238136c7d884f35cecd801222843109cc",
+   "outgoing_cues": [
+    "red cord leaving left (the same cord G hauls)",
+    "bell hangs directly above E on the page: E's up-turned head looks at it"
+   ],
+   "balloon_tail_to": null,
+   "exposure_sheet": [
+    "B00",
+    "B00",
+    "B01",
+    "B01",
+    "B02",
+    "B02",
+    "B03",
+    "B03",
+    "B04",
+    "B04",
+    "B05",
+    "B05",
+    "B06",
+    "B06",
+    "B07",
+    "B07",
+    "B08",
+    "B08",
+    "B09",
+    "B09",
+    "B10",
+    "B10",
+    "B11",
+    "B11",
+    "B12",
+    "B12",
+    "B13",
+    "B13",
+    "B14",
+    "B14",
+    "B15",
+    "B15",
+    "B16",
+    "B16",
+    "B17",
+    "B17",
+    "B18",
+    "B18",
+    "B19",
+    "B19",
+    "B20",
+    "B20",
+    "B21",
+    "B21",
+    "B22",
+    "B22",
+    "B23",
+    "B23",
+    "B24",
+    "B24",
+    "B25",
+    "B25",
+    "B26",
+    "B26",
+    "B27",
+    "B27",
+    "B28",
+    "B28",
+    "B29",
+    "B29",
+    "B30",
+    "B30",
+    "B31",
+    "B31",
+    "B31",
+    "B31",
+    "B31",
+    "B31",
+    "B31",
+    "B31",
+    "B31",
+    "B31"
+   ],
+   "page_drawing": "B31",
+   "stencil": null,
+   "film_windows_s": {
+    "across": [
+     6.0,
+     9.0
+    ],
+    "down": [
+     41.0,
+     44.0
+    ]
+   },
+   "png": "films/swarm/quatre-vingt-quinze/cells/B.png",
+   "sha256": "62d533bfadf72d3adad40e2d111be005da1fe4b3d7e5b9d8ad20bd098c82961a",
+   "revision": "r0"
+  },
+  "C": {
+   "row": 0,
+   "col": 2,
+   "page_origin": [
+    2220,
+    260
+   ],
+   "lettering": [
+    {
+     "kind": "sfx",
+     "text": "TOC TOC.",
+     "at": [
+      252,
+      128
+     ],
+     "size": 60,
+     "tilt": -9,
+     "seed": 31
+    }
+   ],
+   "props": [
+    "service door, shut",
+    "visitor's raised fist"
+   ],
+   "cue": "cue_C.wav",
+   "cue_sha256": "1f74c2825ad7ea786695584eb1240921c97112b6b40d85759b47c82c11383b63",
+   "outgoing_cues": [
+    "the door never moves"
+   ],
+   "balloon_tail_to": [
+    388.5,
+    160.1
+   ],
+   "exposure_sheet": [
+    "C00",
+    "C00",
+    "C00",
+    "C00",
+    "C02",
+    "C02",
+    "C03",
+    "C03",
+    "C04",
+    "C04",
+    "C05",
+    "C05",
+    "C06",
+    "C06",
+    "C07",
+    "C07",
+    "C08",
+    "C08",
+    "C09",
+    "C09",
+    "C10",
+    "C10",
+    "C11",
+    "C11",
+    "C12",
+    "C12",
+    "C13",
+    "C13",
+    "C14",
+    "C14",
+    "C15",
+    "C15",
+    "C16",
+    "C16",
+    "C17",
+    "C17",
+    "C18",
+    "C18",
+    "C18",
+    "C18",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20"
+   ],
+   "page_drawing": "C20",
+   "stencil": null,
+   "film_windows_s": {
+    "across": [
+     9.0,
+     12.0
+    ],
+    "down": [
+     50.0,
+     53.0
+    ]
+   },
+   "png": "films/swarm/quatre-vingt-quinze/cells/C.png",
+   "sha256": "3c407ae908c4b769c89b97df0b27cc6b3860f71d4dcd3097075fc6a89f92fc5f",
+   "revision": "r0"
+  },
+  "D": {
+   "row": 1,
+   "col": 0,
+   "page_origin": [
+    240,
+    950
+   ],
+   "lettering": [
+    {
+     "kind": "balloon",
+     "lines": [
+      "UNE CL\u00c9 ?"
+     ],
+     "at": [
+      176,
+      96
+     ],
+     "tail_to": [
+      318,
+      214
+     ],
+     "size": 36,
+     "seed": 41
+    }
+   ],
+   "props": [
+    "bench",
+    "envelope torn open",
+    "brass key (CC0 cutout) with red thread through the bow",
+    "capped man's profile in the lit door window"
+   ],
+   "cue": "cue_D.wav",
+   "cue_sha256": "22370e3539b8f24258768e08af9770ca0af39df4fd161a83771237323086af6e",
+   "outgoing_cues": [
+    "the key in her hand (lifted in E)",
+    "the watcher in the window (pulls the cord in G; gone in H)"
+   ],
+   "balloon_tail_to": [
+    270.9,
+    208.1
+   ],
+   "exposure_sheet": [
+    "D00",
+    "D00",
+    "D01",
+    "D01",
+    "D02",
+    "D02",
+    "D03",
+    "D03",
+    "D04",
+    "D04",
+    "D05",
+    "D05",
+    "D06",
+    "D06",
+    "D07",
+    "D07",
+    "D08",
+    "D08",
+    "D09",
+    "D09",
+    "D10",
+    "D10",
+    "D11",
+    "D11",
+    "D12",
+    "D12",
+    "D13",
+    "D13",
+    "D14",
+    "D14",
+    "D15",
+    "D15",
+    "D16",
+    "D16",
+    "D17",
+    "D17",
+    "D18",
+    "D18",
+    "D19",
+    "D19",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20"
+   ],
+   "page_drawing": "D20",
+   "stencil": null,
+   "film_windows_s": {
+    "across": [
+     12.0,
+     15.0
+    ],
+    "down": [
+     35.0,
+     38.0
+    ]
+   },
+   "png": "films/swarm/quatre-vingt-quinze/cells/D.png",
+   "sha256": "75ab9c19ce47ef0e77600f16ee354e06b2fbfeb8762de13f4f05fdbd28af4dbc",
+   "revision": "r0"
+  },
+  "E": {
+   "row": 1,
+   "col": 1,
+   "page_origin": [
+    1230,
+    950
+   ],
+   "lettering": [
+    {
+     "kind": "balloon",
+     "lines": [
+      "C'EST POUR",
+      "MOI ?"
+     ],
+     "at": [
+      196,
+      108
+     ],
+     "tail_to": [
+      372,
+      176
+     ],
+     "size": 38,
+     "seed": 51
+    }
+   ],
+   "props": [
+    "brass key raised HIGH at arm's length, glint",
+    "visitor's head turned up toward the panel top"
+   ],
+   "cue": "cue_E.wav",
+   "cue_sha256": "1d5850df4e16c3944e8bddf649f2a783da45030968919592ca1fdcc999e2f22f",
+   "outgoing_cues": [
+    "the question, answered by F's TANT PIS. (across) / by H's emptiness (down)"
+   ],
+   "balloon_tail_to": [
+    423.7,
+    157.1
+   ],
+   "exposure_sheet": [
+    "E00",
+    "E00",
+    "E01",
+    "E01",
+    "E02",
+    "E02",
+    "E03",
+    "E03",
+    "E04",
+    "E04",
+    "E05",
+    "E05",
+    "E06",
+    "E06",
+    "E07",
+    "E07",
+    "E08",
+    "E08",
+    "E09",
+    "E09",
+    "E10",
+    "E10",
+    "E11",
+    "E11",
+    "E12",
+    "E12",
+    "E13",
+    "E13",
+    "E14",
+    "E14",
+    "E15",
+    "E15",
+    "E16",
+    "E16",
+    "E17",
+    "E17",
+    "E18",
+    "E18",
+    "E19",
+    "E19",
+    "E20",
+    "E20",
+    "E21",
+    "E21",
+    "E22",
+    "E22",
+    "E23",
+    "E23",
+    "E24",
+    "E24",
+    "E25",
+    "E25",
+    "E26",
+    "E26",
+    "E27",
+    "E27",
+    "E28",
+    "E28",
+    "E29",
+    "E29",
+    "E30",
+    "E30",
+    "E31",
+    "E31",
+    "E31",
+    "E31",
+    "E31",
+    "E31",
+    "E31",
+    "E31",
+    "E31",
+    "E31"
+   ],
+   "page_drawing": "E31",
+   "stencil": null,
+   "film_windows_s": {
+    "across": [
+     15.0,
+     18.0
+    ],
+    "down": [
+     44.0,
+     47.0
+    ]
+   },
+   "png": "films/swarm/quatre-vingt-quinze/cells/E.png",
+   "sha256": "783ac8850a88c4c61cc6915127c74753e031977303ee8088c130076856fedb8b",
+   "revision": "r0"
+  },
+  "F": {
+   "row": 1,
+   "col": 2,
+   "page_origin": [
+    2220,
+    950
+   ],
+   "lettering": [
+    {
+     "kind": "balloon",
+     "lines": [
+      "TANT PIS."
+     ],
+     "at": [
+      310,
+      104
+     ],
+     "tail_to": [
+      196,
+      204
+     ],
+     "size": 36,
+     "seed": 61
+    }
+   ],
+   "props": [
+    "key lying on the bench, red thread trailing off the right edge",
+    "visitor walking out left"
+   ],
+   "cue": "cue_F.wav",
+   "cue_sha256": "0754f964035a87acd369927926030a668d40f72715417e1f2acdc35a2b1e8282",
+   "outgoing_cues": [
+    "red thread off right edge (taut into the door gap in I)"
+   ],
+   "balloon_tail_to": null,
+   "exposure_sheet": [
+    "F00",
+    "F00",
+    "F01",
+    "F01",
+    "F02",
+    "F02",
+    "F03",
+    "F03",
+    "F04",
+    "F04",
+    "F05",
+    "F05",
+    "F06",
+    "F06",
+    "F07",
+    "F07",
+    "F07",
+    "F07",
+    "F09",
+    "F09",
+    "F10",
+    "F10",
+    "F11",
+    "F11",
+    "F12",
+    "F12",
+    "F13",
+    "F13",
+    "F14",
+    "F14",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15"
+   ],
+   "page_drawing": "F15",
+   "stencil": null,
+   "film_windows_s": {
+    "across": [
+     18.0,
+     21.0
+    ],
+    "down": [
+     53.0,
+     56.0
+    ]
+   },
+   "png": "films/swarm/quatre-vingt-quinze/cells/F.png",
+   "sha256": "fee7092a62432fb694646ea187eb1229cc358fb0bb1011e179e99baf1086d2cf",
+   "revision": "r0"
+  },
+  "G": {
+   "row": 2,
+   "col": 0,
+   "page_origin": [
+    240,
+    1640
+   ],
+   "lettering": [
+    {
+     "kind": "caption",
+     "text": "IL TIRE LA CORDE.",
+     "seed": 71
+    }
+   ],
+   "props": [
+    "capped man in a lit salmon interior behind the service door",
+    "red cord rising out of the top-right, clear of his hands and head"
+   ],
+   "cue": "cue_G.wav",
+   "cue_sha256": "710111577074ffd87b98ffd38995c5ae7df52d8c6a9f863f01b2fd5349e082cd",
+   "outgoing_cues": [
+    "cord rising top-right (to B's bell, down route next cell)"
+   ],
+   "balloon_tail_to": null,
+   "exposure_sheet": [
+    "G00",
+    "G00",
+    "G00",
+    "G00",
+    "G02",
+    "G02",
+    "G03",
+    "G03",
+    "G04",
+    "G04",
+    "G04",
+    "G04",
+    "G06",
+    "G06",
+    "G07",
+    "G07",
+    "G08",
+    "G08",
+    "G08",
+    "G08",
+    "G10",
+    "G10",
+    "G11",
+    "G11",
+    "G12",
+    "G12",
+    "G12",
+    "G12",
+    "G14",
+    "G14",
+    "G15",
+    "G15",
+    "G16",
+    "G16",
+    "G16",
+    "G16",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18"
+   ],
+   "page_drawing": "G18",
+   "stencil": null,
+   "film_windows_s": {
+    "across": [
+     21.0,
+     24.0
+    ],
+    "down": [
+     38.0,
+     41.0
+    ]
+   },
+   "png": "films/swarm/quatre-vingt-quinze/cells/G.png",
+   "sha256": "2e7a21970d543fec9a6da3f4af5eeb8702fe4fdd483eaf69bad25ca2de22acf6",
+   "revision": "r0"
+  },
+  "H": {
+   "row": 2,
+   "col": 1,
+   "page_origin": [
+    1230,
+    1640
+   ],
+   "lettering": [
+    {
+     "kind": "caption",
+     "text": "PLUS PERSONNE.",
+     "seed": 81
+    }
+   ],
+   "props": [
+    "empty bench (FSA stencil, mid salmon, U3)",
+    "door window, light going out"
+   ],
+   "cue": "cue_H.wav",
+   "cue_sha256": "c909b22fc6f9f56183383a1af02db4b168bca294eb7f0a1bb5716e546a5ba796",
+   "outgoing_cues": [
+    "dark window: the watcher has gone"
+   ],
+   "balloon_tail_to": null,
+   "exposure_sheet": [
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H10",
+    "H10",
+    "H10",
+    "H10",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12"
+   ],
+   "page_drawing": "H12",
+   "stencil": "stencil_H.png",
+   "film_windows_s": {
+    "across": [
+     24.0,
+     27.0
+    ],
+    "down": [
+     47.0,
+     50.0
+    ]
+   },
+   "png": "films/swarm/quatre-vingt-quinze/cells/H.png",
+   "sha256": "98be2e1385ec783094a2213a1d7625d582613773c552b794fa67d89eeba5f9cd",
+   "revision": "r0"
+  },
+  "I": {
+   "row": 2,
+   "col": 2,
+   "page_origin": [
+    2220,
+    1640
+   ],
+   "lettering": [
+    {
+     "kind": "balloon",
+     "lines": [
+      "MERCI."
+     ],
+     "at": [
+      782,
+      140
+     ],
+     "tail_to": [
+      640,
+      252
+     ],
+     "size": 36,
+     "seed": 91
+    }
+   ],
+   "props": [
+    "service door, shut",
+    "brass key half drawn under the door, red thread taut into the gap",
+    "balloon tail from behind the door"
+   ],
+   "cue": "cue_I.wav",
+   "cue_sha256": "eb27c4862596394cf2fa09cd8f6fa206995f9791478db45e8db63e7ad110172a",
+   "outgoing_cues": [
+    "end of both routes"
+   ],
+   "balloon_tail_to": [
+    636.0,
+    250.0
+   ],
+   "exposure_sheet": [
+    "I00",
+    "I00",
+    "I00",
+    "I00",
+    "I00",
+    "I00",
+    "I00",
+    "I00",
+    "I00",
+    "I00",
+    "I00",
+    "I00",
+    "I06",
+    "I06",
+    "I06",
+    "I06",
+    "I06",
+    "I06",
+    "I06",
+    "I06",
+    "I10",
+    "I10",
+    "I10",
+    "I10",
+    "I12",
+    "I12",
+    "I12",
+    "I12",
+    "I14",
+    "I14",
+    "I14",
+    "I14",
+    "I16",
+    "I16",
+    "I16",
+    "I16",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18"
+   ],
+   "page_drawing": "I18",
+   "stencil": null,
+   "film_windows_s": {
+    "across": [
+     27.0,
+     30.0
+    ],
+    "down": [
+     56.0,
+     59.0
+    ]
+   },
+   "png": "films/swarm/quatre-vingt-quinze/cells/I.png",
+   "sha256": "31de741aa428c277008551472009b8d161454143ac84f71fe290ef404a99047f",
+   "revision": "r0"
+  }
+ }
+}

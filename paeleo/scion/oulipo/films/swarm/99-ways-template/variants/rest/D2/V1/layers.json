@@ -5,7 +5,7 @@
   150,
   330,
   2400,
-  1330
+  1250
  ],
  "composite": "over, in order, starting from 00_bg (opaque)",
  "layers": [
@@ -16,12 +16,24 @@
   },
   {
    "order": 1,
-   "file": "01_visitor.shadow.png",
-   "name": "visitor.shadow"
+   "file": "01_interior_through_glass.png",
+   "name": "interior_through_glass",
+   "through_glass": "interior x t (t 0.62->0.4 down the pane) + window pixels x (1-t)"
   },
   {
    "order": 2,
-   "file": "02_visitor.png",
+   "file": "02_glass_decals.png",
+   "name": "glass_decals",
+   "through_glass": "neon sign / blind hanging inside the glass, re-laid in front"
+  },
+  {
+   "order": 3,
+   "file": "03_visitor.shadow.png",
+   "name": "visitor.shadow"
+  },
+  {
+   "order": 4,
+   "file": "04_visitor.png",
    "name": "visitor",
    "piece": "bubley.visitor.hi",
    "matrix": [
@@ -43,8 +55,8 @@
    ]
   },
   {
-   "order": 3,
-   "file": "03_border.png",
+   "order": 5,
+   "file": "05_border.png",
    "name": "border"
   }
  ]
