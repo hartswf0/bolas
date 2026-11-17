@@ -479,10 +479,8 @@ def bell_angles(t):
 
 
 def bell_cell(ink, drawing):
-    t = 2.6 if drawing is None else drawing / 12.0
+    t = drawing / 12.0       # drawing 31 (t = 2.583 s, the second strike) is the page pose
     th, ph = bell_angles(t)
-    if drawing is None:
-        th, ph = 14.0, 30.0   # page pose: the strike, bell tipped, clapper against the lip
     px, py = B_PIVOT
     # wall bracket (handmade cut piece)
     ink.poly(S([(60, 30), (96, 30), (96, 230), (60, 230)]), fill=SIL, color=None, width=0)
@@ -513,7 +511,7 @@ def bell_cell(ink, drawing):
     # a paper-white cut along the shoulder (the cut-paper highlight slit)
     ink.stroke(S(apply(B, [(30 * BK, 30 * BK), (44 * BK, 90 * BK), (62 * BK, 150 * BK)])), color=PAPER, width=5 * SS, taper=True, amount=0.3)
     # motion arcs, drawn near the strikes
-    near = drawing is None or any(abs(t - s) < 0.25 for s in B_STRIKES)
+    near = any(abs(t - s) < 0.25 for s in B_STRIKES)
     if near:
         for k, rr in enumerate((330, 362)):
             a0, a1 = math.radians(20 + th), math.radians(52 + th)
@@ -524,9 +522,9 @@ def bell_cell(ink, drawing):
             pts = [(px + rr * math.sin(a), py + rr * math.cos(a)) for a in np.linspace(a0, a1, 10)]
             ink.stroke(S(pts), color=INKC, width=(5 - k) * SS, taper=True, amount=0.6 * SS)
     # SFX: each DING is lettered as it is struck (kinetic lettering); the page pose shows both
-    if drawing is None or t >= B_STRIKES[0]:
+    if t >= B_STRIKES[0] - 0.05:
         sfx(ink, "DING !", 715, 150, 70, -12, seed=11)
-    if drawing is None or t >= B_STRIKES[1]:
+    if t >= B_STRIKES[1] - 0.05:
         sfx(ink, "DING !", 745, 300, 70, -6, seed=12)
 
 
@@ -761,10 +759,13 @@ def cell_I(ink, ground):
 
 # ------------------------------------------------------------ cells ---
 _CACHE = {}
+PAGE_POSE = {"B": 31, "E": 12}  # the last drawing of each animated sheet is what the page prints
 
 
 def cell_image(c, drawing=None):
     """Canonical cell art at 900x600 (rendered at 2x and reduced). drawing=None is the page pose."""
+    if drawing is None:
+        drawing = PAGE_POSE.get(c)
     key = (c, drawing)
     if key in _CACHE:
         return _CACHE[key]
