@@ -426,7 +426,7 @@ _STENCILS = {}
 def get_stencil(name):
     if name not in _STENCILS:
         if name == "H":
-            _STENCILS[name] = stencil((520, 520, 960, 960), (CW * SS, int(CW * SS * 440 / 440 * 0.82)), 70, SAL_MID)
+            _STENCILS[name] = stencil((600, 540, 945, 935), (CW * SS, int(CW * SS * 395 / 345 * 0.62)), 70, SAL_MID)
         elif name == "A":
             _STENCILS[name] = stencil((90, 60, 960, 640), (CW * SS, int(CW * SS * 580 / 870)), 62, SAL_PALE)
         _STENCILS[name].save(SRC / f"stencil_{name}.png")
@@ -668,13 +668,13 @@ def cell_A(ink):
     door(ink, 640, 120, 820, 568, window=(676, 160, 784, 260), lit=True)
     floor_line(ink, 568)
     pose = dict(sh=24, el=34, sh2=-10, el2=10, spine=4, hip=22, knee=-6, hip2=-20, knee2=24)
-    J = visitor(ink, pose, (300, 372), 1, "v_level", "pinch", "relaxed")
+    J = visitor(ink, pose, (250, 392), 1, "v_level", "pinch", "relaxed")
     # sealed cream envelope in the front hand
     ex, ey = origin(J["wrist"])
     ink.poly(S([(ex - 6, ey + 8), (ex + 62, ey - 2), (ex + 66, ey + 38), (ex - 2, ey + 48)]), fill=(250, 240, 214), color=INKC, width=3 * SS)
     ink.line(S([(ex - 6, ey + 8), (ex + 30, ey + 26), (ex + 62, ey - 2)]), color=INKC, width=2.5 * SS)
     caption(ink, "GARE DE ST-ROCH, 6 H 10.", seed=1)
-    balloon(ink, ["PERSONNE ?"], 470, 150, 125, 52, (370, 214), size=34, seed=2)
+    balloon(ink, ["PERSONNE ?"], 470, 130, 130, 50, (372, 196), size=34, seed=2)
 
 
 def cell_C(ink):
@@ -685,7 +685,7 @@ def cell_C(ink):
     # knock marks against the door
     for k, (dx, dy) in enumerate(((0, -30), (14, 0), (0, 30))):
         ink.stroke(S([(552 - k * 2, 250 + dy), (520 - k * 4, 238 + dy * 1.3)]), color=INKC, width=4 * SS)
-    sfx(ink, "TOC TOC.", 150, 130, 58, -9, seed=31)
+    sfx(ink, "TOC TOC.", 250, 120, 58, -9, seed=31)
 
 
 def cell_D(ink, ground):
@@ -728,7 +728,7 @@ def cell_F(ink):
 
 def cell_G(ink, ground):
     floor_line(ink, 568)
-    pose = dict(spine=-8, sh=176, el=14, wr=0, sh2=160, el2=24, hip=10, knee=-6, hip2=-12, knee2=10)
+    pose = dict(spine=-8, sh=146, el=12, wr=0, sh2=124, el2=26, hip=10, knee=-6, hip2=-12, knee2=10)
     J = man(ink, pose, (430, 380), 1, "m_effort", ground=ground)
     w1, w2 = origin(J["wrist"]), origin(J["wrist2"])
     top = (760, -10)
@@ -843,7 +843,7 @@ def scaffold(state="neutral", rail="both", s=1):
     ink.rng = random.Random(95)
     ink.img = Image.new("RGBA", (PW * s, PH * s), (0, 0, 0, 0))
     ink.d = ImageDraw.Draw(ink.img, "RGBA")
-    letter(ink, "quatre-vingt-quinze", PW / 2, 214, 150, 26, INKC, seed=95, flip_every=2, scale=s, track=0.16)
+    letter(ink, "quatre-vingt-quinze", PW / 2, 168, 128, 23, INKC, seed=95, flip_every=2, scale=s, track=0.16)
     for c in CELLS:
         x0, y0 = cell_origin(c)
         ruled_border(ink, x0, y0, s)
