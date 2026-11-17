@@ -1,0 +1,165 @@
+{
+ "incident": "La gare, 18:00-18:07",
+ "slug": "exercices-de-style",
+ "clock": "local station time, minutes 18:00-18:07, one evening",
+ "events": [
+  {
+   "id": "E1",
+   "t": "18:00",
+   "actor": "visitor",
+   "action": "arrives",
+   "object": "sealed envelope (held)",
+   "place": "empty station",
+   "outcome": "visitor present; envelope sealed"
+  },
+  {
+   "id": "E2",
+   "t": "18:02",
+   "actor": "bell",
+   "action": "rings",
+   "object": "station bell",
+   "place": "station",
+   "outcome": "sound (three strokes)"
+  },
+  {
+   "id": "E3",
+   "t": "18:04",
+   "actor": "visitor",
+   "action": "opens",
+   "object": "envelope",
+   "place": "by the bench",
+   "outcome": "envelope torn open"
+  },
+  {
+   "id": "E4",
+   "t": "18:05",
+   "actor": "visitor",
+   "action": "finds",
+   "object": "brass key (inside the envelope)",
+   "place": "by the bench",
+   "outcome": "key in hand"
+  },
+  {
+   "id": "E5",
+   "t": "18:06",
+   "actor": "visitor",
+   "action": "leaves",
+   "object": "brass key",
+   "place": "bench, platform",
+   "outcome": "key on bench"
+  },
+  {
+   "id": "E6",
+   "t": "18:07",
+   "actor": "visitor",
+   "action": "walks away",
+   "object": "-",
+   "place": "station exit",
+   "outcome": "visitor absent"
+  }
+ ],
+ "state_facts": [
+  {
+   "id": "F7",
+   "subject": "service door",
+   "state": "closed",
+   "interval": [
+    "18:00",
+    "18:07"
+   ],
+   "statement": "The service door is closed at every t in [18:00, 18:07]; it is never opened."
+  }
+ ],
+ "edges": [
+  {
+   "from": "E1",
+   "to": "E3",
+   "type": "enable",
+   "certain": true,
+   "why": "he has the envelope"
+  },
+  {
+   "from": "E3",
+   "to": "E4",
+   "type": "enable",
+   "certain": true,
+   "why": "access to the contents"
+  },
+  {
+   "from": "E4",
+   "to": "E5",
+   "type": "enable",
+   "certain": true,
+   "why": "he holds the key"
+  },
+  {
+   "from": "E5",
+   "to": "E6",
+   "type": "precede",
+   "certain": true,
+   "why": "he leaves hands-free (temporal edge, declared)"
+  },
+  {
+   "from": "E2",
+   "to": "E3",
+   "type": "cue",
+   "certain": false,
+   "why": "the bell may prompt the opening; declared uncertain: no telling may assert it as a cause"
+  }
+ ],
+ "roles": {
+  "visitor": "actor: a man in overcoat and bowler (E1, E3-E6)",
+  "bell": "actor: the station bell (E2)",
+  "key": "object: brass key, inside the envelope until E4, on the bench from E5",
+  "envelope": "object: sealed until E3",
+  "bench": "place: the platform bench (E5)",
+  "service door": "witness object: carries F7; never moves",
+  "clerk": "observer added by O_sense only (behind GUICHET 3); not an actor in the incident"
+ },
+ "anchors": {
+  "E1": [
+   "arriv",
+   "pas sur la pierre",
+   "ne voyais rien",
+   "visiteur",
+   "enveloppe cachet"
+  ],
+  "E2": [
+   "cloche",
+   "sonn"
+  ],
+  "E3": [
+   "ouvr",
+   "déchir",
+   "enveloppe"
+  ],
+  "E4": [
+   "trouv",
+   "clé",
+   "éclat",
+   "m'a sortie",
+   "dans l'enveloppe"
+  ],
+  "E5": [
+   "banc",
+   "laiss",
+   "posée",
+   "déposée",
+   "métal sur bois",
+   "tiède"
+  ],
+  "E6": [
+   "s'en va",
+   "départ",
+   "s'éloign",
+   "manteau",
+   "il n'y eut que"
+  ],
+  "F7": [
+   "porte"
+  ]
+ },
+ "rev": "910a7b36c16021d78f308a66d4f84ce71d6bdad1d1b9ddc37da43e235e6f52c9",
+ "rev_rule": "sha256 of the canonical JSON of this object without 'rev' and 'rev_rule' (json.dumps sort_keys=True, separators=(',',':'), ensure_ascii=False, utf-8)",
+ "frozen": "2026-11-17, U1 incident-editor; facts are never edited downstream (INV-LEDGER)"
+}

@@ -1,0 +1,385 @@
+{
+ "schema": "EventAnchor {id, action, role, prop, cue, t} (+ t_end, drawing, frame, protected)",
+ "time_base": {
+  "fps": 24,
+  "drawings": "on twos: drawing d = floor(12 t), frames 2d and 2d+1",
+  "clip_seconds": 7.0,
+  "frames": 168,
+  "drawings_n": 84
+ },
+ "anchors": [
+  {
+   "id": "A0",
+   "action": "destination legible",
+   "role": "bus",
+   "prop": "carved board MADELEINE – BASTILLE",
+   "cue": "throughout",
+   "t": 0.0,
+   "t_end": 7.0,
+   "protected": true,
+   "drawing": 0,
+   "frame": 0
+  },
+  {
+   "id": "A1",
+   "action": "bus slides to its stop; wheels stop turning",
+   "role": "bus",
+   "prop": "rotating cut wheels",
+   "cue": "brake squeal ends",
+   "t": 0.9,
+   "protected": true,
+   "drawing": 10,
+   "frame": 22
+  },
+  {
+   "id": "A2",
+   "action": "runners arrive at the rear platform (crowd of 6-8; count/x/phase seeded)",
+   "role": "runners + jostler",
+   "prop": "rear step",
+   "cue": "footfalls",
+   "t": 1.0,
+   "t_end": 1.1,
+   "protected": true,
+   "note": "arrival window protected; which runners, how many and where are unprotected (rng(seed,'runner',i))",
+   "drawing": 12,
+   "frame": 24
+  },
+  {
+   "id": "A3",
+   "action": "shove: the jostler's flat hand drives into the long-necked man's chest",
+   "role": "jostler -> man",
+   "prop": "flat hand (thumb out)",
+   "cue": "thud",
+   "t": 1.2,
+   "protected": true,
+   "drawing": 14,
+   "frame": 29
+  },
+  {
+   "id": "A4",
+   "action": "stanchion contact: his back meets the brass stanchion, neck whips back",
+   "role": "man",
+   "prop": "stanchion",
+   "cue": "click on brass",
+   "t": 1.3333333333333333,
+   "protected": true,
+   "drawing": 16,
+   "frame": 32
+  },
+  {
+   "id": "A4c",
+   "action": "cord swing: loose cord end swings out and decays",
+   "role": "man (secondary)",
+   "prop": "plaited-cord hat, 3-link chain",
+   "cue": "none (visual)",
+   "t": 1.25,
+   "t_end": 3.2,
+   "protected": true,
+   "measured": {
+    "first_moving_drawing": 15,
+    "energy_ratio_at_3_2": 0.00701
+   },
+   "drawing": 15,
+   "frame": 30
+  },
+  {
+   "id": "A5",
+   "action": "protest: head turns back to the jostler, open hand rises; jostler shrugs",
+   "role": "man, jostler",
+   "prop": "open hand",
+   "cue": "none",
+   "t": 2.0,
+   "t_end": 3.2,
+   "protected": true,
+   "drawing": 24,
+   "frame": 48
+  },
+  {
+   "id": "A5v",
+   "action": "seat vacated: one seated passenger rises and leaves the rear pane (which one is seeded; seat A always ends free)",
+   "role": "passengers p1/p2",
+   "prop": "rear-pane bench",
+   "cue": "none",
+   "t": 3.6,
+   "t_end": 4.6,
+   "protected": false,
+   "drawing": 43,
+   "frame": 86
+  },
+  {
+   "id": "A5d",
+   "action": "duck-in: the man stoops through the bulkhead",
+   "role": "man",
+   "prop": "bulkhead",
+   "cue": "none",
+   "t": 4.333333333333333,
+   "t_end": 5.0,
+   "protected": true,
+   "drawing": 52,
+   "frame": 104
+  },
+  {
+   "id": "A6",
+   "action": "seat taken: the man sits in seat A, seen in the rear pane",
+   "role": "man",
+   "prop": "rear-pane seat A",
+   "cue": "none",
+   "t": 5.5,
+   "protected": true,
+   "drawing": 66,
+   "frame": 132
+  },
+  {
+   "id": "A6w",
+   "action": "seat seen through the window",
+   "role": "man",
+   "prop": "rear pane",
+   "cue": "none",
+   "t": 5.0,
+   "t_end": 7.0,
+   "protected": true,
+   "overhead": "predicted lost (under the roof)",
+   "drawing": 60,
+   "frame": 120
+  },
+  {
+   "id": "A7",
+   "action": "bell: conductor's hand pulls the cord",
+   "role": "conductor",
+   "prop": "bell cord tassel (stage.bell_tassel pull)",
+   "cue": "bell",
+   "t": 6.0,
+   "protected": true,
+   "drawing": 72,
+   "frame": 144
+  },
+  {
+   "id": "A8",
+   "action": "bus pulls away",
+   "role": "bus",
+   "prop": "wheels turn again",
+   "cue": "engine",
+   "t": 6.2,
+   "t_end": 7.0,
+   "protected": true,
+   "drawing": 74,
+   "frame": 149
+  },
+  {
+   "id": "A-neck",
+   "action": "long neck legible",
+   "role": "man",
+   "prop": "m_neck part (28 units, tapered)",
+   "cue": "none",
+   "t": 0.0,
+   "t_end": 7.0,
+   "protected": true,
+   "overhead": "predicted lost (0 neck pixels in plan)",
+   "drawing": 0,
+   "frame": 0
+  },
+  {
+   "id": "A-hat",
+   "action": "cord hat legible",
+   "role": "man",
+   "prop": "soft felt hat, braid of 6 cut notches + loose cord end",
+   "cue": "none",
+   "t": 0.0,
+   "t_end": 7.0,
+   "protected": true,
+   "overhead": "reads as a notched ring + short cord tail",
+   "drawing": 0,
+   "frame": 0
+  }
+ ],
+ "protected_set": [
+  "A0",
+  "A1",
+  "A2",
+  "A3",
+  "A4",
+  "A4c",
+  "A5",
+  "A5d",
+  "A6",
+  "A6w",
+  "A7",
+  "A8",
+  "A-neck",
+  "A-hat"
+ ],
+ "protected_puppets": [
+  "man",
+  "jostler",
+  "conductor"
+ ],
+ "unprotected": [
+  "runner count (6-8), kinds, x, depth, phase, stride, idle holds, chase",
+  "which seated passenger vacates (p1 or p2)",
+  "print grain (per seed, never per frame)"
+ ],
+ "rng": "rng(seed, element_id...) = sha1(('rig', seed) + key) -> RandomState; drawn only for unprotected elements; never by any renderer/projector",
+ "baseline_manifest": {
+  "scene": "platform-bus encounter",
+  "camera": "street-side",
+  "treatment": "cut-paper",
+  "seeds": [
+   417,
+   418
+  ],
+  "duration": 7.0,
+  "fps": 24,
+  "drawings_per_second": 12,
+  "size": [
+   960,
+   540
+  ],
+  "generator_rev": "kit.py procedural animatic / stage-2 / rig-1",
+  "destination": "MADELEINE – BASTILLE"
+ },
+ "baseline_manifest_sha1": "6bb9bc5f4c9d4a1b7f4ce3a164be3cfba801fd6f",
+ "manifest_canonical_form": "json.dumps(m, sort_keys=True, separators=(',', ':'), ensure_ascii=False), sha1 of UTF-8",
+ "stage_geometry_used": {
+  "bus_rest_x": 64.0,
+  "bus_y0": 177.2,
+  "k_bus": 0.8,
+  "platform_x": [
+   614.4,
+   720.0
+  ],
+  "platform_floor_y": 354.8,
+  "step_y": 375.6,
+  "stanchion": {
+   "x": 710.4000000000001,
+   "y_top": 201.2,
+   "y_bot": 358.0,
+   "world": {
+    "x": 710.4000000000001,
+    "z": 231.0
+   }
+  },
+  "bell_cord": {
+   "x": 696.0,
+   "y": 206.79999999999998
+  },
+  "rear_window": {
+   "x0": 528.0,
+   "x1": 608.8000000000001,
+   "y0": 215.6,
+   "y1": 271.6
+  },
+  "board": [
+   296.0,
+   158.0,
+   544.0,
+   182.0
+  ],
+  "wheel_contact_y": 402.0,
+  "bus_extent_x": [
+   139.9,
+   720.0
+  ],
+  "ground_y": {
+   "0.0": 356.0,
+   "40.0": 362.0,
+   "153.5": 402.0,
+   "270.0": 412.0,
+   "330.0": 470.0,
+   "480.0": 530.0
+  }
+ },
+ "evidence": [
+  {
+   "id": "H-rig-parts",
+   "kind": "handmade",
+   "what_it_shows": "hand-placed closed Catmull-Rom part outlines for 8 puppet kinds (man, jostler, conductor, 5 runner/passenger kinds): coat tails, skirts, hands with thumbs (fist/open/flat/grip replacements), profiles with nose and chin, felt hat with 6 cut braid notches, cord end",
+   "made_with": "rig/rig.py SHAPES + smooth_closed",
+   "local_path": "films/swarm/mauro-martino-exercises-in-style/rig/rig.py",
+   "license": "made for this work",
+   "used_as": "all side-view puppets"
+  },
+  {
+   "id": "H-rig-plan",
+   "kind": "handmade",
+   "what_it_shows": "plan forms: hat discs, notched cord ring + cord tail, shoulder ellipses, arm bars, feet",
+   "made_with": "rig.plan_parts",
+   "local_path": "films/swarm/mauro-martino-exercises-in-style/rig/rig.py",
+   "license": "made for this work",
+   "used_as": "overhead condition"
+  },
+  {
+   "id": "H-rig-dyn",
+   "kind": "handmade",
+   "what_it_shows": "3-link cord chain + coat-tail spring simulation",
+   "made_with": "rig.Chain, rig.Spring1",
+   "local_path": "films/swarm/mauro-martino-exercises-in-style/rig/cord-energy.json",
+   "license": "made for this work",
+   "used_as": "secondary motion, I7 evidence"
+  },
+  {
+   "id": "F-bourse-fill (compat only)",
+   "kind": "foraged (not new)",
+   "title": "Greve des autobus - Place de la Bourse (Peyriras, 1933)",
+   "license": "Public domain (Commons tag; see stage/stage-evidence.json)",
+   "source_url": "see stage/stage-evidence.json",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/commons/bourse1933.jpg",
+   "verified_date_or_place": "re-verified by U2 stage unit 2026-11-17 (Commons extmetadata)",
+   "used_as": "only in draw_side's stage-sheet compatibility call for photographic-plate fill; the editor supplies the real fill"
+  }
+ ],
+ "absences": [
+  "This unit foraged nothing new: the rig is wholly handmade. No sound was foraged here (U1/editor own the bed and bell)."
+ ],
+ "rig_module": "films/swarm/mauro-martino-exercises-in-style/rig/rig.py",
+ "rig_py_sha1": "e5793a5c91f88ed9ab02930eec46200267d46c92",
+ "stage_py_sha1": "f9b51fd401c17ad4f025324eb30a5c1b61191152",
+ "tests": {
+  "pin_gap_max_px": 0.0,
+  "pin_gap_pass": true,
+  "pins_checked": 24644,
+  "pivot_inside_both_parts_failures": 0,
+  "pivot_inside_examples": [],
+  "angle_limit_violations_before_clamp": 0,
+  "limit_examples": [],
+  "protected_mask_max_abs_diff_417_vs_418_all_frames": 0.0,
+  "protected_identical": true,
+  "on_twos": true,
+  "deterministic_pose_hash": true,
+  "runner_counts": {
+   "417": 7,
+   "418": 8
+  },
+  "vacate": {
+   "417": "A",
+   "418": "A"
+  },
+  "neck": {
+   "side_neck_px": 176,
+   "plan_neck_px": 0,
+   "plan_parts": [
+    "foot",
+    "foot",
+    "arm",
+    "arm",
+    "shoulders",
+    "hat",
+    "ring"
+   ]
+  },
+  "cord": {
+   "model": "3-link damped chain, semi-implicit Euler, 24 Hz x 6 substeps, damping c=7.5/s, g=980 px/s^2, seg 6.5 px; driver: drawn head (on twos) through a critically damped felt-hat compliance w0=34 rad/s; bus frame (braking excluded: declared simplification so the shove is the cord's only cause); sampled on twos (state at frame 2d)",
+   "impulse_drawing": 14,
+   "impulse_t": 1.1666666666666667,
+   "first_moving_drawing": 15,
+   "lag_drawings": 1,
+   "peak_energy": 89176.60452534139,
+   "peak_frame": 36,
+   "peak_t": 1.5,
+   "energy_ratio_at_3_2": 0.007007554727052967,
+   "max_ratio_3_2_to_4_33": 0.007007554727052967,
+   "max_end_angle_change_before_impulse_deg": 5.028549588601512,
+   "pass_starts_after_impulse": true,
+   "pass_decay_below_2pct_by_3_2": true
+  }
+ }
+}

@@ -1,0 +1,654 @@
+{
+ "film": "exercices-de-style",
+ "rev": "910a7b36c16021d78f308a66d4f84ce71d6bdad1d1b9ddc37da43e235e6f52c9",
+ "ok": true,
+ "anthology_ok": true,
+ "fixtures_ok": true,
+ "n_checks": 342,
+ "n_failed": 0,
+ "failures": [],
+ "fixtures": [
+  {
+   "file": "sources/exercices-de-style/incident/new_ending.json",
+   "what": "key narrator ends « Il est revenu me chercher. » (cites E7)",
+   "expected": "NEW_ENDING",
+   "rejected": true,
+   "codes": [
+    "NEW_ENDING",
+    "TIMING"
+   ],
+   "failures": [
+    "NEW_ENDING key: events outside the ledger: ['E7']",
+    "NEW_ENDING key: return/new-ending wording in ['key.9']: ['Il est revenu me chercher.']",
+    "TIMING key: key.8 finishes typing before key.9 starts"
+   ]
+  },
+  {
+   "file": "sources/exercices-de-style/incident/new_ending_disguised.json",
+   "what": "« Il est revenu me chercher. » replaces the door line and claims to be E6",
+   "expected": "NEW_ENDING",
+   "rejected": true,
+   "codes": [
+    "ANCHOR",
+    "COVER",
+    "NEW_ENDING",
+    "NOT_CLOSED",
+    "TIMING"
+   ],
+   "failures": [
+    "NEW_ENDING key: return/new-ending wording in ['key.8']: ['Il est revenu me chercher.']",
+    "NOT_CLOSED key: F7 not affirmed",
+    "ANCHOR key/key.8: text «Il est revenu me chercher.» does not speak of E6",
+    "COVER key: F7 MISSING",
+    "COVER key: protected F7 is told (not merely omitted)",
+    "TIMING key/key.8: type end 61.63 = t_in + len/cps (61.058)"
+   ]
+  },
+  {
+   "file": "sources/exercices-de-style/incident/edge_reversed.json",
+   "what": "reverse log draws its arrows downward in reading order (E6→E5 …)",
+   "expected": "EDGE_REVERSED",
+   "rejected": true,
+   "codes": [
+    "EDGE_MISSING",
+    "EDGE_REVERSED"
+   ],
+   "failures": [
+    "EDGE_REVERSED rev: arrow E3→E1 (enable) is a reversed ledger edge",
+    "EDGE_REVERSED rev: arrow E4→E3 (enable) is a reversed ledger edge",
+    "EDGE_REVERSED rev: arrow E5→E4 (enable) is a reversed ledger edge",
+    "EDGE_REVERSED rev: arrow E6→E5 (precede) is a reversed ledger edge",
+    "EDGE_REVERSED rev: arrow E3→E2 (cue) is a reversed ledger edge",
+    "EDGE_MISSING rev: ledger edge E1→E3 (enable) drawn",
+    "EDGE_MISSING rev: ledger edge E3→E4 (enable) drawn",
+    "EDGE_MISSING rev: ledger edge E4→E5 (enable) drawn",
+    "EDGE_MISSING rev: ledger edge E5→E6 (precede) drawn",
+    "EDGE_MISSING rev: ledger edge E2→E3 (cue) drawn"
+   ]
+  },
+  {
+   "file": "sources/exercices-de-style/incident/edge_reversed_downward.json",
+   "what": "right endpoints, arrowheads pointing down the page",
+   "expected": "EDGE_REVERSED",
+   "rejected": true,
+   "codes": [
+    "EDGE_REVERSED"
+   ],
+   "failures": [
+    "EDGE_REVERSED rev: arrow E1→E3 drawn from cause line (y=240) NOT up to effect line (y=300)",
+    "EDGE_REVERSED rev: arrow E3→E4 drawn from cause line (y=210) NOT up to effect line (y=240)",
+    "EDGE_REVERSED rev: arrow E4→E5 drawn from cause line (y=180) NOT up to effect line (y=210)",
+    "EDGE_REVERSED rev: arrow E5→E6 drawn from cause line (y=150) NOT up to effect line (y=180)",
+    "EDGE_REVERSED rev: arrow E2→E3 drawn from cause line (y=240) NOT up to effect line (y=270)"
+   ]
+  }
+ ],
+ "signatures": {
+  "baseline": {
+   "operator": "O_none",
+   "measured": {
+    "order": [
+     "E1",
+     "E2",
+     "E3",
+     "E4",
+     "E5",
+     "E6"
+    ],
+    "sound": [
+     "E1",
+     "E2",
+     "E3",
+     "E5",
+     "E6"
+    ],
+    "sound_relation": "forward",
+    "access": {
+     "E1": [
+      "assert"
+     ],
+     "E2": [
+      "assert"
+     ],
+     "E3": [
+      "assert"
+     ],
+     "E4": [
+      "assert"
+     ],
+     "E5": [
+      "assert"
+     ],
+     "E6": [
+      "assert"
+     ],
+     "F7": [
+      "assert"
+     ]
+    },
+    "format": "prose",
+    "voice": "third"
+   },
+   "differs_in": [],
+   "mutable": []
+  },
+  "rev": {
+   "operator": "O_rev",
+   "measured": {
+    "order": [
+     "E6",
+     "E5",
+     "E4",
+     "E3",
+     "E2",
+     "E1"
+    ],
+    "sound": [
+     "E6",
+     "E5",
+     "E3",
+     "E2",
+     "E1"
+    ],
+    "sound_relation": "reverse",
+    "access": {
+     "E1": [
+      "assert"
+     ],
+     "E2": [
+      "assert"
+     ],
+     "E3": [
+      "assert"
+     ],
+     "E4": [
+      "assert"
+     ],
+     "E5": [
+      "assert"
+     ],
+     "E6": [
+      "assert"
+     ],
+     "F7": [
+      "assert"
+     ]
+    },
+    "format": "prose",
+    "voice": "third"
+   },
+   "differs_in": [
+    "order",
+    "sound-order"
+   ],
+   "mutable": [
+    "order",
+    "sound-order"
+   ]
+  },
+  "sense": {
+   "operator": "O_sense",
+   "measured": {
+    "order": [
+     "E1",
+     "E2",
+     "E3",
+     "E4",
+     "E5",
+     "E6"
+    ],
+    "sound": [
+     "E1",
+     "E2",
+     "E3",
+     "E5",
+     "E6"
+    ],
+    "sound_relation": "forward",
+    "access": {
+     "E1": [
+      "percept"
+     ],
+     "E2": [
+      "percept"
+     ],
+     "E3": [
+      "percept"
+     ],
+     "E4": [
+      "omit",
+      "percept"
+     ],
+     "E5": [
+      "omit",
+      "percept"
+     ],
+     "E6": [
+      "percept"
+     ],
+     "F7": [
+      "percept"
+     ]
+    },
+    "format": "prose",
+    "voice": "third"
+   },
+   "differs_in": [
+    "access"
+   ],
+   "mutable": [
+    "access"
+   ]
+  },
+  "notice": {
+   "operator": "O_notice",
+   "measured": {
+    "order": [
+     "E1",
+     "E2",
+     "E3",
+     "E4",
+     "E5",
+     "E6"
+    ],
+    "sound": [],
+    "sound_relation": "none",
+    "access": {
+     "E1": [
+      "assert"
+     ],
+     "E2": [
+      "assert"
+     ],
+     "E3": [
+      "assert"
+     ],
+     "E4": [
+      "assert"
+     ],
+     "E5": [
+      "assert"
+     ],
+     "E6": [
+      "assert"
+     ],
+     "F7": [
+      "assert"
+     ]
+    },
+    "format": "grid",
+    "voice": "third"
+   },
+   "differs_in": [
+    "format"
+   ],
+   "mutable": [
+    "format"
+   ]
+  },
+  "key": {
+   "operator": "O_object",
+   "measured": {
+    "order": [
+     "E1",
+     "E2",
+     "E3",
+     "E4",
+     "E5",
+     "E6"
+    ],
+    "sound": [
+     "E1",
+     "E2",
+     "E3",
+     "E5",
+     "E6"
+    ],
+    "sound_relation": "forward",
+    "access": {
+     "E1": [
+      "percept"
+     ],
+     "E2": [
+      "percept"
+     ],
+     "E3": [
+      "percept"
+     ],
+     "E4": [
+      "assert"
+     ],
+     "E5": [
+      "assert",
+      "percept"
+     ],
+     "E6": [
+      "percept"
+     ],
+     "F7": [
+      "assert"
+     ]
+    },
+    "format": "prose",
+    "voice": "first"
+   },
+   "differs_in": [
+    "access",
+    "voice"
+   ],
+   "mutable": [
+    "access",
+    "voice"
+   ]
+  }
+ },
+ "matrix": {
+  "columns": [
+   "registre",
+   "rebours",
+   "sens",
+   "avis",
+   "clé"
+  ],
+  "rows": [
+   {
+    "fact": "E1",
+    "label": "E1 arrive",
+    "cells": {
+     "registre": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "baseline.1"
+      ]
+     },
+     "rebours": {
+      "mark": "6",
+      "circle_red": false,
+      "note": "order number in the reverse log",
+      "claims": [
+       "rev.6"
+      ]
+     },
+     "sens": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "sense.1"
+      ]
+     },
+     "avis": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "notice.1"
+      ]
+     },
+     "clé": {
+      "mark": "ouï, non vu",
+      "circle_red": false,
+      "claims": [
+       "key.1"
+      ]
+     }
+    }
+   },
+   {
+    "fact": "E2",
+    "label": "E2 cloche",
+    "cells": {
+     "registre": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "baseline.2"
+      ]
+     },
+     "rebours": {
+      "mark": "5",
+      "circle_red": false,
+      "note": "order number in the reverse log",
+      "claims": [
+       "rev.5"
+      ]
+     },
+     "sens": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "sense.2"
+      ]
+     },
+     "avis": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "notice.2",
+       "notice.n"
+      ]
+     },
+     "clé": {
+      "mark": "ouï, non vu",
+      "circle_red": false,
+      "claims": [
+       "key.2"
+      ]
+     }
+    }
+   },
+   {
+    "fact": "E3",
+    "label": "E3 ouvre",
+    "cells": {
+     "registre": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "baseline.3"
+      ]
+     },
+     "rebours": {
+      "mark": "4",
+      "circle_red": false,
+      "note": "order number in the reverse log",
+      "claims": [
+       "rev.4"
+      ]
+     },
+     "sens": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "sense.3"
+      ]
+     },
+     "avis": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "notice.3"
+      ]
+     },
+     "clé": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "key.3"
+      ]
+     }
+    }
+   },
+   {
+    "fact": "E4",
+    "label": "E4 trouve",
+    "cells": {
+     "registre": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "baseline.4"
+      ]
+     },
+     "rebours": {
+      "mark": "3",
+      "circle_red": false,
+      "note": "order number in the reverse log",
+      "claims": [
+       "rev.3"
+      ]
+     },
+     "sens": {
+      "mark": "omis · déclaré",
+      "circle_red": true,
+      "reason": "no access",
+      "claims": [
+       "sense.4"
+      ]
+     },
+     "avis": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "notice.4"
+      ]
+     },
+     "clé": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "key.4"
+      ]
+     }
+    }
+   },
+   {
+    "fact": "E5",
+    "label": "E5 laisse",
+    "cells": {
+     "registre": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "baseline.5"
+      ]
+     },
+     "rebours": {
+      "mark": "2",
+      "circle_red": false,
+      "note": "order number in the reverse log",
+      "claims": [
+       "rev.2"
+      ]
+     },
+     "sens": {
+      "mark": "omis · déclaré",
+      "circle_red": true,
+      "reason": "no access",
+      "claims": [
+       "sense.5"
+      ]
+     },
+     "avis": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "notice.5"
+      ]
+     },
+     "clé": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "key.5",
+       "key.6"
+      ]
+     }
+    }
+   },
+   {
+    "fact": "E6",
+    "label": "E6 s'en va",
+    "cells": {
+     "registre": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "baseline.6"
+      ]
+     },
+     "rebours": {
+      "mark": "1",
+      "circle_red": false,
+      "note": "order number in the reverse log",
+      "claims": [
+       "rev.1"
+      ]
+     },
+     "sens": {
+      "mark": "ouï, non vu",
+      "circle_red": false,
+      "claims": [
+       "sense.6"
+      ]
+     },
+     "avis": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "notice.6"
+      ]
+     },
+     "clé": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "key.7"
+      ]
+     }
+    }
+   },
+   {
+    "fact": "F7",
+    "label": "porte fermée",
+    "cells": {
+     "registre": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "baseline.7"
+      ]
+     },
+     "rebours": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "rev.0"
+      ]
+     },
+     "sens": {
+      "mark": "ouï, non vu",
+      "circle_red": false,
+      "claims": [
+       "sense.6"
+      ]
+     },
+     "avis": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "notice.6"
+      ]
+     },
+     "clé": {
+      "mark": "✓",
+      "circle_red": false,
+      "claims": [
+       "key.8"
+      ]
+     }
+    }
+   }
+  ]
+ },
+ "s6_note": "The S6 printed table must equal 'matrix' cell for cell (rows E1-E6 + porte fermée; columns registre/rebours/sens/avis/clé)."
+}

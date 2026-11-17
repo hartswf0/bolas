@@ -1,0 +1,145 @@
+{
+ "6s": {
+  "skin_median": [
+   193.0,
+   145.0,
+   130.0
+  ],
+  "skin_dE76": 3.36,
+  "lip_median": [
+   147.0,
+   87.0,
+   87.0
+  ],
+  "lip_dE76": 5.65,
+  "lip_span_h": 0.424,
+  "lip_span_w": 0.308,
+  "lip_box_frac": [
+   0.142,
+   0.08,
+   0.449,
+   0.502
+  ],
+  "skin_max_x_frac": 0.422,
+  "skin_touches_top": true,
+  "skin_touches_bottom": true,
+  "skin_area_frac": 0.33,
+  "field_mean_right_half": [
+   254.34,
+   254.27,
+   254.2
+  ],
+  "luma_P5_P25_P50": [
+   125.96199999999999,
+   160.941,
+   255.0
+  ],
+  "frac_below80": 0.0089,
+  "dark_inside_cavity_frac": 0.796,
+  "pose": "LNT",
+  "jaw_deg": 1.65,
+  "field_mean_right_half_excl_layers": [
+   255.0,
+   255.0,
+   255.0
+  ],
+  "field_pixels": 161367,
+  "dark_frac_frame": 0.0089,
+  "dark_frac_mouth_region_left_half": 0.0084,
+  "face_area_frac_skin_lips_cavity": 0.404,
+  "dark_in_mouth_region_frac": 0.955,
+  "pass": {
+   "skin": true,
+   "lip": true,
+   "field": true,
+   "dark": true,
+   "skin_x": true,
+   "skin_area": true,
+   "cut_top_bottom": true,
+   "lip_span": true
+  }
+ },
+ "46s": {
+  "skin_median": [
+   193.0,
+   145.0,
+   130.0
+  ],
+  "skin_dE76": 3.36,
+  "lip_median": [
+   148.0,
+   88.0,
+   88.0
+  ],
+  "lip_dE76": 5.61,
+  "lip_span_h": 0.407,
+  "lip_span_w": 0.301,
+  "lip_box_frac": [
+   0.148,
+   0.081,
+   0.448,
+   0.487
+  ],
+  "skin_max_x_frac": 0.422,
+  "skin_touches_top": true,
+  "skin_touches_bottom": true,
+  "skin_area_frac": 0.335,
+  "field_mean_right_half": [
+   231.97,
+   231.48,
+   230.65
+  ],
+  "luma_P5_P25_P50": [
+   91.03180000000002,
+   148.055,
+   249.41299999999998
+  ],
+  "frac_below80": 0.0449,
+  "dark_inside_cavity_frac": 0.066,
+  "pose": "rest",
+  "jaw_deg": 0.8,
+  "field_mean_right_half_excl_layers": [
+   255.0,
+   255.0,
+   255.0
+  ],
+  "field_pixels": 95965,
+  "dark_frac_frame": 0.0449,
+  "dark_frac_mouth_region_left_half": 0.0055,
+  "face_area_frac_skin_lips_cavity": 0.406,
+  "dark_in_mouth_region_frac": 0.096,
+  "pass": {
+   "skin": true,
+   "lip": true,
+   "field": true,
+   "dark": true,
+   "skin_x": true,
+   "skin_area": true,
+   "cut_top_bottom": true,
+   "lip_span": true
+  }
+ },
+ "reference": {
+  "luma_P5_P25_P50": [
+   97.50999999999999,
+   166.60999999999999,
+   255.0
+  ],
+  "frac_below80": 0.0228
+ },
+ "acc3_hangs_alpha_diff_24_vs_46": 0,
+ "acc3_knot": [
+  850.0,
+  150.0
+ ],
+ "targets": {
+  "skin_dE76": "<12",
+  "lip_dE76": "<15",
+  "lip_span_h": ">=0.35",
+  "lip_span_w": ">=0.22",
+  "skin_max_x_frac": "<0.45",
+  "field": ">=250 every channel",
+  "skin_area": "0.35-0.50",
+  "dark_frac": "<=0.04, cavity only"
+ }
+}

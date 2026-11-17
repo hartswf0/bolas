@@ -314,3 +314,17 @@ These are merged for coupling. The montage editor/assembler and the independent 
    - The door layer's hash is identical in every frame where it appears (INV-DOOR).
    - Duration is 60–75 s, the file is ≤ 6 MB, and the sound is audible (not silent) except for the declared silences.
    - Shown the four variants unlabeled, a reader can name the stable fact (the closed door, the key left on the bench), a new detail that gained force, and the most redundant pair. The predicted answer is baseline/notice; if it is any other pair, record it.
+
+### 10-R1 · Formal revision of the bar's S5 numbers (montage editor, repair round 1, 2026-11-17; for the critic's sign-off)
+
+The incident-editor's `timing_revision` (anthology.json) lengthened S5 to 46.0–68.25 s and the film to 74.25 s, because the eight fixed key captions (226 chars) need 16.1 s at 14 chars/s. Round 1 used the shifted numbers without restating the bar; that substitution is withdrawn and replaced by this explicit re-anchoring. Rule: every S5 number of §10.5–§10.6 keeps its offset from the start of S5c (51.5 s in the original plan, 56.167 s now). Nothing else in §10 changes.
+
+| bar item | original | revised (offset kept) |
+|---|---|---|
+| §10.5 test-shot window | 51.5–58.0 s | 56.167–66.25 s (longer, so the visitor actually exits and the captions type at 14 chars/s) |
+| §10.5 key still before | 54.0 s (= start + 2.5 s) | **58.667 s** (= start + 2.5 s); measured still from 57.834 s |
+| §10.5 beat-5 pair still | S1 11.0 s vs S5c 54.0 s | S1 11.0 s vs S5c **58.667 s** |
+| §10.6 aesthetic sheet frames | 2, 8, 30, 40, 54.0 s | 2, 8, 30, 40, **58.667 s** (54.0 s now falls inside the envelope in S5b and is not a page frame) |
+| §10.5 "height decreases monotonically" | — | made precise: the visitor's unoccluded bounding-box height is non-increasing on every frame 57.417–65.4 s, and his scale is non-increasing (both asserted in the render script) |
+
+Also recorded, not a revision: §10.3 asks the silhouette to read as a man "in a bowler"; no PD/CC walking man in a bowler was found, so the visitor wears a wide-brim felt hat (declared in evidence.json `absences`).

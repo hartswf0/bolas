@@ -1,0 +1,346 @@
+{
+ "schema": "RenderAttempt = {engine, generator_rev, seed, settings, conditioning, output, observation}",
+ "generator_rev": {
+  "sha1": "6735b7d7e7a7b97045783a53ad6fda0d83a39593",
+  "of": {
+   "films/mauro-martino-exercises-in-style.py": "a934216b5c91ca7eba5ca8c56d962f366b8e6f39",
+   "films/swarm/mauro-martino-exercises-in-style/stage/stage.py": "f9b51fd401c17ad4f025324eb30a5c1b61191152",
+   "films/swarm/mauro-martino-exercises-in-style/rig/rig.py": "e5793a5c91f88ed9ab02930eec46200267d46c92"
+  },
+  "rule": "sha1 of the concatenated sha1s of the film script, stage.py and rig.py (sorted by path); a change starts a new experiment (P5)",
+  "caveat": "the film script is hashed as it stands when coverage.py runs; if the editor rewrites it, rerun coverage.py to repin"
+ },
+ "stage_rev": "stage-2",
+ "rig_rev": "rig-1",
+ "seeds": [
+  417,
+  418
+ ],
+ "conditioning_files_read": {
+  "plates": {
+   "films/sources/mauro-martino-exercises-in-style/commons/bourse1933.jpg": "6410b220ff1f39cacf027edd912d2ec648167372",
+   "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg": "bb5fd56ac6428b621ce0953c8aa0c21b04d88ba5",
+   "films/sources/mauro-martino-exercises-in-style/stage/crowd_mask.png": "4b84bb0b27ef14de93258f8aab9c0946e21b4087",
+   "films/sources/mauro-martino-exercises-in-style/test-shot/plates/bus_rect_rgba.png": "992172132ef372050d2f096e36556c6930e9789f",
+   "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_front.png": "7717c0648afa033565bb562af026714741427121",
+   "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_rear.png": "2b4dce2b13dbbb0699be4b50325c3311a51ebcbd"
+  },
+  "json": {
+   "films/sources/mauro-martino-exercises-in-style/test-shot/plates/plates.json": "a7046120759da235f92021acaa103f6b4854a4c0"
+  },
+  "method": "every file opened by a fresh-process render of all six samples (open/Image.open/Path.read_* traced)"
+ },
+ "attempts": [
+  {
+   "id": "baseline/0417",
+   "shot": "S1",
+   "engine": "kit.py procedural animatic",
+   "generator_rev": "6735b7d7e7a7b97045783a53ad6fda0d83a39593",
+   "manifest_sha1": "6bb9bc5f4c9d4a1b7f4ce3a164be3cfba801fd6f",
+   "seed": 417,
+   "settings": {
+    "fps": 24,
+    "size": [
+     960,
+     540
+    ],
+    "duration": 7.0,
+    "frames": 168,
+    "drawings": "on twos (12/s)",
+    "projection": "side elevation (rig.side_frame)",
+    "treatment": "cut-paper",
+    "puppet_fill": "INK (34,33,31)"
+   },
+   "conditioning": {
+    "exposure_sheet_sha1": "dced21df1daf38947386a0070c6c74bd8a9f89d4",
+    "anchors_sha1": "9782ec45d8435a9174b60cccc1d9f6880a85e616",
+    "plates_sha1": {
+     "films/sources/mauro-martino-exercises-in-style/commons/bourse1933.jpg": "6410b220ff1f39cacf027edd912d2ec648167372",
+     "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg": "bb5fd56ac6428b621ce0953c8aa0c21b04d88ba5",
+     "films/sources/mauro-martino-exercises-in-style/stage/crowd_mask.png": "4b84bb0b27ef14de93258f8aab9c0946e21b4087",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/bus_rect_rgba.png": "992172132ef372050d2f096e36556c6930e9789f",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_front.png": "7717c0648afa033565bb562af026714741427121",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_rear.png": "2b4dce2b13dbbb0699be4b50325c3311a51ebcbd"
+    }
+   },
+   "output": {
+    "film_seconds": [
+     4.0,
+     11.0
+    ],
+    "film_frames": [
+     96,
+     263
+    ],
+    "defining_beat_film_t": 5.2,
+    "replay_frame_sha1": {
+     "0": "8a321a96a8bf421af189749296d3c8c4e00369ce",
+     "29": "9afb026b3e815c6f3967314de06fe8df6672e0dd",
+     "132": "0bf38f53399dfdddaa26c7ceb5de694d7ec66701"
+    }
+   },
+   "observation": "see coverage.json samples['baseline/0417']"
+  },
+  {
+   "id": "baseline/0418",
+   "shot": "S2",
+   "engine": "kit.py procedural animatic",
+   "generator_rev": "6735b7d7e7a7b97045783a53ad6fda0d83a39593",
+   "manifest_sha1": "6bb9bc5f4c9d4a1b7f4ce3a164be3cfba801fd6f",
+   "seed": 418,
+   "settings": {
+    "fps": 24,
+    "size": [
+     960,
+     540
+    ],
+    "duration": 7.0,
+    "frames": 168,
+    "drawings": "on twos (12/s)",
+    "projection": "side elevation (rig.side_frame)",
+    "treatment": "cut-paper",
+    "puppet_fill": "INK (34,33,31)"
+   },
+   "conditioning": {
+    "exposure_sheet_sha1": "dced21df1daf38947386a0070c6c74bd8a9f89d4",
+    "anchors_sha1": "9782ec45d8435a9174b60cccc1d9f6880a85e616",
+    "plates_sha1": {
+     "films/sources/mauro-martino-exercises-in-style/commons/bourse1933.jpg": "6410b220ff1f39cacf027edd912d2ec648167372",
+     "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg": "bb5fd56ac6428b621ce0953c8aa0c21b04d88ba5",
+     "films/sources/mauro-martino-exercises-in-style/stage/crowd_mask.png": "4b84bb0b27ef14de93258f8aab9c0946e21b4087",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/bus_rect_rgba.png": "992172132ef372050d2f096e36556c6930e9789f",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_front.png": "7717c0648afa033565bb562af026714741427121",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_rear.png": "2b4dce2b13dbbb0699be4b50325c3311a51ebcbd"
+    }
+   },
+   "output": {
+    "film_seconds": [
+     11.0,
+     18.0
+    ],
+    "film_frames": [
+     264,
+     431
+    ],
+    "defining_beat_film_t": 12.2,
+    "replay_frame_sha1": {
+     "0": "9993d64a16ee00eb44338e1958b7bf49b5fcc25b",
+     "29": "559dacf287b9696cccb98c7bf7b10448d8c331d6",
+     "132": "bbc236759201c357e4dd768d0e4a6ce275b9b4b5"
+    }
+   },
+   "observation": "see coverage.json samples['baseline/0418']"
+  },
+  {
+   "id": "d-treatment/0417",
+   "shot": "S4",
+   "engine": "kit.py procedural animatic",
+   "generator_rev": "6735b7d7e7a7b97045783a53ad6fda0d83a39593",
+   "manifest_sha1": "f3344d0ab786b0bd1e5815d51ba9cb3ca2b3e255",
+   "seed": 417,
+   "settings": {
+    "fps": 24,
+    "size": [
+     960,
+     540
+    ],
+    "duration": 7.0,
+    "frames": 168,
+    "drawings": "on twos (12/s)",
+    "projection": "side elevation (rig.side_frame)",
+    "treatment": "photographic-plate",
+    "puppet_fill": "rig._bourse_fill() (1933 coat texture)"
+   },
+   "conditioning": {
+    "exposure_sheet_sha1": "dced21df1daf38947386a0070c6c74bd8a9f89d4",
+    "anchors_sha1": "9782ec45d8435a9174b60cccc1d9f6880a85e616",
+    "plates_sha1": {
+     "films/sources/mauro-martino-exercises-in-style/commons/bourse1933.jpg": "6410b220ff1f39cacf027edd912d2ec648167372",
+     "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg": "bb5fd56ac6428b621ce0953c8aa0c21b04d88ba5",
+     "films/sources/mauro-martino-exercises-in-style/stage/crowd_mask.png": "4b84bb0b27ef14de93258f8aab9c0946e21b4087",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/bus_rect_rgba.png": "992172132ef372050d2f096e36556c6930e9789f",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_front.png": "7717c0648afa033565bb562af026714741427121",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_rear.png": "2b4dce2b13dbbb0699be4b50325c3311a51ebcbd"
+    }
+   },
+   "output": {
+    "film_seconds": [
+     20.0,
+     27.0
+    ],
+    "film_frames": [
+     480,
+     647
+    ],
+    "defining_beat_film_t": 21.2,
+    "replay_frame_sha1": {
+     "0": "8d58bfb06868fe430af3e3a78da02b0713aa943c",
+     "29": "cbe976551d31d3a8b70316b7f5a5267266cf938f",
+     "132": "b4a10f54623d36eeb6c1e0dc0dd0e80dbf318842"
+    }
+   },
+   "observation": "see coverage.json samples['d-treatment/0417']"
+  },
+  {
+   "id": "d-treatment/0418",
+   "shot": "S5",
+   "engine": "kit.py procedural animatic",
+   "generator_rev": "6735b7d7e7a7b97045783a53ad6fda0d83a39593",
+   "manifest_sha1": "f3344d0ab786b0bd1e5815d51ba9cb3ca2b3e255",
+   "seed": 418,
+   "settings": {
+    "fps": 24,
+    "size": [
+     960,
+     540
+    ],
+    "duration": 7.0,
+    "frames": 168,
+    "drawings": "on twos (12/s)",
+    "projection": "side elevation (rig.side_frame)",
+    "treatment": "photographic-plate",
+    "puppet_fill": "rig._bourse_fill() (1933 coat texture)"
+   },
+   "conditioning": {
+    "exposure_sheet_sha1": "dced21df1daf38947386a0070c6c74bd8a9f89d4",
+    "anchors_sha1": "9782ec45d8435a9174b60cccc1d9f6880a85e616",
+    "plates_sha1": {
+     "films/sources/mauro-martino-exercises-in-style/commons/bourse1933.jpg": "6410b220ff1f39cacf027edd912d2ec648167372",
+     "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg": "bb5fd56ac6428b621ce0953c8aa0c21b04d88ba5",
+     "films/sources/mauro-martino-exercises-in-style/stage/crowd_mask.png": "4b84bb0b27ef14de93258f8aab9c0946e21b4087",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/bus_rect_rgba.png": "992172132ef372050d2f096e36556c6930e9789f",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_front.png": "7717c0648afa033565bb562af026714741427121",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_rear.png": "2b4dce2b13dbbb0699be4b50325c3311a51ebcbd"
+    }
+   },
+   "output": {
+    "film_seconds": [
+     27.0,
+     34.0
+    ],
+    "film_frames": [
+     648,
+     815
+    ],
+    "defining_beat_film_t": 28.2,
+    "replay_frame_sha1": {
+     "0": "a89966b93f1e6005b802e704fa6a55b0a4d391dc",
+     "29": "e6de6fdd6c91945209182359613a39cd81622c10",
+     "132": "a553a6a567bb75570d8a64002f129dc83f291124"
+    }
+   },
+   "observation": "see coverage.json samples['d-treatment/0418']"
+  },
+  {
+   "id": "d-camera/0417",
+   "shot": "S7",
+   "engine": "kit.py procedural animatic",
+   "generator_rev": "6735b7d7e7a7b97045783a53ad6fda0d83a39593",
+   "manifest_sha1": "6e7f609db52bb299d3eb2470a676b9cb665b50da",
+   "seed": 417,
+   "settings": {
+    "fps": 24,
+    "size": [
+     960,
+     540
+    ],
+    "duration": 7.0,
+    "frames": 168,
+    "drawings": "on twos (12/s)",
+    "projection": "plan (rig.plan_frame)",
+    "treatment": "cut-paper",
+    "puppet_fill": "INK (34,33,31)"
+   },
+   "conditioning": {
+    "exposure_sheet_sha1": "dced21df1daf38947386a0070c6c74bd8a9f89d4",
+    "anchors_sha1": "9782ec45d8435a9174b60cccc1d9f6880a85e616",
+    "plates_sha1": {
+     "films/sources/mauro-martino-exercises-in-style/commons/bourse1933.jpg": "6410b220ff1f39cacf027edd912d2ec648167372",
+     "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg": "bb5fd56ac6428b621ce0953c8aa0c21b04d88ba5",
+     "films/sources/mauro-martino-exercises-in-style/stage/crowd_mask.png": "4b84bb0b27ef14de93258f8aab9c0946e21b4087",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/bus_rect_rgba.png": "992172132ef372050d2f096e36556c6930e9789f",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_front.png": "7717c0648afa033565bb562af026714741427121",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_rear.png": "2b4dce2b13dbbb0699be4b50325c3311a51ebcbd"
+    }
+   },
+   "output": {
+    "film_seconds": [
+     36.0,
+     43.0
+    ],
+    "film_frames": [
+     864,
+     1031
+    ],
+    "defining_beat_film_t": 37.2,
+    "replay_frame_sha1": {
+     "0": "4d1acfb90a7c28396f5bab990f6dbc6a767f2c4e",
+     "29": "51ba88ed2c84358930c444b97ee66f7f9d85d75d",
+     "132": "03bd715b94229afb2d1603185a4c8ec1d1c4696b"
+    }
+   },
+   "observation": "see coverage.json samples['d-camera/0417']"
+  },
+  {
+   "id": "d-camera/0418",
+   "shot": "S8",
+   "engine": "kit.py procedural animatic",
+   "generator_rev": "6735b7d7e7a7b97045783a53ad6fda0d83a39593",
+   "manifest_sha1": "6e7f609db52bb299d3eb2470a676b9cb665b50da",
+   "seed": 418,
+   "settings": {
+    "fps": 24,
+    "size": [
+     960,
+     540
+    ],
+    "duration": 7.0,
+    "frames": 168,
+    "drawings": "on twos (12/s)",
+    "projection": "plan (rig.plan_frame)",
+    "treatment": "cut-paper",
+    "puppet_fill": "INK (34,33,31)"
+   },
+   "conditioning": {
+    "exposure_sheet_sha1": "dced21df1daf38947386a0070c6c74bd8a9f89d4",
+    "anchors_sha1": "9782ec45d8435a9174b60cccc1d9f6880a85e616",
+    "plates_sha1": {
+     "films/sources/mauro-martino-exercises-in-style/commons/bourse1933.jpg": "6410b220ff1f39cacf027edd912d2ec648167372",
+     "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg": "bb5fd56ac6428b621ce0953c8aa0c21b04d88ba5",
+     "films/sources/mauro-martino-exercises-in-style/stage/crowd_mask.png": "4b84bb0b27ef14de93258f8aab9c0946e21b4087",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/bus_rect_rgba.png": "992172132ef372050d2f096e36556c6930e9789f",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_front.png": "7717c0648afa033565bb562af026714741427121",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_rear.png": "2b4dce2b13dbbb0699be4b50325c3311a51ebcbd"
+    }
+   },
+   "output": {
+    "film_seconds": [
+     43.0,
+     50.0
+    ],
+    "film_frames": [
+     1032,
+     1199
+    ],
+    "defining_beat_film_t": 44.2,
+    "replay_frame_sha1": {
+     "0": "bf5a5d9daf4b6e0c9f10f6494c27ffecc2f250c7",
+     "29": "02d9ab9c46cc472d1114260a6046e0106de1f281",
+     "132": "e264a08124deb824537a5a21466495b2ba6099bb"
+    }
+   },
+   "observation": "see coverage.json samples['d-camera/0418']"
+  }
+ ],
+ "grid": {
+  "shot": "S9",
+  "film_seconds": [
+   50.0,
+   58.0
+  ],
+  "cell": [
+   300,
+   169
+  ]
+ }
+}

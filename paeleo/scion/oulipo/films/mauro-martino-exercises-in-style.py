@@ -1,390 +1,541 @@
-"""Mauro Martino, Exercises in Style — controlled variation with a coded procedural generator.
-generate(manifest, seed, t) draws the bus version of the station seed. Baseline, then two deltas
-(camera: overhead; treatment: cyanotype), each with the same two seeds, side by side at equal size."""
-import math
-import random as _random
-from PIL import Image
-from kit_cinema_b import *
+"""Exercises in Style (Mauro Martino) - SCION controlled variation, Direction 1 'Cut-Paper Platform'.
 
-CLIP = 6.6                      # every clip has the same duration
-CW, CH = 440, 248               # every clip has the same display size
-SEEDS = (11, 29)
-BASE = {"scene": "bus-seed", "camera": "side", "treatment": "ink"}
-CONDS = [("baseline", {}), ("delta camera", {"camera": "overhead"}), ("delta treatment", {"treatment": "cyanotype"})]
-SEC = 8.6
-SC = Score([(0, 3.5, "title")] + [(3.5 + k * SEC, 3.5 + (k + 1) * SEC, f"c{k}") for k in range(3)]
-           + [(3.5 + 3 * SEC, 3.5 + 3 * SEC + 8.0, "grid"), (11.5 + 3 * SEC, 18.0 + 3 * SEC, "report")])
-film = Film("mauro-martino-exercises-in-style", seconds=SC.total, boil=6, wobble=1.0, seed=2)
-film.poster_at = SC.start("grid") + 3.5
-CLIP_AT = 1.0                   # clip starts this long into each section
+One small bus incident (the shove on the rear platform) frozen as an exposure sheet and re-rendered
+under single-field instructions: baseline, Δ treatment = photographic-plate, Δ camera = overhead,
+each at seeds 0417 and 0418. Built on films/kit.py (Film, Mix); the stage is
+swarm/<slug>/stage/stage.py, the puppets swarm/<slug>/rig/rig.py (both imported, not edited).
 
-# protected anchors: fixed times, independent of seed and condition
-ANCHORS = [("A1", "boards", 0.4), ("A2", "bell", 2.2), ("A3", "opens envelope", 2.9),
-           ("A4", "key left on seat", 4.0), ("A5", "alights", 5.4), ("A6", "service door shut", 6.5)]
-SEAT_X, KEY_X = 252, 280
+FORAGED: Agence Rol 1916 bus plate, Agence Rol 1919 crowd plates (Gallica via Commons, PD);
+engine (CC BY 4.0), street (PD) and bell (CC0) recordings via Commons. HANDMADE: facade, pavement,
+platform, board, puppets, plan stage, cards. SYNTHETIC (declared): kit thud at the shove, kit click
+at the stanchion and on the cards.
 
+Run from the project root:  python3 films/mauro-martino-exercises-in-style.py   [--stills t ...]
+"""
+import functools, hashlib, importlib.util, json, math, os, subprocess, sys
+from multiprocessing import get_context
+from pathlib import Path
 
-def manifest(delta):
-    m = dict(BASE)
-    m.update(delta)
+import numpy as np, cv2
+from PIL import Image, ImageDraw
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+import kit
+from kit import Film
+
+SLUG = "mauro-martino-exercises-in-style"
+ROOT = HERE.parent
+WS = HERE / "swarm" / SLUG
+SRC = HERE / "sources" / SLUG
+U1 = SRC / "plates"
+CACHE = Path(os.environ.get("MMES_CACHE", "/tmp/claude-0/-home-user/a99ec93a-6f31-57b0-a2ec-fb930dfe1aad/scratchpad/mmes-cache"))
+
+# ------------------------------------------------------------------ stage + rig (one shared stage module)
+def _load(name, path):
+    if name in sys.modules:
+        return sys.modules[name]
+    spec = importlib.util.spec_from_file_location(name, path)
+    m = importlib.util.module_from_spec(spec); sys.modules[name] = m; spec.loader.exec_module(m)
     return m
 
+S = _load("stage", WS / "stage/stage.py")
+R = _load("rig", WS / "rig/rig.py")
+W, H = 960, 540
+FPS = 24
+CLIP = 7.0
+NF = 168
+PAPER = tuple(S.PALETTE["paper"]); INKC = tuple(S.PALETTE["ink"]); SHADE = tuple(S.PALETTE["shade"])
+TINT = tuple(S.PALETTE["tint"]); DTINT = tuple(S.PALETTE["dtint"])
 
-def extras(seed):
-    """Everything the seed controls: other passengers, the street, the visitor's coat."""
-    r = _random.Random(seed)
-    seats = [100, 175, 330]
-    r.shuffle(seats)
-    n = r.randint(2, 3)
-    sitters = [(seats[k], r.choice([(70, 96, 120), (120, 96, 70), (90, 110, 80), (140, 80, 90)])) for k in range(n)]
-    stander = r.uniform(150, 340) if r.random() < 0.75 else None
-    street = [r.uniform(0, 900) for _ in range(5)]
-    coat = r.choice([(96, 60, 70), (60, 70, 100), (100, 84, 50)])
-    rain = r.random() < 0.4
-    return {"sitters": sitters, "stander": stander, "stander_coat": (80, 80, 90), "street": street, "coat": coat, "rain": rain}
-
-
-def visitor_state(t):
-    """(x, pose, arm, action) for the visitor; identical in every condition."""
-    if t < 0.4:
-        return None
-    if t < 1.2:
-        return (lerp(432, 390, ramp(t, 0.4, 1.2)), "walk", None, "")
-    if t < 1.9:
-        return (lerp(390, SEAT_X, ramp(t, 1.2, 1.9)), "walk", None, "")
-    if t < 4.4:
-        arm = 170 if 2.0 <= t < 2.4 else (80 if 2.6 <= t < 4.2 else 40)
-        return (SEAT_X, "sit", arm, "sit")
-    if t < 5.1:
-        return (lerp(SEAT_X, 390, ramp(t, 4.4, 5.1)), "walk", None, "")
-    if t < 5.9:
-        return (lerp(390, 470, ramp(t, 5.1, 5.9)), "walk", None, "")
-    return None
+# ------------------------------------------------------------------ manifests (one changed field per delta)
+BASE = R.baseline_manifest()
+BASE_SHA1 = R.manifest_sha1(BASE)
+DELTAS = {"baseline": {}, "d-treatment": {"treatment": "photographic-plate"}, "d-camera": {"camera": "overhead"}}
+LABEL = {"baseline": "baseline", "d-treatment": "Δ treatment", "d-camera": "Δ camera"}
 
 
-def bus_offset(t):
-    """Street scroll: stopped, moving, stopped."""
-    if t < 1.6:
-        return 0.0
-    if t < 4.6:
-        return (t - 1.6) * 120 - 30 * smooth(ramp(t, 1.6, 2.4)) + 30 * smooth(ramp(t, 3.8, 4.6))
-    return 3.0 * 120
+def manifest(cond):
+    M = dict(BASE); M.update(DELTAS[cond])
+    diff = {k for k in set(M) | set(BASE) if M.get(k) != BASE.get(k)}
+    assert len(diff) == (0 if cond == "baseline" else 1), (cond, diff)   # each delta changes exactly one field
+    return M
 
 
-def treat(name, c=None):
-    """Treatment palettes."""
-    return c
+# ------------------------------------------------------------------ waiting crowd: Agence Rol 1919 GrabCut cutouts
+# U1 replaced the 1933 Bourse plate (PD basis not verifiable in the US); this re-implements stage._crowd
+# with U1's accepted Vilgrain 1919 cutouts A-H at the same two placements (right of platform, left of cab).
+CROWD_RIGHT = ["C_man_overcoat", "A_woman_shawl", "G_man_bowler_right", "F_woman_basket", "E_woman_white", "H_man_far"]
+CROWD_LEFT = ["D_man_back", "B_woman_walking"]
 
 
-class Palette:
-    def __init__(self, treatment):
-        self.t = treatment
-        if treatment == "ink":
-            self.ground, self.line, self.body, self.glass, self.floor, self.key = (236, 230, 214), INK, (206, 176, 96), (214, 226, 226), (150, 140, 124), BRASS
-            self.seat, self.road = (130, 90, 70), (120, 116, 110)
-        else:
-            self.ground, self.line, self.body, self.glass, self.floor, self.key = (26, 56, 100), (228, 238, 244), (44, 90, 142), (34, 72, 120), (30, 66, 112), (246, 232, 170)
-            self.seat, self.road = (70, 120, 170), (20, 46, 84)
-
-    def coat(self, c):
-        if self.t == "ink":
-            return c
-        lum = (0.3 * c[0] + 0.59 * c[1] + 0.11 * c[2]) / 255
-        return mix_color((60, 110, 160), (200, 220, 236), lum * 1.4)
+@functools.lru_cache(None)
+def _cut(name):
+    a = np.asarray(Image.open(U1 / "crowd" / f"{name}_rgba.png").convert("RGBA")).astype(np.float32)
+    return a[..., 0], a[..., 3] / 255.0
 
 
-def generate(m, seed, t, frame_index):
-    """Draw one frame of one clip. Returns (image, coverage dict)."""
-    P = Palette(m["treatment"])
-    ink = Ink(t, frame_index, (CW, CH), boil=6, wobble=0.9, seed=seed)
-    ink.d.rectangle([0, 0, CW, CH], fill=P.ground)
-    X = extras(seed)
-    cov = {}
-    if m["camera"] == "side":
-        cov = side_view(ink, P, X, t)
-    else:
-        cov = overhead_view(ink, P, X, t)
-    if m["treatment"] == "cyanotype":
-        # a printed, sun-exposed look: horizontal exposure lines
-        for y in range(0, CH, 4):
-            ink.d.line([(0, y), (CW, y)], fill=(255, 255, 255, 10))
-    ink.rect(1, 1, CW - 2, CH - 2, color=P.line, width=2, rough=False)
-    return ink.img, cov
-
-
-def side_view(ink, P, X, t):
-    off = bus_offset(t)
-    # street beyond the windows
-    for k, sx in enumerate(X["street"]):
-        x = (sx - off * (1 + 0.2 * k)) % (CW + 200) - 100
-        ink.line([(x, 30), (x, 205)], P.line, 2, alpha=120)
-        ink.circle(x, 30, 8, fill=P.glass, color=P.line, width=1.4)
-    if X["rain"]:
-        for k in range(30):
-            rx = (k * 53 + t * 260) % CW
-            ry = (k * 37 + t * 480) % CH
-            ink.d.line([(rx, ry), (rx - 3, ry + 9)], fill=tuple(P.line) + (90,), width=1)
-    ink.d.rectangle([0, 214, CW, CH], fill=P.road)
-    # bus body
-    ink.rect(16, 36, 424, 206, fill=P.body, color=P.line, width=2.5)
-    for k in range(6):
-        wx = 30 + k * 64
-        if (wx + 52 > 110 and wx < 160) or wx + 52 > 362:
+@functools.lru_cache(None)
+def _crowd(seed, treatment):
+    SS = S.SS; Hd, Wd = H * SS, W * SS
+    alpha = np.zeros((Hd, Wd), np.float32); fill = np.full((Hd, Wd), 128, np.float32)
+    r = S.rng(seed, "crowd")
+    feet_y = S.side_ground_y(S.WORLD["crowd_z"])
+    plan = []
+    x = 728 + r.uniform(-4, 10)
+    for nm in CROWD_RIGHT:
+        plan.append((nm, x)); x += r.uniform(30, 44)
+    x = 6 + r.uniform(-6, 6)
+    for nm in CROWD_LEFT:
+        plan.append((nm, x)); x += r.uniform(40, 52)
+    for nm, x0 in plan:
+        g, a = _cut(nm)
+        ys = np.nonzero(a.sum(1) > 0)[0]
+        hh = ys.max() - ys.min() + 1
+        target = r.uniform(100, 114) * (0.86 if nm.startswith(("E_", "H_", "F_")) else 1.0)
+        sc = target / hh * SS
+        tw, th = max(1, int(a.shape[1] * sc)), max(1, int(a.shape[0] * sc))
+        cm = cv2.resize(a, (tw, th), interpolation=cv2.INTER_AREA)
+        cg = cv2.resize(g, (tw, th), interpolation=cv2.INTER_AREA)
+        X = int(x0 * SS); Y = int(feet_y * SS - ys.max() * sc)
+        x0_, y0_ = max(0, X), max(0, Y); x1_, y1_ = min(Wd, X + tw), min(Hd, Y + th)
+        if x1_ <= x0_ or y1_ <= y0_:
             continue
-        ink.rect(wx, 50, wx + 52, 108, fill=P.glass, color=P.line, width=1.6)
-    ink.d.rectangle([20, 120, 420, 200], fill=tuple(P.body) + (255,))
-    ink.line([(20, 192), (420, 192)], P.line, 2)
-    for wx in (80, 360):
-        ink.circle(wx, 208, 16, fill=P.floor, color=P.line, width=2)
-    # rear service door: always shut (anchor A6)
-    ink.rect(118, 54, 152, 192, fill=P.glass, color=P.line, width=2)
-    ink.line([(135, 54), (135, 192)], P.line, 1.6)
-    ink.label((135, 46), "SERVICE", 9, P.line, anchor="mm")
-    # front door: opens to board and alight
-    open_ = max(ease(t, 0.1, 0.4) * (1 - ease(t, 1.3, 1.6)), ease(t, 4.8, 5.1) * (1 - ease(t, 6.0, 6.3)))
-    ink.rect(368, 54, 406, 192, fill=P.ground if open_ > 0.5 else P.glass, color=P.line, width=2)
-    if open_ <= 0.5:
-        ink.line([(387, 54), (387, 192)], P.line, 1.6)
-    # bell cord along the ceiling
-    pull = 1.0 if 2.0 <= t < 2.4 else 0.0
-    cord = [(30, 44), (240, 44 + 6 * pull), (410, 44)]
-    ink.line(cord, (200, 60, 60) if P.t == "ink" else P.key, 1.5)
-    if 2.15 <= t < 2.6:
-        ink.circle(410, 44, 6, fill=P.key, color=P.line, width=1)
-    # seats
-    for sx in (100, 175, SEAT_X, KEY_X + 50, 330):
-        pass
-    for sx in (100, 175, SEAT_X, 330):
-        ink.rect(sx - 14, 150, sx + 22, 160, fill=P.seat, color=P.line, width=1.4)
-        ink.rect(sx - 18, 118, sx - 12, 160, fill=P.seat, color=P.line, width=1.4)
-    for sx, coat in X["sitters"]:
-        figure(ink, sx, 190, 0.62, "sit", 0, 1, color=P.line, coat=P.coat(coat), width=1.8)
-    # the key on the seat (A4)
-    if t >= 4.0:
-        key_shape(ink, KEY_X - 8, 148, 0.45, color=P.key, outline=P.line)
-    v = visitor_state(t)
-    hands = None
-    if v:
-        x, pose, arm, act = v
-        p = figure(ink, x, 190, 0.62, pose, x / 40, -1 if pose == "walk" else 1,
-                   color=P.line, coat=P.coat(X["coat"]), width=1.8, hat=True, arm=arm)
-        hands = p["hands"][0]
-        if t < 3.8:
-            o = ease(t, 2.7, 3.1)
-            envelope(ink, hands[0] + 4, hands[1], 18, 12, open_=o, color=PAGE if P.t == "ink" else P.glass, outline=P.line)
-    # a standing passenger holding the pole (seed); drawn in front
-    occluded_key = False
-    if X["stander"] is not None:
-        sx = X["stander"]
-        ink.line([(sx + 8, 40), (sx + 8, 192)], P.line, 2)
-        figure(ink, sx, 192, 0.66, "reach", 0, 1, color=P.line, coat=P.coat(X["stander_coat"]), width=1.8, arm=160)
-        occluded_key = abs(sx - KEY_X) < 22
-        occluded_env = abs(sx - SEAT_X) < 18
-    else:
-        occluded_env = False
-    return {"A1": True, "A2": True, "A3": not occluded_env, "A4": not occluded_key, "A5": True, "A6": True}
+        aa = cm[y0_ - Y:y1_ - Y, x0_ - X:x1_ - X]
+        fill[y0_:y1_, x0_:x1_] = fill[y0_:y1_, x0_:x1_] * (1 - aa) + cg[y0_ - Y:y1_ - Y, x0_ - X:x1_ - X] * aa
+        alpha[y0_:y1_, x0_:x1_] = np.maximum(alpha[y0_:y1_, x0_:x1_], aa)
+    if treatment == "cut-paper":
+        a = S.print_block(np.clip(alpha * 1.15, 0, 1), seed, "crowd", starve=0.04, edge=0.3)
+        img = np.empty((Hd, Wd, 3), np.float32); img[:] = S.INK2
+        return img, a
+    return S._grade(fill), cv2.GaussianBlur(alpha, (0, 0), 0.6)
 
 
-def overhead_view(ink, P, X, t):
-    off = bus_offset(t)
-    # road markings scroll under the bus
-    for k in range(12):
-        x = (k * 60 - off) % (CW + 60) - 30
-        ink.d.rectangle([x, 226, x + 30, 230], fill=tuple(P.line) + (110,))
-        ink.d.rectangle([x, 16, x + 30, 20], fill=tuple(P.line) + (110,))
-    # bus floor plan (front to the right)
-    ink.rect(24, 40, 416, 210, fill=P.floor if P.t == "ink" else P.body, color=P.line, width=2.5)
-    ink.d.rectangle([24, 110, 416, 140], fill=tuple(P.ground) + (120,))  # aisle
-    # doors on the kerb side (bottom edge)
-    ink.rect(118, 204, 152, 214, fill=P.glass, color=P.line, width=2)  # service door, shut
-    ink.label((135, 224), "SERVICE", 9, P.line, anchor="mm")
-    open_ = max(ease(t, 0.1, 0.4) * (1 - ease(t, 1.3, 1.6)), ease(t, 4.8, 5.1) * (1 - ease(t, 6.0, 6.3)))
-    ink.rect(368, 204, 406, 214, fill=P.ground if open_ > 0.5 else P.glass, color=P.line, width=2)
-    # seats: two rows
-    for sx in (100, 175, SEAT_X, KEY_X + 0, 330):
-        for sy in (60, 168):
-            ink.rect(sx - 13, sy, sx + 13, sy + 26, fill=P.seat, color=P.line, width=1.3)
-    # bell push on the pole in the aisle
-    ink.circle(300, 125, 5, fill=P.key if 2.15 <= t < 2.6 else P.glass, color=P.line, width=1.4)
-    if 2.15 <= t < 2.6:
-        ink.circle(300, 125, 5 + 30 * ramp(t, 2.15, 2.6), color=P.key, width=1.5, alpha=int(220 * (1 - ramp(t, 2.15, 2.6))))
+S._crowd = _crowd   # stage.crowd() resolves _crowd at call time
 
-    def person(x, y, coat, hat=False):
-        ink.ellipse(x, y, 13, 9, fill=P.coat(coat), color=P.line, width=1.6)
-        ink.circle(x, y, 6, fill=P.line if hat else (230, 200, 170) if P.t == "ink" else P.glass, color=P.line, width=1.2)
-    for sx, coat in X["sitters"]:
-        person(sx, 181, coat)
-    if t >= 4.0:
-        key_shape(ink, KEY_X - 8, 180, 0.4, color=P.key, outline=P.line)
-    v = visitor_state(t)
-    if v:
-        x, pose, arm, act = v
-        if t < 1.2:
-            y = lerp(236, 125, ramp(t, 0.4, 1.2))
-            x = 388
-        elif t < 1.9:
-            y = lerp(125, 181, ramp(t, 1.75, 1.9))
-        elif t < 4.4:
-            y = 181
-        elif t < 5.1:
-            y = lerp(181, 125, ramp(t, 4.4, 4.6))
+# ------------------------------------------------------------------ photographic puppet fills (U1 swatches)
+SWATCH_FOR = {"man": "coat_dark_long", "jostler": "coat_light_overcoat", "conductor": "cape_officer"}
+RUN_SWATCHES = ["coat_black_shawl", "trouser_wilson", "coat_dark_long", "cape_officer", "trouser_dark", "coat_light_overcoat"]
+
+
+@functools.lru_cache(None)
+def _tex(name):
+    g = np.asarray(Image.open(U1 / "swatches" / f"{name}.png").convert("L")).astype(np.float32)
+    g = np.concatenate([g, g[:, ::-1]], 1); g = np.concatenate([g, g[::-1]], 0)      # mirror tile: no seams
+    t = np.tile(g, (H // g.shape[0] + 2, W // g.shape[1] + 2))[:H, :W]
+    lo, hi = np.percentile(t, 2), np.percentile(t, 98)
+    t = np.clip((t - lo) / max(hi - lo, 1), 0, 1) * 0.44             # keep the cloth dark: ink .. 44 % toward paper
+    return S._grade(t * 255)
+
+
+def photo_fill(P):
+    out = {}
+    for k, pp in enumerate(P["puppets"]):
+        pid = pp["id"]
+        if pid in SWATCH_FOR:
+            nm = SWATCH_FOR[pid]
+        elif pid.startswith("runner"):
+            nm = RUN_SWATCHES[int(pid[6:] or 0) % len(RUN_SWATCHES)]
         else:
-            x, y = 388, lerp(125, 250, ramp(t, 5.1, 5.9))
-        person(x, y, X["coat"], hat=True)
-        if 1.9 <= t < 3.8:
-            o = ease(t, 2.7, 3.1)
-            envelope(ink, x + 4, y - 18, 16, 10, open_=o, color=PAGE if P.t == "ink" else P.glass, outline=P.line)
-    if X["stander"] is not None:
-        person(X["stander"], 125, X["stander_coat"])
-    # overhead: nothing occludes, but the arm reaching for the bell cannot be seen (only the push lights)
-    return {"A1": True, "A2": True, "A3": True, "A4": True, "A5": True, "A6": True}
+            nm = "cape_officer"
+        out[pid] = np.roll(_tex(nm), int(round(pp.get("x", 0))), axis=1)   # texture rides with the puppet
+    out["default"] = _tex("coat_dark_long")
+    return out
 
 
-# ---------------------------------------------------------------- layout ---
+R._bourse_fill = lambda: _tex("coat_dark_long")   # the 1933 plate is not used anywhere in the film
 
-COVERAGE = {}
-
-
-def measure_coverage():
-    """Ask the generator, at each anchor's own time, whether that anchor is visible."""
-    for k, (name, delta) in enumerate(CONDS):
-        for seed in SEEDS:
-            for aid, nm, at in ANCHORS:
-                _, cv = generate(manifest(delta), seed, at, int(at * FPS))
-                COVERAGE[(k, seed, aid)] = cv[aid]
-
-
-def clip_time(local):
-    return clamp(local - CLIP_AT, 0, CLIP - 1 / FPS)
-
-
-def draw_manifest(ink, x, y, m, delta, size=14):
-    s = "{ " + ", ".join(f"{k}: {v}" for k, v in m.items()) + " }"
-    ink.label((x, y), "manifest", 11, MUTED)
-    xx = x
-    ink.text((xx, y + 16), "{ ", "mono", size, INK)
-    xx += ink.text_size("{ ", "mono", size)[0] + 4
-    for k, (key, val) in enumerate(m.items()):
-        piece = f"{key}: {val}" + (", " if k < len(m) - 1 else " }")
-        ink.text((xx, y + 16), piece, "mono", size, ACCENT if key in delta else INK)
-        xx += ink.text_size(piece, "mono", size)[0] + 8
-
-
-def cov_dots(ink, x, y, cov, light=False):
-    for k, (aid, name, at) in enumerate(ANCHORS):
-        ok = cov.get(aid, True)
-        cx = x + k * 58
-        ink.circle(cx, y, 5, fill=(90, 140, 90) if ok else ACCENT, color=INK, width=1, rough=False)
-        ink.label((cx + 9, y - 7), aid if ok else aid + " hid", 11, MUTED if ok else ACCENT)
+# ------------------------------------------------------------------ render(M, seed, t)
+def render(M, seed, t):
+    """One clip frame (untagged RGB) for manifest M at clip time t."""
+    seed = int(seed)
+    P = R.pose(seed, t)
+    if M["camera"] == "overhead":
+        img = S.plan_stage(seed, t)
+        return R.draw_plan(img, P, R.INK).convert("RGB")
+    tr = M["treatment"]
+    dx = P["dx"]
+    layers = [S.backdrop(seed, tr), S.crowd(seed, tr), S.bus_shadow(seed, dx), S.shift(S.bus_body(seed, tr), dx)]
+    travel = S.bus_x(0) - S.bus_x(t)                 # rolls in, stops at A1, rolls again after A8 (v/r)
+    for name in ("front", "rear"):
+        tile, (cx, cy) = S.wheel(seed, name, S.wheel_angle_for(travel), tr)
+        layers.append((tile, (cx + dx - tile.size[0] / 2, cy - tile.size[1] / 2)))
+    img = S.compose(layers)
+    fill = R.INK if tr == "cut-paper" else photo_fill(P)
+    halo = True                      # the cleared rim: a cut edge, in both treatments (fill-independent)
+    img = R.draw_side(img, P, fill, group="window", halo=halo)
+    img = R.draw_side(img, P, fill, group="platform", halo=halo)
+    img.alpha_composite(S.shift(S.bus_front(seed, tr), dx))
+    img.alpha_composite(S.shift(S.bell_tassel(seed, P["bell_pull"], tr), dx))
+    img.alpha_composite(S.shadow_slivers(seed, "runners", R.feet(P), 150))
+    img = R.draw_side(img, P, fill, group="street", halo=halo)
+    return img.convert("RGB")
 
 
-def run_cond(k, local, ink):
-    name, delta = CONDS[k]
-    m = manifest(delta)
-    ink.fill(PAGE)
-    ink.label((30, 26), f"CONDITION {k + 1} / 3 · {name.upper()}", 14, ACCENT)
-    draw_manifest(ink, 30, 44, m, delta)
-    ct = clip_time(local)
-    fi = int(ct * FPS)
-    for j, seed in enumerate(SEEDS):
-        img, cov = generate(m, seed, ct, fi)
-        x0 = 30 + j * (CW + 40)
-        ink.paste(img, (x0, 112))
-        ink.label((x0, 372), f"seed {seed}", 13, INK)
-        full = {aid: COVERAGE[(k, seed, aid)] for aid, _, _ in ANCHORS}
-        cov_dots(ink, x0 + 66, 380, full)
-    ink.label((30, 414), "t = " + f"{ct:4.1f} s / {CLIP} s", 12, MUTED)
-    # anchor ticker
-    for aid, nm, at in ANCHORS:
-        if at <= ct < at + 0.9:
-            ink.label((W / 2, 440), f"{aid} · {nm}", 16, ACCENT, anchor="mm")
-    ink.label((W / 2, 500), "same seeds, same anchor times, same clip size · only the highlighted field changes", 13, MUTED, anchor="mm")
+def dtext(d, xy, s, font, fill, spacing=2):
+    """Text with a hand-drawn delta: the kit fonts carry no Δ glyph, so the triangle is drawn."""
+    x, y = xy
+    if "Δ" not in s:
+        d.text((x, y), s, font=font, fill=fill, spacing=spacing)
+        return d.textlength(s, font=font)
+    x0 = x
+    for i, part in enumerate(s.split("Δ")):
+        if i:
+            sz = font.size
+            asc = d.textbbox((0, 0), "H", font=font)
+            top, bot = y + asc[1], y + asc[3]
+            w_ = (bot - top) * 0.95
+            d.polygon([(x, bot), (x + w_ / 2, top), (x + w_, bot)], outline=fill, fill=None, width=max(1, int(sz / 11)))
+            x += w_ + sz * 0.15
+        if part:
+            d.text((x, y), part, font=font, fill=fill)
+            x += d.textlength(part, font=font)
+    return x - x0
 
 
-def run_grid(local, ink):
-    ink.fill(PAGE)
-    ink.label((W / 2, 22), "ALL SIX SAMPLES TOGETHER · rows: condition · columns: seed", 13, ACCENT, anchor="mm")
-    ct = clip_time(local)
-    fi = int(ct * FPS)
-    gw, gh = 272, 153
-    for k, (name, delta) in enumerate(CONDS):
-        m = manifest(delta)
-        y0 = 40 + k * (gh + 8)
-        ink.label((24, y0 + gh / 2 - 8), name, 13, INK)
-        ink.label((24, y0 + gh / 2 + 10), ", ".join(f"{a}: {b}" for a, b in delta.items()) or "(none)", 11, ACCENT if delta else MUTED)
-        for j, seed in enumerate(SEEDS):
-            img, _ = generate(m, seed, ct, fi)
-            ink.paste(img.resize((gw, gh), Image.LANCZOS), (360 + j * (gw + 14), y0))
-            if k == 0:
-                ink.label((330 + j * (gw + 14) + gw / 2, 30 + 0), "", 1)
-    for j, seed in enumerate(SEEDS):
-        ink.label((360 + j * (gw + 14) + gw - 6, 44), f"seed {seed}", 11, MUTED, anchor="ra")
+def tag(img, text, size=13, xy=(12, None)):
+    d = ImageDraw.Draw(img)
+    f = kit.font("mono", size)
+    b = d.textbbox((0, 0), text.replace("Δ", "M"), font=f)
+    tw, th = b[2] - b[0], b[3] - b[1]
+    x = xy[0]; y = (img.size[1] - th - 22) if xy[1] is None else xy[1]
+    d.rectangle([x, y, x + tw + 14, y + th + 10], fill=INKC)
+    dtext(d, (x + 7, y + 5 - b[1]), text, f, PAPER)
+    return img
 
 
-def run_report(ink):
-    ink.fill(PAGE)
-    ink.label((W / 2, 40), "OBSERVED IN THESE SIX SAMPLES (not a claim about generators in general)", 14, ACCENT, anchor="mm")
-    lines = []
-    for k, (name, delta) in enumerate(CONDS):
-        hid = [f"{aid} (seed {s})" for s in SEEDS for aid, _, _ in ANCHORS if not COVERAGE.get((k, s, aid), True)]
-        lines.append((name, "all six anchors visible in both seeds" if not hid else "hidden: " + ", ".join(hid)))
-    for k, (a, b) in enumerate(lines):
-        y = 100 + k * 56
-        ink.text((70, y), a, "mono", 16, MUTED)
-        ink.text((290, y - 4), b, "serif", 24, INK)
-    notes = ["camera: overhead keeps every anchor but drops the gesture: the bell reads only as the lit push",
-             "treatment: cyanotype changes ground, line and fill; positions and timing are untouched",
-             "seeds: same seed, same passengers in every condition; the generator is exactly repeatable",
-             "intended effect appeared in 2 / 2 samples for each delta"]
-    for k, s in enumerate(notes):
-        ink.label((70, 300 + k * 34), s, 14, INK)
-    ink.label((W / 2, 480), "a standing passenger (seed-placed) can cover the seat in side view: that is a seed effect, not a delta effect", 12, MUTED, anchor="mm")
+def clip_tag(cond, seed, t):
+    extra = {"baseline": "", "d-treatment": " photographic-plate", "d-camera": " overhead"}[cond]
+    return f"{LABEL[cond]}{extra} · seed {seed:04d} · t {t:4.2f}"
+
+
+# ------------------------------------------------------------------ frame cache (precomputed in parallel)
+CONDS = ("baseline", "d-treatment", "d-camera")
+SEEDS = (417, 418)
+
+
+def _cpath(cond, seed, f):
+    return CACHE / f"{cond}_{seed}_{f:03d}.png"
+
+
+def _job(args):
+    cond, seed, fs = args
+    M = manifest(cond)
+    for f in fs:
+        p = _cpath(cond, seed, f)
+        if not p.exists():
+            render(M, seed, f / FPS).save(p, compress_level=1)
+    return len(fs)
+
+
+def precompute():
+    CACHE.mkdir(parents=True, exist_ok=True)
+    jobs = []
+    for c in CONDS:
+        for s in SEEDS:
+            for k in range(4):
+                jobs.append((c, s, list(range(k, NF, 4))))
+    ctx = get_context("fork")                       # forked workers: nothing is pickled
+    procs = [ctx.Process(target=lambda js=jobs[w::4]: [_job(j) for j in js]) for w in range(4)]
+    for p_ in procs:
+        p_.start()
+    for p_ in procs:
+        p_.join()
+        assert p_.exitcode == 0, "frame worker failed"
+
+
+@functools.lru_cache(maxsize=64)
+def clip_frame(cond, seed, f):
+    f = max(0, min(NF - 1, f))
+    p = _cpath(cond, seed, f)
+    if p.exists():
+        return Image.open(p).convert("RGB")
+    return render(manifest(cond), seed, f / FPS)
+
+
+# ------------------------------------------------------------------ cards (paper and ink)
+def _paper():
+    return Image.new("RGB", (W, H), PAPER)
+
+
+MANIFEST_LINES = [("scene", "platform-bus encounter"), ("camera", "street-side"), ("treatment", "cut-paper"),
+                  ("seeds", "0417 0418"), ("duration", "7.0 s · 24 fps · puppets on twos"),
+                  ("destination", "MADELEINE – BASTILLE")]
+
+
+def _ink_tab(d, x, y, w, h):
+    d.rectangle([x, y, x + w, y + h], fill=INKC)
+
+
+def card_manifest(k):
+    """S0: title + baseline manifest typing out, cream on an ink tab."""
+    img = _paper(); d = ImageDraw.Draw(img)
+    d.text((64, 70), "one incident, three instructions", font=kit.font("serif", 50), fill=INKC)
+    d.text((66, 132), "Exercises in Style (after Mauro Martino) · baseline manifest", font=kit.font("mono", 14), fill=DTINT)
+    _ink_tab(d, 60, 176, 600, 6 * 34 + 26)
+    f = kit.font("mono", 18)
+    chars = max(0, k - 8) * 2.4
+    used = 0
+    for i, (key, val) in enumerate(MANIFEST_LINES):
+        s = f"{key}: {val}"
+        n = int(max(0, min(len(s), chars - used)))
+        used += len(s)
+        if n:
+            d.text((80, 192 + i * 34), s[:n] + ("_" if n < len(s) and (k // 6) % 2 == 0 else ""), font=f, fill=PAPER)
+    if k > 70:
+        d.text((64, 430), f"manifest sha1 {BASE_SHA1}", font=kit.font("mono", 14), fill=INKC)
+        d.text((64, 452), "rendered by render(M, seed, t) · same exposure sheet for every condition", font=kit.font("mono", 13), fill=DTINT)
+    return img
+
+
+def card_delta(k, field, old, new, effect):
+    """S3/S6: the changed line is struck through over 6 frames, then the new value is typed."""
+    img = _paper(); d = ImageDraw.Draw(img)
+    dtext(d, (64, 56), f"Δ {field}", kit.font("serif", 50), INKC)
+    d.text((66, 118), "PromptDelta · one field changed · everything else frozen", font=kit.font("mono", 14), fill=DTINT)
+    _ink_tab(d, 60, 160, 640, 6 * 34 + 26)
+    f = kit.font("mono", 18)
+    for i, (key, val) in enumerate(MANIFEST_LINES):
+        y = 176 + i * 34
+        if key != field:
+            d.text((80, y), f"{key}: {val}", font=f, fill=(150, 144, 135))
+            continue
+        head = f"{key}: "
+        d.text((80, y), head + old, font=f, fill=PAPER)
+        b0 = d.textbbox((80, y), head, font=f); b1 = d.textbbox((80, y), head + old, font=f)
+        strike = kit.clamp((k - 4) / 6)                              # 6 frames
+        if strike > 0:
+            ym = (b1[1] + b1[3]) / 2
+            d.line([(b0[2], ym), (b0[2] + (b1[2] - b0[2]) * strike, ym)], fill=PAPER, width=3)
+        n = int(max(0, min(len(new), (k - 12) * 1.2)))
+        if n:
+            d.text((b1[2] + 18, y), new[:n], font=f, fill=PAPER)
+    if k > 30:
+        d.text((64, 410), f"diff keys: {{{field}}}   (asserted: exactly one)", font=kit.font("mono", 15), fill=INKC)
+        d.text((64, 434), f"intended effect: “{effect}”", font=kit.font("mono", 15), fill=INKC)
+    return img
+
+
+@functools.lru_cache(None)
+def coverage():
+    return json.loads((WS / "verify/coverage.json").read_text())
+
+
+@functools.lru_cache(None)
+def drift_strip():
+    im = Image.open(WS / "verify/rejected-drift-strip.jpg").convert("RGB")
+    w = 340; return im.resize((w, int(im.size[1] * w / im.size[0])), Image.LANCZOS)
+
+
+def card_coverage(k):
+    C = coverage()
+    img = _paper(); d = ImageDraw.Draw(img)
+    d.text((40, 26), "coverage report", font=kit.font("serif", 40), fill=INKC)
+    d.text((42, 74), "observed in 6 inspected samples of one procedural engine (stage.py + rig.py on kit.py)",
+           font=kit.font("mono", 12), fill=DTINT)
+    ie = C["intended_effect_rate"]
+    lost = C["lost_anchor_ids"]["d-camera"]; part = C["partial_anchor_ids"]["d-camera"]
+    pred = C["predicted_losses_overhead"]["predicted"]
+    iou = C["outline_iou"]["puppets"]["min"]
+    au = C.get("audio_pcm", {})
+    rows = [
+        ("intended effect", ""),
+        ("  baseline", ie["baseline"]["rate"]),
+        ("  Δ treatment", ie["d-treatment"]["rate"] + f" · IoU {iou:.1f}"),
+        ("  Δ camera", ie["d-camera"]["rate"] + " · shove = shift"),
+        ("lost in overhead", " ".join(lost)),
+        ("  predicted", " ".join(pred) + " · others unpredicted"),
+        ("partial in overhead", " ".join(part)),
+        ("seeds", "procedural generator, seeds repeatable,"),
+        ("", "verified by frame hash (frames 0 29 132 × 6)"),
+        ("", "seed moves runners (7 vs 8) only;"),
+        ("", "protected masks identical"),
+        ("sound", "bed + bell PCM identical, 6 windows" if au.get("identical") else "PCM hashes: " + str(au.get("status", "pending"))),
+        ("not claimed", "anything about text-to-video"),
+        ("", "generators in general"),
+    ]
+    f = kit.font("mono", 13)
+    y = 108
+    for i, (a, b) in enumerate(rows):
+        if k < 6 + i * 4:
+            break
+        dtext(d, (42, y), a, f, INKC)
+        d.text((200, y), b, font=f, fill=INKC)
+        y += 27 if a and not a.startswith(" ") else 22
+    if k > 40:
+        st = drift_strip()
+        x0, y0 = 590, 140
+        _ink_tab(d, x0 - 6, y0 - 30, st.size[0] + 12, st.size[1] + 36)
+        d.text((x0 + 2, y0 - 24), "REJECTED DRIFT · RNG-coupled overhead projector", font=kit.font("mono", 12), fill=PAPER)
+        img.paste(st, (x0, y0))
+        ce = C["counterexample"]
+        d = ImageDraw.Draw(img)
+        d.text((x0, y0 + st.size[1] + 16), f"seed 0417: {ce['observed']['runners_overhead_drift']} runners overhead vs "
+               f"{ce['observed']['runners_side']} side", font=kit.font("mono", 12), fill=INKC)
+        for j, b in enumerate(ce["broken"]):
+            d.text((x0, y0 + st.size[1] + 34 + j * 15), ("fails: " if j == 0 else "       ") + b, font=kit.font("mono", 11), fill=INKC)
+    return img
+
+
+# ------------------------------------------------------------------ S9 comparison grid
+CHIPS = [("stop", "A1", 0.90), ("shove", "A3", 1.20), ("stanchion", "A4", 1.333), ("cord", "A4c", 1.25),
+         ("protest", "A5", 2.00), ("vacate", "A5v", 3.60), ("seat", "A6", 5.50), ("seat-in-window", "A6w", 5.00),
+         ("bell", "A7", 6.00), ("destination", "A0", 0.00), ("neck", "A-neck", 0.00)]
+
+
+def grid_frame(tt, hold):
+    C = coverage()
+    img = Image.new("RGB", (W, H), PAPER); d = ImageDraw.Draw(img)
+    f = 29 if hold else min(NF - 1, int(round(tt * FPS)))
+    t = f / FPS
+    cw, ch = 300, 169
+    fs = kit.font("mono", 10)
+    for r_, cond in enumerate(CONDS):
+        y = 8 + r_ * 178
+        lab = {"baseline": ["baseline"], "d-treatment": ["Δ treat-", "  ment"], "d-camera": ["Δ camera"]}[cond]
+        for j, ln in enumerate(lab):
+            dtext(d, (8, y + 4 + j * 15), ln, kit.font("mono", 12), INKC)
+        d.text((8, y + 40), {"baseline": "street-side\ncut-paper", "d-treatment": "photo-\ngraphic-\nplate", "d-camera": "overhead"}[cond],
+               font=fs, fill=DTINT, spacing=2)
+        for c_, seed in enumerate(SEEDS):
+            x = 88 + c_ * 304
+            cell = clip_frame(cond, seed, f).resize((cw, ch), Image.LANCZOS)
+            img.paste(cell, (x, y))
+            tag(img, f"{seed:04d}", size=9, xy=(x + 4, y + ch - 20))
+        # anchor chips for this row, one box per seed
+        px = 700
+        lost = set(C["lost_anchor_ids"][cond]); part = set(C["partial_anchor_ids"][cond])
+        dd = ImageDraw.Draw(img)
+        for i, (nm, aid, at) in enumerate(CHIPS):
+            yy = y + 1 + i * 15
+            on = hold or tt >= at
+            is_lost = aid in lost
+            col = DTINT if is_lost else INKC
+            dd.text((px + 34, yy + 1), nm, font=fs, fill=col)
+            for s_ in range(2):
+                bx = px + s_ * 15
+                if is_lost and on:
+                    dd.rectangle([bx, yy + 1, bx + 11, yy + 12], fill=PAPER, outline=DTINT)
+                    dd.line([(bx, yy + 12), (bx + 11, yy + 1)], fill=INKC, width=1)
+                elif on and aid in part:
+                    dd.rectangle([bx, yy + 1, bx + 11, yy + 12], fill=PAPER, outline=INKC)
+                    dd.polygon([(bx, yy + 12), (bx + 11, yy + 1), (bx + 11, yy + 12)], fill=INKC)
+                else:
+                    dd.rectangle([bx, yy + 1, bx + 11, yy + 12], fill=INKC if on else PAPER, outline=INKC)
+            if is_lost and on:
+                tw = dd.textlength(nm, font=fs)
+                dd.line([(px + 34, yy + 7), (px + 34 + tw, yy + 7)], fill=INKC, width=1)
+                dd.text((px + 40 + tw, yy + 1), "lost", font=fs, fill=INKC)
+    d = ImageDraw.Draw(img)
+    tag(img, ("HOLD" if hold else "sync"), size=11, xy=(8, 470))
+    tag(img, f"t {t:4.2f}", size=11, xy=(8, 498))
+    return img
+
+
+# ------------------------------------------------------------------ the shot list (plan.md section 5)
+SHOTS = [  # (start, end, kind, args)
+    (0.0, 4.0, "card0", None),
+    (4.0, 11.0, "clip", ("baseline", 417)),
+    (11.0, 18.0, "clip", ("baseline", 418)),
+    (18.0, 20.0, "delta", ("treatment", "cut-paper", "photographic-plate", "same outlines, photographic fill")),
+    (20.0, 27.0, "clip", ("d-treatment", 417)),
+    (27.0, 34.0, "clip", ("d-treatment", 418)),
+    (34.0, 36.0, "delta", ("camera", "street-side", "overhead", "plan view; shove as displacement")),
+    (36.0, 43.0, "clip", ("d-camera", 417)),
+    (43.0, 50.0, "clip", ("d-camera", 418)),
+    (50.0, 58.0, "grid", None),
+    (58.0, 64.0, "report", None),
+]
+CLIP_WINDOWS = [s for s, e, kind, a in SHOTS if kind == "clip"] + [50.0]
+SECONDS = 64.0
+
+film = Film(SLUG, seconds=SECONDS, boil=0, wobble=0, seed=417)
+film.poster_at = 5.25
 
 
 @film.picture
-def frame(t, ink):
-    name, local, a, b = SC.at(t)
-    if name == "title":
-        section_card(ink, "AFTER MAURO MARTINO · EXERCISES IN STYLE · 2023", "Controlled variation",
-                     "a coded procedural generator · one baseline · two deltas · two matched seeds each")
-    elif name.startswith("c"):
-        run_cond(int(name[1]), local, ink)
-    elif name == "grid":
-        run_grid(local, ink)
+def picture(t, ink):
+    ink._grain = False              # the stage carries its own fixed paper grain; no per-frame boil
+    k = int(round(t * FPS))
+    for s, e, kind, a in SHOTS:
+        if s <= t < e or (kind == "report" and t >= s):
+            break
+    ks = k - int(round(s * FPS))
+    if kind == "card0":
+        img = card_manifest(ks)
+    elif kind == "delta":
+        img = card_delta(ks, *a)
+    elif kind == "clip":
+        cond, seed = a
+        img = clip_frame(cond, seed, ks).copy()
+        tag(img, clip_tag(cond, seed, ks / FPS))
+    elif kind == "grid":
+        img = grid_frame(ks / FPS, ks >= NF)
     else:
-        run_report(ink)
-    edge_fade(ink, t, a, b, 0.3, color=PAGE if name != "title" else NIGHT)
+        img = card_coverage(ks)
+    ink.img = img
+    ink.d = ImageDraw.Draw(ink.img, "RGBA")
 
 
-def clip_sound(mix, at):
-    # engine idles, pulls away, stops
-    n = mix.noise(CLIP, "brown")
-    tt = mix.t(CLIP)
-    level = 0.5 + 0.5 * np.clip((tt - 1.6) / 0.8, 0, 1) * np.clip((4.6 - tt) / 0.8, 0, 1)
-    eng = (np.sin(2 * np.pi * (38 + 14 * level) * tt) * 0.5 + n * 0.6) * level
-    mix.add(eng, at, 0.12)
-    for dt in (0.1, 4.8):
-        mix.add(mix.band(mix.noise(0.5), 1500, 7000) * np.hanning(int(0.5 * RATE)), at + dt, 0.12, 0.6)  # door hiss
-    mix.steps(at + 0.4, at + 1.9, 0.4, 0.12, "wood", 0.6, 0.0)
-    mix.steps(at + 4.4, at + 5.9, 0.4, 0.12, "wood", 0.0, 0.7)
-    mix.note(at + 2.2, 1046, 0.5, 0.12, 0.4, "sine", 0.002, 0.4, 0)
-    mix.note(at + 2.45, 784, 0.6, 0.1, 0.4, "sine", 0.002, 0.5, 0)
-    mix.add(mix.band(mix.noise(0.3), 2000, 8000) * np.hanning(int(0.3 * RATE)), at + 2.8, 0.06, 0)  # paper
-    mix.click(at + 4.0, 0.2, 0, 8000)
-    mix.click(at + 4.02, 0.14, 0, 9500)
+# ------------------------------------------------------------------ sound
+def _decode(path, rate=kit.RATE):
+    """Decode a foraged wav with ffmpeg to float stereo at the kit rate."""
+    raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", str(path), "-f", "s16le", "-ac", "2", "-ar", str(rate), "-"],
+                         check=True, capture_output=True).stdout
+    return np.frombuffer(raw, np.int16).reshape(-1, 2).astype(np.float64) / 32768.0
+
+
+@functools.lru_cache(None)
+def clip_audio():
+    """The one 7.0 s clip track: foraged bed + foraged bell at A7, kit thud at A3 and click at A4
+    (both declared synthetic). Built once; the identical array is laid under every clip window."""
+    n = int(round(CLIP * kit.RATE))
+    m = kit.Mix(CLIP, seed=1201)
+    bed = _decode(U1 / "audio/bed_7.0s.wav")[:n]
+    bell = _decode(U1 / "audio/bell_conductor_2.6s.wav")
+    m.thud(1.20, freq=62, gain=0.55, seconds=0.3)
+    m.click(1.333, gain=0.25, bright=6000)
+    st = np.stack([m.L, m.R], 1)
+    st[:len(bed)] += bed * 0.85
+    i = int(round((6.00 - 0.011) * kit.RATE))
+    b = bell[:n - i].copy() * 0.7
+    tail = int(0.06 * kit.RATE)
+    b[-tail:] *= np.linspace(1, 0, tail)[:, None]                 # cut at the clip end: no spill into the next window
+    st[i:i + len(b)] += b
+    return st
+
+
+def _lay(mix, st, at):
+    i = int(round(at * kit.RATE))
+    n = min(len(st), mix.n - i)
+    mix.L[i:i + n] += st[:n, 0]; mix.R[i:i + n] += st[:n, 1]
 
 
 @film.sound
 def sound(mix):
-    for k in range(3):
-        clip_sound(mix, SC.start(f"c{k}") + CLIP_AT)
-    clip_sound(mix, SC.start("grid") + CLIP_AT)
-    mix.bell(0.4, 523, 2.5, 0.08)
-    mix.reverb(0.08)
+    clip = clip_audio()
+    for at in CLIP_WINDOWS:
+        _lay(mix, clip, at)
+    street = _decode(U1 / "audio/street_bed_7.0s.wav")
+    def bed(at, dur, fade_in, fade_out, gain=0.35):
+        seg = street[:int(round(dur * kit.RATE))].copy() * gain
+        n = len(seg); env = np.ones(n)
+        fi, fo = int(fade_in * kit.RATE), int(fade_out * kit.RATE)
+        if fi: env[:fi] = np.linspace(0, 1, fi)
+        if fo: env[-fo:] = np.linspace(1, 0, fo)
+        _lay(mix, seg * env[:, None], at)
+    bed(0.0, 4.0, 2.5, 0.12, gain=0.25)            # S0: bed fades in (about -18 dB at the start)
+    bed(18.0, 2.0, 0.1, 0.12)                      # S3
+    bed(34.0, 2.0, 0.1, 0.12)                      # S6
+    bed(58.0, 6.0, 0.1, 5.0)                       # S10: bed fades out
+    # 57.0-58.0: the grid hold is declared silence.
+    for c in range(32):                            # key clicks under the typing (kit click, declared synthetic)
+        mix.click(0.36 + c * 0.083, gain=0.08, bright=5000)
+    for at in (18.18, 18.6, 18.66, 18.72, 18.78, 34.18, 34.6, 34.66, 34.72):
+        mix.click(at, gain=0.09, bright=5000)
 
-
-measure_coverage()
-print("coverage:", {k: v for k, v in COVERAGE.items() if not v} or "all anchors visible")
 
 if __name__ == "__main__":
+    if not (len(sys.argv) > 1 and sys.argv[1] == "--stills"):
+        precompute()
     film.render()

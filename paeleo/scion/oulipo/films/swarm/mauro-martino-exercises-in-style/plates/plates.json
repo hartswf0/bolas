@@ -1,0 +1,1055 @@
+{
+ "unit": "PLATES (forager, cutter, sound)",
+ "film": "mauro-martino-exercises-in-style",
+ "date": "2026-11-17",
+ "swarm_methods": {
+  "29 GrabCut": "box + scribble + hand-polygon mask init, 4-6 iterations; invariants kept: no background islands (largest component kept, counts recorded), failure masks exported for every cut",
+  "2 Reiniger": "figures delivered as solid-silhouette-ready masks",
+  "41 Secondary dynamics": "n/a for this unit"
+ },
+ "contact_sheet": "films/swarm/mauro-martino-exercises-in-style/plates/plates-sheet.jpg",
+ "items": [
+  {
+   "id": "rol1916",
+   "title": "1-6-16, nouvel autobus Madeleine-Bastille : [photographie de presse] / [Agence Rol]",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:1-6-16,_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/ee/1-6-16%2C_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg",
+   "local_sha1": "bb5fd56ac6428b621ce0953c8aa0c21b04d88ba5",
+   "commons_original_sha1": "7e34feb9f2f4c26c08ac4cb1a5fed3c13d23921d",
+   "local_note": "1280 px Commons thumbnail of the 4112x2928 original",
+   "what_it_shows": "CGO Schneider H-type bus no. 69 on the Madeleine-Bastille line, place de l'Opéra, Paris, 1 June 1916, 3/4 front-left view; Palais Garnier at left, Grand Hotel facade at right; driver, passengers in the saloon windows, conductor on the rear platform",
+   "verified_date_or_place": "1916 (DateTimeOriginal), Paris; caption date 1-6-16; Gallica Rol 47052",
+   "licence_check": "re-read 2026-11-17 from Commons extmetadata: LicenseShortName 'Public domain', License 'pd'; categories PD-1996, PD US expired, PD France (raw: films/sources/mauro-martino-exercises-in-style/plates/evidence/rol-meta-2026-11-17.json)",
+   "used_as": "master source of the bus, wheels, platform+conductor, facade plate and cobble plate (see derived items)"
+  },
+  {
+   "id": "rol1916.bus",
+   "title": "1-6-16, nouvel autobus Madeleine-Bastille : [photographie de presse] / [Agence Rol]",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:1-6-16,_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/ee/1-6-16%2C_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/bus/bus_rgba.png",
+   "derived_from": "rol1916",
+   "homography": [
+    [
+     1.5191935397743161,
+     -0.12647358764496777,
+     -712.4602345120998
+    ],
+    [
+     -0.042365193512531436,
+     1.4500133830272621,
+     -490.64700223452587
+    ],
+    [
+     -0.0002445943239052211,
+     -8.938012317508422e-05,
+     1.0
+    ]
+   ],
+   "homography_note": "saloon side panel 731..1042 src px mapped to 710x320; width chosen (355*2) so both wheels rectify to aspect 0.94/1.03; each wheel then resized to an exact circle",
+   "quad_src": [
+    [
+     731.0,
+     422.0
+    ],
+    [
+     1040.0,
+     425.0
+    ],
+    [
+     1042.0,
+     577.0
+    ],
+    [
+     740.0,
+     590.0
+    ]
+   ],
+   "masks": {
+    "mask": "films/sources/mauro-martino-exercises-in-style/plates/bus/bus_mask.png",
+    "failmask": "films/sources/mauro-martino-exercises-in-style/plates/bus/bus_failmask.png",
+    "seeds": "films/sources/mauro-martino-exercises-in-style/plates/bus/bus_seeds.png",
+    "hand_polygon": "films/sources/mauro-martino-exercises-in-style/plates/bus/bus_handpoly.png",
+    "windows": "films/sources/mauro-martino-exercises-in-style/plates/bus/bus_windows_mask.png"
+   },
+   "rectified_full": "films/sources/mauro-martino-exercises-in-style/plates/bus/rol_rectified_full.png",
+   "body_without_wheels": "films/sources/mauro-martino-exercises-in-style/plates/bus/bus_body_nowheels_rgba.png",
+   "bus_bbox_in_rgba": [
+    35,
+    37,
+    1214,
+    553
+   ],
+   "windows_polys": [
+    [
+     [
+      447,
+      125
+     ],
+     [
+      653,
+      123
+     ],
+     [
+      647,
+      256
+     ],
+     [
+      440,
+      254
+     ]
+    ],
+    [
+     [
+      662,
+      123
+     ],
+     [
+      851,
+      122
+     ],
+     [
+      847,
+      257
+     ],
+     [
+      656,
+      255
+     ]
+    ],
+    [
+     [
+      858,
+      124
+     ],
+     [
+      952,
+      123
+     ],
+     [
+      949,
+      254
+     ],
+     [
+      854,
+      253
+     ]
+    ],
+    [
+     [
+      961,
+      126
+     ],
+     [
+      1139,
+      125
+     ],
+     [
+      1137,
+      254
+     ],
+     [
+      957,
+      252
+     ]
+    ]
+   ],
+   "grabcut": {
+    "iterations": 6,
+    "init": "mask: sure-FG = eroded hand polygon + window/wheel scribbles, PR-FG = hand polygon, PR-BG = 15px band, BG = outside + sky scribble"
+   },
+   "removed_islands": 4,
+   "failmask_px": 30125,
+   "what_it_shows": "the bus rectified to a side elevation (1291x634 canvas), GrabCut cutout; radiator face excluded (cab-front stretch fix); background seen through the open cab removed with a BG scribble; ground under the chassis removed below the wheel hubs",
+   "verified_date_or_place": "1916, Paris",
+   "used_as": "cut-paper: printed bus body (threshold + tint block; use bus_windows_mask.png for the light windows over a black body); photographic-plate: the bus in its own greys",
+   "known_failures": "failure mask = disagreement between GrabCut and the hand polygon (30k px, mostly the roof edge and the lower chassis); route-indicator box at the front roof is kept; low-res (1280 px thumbnail upsampled ~2.3x)"
+  },
+  {
+   "id": "rol1916.wheel_front",
+   "title": "1-6-16, nouvel autobus Madeleine-Bastille : [photographie de presse] / [Agence Rol]",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:1-6-16,_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/ee/1-6-16%2C_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/bus/wheel_front_rgba.png",
+   "derived_from": "rol1916.bus",
+   "hub_center_in_bus_rgba": [
+    313.1,
+    511.3
+   ],
+   "radius_px": 81,
+   "ellipse_radii_before_circle": [
+    74.5,
+    80.9
+   ],
+   "masks": {
+    "failmask": "films/sources/mauro-martino-exercises-in-style/plates/bus/wheel_front_failmask.png"
+   },
+   "grabcut_disagree_px": 2778,
+   "what_it_shows": "the front wheel (artillery spokes) rectified from its ellipse to an exact circle; centre = hub",
+   "verified_date_or_place": "1916, Paris",
+   "used_as": "separate rotating cutout; place its centre at hub_center_in_bus_rgba over bus_body_nowheels_rgba; radii differ (81/85) from perspective residue, scale both to one radius if needed",
+   "known_failures": "front wheel: the mudguard edge and the far-side front wheel graze the top-left of the disc; alpha is the true disc, GrabCut disagreement exported"
+  },
+  {
+   "id": "rol1916.wheel_rear",
+   "title": "1-6-16, nouvel autobus Madeleine-Bastille : [photographie de presse] / [Agence Rol]",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:1-6-16,_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/ee/1-6-16%2C_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/bus/wheel_rear_rgba.png",
+   "derived_from": "rol1916.bus",
+   "hub_center_in_bus_rgba": [
+    950.9,
+    494.1
+   ],
+   "radius_px": 85,
+   "ellipse_radii_before_circle": [
+    85.1,
+    80.5
+   ],
+   "masks": {
+    "failmask": "films/sources/mauro-martino-exercises-in-style/plates/bus/wheel_rear_failmask.png"
+   },
+   "grabcut_disagree_px": 5602,
+   "what_it_shows": "the rear wheel (artillery spokes) rectified from its ellipse to an exact circle; centre = hub",
+   "verified_date_or_place": "1916, Paris",
+   "used_as": "separate rotating cutout; place its centre at hub_center_in_bus_rgba over bus_body_nowheels_rgba; radii differ (81/85) from perspective residue, scale both to one radius if needed",
+   "known_failures": "front wheel: the mudguard edge and the far-side front wheel graze the top-left of the disc; alpha is the true disc, GrabCut disagreement exported"
+  },
+  {
+   "id": "rol1916.platform_conductor",
+   "title": "1-6-16, nouvel autobus Madeleine-Bastille : [photographie de presse] / [Agence Rol]",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:1-6-16,_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/ee/1-6-16%2C_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/bus/platform_conductor_rgba.png",
+   "derived_from": "rol1916.bus",
+   "bbox_in_bus_rgba": [
+    1141,
+    125,
+    108,
+    363
+   ],
+   "what_it_shows": "the real rear platform with the 1916 conductor (peaked cap) standing on it",
+   "verified_date_or_place": "1916, Paris",
+   "used_as": "rear platform layer (x≈62–75% of frame in the test shot); conductor reference/plate in photographic-plate",
+   "known_failures": "conductor's back merges with the facade behind; edge noisy at the head"
+  },
+  {
+   "id": "rol1916.facade",
+   "title": "1-6-16, nouvel autobus Madeleine-Bastille : [photographie de presse] / [Agence Rol]",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:1-6-16,_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/ee/1-6-16%2C_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/stage/facade_rect_rgba.png",
+   "derived_from": "rol1916",
+   "homography": [
+    [
+     15.533396048918208,
+     1.104332637704596e-15,
+     -15222.728127939845
+    ],
+    [
+     2.56255879586078,
+     9.877704609595519,
+     -3251.006585136418
+    ],
+    [
+     0.0031984948259642654,
+     2.3039469200229043e-18,
+     1.0
+    ]
+   ],
+   "quad_src": [
+    [
+     980.0,
+     100.0
+    ],
+    [
+     1205.0,
+     46.0
+    ],
+    [
+     1205.0,
+     390.0
+    ],
+    [
+     980.0,
+     393.0
+    ]
+   ],
+   "masks": {
+    "failmask": "films/sources/mauro-martino-exercises-in-style/plates/stage/facade_failmask.png",
+    "seeds": "films/sources/mauro-martino-exercises-in-style/plates/stage/facade_seeds.png"
+   },
+   "removed_islands": 3,
+   "what_it_shows": "the right-hand Haussmann facade (Grand Hotel side), rectified to an elevation: mansard with dormers and chimneys (skyline cut with GrabCut), three storeys of windows with balconies, Grand Marnier sign band",
+   "verified_date_or_place": "1916, Paris",
+   "used_as": "photographic-plate facade; also a measured guide (bay rhythm, storey heights) for the hand-carved facade",
+   "known_failures": "right-hand facade (Grand Hotel side, rue Auber/boulevard des Capucines corner) between src x 980-1205; shopfront level below y 393 dropped (bus occludes it); plate number 47052 at x>1210 excluded; horizontal scale is an estimate (bay ~= storey)"
+  },
+  {
+   "id": "rol1916.cobbles",
+   "title": "1-6-16, nouvel autobus Madeleine-Bastille : [photographie de presse] / [Agence Rol]",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:1-6-16,_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/ee/1-6-16%2C_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/stage/cobbles_plate.png",
+   "derived_from": "rol1916",
+   "homography": [
+    [
+     -38.39999999999921,
+     -54.857142857141774,
+     49919.999999999
+    ],
+    [
+     -5.820766091346741e-15,
+     -42.499999999999126,
+     29749.999999999396
+    ],
+    [
+     -8.33802163116262e-18,
+     -0.028571428571427998,
+     1.0
+    ]
+   ],
+   "quad_src": [
+    [
+     300.0,
+     700.0
+    ],
+    [
+     1250.0,
+     700.0
+    ],
+    [
+     1250.0,
+     868.0
+    ],
+    [
+     60.0,
+     868.0
+    ]
+   ],
+   "what_it_shows": "the foreground roadway setts of place de l'Opéra, ground-plane rectified to a 1920x300 band",
+   "verified_date_or_place": "1916, Paris",
+   "used_as": "photographic-plate pavement; gouge-direction reference for the carved pavement",
+   "known_failures": "foreground roadway setts, ground-plane rectified to a frontal band; near rows still larger (no depth correction beyond the quad)"
+  },
+  {
+   "id": "vilgrain1919",
+   "title": "Mars 1919, baraque Vilgrain (foule devant l'épicerie à prix contenus)",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mars_1919,_baraque_Vilgrain_(foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus)_-_btv1b53016631j.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg/1280px-Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/commons/vilgrain1919.jpg",
+   "local_sha1": "3f286fc83ce5d6d98cac9d7841cf16a1994a19ce",
+   "commons_original_sha1": "c13e3d489072c28b1ac6c5d8b1d1d445811714f2",
+   "local_note": "1280 px Commons thumbnail of the 4266x3106 original",
+   "what_it_shows": "a Paris square in March 1919: a long queue in front of a wooden Vilgrain grocery hut, with full-length walkers in the foreground (women in shawls and long coats, men in overcoats, caps and bowlers), a Haussmann block behind",
+   "verified_date_or_place": "1919 (DateTimeOriginal), Paris; Gallica Rol 52801",
+   "licence_check": "read 2026-11-17 from Commons extmetadata: LicenseShortName 'Public domain'; categories PD-1996, PD France; published 1919 so also PD in the US (pre-1931) (raw: films/sources/mauro-martino-exercises-in-style/plates/evidence/cand-meta.json)",
+   "used_as": "replacement for Bourse 1933: source of the crowd figures and fabric swatches"
+  },
+  {
+   "id": "vilgrain1919.A_woman_shawl",
+   "title": "Mars 1919, baraque Vilgrain (foule devant l'épicerie à prix contenus)",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mars_1919,_baraque_Vilgrain_(foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus)_-_btv1b53016631j.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg/1280px-Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/crowd/A_woman_shawl_rgba.png",
+   "derived_from": "vilgrain1919",
+   "crop_src": [
+    423,
+    500,
+    551,
+    804
+   ],
+   "masks": {
+    "mask": "films/sources/mauro-martino-exercises-in-style/plates/crowd/A_woman_shawl_mask.png",
+    "failmask": "films/sources/mauro-martino-exercises-in-style/plates/crowd/A_woman_shawl_failmask.png",
+    "seeds": "films/sources/mauro-martino-exercises-in-style/plates/crowd/A_woman_shawl_seeds.png"
+   },
+   "bg_scribbles_src": [],
+   "removed_islands": 0,
+   "filled_holes": 0,
+   "touches_box_edge_px": 55,
+   "status": "accepted",
+   "what_it_shows": "standing, black shawl and long skirt, facing left",
+   "verified_date_or_place": "1919, Paris",
+   "used_as": "waiting-mass figure behind the platform (cut-paper: printed as a solid ink silhouette from the mask; photographic-plate: its own greys)"
+  },
+  {
+   "id": "vilgrain1919.B_woman_walking",
+   "title": "Mars 1919, baraque Vilgrain (foule devant l'épicerie à prix contenus)",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mars_1919,_baraque_Vilgrain_(foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus)_-_btv1b53016631j.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg/1280px-Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/crowd/B_woman_walking_rgba.png",
+   "derived_from": "vilgrain1919",
+   "crop_src": [
+    546,
+    513,
+    680,
+    819
+   ],
+   "masks": {
+    "mask": "films/sources/mauro-martino-exercises-in-style/plates/crowd/B_woman_walking_mask.png",
+    "failmask": "films/sources/mauro-martino-exercises-in-style/plates/crowd/B_woman_walking_failmask.png",
+    "seeds": "films/sources/mauro-martino-exercises-in-style/plates/crowd/B_woman_walking_seeds.png"
+   },
+   "bg_scribbles_src": [
+    [
+     540,
+     500,
+     570,
+     680
+    ],
+    [
+     540,
+     500,
+     579,
+     612
+    ]
+   ],
+   "removed_islands": 0,
+   "filled_holes": 1,
+   "touches_box_edge_px": 20,
+   "status": "accepted",
+   "what_it_shows": "walking right in long dark coat, motion-blurred skirt (stride)",
+   "verified_date_or_place": "1919, Paris",
+   "used_as": "waiting-mass figure behind the platform (cut-paper: printed as a solid ink silhouette from the mask; photographic-plate: its own greys)"
+  },
+  {
+   "id": "vilgrain1919.C_man_overcoat",
+   "title": "Mars 1919, baraque Vilgrain (foule devant l'épicerie à prix contenus)",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mars_1919,_baraque_Vilgrain_(foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus)_-_btv1b53016631j.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg/1280px-Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/crowd/C_man_overcoat_rgba.png",
+   "derived_from": "vilgrain1919",
+   "crop_src": [
+    662,
+    484,
+    757,
+    737
+   ],
+   "masks": {
+    "mask": "films/sources/mauro-martino-exercises-in-style/plates/crowd/C_man_overcoat_mask.png",
+    "failmask": "films/sources/mauro-martino-exercises-in-style/plates/crowd/C_man_overcoat_failmask.png",
+    "seeds": "films/sources/mauro-martino-exercises-in-style/plates/crowd/C_man_overcoat_seeds.png"
+   },
+   "bg_scribbles_src": [
+    [
+     660,
+     484,
+     690,
+     555
+    ]
+   ],
+   "removed_islands": 0,
+   "filled_holes": 0,
+   "touches_box_edge_px": 178,
+   "status": "accepted",
+   "what_it_shows": "standing man, cap and long light overcoat, hands in pockets",
+   "verified_date_or_place": "1919, Paris",
+   "used_as": "waiting-mass figure behind the platform (cut-paper: printed as a solid ink silhouette from the mask; photographic-plate: its own greys)"
+  },
+  {
+   "id": "vilgrain1919.D_man_back",
+   "title": "Mars 1919, baraque Vilgrain (foule devant l'épicerie à prix contenus)",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mars_1919,_baraque_Vilgrain_(foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus)_-_btv1b53016631j.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg/1280px-Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/crowd/D_man_back_rgba.png",
+   "derived_from": "vilgrain1919",
+   "crop_src": [
+    217,
+    489,
+    327,
+    722
+   ],
+   "masks": {
+    "mask": "films/sources/mauro-martino-exercises-in-style/plates/crowd/D_man_back_mask.png",
+    "failmask": "films/sources/mauro-martino-exercises-in-style/plates/crowd/D_man_back_failmask.png",
+    "seeds": "films/sources/mauro-martino-exercises-in-style/plates/crowd/D_man_back_seeds.png"
+   },
+   "bg_scribbles_src": [
+    [
+     215,
+     489,
+     240,
+     565
+    ],
+    [
+     303,
+     489,
+     330,
+     590
+    ]
+   ],
+   "removed_islands": 0,
+   "filled_holes": 1,
+   "touches_box_edge_px": 38,
+   "status": "accepted",
+   "what_it_shows": "man seen from behind, cap, long black coat, walking left",
+   "verified_date_or_place": "1919, Paris",
+   "used_as": "waiting-mass figure behind the platform (cut-paper: printed as a solid ink silhouette from the mask; photographic-plate: its own greys)"
+  },
+  {
+   "id": "vilgrain1919.E_woman_white",
+   "title": "Mars 1919, baraque Vilgrain (foule devant l'épicerie à prix contenus)",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mars_1919,_baraque_Vilgrain_(foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus)_-_btv1b53016631j.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg/1280px-Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/crowd/E_woman_white_rgba.png",
+   "derived_from": "vilgrain1919",
+   "crop_src": [
+    927,
+    484,
+    1011,
+    641
+   ],
+   "masks": {
+    "mask": "films/sources/mauro-martino-exercises-in-style/plates/crowd/E_woman_white_mask.png",
+    "failmask": "films/sources/mauro-martino-exercises-in-style/plates/crowd/E_woman_white_failmask.png",
+    "seeds": "films/sources/mauro-martino-exercises-in-style/plates/crowd/E_woman_white_seeds.png"
+   },
+   "bg_scribbles_src": [
+    [
+     988,
+     484,
+     1012,
+     522
+    ]
+   ],
+   "removed_islands": 0,
+   "filled_holes": 0,
+   "touches_box_edge_px": 26,
+   "status": "accepted",
+   "what_it_shows": "woman in white coat walking right (small, mid-ground)",
+   "verified_date_or_place": "1919, Paris",
+   "used_as": "waiting-mass figure behind the platform (cut-paper: printed as a solid ink silhouette from the mask; photographic-plate: its own greys)"
+  },
+  {
+   "id": "vilgrain1919.F_woman_basket",
+   "title": "Mars 1919, baraque Vilgrain (foule devant l'épicerie à prix contenus)",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mars_1919,_baraque_Vilgrain_(foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus)_-_btv1b53016631j.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg/1280px-Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/crowd/F_woman_basket_rgba.png",
+   "derived_from": "vilgrain1919",
+   "crop_src": [
+    876,
+    482,
+    958,
+    637
+   ],
+   "masks": {
+    "mask": "films/sources/mauro-martino-exercises-in-style/plates/crowd/F_woman_basket_mask.png",
+    "failmask": "films/sources/mauro-martino-exercises-in-style/plates/crowd/F_woman_basket_failmask.png",
+    "seeds": "films/sources/mauro-martino-exercises-in-style/plates/crowd/F_woman_basket_seeds.png"
+   },
+   "bg_scribbles_src": [
+    [
+     874,
+     480,
+     902,
+     580
+    ]
+   ],
+   "removed_islands": 0,
+   "filled_holes": 0,
+   "touches_box_edge_px": 0,
+   "status": "accepted",
+   "what_it_shows": "woman with basket walking left, mid-ground",
+   "verified_date_or_place": "1919, Paris",
+   "used_as": "waiting-mass figure behind the platform (cut-paper: printed as a solid ink silhouette from the mask; photographic-plate: its own greys)"
+  },
+  {
+   "id": "vilgrain1919.G_man_bowler_right",
+   "title": "Mars 1919, baraque Vilgrain (foule devant l'épicerie à prix contenus)",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mars_1919,_baraque_Vilgrain_(foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus)_-_btv1b53016631j.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg/1280px-Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/crowd/G_man_bowler_right_rgba.png",
+   "derived_from": "vilgrain1919",
+   "crop_src": [
+    1141,
+    471,
+    1226,
+    648
+   ],
+   "masks": {
+    "mask": "films/sources/mauro-martino-exercises-in-style/plates/crowd/G_man_bowler_right_mask.png",
+    "failmask": "films/sources/mauro-martino-exercises-in-style/plates/crowd/G_man_bowler_right_failmask.png",
+    "seeds": "films/sources/mauro-martino-exercises-in-style/plates/crowd/G_man_bowler_right_seeds.png"
+   },
+   "bg_scribbles_src": [
+    [
+     1139,
+     470,
+     1165,
+     560
+    ]
+   ],
+   "removed_islands": 0,
+   "filled_holes": 1,
+   "touches_box_edge_px": 11,
+   "status": "accepted",
+   "what_it_shows": "man in bowler and dark coat walking right (stride)",
+   "verified_date_or_place": "1919, Paris",
+   "used_as": "waiting-mass figure behind the platform (cut-paper: printed as a solid ink silhouette from the mask; photographic-plate: its own greys)"
+  },
+  {
+   "id": "vilgrain1919.H_man_far",
+   "title": "Mars 1919, baraque Vilgrain (foule devant l'épicerie à prix contenus)",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mars_1919,_baraque_Vilgrain_(foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus)_-_btv1b53016631j.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg/1280px-Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/crowd/H_man_far_rgba.png",
+   "derived_from": "vilgrain1919",
+   "crop_src": [
+    992,
+    484,
+    1051,
+    595
+   ],
+   "masks": {
+    "mask": "films/sources/mauro-martino-exercises-in-style/plates/crowd/H_man_far_mask.png",
+    "failmask": "films/sources/mauro-martino-exercises-in-style/plates/crowd/H_man_far_failmask.png",
+    "seeds": "films/sources/mauro-martino-exercises-in-style/plates/crowd/H_man_far_seeds.png"
+   },
+   "bg_scribbles_src": [],
+   "removed_islands": 0,
+   "filled_holes": 0,
+   "touches_box_edge_px": 6,
+   "status": "accepted",
+   "what_it_shows": "small far man walking right",
+   "verified_date_or_place": "1919, Paris",
+   "used_as": "waiting-mass figure behind the platform (cut-paper: printed as a solid ink silhouette from the mask; photographic-plate: its own greys)"
+  },
+  {
+   "id": "vilgrain1919.I_boy_black",
+   "title": "Mars 1919, baraque Vilgrain (foule devant l'épicerie à prix contenus)",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mars_1919,_baraque_Vilgrain_(foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus)_-_btv1b53016631j.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg/1280px-Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/crowd/I_boy_black_rgba.png",
+   "derived_from": "vilgrain1919",
+   "crop_src": [
+    745,
+    487,
+    824,
+    639
+   ],
+   "masks": {
+    "mask": "films/sources/mauro-martino-exercises-in-style/plates/crowd/I_boy_black_mask.png",
+    "failmask": "films/sources/mauro-martino-exercises-in-style/plates/crowd/I_boy_black_failmask.png",
+    "seeds": "films/sources/mauro-martino-exercises-in-style/plates/crowd/I_boy_black_seeds.png"
+   },
+   "bg_scribbles_src": [],
+   "removed_islands": 0,
+   "filled_holes": 1,
+   "touches_box_edge_px": 46,
+   "status": "rejected: legs merged with the queue behind; torso only",
+   "what_it_shows": "boy in black jacket, legs apart",
+   "verified_date_or_place": "1919, Paris",
+   "used_as": "not used (rejected cut)"
+  },
+  {
+   "id": "vilgrain1919.J_child_walking",
+   "title": "Mars 1919, baraque Vilgrain (foule devant l'épicerie à prix contenus)",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mars_1919,_baraque_Vilgrain_(foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus)_-_btv1b53016631j.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg/1280px-Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/crowd/J_child_walking_rgba.png",
+   "derived_from": "vilgrain1919",
+   "crop_src": [
+    322,
+    505,
+    410,
+    648
+   ],
+   "masks": {
+    "mask": "films/sources/mauro-martino-exercises-in-style/plates/crowd/J_child_walking_mask.png",
+    "failmask": "films/sources/mauro-martino-exercises-in-style/plates/crowd/J_child_walking_failmask.png",
+    "seeds": "films/sources/mauro-martino-exercises-in-style/plates/crowd/J_child_walking_seeds.png"
+   },
+   "bg_scribbles_src": [],
+   "removed_islands": 0,
+   "filled_holes": 0,
+   "touches_box_edge_px": 0,
+   "status": "rejected: merged with a second child carrying a bundle",
+   "what_it_shows": "child walking left, boots",
+   "verified_date_or_place": "1919, Paris",
+   "used_as": "not used (rejected cut)"
+  },
+  {
+   "id": "wilson1919",
+   "title": "14-3-19, la foule attendant l'arrivée du président Wilson",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:14-3-19,_la_foule_attendant_l%27arriv%C3%A9e_du_pr%C3%A9sident_Wilson_-_btv1b53016658h.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/14-3-19%2C_la_foule_attendant_l%27arriv%C3%A9e_du_pr%C3%A9sident_Wilson_-_btv1b53016658h.jpg/1280px-14-3-19%2C_la_foule_attendant_l%27arriv%C3%A9e_du_pr%C3%A9sident_Wilson_-_btv1b53016658h.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/commons/wilson1919.jpg",
+   "local_sha1": "5e5260870c8b59c44fe9ef13bc5a4da8e89cc125",
+   "commons_original_sha1": "84f10e9f454a97eeccc164be54abe674c606e62d",
+   "local_note": "1280 px Commons thumbnail",
+   "what_it_shows": "a Paris crowd of men in bowlers, caps, overcoats and capes, with police and a limousine, waiting for President Wilson, 14 March 1919",
+   "verified_date_or_place": "1919-03-14, Paris",
+   "licence_check": "read 2026-11-17 from Commons extmetadata: LicenseShortName 'Public domain'; categories PD-anon-expired, PD France, PD-scan; published 1919 so also PD in the US (pre-1931) (raw: films/sources/mauro-martino-exercises-in-style/plates/evidence/cand-meta.json)",
+   "used_as": "fabric swatches only (cape, trousers)"
+  },
+  {
+   "id": "swatch.coat_light_overcoat",
+   "title": "Mars 1919, baraque Vilgrain (foule devant l'épicerie à prix contenus)",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mars_1919,_baraque_Vilgrain_(foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus)_-_btv1b53016631j.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg/1280px-Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_light_overcoat.png",
+   "derived_from": "vilgrain1919",
+   "crop_src": [
+    688,
+    560,
+    730,
+    660
+   ],
+   "upscale": 3,
+   "what_it_shows": "coat light overcoat texture (photographic fabric grain)",
+   "verified_date_or_place": "1919, Paris",
+   "used_as": "photographic-plate puppet part fill (tile/stretch inside the puppet part masks)"
+  },
+  {
+   "id": "swatch.coat_black_shawl",
+   "title": "Mars 1919, baraque Vilgrain (foule devant l'épicerie à prix contenus)",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mars_1919,_baraque_Vilgrain_(foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus)_-_btv1b53016631j.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg/1280px-Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_black_shawl.png",
+   "derived_from": "vilgrain1919",
+   "crop_src": [
+    455,
+    575,
+    520,
+    650
+   ],
+   "upscale": 3,
+   "what_it_shows": "coat black shawl texture (photographic fabric grain)",
+   "verified_date_or_place": "1919, Paris",
+   "used_as": "photographic-plate puppet part fill (tile/stretch inside the puppet part masks)"
+  },
+  {
+   "id": "swatch.coat_dark_long",
+   "title": "Mars 1919, baraque Vilgrain (foule devant l'épicerie à prix contenus)",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mars_1919,_baraque_Vilgrain_(foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus)_-_btv1b53016631j.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg/1280px-Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_dark_long.png",
+   "derived_from": "vilgrain1919",
+   "crop_src": [
+    590,
+    640,
+    638,
+    720
+   ],
+   "upscale": 3,
+   "what_it_shows": "coat dark long texture (photographic fabric grain)",
+   "verified_date_or_place": "1919, Paris",
+   "used_as": "photographic-plate puppet part fill (tile/stretch inside the puppet part masks)"
+  },
+  {
+   "id": "swatch.trouser_dark",
+   "title": "Mars 1919, baraque Vilgrain (foule devant l'épicerie à prix contenus)",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mars_1919,_baraque_Vilgrain_(foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus)_-_btv1b53016631j.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg/1280px-Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_dark.png",
+   "derived_from": "vilgrain1919",
+   "crop_src": [
+    698,
+    688,
+    724,
+    714
+   ],
+   "upscale": 3,
+   "what_it_shows": "trouser dark texture (photographic fabric grain)",
+   "verified_date_or_place": "1919, Paris",
+   "used_as": "photographic-plate puppet part fill (tile/stretch inside the puppet part masks)"
+  },
+  {
+   "id": "swatch.cape_officer",
+   "title": "14-3-19, la foule attendant l'arrivée du président Wilson",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:14-3-19,_la_foule_attendant_l%27arriv%C3%A9e_du_pr%C3%A9sident_Wilson_-_btv1b53016658h.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/14-3-19%2C_la_foule_attendant_l%27arriv%C3%A9e_du_pr%C3%A9sident_Wilson_-_btv1b53016658h.jpg/1280px-14-3-19%2C_la_foule_attendant_l%27arriv%C3%A9e_du_pr%C3%A9sident_Wilson_-_btv1b53016658h.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/swatches/cape_officer.png",
+   "derived_from": "wilson1919",
+   "crop_src": [
+    668,
+    610,
+    740,
+    690
+   ],
+   "upscale": 3,
+   "what_it_shows": "cape officer texture (photographic fabric grain)",
+   "verified_date_or_place": "1919, Paris",
+   "used_as": "photographic-plate puppet part fill (tile/stretch inside the puppet part masks)"
+  },
+  {
+   "id": "swatch.trouser_wilson",
+   "title": "14-3-19, la foule attendant l'arrivée du président Wilson",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:14-3-19,_la_foule_attendant_l%27arriv%C3%A9e_du_pr%C3%A9sident_Wilson_-_btv1b53016658h.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/14-3-19%2C_la_foule_attendant_l%27arriv%C3%A9e_du_pr%C3%A9sident_Wilson_-_btv1b53016658h.jpg/1280px-14-3-19%2C_la_foule_attendant_l%27arriv%C3%A9e_du_pr%C3%A9sident_Wilson_-_btv1b53016658h.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_wilson.png",
+   "derived_from": "wilson1919",
+   "crop_src": [
+    690,
+    700,
+    738,
+    750
+   ],
+   "upscale": 3,
+   "what_it_shows": "trouser wilson texture (photographic fabric grain)",
+   "verified_date_or_place": "1919, Paris",
+   "used_as": "photographic-plate puppet part fill (tile/stretch inside the puppet part masks)"
+  },
+  {
+   "id": "swatch.hat_felt_bowler_crown_G",
+   "title": "Mars 1919, baraque Vilgrain (foule devant l'épicerie à prix contenus)",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mars_1919,_baraque_Vilgrain_(foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus)_-_btv1b53016631j.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg/1280px-Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/swatches/hat_felt_bowler_crown_G.png",
+   "derived_from": "vilgrain1919",
+   "crop_src": [
+    1174,
+    486,
+    1192,
+    494
+   ],
+   "upscale": 3,
+   "what_it_shows": "hat felt bowler crown G texture (photographic fabric grain)",
+   "verified_date_or_place": "1919, Paris",
+   "used_as": "photographic-plate puppet part fill (tile/stretch inside the puppet part masks)"
+  },
+  {
+   "id": "engine",
+   "title": "WWS CityBusMANSG220engine (MAN/Avtomontaža city bus, 1991, engine)",
+   "author": "Work With Sounds / Technical Museum of Slovenia",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:WWS_CityBusMANSG220engine.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/69/WWS_CityBusMANSG220engine.ogg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/audio/engine_idle_pullaway_7.0s.wav",
+   "raw_path": "films/sources/mauro-martino-exercises-in-style/plates/audio/raw/wws-bus-engine.ogg",
+   "raw_sha1": "b7f59663a10c3c50f7f88aa1fc7b81796ac2c087",
+   "commons_sha1": "b7f59663a10c3c50f7f88aa1fc7b81796ac2c087",
+   "pcm_sha1": "9bce4e46b095432bd3df6d786ca38b0a5466ff2d",
+   "crop": "16.80–23.80 s of the 93.9 s recording: steady diesel idle, rev rising in the last ~0.8 s (lines up with the 6.2–7.0 s pull-away); 48 kHz stereo s16, 336000 samples exactly; 50 ms fade-in, 100 ms fade-out",
+   "what_it_shows": "engine sound of a 1991 MAN SG 220 city bus recorded at the Technical Museum of Slovenia, 2015",
+   "verified_date_or_place": "2015-03-26 recording (Commons DateTimeOriginal)",
+   "licence_check": "read 2026-11-17 from Commons extmetadata: LicenseShortName CC BY 4.0",
+   "used_as": "engine bed, identical in every condition; anachronism declared: a 1991 diesel standing in for a 1916 petrol engine (no openly licensed early-motorbus recording found)"
+  },
+  {
+   "id": "bell",
+   "title": "Bell-ring (a bicycle bell, single stroke)",
+   "author": "qubodup",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Bell-ring.flac",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Bell-ring.flac",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/audio/bell_conductor_2.6s.wav",
+   "raw_path": "films/sources/mauro-martino-exercises-in-style/plates/audio/raw/bell-ring.flac",
+   "raw_sha1": "ad08505bccd8244e4d498c13664edff0d98e679e",
+   "commons_sha1": "ad08505bccd8244e4d498c13664edff0d98e679e",
+   "pcm_sha1": "995853d6bfa384c4a90c7788372d4b761297a27b",
+   "crop": "0.033–2.633 s (onset at 0.044 s, so the strike lands 11 ms into the file); single ding, fundamental ≈2.6 kHz, ring decays over ~2.4 s; −6 dB, 4 ms fade-in, 0.3 s fade-out; 48 kHz stereo s16",
+   "what_it_shows": "one stroke of a bicycle bell (Zoom H2 recording)",
+   "verified_date_or_place": "unverified (no date given)",
+   "licence_check": "read 2026-11-17 from Commons extmetadata: LicenseShortName CC0",
+   "used_as": "the conductor's bell at A7 (6.00 s): place the file so its 0.011 s onset lands on the anchor; a real bell, not synthetic (it is a bicycle bell, not a 1916 bus bell: declared)"
+  },
+  {
+   "id": "street",
+   "title": "Sunday in the city street noise1 (sounds outside my window, 4 May 2008)",
+   "author": "cori",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Sunday_in_the_city_street_noise1.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/5d/Sunday_in_the_city_street_noise1.ogg",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/audio/street_bed_7.0s.wav",
+   "raw_path": "films/sources/mauro-martino-exercises-in-style/plates/audio/raw/street-noise1.ogg",
+   "raw_sha1": "01c8dca37e8e7aa6be9fc37851951c54cdec3553",
+   "commons_sha1": "01c8dca37e8e7aa6be9fc37851951c54cdec3553",
+   "pcm_sha1": "7a3277d9c762d263432ca73eca28770e34983b96",
+   "crop": "169.00–176.00 s of the 267 s recording, chosen as the steadiest, least tonal 7 s window (RMS sd 1.65 dB, mean flatness 0.322); 48 kHz stereo s16, 336000 samples; 50/100 ms fades",
+   "what_it_shows": "city street noise heard from a window on a Sunday afternoon, 2008",
+   "verified_date_or_place": "2008-05-04/05 (Commons DateTimeOriginal)",
+   "licence_check": "read 2026-11-17 from Commons extmetadata: LicenseShortName 'Public domain'",
+   "used_as": "street air under the engine bed, identical in every condition"
+  },
+  {
+   "id": "bed.mix",
+   "title": "bed mix (engine + street)",
+   "author": "mix of the two items above",
+   "license": "CC BY 4.0 (engine) + Public domain (street)",
+   "license_url": "https://creativecommons.org/licenses/by/4.0",
+   "source_url": "",
+   "file_url": "",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/plates/audio/bed_7.0s.wav",
+   "pcm_sha1": "855b64a4ea9b3aa6f297803575909feef750c288",
+   "what_it_shows": "the 7.0 s bed: engine at 0 dB, street at 6dB",
+   "verified_date_or_place": "made 2026-11-17",
+   "used_as": "the single 7.0 s bed, byte-identical in every condition window"
+  }
+ ],
+ "absences": [
+  {
+   "searched": "Bourse 1933 (Grève des autobus - Place de la Bourse, le public attendant la reprise, Peyriras 1933; Commons page https://commons.wikimedia.org/wiki/File:Gr%C3%A8ve_des_autobus_-_Place_de_la_Bourse,_le_public_attendant_la_reprise_-_btv1b90350369.jpg)",
+   "result": "extmetadata LicenseShortName 'Public domain', but its only rationale is 'PD France' (agency work, 1933). No US rationale is tagged, and a 1933 French photograph not PD in France on 1 Jan 1996 would have had its US copyright restored (URAA) to 2029. So it is not verifiably PD everywhere. It was REPLACED by Agence Rol 1919 plates (PD-1996, published before 1931). commons/bourse1933.jpg (local sha1 6410b220ff1f39cacf027edd912d2ec648167372, Commons original sha1 6bdbbb7760906432fe72d6a023e7042d7b8d4c41) is not used; raw metadata in evidence/bourse-meta.json"
+  },
+  {
+   "searched": "Moving Image Archive cache: clips with audio.kind sound matching street|traffic|bus|tram|car|engine|bell|crowd|paris (28 hits; spectrograms of 545715d8 Water 1953, 14c8b94b Third Avenue El, d2ed8576 Look to Lockheed 1940, 9970bcd5 Inside the Fed 1994)",
+   "result": "none usable: Water, Lockheed and Inside the Fed carry narration or music in the window (formant/harmonic bands); Third Avenue El is a steady broadband hiss band with no street events; rights for the 1990s titles are not PD. Commons was used instead."
+  },
+  {
+   "searched": "Commons audio: 'tram bell', 'bus engine', 'street traffic', 'bicycle bell', 'old bus idling', 'city street ambience' (filetype:audio)",
+   "result": "no recording of a pre-1930 motorbus engine or of a period omnibus conductor bell under an allowed licence; a 1991 diesel bus engine (CC BY) and a bicycle bell (CC0) are used and declared. WWS Firedepartmentbell (CC BY 4.0, a 19th-century fire-engine bell) was a candidate but its download was rate-limited (HTTP 429) and it is not needed."
+  },
+  {
+   "searched": "Commons crowd plates 1910s-1920s (Agence Rol/Meurisse): foule autobus Agence Rol; Rol foule Paris; foule Rol 1919",
+   "result": "no 1910s-20s Rol/Meurisse plate of a crowd at a bus stop; the Vilgrain queue (1919) gives full-length walkers on clear ground, which cut cleanly"
+  }
+ ],
+ "handmade": [
+  {
+   "item": "GrabCut cutouts, rectifications and masks (all derived files under films/sources/mauro-martino-exercises-in-style/plates/)",
+   "made": "by this unit with cv2.warpPerspective and cv2.grabCut (mask init: box + hand polygon + scribbles), largest-component island removal, hole filling, 0.8 px Gaussian alpha feather; scripts kept in the session scratchpad (code/cutbus.py, cutfacade.py, cutcrowd.py, swatch.py, sheet.py)"
+  },
+  {
+   "item": "contact sheet",
+   "made": "films/swarm/mauro-martino-exercises-in-style/plates/plates-sheet.jpg"
+  }
+ ],
+ "credits_draft": [
+  {
+   "title": "1-6-16, nouvel autobus Madeleine-Bastille : [photographie de presse] / [Agence Rol]",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:1-6-16,_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/ee/1-6-16%2C_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+   "used_as": "the bus (rectified, cut out, printed), its wheels, rear platform and conductor; facade and pavement plates for the photographic-plate condition"
+  },
+  {
+   "title": "Mars 1919, baraque Vilgrain (foule devant l'épicerie à prix contenus)",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mars_1919,_baraque_Vilgrain_(foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus)_-_btv1b53016631j.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg/1280px-Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg",
+   "used_as": "waiting-crowd figures cut out with GrabCut; coat and shawl textures for the photographic puppets"
+  },
+  {
+   "title": "14-3-19, la foule attendant l'arrivée du président Wilson",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:14-3-19,_la_foule_attendant_l%27arriv%C3%A9e_du_pr%C3%A9sident_Wilson_-_btv1b53016658h.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/14-3-19%2C_la_foule_attendant_l%27arriv%C3%A9e_du_pr%C3%A9sident_Wilson_-_btv1b53016658h.jpg/1280px-14-3-19%2C_la_foule_attendant_l%27arriv%C3%A9e_du_pr%C3%A9sident_Wilson_-_btv1b53016658h.jpg",
+   "used_as": "cape and trouser textures for the photographic puppets"
+  },
+  {
+   "title": "WWS CityBusMANSG220engine (MAN/Avtomontaža city bus, 1991, engine)",
+   "author": "Work With Sounds / Technical Museum of Slovenia",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:WWS_CityBusMANSG220engine.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/69/WWS_CityBusMANSG220engine.ogg",
+   "used_as": "engine sound bed (a 1991 bus; anachronism declared)"
+  },
+  {
+   "title": "Bell-ring (a bicycle bell, single stroke)",
+   "author": "qubodup",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Bell-ring.flac",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Bell-ring.flac",
+   "used_as": "the conductor's bell (a bicycle bell)"
+  },
+  {
+   "title": "Sunday in the city street noise1 (sounds outside my window, 4 May 2008)",
+   "author": "cori",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Sunday_in_the_city_street_noise1.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/5d/Sunday_in_the_city_street_noise1.ogg",
+   "used_as": "street air under the engine bed"
+  }
+ ],
+ "editor_notes": [
+  "bus_rgba canvas 1291x634: body length ≈1214 px; for 55-65% of a 960 frame scale by ≈0.45-0.5",
+  "use bus_windows_mask.png to cut light windows into a black-printed body; the real passengers sit in the windows",
+  "wheels rotate about hub_center_in_bus_rgba; body_without_wheels has the discs knocked out",
+  "crowd A-H: accepted; I, J rejected (files kept, failure masks show why)",
+  "audio: all PCM 48 kHz stereo s16; bell onset 11 ms into its file"
+ ]
+}
