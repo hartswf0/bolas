@@ -247,14 +247,15 @@ def T(x, y):
 
 def lift_P2(u_up, u_right, u_lean):
     """P2 rise: the page-builder's rest lift is T(980,-170) @ about(root, R(-5)) in source px; post = inv(rest) @ L(u)."""
-    rest = bp.T(980, -170) @ bp.about(bp.ROOT_, bp.R(-5))
-    L = bp.T(980 * u_right, -170 * u_up) @ bp.about(bp.ROOT_, bp.R(-5 * u_lean))
+    rest = bp.T(bp.P2_RIGHT, -170) @ bp.about(bp.ROOT_, bp.R(-5))
+    L = bp.T(bp.P2_RIGHT * u_right, -170 * u_up) @ bp.about(bp.ROOT_, bp.R(-5 * u_lean))
     return (np.linalg.inv(rest) @ L).tolist()
 
 
 def step_P3(dx_src, dy_src, pitch):
-    rest = bp.T(640, -80) @ bp.about(bp.ROOT_, bp.R(3))
-    L = bp.T(640 + dx_src, -80 + dy_src) @ bp.about(bp.ROOT_, bp.R(3 + pitch))
+    sx, sy, sp = bp.P3_STEP
+    rest = bp.T(sx, sy) @ bp.about(bp.ROOT_, bp.R(sp))
+    L = bp.T(sx + dx_src, sy + dy_src) @ bp.about(bp.ROOT_, bp.R(sp + pitch))
     return (np.linalg.inv(rest) @ L).tolist()
 
 

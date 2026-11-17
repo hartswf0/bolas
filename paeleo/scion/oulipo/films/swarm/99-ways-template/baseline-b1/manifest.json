@@ -1,6 +1,6 @@
 {
  "slug": "99-ways-template",
- "revision": "b1",
+ "revision": "b1-r1",
  "frozen": true,
  "date": "2026-11-17",
  "direction": "2 Photo-Fumetti Cutout",
@@ -27,23 +27,23 @@
  "files": {
   "ledger": {
    "path": "films/swarm/99-ways-template/ledger.json",
-   "sha256_16": "bf0e994d1a0bd522"
+   "sha256_16": "75885ed007800bf3"
   },
   "panels": {
    "path": "films/swarm/99-ways-template/panels.json",
-   "sha256_16": "b11ccbdca0aecd4a"
+   "sha256_16": "7a09afe8dbbe618a"
   },
   "coverage": {
    "path": "films/swarm/99-ways-template/coverage.json",
-   "sha256_16": "76dcf207bca79666"
+   "sha256_16": "f2e281664d73ba73"
   },
   "page": {
    "path": "assets/pages/99-ways-template.png",
-   "sha256_16": "520a1c0ebc886649"
+   "sha256_16": "80f173a23cae5182"
   },
   "page_build": {
    "path": "films/swarm/99-ways-template/page/build_page.py",
-   "sha256_16": "a9f4bf12c7e49d06"
+   "sha256_16": "476763b440a884db"
   },
   "rest_layers": {
    "path": "films/swarm/99-ways-template/page/rest/",
@@ -71,15 +71,15 @@
   },
   "timing": {
    "path": "films/swarm/99-ways-template/anim/timing.json",
-   "sha256_16": "51af278432c8f819"
+   "sha256_16": "1729b5dfc83a7a85"
   },
   "fk_test": {
    "path": "films/swarm/99-ways-template/anim/fk_test.json",
-   "sha256_16": "829a70ce86b68b46"
+   "sha256_16": "c99250f769777d48"
   },
   "anim_module": {
    "path": "films/swarm/99-ways-template/anim/panels.py",
-   "sha256_16": "843687360c9ebad2"
+   "sha256_16": "c302b12e346fe2ab"
   },
   "sound_ledger": {
    "path": "films/swarm/99-ways-template/anim/sound/sound.json",
@@ -87,36 +87,49 @@
   },
   "derivative_D1": {
    "path": "assets/pages/99-ways-template-compressed.png",
-   "sha256_16": "27edec556b8cc717"
+   "sha256_16": "1de576e355401144"
   },
   "derivative_D2": {
    "path": "assets/pages/99-ways-template-platform.png",
-   "sha256_16": "84ab82ddb1a7f544"
+   "sha256_16": "27b3dfcb721db0f5"
   },
   "d1_panels": {
    "path": "films/swarm/99-ways-template/variants/d1_panels.json",
-   "sha256_16": "11500412787637f8"
+   "sha256_16": "1678073ab2a6b0ce"
   },
   "d2_panels": {
    "path": "films/swarm/99-ways-template/variants/d2_panels.json",
-   "sha256_16": "b0fd12d165de7b70"
+   "sha256_16": "582ce19145c59222"
   },
   "film": {
    "path": "assets/films/99-ways-template.mp4",
-   "sha256_16": "eaf24d022306f008"
+   "sha256_16": "e7ff4af216e6d6ee"
   },
   "film_script": {
    "path": "films/99-ways-template.py",
-   "sha256_16": "682b1414d64ee84d"
+   "sha256_16": "2e7d8306ebedff09"
   },
   "credits": {
    "path": "films/credits/99-ways-template.json",
-   "sha256_16": "fcd0754d1fd773b9"
+   "sha256_16": "45a8e23994a3c7ca"
   },
   "editor_checks": {
    "path": "films/swarm/99-ways-template/editor_checks.json",
-   "sha256_16": "4544f393342aad2c"
+   "sha256_16": "b150cd8c9a0cd933"
+  },
+  "plates_r1": {
+   "path": "films/sources/99-ways-template/editor/office.plate.r1.png",
+   "sha256_16": "3870cef99a20c381"
+  },
+  "plates_r1_record": {
+   "path": "films/sources/99-ways-template/editor/plate_repair.json",
+   "sha256_16": "2d9ca4aeb2beef7c"
+  },
+  "timeline": {
+   "path": "films/swarm/99-ways-template/anim/timeline.py",
+   "sha256_16": "8312a78925013e4d"
   }
  },
- "note": "The page was composed from the page-cartoonist's pieces (pieces_used_on_page), cut from the same Rothstein master reassembly as the cutout-surgeon's manifest; both trace to LoC 2017776093 etc. See amendments.md (A-1)."
+ "note": "The page was composed from the page-cartoonist's pieces (pieces_used_on_page), cut from the same Rothstein master reassembly as the cutout-surgeon's manifest; both trace to LoC 2017776093 etc. See amendments.md (A-1).",
+ "revision_note": "editor repair round 1: staging of P2/P3/P4/P5/P8 and D2 changed, E5 line in the production's own words; event graph and speakers unchanged"
 }

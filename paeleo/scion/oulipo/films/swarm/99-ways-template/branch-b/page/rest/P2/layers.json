@@ -1,0 +1,75 @@
+{
+ "panel": "P2",
+ "bounds_page_px": [
+  950,
+  150,
+  1610,
+  1090
+ ],
+ "composite": "over, in order, starting from 00_bg (opaque)",
+ "layers": [
+  {
+   "order": 0,
+   "file": "00_bg.png",
+   "name": "bg"
+  },
+  {
+   "order": 1,
+   "file": "01_memo.shadow.png",
+   "name": "memo.shadow"
+  },
+  {
+   "order": 2,
+   "file": "02_memo.png",
+   "name": "memo"
+  },
+  {
+   "order": 3,
+   "file": "03_memo.print.png",
+   "name": "memo.print"
+  },
+  {
+   "order": 4,
+   "file": "04_memo.pencil.png",
+   "name": "memo.pencil"
+  },
+  {
+   "order": 5,
+   "file": "05_clerk.torso.shadow.png",
+   "name": "clerk.torso.shadow"
+  },
+  {
+   "order": 6,
+   "file": "06_clerk.torso.png",
+   "name": "clerk.torso",
+   "piece": "clerk.torso",
+   "pose": {
+    "arm": -34.0,
+    "pencil": 24.0,
+    "head": 3.0
+   },
+   "matrix": [
+    [
+     0.42139,
+     0.036867,
+     593.022056
+    ],
+    [
+     -0.036867,
+     0.42139,
+     396.292853
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 7,
+   "file": "07_border.png",
+   "name": "border"
+  }
+ ]
+}

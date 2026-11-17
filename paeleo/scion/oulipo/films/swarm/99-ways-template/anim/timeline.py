@@ -15,15 +15,16 @@ def _bp():
 
 def _lift(u_up, u_right, u_lean):
     bp = _bp()
-    rest = bp.T(980, -170) @ bp.about(bp.ROOT_, bp.R(-5))
-    L = bp.T(980 * u_right, -170 * u_up) @ bp.about(bp.ROOT_, bp.R(-5 * u_lean))
+    rest = bp.T(bp.P2_RIGHT, -170) @ bp.about(bp.ROOT_, bp.R(-5))          # r1: the page's rest lift (shoulder at the edge)
+    L = bp.T(bp.P2_RIGHT * u_right, -170 * u_up) @ bp.about(bp.ROOT_, bp.R(-5 * u_lean))
     return np.round(np.linalg.inv(rest) @ L, 6).tolist()
 
 
 def _step3(dx, dy, pitch):
     bp = _bp()
-    rest = bp.T(640, -80) @ bp.about(bp.ROOT_, bp.R(3))
-    L = bp.T(640 + dx, -80 + dy) @ bp.about(bp.ROOT_, bp.R(3 + pitch))
+    sx, sy, sp = bp.P3_STEP                                                 # r1: standing, before the SERVICE door
+    rest = bp.T(sx, sy) @ bp.about(bp.ROOT_, bp.R(sp))
+    L = bp.T(sx + dx, sy + dy) @ bp.about(bp.ROOT_, bp.R(sp + pitch))
     return np.round(np.linalg.inv(rest) @ L, 6).tolist()
 
 
@@ -101,16 +102,16 @@ SHOTS["S3"] = {"panel": "P3", "frames": 120, "keys": S3, "action_end": 48,
 
 # ---------------------------------------------------------------- S4 . P4  E2 halted mid-step; visitor shifts; balloon; head swings in 3 steps
 H0 = 12.0
-S4 = [K(0, {"clerk": {"hidden": True}, "visitor_dx": -24.0, "balloons": {}}, "window, visitor beyond the glass")]
+S4 = [K(0, {"clerk": {"hidden": True}, "visitor_dx": -24.0, "balloons": {}}, "window (nobody drawn behind the glass: the asker is off-panel)")]
 for i, (dx, dy) in enumerate([(170, 6), (130, 0), (90, -6), (55, 0), (25, 6)]):
     S4.append(K(4 + 2 * i, {"clerk": {"pre": _pre(dx, dy), "dpose": {"head": H0 + (1.5 if i % 2 else 0.0)}}, "visitor_dx": -24.0},
                 f"steps in {i + 1}"))
 S4 += [K(14, {"clerk": {"pre": _pre(-7, 2), "dpose": {"head": H0 + 4.0}}, "visitor_dx": -24.0}, "HALT (bell): torso overshoots, head overlaps"),
        K(16, {"clerk": {"pre": _pre(0, 0), "dpose": {"head": H0 + 1.5}}, "visitor_dx": -24.0}, "settle"),
        K(18, {"clerk": {"dpose": {"head": H0}}, "visitor_dx": -24.0}, "hold, head still away"),
-       K(22, {"clerk": {"dpose": {"head": H0}}, "visitor_dx": -15.0}, "visitor shifts 1"),
-       K(24, {"clerk": {"dpose": {"head": H0}}, "visitor_dx": -6.0}, "visitor shifts 2"),
-       K(26, {"clerk": {"dpose": {"head": H0}}, "visitor_dx": 0.0}, "visitor at rest"),
+       K(22, {"clerk": {"dpose": {"head": H0}}, "visitor_dx": -15.0}, "hold 1 (the voice outside)"),
+       K(24, {"clerk": {"dpose": {"head": H0}}, "visitor_dx": -6.0}, "hold 2"),
+       K(26, {"clerk": {"dpose": {"head": H0}}, "visitor_dx": 0.0}, "hold 3"),
        K(56, {"clerk": {"dpose": {"head": 8.0}}}, "head swing 1"),
        K(58, {"clerk": {"dpose": {"head": 3.5}}}, "head swing 2"),
        K(60, {}, "head swing 3 = rest, facing the window (action end)")]
@@ -154,11 +155,12 @@ SHOTS["S7"] = {"panel": "P7", "frames": 120, "keys": S7, "action_end": 54,
 A0 = {"arm": -34.0, "pencil": 24.0}
 def _bpose():
     return _bp().POSE_CHIN
-S8 = [K(0, {"clerk": {"pose": dict(A0, head=9.0)}}, "faces the shelves, head down, arm at his side")]
-S8 += [K(10, {"clerk": {"pose": dict(A0, head=6.0)}}, "head tilt 1"),
-       K(14, {"clerk": {"pose": dict(A0, head=3.0)}}, "head tilt 2"),
-       K(18, {"clerk": {"pose": dict(A0, head=0.0)}}, "head tilt 3 (up at the racks)"),
-       K(26, {"clerk": {"pose": {"arm": -36.0, "pencil": 19.0, "head": 0.0}}}, "arm anticipation (dips)")]
+_H8 = _bp().H8          # r1: rest head angle, tipped up and turned away from the key (he faces right, the key is left)
+S8 = [K(0, {"clerk": {"pose": dict(A0, head=_H8 + 13.0)}}, "head down, arm low")]
+S8 += [K(10, {"clerk": {"pose": dict(A0, head=_H8 + 8.5)}}, "head tilt 1"),
+       K(14, {"clerk": {"pose": dict(A0, head=_H8 + 4.0)}}, "head tilt 2"),
+       K(18, {"clerk": {"pose": dict(A0, head=_H8)}}, "head tilt 3 (up and away from the key)"),
+       K(26, {"clerk": {"pose": {"arm": -36.0, "pencil": 19.0, "head": _H8}}}, "arm anticipation (dips)")]
 _CH = None
 for i, u in enumerate([0.30, 0.68, 0.93, 1.03]):
     S8.append(K(28 + 2 * i, {"clerk": {"pose_u": u}}, f"arm rise {i + 1}" + (" (overshoot)" if u > 1 else "")))
@@ -178,7 +180,7 @@ def resolve():
         if "pose_u" in c:
             u = c.pop("pose_u")
             c["pose"] = {"arm": A0["arm"] + (ch["arm"] - A0["arm"]) * u, "pencil": A0["pencil"] + (ch["pencil"] - A0["pencil"]) * u,
-                         "head": 0.0}
+                         "head": ch["head"]}
 
 
 resolve()

@@ -37,8 +37,11 @@ PC = {n: load(n) for n in ["clerk.torso", "clerk.head", "clerk.forearm", "clerk.
                            "clock.minute", "visitor", "key"]}
 PC["key"]["o"] = (0, 0)
 PC["key"]["piv"] = {"ring_top": tuple(man["pieces"]["key"]["pivots_local"]["ring_top"])}
-OFFICE = cv2.imread(str(PIECES / "office.plate.png"), cv2.IMREAD_GRAYSCALE).astype(np.float32)
-SETP = cv2.imread(str(PIECES / "set.plate.png"), cv2.IMREAD_GRAYSCALE).astype(np.float32)
+# r1 (editor): the clerk-removed plates with the head ghost, arm residue and desk smear repaired from the same
+# photograph (films/swarm/99-ways-template/editor/plate_repair.py; same-column/plank-period copies + interpolation)
+EDIT = SRC / "editor"
+OFFICE = cv2.imread(str(EDIT / "office.plate.r1.png"), cv2.IMREAD_GRAYSCALE).astype(np.float32)
+SETP = cv2.imread(str(EDIT / "set.plate.r1.png"), cv2.IMREAD_GRAYSCALE).astype(np.float32)
 DOOR = cv2.imread(str(PIECES / "cupboard.door.png"), cv2.IMREAD_GRAYSCALE).astype(np.float32)
 DOOR_BOX = man["set_plate"]["opening_src"]
 S3 = levels(cv2.imread(str(TEST / "rothstein_master_s3.png"), cv2.IMREAD_GRAYSCALE), *man["levels"]["rothstein_8b16710"])
@@ -141,8 +144,10 @@ def lay_clerk(P, Mw, pose, order=("clerk.torso", "clerk.head", "clerk.forearm", 
     return Ms
 
 
-def solve_pencil_to_chin(target):
-    """FK solve (in source coords): forearm angle about the elbow + pencil angle about the grip so the tip meets the chin."""
+def solve_pencil_to_chin(target, head=0.0):
+    """FK solve (in source coords): forearm angle about the elbow + pencil angle about the grip so the tip meets the chin.
+    The chin target rides on the head, so it is carried through the collar hinge first (head angle)."""
+    target = apply(about(COLLAR, R(head)), target)
     L = np.linalg.norm(np.subtract(TIP, GRIP))
     best = None
     for a in np.arange(-40, 40.01, 0.25):
@@ -154,13 +159,18 @@ def solve_pencil_to_chin(target):
     t0 = apply(about(ELBOW, R(a)), TIP)
     ang0 = math.degrees(math.atan2(t0[1] - g[1], t0[0] - g[0]))
     ang1 = math.degrees(math.atan2(target[1] - g[1], target[0] - g[0]))
-    return dict(arm=float(a), pencil=float(ang1 - ang0), head=0.0)
+    return dict(arm=float(a), pencil=float(ang1 - ang0), head=float(head))
 
 
-CHIN_TOUCH = (CHIN[0] + 26, CHIN[1] - 4)       # the underside of the chin, his left side (source coords)
-POSE_CHIN = solve_pencil_to_chin(np.array(CHIN_TOUCH))
+# r1: the point of the chin itself (source px, read off the master between the mouth and the jaw line), not the
+# collar-height 'chin' pivot, which sits on his neck
+CHIN_TOUCH = (3012.0, 2060.0)
+H8 = -11.0                       # P8: head tipped up on the collar hinge (he faces right; the key is on his left)
+H5 = -7.0                        # P5: head up toward the clock
+POSE_CHIN = solve_pencil_to_chin(np.array(CHIN_TOUCH), head=H8)
 POSE_SOURCE = dict(arm=0.0, pencil=0.0, head=0.0)                       # as photographed: pencil at the temple
 POSE_ARRIVE = dict(arm=-34.0, pencil=24.0, head=0.0)                      # arm lowered across his front, walking
+POSE_WALK = dict(arm=-52.0, pencil=30.0, head=-3.0)                       # r1 P3: arm swung down, pencil in hand
 
 
 # ------------------------------------------------------------------ balloons, lettering, handmade print
@@ -301,6 +311,11 @@ def P1():
     return P
 
 
+P2_RIGHT = 1640.0
+P3_VIEW = (0.49, 2790, 470)             # r1: the closed double cupboard, framed above the desk (no desk in frame)
+P3_STEP = (640.0, -290.0, 4.0)          # r1: raised to standing height, pitched into the step
+
+
 def P2():
     w, h = psize("P2")
     V = (V1[0], 2290, V1[2])
@@ -308,56 +323,52 @@ def P2():
     Mw = W2P(*V)
     memo_slip(P, apply(Mw, (2740, 2790)), 232, 5)
     # he has risen and is going out to the right: torso lifted with a lean, head lagging one pose (overlap)
-    lift = T(980, -170) @ about(ROOT_, R(-5))
+    lift = T(P2_RIGHT, -170) @ about(ROOT_, R(-5))      # r1: only his shoulder is left at the edge: the desk is empty
     lay_clerk(P, Mw @ lift, dict(POSE_ARRIVE, head=3.0), rec=FK)
     SPEECH["P2"] = []
     return P
 
 
 def P3():
+    """r1: he walks past the closed SERVICE door. Camera on the double cupboard of the same office, above the desk;
+    the SERVICE card on the right leaf's upper panel, clear of the lamp cord; he is cut by the panel's lower edge
+    at the waist (standing height), pitched into the step, arm swung down."""
     w, h = psize("P3")
-    V = (V1[0], 2560, V1[2])
+    V = P3_VIEW
     P = Panel("P3", view_plate(OFFICE, *V, w, h))
     Mw = W2P(*V)
-    sign_card(P, apply(Mw, (3985, 1000)), 150, -2)
-    step = T(640, -80) @ about(ROOT_, R(3))       # mid-step: torso pitched forward, toward the cupboard
-    lay_clerk(P, Mw @ step, dict(POSE_ARRIVE, head=-3.0, pencil=-20.0), rec=FK)
-    # foreground: the desk top of the same photograph laid over his cut waist (he is behind the desk)
-    desk = np.zeros((h, w), np.uint8)
-    dp = [apply(Mw, p) for p in [(2560, 2640), (3000, 2610), (3900, 2600), (4300, 2620), (4300, 3200), (2560, 3200)]]
-    cv2.fillPoly(desk, [np.int32(dp)], 255, cv2.LINE_AA)
-    plate = view_plate(OFFICE, *V, w, h)
-    P.shadow("desk_front", desk)
-    P.over("desk_front", plate, desk.astype(np.float32) / 255)
+    sign_card(P, apply(Mw, P3_CARD), 150, -2)
+    dx, dy, pitch = P3_STEP
+    step = T(dx, dy) @ about(ROOT_, R(pitch))
+    lay_clerk(P, Mw @ step, POSE_WALK, order=("clerk.torso", "clerk.head"), rec=FK)   # arm hangs below the frame
     SPEECH["P3"] = []
     return P
 
 
-VW = (0.538, 60, 600)              # ticket window from inside (P4) and (P6 uses its own crop)
+P3_CARD = (3900, 905)
+
+
+VW = (0.538, 60, 600)
+H4 = -6.0              # ticket window from inside (P4) and (P6 uses its own crop)
 
 
 def P4():
     w, h = psize("P4")
     P = Panel("P4", view_plate(S3, *VW, w, h))
     Mw = W2P(*VW)
-    # the visitor beyond the frosted glass: a soft shape (glass diffusion + transmission), the etched letters stay on the glass
-    vp = PC["visitor"]
-    kv = 1.05
-    Mv = T(170, 395) @ S(kv) @ T(-vp["piv"]["head"][0], -vp["piv"]["head"][1]) @ T(*vp["o"])
-    vg = cv2.warpAffine(vp["g"], Mv[:2], (w, h), flags=cv2.INTER_AREA)
-    va = cv2.warpAffine(vp["a"], Mv[:2], (w, h), flags=cv2.INTER_LINEAR).astype(np.float32) / 255
-    glass = fillmask((h, w), [apply(Mw, p) for p in [(110, 930), (1190, 930), (1190, 1820), (110, 1820)]]).astype(np.float32) / 255
-    vg = cv2.GaussianBlur(vg, (0, 0), 3.0)
-    va = cv2.GaussianBlur(va, (0, 0), 3.0) * glass * 0.70
-    P.over("visitor_behind_glass", np.repeat(vg[..., None], 3, 2), va, {"piece": "visitor", "matrix": Mv.round(6).tolist(),
-           "through_glass": "gaussian 3 px diffusion, 70% transmission, clipped to the glass"})
+    # r1: nobody is drawn behind the glass: the asker is off-panel, on the platform (the tail goes out through the window)
     # the clerk's head and shoulder enter at the right edge, turned back toward the window (mirrored: facing left)
     kc = 0.70
     Mc = T(505, 430) @ S(kc) @ T(-CX, -1660) @ MIR()
-    lay_clerk(P, Mc, POSE_ARRIVE, rec=FK)
+    # r1: head and shoulders only (the pencil hand stays below the frame, so nothing reads as a look at a wristwatch);
+    # head up on the collar, toward the voice at the window
+    lay_clerk(P, Mc, dict(POSE_ARRIVE, head=H4), order=("clerk.torso", "clerk.head"), rec=FK)
     SPEECH["P4"] = [balloon(P, "b_what_time", ["What time", "is it?"], 66, (250, 165), (-30, 500), 21, tail_w=0.28, bend=0.12)]
     SPEECH["P4"][0].update(speaker="VISITOR", tail_target="off-panel left, through the ticket-window glass (the platform)")
     return P
+
+
+P5_AT = (600, 395)
 
 
 def P5():
@@ -378,10 +389,10 @@ def P5():
         ha = cv2.warpAffine(pc["a"], Mh[:2], (w, h), flags=cv2.INTER_LINEAR).astype(np.float32) / 255
         P.over(n, np.repeat(hg[..., None], 3, 2), ha, {"piece": n, "set_to_deg": ang, "matrix": Mh.round(6).tolist()})
     kc = 0.95
-    Mc = T(690, 395) @ S(kc) @ T(-CX, -1660) @ MIR()
-    lay_clerk(P, Mc, POSE_SOURCE, rec=FK)
-    mouth = apply(Mc, (2992, 2018))
-    SPEECH["P5"] = [balloon(P, "b_ten_past", ["Ten past", "four!"], 70, (300, 160), (mouth[0] - 46, mouth[1] + 8), 33, tail_w=0.24, bend=0.10)]
+    Mc = T(P5_AT[0], P5_AT[1]) @ S(kc) @ T(-CX, -1660)          # r1: un-mirrored, so he faces the clock (upper right)
+    lay_clerk(P, Mc, dict(POSE_SOURCE, head=H5), rec=FK)
+    mouth = apply(Mc @ about(COLLAR, R(H5)), (2992, 2018))
+    SPEECH["P5"] = [balloon(P, "b_ten_past", ["Ten past", "four!"], 70, (250, 160), (mouth[0] - 14, mouth[1] + 4), 33, tail_w=0.24, bend=0.10)]
     SPEECH["P5"][0].update(speaker="CLERK", tail_target="clerk's mouth")
     return P
 
@@ -396,7 +407,9 @@ def P6():
 
 
 VC7 = (0.665, 2780, 500)
-VC8 = (0.80, 2790, 600)
+VC8 = (0.84, 2860, 640)
+P8_ROOT = (640, 1150)
+FORGOT = ["Now... what", "did I come over", "here for?"]       # r1: the production's own words
 
 
 def P7():
@@ -412,18 +425,22 @@ def P7():
     return P
 
 
+B8_AT = (390, 160)
+
+
 def P8():
     w, h = psize("P8")
     P = Panel("P8", view_plate(SETP, *VC8, w, h))
     Mw = W2P(*VC8)
-    sign_card(P, apply(Mw, (4110, 900)), 0.80 * 330, -2)
+    sign_card(P, apply(Mw, (4110, 900)), VC8[0] * 330, -2)
     lay_door_key(P, *VC8, swing=0.34, rec=FK)
+    # r1: un-mirrored, so he faces right, AWAY from the key on the door at the left; head tipped up on the collar;
+    # he stands nearer the door, the key just beyond his left elbow
     kc = 0.74
-    Mc = T(760, 1010) @ S(kc) @ T(-ROOT_[0], -ROOT_[1]) @ MIR()
+    Mc = T(P8_ROOT[0], P8_ROOT[1]) @ S(kc) @ T(-ROOT_[0], -ROOT_[1])
     lay_clerk(P, Mc, POSE_CHIN, rec=FK)
-    mouth = apply(Mc, (2992, 2018))
-    SPEECH["P8"] = [balloon(P, "b_forgot", ["What the hell", "was I looking", "for, anyway?"], 68, (420, 190),
-                            (mouth[0] + 4, mouth[1] - 4), 83, tail_w=0.22, bend=-0.08)]
+    mouth = apply(Mc @ about(COLLAR, R(H8)), (2992, 2018))
+    SPEECH["P8"] = [balloon(P, "b_forgot", FORGOT, 62, B8_AT, (mouth[0] + 10, mouth[1] - 6), 83, tail_w=0.22, bend=0.08)]
     SPEECH["P8"][0].update(speaker="CLERK", tail_target="clerk's mouth")
     return P
 

@@ -133,6 +133,43 @@ def bp(Mplate, p):            # Bubley master px -> panel px
     return apply(Mplate, p)
 
 
+VIS_MOUTH = (2985, 1710)      # her mouth, Bubley master px (open: she is speaking in the photograph)
+NAMEBOARD = [(880, 430), (4600, 430), (4600, 812), (880, 812)]   # over the shop awning (master px)
+
+
+def ticket_board(P, poly_px, seed):
+    """HANDMADE (r1): a white card lettered TICKET OFFICE in the page hand, hung inside the glass where the shop's
+    neon sign was; it covers the neon so the front reads as a ticket window."""
+    shp = P.c.shape[:2]
+    q = np.array(poly_px, np.float64)
+    c = q.mean(0)
+    q = c + (q - c) * np.array([0.92, 0.86])
+    m = B.fillmask(shp, q)
+    P.paper("ticket_board", m, (243, 241, 234))
+    hgt = q[:, 1].max() - q[:, 1].min()
+    ink = np.zeros(shp, np.uint8)
+    ink = B.lettering_onto(ink, ["TICKET"], hgt * 0.30, (c[0], c[1] - hgt * 0.20), 0, seed, weight=0.17)
+    ink = B.lettering_onto(ink, ["OFFICE"], hgt * 0.30, (c[0], c[1] + hgt * 0.22), 0, seed + 1, weight=0.17)
+    P.ink("ticket_board.ink", ink)
+
+
+def nameboard(P, Mp, seed):
+    """HANDMADE (r1): the station nameboard, black card with the name cut out of white paper strokes, laid over the
+    shop awning at the head of the station front (V1 and V4, the same camera)."""
+    shp = P.c.shape[:2]
+    q = [bp(Mp, p) for p in NAMEBOARD]
+    m = B.fillmask(shp, q)
+    P.paper("nameboard.margin", B.scissor(m, 8), PAPER_CUT)
+    P.over("nameboard", np.array([30, 29, 28], np.float32), m.astype(np.float32) / 255)
+    qa = np.array(q)
+    hgt = qa[:, 1].max() - max(0.0, qa[:, 1].min())
+    cx = (qa[:, 0].min() + min(qa[:, 0].max(), shp[1])) / 2
+    cy = (max(0.0, qa[:, 1].min()) + qa[:, 1].max()) / 2
+    ink = np.zeros(shp, np.uint8)
+    ink = B.lettering_onto(ink, ["RANDOLPH"], hgt * 0.50, (cx, cy + hgt * 0.04), 0, seed, weight=0.15)
+    P.ink("nameboard.letters", ink, np.array([238, 236, 228], np.float32))
+
+
 # ------------------------------------------------------------------ D1: Compressed (2 panels)
 D1_PANELS = {"C1": (150, 330, 2400, 1700), "C2": (150, 1770, 2400, 3150)}
 D2_PANELS = {"V1": (150, 330, 2400, 1250), "V2": (150, 1320, 1245, 2160), "V3": (1305, 1320, 2400, 2160), "V4": (150, 2230, 2400, 3150)}
@@ -196,7 +233,7 @@ def C2():
     mouth = apply(Ms["clerk.head"], (2992, 2018))
     b1 = B.balloon(P, "b_thanks", ["Thanks!"], 50, (330, 150), (-30, 250), 161, tail_w=0.30, bend=0.10)
     b1.update(speaker="VISITOR", tail_target="off-panel left (the platform; she is leaving)")
-    b2 = B.balloon(P, "b_forgot", ["What the hell", "was I looking", "for, anyway?"], 68, (1180, 260), (mouth[0] - 6, mouth[1] - 4), 183, tail_w=0.22, bend=0.08)
+    b2 = B.balloon(P, "b_forgot", B.FORGOT, 64, (1180, 260), (mouth[0] - 6, mouth[1] - 4), 183, tail_w=0.22, bend=0.08)
     b2.update(speaker="CLERK", tail_target="clerk's mouth")
     SPEECH["C2"] = [b1, b2]
     return P
@@ -244,9 +281,16 @@ def V1():
     I = B.Panel("interior", view_plate(B.OFFICE, *Vi, w, h))
     B.sign_card(I, apply(W2P(*Vi), (4110, 900)), Vi[0] * 330, -2)
     gm = glass_mask((h, w), [bp(Mp, p) for p in GLASS])
-    through_glass(P, I.c, gm, plate, transmission_top=0.62, transmission_bottom=0.40, decal=neon_decal(plate, [bp(Mp, p) for p in SIGN]))
+    through_glass(P, I.c, gm, plate, transmission_top=0.62, transmission_bottom=0.40)
+    ticket_board(P, [bp(Mp, p) for p in SIGN], 301)
+    nameboard(P, Mp, 311)
     lay_visitor(P, Mp)                   # she is a cut piece laid back on her own place at the window
-    SPEECH["V1"] = []
+    mouth = bp(Mp, VIS_MOUTH)
+    b = B.balloon(P, "b_what_time", ["What time", "is it?"], 66, (mouth[0] + 400, 250), (mouth[0] + 30, mouth[1] - 20), 221,
+                  tail_w=0.24, bend=-0.10)
+    b.update(speaker="VISITOR", tail_target="her mouth (she stands at the ticket window, on the platform)")
+    SPEECH["V1"] = [b]
+    FK["V1"] = {"visitor_mouth_px": list(map(float, mouth))}
     return P, I
 
 
@@ -271,10 +315,9 @@ def V2():
     # through the glass: the office, its desk already empty (E1 happened out of view); memo too small to read
     I, _ = interior_office(w, h, (0.2854, 523, 220))
     gm = glass_mask((h, w), [bp(Mp, p) for p in GLASS])
-    through_glass(P, I.c, gm, plate, decal=neon_decal(plate, [bp(Mp, p) for p in SIGN]))
-    b = B.balloon(P, "b_what_time", ["What time", "is it?"], 66, (700, 430), (w * 0.52, h + 30), 221, tail_w=0.26, bend=0.10)
-    b.update(speaker="VISITOR", tail_target="off-panel bottom: the viewpoint is hers")
-    SPEECH["V2"] = [b]
+    through_glass(P, I.c, gm, plate)
+    ticket_board(P, [bp(Mp, p) for p in SIGN], 302)
+    SPEECH["V2"] = []              # r1: her question is spoken in V1, where she is seen
     return P, I
 
 
@@ -288,13 +331,12 @@ def V3():
     Vi = (0.62, 2237, 863)
     I, Ms = interior_office(w, h, Vi, clerk=(lift, dict(B.POSE_ARRIVE, head=-6.0)), memo=False, clock=((2560, 1650), 0.70))
     gm = glass_mask((h, w), [bp(Mp, p) for p in GLASS])
-    through_glass(P, I.c, gm, plate, transmission_top=0.84, transmission_bottom=0.62, decal=neon_decal(plate, [bp(Mp, p) for p in SIGN]))
+    through_glass(P, I.c, gm, plate, transmission_top=0.84, transmission_bottom=0.62)
+    ticket_board(P, [bp(Mp, p) for p in SIGN], 303)
     mouth = apply(Ms["clerk.head"], (2992, 2018))
     b1 = B.balloon(P, "b_ten_past", ["Ten past", "four!"], 66, (300, 175), (mouth[0] - 40, mouth[1] + 4), 233, tail_w=0.22, bend=-0.08)
     b1.update(speaker="CLERK", tail_target="clerk's mouth, through the glass")
-    b2 = B.balloon(P, "b_thanks", ["Thanks!"], 62, (780, 700), (w * 0.60, h + 30), 261, tail_w=0.30, bend=0.10)
-    b2.update(speaker="VISITOR", tail_target="off-panel bottom: hers")
-    SPEECH["V3"] = [b1, b2]
+    SPEECH["V3"] = [b1]            # r1: her thanks is spoken in V4, where she is seen leaving
     FK["V3"] = {"mouth_px": list(map(float, mouth))}
     return P, I
 
@@ -315,11 +357,18 @@ def V4():
     Mc = T(*apply(Mw, (3740, 1862))) @ S(kc) @ T(-ROOT_[0], -ROOT_[1]) @ MIR()
     B.lay_clerk(I, Mc, B.POSE_SOURCE)
     gm = glass_mask((h, w), [bp(Mp, p) for p in GLASS])
-    through_glass(P, I.c, gm, plate, transmission_top=0.62, transmission_bottom=0.40, decal=neon_decal(plate, [bp(Mp, p) for p in SIGN]))
+    through_glass(P, I.c, gm, plate, transmission_top=0.62, transmission_bottom=0.40)
+    ticket_board(P, [bp(Mp, p) for p in SIGN], 304)
+    nameboard(P, Mp, 311)
     # she walks off past the left edge: the same cut piece, moved along the station front, pitched into the step
     Mv = Mp @ T(-2372, 10) @ T(*VIS_O) @ about(VIS_HIP, R(-5)) @ T(-VIS_O[0], -VIS_O[1])
     lay_visitor(P, Mv)
-    SPEECH["V4"] = []
+    mouth = apply(Mv, VIS_MOUTH)
+    b = B.balloon(P, "b_thanks", ["Thanks!"], 64, (mouth[0] + 330, mouth[1] - 300), (mouth[0] + 24, mouth[1] - 14), 261,
+                  tail_w=0.28, bend=0.10)
+    b.update(speaker="VISITOR", tail_target="her mouth, as she leaves along the platform")
+    SPEECH["V4"] = [b]
+    FK["V4"] = {"visitor_mouth_px": list(map(float, mouth))}
     return P, I
 
 

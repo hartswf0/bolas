@@ -1,49 +1,53 @@
-# Status — 99-ways-template, r0 (editor)
+# Status — 99-ways-template, r1 (editor, repair round 1)
 
 ## Current preview
 
 | File | Notes |
 |---|---|
-| `assets/films/99-ways-template.mp4` | 71.5 s, 3.7 MB, 960×540 / 24 fps |
-| `assets/films/99-ways-template.webp` | Poster from the S8 hold (0:44.8) |
-| `assets/pages/99-ways-template.png` | The page, 2550×3300 |
-| Derivative pages | `-compressed.png`, `-platform.png` |
-| Stills | `films/stills/99-ways-template/` |
-| Checkpoint | `checkpoints/r0/` |
+| `assets/films/99-ways-template.mp4` | 72.5 s, 3.6 MB, 960×540 / 24 fps |
+| `assets/films/99-ways-template.webp` | Poster from the S8 hold |
+| `assets/pages/99-ways-template.png` | The page, 2550×3300 (tone: 47.0% L>220, 11.0% L<40) |
+| Derivative pages | `-compressed.png` (40.0% / 18.8%), `-platform.png` (40.6% / 20.0%) |
+| Reader cut | `films/swarm/99-ways-template/reader-cut.mp4`: the film trimmed before the S12 ledger (for the B2 fixture, amendment A-3) |
+| Checkpoint | `checkpoints/r1/` (r0 kept) |
 
-## Decisive review (editor's self-check; the blind readers, critic and reviewer have not run yet)
+## Decisive review — what r1 changed against the r0 critic and rights review
 
-**B1, page:**
-- All eight panels are present in 3/3/2, with the memo legible in P1.
-- The tails point the right way: the visitor's lines exit through the window or the panel edge, and the clerk's go to his mouth.
-- P7 and P8 show the key on its hook.
-- To be judged by readers.
+- **Rights (blocking):** the P8 line, which was Madden's punchline word for word, is now "Now... what did I come over here for?" on the page, D1 C2 and the film (S8, S10). Amendment A-4 asks the operator to reword B1's quotation.
+- **B1, P2:** the desk and chair are left empty, with only his shoulder at the right edge. The plate's head ghost, arm residue and desk smear are repaired with pixels of the same photograph (`editor/plate_repair.py`).
+- **B1, P3:** rebuilt. The camera is on the closed double cupboard with no desk, inkwell or papers in frame. He stands, cut at the waist by the panel edge, pitched into the step, before the right leaf, which carries the SERVICE card clear of the lamp cord. The stray forearm is gone. In S3 he walks in from the left in 5 steps.
+- **B2, P4:** nobody is behind the glass, so the asker is off-panel on the platform. His pencil hand is below the frame, so there is no wristwatch reading. His head tilts up toward the voice.
+- **P5:** un-mirrored, so he faces the clock, head up.
+- **B5, P8:**
+  - He is un-mirrored, facing right, away from the key on the door at his left.
+  - His head is tipped up 11° on the collar hinge, in 3 steps in S8.
+  - The pencil tip meets the actual chin: CHIN_TOUCH (3012, 2060) in the source, where r0 aimed at the collar.
+  - He stands closer to the door, so the key is just beyond his left shoulder.
+- **B2, D2:**
+  - "What time is it?" (V1) and "Thanks!" (V4) are now spoken in the panels where she stands, with tails to her mouth, which is open in the photograph.
+  - The shop neon is covered by a handmade TICKET OFFICE card hung inside the glass.
+  - The awning is covered by a handmade RANDOLPH station nameboard.
+- **Protected and unchanged:** the P6 empty "Thanks!" window cut to the cupboard; the 7-pose door swing with latch and creak; the hold with the key fixed (FK offset 0); the memo card; the 4:10 clock re-set from the real clock; LoC/Commons sourcing with levels only; tone higher-key than kf-2.
+- **Measured:**
+  - Rest identity 0.0 for S0–S8, both in timing.json and in the editor's film-scale check.
+  - FK: pivot drift 0.0, key offset Δ 0.0, jamb Δ 0.0. These come from the joint matrices, so they hold by construction.
+  - Variant rest layers match their pages to ≤0.12/255.
+  - Balloon land frames are asserted against timing.json.
 
-**B3, material:**
-- All photographic pixels come from LoC items with no known restrictions (see credits).
-- The lettering is drawn from glyph strokes; no stock typeface is used.
-- The film adds no grain, filter or vignette: kit grain is off and a dark table is the only surround.
+## Remaining failure risk (to be judged by the next blind readers and critic)
 
-**B4, animation:**
-- The camera follows R0 in order.
-- S2 rise, S4 head swing, S7 door (7 foreshortened poses on its jamb) and S8 tilt, rise and hold are pose by pose on twos.
-- Rest identity measures 0.0; the FK invariants pass.
-- The full-page hold with reading lift, D1, D2 and the ledger are all in the film.
-- Duration is 71.5 s and the file is 3.7 MB.
-
-**B5, defining beat:**
-- P6 to P8 runs 0:29 to 0:46.
-- The key hangs inside the open door at his elbow. His head tilts toward the shelves, away from the key, and the pencil reaches his chin.
-- The balloon bounces once, then a 2 s hold.
-
-**B6, tone:** page measures 48.2% L>220 and 11.2% L<40, passing the supporting measurement. The side-by-side view still needs a judge.
-
-## Remaining failures and risks
-
-1. **B3 traceability (structural).** The page was composed from the page-cartoonist's own cut pieces (`films/sources/99-ways-template/page-cartoonist/pieces/manifest.json`), not from `cutouts/manifest.json` as B3 words it. Both are cut from the same Rothstein master and LoC items. Amendment A-1 proposes accepting either manifest; the alternative is to re-lay the page on the master pieces.
-2. **Reading of upcoming panels.** Unread panels show their first pose, so in S0 and S1 P2 shows the clerk seated just like P1, which reads as a duplicate until S2. This is intentional ("not yet happened") but may puzzle a viewer.
-3. **D2 is mostly static.** V1 has no walk-in, because the V1 plate still carries her photographed figure and has no clean plate. Only V4 is animated (her walk-off). The far clerk does not scratch his head.
-4. **D1 is balloons only.** The clerk does not slide out of C1 as coverage suggested. The C1 inpainting smear left of the memo is still visible.
-5. **Sound.** The footsteps are smeared church heel strikes. The counter bell and paper handling are synthesized (declared).
-6. **The ledger card is small at phone width.** Its lettering is about 15 px.
-7. **Head angle.** No upward head photograph exists, so the forgetting reads through the pencil and the gaze away from the key, not an upward look.
+- **P3:**
+  - The SERVICE "door" is the right leaf of a cupboard (no room door exists in the Randolph photograph).
+  - The walk reads only from his standing pose, the pitch and the new place. The page has no motion lines.
+  - Readers may still say "cupboard" rather than "door".
+- **The clerk's face:**
+  - In all panels his eyes look down as photographed. P8's upward tilt is a hinge rotation; no second photograph exists.
+  - The P8 head now sits close under the balloon.
+- **D2:**
+  - The two Bubley station photographs are a different station from Rothstein's office, joined by collage. The TICKET OFFICE card is large and is cropped by the panel edge in V2/V3.
+  - She faces the camera, so she has her back to the window as she asks.
+- **Plate repairs:** visible at 100% as a darker cabinet block left of the desk (P1/P2), and as a smoothed wall strip where the head ghost was.
+- **Sound:** the footsteps are still smeared (a reverberant crowd source), and the counter bell is synthesized (declared).
+- **Housekeeping:**
+  - To free a 100%-full disk, the editor deleted the r0 full-rate frame dumps in readers-1-1/full, readers-1-2/full and critic-1/full. They can be regenerated from checkpoints/r0.
+  - The site page (build.py) was not rebuilt in this unit: it is shared with other works.

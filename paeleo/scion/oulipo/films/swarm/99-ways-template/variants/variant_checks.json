@@ -3,14 +3,14 @@
   "tone": {
    "page": {
     "pct_L_gt_220": 40.0,
-    "pct_L_gt_230": 37.4,
-    "pct_L_lt_40": 18.6,
+    "pct_L_gt_230": 37.5,
+    "pct_L_lt_40": 18.8,
     "median": 171.0
    },
    "panels_only": {
     "pct_L_gt_220": 19.9,
     "pct_L_gt_230": 17.9,
-    "pct_L_lt_40": 24.1,
+    "pct_L_lt_40": 24.4,
     "median": 118.0
    }
   },
@@ -28,33 +28,33 @@
  "D2": {
   "tone": {
    "page": {
-    "pct_L_gt_220": 35.3,
-    "pct_L_gt_230": 32.8,
-    "pct_L_lt_40": 13.6,
-    "median": 157.0
+    "pct_L_gt_220": 40.6,
+    "pct_L_gt_230": 38.2,
+    "pct_L_lt_40": 20.0,
+    "median": 169.0
    },
    "panels_only": {
-    "pct_L_gt_220": 11.0,
-    "pct_L_gt_230": 9.1,
-    "pct_L_lt_40": 17.6,
-    "median": 112.0
+    "pct_L_gt_220": 18.4,
+    "pct_L_gt_230": 16.6,
+    "pct_L_lt_40": 26.5,
+    "median": 107.0
    }
   },
   "rest_identity": {
    "V1": {
-    "rest_layers_vs_page_mean_abs": 0.038,
+    "rest_layers_vs_page_mean_abs": 0.037,
     "max_abs": 1.0
    },
    "V2": {
-    "rest_layers_vs_page_mean_abs": 0.115,
+    "rest_layers_vs_page_mean_abs": 0.121,
     "max_abs": 1.0
    },
    "V3": {
-    "rest_layers_vs_page_mean_abs": 0.12,
+    "rest_layers_vs_page_mean_abs": 0.108,
     "max_abs": 1.0
    },
    "V4": {
-    "rest_layers_vs_page_mean_abs": 0.043,
+    "rest_layers_vs_page_mean_abs": 0.041,
     "max_abs": 1.0
    }
   }
@@ -116,9 +116,9 @@
   },
   "C2": {
    "pose": {
-    "arm": -27.75,
-    "pencil": 59.35465005249709,
-    "head": 0.0
+    "arm": -27.25,
+    "pencil": 49.88141655687873,
+    "head": -11.0
    },
    "Mw": [
     [
@@ -138,26 +138,38 @@
     ]
    ],
    "collar_px": [
-    1722.3999999999996,
-    984.8799999999999
+    1722.3999999999992,
+    984.8799999999997
    ],
    "elbow_px": [
-    1188.1199999999994,
-    1384.4799999999996
+    1188.119999999999,
+    1384.48
    ],
    "pencil_tip_px": [
-    1698.6208268949365,
-    972.751634035654
+    1725.287756569215,
+    960.3449351329136
    ],
    "chin_px": [
-    1717.9599999999996,
-    976.0
+    1719.7359591844356,
+    975.3159586715126
+   ]
+  },
+  "V1": {
+   "visitor_mouth_px": [
+    1448.369565217391,
+    657.608695652174
    ]
   },
   "V3": {
    "mouth_px": [
     556.3653697529701,
     643.1178730905708
+   ]
+  },
+  "V4": {
+   "visitor_mouth_px": [
+    116.660306562399,
+    666.0889485250655
    ]
   }
  },

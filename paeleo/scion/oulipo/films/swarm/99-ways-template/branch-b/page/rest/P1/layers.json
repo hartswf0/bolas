@@ -1,0 +1,174 @@
+{
+ "panel": "P1",
+ "bounds_page_px": [
+  150,
+  150,
+  890,
+  1090
+ ],
+ "composite": "over, in order, starting from 00_bg (opaque)",
+ "layers": [
+  {
+   "order": 0,
+   "file": "00_bg.png",
+   "name": "bg"
+  },
+  {
+   "order": 1,
+   "file": "01_clerk.torso.shadow.png",
+   "name": "clerk.torso.shadow"
+  },
+  {
+   "order": 2,
+   "file": "02_clerk.torso.png",
+   "name": "clerk.torso",
+   "piece": "clerk.torso",
+   "pose": {
+    "arm": 0.0,
+    "pencil": 0.0,
+    "head": 0.0
+   },
+   "matrix": [
+    [
+     0.423,
+     0.0,
+     6.768
+    ],
+    [
+     0.0,
+     0.423,
+     433.998
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 3,
+   "file": "03_clerk.head.shadow.png",
+   "name": "clerk.head.shadow"
+  },
+  {
+   "order": 4,
+   "file": "04_clerk.head.png",
+   "name": "clerk.head",
+   "piece": "clerk.head",
+   "pose": {
+    "arm": 0.0,
+    "pencil": 0.0,
+    "head": 0.0
+   },
+   "matrix": [
+    [
+     0.423,
+     0.0,
+     289.332
+    ],
+    [
+     0.0,
+     0.423,
+     278.334
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 5,
+   "file": "05_clerk.forearm.shadow.png",
+   "name": "clerk.forearm.shadow"
+  },
+  {
+   "order": 6,
+   "file": "06_clerk.forearm.png",
+   "name": "clerk.forearm",
+   "piece": "clerk.forearm",
+   "pose": {
+    "arm": 0.0,
+    "pencil": 0.0,
+    "head": 0.0
+   },
+   "matrix": [
+    [
+     0.423,
+     0.0,
+     450.072
+    ],
+    [
+     0.0,
+     0.423,
+     455.994
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 7,
+   "file": "07_clerk.pencil.shadow.png",
+   "name": "clerk.pencil.shadow"
+  },
+  {
+   "order": 8,
+   "file": "08_clerk.pencil.png",
+   "name": "clerk.pencil",
+   "piece": "clerk.pencil",
+   "pose": {
+    "arm": 0.0,
+    "pencil": 0.0,
+    "head": 0.0
+   },
+   "matrix": [
+    [
+     0.423,
+     0.0,
+     433.152
+    ],
+    [
+     0.0,
+     0.423,
+     359.55
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 9,
+   "file": "09_memo.shadow.png",
+   "name": "memo.shadow"
+  },
+  {
+   "order": 10,
+   "file": "10_memo.png",
+   "name": "memo"
+  },
+  {
+   "order": 11,
+   "file": "11_memo.print.png",
+   "name": "memo.print"
+  },
+  {
+   "order": 12,
+   "file": "12_memo.pencil.png",
+   "name": "memo.pencil"
+  },
+  {
+   "order": 13,
+   "file": "13_border.png",
+   "name": "border"
+  }
+ ]
+}

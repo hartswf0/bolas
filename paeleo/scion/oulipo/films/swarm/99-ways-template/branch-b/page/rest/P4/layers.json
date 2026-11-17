@@ -1,0 +1,103 @@
+{
+ "panel": "P4",
+ "bounds_page_px": [
+  150,
+  1160,
+  710,
+  2100
+ ],
+ "composite": "over, in order, starting from 00_bg (opaque)",
+ "layers": [
+  {
+   "order": 0,
+   "file": "00_bg.png",
+   "name": "bg"
+  },
+  {
+   "order": 1,
+   "file": "01_clerk.torso.shadow.png",
+   "name": "clerk.torso.shadow"
+  },
+  {
+   "order": 2,
+   "file": "02_clerk.torso.png",
+   "name": "clerk.torso",
+   "piece": "clerk.torso",
+   "pose": {
+    "arm": -34.0,
+    "pencil": 24.0,
+    "head": -6.0
+   },
+   "matrix": [
+    [
+     -0.7,
+     0.0,
+     1116.8
+    ],
+    [
+     0.0,
+     0.7,
+     602.2
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 3,
+   "file": "03_clerk.head.shadow.png",
+   "name": "clerk.head.shadow"
+  },
+  {
+   "order": 4,
+   "file": "04_clerk.head.png",
+   "name": "clerk.head",
+   "piece": "clerk.head",
+   "pose": {
+    "arm": -34.0,
+    "pencil": 24.0,
+    "head": -6.0
+   },
+   "matrix": [
+    [
+     -0.696165,
+     -0.07317,
+     688.869502
+    ],
+    [
+     -0.07317,
+     0.696165,
+     363.260812
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 5,
+   "file": "05_b_what_time.shadow.png",
+   "name": "b_what_time.shadow"
+  },
+  {
+   "order": 6,
+   "file": "06_b_what_time.paper.png",
+   "name": "b_what_time.paper"
+  },
+  {
+   "order": 7,
+   "file": "07_b_what_time.ink.png",
+   "name": "b_what_time.ink"
+  },
+  {
+   "order": 8,
+   "file": "08_border.png",
+   "name": "border"
+  }
+ ]
+}

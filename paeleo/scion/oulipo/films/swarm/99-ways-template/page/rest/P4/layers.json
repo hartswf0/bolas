@@ -15,42 +15,18 @@
   },
   {
    "order": 1,
-   "file": "01_visitor_behind_glass.png",
-   "name": "visitor_behind_glass",
-   "piece": "visitor",
-   "matrix": [
-    [
-     1.05,
-     0.0,
-     70.25
-    ],
-    [
-     0.0,
-     1.05,
-     376.1
-    ],
-    [
-     0.0,
-     0.0,
-     1.0
-    ]
-   ],
-   "through_glass": "gaussian 3 px diffusion, 70% transmission, clipped to the glass"
-  },
-  {
-   "order": 2,
-   "file": "02_clerk.torso.shadow.png",
+   "file": "01_clerk.torso.shadow.png",
    "name": "clerk.torso.shadow"
   },
   {
-   "order": 3,
-   "file": "03_clerk.torso.png",
+   "order": 2,
+   "file": "02_clerk.torso.png",
    "name": "clerk.torso",
    "piece": "clerk.torso",
    "pose": {
     "arm": -34.0,
     "pencil": 24.0,
-    "head": 0.0
+    "head": -6.0
    },
    "matrix": [
     [
@@ -71,30 +47,30 @@
    ]
   },
   {
-   "order": 4,
-   "file": "04_clerk.head.shadow.png",
+   "order": 3,
+   "file": "03_clerk.head.shadow.png",
    "name": "clerk.head.shadow"
   },
   {
-   "order": 5,
-   "file": "05_clerk.head.png",
+   "order": 4,
+   "file": "04_clerk.head.png",
    "name": "clerk.head",
    "piece": "clerk.head",
    "pose": {
     "arm": -34.0,
     "pencil": 24.0,
-    "head": 0.0
+    "head": -6.0
    },
    "matrix": [
     [
-     -0.7,
-     0.0,
-     649.2
+     -0.696165,
+     -0.07317,
+     688.869502
     ],
     [
-     0.0,
-     0.7,
-     344.6
+     -0.07317,
+     0.696165,
+     363.260812
     ],
     [
      0.0,
@@ -104,89 +80,23 @@
    ]
   },
   {
-   "order": 6,
-   "file": "06_clerk.forearm.shadow.png",
-   "name": "clerk.forearm.shadow"
-  },
-  {
-   "order": 7,
-   "file": "07_clerk.forearm.png",
-   "name": "clerk.forearm",
-   "piece": "clerk.forearm",
-   "pose": {
-    "arm": -34.0,
-    "pencil": 24.0,
-    "head": 0.0
-   },
-   "matrix": [
-    [
-     -0.580326,
-     -0.391435,
-     579.052551
-    ],
-    [
-     -0.391435,
-     0.580326,
-     941.595172
-    ],
-    [
-     0.0,
-     0.0,
-     1.0
-    ]
-   ]
-  },
-  {
-   "order": 8,
-   "file": "08_clerk.pencil.shadow.png",
-   "name": "clerk.pencil.shadow"
-  },
-  {
-   "order": 9,
-   "file": "09_clerk.pencil.png",
-   "name": "clerk.pencil",
-   "piece": "clerk.pencil",
-   "pose": {
-    "arm": -34.0,
-    "pencil": 24.0,
-    "head": 0.0
-   },
-   "matrix": [
-    [
-     -0.689365,
-     -0.121554,
-     627.896864
-    ],
-    [
-     -0.121554,
-     0.689365,
-     777.260155
-    ],
-    [
-     0.0,
-     0.0,
-     1.0
-    ]
-   ]
-  },
-  {
-   "order": 10,
-   "file": "10_b_what_time.shadow.png",
+   "order": 5,
+   "file": "05_b_what_time.shadow.png",
    "name": "b_what_time.shadow"
   },
   {
-   "order": 11,
-   "file": "11_b_what_time.paper.png",
+   "order": 6,
+   "file": "06_b_what_time.paper.png",
    "name": "b_what_time.paper"
   },
   {
-   "order": 12,
-   "file": "12_b_what_time.ink.png",
+   "order": 7,
+   "file": "07_b_what_time.ink.png",
    "name": "b_what_time.ink"
   },
   {
-   "order": 13,
-   "file": "13_border.png",
+   "order": 8,
+   "file": "08_border.png",
    "name": "border"
   }
  ]

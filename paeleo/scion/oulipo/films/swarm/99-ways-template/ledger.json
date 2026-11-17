@@ -31,7 +31,7 @@
    "What time is it?": "VISITOR (off-panel, platform, through the window)",
    "Ten past four!": "CLERK",
    "Thanks!": "VISITOR (off-panel, leaving)",
-   "What the hell was I looking for, anyway?": "CLERK"
+   "Now... what did I come over here for?": "CLERK"
   },
   "destination": "CUPBOARD, for the BRASS_KEY",
   "interruption": "E2",
@@ -85,7 +85,7 @@
    ],
    "goal": "fetch BRASS_KEY from CUPBOARD",
    "fact": "The clerk gets up and leaves the desk, heading across the office toward the cupboard and the SERVICE door.",
-   "cue": "P2: same view as P1, desk empty but for the memo, clerk rising out of the right edge; P3: clerk mid-step before the cupboard, SERVICE card on the closed door.",
+   "cue": "P2: same view as P1, the desk left empty but for the memo, only his shoulder leaving the right edge; P3: he walks, standing (cut at the waist by the panel edge), past the closed double cupboard whose right leaf carries the SERVICE card; no desk in frame.",
    "interpretation": "He is going for the key.",
    "panels": [
     "P2",
@@ -107,7 +107,7 @@
    "caused_by": [],
    "interrupts": "E1",
    "fact": "A visitor outside the ticket window asks 'What time is it?'. (Film only: the counter bell rings once before.)",
-   "cue": "P4: soft figure beyond the frosted TICKET OFFICE glass; balloon tail runs out of the panel's left edge through the window; clerk's head turned back toward it at the right edge.",
+   "cue": "P4: nobody is drawn behind the TICKET OFFICE glass; the balloon tail runs out of the panel's left edge through the window to the platform; the clerk's head, tipped up toward the voice, enters at the right edge.",
    "interpretation": "Someone on the platform has stopped him on his way.",
    "panels": [
     "P4"
@@ -192,7 +192,7 @@
     "E4"
    ],
    "outcome": "goal lost: key stays on its hook, SERVICE door stays closed",
-   "fact": "Before the open cupboard, pencil to chin, the clerk asks himself 'What the hell was I looking for, anyway?'. The key stays on its hook; the service door stays closed.",
+   "fact": "Before the open cupboard, pencil to chin, the clerk asks himself 'Now... what did I come over here for?'. The key stays on its hook; the service door stays closed.",
    "cue": "P8: key on its hook on the open door at left, unmoved from P7; his eyes cast down at the shelves, away from it; pencil at his chin; SERVICE card on the still-closed door; balloon tail to his mouth.",
    "interpretation": "The interruption made him forget the key.",
    "panels": [
@@ -202,6 +202,7 @@
  ],
  "seed": "section-10 station incident as re-told by Direction 2: visitor, brass key, service door stays closed kept; bell is a sound cue only; envelope and bench dropped; key stays on its hook in the cupboard.",
  "staging_notes": [
+  "r1 (editor): P5 and P8 show the clerk un-mirrored (facing right): in P5 he faces the clock, in P8 he faces away from the key on the door at his left; P4 and P3 show head and torso only (the pencil hand below the frame).",
   "SERVICE door = the right-hand leaf of the Rothstein double cupboard, carrying the handmade SERVICE sign-card; the key cupboard is its left leaf. (plan.md section 5 placed the SERVICE door at P8's far left edge; it sits at P8's upper right instead, still visible and closed.)",
   "P8 head keeps its photographed angle (eyes cast down to the shelves); no 2D roll of the head, per the test-shot note. No second photograph of this agent exists at LoC (searched); no replacement head was found that matches."
  ]

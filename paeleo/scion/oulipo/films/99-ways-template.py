@@ -52,7 +52,7 @@ TIMING = json.load(open(SW / "anim" / "timing.json"))
 
 # ------------------------------------------------------------------------------------------- schedule (frames)
 SEQ = [("S0", 96), ("S1", 120), ("S2", 120), ("S3", 120), ("S4", 120), ("S5", 120), ("S6", 120), ("S7", 120),
-       ("S8", 168), ("S9", 144), ("S10", 168), ("S11", 204), ("S12", 96)]
+       ("S8", 168), ("S9", 144), ("S10", 168), ("S11", 228), ("S12", 96)]
 START = {}
 _g = 0
 for _s, _n in SEQ:
@@ -354,8 +354,8 @@ def s9(f):
 D1P = {p["id"]: tuple(p["bounds_px"]) for p in json.load(open(SW / "variants/d1_panels.json"))["panels"]}
 D2P = {p["id"]: tuple(p["bounds_px"]) for p in json.load(open(SW / "variants/d2_panels.json"))["panels"]}
 S10_LAND = {"b_what_time": 62, "b_ten_past": 86, "b_thanks": 126, "b_forgot": 148}
-S11_LAND = {"b_what_time": 100, "b_ten_past": 134, "b_thanks": 152}
-V4_WALK = (168, 200)                        # visitor walks off on twos, from her V1 place to her V4 rest
+S11_LAND = {"b_what_time": 62, "b_ten_past": 136, "b_thanks": 194}   # r1: her lines in V1 and V4, tails to her mouth
+V4_WALK = (168, 190)                        # visitor walks off on twos, from her V1 place to her V4 rest
 V4_FROM = (1201, -9)
 
 
@@ -388,9 +388,9 @@ def v4_state(f):
 
 def d2_ov(f):
     ov = []
-    st = {"V1": {}, "V2": {"b_what_time": drop(f, S11_LAND["b_what_time"])},
-          "V3": {"b_ten_past": drop(f, S11_LAND["b_ten_past"]), "b_thanks": drop(f, S11_LAND["b_thanks"])},
-          "V4": {"visitor": v4_state(f)}}
+    st = {"V1": {"b_what_time": drop(f, S11_LAND["b_what_time"])}, "V2": {},
+          "V3": {"b_ten_past": drop(f, S11_LAND["b_ten_past"])},
+          "V4": {"visitor": v4_state(f), "b_thanks": drop(f, S11_LAND["b_thanks"])}}
     for p in ["V1", "V2", "V3", "V4"]:
         ov.append((D2P[p][0], D2P[p][1], dpanel("D2", p, st[p])))
     return ov
@@ -400,9 +400,9 @@ def s11(f):
     ov = d2_ov(f)
     if f < 12:
         return turn(full("D1"), full("D2", ov), f / 12)
-    cam = path(f, [(12, CAM_FULL), (26, CAM_FULL), (42, cam_panel(D2P["V1"])), (78, cam_panel(D2P["V1"])),
-                   (92, cam_panel(D2P["V2"])), (114, cam_panel(D2P["V2"])), (126, cam_panel(D2P["V3"])),
-                   (158, cam_panel(D2P["V3"])), (170, cam_panel(D2P["V4"]))])
+    cam = path(f, [(12, CAM_FULL), (26, CAM_FULL), (42, cam_panel(D2P["V1"])), (96, cam_panel(D2P["V1"])),
+                   (108, cam_panel(D2P["V2"])), (118, cam_panel(D2P["V2"])), (128, cam_panel(D2P["V3"])),
+                   (156, cam_panel(D2P["V3"])), (166, cam_panel(D2P["V4"]))])
     return view(PAGE["D2"], cam, ov)
 
 
@@ -564,7 +564,7 @@ def checks():
         rep["film_rest_vs_page_view_mean_abs"][s] = round(dv, 3)
         for b in PN.SHOTS[s].get("balloons", []):
             land = b["land"]
-            assert land in TIMING["checks"]["balloon_land_frames"][s], (s, land)
+            assert land in [bb["land"] for bb in TIMING["shots"][s]["balloons"]], (s, land)   # timing.json land frames
             assert b["id"] not in PN.state_at(s, land).get("balloons", {}), (s, "balloon not at rest on land")
             assert PN.state_at(s, land - 1)["balloons"][b["id"]] == (0, 9), (s, "no bounce before land")
             assert PN.state_at(s, land - 4)["balloons"][b["id"]] == "hidden"
@@ -648,11 +648,11 @@ def sound(mix):
     mix.add(wav("door_creak"), sec(b + 106), db(-3))
     # S11 D2 from the platform: the platform (CC BY 3.0, Glaneur de sons), the bell from outside, her steps
     b = START["S11"]
-    sig = wav("platform_distant")[: int(204 / FPS * 44100)].copy()
+    sig = wav("platform_distant")[: int(228 / FPS * 44100)].copy()
     sig[:4410] *= np.linspace(0, 1, 4410)
     sig[-8820:] *= np.linspace(1, 0, 8820)
     mix.add(sig, sec(b), 1.0, pan=-0.2)
-    mix.add(wav("counter_bell"), sec(b + 60), db(-6), pan=0.2)
+    mix.add(wav("counter_bell"), sec(b + 46), db(-6), pan=0.2)
     for g in S11_LAND.values():
         mix.add(wav("paper_tap"), sec(b + g), 1.0)
     for g in range(V4_WALK[0], V4_WALK[1], 4):
