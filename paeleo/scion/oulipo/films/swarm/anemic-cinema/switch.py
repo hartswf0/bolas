@@ -676,34 +676,72 @@ def encode(frames_dir, variant, ks, out_mp4, wav=None):
 
 
 # ================================================================== measurement: polar phase correlation
-def polar_step(img_a, img_b, nang=2880, r0=40, r1=226):
-    """Angle (deg, ccw on screen positive) by which b is a rotation of a, measured by phase
-    correlation along the angle axis of a polar resampling about the plate centre. The camera-
-    fixed plate light is suppressed by differentiating along angle (a high-pass)."""
+def _gradmag(im):
     import cv2
-    def pol(im):
-        g = im.astype(np.float32).mean(axis=2) if im.ndim == 3 else im.astype(np.float32)
-        P = cv2.warpPolar(g, (r1, nang), (480.0, 270.0), r1, cv2.WARP_POLAR_LINEAR + cv2.INTER_LINEAR)
-        P = P[:, r0:r1]                                  # rows = angle (cw in image), cols = radius
-        return P - np.roll(P, 1, axis=0)
-    A, B = pol(img_a), pol(img_b)
-    Fa, Fb = np.fft.fft(A, axis=0), np.fft.fft(B, axis=0)
+    g = im.astype(np.float32).mean(axis=2) if im.ndim == 3 else im.astype(np.float32)
+    gx = cv2.Sobel(g, cv2.CV_32F, 1, 0, ksize=3)
+    gy = cv2.Sobel(g, cv2.CV_32F, 0, 1, ksize=3)
+    return np.hypot(gx, gy)
+
+
+def polar_step(img_a, img_b, nang=2880, r0=40, r1=226, refine=True):
+    """Angle (deg, ccw on screen positive) by which frame b is a rotation of frame a.
+    1) polar phase correlation: gradient magnitude (suppresses the smooth camera-fixed plate
+       light) resampled to polar about the plate centre (2880 angle bins, r 40-226 px), cross-
+       power summed over radii with partial whitening |X|^0.5, parabolic sub-bin peak;
+    2) refinement: golden-section search (+-0.15 deg) of the rotation minimising the SSD of
+       the gradient-magnitude images in the same annulus (cubic resampling).
+    Returns (deg_refined, deg_phase_corr)."""
+    import cv2
+    A, B = _gradmag(img_a), _gradmag(img_b)
+
+    def pol(g):
+        return cv2.warpPolar(g, (r1, nang), (480.0, 270.0), r1,
+                             cv2.WARP_POLAR_LINEAR + cv2.INTER_LINEAR)[:, r0:r1]
+    Fa, Fb = np.fft.fft(pol(A), axis=0), np.fft.fft(pol(B), axis=0)
     cp = (Fb * np.conj(Fa)).sum(axis=1)
-    cp /= np.abs(cp) + 1e-9
+    cp /= (np.abs(cp) + 1e-9) ** 0.5
     c = np.real(np.fft.ifft(cp))
     j = int(np.argmax(c))
     y0, y1, y2 = c[(j - 1) % nang], c[j], c[(j + 1) % nang]
     den = y0 - 2 * y1 + y2
-    off = 0.5 * (y0 - y2) / den if den != 0 else 0.0
-    sh = j + off
+    sh = j + (0.5 * (y0 - y2) / den if den != 0 else 0.0)
     if sh > nang / 2:
         sh -= nang
-    return -sh * 360.0 / nang, float(y1)
+    d0 = float(-sh * 360.0 / nang)
+    if not refine:
+        return d0, d0
+    yy, xx = np.mgrid[0:A.shape[0], 0:A.shape[1]]
+    rr = np.hypot(xx - 479.5, yy - 269.5)
+    m = (rr > r0) & (rr < r1)
+
+    def cost(d):
+        M = cv2.getRotationMatrix2D((479.5, 269.5), d, 1.0)
+        w = cv2.warpAffine(A, M, (A.shape[1], A.shape[0]), flags=cv2.INTER_CUBIC)
+        return float(((w - B)[m] ** 2).mean())
+    def search(c0):
+        lo, hi = c0 - 0.15, c0 + 0.15
+        for _ in range(36):
+            m1, m2 = lo + (hi - lo) * 0.382, lo + (hi - lo) * 0.618
+            if cost(m1) < cost(m2):
+                hi = m2
+            else:
+                lo = m1
+        return (lo + hi) / 2
+    d1 = search(d0)
+    # robust pass: marks that changed SHAPE between the two frames (hybrid frames) are outliers to
+    # a rigid rotation; drop the 15 % largest residuals and search again (one reweighting step)
+    M = cv2.getRotationMatrix2D((479.5, 269.5), d1, 1.0)
+    res = np.abs(cv2.warpAffine(A, M, (A.shape[1], A.shape[0]), flags=cv2.INTER_CUBIC) - B)
+    thr = np.percentile(res[m], 85)
+    res_ok = cv2.erode((res < thr).astype(np.uint8), np.ones((5, 5), np.uint8)) > 0
+    m = m & res_ok
+    return search(d1), d0
 
 
 # ================================================================== the bell (FORAGED)
 BELL_SRC = SRC + "/switch/raw/striking_bell_15cm.mp3"   # Commons PD, Wikimedia mp3 transcode
-BELL_PEAK = 10 ** (-14.0 / 20)          # -14 dBFS
+BELL_PEAK = 10 ** (-14.5 / 20)          # -14.5 dBFS in the wav, so the AAC-encoded peak stays <= -14 dBFS
 BELL_LEN = 1.45
 BELL_FADE = 0.35
 RATE = 44100

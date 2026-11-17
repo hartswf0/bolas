@@ -8,7 +8,7 @@
   "runners_overhead_accepted": 7
  },
  "harness_accepted": {
-  "projector": "rig.plan_frame (accepted)",
+  "projector": "film render, camera=overhead (accepted)",
   "passed": true,
   "checks": {
    "P4_no_shared_rng": true,
@@ -24,98 +24,98 @@
     "seed": 417,
     "runners_side": 7,
     "runners_projected": 7,
-    "frame_sha1": "4d1acfb90a7c28396f5bab990f6dbc6a767f2c4e"
+    "frame_sha1": "4ab57121454acd34113188909c8fa776841e7037"
    },
    {
     "f": 0,
     "seed": 418,
     "runners_side": 8,
     "runners_projected": 8,
-    "frame_sha1": "bf5a5d9daf4b6e0c9f10f6494c27ffecc2f250c7"
+    "frame_sha1": "3b2390d745775d0749d4313b83e3f265619c7f97"
    },
    {
     "f": 24,
     "seed": 417,
     "runners_side": 7,
     "runners_projected": 7,
-    "frame_sha1": "9fba64a2468bd66874c1cd6e46bbcf7f75d5cf20"
+    "frame_sha1": "8e5c71bec13c2128bba00c98e184f42aed02126d"
    },
    {
     "f": 24,
     "seed": 418,
     "runners_side": 8,
     "runners_projected": 8,
-    "frame_sha1": "64fb36d6f4c04574ec51512ea69f0052f21d83d1"
+    "frame_sha1": "037282b39fde8c6d9d8be70f2c9b5237ae264b44"
    },
    {
     "f": 29,
     "seed": 417,
     "runners_side": 7,
     "runners_projected": 7,
-    "frame_sha1": "51ba88ed2c84358930c444b97ee66f7f9d85d75d"
+    "frame_sha1": "d35f20b7caf7555fbc370958ca54580af7bda47c"
    },
    {
     "f": 29,
     "seed": 418,
     "runners_side": 8,
     "runners_projected": 8,
-    "frame_sha1": "02d9ab9c46cc472d1114260a6046e0106de1f281"
+    "frame_sha1": "c4c8c1d37b2a6c66422c140aa49ac3ab06b2f1a9"
    },
    {
     "f": 32,
     "seed": 417,
     "runners_side": 7,
     "runners_projected": 7,
-    "frame_sha1": "371a8f9d7337b7e5676c5327fa84c4273bcfd8e6"
+    "frame_sha1": "495473959a806c781d81fedcddc6f836760c7cbe"
    },
    {
     "f": 32,
     "seed": 418,
     "runners_side": 8,
     "runners_projected": 8,
-    "frame_sha1": "74899b78ff1be6771cf615408ff613d04b66edd8"
+    "frame_sha1": "8abd9d4a6e7f66af3aebbb546de0e6e2a9c17bb1"
    },
    {
     "f": 60,
     "seed": 417,
     "runners_side": 7,
     "runners_projected": 7,
-    "frame_sha1": "c091c708ee142ed1e19b7831f671b7ee5460aa5a"
+    "frame_sha1": "bbb583db958859e53d18689c31e4a743ae1a21e0"
    },
    {
     "f": 60,
     "seed": 418,
     "runners_side": 8,
     "runners_projected": 8,
-    "frame_sha1": "019c11bffd63460b853f1f0b52040547d9124860"
+    "frame_sha1": "c8da809e6c5880bdd0d3cef2ec07f19e883e9928"
    },
    {
     "f": 100,
     "seed": 417,
     "runners_side": 7,
     "runners_projected": 7,
-    "frame_sha1": "c934af315afa89ca9c2d4c2d3814d6f7103b7ee7"
+    "frame_sha1": "ef79ea717dc3b838a4d8e213dee3cab92509dd55"
    },
    {
     "f": 100,
     "seed": 418,
     "runners_side": 8,
     "runners_projected": 8,
-    "frame_sha1": "6fc43a81770205ae82cede4b2c6922321a60075d"
+    "frame_sha1": "13a836b4e1294d6b58d3f43f0207c020bcba4270"
    },
    {
     "f": 132,
     "seed": 417,
     "runners_side": 7,
     "runners_projected": 7,
-    "frame_sha1": "03bd715b94229afb2d1603185a4c8ec1d1c4696b"
+    "frame_sha1": "c07567cbd1ff18d6c1c2da6cb00ebf3e88860adb"
    },
    {
     "f": 132,
     "seed": 418,
     "runners_side": 8,
     "runners_projected": 8,
-    "frame_sha1": "e264a08124deb824537a5a21466495b2ba6099bb"
+    "frame_sha1": "75785dc2fa8128ae62bc3c2bd9a9d28facaf64ac"
    }
   ]
  },
@@ -130,7 +130,7 @@
    "C4_protected_plan_masks_identical_across_seeds": false
   },
   "rng_violations": [
-   "coverage.py:475 project_drift()"
+   "coverage.py:502 project_drift()"
   ],
   "per_frame": [
    {
@@ -138,98 +138,98 @@
     "seed": 417,
     "runners_side": 7,
     "runners_projected": 8,
-    "frame_sha1": "07c43080a5c2dbfbc82c73be67955a496826919d"
+    "frame_sha1": "a856d62c6060e489a4aa66083b5880487704768a"
    },
    {
     "f": 0,
     "seed": 418,
     "runners_side": 8,
     "runners_projected": 9,
-    "frame_sha1": "ef84eb0e4abcb340ea79437ed7884f23834aa86d"
+    "frame_sha1": "d9d4c9a24511770ed4c874bafe4a93a9c9de2768"
    },
    {
     "f": 24,
     "seed": 417,
     "runners_side": 7,
     "runners_projected": 8,
-    "frame_sha1": "6c7a45b81d8f05a258ba075d1aec136a844882e5"
+    "frame_sha1": "f26323ab6d8b917b307bc68b20b54fe3eb0a815c"
    },
    {
     "f": 24,
     "seed": 418,
     "runners_side": 8,
     "runners_projected": 9,
-    "frame_sha1": "ec77597594211e39e8b8ed1895c22178360df151"
+    "frame_sha1": "903f0b5141a378fddf31c8e884a50eff1eb20875"
    },
    {
     "f": 29,
     "seed": 417,
     "runners_side": 7,
     "runners_projected": 8,
-    "frame_sha1": "53e40cd78e5702af6585e554f90c77361b52a2aa"
+    "frame_sha1": "655e51559340717a41f13f7aca2f050b86e75f81"
    },
    {
     "f": 29,
     "seed": 418,
     "runners_side": 8,
     "runners_projected": 9,
-    "frame_sha1": "f5d088d2a6c0503f288957f2ef45b12917e02ccc"
+    "frame_sha1": "ef0997c511d48de9f4e4c099b528d51212598162"
    },
    {
     "f": 32,
     "seed": 417,
     "runners_side": 7,
     "runners_projected": 8,
-    "frame_sha1": "34147900e2cc763864838a516195c8fae1933951"
+    "frame_sha1": "e5fb1008e79924e1b55aa97b1026e58a400e6817"
    },
    {
     "f": 32,
     "seed": 418,
     "runners_side": 8,
     "runners_projected": 9,
-    "frame_sha1": "10650c56d0590413e8dff937a981932ef6dad2a7"
+    "frame_sha1": "a0f45a3bad7a425021fcdbfe096978f71d855a55"
    },
    {
     "f": 60,
     "seed": 417,
     "runners_side": 7,
     "runners_projected": 8,
-    "frame_sha1": "95f2c820bba2189d48e5aff73ac87ea4f4bb58c2"
+    "frame_sha1": "5c0aef84d89a5b7ede3c8acd7aa0cfac7f375314"
    },
    {
     "f": 60,
     "seed": 418,
     "runners_side": 8,
     "runners_projected": 9,
-    "frame_sha1": "c7f7cc1a4eb750eef04eb817048beef457059842"
+    "frame_sha1": "20ea45bb5f1d63b2684abcd44843bf5cbec022f7"
    },
    {
     "f": 100,
     "seed": 417,
     "runners_side": 7,
     "runners_projected": 8,
-    "frame_sha1": "109cd48039cd36a7bfcbed896c6f5f8f66cdd995"
+    "frame_sha1": "3ec2b6f6288cdfb7bf56340113d8359a9475de3f"
    },
    {
     "f": 100,
     "seed": 418,
     "runners_side": 8,
     "runners_projected": 9,
-    "frame_sha1": "0217e2bb4d20f181f559fdc602c8dc7dd7ee615b"
+    "frame_sha1": "223ae2d3f3b537c5b630cf484137dc21e7acea82"
    },
    {
     "f": 132,
     "seed": 417,
     "runners_side": 7,
     "runners_projected": 8,
-    "frame_sha1": "c2d13b5762123191a2b4fa5eda720ef64e872f9f"
+    "frame_sha1": "916494cf38788b3a61afe9595b14c51c33f9c173"
    },
    {
     "f": 132,
     "seed": 418,
     "runners_side": 8,
     "runners_projected": 9,
-    "frame_sha1": "251b315febabeaf3250cd2f9e0155a61436c3fe4"
+    "frame_sha1": "cc94c0b83e7be25a7c9e229a11b48f2a3ecf166e"
    }
   ]
  },
@@ -240,7 +240,7 @@
   "runner_count_equals_side",
   "C4_protected_plan_masks_identical_across_seeds"
  ],
- "verdict": "REJECTED and quarantined (I8); the accepted overhead stays rig.plan_frame",
+ "verdict": "REJECTED and quarantined (I8); the accepted overhead stays the film render (camera=overhead)",
  "quarantine": "films/sources/mauro-martino-exercises-in-style/verify/quarantine",
  "strip": [
   "films/sources/mauro-martino-exercises-in-style/verify/rejected-drift-strip.jpg",

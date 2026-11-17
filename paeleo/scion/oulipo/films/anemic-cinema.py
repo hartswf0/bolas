@@ -1,176 +1,320 @@
-"""Anémic cinéma — two optical discs, two text discs, strict alternation, then a still pass.
+"""Anemic cinema -- variation (SCION swarm assembly, editor).
 
-Look follows the two references: monochrome 1920s film. Text discs are lit,
-sphere-shaded grey plates with bold white capitals on black (spiralTextPom);
-optical discs are warm grey nested rings with fine engraved grooves on black
-(duchamp2). Everything is computed here; no reference pixels are used.
+24.0 s, 960x540, 24 fps. One plate turning about (480, 270), four discs in strict alternation:
+  T1 (pun disc, door) -> W1 drawing substitution -> O_A (engraved rings, approaching)
+  -> W2 -> T2 (reading disc, key and bell) -> W3 letters become real key cutouts
+  -> O_B (key rings, receding) -> still pass (F360 frozen, then F360-362 as a plain strip).
+
+All picture rendering is done by the swarm modules in films/swarm/anemic-cinema/:
+  optics.py (U1: engraved ring disc, GrabCut keys, key-ring disc),
+  glyphs.py (U2: original puns, GlyphPath, text discs),
+  switch.py (U3: score.json ExposureSequence, Substitute W1-W3, 2x render + 180 deg shutter of
+             8 sub-frames of the real rotation, INTER_AREA downsample, warm grade on optical discs).
+This script only reads score.json, pre-renders every frame with switch.render_frame, asserts the
+fixtures, and pastes the decoded frames onto a pure black field through kit.Film. No grain, no
+vignette. Sound: one foraged bell strike (Commons, public domain) at the three switches, declared
+digital silence elsewhere.
+
+Run from the project root:
+  python3 films/anemic-cinema.py                     film -> assets/films/anemic-cinema.mp4
+  python3 films/anemic-cinema.py --stills 8 15 ...   stills -> films/stills/anemic-cinema/
+  python3 films/anemic-cinema.py --silent            silent variant S0 -> sources/anemic-cinema/editor/
+  python3 films/anemic-cinema.py --baseline B1|B2    W1 replaced by a hard cut / an 18-frame dissolve
 """
+import hashlib
+import json
 import math
+import os
+import sys
+import wave
+from pathlib import Path
+
 import numpy as np
-from PIL import Image, ImageDraw, ImageFilter
-from kit import *
+from PIL import Image, ImageDraw, ImageFont
 
-film = Film("anemic-cinema", seconds=24, boil=0, wobble=0)
-R = 215
-CX, CY = W // 2, H // 2
-SCORE = [(0.0, 1.8, "title", None), (1.8, 6.4, "optical", "A"), (6.4, 10.4, "text", "1"),
-         (10.4, 15.2, "optical", "B"), (15.2, 20.4, "text", "2"), (20.4, 24.0, "still", None)]
-PUN1 = "A KEY LEFT ON A BENCH IS A BELL THAT FORGOT TO RING · A BELL LEFT ON A BENCH IS A KEY THAT FORGOT TO TURN ·"
-PUN2 = "THE DOOR STAYS SHUT SO THE STATION CAN KEEP ITS SECRET · THE SECRET STAYS SHUT SO THE STATION CAN KEEP ITS DOOR ·"
-WARM = np.array([1.0, 0.95, 0.86])  # beige-grey cast of the ring plate
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent
+WS = HERE / "swarm" / "anemic-cinema"
+SRC = HERE / "sources" / "anemic-cinema"
+ED = SRC / "editor"
+sys.path.insert(0, str(HERE))
+sys.path.insert(0, str(WS))
 
-yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+import kit  # noqa: E402
+from kit import Film  # noqa: E402
+import switch as S  # noqa: E402
 
+SLUG = "anemic-cinema"
+SECONDS = 24.0
+FPS = 24
+NFR = int(SECONDS * FPS)
+FIELD = 2
 
-def sphere_plate(size):
-    """Grey plate lit from the upper right, darkening to the lower left rim."""
-    n = 2 * size
-    y, x = (np.mgrid[0:n, 0:n].astype(np.float32) - size) / size
-    r = np.hypot(x, y)
-    z = np.sqrt(np.clip(1 - r * r, 0, 1))
-    lx, ly, lz = 0.45, -0.5, 0.74
-    lum = np.clip(x * lx + y * ly + z * lz, 0, 1) ** 1.3
-    v = 55 + 150 * lum
-    alpha = np.clip((1 - r) * size * 0.9, 0, 1)
-    img = np.dstack([v, v, v, alpha * 255]).astype(np.uint8)
-    return Image.fromarray(img, "RGBA")
+# ------------------------------------------------------------------ options
+ARGS = sys.argv[1:]
+SILENT = "--silent" in ARGS
+BASELINE = None
+if "--baseline" in ARGS:
+    BASELINE = ARGS[ARGS.index("--baseline") + 1].upper()
+    assert BASELINE in ("B1", "B2"), BASELINE
+STILLS = bool(ARGS) and ARGS[0] == "--stills"
+VARIANT = BASELINE or "film"
+# kit.Film.render reads sys.argv for --stills; leave only what it understands
+if not STILLS:
+    sys.argv = sys.argv[:1]
 
-
-def text_disc(phrase, size=22):
-    plate = sphere_plate(R)
-    glyphs = Image.new("L", plate.size, 0)
-    f = font("sans", size)
-    c = R
-    rr, a = R - 30, -math.pi / 2
-    for ch in phrase:
-        g = Image.new("L", (size * 2, size * 2), 0)
-        ImageDraw.Draw(g).text((size, size), ch, font=f, fill=255, anchor="mm", stroke_width=1, stroke_fill=255)
-        g = g.rotate(-math.degrees(a) - 90, resample=Image.BICUBIC)
-        x, y = c + rr * math.cos(a), c + rr * math.sin(a)
-        glyphs.paste(255, (int(x - size), int(y - size)), g)
-        step = (size * 0.74) / rr
-        a += step
-        rr -= (size * 1.45) * step / (2 * math.pi)
-        if rr < 40:
-            break
-    bloom = glyphs.filter(ImageFilter.GaussianBlur(2.2))
-    p = np.asarray(plate, np.float32)
-    g = np.asarray(glyphs, np.float32)[..., None] / 255
-    b = np.asarray(bloom, np.float32)[..., None] / 255
-    shadow = np.asarray(glyphs.filter(ImageFilter.GaussianBlur(1.6)), np.float32)[..., None] / 255
-    rgb = p[..., :3] * (1 - 0.45 * shadow)
-    rgb = rgb * (1 - g) + 250 * g
-    rgb = np.clip(rgb + 40 * b, 0, 255)
-    return Image.fromarray(np.dstack([rgb, p[..., 3:]]).astype(np.uint8), "RGBA")
+SCORE = json.load(open(WS / "score.json"))
+FR = SCORE["frames"]
+assert len(FR) == NFR and SCORE["fps"] == FPS
+FDIR = ED / "frames"
 
 
-DISCS = {"1": text_disc(PUN1), "2": text_disc(PUN2)}
+# ------------------------------------------------------------------ title (HANDMADE type, cream ring stock)
+_TITLE = {}
 
 
-def optical(ang, sign):
-    """Nested eccentric rings; centres orbit the disc centre as the disc turns."""
-    out = np.zeros((H, W), np.float32)
-    n = 7
-    for k in range(n, 0, -1):
-        f = k / n
-        r_out = R * f
-        r_in = r_out - R / n * 0.55
-        off = sign * (1 - f) * R * 0.28
-        ox, oy = CX + off * math.cos(ang), CY + off * math.sin(ang)
-        d = np.hypot(xx - ox, yy - oy)
-        ring = (d < r_out) & (d > r_in)
-        grooves = 0.82 + 0.18 * np.cos(d * 1.9)  # fine engraved striations
-        edge = np.clip(np.minimum(r_out - d, d - r_in) / 1.5, 0, 1)
-        out = np.where(ring, 200 * grooves * edge + out * (1 - edge), out)
-        inner = d <= r_in
-        out = np.where(inner, 0, out)
-    # bullseye at the innermost centre: grooved boss
-    off = sign * R * 0.28
-    ox, oy = CX + off * math.cos(ang), CY + off * math.sin(ang)
-    d = np.hypot(xx - ox, yy - oy)
-    boss = d < R / n * 0.5
-    out = np.where(boss, 185 * (0.8 + 0.2 * np.cos(d * 2.4)), out)
+def title_frame(k):
+    """'anémic cinéma · variation' in small cream capitals filled with the same groove stock as the
+    rings (2.5 px pitch at 1x, rendered at 2x and area-downsampled), warm grade, fade 6 f in / 6 f out."""
+    if "rgb" not in _TITLE:
+        import cv2
+        O = S.mods()[1]
+        ss = 2
+        fnt = ImageFont.truetype("/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf", 17 * ss)
+        txt = "ANÉMIC CINÉMA  ·  VARIATION"
+        spacing = 0.22  # open tracking, em
+        widths = [fnt.getlength(c) for c in txt]
+        total = sum(widths) + spacing * 17 * ss * (len(txt) - 1)
+        m = Image.new("L", (960 * ss, 540 * ss), 0)
+        d = ImageDraw.Draw(m)
+        x = (960 * ss - total) / 2
+        for c, w in zip(txt, widths):
+            d.text((x, 270 * ss), c, font=fnt, fill=255, anchor="lm")
+            x += w + spacing * 17 * ss
+        a = np.asarray(m, np.float32) / 255.0
+        yy = np.arange(540 * ss, dtype=np.float32)[:, None]
+        groove = 1.0 - O.GROOVE_DEPTH * 0.5 * (1 + np.cos(2 * np.pi * yy / (O.GROOVE_1X * ss)))
+        L = FIELD + a * (O.STOCK_A * groove - FIELD)
+        L = cv2.resize(L, (960, 540), interpolation=cv2.INTER_AREA)
+        _TITLE["rgb"] = np.clip(L[..., None] * O.WARM[None, None], 0, 255)
+    fade = min(1.0, (k + 1) / 6.0, (24 - k) / 6.0)
+    rgb = FIELD + (_TITLE["rgb"] - FIELD) * max(0.0, fade)
+    return np.clip(rgb + 0.5, 0, 255).astype(np.uint8)
+
+
+# ------------------------------------------------------------------ frames
+def frame_path(k, variant=VARIANT):
+    v = variant if (variant != "film" and FR[k].get("window") == "W1") else "film"
+    return FDIR / f"{v}_{k:03d}.png"
+
+
+def body_frame(k):
+    """The rendered frame k (decoded from the pre-render; rendered live if missing)."""
+    p = frame_path(k)
+    if p.exists():
+        return np.asarray(Image.open(p).convert("RGB"))
+    v = VARIANT if FR[k].get("window") == "W1" else "film"
+    rgb, _ = S.render_frame(k, v)
+    return rgb
+
+
+def strip_frame():
+    """Still pass part 2: F360, F361, F362 as a plain vertical strip on the black field
+    (glyphpaths.json still_pass.part2 cells; real frames area-downsampled; no sprockets, no edges)."""
+    import cv2
+    out = np.full((540, 960, 3), FIELD, np.uint8)
+    for c in json.load(open(WS / "glyphpaths.json"))["still_pass"]["part2"]["cells"]:
+        im = body_frame(c["k"])
+        im = cv2.resize(im, (c["w"], c["h"]), interpolation=cv2.INTER_AREA)
+        out[c["y"]:c["y"] + c["h"], c["x"]:c["x"] + c["w"]] = im
     return out
 
 
-def tone(gray, t):
-    """Warm monochrome print with flicker."""
-    flick = 1 + 0.035 * math.sin(t * 47.0) * math.sin(t * 13.3)
-    rgb = np.clip(gray[..., None] * WARM[None, None, :] * flick, 0, 255)
-    return Image.fromarray(rgb.astype(np.uint8), "RGB")
+def compose(k):
+    f = FR[k]
+    if f["state"] == "title":
+        return title_frame(k)
+    if f["state"] == "still":
+        if isinstance(f.get("shows_frame"), list):
+            return strip_frame()
+        return body_frame(360)          # part 1: the identical pixels of F360
+    return body_frame(k)
 
 
-def filmstrip(frames_img, t):
-    """Still pass: three frames on a strip with sprocket holes, like a clip held to light."""
-    canvas = Image.new("RGB", (W, H), (8, 8, 8))
-    d = ImageDraw.Draw(canvas)
-    sx0, sx1 = 250, 710
-    d.rectangle([sx0, 0, sx1, H], fill=(14, 14, 14))
-    d.rectangle([sx0, 0, sx0 + 46, H], fill=(225, 222, 214))
-    for k in range(-1, 6):
-        y = k * 108 + 22
-        d.rounded_rectangle([sx0 + 12, y, sx0 + 34, y + 30], 4, fill=(10, 10, 10))
-    for k, img in enumerate(frames_img):
-        sm = img.resize((176, 176), Image.LANCZOS)
-        canvas.paste(sm, (sx0 + 90, 4 + k * 178), sm)
-    return canvas
+# ------------------------------------------------------------------ fixtures (asserted before encoding)
+def prerender():
+    FDIR.mkdir(parents=True, exist_ok=True)
+    stamp = hashlib.sha1(b"".join(open(WS / m, "rb").read() for m in
+                                  ("score.json", "switch.py", "optics.py", "glyphs.py"))).hexdigest()
+    cache = ED / "render_info.json"
+    if cache.exists():
+        old = json.load(open(cache))
+        if old.get("stamp") == stamp:
+            return old
+    infos = _prerender()
+    infos["stamp"] = stamp
+    json.dump(infos, open(cache, "w"), indent=0)
+    return infos
+
+
+def _prerender():
+    ks = [k for k in range(NFR) if FR[k]["state"] in ("body", "switch")]
+    infos = {"film": S.render_range(ks, "film", str(FDIR))}
+    w1 = list(range(126, 144))
+    for v in ("B1", "B2"):
+        infos[v] = S.render_range(w1, v, str(FDIR))
+    return infos
+
+
+def run_fixtures(infos):
+    import switch_fixtures as SF
+    SF.FR = str(FDIR)                    # measure the frames this film is cut from
+    sc = SCORE
+    res = {}
+    alt = SF.alternation(SF.alternation_from_frames(sc))
+    bad = SF.alternation(["T1", "O_A", "O_B", "T2"])
+    assert alt["passed"] and alt["bodies"] == ["T1", "O_A", "T2", "O_B"], alt
+    assert not bad["passed"], "alternation must fail on T1,O_A,O_B,T2"
+    assert SF.windows_belong_to_incoming(sc)
+    res["I3_alternation"] = dict(bodies=alt["bodies"], fails_on_test_score=True, passed=True)
+    od = SF.omega_declared(sc)
+    assert all(v["passed"] for v in od.values()), od
+    om = SF.omega_measured()
+    for w in ("W1", "W2", "W3"):
+        assert om[w]["passed"], (w, om[w]["max_rel_err_in_window"])
+    res["I4_constant_omega"] = dict(declared=True, measured={w: dict(
+        median=om[w]["median_rel_err_in_window"], max=om[w]["max_rel_err_in_window"],
+        mean_deg=om[w]["mean_deg_in_window"], expected=om[w]["expected_deg_per_frame"],
+        paused=om[w]["paused_pairs"]) for w in ("W1", "W2", "W3")}, passed=True)
+    per = SF.periodicity(sc)
+    assert all(v["passed"] for v in per.values()), per
+    res["I5_periodicity"] = dict(P80=per["omega_fast"]["passed"], P256=per["omega_read"]["passed"], passed=True)
+    go = SF.glyph_order(sc)
+    assert go["passed"], go
+    res["I2_glyph_order"] = dict(T1_F100=go["still_frames"]["T1"]["passed"], T2_F360=go["still_frames"]["T2"]["passed"],
+                                 W1=go["windows"]["W1"]["passed"], W2=go["windows"]["W2"]["passed"],
+                                 W3_token_order=go["W3_swap_in_token_order"]["passed"], passed=True)
+    ss = SF.single_state(infos)
+    assert ss["passed_on_film"] and ss["fails_on_B2"], ss["pixel_ghost_overlap"]
+    assert ss["film"]["W1"]["distinct_hybrid_states"] >= 6
+    res["per_mark_single_state"] = dict(
+        film_ghost_max=ss["pixel_ghost_overlap"]["film_max"], B2_ghost_max=ss["pixel_ghost_overlap"]["B2_max"],
+        W1_distinct_hybrid_states=ss["film"]["W1"]["distinct_hybrid_states"],
+        F134=[r for r in ss["film"]["W1"]["rows"] if r["k"] == 134][0]["ring_states"], passed=True)
+    rp = SF.replay(infos)
+    assert rp["passed"], "replay hashes differ"
+    res["replay_sha1"] = dict(frames="126-143", identical=True, passed=True)
+    # still pass equals the moving frame
+    a = np.asarray(compose(516)); b = body_frame(360)
+    assert np.array_equal(a, b), "still pass part 1 must be the pixels of F360"
+    res["still_pass_identical_F360"] = dict(passed=True)
+    # honest material: black field, no grain
+    f = body_frame(200).astype(np.float32)
+    corner = f[:40, :40].mean(), f[:40, :40].std()
+    assert corner[0] <= 6 and corner[1] <= 1.5, corner
+    res["black_field"] = dict(corner_L=round(float(corner[0]), 2), sigma=round(float(corner[1]), 3), passed=True)
+    # I8 safe playback: inter-frame luminance change < 25 % of the frame mean (title excluded)
+    # over the motion picture F24-515; the two cuts into and inside the still pass (F516, F552)
+    # are single steps (no repetition, so no strobing) and are reported, not asserted
+    prev, worst, cuts = None, (0, None), {}
+    for k in range(24, NFR):
+        m = float(compose(k).astype(np.float32).mean())
+        if prev is not None and m > 0:
+            rel = abs(m - prev) / max(prev, 1e-6)
+            if k in (516, 552):
+                cuts[k] = round(rel, 3)
+            elif rel > worst[0]:
+                worst = (rel, k)
+        prev = m
+    if VARIANT == "film":
+        assert worst[0] < 0.25, worst
+    res["I8_luminance_step"] = dict(variant=VARIANT, max_rel_F24_515=round(float(worst[0]), 4), at=worst[1],
+                                    declared_cuts_rel_step=cuts, passed=bool(worst[0] < 0.25),
+                                    note="asserted on the film only; a baseline may break it (B1 is a hard cut)")
+    json.dump(res, open(ED / ("assembly-fixtures.json" if VARIANT == "film" else f"assembly-fixtures-{VARIANT}.json"), "w"), indent=1)
+    print("fixtures (%s):" % VARIANT, {k: v["passed"] for k, v in res.items()})
+    return res
+
+
+# ------------------------------------------------------------------ sound
+def load_bell():
+    with wave.open(str(SRC / "switch" / "bell.wav")) as w:
+        assert w.getframerate() == kit.RATE and w.getsampwidth() == 2
+        x = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(np.float64) / 32768
+        if w.getnchannels() == 2:
+            x = x.reshape(-1, 2).mean(1)
+    return x
+
+
+class FlatMix(kit.Mix):
+    """kit.Mix whose master() only converts: the kit master boosts a track whose peak is < 0.25
+    by up to 4x, which would lift the bell from -14.5 dBFS to about -1 dBFS. Here the levelled
+    foraged strike is kept as levelled, and the declared silence stays exactly zero."""
+
+    def master(self):
+        st = np.stack([self.L, self.R], 1)
+        return np.clip(np.round(st * 32767), -32768, 32767).astype(np.int16)
+
+
+kit.Mix = FlatMix                       # Film.render builds its Mix from the kit namespace
+
+CUES = [c / FPS for c in SCORE["sound_cues"]["bell"]]      # 5.25, 10.25, 17.75 s
+assert CUES == [5.25, 10.25, 17.75], CUES
+
+
+# ------------------------------------------------------------------ the film
+film = Film(SLUG, seconds=SECONDS, boil=0, wobble=0)
+film.poster_at = 5.583   # F134, the defining hybrid frame of W1
 
 
 @film.picture
-def frame(t, ink):
-    for a, b, kind, ident in SCORE:
-        if a <= t < b:
-            break
-    fade = min(1, (t - a) / 0.3, (b - t) / 0.3)
-    weave = (round(math.sin(t * 9.1) * 1.2), round(math.sin(t * 6.7 + 1) * 1.0))
-    if kind == "title":
-        img = Image.new("RGB", (W, H), (6, 6, 6))
-        d = ImageDraw.Draw(img)
-        d.text((W / 2, H / 2 - 8), "ANÉMIC", font=font("sans", 70), fill=(232, 230, 224), anchor="mm")
-        d.text((W / 2, H / 2 + 44), "CINÉMA", font=font("sans", 30), fill=(200, 198, 190), anchor="mm")
-        base = img
-    elif kind == "optical":
-        ang = 2 * math.pi * 0.5 * t  # fixed 0.5 rev/s: angle(t+2) == angle(t) mod 2π
-        base = tone(optical(ang, +1 if ident == "A" else -1), t)
-    elif kind == "text":
-        speed = 0.16 if ident == "1" else 0.09  # rev/s; disc 2 is the reading disc
-        disc = DISCS[ident].rotate(math.degrees(2 * math.pi * speed * t), resample=Image.BICUBIC)
-        base = Image.new("RGB", (W, H), (6, 6, 6))
-        base.paste(disc, (CX - R, CY - R), disc)
-    else:
-        # three consecutive frames of the reading disc: same layout, advancing phase
-        three = [DISCS["2"].rotate(-k * 25, resample=Image.BICUBIC) for k in range(3)]
-        base = filmstrip(three, t)
-        d = ImageDraw.Draw(base)
-        d.text((740, 250), "STILL PASS", font=font("mono", 14), fill=(190, 188, 180))
-        d.text((740, 272), "layout without motion", font=font("mono", 13), fill=(130, 128, 122))
-    base = base.transform(base.size, Image.AFFINE, (1, 0, weave[0], 0, 1, weave[1]), fillcolor=(6, 6, 6))
-    ink.img = base
-    ink.d = ImageDraw.Draw(ink.img, "RGBA")
-    if kind in ("optical", "text"):
-        lab = {"A": "OPTICAL A · pushes toward you · 0.5 rev/s", "B": "OPTICAL B · sinks away · 0.5 rev/s",
-               "1": "TEXT 1 · 0.16 rev/s", "2": "TEXT 2 · 0.09 rev/s · reading speed"}[ident]
-        ink.label((24, H - 30), lab, 12, (120, 118, 112))
-    ink.vignette(0.55)
-    if fade < 1:
-        ink.d.rectangle([0, 0, W, H], fill=(6, 6, 6, int(255 * (1 - fade))))
+def picture(t, ink):
+    ink._grain = False                   # I7: kit grain off, every frame; no vignette is set
+    k = int(round(t * FPS))
+    ink.fill((FIELD, FIELD, FIELD))
+    ink.paste(Image.fromarray(compose(k)), (0, 0))
+    ink._grain = False
 
 
 @film.sound
 def sound(mix):
-    mix.drone(0, 24, (49, 98), gain=0.05, attack=1, release=2)
-    mix.room(0, 24, gain=0.012, hum=24)  # projector flutter
-    for a, b, kind, ident in SCORE[1:]:
-        mix.click(a, 0.35, 0, 2500)
-        mix.thud(a, 55, 0.25)
-    for k in range(int(1.8 * 2), int(15.2 * 2)):
-        t = k / 2
-        if any(a <= t < b and kind == "optical" for a, b, kind, _ in SCORE):
-            mix.click(t, 0.06, 0.3, 1200)
-    mix.bell(6.4, 523, 3.0, 0.18, -0.3)
-    mix.bell(15.2, 392, 4.0, 0.16, 0.3)
-    mix.reverb(0.2)
+    if SILENT:
+        return                            # S0: fully silent variant
+    bell = load_bell()
+    for at in CUES:
+        mix.add(bell, at, gain=1.0, pan=0.0)
+
+
+def compare_sheets():
+    """The 8.0 s and 15.0 s frames beside the references, for the critic (our pixels left)."""
+    refs = ROOT / "assets" / "references"
+    out = []
+    for t, ref in ((8.0, "duchamp2.webp"), (15.0, "spiralTextPom.webp"), (3.0, "spiralTextPom.webp")):
+        ours = Image.fromarray(compose(int(t * FPS)))
+        r = Image.open(refs / ref).convert("RGB")
+        r = r.resize((int(r.width * 540 / r.height), 540), Image.LANCZOS)
+        sheet = Image.new("RGB", (960 + 12 + r.width, 540), (0, 0, 0))
+        sheet.paste(ours, (0, 0))
+        sheet.paste(r, (972, 0))
+        p = WS / f"editor-compare-{t:04.1f}s-{ref.split('.')[0]}.jpg"
+        sheet.save(p, quality=90)
+        out.append(str(p))
+    return out
 
 
 if __name__ == "__main__":
-    film.render()
+    ED.mkdir(parents=True, exist_ok=True)
+    if STILLS:
+        film.render()
+        sys.exit(0)
+    infos = prerender()
+    run_fixtures(infos)
+    print("compare:", compare_sheets())
+    if SILENT or BASELINE:
+        name = SLUG + ("-silent" if SILENT else "") + (f"-{BASELINE}" if BASELINE else "")
+        film.slug = name
+        film.render(out_dir=ED)
+    else:
+        film.render()
+        mp4 = ROOT / "assets" / "films" / f"{SLUG}.mp4"
+        assert mp4.stat().st_size <= 6e6, mp4.stat().st_size

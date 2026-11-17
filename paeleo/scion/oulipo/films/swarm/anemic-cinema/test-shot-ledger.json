@@ -1,24 +1,39 @@
-[
- {
-  "title": "File:Skeleton key (Yale & Towne).png",
-  "author": "Noy-nac",
-  "license": "CC BY-SA 4.0",
-  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
-  "source_url": "https://commons.wikimedia.org/wiki/File:Skeleton_key_(Yale_%26_Towne).png",
-  "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/60/Skeleton_key_%28Yale_%26_Towne%29.png",
-  "licence_check": "Commons extmetadata re-read 2026-11-16: LicenseShortName 'CC BY-SA 4.0', Credit 'Own work', DateTimeOriginal 2017-10-08",
-  "local": "films/sources/anemic-cinema/key_yale_towne_1280.png (1280 px thumbnail, already foraged earlier) -> test-shot/key_rgba.png via GrabCut (keycut.py, manifest key_manifest.json)",
-  "used_as": "every key in the W3 substitution and the O_B key-ring disc (5 eccentric rings, 16/14/11/9/5 keys), printed into the cream range"
+{
+ "unit": "U3 switch",
+ "date": "2026-11-17",
+ "file": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/anemic-cinema/test-shot.mp4",
+ "span": "film frames F100-F515 (17.33 s, 24 fps, 960x540), as scored",
+ "shows": [
+  "T1 body at 1/80 rev/frame",
+  "W1 F126-143: the pun disc unbinds into the engraved ring disc O_A at constant speed (drawing substitution, outside in)",
+  "O_A body: eccentric gain 0.7 -> 1.0, centres drifting (approach)",
+  "W2 F246-263: rings re-bind into T2",
+  "T2 ease to 1/256 and the reading pass F288-425",
+  "W3 F426-443: T2 glyph runs swapped for real keys that slide into ring chains",
+  "O_B body: gain 1.0 -> 0.7, reversed offsets, ease back to 1/80 (recession)"
+ ],
+ "sound": "foraged PD bell at F126, F246, F426, peak -14.5 dBFS; silence elsewhere; silent variant /home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/test-shot-silent.mp4",
+ "user_fixes_addressed": {
+  "clearly eccentric rings": "optics.py ECC 11 px/ring (U1); gain envelope in score",
+  "bigger brighter keys": "optics.py key sizes/cream print (U1)",
+  "one continuous plate tone through the switch": "global plate scalar u per window, no annular patches",
+  "slower reading pass": "F288-425 at 1/256 included",
+  "bell quieter": "-14.5 dBFS peak"
  },
- {
-  "title": "File:Glockenschlagwerk Bahnhof Fridingen.ogg",
-  "author": "Olga Ernst",
-  "license": "CC BY-SA 4.0",
-  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
-  "source_url": "https://commons.wikimedia.org/wiki/File:Glockenschlagwerk_Bahnhof_Fridingen.ogg",
-  "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Glockenschlagwerk_Bahnhof_Fridingen.ogg",
-  "licence_check": "Commons extmetadata re-read 2026-11-16: LicenseShortName 'CC BY-SA 4.0', Credit 'Own work', recorded 2019-04-20, 15.9 s",
-  "used_as": "one real station-bell strike, trimmed and levelled only, placed at the three switches (local frames 30, 108, 150 = film F126, F204, F246)",
-  "local": "films/sources/anemic-cinema/test-shot/fridingen_transcode.mp3: the Wikimedia mp3 transcode of this same Commons file, copied byte-for-byte from the earlier forage at films/sources/renzo-e-luciana/sound/raw/ because Commons returned HTTP 429 to every request this session; decoded with ffmpeg; strike at 12.95 s of the recording, 1.40 s, 0.25 s fade (bell_trim.json)"
- }
-]
+ "previous_version": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/anemic-cinema/test-shot-build/test-shot-v1-approved.mp4",
+ "fixtures": {
+  "I3_strict_alternation": true,
+  "I4_constant_omega": true,
+  "I5_periodicity": true,
+  "I2_glyph_order": true,
+  "per_mark_single_state": true,
+  "replay_sha1": true,
+  "W1_defining_beat_states": true,
+  "sound": true
+ },
+ "credits": [
+  "File:Skeleton key (Yale & Towne).png",
+  "File:Llave bronce.jpg",
+  "File:Striking a bell 15cm large.ogg"
+ ]
+}

@@ -45,6 +45,7 @@ SRC = OULIPO / "films" / "sources" / "le-maki-mococo" / "imagecue"
 
 W, H, S, FPS = 960, 540, 2, 24
 KNOT = (850.0, 150.0)                 # the cord knot: the anchor of the rewrite (film px), constant
+ENGRAVING_LABEL = True
 X0 = 600                              # the layer is rendered in the region x >= X0 (film px) at 2x
 RW, RH = (W - X0) * S, H * S
 T_ASM = 11.5                          # S2: Reader A's picture is assembled, one wedge per 2 frames
@@ -314,8 +315,10 @@ def _render(t, ti, labels):
         al = min(1.0, max(0.0, (t - (T_ASM + 1.0)) / 0.5)) * (1.0 - min(1.0, max(0.0, (t - ti + 1 / FPS) / (2 / FPS))))
         _label(canvas, [("Reader A's picture (guess)", "med")], (KNOT[0], 340.0), "mt", al)
         # the engraving's own label, once the wedges are gone (upper left of the cord, clear of the poem column)
+        # the engraving's own label (E3: the editor may draw a fuller disclosure label itself: ENGRAVING_LABEL=False)
         al2 = min(1.0, max(0.0, (t - (ti + 1.6)) / 0.5))
-        _label(canvas, [("Brehm, 1895", "med"), ("engraved by F. Specht", "reg")], (836.0, 52.0), "ra", al2)
+        if ENGRAVING_LABEL:
+            _label(canvas, [("Brehm, 1895", "med"), ("engraved by F. Specht", "reg")], (836.0, 52.0), "ra", al2)
     # anchor invariant: nothing moves the knot (asserted, not assumed)
     assert KNOT == (850.0, 150.0)
     out = np.zeros((RH, RW, 4), np.float32)

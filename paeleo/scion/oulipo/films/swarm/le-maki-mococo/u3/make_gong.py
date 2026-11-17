@@ -1,4 +1,4 @@
-"""U3 · HANDMADE bronze-card gong, cut into 12 wedges, plus twisted cord and knot (built in code, deterministic).
+"""U3 · HANDMADE gong (E3 editor repair: printed ochre card, no metal shading), cut into 12 wedges, plus twisted cord and knot (built in code, deterministic).
 
 What it is: a disc of card (166 film px across, <= 180) painted bronze and hammered: a repoussé height field of
 ~420 overlapping hammer dimples laid in concentric courses (as gong smiths raise a gong), a raised boss, a
@@ -24,6 +24,7 @@ r = np.hypot(dx, dy); th = np.arctan2(dy, dx)
 
 # ---------------- height field (in 2x px units) ----------------
 h = np.zeros((N, N), np.float32)
+dim = np.zeros((N, N), np.float32)   # E3: hammer-mark field, printed (not lit) on the card
 boss_r = 21 * S
 h += 9.0 * S * np.clip(1 - (r / boss_r) ** 2, 0, 1) ** 0.8                 # domed boss
 h += 1.6 * S * np.clip((r - (boss_r + 3 * S)) / (3 * S), 0, 1) * np.clip((0.60 * R - r) / (3 * S), 0, 1) * -1  # sunk face
@@ -45,7 +46,9 @@ for ci, cr in enumerate(courses):
         ca, sa = math.cos(a), math.sin(a)
         u = (sx * -sa + sy * ca) / (e * 1.25); v = (sx * ca + sy * sa) / e
         d2 = u * u + v * v
-        h[y0:y1, x0:x1] -= rs.uniform(0.9, 1.7) * S * np.clip(1 - d2, 0, 1) ** 1.5
+        dd = rs.uniform(0.9, 1.7) * S * np.clip(1 - d2, 0, 1) ** 1.5
+        h[y0:y1, x0:x1] -= dd
+        dim[y0:y1, x0:x1] += dd
 # a few stray blows on the boss and rim
 for _ in range(40):
     a, rr = rs.uniform(0, 2 * math.pi), rs.choice([rs.uniform(0, boss_r * 0.8), rs.uniform(R - 9 * S, R - 3 * S)])
@@ -54,20 +57,42 @@ for _ in range(40):
     h -= 0.7 * S * np.clip(1 - d2, 0, 1) ** 1.5
 h = cv2.GaussianBlur(h, (0, 0), 0.8)
 
-# ---------------- shading ----------------
-gy, gx = np.gradient(h)
-nrm = np.dstack([-gx, -gy, np.ones_like(h)]); nrm /= np.linalg.norm(nrm, axis=2, keepdims=True)
+# ---------------- E3 editor repair: a printed ochre CARD gong, not lit metal ----------------
+# Critic: the hammered-bronze shading 'reads as rendered metal'.  The gong is now what Reader A would cut out:
+# a flat ochre card disc with the gong PRINTED on it in brown ink (rim band, shoulder line, hammer marks as
+# little printed crescents), and the boss a second, paler card disc glued on top (lit cut edge + small cast
+# shadow).  Matte: no specular, no highlight above luma 240.  Paper fibre + formation grain.
 L = np.array([-0.45, -0.60, 0.66]); L /= np.linalg.norm(L)
-Hh = L + np.array([0, 0, 1.0]); Hh /= np.linalg.norm(Hh)
-diff = np.clip(nrm @ L, 0, 1)
-spec = np.clip(nrm @ Hh, 0, 1) ** 38
-# bronze albedo with patina (low-frequency, oxidised brown; a little darker in the hammered field)
-pat = cv2.GaussianBlur(rs.randn(N, N).astype(np.float32), (0, 0), 14 * S); pat = pat / (np.abs(pat).max() + 1e-6)
-grit = cv2.GaussianBlur(rs.randn(N, N).astype(np.float32), (0, 0), 0.9) * 0.05
-alb = np.array([138, 96, 52], np.float32)[None, None] * (1 + 0.12 * pat[..., None] + grit[..., None])
-alb = alb * (1 - 0.10 * ((r > boss_r) & (r < 0.6 * R))[..., None])
-rgb = alb * (0.38 + 0.85 * diff[..., None]) + np.array([250, 214, 160], np.float32) * (0.50 * spec[..., None])
-rgb = np.clip(rgb, 0, 255)
+fibre = cv2.GaussianBlur(rs.randn(N, N).astype(np.float32), (0, 0), 0.8); fibre /= fibre.std() + 1e-6
+cloud = cv2.GaussianBlur(rs.randn(N, N).astype(np.float32), (0, 0), 10 * S); cloud /= np.abs(cloud).max() + 1e-6
+for _ in range(900):   # long fibres
+    x, y, a_ = rs.uniform(0, N), rs.uniform(0, N), rs.uniform(0, math.pi); ln = rs.uniform(6, 22) * S / 2
+    cv2.line(fibre, (int(x), int(y)), (int(x + ln * math.cos(a_)), int(y + ln * math.sin(a_))), float(rs.uniform(1.2, 2.2)), 1)
+card = np.array([176, 128, 66], np.float32)[None, None] * (1 + 0.045 * fibre[..., None] + 0.05 * cloud[..., None])
+INK_ = np.array([92, 58, 32], np.float32)
+def ring(r0, w, j):
+    jit = cv2.GaussianBlur(rs.randn(N, N).astype(np.float32), (0, 0), 6 * S) * j
+    return np.clip(1 - np.abs(r - r0 + jit) / w, 0, 1)
+ink = 0.62 * ring(R - 6.5 * S, 2.2 * S, 0.6 * S) + 0.55 * ring(0.62 * R, 0.9 * S, 0.5 * S) + 0.35 * ring(R - 11 * S, 0.6 * S, 0.4 * S)
+gy_, gx_ = np.gradient(cv2.GaussianBlur(dim, (0, 0), 0.8))
+away = np.clip((gx_ * L[0] + gy_ * L[1]) * 4.0, 0, 1)              # the printed crescent on each mark's shade side
+ink += 0.55 * away * (dim > 0.25 * S)
+ink *= np.clip(0.75 + 0.35 * fibre, 0.3, 1.2)                         # ink takes unevenly on the card tooth
+ink = np.clip(ink, 0, 0.85)
+rgb = card * (1 - ink[..., None]) + INK_ * ink[..., None]
+# boss: a separate paler card disc glued on, its own wobbly cut edge, lit edge, cast shadow on the face
+bw = cv2.GaussianBlur(rs.randn(720).astype(np.float32).reshape(1, -1), (0, 0), 6)[0]; bw = bw / (np.abs(bw).max() + 1e-6) * 0.8 * S
+bidx = ((th + math.pi) / (2 * math.pi) * 720).astype(int) % 720
+boss = cv2.GaussianBlur(((r < boss_r + bw[bidx]).astype(np.float32)), (0, 0), 0.6)
+bsh = cv2.GaussianBlur(np.roll(np.roll(boss, int(1.6 * S), 1), int(2.2 * S), 0), (0, 0), 1.4 * S)
+rgb *= (1 - 0.38 * np.clip(bsh - boss, 0, 1))[..., None]
+bcol = np.array([198, 150, 84], np.float32)[None, None] * (1 + 0.045 * fibre[..., None])
+bcol = bcol * (1 - 0.45 * ring(boss_r * 0.55, 0.8 * S, 0.3 * S))[..., None] + INK_ * 0.45 * ring(boss_r * 0.55, 0.8 * S, 0.3 * S)[..., None]
+gyb, gxb = np.gradient(cv2.GaussianBlur(boss, (0, 0), 0.9 * S))
+litb = np.clip(-(gxb * L[0] + gyb * L[1]) * 2.2 * S, 0, 1)
+bcol = bcol + 34 * litb[..., None]
+rgb = rgb * (1 - boss[..., None]) + bcol * boss[..., None]
+rgb = np.clip(rgb, 0, 236)
 
 # ---------------- scissor-cut outline and wedges ----------------
 def wobble(seed, n, amp):
@@ -127,7 +152,7 @@ for spr, x0, y0 in wedges:
 Image.fromarray(np.dstack([full[..., :3], full[..., 3] * 255]).astype(np.uint8), "RGBA").save(D + "gong_full.png")
 json.dump(dict(scale=S, radius_2x=R, diameter_film_px=2 * R / S, canvas_2x=N, centre_2x=C,
                hole_rel_centre_2x=[0.0, float(-R + 9 * S)], wedges=meta,
-               made="HANDMADE in code: hammered bronze card disc, 12 scissor-cut wedges (make_gong.py, seed 1895)"),
+               made="HANDMADE in code: printed ochre card disc with a glued card boss, 12 scissor-cut wedges (make_gong.py, seed 1895; E3 card repair)"),
           open(D + "wedges.json", "w"), indent=1)
 
 # ---------------- twisted two-ply cord (tile) and knot ----------------

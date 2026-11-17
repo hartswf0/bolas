@@ -1,8 +1,8 @@
 {
  "film": "mauro-martino-exercises-in-style",
  "unit": "U4 verify",
- "run_seconds": 172,
- "generator_rev": "6735b7d7e7a7b97045783a53ad6fda0d83a39593",
+ "run_seconds": 209,
+ "generator_rev": "013c0bb1ec5b8f3006a8f14dd247e85f5ccfdf9d",
  "manifests": {
   "baseline_sha1": "6bb9bc5f4c9d4a1b7f4ce3a164be3cfba801fd6f",
   "deltas": {
@@ -46,11 +46,11 @@
    "per_seed": {
     "417": {
      "intended": true,
-     "criterion": "puppet outline IoU 1.0 on every checked frame; bus-region fill changed (mean |ΔL| 46.2, grey levels/4 56 -> 47); all protected anchors visible"
+     "criterion": "puppet outline IoU 1.0 on every checked frame; bus-region fill changed (mean |ΔL| 47.6, grey levels/4 56 -> 48); all protected anchors visible"
     },
     "418": {
      "intended": true,
-     "criterion": "puppet outline IoU 1.0 on every checked frame; bus-region fill changed (mean |ΔL| 45.5, grey levels/4 56 -> 47); all protected anchors visible"
+     "criterion": "puppet outline IoU 1.0 on every checked frame; bus-region fill changed (mean |ΔL| 47.2, grey levels/4 56 -> 47); all protected anchors visible"
     }
    }
   },
@@ -76,8 +76,6 @@
   "d-camera": [
    "A-neck",
    "A4c",
-   "A5v",
-   "A6",
    "A6w"
   ]
  },
@@ -104,9 +102,7 @@
    "A6w"
   ],
   "unpredicted_losses": [
-   "A4c",
-   "A5v",
-   "A6"
+   "A4c"
   ],
   "unpredicted_partials": [
    "A-hat",
@@ -308,7 +304,7 @@
     "status": "visible",
     "px": 5952,
     "t": 3.0,
-    "why": "board light-letter fraction 0.198, ink fraction 0.339 (side board)"
+    "why": "board light-letter fraction 0.201, ink fraction 0.314 (side board)"
    },
    "A1": {
     "status": "visible",
@@ -354,9 +350,9 @@
    },
    "A5d": {
     "status": "visible",
-    "px": 2183,
+    "px": 2196,
     "t": 4.5,
-    "why": "man px unoccluded 2183 (of 2200 drawn); man in group 'platform'"
+    "why": "man px unoccluded 2196 (of 2200 drawn); man in group 'platform'"
    },
    "A6": {
     "status": "visible",
@@ -400,7 +396,7 @@
     "status": "visible",
     "px": 5952,
     "t": 3.0,
-    "why": "board light-letter fraction 0.193, ink fraction 0.342 (side board)"
+    "why": "board light-letter fraction 0.195, ink fraction 0.319 (side board)"
    },
    "A1": {
     "status": "visible",
@@ -446,9 +442,9 @@
    },
    "A5d": {
     "status": "visible",
-    "px": 2183,
+    "px": 2194,
     "t": 4.5,
-    "why": "man px unoccluded 2183 (of 2200 drawn); man in group 'platform'"
+    "why": "man px unoccluded 2194 (of 2200 drawn); man in group 'platform'"
    },
    "A6": {
     "status": "visible",
@@ -492,7 +488,7 @@
     "status": "partial",
     "px": 6820,
     "t": 3.0,
-    "why": "board light-letter fraction 0.065, ink fraction 0.831 (roof-edge board)"
+    "why": "board light-letter fraction 0.032, ink fraction 0.819 (roof-edge board)"
    },
    "A1": {
     "status": "partial",
@@ -531,10 +527,10 @@
     "why": "plan arm bars of the man 154 px: the open hand raised toward the jostler projects only as a short bar; head turn not readable from above"
    },
    "A5v": {
-    "status": "lost",
-    "px": 0,
+    "status": "visible",
+    "px": 186,
     "t": 4.0,
-    "why": "seated passengers are under the roof (plan_visible False)"
+    "why": "roof-light cell: seated plan px 578 at t 3.5 vs 186 at t 4.0 (p1 slides out of seat A)"
    },
    "A5d": {
     "status": "partial",
@@ -543,16 +539,16 @@
     "why": "man plan px 787: his disc moves toward the bulkhead; the stoop itself has no plan form"
    },
    "A6": {
-    "status": "lost",
-    "px": 0,
+    "status": "visible",
+    "px": 515,
     "t": 5.5,
-    "why": "man plan px at t 5.50: 0 (plan_visible=False; he is under the roof)"
+    "why": "man's hat disc + cord ring inside the rear-bay roof-light cell at t 5.50: 515 px (seat A taken, seen from above)"
    },
    "A6w": {
     "status": "lost",
     "px": 0,
     "t": 5.5,
-    "why": "man plan px at t 5.50: 0 (plan_visible=False; he is under the roof)"
+    "why": "the rear side pane is a feature of the side elevation; from above there is no window to see the seat through (the seat itself reads via the roof-light, A6)"
    },
    "A7": {
     "status": "partial",
@@ -584,7 +580,7 @@
     "status": "partial",
     "px": 6820,
     "t": 3.0,
-    "why": "board light-letter fraction 0.071, ink fraction 0.832 (roof-edge board)"
+    "why": "board light-letter fraction 0.039, ink fraction 0.821 (roof-edge board)"
    },
    "A1": {
     "status": "partial",
@@ -623,10 +619,10 @@
     "why": "plan arm bars of the man 154 px: the open hand raised toward the jostler projects only as a short bar; head turn not readable from above"
    },
    "A5v": {
-    "status": "lost",
-    "px": 0,
+    "status": "visible",
+    "px": 186,
     "t": 4.0,
-    "why": "seated passengers are under the roof (plan_visible False)"
+    "why": "roof-light cell: seated plan px 578 at t 3.5 vs 186 at t 4.0 (p1 slides out of seat A)"
    },
    "A5d": {
     "status": "partial",
@@ -635,16 +631,16 @@
     "why": "man plan px 787: his disc moves toward the bulkhead; the stoop itself has no plan form"
    },
    "A6": {
-    "status": "lost",
-    "px": 0,
+    "status": "visible",
+    "px": 515,
     "t": 5.5,
-    "why": "man plan px at t 5.50: 0 (plan_visible=False; he is under the roof)"
+    "why": "man's hat disc + cord ring inside the rear-bay roof-light cell at t 5.50: 515 px (seat A taken, seen from above)"
    },
    "A6w": {
     "status": "lost",
     "px": 0,
     "t": 5.5,
-    "why": "man plan px at t 5.50: 0 (plan_visible=False; he is under the roof)"
+    "why": "the rear side pane is a feature of the side elevation; from above there is no window to see the seat through (the seat itself reads via the roof-light, A6)"
    },
    "A7": {
     "status": "partial",
@@ -677,7 +673,7 @@
    "frames_checked": 58,
    "min": 1.0,
    "all_equal_1": true,
-   "method": "draw_side on a transparent layer with fill=INK vs fill=1933 coat texture; alpha>127; IoU per frame, both seeds",
+   "method": "rig.draw_side on a transparent layer with the film's cut-paper fill (ink + carved lines) vs its photographic fill (Rol 1919 swatches); alpha>127; IoU per frame, both seeds",
    "worst": [
     {
      "seed": 417,
@@ -697,24 +693,42 @@
    ]
   },
   "stage_layers_iou_seed417_418": {
+   "backdrop_key_blocks": [
+    1.0,
+    1.0
+   ],
+   "crowd": [
+    1.0,
+    1.0
+   ],
+   "bus_shadow": [
+    1.0,
+    1.0
+   ],
    "bus_body": [
     1.0,
     1.0
    ],
    "bus_front": [
-    0.87602,
-    0.85872
+    1.0,
+    1.0
+   ],
+   "bell_tassel": [
+    1.0,
+    1.0
    ],
    "wheel_front": [
     1.0,
     1.0
    ],
-   "crowd": [
-    0.98439,
-    0.98289
+   "wheel_rear": [
+    1.0,
+    1.0
    ]
   },
-  "note": "Stage layer outlines are reported, not asserted: the photographic bus/crowd may use the plate's own cutout alpha."
+  "stage_min": 1.0,
+  "asserted": true,
+  "note": "Asserted 1.0 for puppets and every stage layer (backdrop key blocks as laid, crowd, bus shadow, bus body, bus front, bell tassel, both wheels): Δ treatment changes fill only."
  },
  "protected_mask_identity": {
   "frames": 168,
@@ -758,100 +772,198 @@
   "all_identical": true,
   "samples": {
    "baseline/0417/f000": {
-    "in_process": "8a321a96a8bf421af189749296d3c8c4e00369ce",
-    "fresh_process": "8a321a96a8bf421af189749296d3c8c4e00369ce",
+    "in_process": "231c4375a954b64c85f2eb9700d13bb8cca74b97",
+    "fresh_process": "231c4375a954b64c85f2eb9700d13bb8cca74b97",
     "identical": true
    },
    "baseline/0417/f029": {
-    "in_process": "9afb026b3e815c6f3967314de06fe8df6672e0dd",
-    "fresh_process": "9afb026b3e815c6f3967314de06fe8df6672e0dd",
+    "in_process": "9fae87437b8fa320afe74211beec5b17f638518f",
+    "fresh_process": "9fae87437b8fa320afe74211beec5b17f638518f",
     "identical": true
    },
    "baseline/0417/f132": {
-    "in_process": "0bf38f53399dfdddaa26c7ceb5de694d7ec66701",
-    "fresh_process": "0bf38f53399dfdddaa26c7ceb5de694d7ec66701",
+    "in_process": "86ff90d5ec293d48d04323c4d2ef0acd7927762e",
+    "fresh_process": "86ff90d5ec293d48d04323c4d2ef0acd7927762e",
     "identical": true
    },
    "baseline/0418/f000": {
-    "in_process": "9993d64a16ee00eb44338e1958b7bf49b5fcc25b",
-    "fresh_process": "9993d64a16ee00eb44338e1958b7bf49b5fcc25b",
+    "in_process": "b039bb6d8dc6916f46508686f1fdbdb1cecdd35e",
+    "fresh_process": "b039bb6d8dc6916f46508686f1fdbdb1cecdd35e",
     "identical": true
    },
    "baseline/0418/f029": {
-    "in_process": "559dacf287b9696cccb98c7bf7b10448d8c331d6",
-    "fresh_process": "559dacf287b9696cccb98c7bf7b10448d8c331d6",
+    "in_process": "96d5a8605d437c4fb3e3de8317348a810fb0e262",
+    "fresh_process": "96d5a8605d437c4fb3e3de8317348a810fb0e262",
     "identical": true
    },
    "baseline/0418/f132": {
-    "in_process": "bbc236759201c357e4dd768d0e4a6ce275b9b4b5",
-    "fresh_process": "bbc236759201c357e4dd768d0e4a6ce275b9b4b5",
+    "in_process": "a29a82f12f2aac56fd73cdfeff8d9b39752ea648",
+    "fresh_process": "a29a82f12f2aac56fd73cdfeff8d9b39752ea648",
     "identical": true
    },
    "d-treatment/0417/f000": {
-    "in_process": "8d58bfb06868fe430af3e3a78da02b0713aa943c",
-    "fresh_process": "8d58bfb06868fe430af3e3a78da02b0713aa943c",
+    "in_process": "5b528e859b64e069bafe93e3a83b217146ae6a20",
+    "fresh_process": "5b528e859b64e069bafe93e3a83b217146ae6a20",
     "identical": true
    },
    "d-treatment/0417/f029": {
-    "in_process": "cbe976551d31d3a8b70316b7f5a5267266cf938f",
-    "fresh_process": "cbe976551d31d3a8b70316b7f5a5267266cf938f",
+    "in_process": "1405ac31579be0ae5e0d7d4ff98191b7f2ea8ef2",
+    "fresh_process": "1405ac31579be0ae5e0d7d4ff98191b7f2ea8ef2",
     "identical": true
    },
    "d-treatment/0417/f132": {
-    "in_process": "b4a10f54623d36eeb6c1e0dc0dd0e80dbf318842",
-    "fresh_process": "b4a10f54623d36eeb6c1e0dc0dd0e80dbf318842",
+    "in_process": "8983c0c0a0deb175e571eab95bd13a5d61a751e2",
+    "fresh_process": "8983c0c0a0deb175e571eab95bd13a5d61a751e2",
     "identical": true
    },
    "d-treatment/0418/f000": {
-    "in_process": "a89966b93f1e6005b802e704fa6a55b0a4d391dc",
-    "fresh_process": "a89966b93f1e6005b802e704fa6a55b0a4d391dc",
+    "in_process": "98aacec0ab028283d1b5ee0e32e3e7748f03236f",
+    "fresh_process": "98aacec0ab028283d1b5ee0e32e3e7748f03236f",
     "identical": true
    },
    "d-treatment/0418/f029": {
-    "in_process": "e6de6fdd6c91945209182359613a39cd81622c10",
-    "fresh_process": "e6de6fdd6c91945209182359613a39cd81622c10",
+    "in_process": "97816e645fad4d3bba53e98079a752a659bd7913",
+    "fresh_process": "97816e645fad4d3bba53e98079a752a659bd7913",
     "identical": true
    },
    "d-treatment/0418/f132": {
-    "in_process": "a553a6a567bb75570d8a64002f129dc83f291124",
-    "fresh_process": "a553a6a567bb75570d8a64002f129dc83f291124",
+    "in_process": "a277e4b982adbaf5a5ff4d66b5d87fbd29765564",
+    "fresh_process": "a277e4b982adbaf5a5ff4d66b5d87fbd29765564",
     "identical": true
    },
    "d-camera/0417/f000": {
-    "in_process": "4d1acfb90a7c28396f5bab990f6dbc6a767f2c4e",
-    "fresh_process": "4d1acfb90a7c28396f5bab990f6dbc6a767f2c4e",
+    "in_process": "4ab57121454acd34113188909c8fa776841e7037",
+    "fresh_process": "4ab57121454acd34113188909c8fa776841e7037",
     "identical": true
    },
    "d-camera/0417/f029": {
-    "in_process": "51ba88ed2c84358930c444b97ee66f7f9d85d75d",
-    "fresh_process": "51ba88ed2c84358930c444b97ee66f7f9d85d75d",
+    "in_process": "d35f20b7caf7555fbc370958ca54580af7bda47c",
+    "fresh_process": "d35f20b7caf7555fbc370958ca54580af7bda47c",
     "identical": true
    },
    "d-camera/0417/f132": {
-    "in_process": "03bd715b94229afb2d1603185a4c8ec1d1c4696b",
-    "fresh_process": "03bd715b94229afb2d1603185a4c8ec1d1c4696b",
+    "in_process": "c07567cbd1ff18d6c1c2da6cb00ebf3e88860adb",
+    "fresh_process": "c07567cbd1ff18d6c1c2da6cb00ebf3e88860adb",
     "identical": true
    },
    "d-camera/0418/f000": {
-    "in_process": "bf5a5d9daf4b6e0c9f10f6494c27ffecc2f250c7",
-    "fresh_process": "bf5a5d9daf4b6e0c9f10f6494c27ffecc2f250c7",
+    "in_process": "3b2390d745775d0749d4313b83e3f265619c7f97",
+    "fresh_process": "3b2390d745775d0749d4313b83e3f265619c7f97",
     "identical": true
    },
    "d-camera/0418/f029": {
-    "in_process": "02d9ab9c46cc472d1114260a6046e0106de1f281",
-    "fresh_process": "02d9ab9c46cc472d1114260a6046e0106de1f281",
+    "in_process": "c4c8c1d37b2a6c66422c140aa49ac3ab06b2f1a9",
+    "fresh_process": "c4c8c1d37b2a6c66422c140aa49ac3ab06b2f1a9",
     "identical": true
    },
    "d-camera/0418/f132": {
-    "in_process": "e264a08124deb824537a5a21466495b2ba6099bb",
-    "fresh_process": "e264a08124deb824537a5a21466495b2ba6099bb",
+    "in_process": "75785dc2fa8128ae62bc3c2bd9a9d28facaf64ac",
+    "fresh_process": "75785dc2fa8128ae62bc3c2bd9a9d28facaf64ac",
     "identical": true
    }
   }
  },
  "audio_pcm": {
-  "status": "pending",
-  "reason": "the editor's rebuilt film script (films/mauro-martino-exercises-in-style.py) does not exist yet (the file present is the earlier kit_cinema_b draft); rerun coverage.py after the editor's mix exists"
+  "status": "measured",
+  "rate": 44100,
+  "clips": {
+   "baseline/0417": {
+    "film_window": [
+     4.0,
+     11.0
+    ],
+    "samples": [
+     176400,
+     485100
+    ],
+    "pcm_sha1": "a4d07c3999c910ff21784c8cc04342aece3716ba"
+   },
+   "baseline/0418": {
+    "film_window": [
+     11.0,
+     18.0
+    ],
+    "samples": [
+     485100,
+     793800
+    ],
+    "pcm_sha1": "a4d07c3999c910ff21784c8cc04342aece3716ba"
+   },
+   "d-treatment/0417": {
+    "film_window": [
+     20.0,
+     27.0
+    ],
+    "samples": [
+     882000,
+     1190700
+    ],
+    "pcm_sha1": "a4d07c3999c910ff21784c8cc04342aece3716ba"
+   },
+   "d-treatment/0418": {
+    "film_window": [
+     27.0,
+     34.0
+    ],
+    "samples": [
+     1190700,
+     1499400
+    ],
+    "pcm_sha1": "a4d07c3999c910ff21784c8cc04342aece3716ba"
+   },
+   "d-camera/0417": {
+    "film_window": [
+     36.0,
+     43.0
+    ],
+    "samples": [
+     1587600,
+     1896300
+    ],
+    "pcm_sha1": "a4d07c3999c910ff21784c8cc04342aece3716ba"
+   },
+   "d-camera/0418": {
+    "film_window": [
+     43.0,
+     50.0
+    ],
+    "samples": [
+     1896300,
+     2205000
+    ],
+    "pcm_sha1": "a4d07c3999c910ff21784c8cc04342aece3716ba"
+   },
+   "grid/S9": {
+    "film_window": [
+     50.0,
+     57.0
+    ],
+    "samples": [
+     2205000,
+     2513700
+    ],
+    "pcm_sha1": "a4d07c3999c910ff21784c8cc04342aece3716ba"
+   }
+  },
+  "identical": true,
+  "windows": 7,
+  "stem_sha1": "6d7f6f470b30f0b757a44df453bccf114e38e50b",
+  "method": "kit.Mix rebuilt in-process from the film module's sound function, mastered exactly as Film.render does, s16 PCM sliced per 7.0 s window (6 clip windows + the S9 grid window), hashed BEFORE the AAC encode",
+  "aac_decoded": {
+   "file": "assets/films/mauro-martino-exercises-in-style.mp4",
+   "file_sha1": "c0ad3409ce99cbc491862f9a3cba284443e01dd7",
+   "snr_db_vs_first_window": {
+    "baseline/0417": null,
+    "baseline/0418": 17.3,
+    "d-treatment/0417": 17.3,
+    "d-treatment/0418": 17.2,
+    "d-camera/0417": 17.4,
+    "d-camera/0418": 17.0,
+    "grid/S9": 17.7
+   },
+   "min_snr_db": 17.0,
+   "note": "the mp4's AAC 96 kb/s track is lossy and its 1024-sample frames do not align with the 7.0 s windows, so decoded windows are NOT bit-identical; identity is claimed for the PCM before encoding only"
+  }
  },
  "counterexample": {
   "file": "films/swarm/mauro-martino-exercises-in-style/verify/rejected-drift.json",
@@ -875,13 +987,13 @@
   "baseline": {
    "p2_25_50_75_98": [
     33,
-    42,
-    128,
-    200,
+    39,
+    130,
+    197,
     232
    ],
-   "mid_70_170": 0.27,
-   "chroma": 13.1,
+   "mid_70_170": 0.281,
+   "chroma": 13.2,
    "paper_rgb": [
     238,
     230,
@@ -896,6 +1008,7 @@
    "dE76_ink_to_22211f": 0.0,
    "method": "L = Rec.601 luma; paper = median RGB of the top-decile L pixels; ink = median of the bottom decile; ΔE76 in CIELAB (D65)"
   },
+  "baseline_frame": "film frame 125 (0:05.2), films/sources/mauro-martino-exercises-in-style/verify/film_0005.2.png",
   "reference": {
    "p2_25_50_75_98": [
     25,
@@ -934,12 +1047,12 @@
     "p2_25_50_75_98": [
      33,
      42,
-     128,
+     131,
      200,
      232
     ],
-    "mid_70_170": 0.27,
-    "chroma": 13.1,
+    "mid_70_170": 0.282,
+    "chroma": 13.4,
     "paper_rgb": [
      238,
      230,
@@ -957,13 +1070,13 @@
    "baseline/0418": {
     "p2_25_50_75_98": [
      33,
-     40,
+     39,
      130,
      203,
      232
     ],
-    "mid_70_170": 0.254,
-    "chroma": 13.3,
+    "mid_70_170": 0.265,
+    "chroma": 13.4,
     "paper_rgb": [
      238,
      230,
@@ -980,61 +1093,61 @@
    },
    "d-treatment/0417": {
     "p2_25_50_75_98": [
-     44,
-     71,
-     88,
-     134,
-     186
+     33,
+     64,
+     117,
+     191,
+     231
     ],
-    "mid_70_170": 0.73,
-    "chroma": 10.1,
+    "mid_70_170": 0.368,
+    "chroma": 12.9,
     "paper_rgb": [
-     175,
-     169,
-     157
+     238,
+     230,
+     214
     ],
     "ink_rgb": [
-     55,
-     53,
-     50
+     34,
+     33,
+     31
     ],
-    "dE76_paper_to_eee6d6": 22.2,
-    "dE76_ink_to_22211f": 9.5,
+    "dE76_paper_to_eee6d6": 0.0,
+    "dE76_ink_to_22211f": 0.0,
     "method": "L = Rec.601 luma; paper = median RGB of the top-decile L pixels; ink = median of the bottom decile; ΔE76 in CIELAB (D65)"
    },
    "d-treatment/0418": {
     "p2_25_50_75_98": [
-     43,
-     71,
-     89,
-     134,
-     186
+     33,
+     64,
+     116,
+     193,
+     231
     ],
-    "mid_70_170": 0.735,
-    "chroma": 10.2,
+    "mid_70_170": 0.353,
+    "chroma": 12.9,
     "paper_rgb": [
-     174,
-     168,
-     157
+     238,
+     230,
+     214
     ],
     "ink_rgb": [
-     54,
-     53,
-     50
+     34,
+     33,
+     31
     ],
-    "dE76_paper_to_eee6d6": 22.6,
-    "dE76_ink_to_22211f": 9.4,
+    "dE76_paper_to_eee6d6": 0.0,
+    "dE76_ink_to_22211f": 0.0,
     "method": "L = Rec.601 luma; paper = median RGB of the top-decile L pixels; ink = median of the bottom decile; ΔE76 in CIELAB (D65)"
    },
    "d-camera/0417": {
     "p2_25_50_75_98": [
      33,
-     131,
-     152,
-     219,
-     234
+     130,
+     157,
+     209,
+     233
     ],
-    "mid_70_170": 0.386,
+    "mid_70_170": 0.413,
     "chroma": 17.1,
     "paper_rgb": [
      239,
@@ -1042,23 +1155,23 @@
      215
     ],
     "ink_rgb": [
-     34,
-     33,
-     31
+     37,
+     36,
+     33
     ],
     "dE76_paper_to_eee6d6": 0.4,
-    "dE76_ink_to_22211f": 0.0,
+    "dE76_ink_to_22211f": 1.6,
     "method": "L = Rec.601 luma; paper = median RGB of the top-decile L pixels; ink = median of the bottom decile; ΔE76 in CIELAB (D65)"
    },
    "d-camera/0418": {
     "p2_25_50_75_98": [
      33,
-     131,
-     152,
-     212,
-     234
+     130,
+     157,
+     204,
+     233
     ],
-    "mid_70_170": 0.389,
+    "mid_70_170": 0.418,
     "chroma": 17.1,
     "paper_rgb": [
      239,
@@ -1066,31 +1179,31 @@
      215
     ],
     "ink_rgb": [
-     34,
-     33,
-     31
+     37,
+     36,
+     34
     ],
     "dE76_paper_to_eee6d6": 0.4,
-    "dE76_ink_to_22211f": 0.0,
+    "dE76_ink_to_22211f": 1.5,
     "method": "L = Rec.601 luma; paper = median RGB of the top-decile L pixels; ink = median of the bottom decile; ΔE76 in CIELAB (D65)"
    }
   },
   "frame_sha1": {
-   "baseline/0417": "9afb026b3e815c6f3967314de06fe8df6672e0dd",
-   "baseline/0418": "559dacf287b9696cccb98c7bf7b10448d8c331d6",
-   "d-treatment/0417": "cbe976551d31d3a8b70316b7f5a5267266cf938f",
-   "d-treatment/0418": "e6de6fdd6c91945209182359613a39cd81622c10",
-   "d-camera/0417": "51ba88ed2c84358930c444b97ee66f7f9d85d75d",
-   "d-camera/0418": "02d9ab9c46cc472d1114260a6046e0106de1f281"
+   "baseline/0417": "9fae87437b8fa320afe74211beec5b17f638518f",
+   "baseline/0418": "96d5a8605d437c4fb3e3de8317348a810fb0e262",
+   "d-treatment/0417": "1405ac31579be0ae5e0d7d4ff98191b7f2ea8ef2",
+   "d-treatment/0418": "97816e645fad4d3bba53e98079a752a659bd7913",
+   "d-camera/0417": "d35f20b7caf7555fbc370958ca54580af7bda47c",
+   "d-camera/0418": "c4c8c1d37b2a6c66422c140aa49ac3ab06b2f1a9"
   }
  },
  "capability_notes": {
   "observed": [
-   "These results describe six inspected samples (3 conditions x seeds 0417, 0418) of one engine: 'kit.py procedural animatic' = stage.py + rig.py at generator_rev 6735b7d7e7a7.",
+   "These results describe six inspected samples (3 conditions x seeds 0417, 0418) of one engine: 'kit.py procedural animatic' = stage.py + rig.py at generator_rev 013c0bb1ec5b.",
    "Seeds are repeatable in this engine: frames 0, 29, 132 of all six samples re-render byte-identically in a fresh process (True).",
    "In this engine the seed governs only unprotected elements (runner count 7 vs 8, positions, phases, idle holds, print grain); protected masks are identical across seeds on all 168 frames, side and plan (True).",
    "The treatment field changed fill only (puppet outline IoU min 1.0000).",
-   "The camera field changed projection and lost anchors ['A-neck', 'A4c', 'A5v', 'A6', 'A6w']; partially kept ['A-hat', 'A0', 'A1', 'A5', 'A5d', 'A7', 'A8']."
+   "The camera field changed projection and lost anchors ['A-neck', 'A4c', 'A6w']; partially kept ['A-hat', 'A0', 'A1', 'A5', 'A5d', 'A7', 'A8']."
   ],
   "not_claimed": [
    "Nothing here is evidence about text-to-video or text-to-image generators in general, or about how Martino's own generator handled seeds, fixed actions or prompt deltas; the film is a stand-in engine whose isolation of seed streams is built in by design (P4).",
@@ -1101,42 +1214,139 @@
  "evidence": {
   "foraged": [
    {
-    "id": "F1-rol1916",
     "title": "1-6-16, nouvel autobus Madeleine-Bastille : [photographie de presse] / [Agence Rol]",
     "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
     "license": "Public domain",
     "license_url": "",
     "source_url": "https://commons.wikimedia.org/wiki/File:1-6-16,_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
     "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/ee/1-6-16%2C_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+    "used_as": "the bus (rectified to a side elevation, GrabCut cut-out, printed two-tone in cut-paper; its own greys in photographic-plate), its two wheels as rotating cutouts, the real 1916 passengers in the windows; in photographic-plate, its rectified facade stone and cobbles as texture refilling the baseline's carved facade and pavement blocks (same outlines)",
+    "id": "F-rol1916",
     "local_path": "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg",
     "local_sha1": "bb5fd56ac6428b621ce0953c8aa0c21b04d88ba5",
-    "what_it_shows": "CGO motor bus on the Madeleine-Bastille line, Paris, 1 June 1916; Grand Hotel facade at right; cobbled roadway",
-    "verified_date_or_place": "U4 re-read refused (HTTP 429 after backoff); relies on the 2026-11-16 extmetadata read (LicenseShortName 'Public domain', License 'pd', 1916): films/sources/mauro-martino-exercises-in-style/test-shot/rol-meta.json",
-    "used_as": "(verifier) rendered through stage.py in every sample: printed bus/wheels in baseline and overhead-adjacent sheets, own greys in Δ treatment; frames on comparison-sheet.jpg"
+    "read_by_film_render": [
+     "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/bus_rect_rgba.png",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/plates.json",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_front.png",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_rear.png"
+    ],
+    "verified": "1916 (DateTimeOriginal), Paris; caption date 1-6-16; Gallica Rol 47052"
    },
    {
-    "id": "F2-bourse1933",
-    "title": "Greve des autobus - Place de la Bourse, le public attendant la reprise",
-    "author": "Peyriras (photographe, actif vers 1930) (Bibliotheque nationale de France, Gallica)",
+    "title": "Mars 1919, baraque Vilgrain (foule devant l'épicerie à prix contenus)",
+    "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
     "license": "Public domain",
     "license_url": "",
-    "source_url": "https://commons.wikimedia.org/wiki/File:Gr%C3%A8ve_des_autobus_-_Place_de_la_Bourse,_le_public_attendant_la_reprise_-_btv1b90350369.jpg",
-    "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/22/Gr%C3%A8ve_des_autobus_-_Place_de_la_Bourse%2C_le_public_attendant_la_reprise_-_btv1b90350369.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "local_path": "films/sources/mauro-martino-exercises-in-style/commons/bourse1933.jpg",
-    "local_sha1": "6410b220ff1f39cacf027edd912d2ec648167372",
-    "what_it_shows": "crowd in overcoats and hats waiting during the 1933 Paris bus strike, Place de la Bourse",
-    "verified_date_or_place": "Commons extmetadata re-read 2026-11-17 by U4: LicenseShortName 'Public domain', License 'pd', DateTimeOriginal 1933 (films/sources/mauro-martino-exercises-in-style/verify/meta/bourse.json); PD basis is the Commons/Gallica tag, the photographer's death date is not given",
-    "used_as": "(verifier) crowd mid-layer in the side samples; rig._bourse_fill() coat texture for puppet parts in the Δ treatment samples"
+    "source_url": "https://commons.wikimedia.org/wiki/File:Mars_1919,_baraque_Vilgrain_(foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus)_-_btv1b53016631j.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg/1280px-Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg",
+    "used_as": "the waiting crowd: eight GrabCut cutouts (A-H), one printed outline in both treatments: ink silhouettes with carved lines (cut-paper) or the cutouts' own greys (photographic-plate); coat and shawl textures filling the photographic puppets",
+    "id": "F-vilgrain1919",
+    "local_path": "films/sources/mauro-martino-exercises-in-style/plates/commons/vilgrain1919.jpg",
+    "local_sha1": "3f286fc83ce5d6d98cac9d7841cf16a1994a19ce",
+    "read_by_film_render": [
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/A_woman_shawl_rgba.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/B_woman_walking_rgba.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/C_man_overcoat_rgba.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/D_man_back_rgba.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/E_woman_white_rgba.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/F_woman_basket_rgba.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/G_man_bowler_right_rgba.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/H_man_far_rgba.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_black_shawl.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_dark_long.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_light_overcoat.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_dark.png"
+    ],
+    "verified": "1919 (DateTimeOriginal), Paris; Gallica Rol 52801"
+   },
+   {
+    "title": "14-3-19, la foule attendant l'arrivée du président Wilson",
+    "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+    "license": "Public domain",
+    "license_url": "",
+    "source_url": "https://commons.wikimedia.org/wiki/File:14-3-19,_la_foule_attendant_l%27arriv%C3%A9e_du_pr%C3%A9sident_Wilson_-_btv1b53016658h.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/14-3-19%2C_la_foule_attendant_l%27arriv%C3%A9e_du_pr%C3%A9sident_Wilson_-_btv1b53016658h.jpg/1280px-14-3-19%2C_la_foule_attendant_l%27arriv%C3%A9e_du_pr%C3%A9sident_Wilson_-_btv1b53016658h.jpg",
+    "used_as": "cape and trouser textures filling the photographic puppets",
+    "id": "F-wilson1919",
+    "local_path": "films/sources/mauro-martino-exercises-in-style/plates/commons/wilson1919.jpg",
+    "local_sha1": "5e5260870c8b59c44fe9ef13bc5a4da8e89cc125",
+    "read_by_film_render": [
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/cape_officer.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_wilson.png"
+    ],
+    "verified": "1919-03-14, Paris"
+   },
+   {
+    "title": "WWS CityBusMANSG220engine (MAN/Avtomontaža city bus, 1991, engine)",
+    "author": "Work With Sounds / Technical Museum of Slovenia",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:WWS_CityBusMANSG220engine.ogg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/69/WWS_CityBusMANSG220engine.ogg",
+    "used_as": "engine half of the one 7.0 s sound bed under every clip window (a 1991 bus engine standing in for 1916; declared)",
+    "id": "F-engine",
+    "local_path": "films/sources/mauro-martino-exercises-in-style/plates/audio/engine_idle_pullaway_7.0s.wav",
+    "local_sha1": "9bce4e46b095432bd3df6d786ca38b0a5466ff2d",
+    "read_by_film_render": "audio: laid by the film's sound() (see audio_pcm)",
+    "verified": "2015-03-26 recording (Commons DateTimeOriginal)"
+   },
+   {
+    "title": "Bell-ring (a bicycle bell, single stroke)",
+    "author": "qubodup",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Bell-ring.flac",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Bell-ring.flac",
+    "used_as": "the conductor's bell at A7 (t 6.00) in every clip window (a bicycle bell; declared)",
+    "id": "F-bell",
+    "local_path": "films/sources/mauro-martino-exercises-in-style/plates/audio/bell_conductor_2.6s.wav",
+    "local_sha1": "995853d6bfa384c4a90c7788372d4b761297a27b",
+    "read_by_film_render": "audio: laid by the film's sound() (see audio_pcm)",
+    "verified": "unverified (no date given)"
+   },
+   {
+    "title": "Sunday in the city street noise1 (sounds outside my window, 4 May 2008)",
+    "author": "cori",
+    "license": "Public domain",
+    "license_url": "",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Sunday_in_the_city_street_noise1.ogg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/5d/Sunday_in_the_city_street_noise1.ogg",
+    "used_as": "street air in the 7.0 s bed and under the cards",
+    "id": "F-street",
+    "local_path": "films/sources/mauro-martino-exercises-in-style/plates/audio/street_bed_7.0s.wav",
+    "local_sha1": "7a3277d9c762d263432ca73eca28770e34983b96",
+    "read_by_film_render": "audio: laid by the film's sound() (see audio_pcm)",
+    "verified": "2008-05-04/05 (Commons DateTimeOriginal)"
    }
   ],
-  "derived_plates_read_by_renders": [
-   "films/sources/mauro-martino-exercises-in-style/stage/crowd_mask.png",
+  "files_read_by_film_renders": [
+   "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/A_woman_shawl_rgba.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/B_woman_walking_rgba.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/C_man_overcoat_rgba.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/D_man_back_rgba.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/E_woman_white_rgba.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/F_woman_basket_rgba.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/G_man_bowler_right_rgba.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/H_man_far_rgba.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/swatches/cape_officer.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_black_shawl.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_dark_long.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_light_overcoat.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_dark.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_wilson.png",
    "films/sources/mauro-martino-exercises-in-style/test-shot/plates/bus_rect_rgba.png",
    "films/sources/mauro-martino-exercises-in-style/test-shot/plates/plates.json",
    "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_front.png",
    "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_rear.png"
   ],
+  "bourse1933_read_by_any_render": false,
   "handmade": [
+   {
+    "item": "carved facade/arcade/pavement blocks, platform, board, plan stage, roof-light cell, puppets and their carved lines, cards",
+    "where": "stage/stage.py, rig/rig.py, films/mauro-martino-exercises-in-style.py"
+   },
    {
     "item": "coverage harness, per-anchor masks, outline IoU, replay, RNG probe",
     "where": "films/swarm/mauro-martino-exercises-in-style/verify/coverage.py"
@@ -1151,8 +1361,15 @@
    }
   ],
   "absences": [
-   "U4 foraged nothing new; the only network requests were two Commons extmetadata re-reads for F1/F2",
-   "no audio mix to hash yet (editor's rebuilt script not present); PCM hashes pending"
+   {
+    "id": "F2-bourse1933",
+    "title": "Greve des autobus - Place de la Bourse, le public attendant la reprise (Peyriras, 1933)",
+    "status": "dropped: Commons tags it PD France only, with no US rationale; a 1933 photograph is probably under restored US copyright, so not verifiably PD",
+    "check": "no film render reads films/sources/mauro-martino-exercises-in-style/commons/bourse1933.jpg (traced: True)"
+   },
+   "nothing usable came from the Moving Image Archive cache (U1 logged the 28 sound-clip matches as narrated, scored or hiss)",
+   "no openly licensed pre-1930 motorbus engine or conductor's bell on Commons: a 1991 diesel and a bicycle bell stand in (declared)",
+   "U4 foraged nothing new"
   ]
  },
  "outputs": {
@@ -1171,5 +1388,106 @@
    "films/sources/mauro-martino-exercises-in-style/verify/sample_d-treatment_0418_t1.20.png"
   ],
   "quarantine": "films/sources/mauro-martino-exercises-in-style/verify/quarantine"
+ },
+ "delivered_stills": {
+  "5.2": {
+   "p2_25_50_75_98": [
+    30,
+    39,
+    128,
+    196,
+    230
+   ],
+   "mid_70_170": 0.284,
+   "chroma": 13.4,
+   "paper_rgb": [
+    236,
+    228,
+    214
+   ],
+   "ink_rgb": [
+    32,
+    31,
+    28
+   ],
+   "dE76_paper_to_eee6d6": 1.2,
+   "dE76_ink_to_22211f": 1.3,
+   "method": "L = Rec.601 luma; paper = median RGB of the top-decile L pixels; ink = median of the bottom decile; ΔE76 in CIELAB (D65)",
+   "bar5": {
+    "p2_ge_15": true,
+    "p98_222_242": true,
+    "mid_ge_12pct": true,
+    "chroma_le_20": true,
+    "paper_dE_le_10": true,
+    "ink_dE_le_10": true
+   },
+   "source": "decoded from the delivered mp4 (ffmpeg -ss 5.2)"
+  },
+  "21.2": {
+   "p2_25_50_75_98": [
+    31,
+    61,
+    109,
+    187,
+    229
+   ],
+   "mid_70_170": 0.366,
+   "chroma": 13.1,
+   "paper_rgb": [
+    235,
+    227,
+    213
+   ],
+   "ink_rgb": [
+    33,
+    32,
+    28
+   ],
+   "dE76_paper_to_eee6d6": 1.4,
+   "dE76_ink_to_22211f": 1.5,
+   "method": "L = Rec.601 luma; paper = median RGB of the top-decile L pixels; ink = median of the bottom decile; ΔE76 in CIELAB (D65)",
+   "bar5": {
+    "p2_ge_15": true,
+    "p98_222_242": true,
+    "mid_ge_12pct": true,
+    "chroma_le_20": true,
+    "paper_dE_le_10": true,
+    "ink_dE_le_10": true
+   },
+   "source": "decoded from the delivered mp4 (ffmpeg -ss 21.2)"
+  },
+  "37.2": {
+   "p2_25_50_75_98": [
+    31,
+    122,
+    155,
+    205,
+    231
+   ],
+   "mid_70_170": 0.415,
+   "chroma": 17.2,
+   "paper_rgb": [
+    237,
+    230,
+    214
+   ],
+   "ink_rgb": [
+    36,
+    32,
+    29
+   ],
+   "dE76_paper_to_eee6d6": 0.4,
+   "dE76_ink_to_22211f": 1.7,
+   "method": "L = Rec.601 luma; paper = median RGB of the top-decile L pixels; ink = median of the bottom decile; ΔE76 in CIELAB (D65)",
+   "bar5": {
+    "p2_ge_15": true,
+    "p98_222_242": true,
+    "mid_ge_12pct": true,
+    "chroma_le_20": true,
+    "paper_dE_le_10": true,
+    "ink_dE_le_10": true
+   },
+   "source": "decoded from the delivered mp4 (ffmpeg -ss 37.2)"
+  }
  }
 }

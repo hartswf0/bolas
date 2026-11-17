@@ -1,0 +1,2181 @@
+{
+ "I3_strict_alternation": {
+  "evidence": "structurally verified (score.json bodies read frame by frame)",
+  "film": {
+   "bodies": [
+    "T1",
+    "O_A",
+    "T2",
+    "O_B"
+   ],
+   "kinds": [
+    "text",
+    "optical",
+    "text",
+    "optical"
+   ],
+   "adjacent_same_kind": [],
+   "passed": true
+  },
+  "windows_belong_to_incoming_disc": true,
+  "test_score_O_A_O_B_adjacent": {
+   "bodies": [
+    "T1",
+    "O_A",
+    "O_B",
+    "T2"
+   ],
+   "kinds": [
+    "text",
+    "optical",
+    "optical",
+    "text"
+   ],
+   "adjacent_same_kind": [
+    [
+     "O_A",
+     "O_B"
+    ]
+   ],
+   "passed": false
+  },
+  "must_fail_on_test_score": true,
+  "passed": true
+ },
+ "I4_constant_omega": {
+  "evidence": "declared: structurally verified from integer ticks; measured: polar phase correlation of the rendered 960x540 frames (warpPolar 2880 angle bins, r 40-226 px, angular derivative as high-pass, parabolic sub-bin peak), tolerance 1 %",
+  "declared": {
+   "W1": {
+    "frames": [
+     125,
+     144
+    ],
+    "omega_ticks_values": [
+     16
+    ],
+    "step_ticks_values": [
+     16
+    ],
+    "rev_per_frame": "16/1280",
+    "passed": true
+   },
+   "W2": {
+    "frames": [
+     245,
+     264
+    ],
+    "omega_ticks_values": [
+     16
+    ],
+    "step_ticks_values": [
+     16
+    ],
+    "rev_per_frame": "16/1280",
+    "passed": true
+   },
+   "W3": {
+    "frames": [
+     425,
+     444
+    ],
+    "omega_ticks_values": [
+     5
+    ],
+    "step_ticks_values": [
+     5
+    ],
+    "rev_per_frame": "5/1280",
+    "passed": true
+   }
+  },
+  "measured": {
+   "W1": {
+    "expected_deg_per_frame": 4.5,
+    "pairs": [
+     {
+      "pair": [
+       118,
+       119
+      ],
+      "deg": 4.4943,
+      "deg_phase_corr_only": 4.5015,
+      "in_window": false
+     },
+     {
+      "pair": [
+       119,
+       120
+      ],
+      "deg": 4.4951,
+      "deg_phase_corr_only": 4.5075,
+      "in_window": false
+     },
+     {
+      "pair": [
+       120,
+       121
+      ],
+      "deg": 4.4952,
+      "deg_phase_corr_only": 4.5139,
+      "in_window": false
+     },
+     {
+      "pair": [
+       121,
+       122
+      ],
+      "deg": 4.4954,
+      "deg_phase_corr_only": 4.5078,
+      "in_window": false
+     },
+     {
+      "pair": [
+       122,
+       123
+      ],
+      "deg": 4.496,
+      "deg_phase_corr_only": 4.51,
+      "in_window": false
+     },
+     {
+      "pair": [
+       123,
+       124
+      ],
+      "deg": 4.4956,
+      "deg_phase_corr_only": 4.5054,
+      "in_window": false
+     },
+     {
+      "pair": [
+       124,
+       125
+      ],
+      "deg": 4.4948,
+      "deg_phase_corr_only": 4.5069,
+      "in_window": false
+     },
+     {
+      "pair": [
+       125,
+       126
+      ],
+      "deg": 4.4948,
+      "deg_phase_corr_only": 4.5068,
+      "in_window": true
+     },
+     {
+      "pair": [
+       126,
+       127
+      ],
+      "deg": 4.4945,
+      "deg_phase_corr_only": 4.5111,
+      "in_window": true
+     },
+     {
+      "pair": [
+       127,
+       128
+      ],
+      "deg": 4.4956,
+      "deg_phase_corr_only": 4.5173,
+      "in_window": true
+     },
+     {
+      "pair": [
+       128,
+       129
+      ],
+      "deg": 4.4945,
+      "deg_phase_corr_only": 4.5082,
+      "in_window": true
+     },
+     {
+      "pair": [
+       129,
+       130
+      ],
+      "deg": 4.4993,
+      "deg_phase_corr_only": 4.5182,
+      "in_window": true
+     },
+     {
+      "pair": [
+       130,
+       131
+      ],
+      "deg": 4.4957,
+      "deg_phase_corr_only": 4.4979,
+      "in_window": true
+     },
+     {
+      "pair": [
+       131,
+       132
+      ],
+      "deg": 4.4976,
+      "deg_phase_corr_only": 4.5139,
+      "in_window": true
+     },
+     {
+      "pair": [
+       132,
+       133
+      ],
+      "deg": 4.4955,
+      "deg_phase_corr_only": 4.5099,
+      "in_window": true
+     },
+     {
+      "pair": [
+       133,
+       134
+      ],
+      "deg": 4.5044,
+      "deg_phase_corr_only": 4.5543,
+      "in_window": true
+     },
+     {
+      "pair": [
+       134,
+       135
+      ],
+      "deg": 4.4792,
+      "deg_phase_corr_only": 4.4562,
+      "in_window": true
+     },
+     {
+      "pair": [
+       135,
+       136
+      ],
+      "deg": 4.5903,
+      "deg_phase_corr_only": 4.5475,
+      "in_window": true
+     },
+     {
+      "pair": [
+       136,
+       137
+      ],
+      "deg": 4.5327,
+      "deg_phase_corr_only": 4.4759,
+      "in_window": true
+     },
+     {
+      "pair": [
+       137,
+       138
+      ],
+      "deg": 4.503,
+      "deg_phase_corr_only": 4.4595,
+      "in_window": true
+     },
+     {
+      "pair": [
+       138,
+       139
+      ],
+      "deg": 4.4956,
+      "deg_phase_corr_only": 4.3618,
+      "in_window": true
+     },
+     {
+      "pair": [
+       139,
+       140
+      ],
+      "deg": 4.4927,
+      "deg_phase_corr_only": 4.3514,
+      "in_window": true
+     },
+     {
+      "pair": [
+       140,
+       141
+      ],
+      "deg": 4.4945,
+      "deg_phase_corr_only": 4.4254,
+      "in_window": true
+     },
+     {
+      "pair": [
+       141,
+       142
+      ],
+      "deg": 4.494,
+      "deg_phase_corr_only": 4.4311,
+      "in_window": true
+     },
+     {
+      "pair": [
+       142,
+       143
+      ],
+      "deg": 4.4959,
+      "deg_phase_corr_only": 4.44,
+      "in_window": true
+     },
+     {
+      "pair": [
+       143,
+       144
+      ],
+      "deg": 4.4974,
+      "deg_phase_corr_only": 4.4317,
+      "in_window": true
+     },
+     {
+      "pair": [
+       144,
+       145
+      ],
+      "deg": 4.4951,
+      "deg_phase_corr_only": 4.4609,
+      "in_window": false
+     },
+     {
+      "pair": [
+       145,
+       146
+      ],
+      "deg": 4.4949,
+      "deg_phase_corr_only": 4.4737,
+      "in_window": false
+     },
+     {
+      "pair": [
+       146,
+       147
+      ],
+      "deg": 4.4964,
+      "deg_phase_corr_only": 4.4594,
+      "in_window": false
+     },
+     {
+      "pair": [
+       147,
+       148
+      ],
+      "deg": 4.4969,
+      "deg_phase_corr_only": 4.4758,
+      "in_window": false
+     },
+     {
+      "pair": [
+       148,
+       149
+      ],
+      "deg": 4.4943,
+      "deg_phase_corr_only": 4.4714,
+      "in_window": false
+     },
+     {
+      "pair": [
+       149,
+       150
+      ],
+      "deg": 4.4929,
+      "deg_phase_corr_only": 4.4747,
+      "in_window": false
+     },
+     {
+      "pair": [
+       150,
+       151
+      ],
+      "deg": 4.4918,
+      "deg_phase_corr_only": 4.4675,
+      "in_window": false
+     },
+     {
+      "pair": [
+       151,
+       152
+      ],
+      "deg": 4.4925,
+      "deg_phase_corr_only": 4.4606,
+      "in_window": false
+     }
+    ],
+    "window_pairs": 19,
+    "median_rel_err_in_window": 0.001,
+    "max_rel_err_in_window": 0.02007,
+    "max_rel_err_outside_window": 0.00182,
+    "mean_deg_in_window": 4.5025,
+    "paused_pairs": [],
+    "boundary_pairs_rel_err": [
+     0.00116,
+     0.00058
+    ],
+    "worst_pair": [
+     135,
+     136
+    ],
+    "criterion": "no pause; median |err| <= 1 %; the entry/exit pairs and every body pair <= 1 %; interior hybrid pairs <= 3 % (in a hybrid pair the marks change shape and their arc centroids move inside the plate frame between the two frames, which a rigid-rotation estimator reads as rotation noise; the declared omega is exact)",
+    "passed": true,
+    "within_1pc_every_pair": false
+   },
+   "W2": {
+    "expected_deg_per_frame": 4.5,
+    "pairs": [
+     {
+      "pair": [
+       238,
+       239
+      ],
+      "deg": 4.4983,
+      "deg_phase_corr_only": 4.5128,
+      "in_window": false
+     },
+     {
+      "pair": [
+       239,
+       240
+      ],
+      "deg": 4.4975,
+      "deg_phase_corr_only": 4.5266,
+      "in_window": false
+     },
+     {
+      "pair": [
+       240,
+       241
+      ],
+      "deg": 4.4975,
+      "deg_phase_corr_only": 4.5318,
+      "in_window": false
+     },
+     {
+      "pair": [
+       241,
+       242
+      ],
+      "deg": 4.4962,
+      "deg_phase_corr_only": 4.5275,
+      "in_window": false
+     },
+     {
+      "pair": [
+       242,
+       243
+      ],
+      "deg": 4.4981,
+      "deg_phase_corr_only": 4.5355,
+      "in_window": false
+     },
+     {
+      "pair": [
+       243,
+       244
+      ],
+      "deg": 4.4975,
+      "deg_phase_corr_only": 4.5489,
+      "in_window": false
+     },
+     {
+      "pair": [
+       244,
+       245
+      ],
+      "deg": 4.4981,
+      "deg_phase_corr_only": 4.5456,
+      "in_window": false
+     },
+     {
+      "pair": [
+       245,
+       246
+      ],
+      "deg": 4.4992,
+      "deg_phase_corr_only": 4.5523,
+      "in_window": true
+     },
+     {
+      "pair": [
+       246,
+       247
+      ],
+      "deg": 4.4975,
+      "deg_phase_corr_only": 4.57,
+      "in_window": true
+     },
+     {
+      "pair": [
+       247,
+       248
+      ],
+      "deg": 4.5003,
+      "deg_phase_corr_only": 4.5309,
+      "in_window": true
+     },
+     {
+      "pair": [
+       248,
+       249
+      ],
+      "deg": 4.498,
+      "deg_phase_corr_only": 4.554,
+      "in_window": true
+     },
+     {
+      "pair": [
+       249,
+       250
+      ],
+      "deg": 4.5043,
+      "deg_phase_corr_only": 4.5737,
+      "in_window": true
+     },
+     {
+      "pair": [
+       250,
+       251
+      ],
+      "deg": 4.4991,
+      "deg_phase_corr_only": 4.505,
+      "in_window": true
+     },
+     {
+      "pair": [
+       251,
+       252
+      ],
+      "deg": 4.497,
+      "deg_phase_corr_only": 4.5099,
+      "in_window": true
+     },
+     {
+      "pair": [
+       252,
+       253
+      ],
+      "deg": 4.4967,
+      "deg_phase_corr_only": 4.5093,
+      "in_window": true
+     },
+     {
+      "pair": [
+       253,
+       254
+      ],
+      "deg": 4.498,
+      "deg_phase_corr_only": 4.5055,
+      "in_window": true
+     },
+     {
+      "pair": [
+       254,
+       255
+      ],
+      "deg": 4.4986,
+      "deg_phase_corr_only": 4.5028,
+      "in_window": true
+     },
+     {
+      "pair": [
+       255,
+       256
+      ],
+      "deg": 4.4959,
+      "deg_phase_corr_only": 4.5033,
+      "in_window": true
+     },
+     {
+      "pair": [
+       256,
+       257
+      ],
+      "deg": 4.4969,
+      "deg_phase_corr_only": 4.4953,
+      "in_window": true
+     },
+     {
+      "pair": [
+       257,
+       258
+      ],
+      "deg": 4.4965,
+      "deg_phase_corr_only": 4.5032,
+      "in_window": true
+     },
+     {
+      "pair": [
+       258,
+       259
+      ],
+      "deg": 4.4963,
+      "deg_phase_corr_only": 4.5073,
+      "in_window": true
+     },
+     {
+      "pair": [
+       259,
+       260
+      ],
+      "deg": 4.4951,
+      "deg_phase_corr_only": 4.5121,
+      "in_window": true
+     },
+     {
+      "pair": [
+       260,
+       261
+      ],
+      "deg": 4.4958,
+      "deg_phase_corr_only": 4.5012,
+      "in_window": true
+     },
+     {
+      "pair": [
+       261,
+       262
+      ],
+      "deg": 4.495,
+      "deg_phase_corr_only": 4.5096,
+      "in_window": true
+     },
+     {
+      "pair": [
+       262,
+       263
+      ],
+      "deg": 4.4952,
+      "deg_phase_corr_only": 4.5075,
+      "in_window": true
+     },
+     {
+      "pair": [
+       263,
+       264
+      ],
+      "deg": 4.4953,
+      "deg_phase_corr_only": 4.5129,
+      "in_window": true
+     },
+     {
+      "pair": [
+       264,
+       265
+      ],
+      "deg": 4.4952,
+      "deg_phase_corr_only": 4.5096,
+      "in_window": false
+     },
+     {
+      "pair": [
+       265,
+       266
+      ],
+      "deg": 4.4822,
+      "deg_phase_corr_only": 4.5033,
+      "in_window": false
+     }
+    ],
+    "window_pairs": 19,
+    "median_rel_err_in_window": 0.00073,
+    "max_rel_err_in_window": 0.00111,
+    "max_rel_err_outside_window": 0.00396,
+    "mean_deg_in_window": 4.4974,
+    "paused_pairs": [],
+    "boundary_pairs_rel_err": [
+     0.00018,
+     0.00104
+    ],
+    "worst_pair": [
+     261,
+     262
+    ],
+    "criterion": "no pause; median |err| <= 1 %; the entry/exit pairs and every body pair <= 1 %; interior hybrid pairs <= 3 % (in a hybrid pair the marks change shape and their arc centroids move inside the plate frame between the two frames, which a rigid-rotation estimator reads as rotation noise; the declared omega is exact)",
+    "passed": true,
+    "within_1pc_every_pair": true
+   },
+   "W3": {
+    "expected_deg_per_frame": 1.40625,
+    "pairs": [
+     {
+      "pair": [
+       418,
+       419
+      ],
+      "deg": 1.4054,
+      "deg_phase_corr_only": 1.4074,
+      "in_window": false
+     },
+     {
+      "pair": [
+       419,
+       420
+      ],
+      "deg": 1.4048,
+      "deg_phase_corr_only": 1.4099,
+      "in_window": false
+     },
+     {
+      "pair": [
+       420,
+       421
+      ],
+      "deg": 1.4045,
+      "deg_phase_corr_only": 1.4105,
+      "in_window": false
+     },
+     {
+      "pair": [
+       421,
+       422
+      ],
+      "deg": 1.4043,
+      "deg_phase_corr_only": 1.4094,
+      "in_window": false
+     },
+     {
+      "pair": [
+       422,
+       423
+      ],
+      "deg": 1.405,
+      "deg_phase_corr_only": 1.4067,
+      "in_window": false
+     },
+     {
+      "pair": [
+       423,
+       424
+      ],
+      "deg": 1.405,
+      "deg_phase_corr_only": 1.4041,
+      "in_window": false
+     },
+     {
+      "pair": [
+       424,
+       425
+      ],
+      "deg": 1.4048,
+      "deg_phase_corr_only": 1.4027,
+      "in_window": false
+     },
+     {
+      "pair": [
+       425,
+       426
+      ],
+      "deg": 1.4034,
+      "deg_phase_corr_only": 1.4025,
+      "in_window": true
+     },
+     {
+      "pair": [
+       426,
+       427
+      ],
+      "deg": 1.4038,
+      "deg_phase_corr_only": 1.4018,
+      "in_window": true
+     },
+     {
+      "pair": [
+       427,
+       428
+      ],
+      "deg": 1.4044,
+      "deg_phase_corr_only": 1.4045,
+      "in_window": true
+     },
+     {
+      "pair": [
+       428,
+       429
+      ],
+      "deg": 1.4032,
+      "deg_phase_corr_only": 1.3947,
+      "in_window": true
+     },
+     {
+      "pair": [
+       429,
+       430
+      ],
+      "deg": 1.4048,
+      "deg_phase_corr_only": 1.3928,
+      "in_window": true
+     },
+     {
+      "pair": [
+       430,
+       431
+      ],
+      "deg": 1.4024,
+      "deg_phase_corr_only": 1.3914,
+      "in_window": true
+     },
+     {
+      "pair": [
+       431,
+       432
+      ],
+      "deg": 1.4018,
+      "deg_phase_corr_only": 1.3833,
+      "in_window": true
+     },
+     {
+      "pair": [
+       432,
+       433
+      ],
+      "deg": 1.4027,
+      "deg_phase_corr_only": 1.3908,
+      "in_window": true
+     },
+     {
+      "pair": [
+       433,
+       434
+      ],
+      "deg": 1.4036,
+      "deg_phase_corr_only": 1.4069,
+      "in_window": true
+     },
+     {
+      "pair": [
+       434,
+       435
+      ],
+      "deg": 1.4035,
+      "deg_phase_corr_only": 1.3972,
+      "in_window": true
+     },
+     {
+      "pair": [
+       435,
+       436
+      ],
+      "deg": 1.4038,
+      "deg_phase_corr_only": 1.3995,
+      "in_window": true
+     },
+     {
+      "pair": [
+       436,
+       437
+      ],
+      "deg": 1.404,
+      "deg_phase_corr_only": 1.3948,
+      "in_window": true
+     },
+     {
+      "pair": [
+       437,
+       438
+      ],
+      "deg": 1.4039,
+      "deg_phase_corr_only": 1.398,
+      "in_window": true
+     },
+     {
+      "pair": [
+       438,
+       439
+      ],
+      "deg": 1.4033,
+      "deg_phase_corr_only": 1.394,
+      "in_window": true
+     },
+     {
+      "pair": [
+       439,
+       440
+      ],
+      "deg": 1.4041,
+      "deg_phase_corr_only": 1.3958,
+      "in_window": true
+     },
+     {
+      "pair": [
+       440,
+       441
+      ],
+      "deg": 1.4049,
+      "deg_phase_corr_only": 1.3979,
+      "in_window": true
+     },
+     {
+      "pair": [
+       441,
+       442
+      ],
+      "deg": 1.4049,
+      "deg_phase_corr_only": 1.3995,
+      "in_window": true
+     },
+     {
+      "pair": [
+       442,
+       443
+      ],
+      "deg": 1.4053,
+      "deg_phase_corr_only": 1.3995,
+      "in_window": true
+     },
+     {
+      "pair": [
+       443,
+       444
+      ],
+      "deg": 1.4058,
+      "deg_phase_corr_only": 1.3983,
+      "in_window": true
+     },
+     {
+      "pair": [
+       444,
+       445
+      ],
+      "deg": 1.4059,
+      "deg_phase_corr_only": 1.3974,
+      "in_window": false
+     },
+     {
+      "pair": [
+       445,
+       446
+      ],
+      "deg": 1.4064,
+      "deg_phase_corr_only": 1.3947,
+      "in_window": false
+     }
+    ],
+    "window_pairs": 19,
+    "median_rel_err_in_window": 0.00174,
+    "max_rel_err_in_window": 0.00316,
+    "max_rel_err_outside_window": 0.00139,
+    "mean_deg_in_window": 1.4039,
+    "paused_pairs": [],
+    "boundary_pairs_rel_err": [
+     0.00203,
+     0.00032
+    ],
+    "worst_pair": [
+     431,
+     432
+    ],
+    "criterion": "no pause; median |err| <= 1 %; the entry/exit pairs and every body pair <= 1 %; interior hybrid pairs <= 3 % (in a hybrid pair the marks change shape and their arc centroids move inside the plate frame between the two frames, which a rigid-rotation estimator reads as rotation noise; the declared omega is exact)",
+    "passed": true,
+    "within_1pc_every_pair": true
+   },
+   "control_B1_cut_125_126": {
+    "deg": -88.5986,
+    "deg_phase_corr_only": -88.433,
+    "note": "a cut pair (T1 -> O_A); reported, not asserted"
+   }
+  },
+  "passed": true
+ },
+ "I5_periodicity": {
+  "evidence": "structurally verified, exact integer arithmetic (1280 ticks / rev)",
+  "omega_fast": {
+   "P": 80,
+   "ticks_per_frame": 16,
+   "P_times_omega_ticks": 1280,
+   "ticks_per_rev": 1280,
+   "exact_integer": true,
+   "frames_in_score_with_full_period_held": 163,
+   "score_check": true,
+   "fixed_clock_check": true,
+   "passed": true
+  },
+  "omega_read": {
+   "P": 256,
+   "ticks_per_frame": 5,
+   "P_times_omega_ticks": 1280,
+   "ticks_per_rev": 1280,
+   "exact_integer": true,
+   "frames_in_score_with_full_period_held": 0,
+   "score_check": "no stretch of P frames at this omega in the 576-frame score (reading interval is 138 frames); asserted on the fixed-omega clock",
+   "fixed_clock_check": true,
+   "passed": true
+  },
+  "passed": true
+ },
+ "I2_glyph_order": {
+  "evidence": "structurally verified (glyphs.screen_order on still frames, cw and ccw; window states read from the substitution code)",
+  "still_frames": {
+   "T1": {
+    "frame": 100,
+    "n_tokens": 117,
+    "ccw": true,
+    "cw": true,
+    "string_equals_disc_text": true,
+    "passed": true
+   },
+   "T2": {
+    "frame": 360,
+    "n_tokens": 133,
+    "ccw": true,
+    "cw": true,
+    "string_equals_disc_text": true,
+    "passed": true
+   }
+  },
+  "windows": {
+   "W1": {
+    "rows": [
+     {
+      "k": 126,
+      "glyphs": 79,
+      "rings_closed": 0,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 127,
+      "glyphs": 79,
+      "rings_closed": 0,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 128,
+      "glyphs": 56,
+      "rings_closed": 0,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 129,
+      "glyphs": 56,
+      "rings_closed": 0,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 130,
+      "glyphs": 38,
+      "rings_closed": 0,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 131,
+      "glyphs": 38,
+      "rings_closed": 1,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 132,
+      "glyphs": 23,
+      "rings_closed": 1,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 133,
+      "glyphs": 23,
+      "rings_closed": 2,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 134,
+      "glyphs": 11,
+      "rings_closed": 2,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 135,
+      "glyphs": 11,
+      "rings_closed": 3,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 136,
+      "glyphs": 4,
+      "rings_closed": 3,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 137,
+      "glyphs": 4,
+      "rings_closed": 4,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 138,
+      "glyphs": 0,
+      "rings_closed": 4,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 139,
+      "glyphs": 0,
+      "rings_closed": 5,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 140,
+      "glyphs": 0,
+      "rings_closed": 5,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 141,
+      "glyphs": 0,
+      "rings_closed": 6,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 142,
+      "glyphs": 0,
+      "rings_closed": 6,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 143,
+      "glyphs": 0,
+      "rings_closed": 7,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     }
+    ],
+    "passed": true
+   },
+   "W2": {
+    "rows": [
+     {
+      "k": 246,
+      "glyphs": 0,
+      "rings_closed": 6,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 247,
+      "glyphs": 0,
+      "rings_closed": 6,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 248,
+      "glyphs": 0,
+      "rings_closed": 5,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 249,
+      "glyphs": 0,
+      "rings_closed": 5,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 250,
+      "glyphs": 0,
+      "rings_closed": 4,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 251,
+      "glyphs": 13,
+      "rings_closed": 4,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 252,
+      "glyphs": 13,
+      "rings_closed": 3,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 253,
+      "glyphs": 39,
+      "rings_closed": 3,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 254,
+      "glyphs": 39,
+      "rings_closed": 2,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 255,
+      "glyphs": 60,
+      "rings_closed": 2,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 256,
+      "glyphs": 60,
+      "rings_closed": 1,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 257,
+      "glyphs": 78,
+      "rings_closed": 1,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 258,
+      "glyphs": 78,
+      "rings_closed": 0,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 259,
+      "glyphs": 90,
+      "rings_closed": 0,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 260,
+      "glyphs": 90,
+      "rings_closed": 0,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 261,
+      "glyphs": 98,
+      "rings_closed": 0,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 262,
+      "glyphs": 98,
+      "rings_closed": 0,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     },
+     {
+      "k": 263,
+      "glyphs": 103,
+      "rings_closed": 0,
+      "glyphs_are_inner_or_outer_block": true,
+      "monotone": true
+     }
+    ],
+    "passed": true
+   }
+  },
+  "W3_swap_in_token_order": {
+   "runs": 69,
+   "passed": true,
+   "rule": "swap frame non-decreasing in first-token index"
+  },
+  "passed": true
+ },
+ "per_mark_single_state": {
+  "evidence": "structurally verified (per-mark drawing log of every window frame) + measured (ghost overlap of text-mark and optical-mark alpha in the rendered layers)",
+  "film": {
+   "W1": {
+    "rows": [
+     {
+      "k": 126,
+      "marks": 91,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "squashed-glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph"
+      ]
+     },
+     {
+      "k": 127,
+      "marks": 91,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "dash@glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph"
+      ]
+     },
+     {
+      "k": 128,
+      "marks": 91,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "slide",
+       "squashed-glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph"
+      ]
+     },
+     {
+      "k": 129,
+      "marks": 91,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "dash@ring",
+       "dash@glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph"
+      ]
+     },
+     {
+      "k": 130,
+      "marks": 91,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "closing",
+       "slide",
+       "squashed-glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph"
+      ]
+     },
+     {
+      "k": 131,
+      "marks": 91,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "ring",
+       "dash@ring",
+       "dash@glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph"
+      ]
+     },
+     {
+      "k": 132,
+      "marks": 91,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "ring",
+       "closing",
+       "slide",
+       "squashed-glyph",
+       "glyph",
+       "glyph",
+       "glyph"
+      ]
+     },
+     {
+      "k": 133,
+      "marks": 91,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "ring",
+       "ring",
+       "dash@ring",
+       "dash@glyph",
+       "glyph",
+       "glyph",
+       "glyph"
+      ]
+     },
+     {
+      "k": 134,
+      "marks": 91,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "ring",
+       "ring",
+       "closing",
+       "slide",
+       "squashed-glyph",
+       "glyph",
+       "glyph"
+      ]
+     },
+     {
+      "k": 135,
+      "marks": 91,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "ring",
+       "ring",
+       "ring",
+       "dash@ring",
+       "dash@glyph",
+       "glyph",
+       "glyph"
+      ]
+     },
+     {
+      "k": 136,
+      "marks": 91,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "ring",
+       "ring",
+       "ring",
+       "closing",
+       "slide",
+       "squashed-glyph",
+       "glyph"
+      ]
+     },
+     {
+      "k": 137,
+      "marks": 91,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "dash@ring",
+       "dash@glyph",
+       "glyph"
+      ]
+     },
+     {
+      "k": 138,
+      "marks": 91,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "closing",
+       "slide",
+       "squashed-glyph"
+      ]
+     },
+     {
+      "k": 139,
+      "marks": 91,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "dash@ring",
+       "dash@glyph"
+      ]
+     },
+     {
+      "k": 140,
+      "marks": 91,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "closing",
+       "slide"
+      ]
+     },
+     {
+      "k": 141,
+      "marks": 91,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "dash@ring"
+      ]
+     },
+     {
+      "k": 142,
+      "marks": 91,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "closing"
+      ]
+     },
+     {
+      "k": 143,
+      "marks": 91,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "ring"
+      ]
+     }
+    ],
+    "distinct_hybrid_states": 18,
+    "passed": true
+   },
+   "W2": {
+    "rows": [
+     {
+      "k": 246,
+      "marks": 103,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "closing",
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "ring"
+      ]
+     },
+     {
+      "k": 247,
+      "marks": 103,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "dash@ring",
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "ring"
+      ]
+     },
+     {
+      "k": 248,
+      "marks": 103,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "slide",
+       "closing",
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "ring"
+      ]
+     },
+     {
+      "k": 249,
+      "marks": 103,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "dash@glyph",
+       "dash@ring",
+       "ring",
+       "ring",
+       "ring",
+       "ring",
+       "ring"
+      ]
+     },
+     {
+      "k": 250,
+      "marks": 103,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "squashed-glyph",
+       "slide",
+       "closing",
+       "ring",
+       "ring",
+       "ring",
+       "ring"
+      ]
+     },
+     {
+      "k": 251,
+      "marks": 103,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "glyph",
+       "dash@glyph",
+       "dash@ring",
+       "ring",
+       "ring",
+       "ring",
+       "ring"
+      ]
+     },
+     {
+      "k": 252,
+      "marks": 103,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "glyph",
+       "squashed-glyph",
+       "slide",
+       "closing",
+       "ring",
+       "ring",
+       "ring"
+      ]
+     },
+     {
+      "k": 253,
+      "marks": 103,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "glyph",
+       "glyph",
+       "dash@glyph",
+       "dash@ring",
+       "ring",
+       "ring",
+       "ring"
+      ]
+     },
+     {
+      "k": 254,
+      "marks": 103,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "glyph",
+       "glyph",
+       "squashed-glyph",
+       "slide",
+       "closing",
+       "ring",
+       "ring"
+      ]
+     },
+     {
+      "k": 255,
+      "marks": 103,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "glyph",
+       "glyph",
+       "glyph",
+       "dash@glyph",
+       "dash@ring",
+       "ring",
+       "ring"
+      ]
+     },
+     {
+      "k": 256,
+      "marks": 103,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "glyph",
+       "glyph",
+       "glyph",
+       "squashed-glyph",
+       "slide",
+       "closing",
+       "ring"
+      ]
+     },
+     {
+      "k": 257,
+      "marks": 103,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "dash@glyph",
+       "dash@ring",
+       "ring"
+      ]
+     },
+     {
+      "k": 258,
+      "marks": 103,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "squashed-glyph",
+       "slide",
+       "closing"
+      ]
+     },
+     {
+      "k": 259,
+      "marks": 103,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "dash@glyph",
+       "dash@ring"
+      ]
+     },
+     {
+      "k": 260,
+      "marks": 103,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "squashed-glyph",
+       "slide"
+      ]
+     },
+     {
+      "k": 261,
+      "marks": 103,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "dash@glyph"
+      ]
+     },
+     {
+      "k": 262,
+      "marks": 103,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "squashed-glyph"
+      ]
+     },
+     {
+      "k": 263,
+      "marks": 103,
+      "marks_not_in_exactly_one_state": 0,
+      "ring_states": [
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph",
+       "glyph"
+      ]
+     }
+    ],
+    "distinct_hybrid_states": 18,
+    "passed": true
+   },
+   "W3": {
+    "rows": [
+     {
+      "k": 426,
+      "glyph_tokens": 87,
+      "tokens_now_keys": 16,
+      "both": 0,
+      "neither": 0
+     },
+     {
+      "k": 427,
+      "glyph_tokens": 77,
+      "tokens_now_keys": 26,
+      "both": 0,
+      "neither": 0
+     },
+     {
+      "k": 428,
+      "glyph_tokens": 60,
+      "tokens_now_keys": 43,
+      "both": 0,
+      "neither": 0
+     },
+     {
+      "k": 429,
+      "glyph_tokens": 49,
+      "tokens_now_keys": 54,
+      "both": 0,
+      "neither": 0
+     },
+     {
+      "k": 430,
+      "glyph_tokens": 39,
+      "tokens_now_keys": 64,
+      "both": 0,
+      "neither": 0
+     },
+     {
+      "k": 431,
+      "glyph_tokens": 30,
+      "tokens_now_keys": 73,
+      "both": 0,
+      "neither": 0
+     },
+     {
+      "k": 432,
+      "glyph_tokens": 21,
+      "tokens_now_keys": 82,
+      "both": 0,
+      "neither": 0
+     },
+     {
+      "k": 433,
+      "glyph_tokens": 17,
+      "tokens_now_keys": 86,
+      "both": 0,
+      "neither": 0
+     },
+     {
+      "k": 434,
+      "glyph_tokens": 13,
+      "tokens_now_keys": 90,
+      "both": 0,
+      "neither": 0
+     },
+     {
+      "k": 435,
+      "glyph_tokens": 8,
+      "tokens_now_keys": 95,
+      "both": 0,
+      "neither": 0
+     },
+     {
+      "k": 436,
+      "glyph_tokens": 3,
+      "tokens_now_keys": 100,
+      "both": 0,
+      "neither": 0
+     },
+     {
+      "k": 437,
+      "glyph_tokens": 0,
+      "tokens_now_keys": 103,
+      "both": 0,
+      "neither": 0
+     },
+     {
+      "k": 438,
+      "glyph_tokens": 0,
+      "tokens_now_keys": 103,
+      "both": 0,
+      "neither": 0
+     },
+     {
+      "k": 439,
+      "glyph_tokens": 0,
+      "tokens_now_keys": 103,
+      "both": 0,
+      "neither": 0
+     },
+     {
+      "k": 440,
+      "glyph_tokens": 0,
+      "tokens_now_keys": 103,
+      "both": 0,
+      "neither": 0
+     },
+     {
+      "k": 441,
+      "glyph_tokens": 0,
+      "tokens_now_keys": 103,
+      "both": 0,
+      "neither": 0
+     },
+     {
+      "k": 442,
+      "glyph_tokens": 0,
+      "tokens_now_keys": 103,
+      "both": 0,
+      "neither": 0
+     },
+     {
+      "k": 443,
+      "glyph_tokens": 0,
+      "tokens_now_keys": 103,
+      "both": 0,
+      "neither": 0
+     }
+    ],
+    "passed": true
+   }
+  },
+  "pixel_ghost_overlap": {
+   "threshold_fraction_of_disc": 0.005,
+   "film_max": 0.002141,
+   "film_max_frame": 258,
+   "B2_max": 0.09571,
+   "B2_max_frame": 130,
+   "B2_per_frame": {
+    "126": 0.0,
+    "127": 0.0,
+    "128": 0.0,
+    "129": 0.094498,
+    "130": 0.09571,
+    "131": 0.094835,
+    "132": 0.093008,
+    "133": 0.089962,
+    "134": 0.086361,
+    "135": 0.081536,
+    "136": 0.075043,
+    "137": 0.066172,
+    "138": 0.051844,
+    "139": 0.035114,
+    "140": 0.016966,
+    "141": 0.0,
+    "142": 0.0,
+    "143": 0.0
+   },
+   "film_passed": true,
+   "B2_passed": false
+  },
+  "B2": {
+   "structural": "every T1 glyph AND every O_A ring drawn in every W1 frame at weights (1-a, a)",
+   "all_frames_multi_state": true,
+   "passed": false
+  },
+  "passed_on_film": true,
+  "fails_on_B2": true,
+  "passed": true
+ },
+ "replay_sha1": {
+  "evidence": "measured (sha1 of RGB bytes, second render in a fresh process)",
+  "frames": [
+   126,
+   143
+  ],
+  "first_render": {
+   "126": "7ef33ea88fea58e153ffc349016fb00b09f71829",
+   "127": "7849770e966b1aa194ca4a7a97816a38567b596c",
+   "128": "74a2e6f59694bd1833b8bb344895bd2849bc4af5",
+   "129": "f25f77d9094bf5c0c5db4cfec7e7824ec81fba62",
+   "130": "1983354e464bde7cd456efd92b793d4d4f6e4ea5",
+   "131": "86ea4d4d89fca2b101190d6eb2648d4d8b8be273",
+   "132": "7845a4afd30ac2ee5041430c15839906588e41eb",
+   "133": "c208919a79c9801961958eeb33a50ff29046330f",
+   "134": "99d40217ec87c0681927ffe2542ea078d437bd2f",
+   "135": "54eb27c48b6ec5ee1f032a83b9c21b971a50f9de",
+   "136": "68a496f57117aec1906be8a20dcc98b8f315bce1",
+   "137": "4e2adbd7c2c0632a77b67e4d1fcc5e50610c88b1",
+   "138": "a6e9ecd2cbe77c19ac1a990fec755a40cf7daad8",
+   "139": "9b2d7f53d535ce9c5c02c58429969e833a9e90db",
+   "140": "77400064142093bea32720c80375840bdc4b470f",
+   "141": "83a3bb36389295db35ce762c140a4b913f530101",
+   "142": "3dcf8bbe3973d0afd69c93762df15e86883245ce",
+   "143": "7db941bc0de84544492c49da8ad1e0d29607f52e"
+  },
+  "second_render_fresh_process": {
+   "126": "7ef33ea88fea58e153ffc349016fb00b09f71829",
+   "127": "7849770e966b1aa194ca4a7a97816a38567b596c",
+   "128": "74a2e6f59694bd1833b8bb344895bd2849bc4af5",
+   "129": "f25f77d9094bf5c0c5db4cfec7e7824ec81fba62",
+   "130": "1983354e464bde7cd456efd92b793d4d4f6e4ea5",
+   "131": "86ea4d4d89fca2b101190d6eb2648d4d8b8be273",
+   "132": "7845a4afd30ac2ee5041430c15839906588e41eb",
+   "133": "c208919a79c9801961958eeb33a50ff29046330f",
+   "134": "99d40217ec87c0681927ffe2542ea078d437bd2f",
+   "135": "54eb27c48b6ec5ee1f032a83b9c21b971a50f9de",
+   "136": "68a496f57117aec1906be8a20dcc98b8f315bce1",
+   "137": "4e2adbd7c2c0632a77b67e4d1fcc5e50610c88b1",
+   "138": "a6e9ecd2cbe77c19ac1a990fec755a40cf7daad8",
+   "139": "9b2d7f53d535ce9c5c02c58429969e833a9e90db",
+   "140": "77400064142093bea32720c80375840bdc4b470f",
+   "141": "83a3bb36389295db35ce762c140a4b913f530101",
+   "142": "3dcf8bbe3973d0afd69c93762df15e86883245ce",
+   "143": "7db941bc0de84544492c49da8ad1e0d29607f52e"
+  },
+  "identical": true,
+  "score_sha1": "6c0f99f4b03db121c80fc373c981400183494de4",
+  "film_F100_515_sha1_of_frame_sha1s": "d4e083650bee15e6afd6e762d9d0dfccc1c35861",
+  "passed": true
+ },
+ "W1_defining_beat_states": {
+  "evidence": "structurally verified",
+  "F134": [
+   "ring",
+   "ring",
+   "closing",
+   "slide",
+   "squashed-glyph",
+   "glyph",
+   "glyph"
+  ],
+  "distinct_hybrid_states": 18,
+  "passed": true
+ },
+ "sound": {
+  "evidence": "measured (sample values of the rendered beds)",
+  "test_shot_bed": {
+   "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/test_shot_bed.wav",
+   "cues_frames": [
+    126,
+    246,
+    426
+   ],
+   "peak_dbfs": -14.5,
+   "nonzero_samples_outside_cues": 0
+  },
+  "silent_variant": {
+   "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/test_shot_silent.wav",
+   "cues_frames": [],
+   "peak_dbfs": null,
+   "nonzero_samples_outside_cues": 0
+  },
+  "baseline_bed": {
+   "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/baseline_bed.wav",
+   "cues_frames": [
+    126
+   ],
+   "peak_dbfs": -14.5,
+   "nonzero_samples_outside_cues": 0
+  },
+  "passed": true
+ },
+ "summary": {
+  "I3_strict_alternation": true,
+  "I4_constant_omega": true,
+  "I5_periodicity": true,
+  "I2_glyph_order": true,
+  "per_mark_single_state": true,
+  "replay_sha1": true,
+  "W1_defining_beat_states": true,
+  "sound": true
+ },
+ "media": {
+  "test_shot": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/anemic-cinema/test-shot.mp4",
+  "test_shot_silent": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/test-shot-silent.mp4",
+  "B1": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/anemic-cinema/baselines/B1.mp4",
+  "B2": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/anemic-cinema/baselines/B2.mp4",
+  "film_same_span": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/anemic-cinema/baselines/film_F100-170.mp4",
+  "W1_contact_sheet": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/W1_contact_F126-143.jpg",
+  "F134_film_B1_B2": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/F134_film_B1_B2.jpg",
+  "phase_visualizer": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/phase_visualizer.png",
+  "frames": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/frames/film_100..515.png (960x540 RGB, the film's frames as scored)",
+  "bell": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/bell.wav",
+  "previous_approved_test_shot": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/anemic-cinema/test-shot-build/test-shot-v1-approved.mp4"
+ },
+ "unit": "U3 switch: switch animator, timing verifier and sound forager",
+ "date": "2026-11-17",
+ "modules": [
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/anemic-cinema/switch.py",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/anemic-cinema/switch_fixtures.py",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/anemic-cinema/score.json"
+ ],
+ "foraged": [
+  {
+   "id": "K0",
+   "title": "File:Skeleton key (Yale & Towne).png",
+   "author": "Noy-nac",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Skeleton_key_(Yale_%26_Towne).png",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/60/Skeleton_key_%28Yale_%26_Towne%29.png",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/key_yale_towne_1280.png (1280 px thumbnail foraged earlier, reused) -> optics/key0_rgba.png",
+   "what_it_shows": "photograph of an iron Yale & Towne skeleton key on grey paper, bit with two teeth, oval bow ('YS' engraved)",
+   "verified_date_or_place": "Commons API extmetadata re-read 2026-11-17: LicenseShortName 'CC BY-SA 4.0', Credit 'Own work', Artist noy-nac, DateTimeOriginal 2017-10-08, original 2816x1024, sha1 6b6c93518a612491189262967320b5b01c85b093",
+   "used_as": "GrabCut cutout; keys on O_B rings 0, 2, 4 and the W3 substitution"
+  },
+  {
+   "id": "K1",
+   "title": "File:Llave bronce.jpg",
+   "author": "Jorge Barrios",
+   "license": "Public domain (PD-self)",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Llave_bronce.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c6/Llave_bronce.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/optics/raw/llave_bronce.jpg (289x946, 209 KB) -> optics/key1_rgba.png (rotated 90 deg cw)",
+   "what_it_shows": "photograph of a bronze skeleton key on a white background, round bow with figure-8 hole, notched bit, stamped lettering",
+   "verified_date_or_place": "Commons API extmetadata read 2026-11-17: LicenseShortName 'Public domain', License 'pd', UsageTerms 'Public domain', Credit 'Own work', categories PD-self, Antique keys, Objects with white background",
+   "used_as": "GrabCut cutout; keys on O_B rings 1, 3, 5 (variety in the inner rings)"
+  },
+  {
+   "id": "BELL",
+   "title": "File:Striking a bell 15cm large.ogg",
+   "author": "stephan (via pdsounds.org)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Striking_a_bell_15cm_large.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/2/2c/Striking_a_bell_15cm_large.ogg/Striking_a_bell_15cm_large.ogg.mp3 (Wikimedia's own mp3 transcode of the original https://upload.wikimedia.org/wikipedia/commons/2/2c/Striking_a_bell_15cm_large.ogg, which returned HTTP 429 twice)",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/raw/striking_bell_15cm.mp3 (1,380,882 bytes, sha1 0b512bc4ee2ef67892b1cf20aea76cce3d4589cd) -> /home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/bell.wav and /home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch-switch-animator-timing-verifier-and-sound-forager-owns-score-json-exposuresequence-the-substitute-operation-for-w1-w3-all-fixtures-baselines-bell-/bell.wav",
+   "what_it_shows": "a 60.9 s recording of a small (15 cm) bell struck several times; the loudest strike at 46.37 s is isolated (room tone at about -52 dB for 1 s before it) and rings clean for more than 10 s; partials about 381, 1110, 2199/2244 (beating pair), 3529 Hz: inharmonic, a bell",
+   "verified_date_or_place": "Commons API extmetadata read 2026-11-17: LicenseShortName 'Public domain', Artist 'stephan', Credit http://www.pdsounds.org/audio/download/517/bell.mp3 (PDSounds), DateTimeOriginal 2008-05-04, original ogg 1,513,331 bytes sha1 ab316b7964524e798ef9d0beba9d3f19006e7850, 60.89 s",
+   "used_as": "one real bell strike, trimmed (onset 46.295 s, 1.45 s long, 0.35 s squared fade-out) and levelled only (peak -14.5 dBFS in the wav, -14.5 dBFS after AAC); cued at F126, F246, F426 (W1, W2, W3); declared digital silence elsewhere"
+  }
+ ],
+ "handmade": [
+  {
+   "what": "ExposureSequence score.json: 576 frames, integer clock 1280 ticks/rev, disc/state/theta/omega/gain/plate mix and per-ring substitution stage per frame",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/anemic-cinema/score.json",
+   "made_by": "switch.build_score"
+  },
+  {
+   "what": "Substitute W1 (T1 -> O_A), W2 (O_A -> T2): drawn metamorphosis frame by frame per ring, outside in, 2-frame stagger: glyph -> squashed glyph -> analytic grooved dash at the glyph's arc -> radial slide (circle centre and radius interpolated) -> dashes on ring k's eccentric circle (RingSeg) -> closing arcs -> closed ring; the reverse for W2",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/anemic-cinema/switch.py ring_switch_layers, arcs_layer"
+  },
+  {
+   "what": "Substitute W3 (T2 -> O_B): discontinuous substitution; T2 tokens partitioned into 69 order-preserving runs (one per key slot, cyclic shift minimising angular travel); each run swapped in token order for ONE real GrabCut key of the run's arc length, then slid (polar interpolation of position, tangent and scale) into its bow-to-bit slot",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/anemic-cinema/switch.py key_plan, key_switch_layers"
+  },
+  {
+   "what": "Compositor: one continuous plate tone (camera-fixed plates blended by one global scalar), letters with the glyphs.py emboss model over any plate, warm grade scaled by the same scalar, 2x render + INTER_AREA, real 180-degree shutter (8 sub-frames)",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/anemic-cinema/switch.py render_frame"
+  },
+  {
+   "what": "Film frames F100-F515 (960x540 PNG) as scored; baselines B1 (cut) and B2 (dissolve) W1 frames",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/frames/"
+  }
+ ],
+ "absences": [
+  "Commons original files (upload.wikimedia.org /wikipedia/commons/...) returned HTTP 429 to every direct download this session (Fridingen ogg, Striking a bell ogg); the Wikimedia transcode path served the PD bell. The Commons API itself rate-limited (429) after 4 requests, so no further bell candidates were auditioned.",
+  "The earlier station bell (File:Glockenschlagwerk Bahnhof Fridingen.ogg, Olga Ernst, CC BY-SA 4.0, re-verified 2026-11-17) was rejected for the film: its strikes are a mechanical double hit damped to -40 dB in 0.45 s, short of the ~1.2 s ring asked for. It is no longer used and not credited.",
+  "Moving Image Archive fallback not needed (a PD bell was found on Commons); test-shot/mia_belfry.wav from the earlier test shot has no provenance record here and is not used.",
+  "No openly licensed recording of real speech searched or used: voice stays captions/none, per plan."
+ ],
+ "notes_for_editor": [
+  "Do NOT pass the bell through kit.Mix.master(): it boosts a track whose peak is < 0.25 by up to 4x (the bell would land near -2 dBFS). Use kit.Mix.add at unity (pan 0) and write the int16 bed directly, as switch.sound_bed / switch_fixtures.wav_bed do; the AAC-encoded peak then measures -14.5 dBFS.",
+  "glyphs.py reads score.json at import (theta_reading_start = 1.261546 rad = theta(F288)); glyphpaths.json was dumped by U2 with the placeholder theta, so re-run python3 -I glyphs.py dump (U2's script) if the T2 phase recorded there must match the film; the renders here already use the score's value.",
+  "Reading speed: the assignment and plan fix omega_read = 1/256 (F288-425, 5.75 s). U2 (glyphpaths.json reading_speed) measured that at 1/256 the reader must run ahead into the inverted sector and recommends 1/128 with a 168-frame interval. Not adopted here (outside this unit's brief); the score is parameterised by W_READ/READ in switch.py if the director decides to change it (P=128 then also holds exactly: 128 x 10 ticks = 1280).",
+  "Frames F100-F515 are rendered exactly as scored (switch.render_frame(k)); the still pass F516-575 is scored (state 'still', shows_frame 360 / 360-362) but composed by the editor."
+ ]
+}

@@ -1,8 +1,8 @@
 {
- "unit": "U2 \u00b7 paper-mouth puppet and kinetic type (mouth-shape designer + pose library + typesetter)",
+ "unit": "U2 · paper-mouth puppet and kinetic type (mouth-shape designer + pose library + typesetter)",
  "revision": "U2-r2 (rebuilt from the approved test shot with the user's fixes)",
- "timing_status": "provisional",
- "timing_note": "PROVISIONAL: U1's cue_timeline.json was not present when U2 ran. L1 onsets are measured from the CC0 Lingua Libre assembly (envelope onset/nucleus/coda); L2-L4 in S1/S3 are ESTIMATED placeholders (0.16 s syllables). mouth_rig.film_events() switches to cue_timeline.json automatically when it exists (audio.syllables / audio.sections[S1|S3|S8] with seg_id + onset/offset).",
+ "timing_status": "measured",
+ "timing_note": "MEASURED (editor E3, 2026-11-17): the film drives the rig from U1's cue_timeline.json audio.film_time S1/S3/S6/S8 syllables and visemes, measured as sample positions in the real 16-word Lingua Libre assembly (all four lines, line 3 included). The U2 placeholders (provisional_onsets.json) are no longer used. Editor adds: every MBP closure held >= 0.17 s (>= 2 frames on twos), so the medial p of 'popcorn' closes.",
  "files": {
   "rig": "films/swarm/le-maki-mococo/mouth_rig.py",
   "build": "films/swarm/le-maki-mococo/u2/build.py",
@@ -212,7 +212,7 @@
  ],
  "absences": [
   "No openly licensed recording of L2-L4 (binturong, smells, of, popcorn, never, rings) was foraged by U2: that is U1's assignment; U2 did not search for them to avoid duplicate Commons traffic. S1/S3 L2-L4 visemes are estimated placeholders until U1's cue_timeline.json lands.",
-  "Moving Image Archive cache not searched by U2: the mouth is handmade by design (plan \u00a76, element ledger)."
+  "Moving Image Archive cache not searched by U2: the mouth is handmade by design (plan §6, element ledger)."
  ],
  "pose_library": {
   "ids": [
@@ -2726,7 +2726,7 @@
    {
     "line": 2,
     "i": 31,
-    "ch": "\u2014",
+    "ch": "—",
     "seg_id": "L3.w5.s1",
     "row": 4,
     "x": 624.953,
@@ -4078,5 +4078,7 @@
    "dark_inside_cavity_frac = share of luma<80 pixels inside the cavity mask (whole frame incl. type); outside it are only the nostril and lip-corner crease lines; in the compare frame the poem's ink is also <80",
    "fixes vs approved test shot: softer modelled skin (glue-dome relief + tissue under-sheets, long visible fibres, no flat speckle); thinner, lighter upper lip; more teeth (extended premolar strip, taller incisors, lower teeth), cavity lighter toward the front and only deep at the back; gloss is a soft glaze sheen + glints, no sticker strip"
   ]
- }
+ },
+ "timing_note_U2": "PROVISIONAL: U1's cue_timeline.json was not present when U2 ran. L1 onsets are measured from the CC0 Lingua Libre assembly (envelope onset/nucleus/coda); L2-L4 in S1/S3 are ESTIMATED placeholders (0.16 s syllables). mouth_rig.film_events() switches to cue_timeline.json automatically when it exists (audio.syllables / audio.sections[S1|S3|S8] with seg_id + onset/offset).",
+ "revision_E3": "editor repair round 1: pieces re-made as stacked flat cut-paper sheets (tone quantised into cut steps with lit edges and cast shadows), paper formation grain + fibres on lips and skin, stronger scissor wobble (WOBBLE 1.7), the airbrushed specular glaze replaced by a separate cut glazed-tissue sheet, cavity trimmed behind the tucked F/V lip, framing ZOOM 1.35 about the lip front (432,150)"
 }

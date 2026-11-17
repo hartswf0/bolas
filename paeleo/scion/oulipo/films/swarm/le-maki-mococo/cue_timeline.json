@@ -4104,24 +4104,28 @@
   {
    "resp_id": "R1",
    "speaker": "Reader A (fictional)",
-   "t_said": 10.0,
-   "label_time": "0:10",
+   "t_said": 12.625,
+   "label_time": "0:12",
    "cites": [
     "Q_sound"
    ],
-   "quoted_span": "A gong? Something you strike — bin, tu, RONG.",
+   "quoted_span": "A gong? Something you strike.",
    "hypothesis": "The name is an onomatopoeia: a struck metal object (a gong) whose 'RONG' is its ring.",
    "next_observation": "Seeing the words spelled should test whether it is a thing that is struck or a name; a verb like 'rings' in the text would confirm, 'never rings' would contradict.",
-   "on_screen_label": "READER A (fictional) · 0:10 · cites: sound",
+   "on_screen_label": "READER A (fictional) · 0:12 · cites: sound",
    "shot": "S2",
    "consent": "fictional — no participant",
-   "quoted_span_source": "plan.md §6 (frozen), printed verbatim"
+   "quoted_span_source": "plan.md §6, revised by the editor in repair round 1 (reviewer): the plan's '— bin, tu, RONG.' spelled the word before Q_text; the guess is unchanged",
+   "plan_t_said": 10.0,
+   "quoted_span_plan": "A gong? Something you strike — bin, tu, RONG.",
+   "first_frame_shown": 12.625,
+   "staging": "option (b): said 0.4 s after the measured voice it answers ends, rounded up to the next frame; plan time 10.0 kept as plan_t_said (the measured voice runs past it)"
   },
   {
    "resp_id": "R2",
    "speaker": "Reader B (fictional)",
-   "t_said": 24.0,
-   "label_time": "0:24",
+   "t_said": 26.125,
+   "label_time": "0:26",
    "cites": [
     "Q_sound",
     "Q_text"
@@ -4129,10 +4133,13 @@
    "quoted_span": "It hangs and swings… a lantern? A bell that's gone quiet?",
    "hypothesis": "Something suspended that sways but makes no sound: a lantern, or a bell that 'never rings'.",
    "next_observation": "A picture of the thing on the cord would test whether it is an object at all; 'smells of popcorn' does not yet fit a lantern.",
-   "on_screen_label": "READER B (fictional) · 0:24 · cites: sound, text",
+   "on_screen_label": "READER B (fictional) · 0:26 · cites: sound, text",
    "shot": "S4",
    "consent": "fictional — no participant",
-   "quoted_span_source": "plan.md §6 (frozen), printed verbatim"
+   "quoted_span_source": "plan.md §6 (frozen), printed verbatim",
+   "plan_t_said": 24.0,
+   "first_frame_shown": 26.125,
+   "staging": "option (b): said 0.4 s after the measured voice it answers ends, rounded up to the next frame; plan time 24.0 kept as plan_t_said (the measured voice runs past it)"
   },
   {
    "resp_id": "R3",
@@ -4146,7 +4153,7 @@
    "quoted_span": "Oh — it hangs by its tail. 'Never rings': it was never a gong.",
    "hypothesis": "A binturong is an animal that hangs by its tail; 'never rings' now reads literally as a denial of the gong guess. Shift caused by the image (the tail on the knot), checked against the text.",
    "next_observation": "Hearing L1 again should test whether 'hangs' and 'swings' now read as the animal's own movement; the popcorn smell is unverified by the picture.",
-   "on_screen_label": "READER A (fictional) · 0:44 · cites: image (0:38), text",
+   "on_screen_label": "READER A (fictional) · 0:44 · cites: text, image (0:38)",
    "shot": "S7",
    "shift": {
     "from_resp": "R1",
@@ -4154,7 +4161,9 @@
     "clue_cue": "Q_image"
    },
    "consent": "fictional — no participant",
-   "quoted_span_source": "plan.md §6 (frozen), printed verbatim"
+   "quoted_span_source": "plan.md §6 (frozen), printed verbatim",
+   "plan_t_said": 44.0,
+   "first_frame_shown": 44.0
   },
   {
    "resp_id": "R4",
@@ -4168,12 +4177,14 @@
    "quoted_span": "Maybe. It still swings like a lantern — I'd want to see it move.",
    "hypothesis": "Accepts the animal provisionally but keeps the lantern reading alive: the engraving is a still, so 'swings' is not yet shown.",
    "next_observation": "Moving footage of a binturong (not released in this film) would decide whether it swings; the reading stays open.",
-   "on_screen_label": "READER B (fictional) · 0:48",
+   "on_screen_label": "READER B (fictional) · 0:48 · cites: text, image (0:38)",
    "shot": "S7",
    "alternate_of": "R3",
    "min_hold_s": 2.5,
    "consent": "fictional — no participant",
-   "quoted_span_source": "plan.md §6 (frozen), printed verbatim"
+   "quoted_span_source": "plan.md §6 (frozen), printed verbatim",
+   "plan_t_said": 48.5,
+   "first_frame_shown": 48.5
   }
  ],
  "quarantined_counterexamples": [
@@ -4600,12 +4611,12 @@
  ],
  "fixture_check": {
   "script": "u1/fixture_check.py",
-  "run": "2026-11-17T01:36:30",
+  "run": "2026-11-17T02:10:18",
   "passed": true,
   "P1": [
    {
     "resp_id": "R1",
-    "t_said": 10.0,
+    "t_said": 12.625,
     "cites": [
      "Q_sound"
     ],
@@ -4617,7 +4628,7 @@
    },
    {
     "resp_id": "R2",
-    "t_said": 24.0,
+    "t_said": 26.125,
     "cites": [
      "Q_sound",
      "Q_text"
@@ -4678,19 +4689,19 @@
    }
   ],
   "cue_order_ok": true,
-  "staging_warnings": [
-   {
-    "warning": "S1 voice ends 12.19 > Reader A at 10.0",
-    "option_a": "keep plan time; caption lands over the last refrain (mouth keeps speaking, the 'hm' gesture starts after the voice ends)",
-    "option_b": "delay the response to 12.59 s (voice end + 0.4 s); label m:ss changes accordingly; P1 still holds"
-   },
-   {
-    "warning": "S3 voice ends 25.69 > Reader B at 24.0",
-    "option_a": "keep plan time; caption lands over the last refrain (mouth keeps speaking, the 'hm' gesture starts after the voice ends)",
-    "option_b": "delay the response to 26.09 s (voice end + 0.4 s); label m:ss changes accordingly; P1 still holds"
-   }
-  ],
+  "staging_warnings": [],
   "reconsideration_names_image_clue": true,
   "evidence_label": "measured (script assertion)"
+ },
+ "editor_staging": {
+  "E3": {
+   "note": "responses' t_said / label / first frame on screen are the cut's; ledger time, label and first frame agree",
+   "staged": {
+    "R1": 12.625,
+    "R2": 26.125,
+    "R3": 44.0,
+    "R4": 48.5
+   }
+  }
  }
 }

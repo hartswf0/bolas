@@ -148,6 +148,9 @@ def catmull(pts, step=2.0):
     return np.array(out)
 
 
+WOBBLE = 1.7          # E3: editor repair, visible scissor wobble (>= 1 px off a smooth spline per 20 px)
+
+
 def scissor(path, seed, amp=0.7, snip=6.0):
     """Scissor-wobble: low-frequency normal drift + straight facets every ~snip px (real snips)."""
     rs = np.random.RandomState(seed)
@@ -157,9 +160,9 @@ def scissor(path, seed, amp=0.7, snip=6.0):
     tang /= np.linalg.norm(tang, axis=1, keepdims=True) + 1e-9
     nrm = np.stack([tang[:, 1], -tang[:, 0]], 1)
     off = np.zeros(len(path))
-    for lam, a in ((40, 1.0), (16, 0.5), (6.5, 0.22)):
+    for lam, a in ((40, 1.0), (16, 0.6), (6.5, 0.55), (2.6, 0.35)):
         off += a * np.sin(L / lam + rs.uniform(0, 2 * np.pi))
-    p = path + nrm * (off * amp)[:, None]
+    p = path + nrm * (off * amp * WOBBLE)[:, None]
     keep, nxt = [], 0.0
     for i in range(len(p)):
         if i == 0 or L[i] >= nxt:
@@ -209,6 +212,17 @@ def fibre_field(seed):
     return f.astype(np.float32), cloud.astype(np.float32)
 
 
+@lru_cache(maxsize=None)
+def grain_field(seed):
+    """E3: paper formation at 1-3 px (the felted pulp between the long fibres), ~N(0,1), on the 2x canvas."""
+    rs = np.random.RandomState(3000 + seed)
+    g = blur(rs.normal(0, 1, (CH, CW)).astype(np.float32), 0.7)
+    g2 = np.asarray(Image.fromarray(blur(rs.normal(0, 1, (CH // 2, CW // 2)).astype(np.float32), 0.6))
+                    .resize((CW, CH), Image.BICUBIC), np.float32)
+    g = g / (g.std() + 1e-6) + 0.7 * g2 / (g2.std() + 1e-6)
+    return (g / (g.std() + 1e-6)).astype(np.float32)
+
+
 def crepe_field(seed, angle_deg=95):
     """Glazed crepe paper: fine near-parallel striations (lip paper)."""
     rs = np.random.RandomState(2000 + seed)
@@ -233,9 +247,37 @@ def shade(height, k, base, sh, hi, strength=1.0):
     nx, ny, nz = normals(height, k)
     lam = nx * LIGHT[0] + ny * LIGHT[1] + nz * LIGHT[2]
     s = np.clip((lam - LIGHT[2]) / (1 - LIGHT[2]) * 1.6 * strength, -1, 1)
+    s = sheets(s, int(k) % 97)
     base, sh, hi = (np.array(c, np.float32) for c in (base, sh, hi))
     rgb = np.where(s[..., None] > 0, base + (hi - base) * s[..., None], base + (base - sh) * s[..., None])
     return rgb, (nx, ny, nz)
+
+
+LEVELS = 3            # E3: tone steps per side; each step is a separately cut sheet of flat-coloured paper
+
+
+@lru_cache(maxsize=None)
+def _sheet_noise(seed):
+    rs = np.random.RandomState(4000 + seed)
+    n = blur(rs.normal(0, 1, (CH // 8, CW // 8)).astype(np.float32), 1.2)
+    n = np.asarray(Image.fromarray(n).resize((CW, CH), Image.BICUBIC), np.float32)
+    f = blur(rs.normal(0, 1, (CH // 2, CW // 2)).astype(np.float32), 1.0)
+    f = np.asarray(Image.fromarray(f).resize((CW, CH), Image.BICUBIC), np.float32)
+    return n / (n.std() + 1e-6), f / (f.std() + 1e-6)
+
+
+def sheets(s, seed):
+    """E3 (editor repair, critic: 'airbrushed'): the continuous relief is replaced by a stack of flat paper
+    sheets.  The tone field is quantised into LEVELS steps per side; each step boundary is a hand-cut contour
+    (wobbled by low- and mid-frequency noise, i.e. scissor drift), the lighter sheet sits on top, lit on its
+    up-left cut edge, and casts a small soft shadow down-right onto the sheet below it."""
+    n, f = _sheet_noise(seed)
+    q = np.round((s + 0.05 * n + 0.025 * f) * LEVELS) / LEVELS
+    qa = blur(q, 0.45 * S)                                              # anti-aliased cut edge
+    up = shift(qa, 1.2 * S, 1.6 * S)                                     # the sheet up-left of each pixel
+    shadow = np.clip(blur(up, 0.9 * S) - qa, 0, 1)                     # a higher sheet's shadow on a lower one
+    lit = np.clip(qa - blur(shift(qa, -1.0 * S, -1.3 * S), 0.4 * S), 0, 1)   # its lit cut edge
+    return np.clip(qa - 1.25 * shadow + 0.9 * lit, -1, 1)
 
 
 def rim(rgb, a, strength=0.18):
@@ -303,6 +345,14 @@ def upper_lip_poly(p):
     return top + front + under
 
 
+def gloss_poly(p):
+    """E3: cut gloss sheet on the lower lip's upper-front roll (jaw space)."""
+    f = p["lpro"]; d = p["ldrop"]; th = p["thick"]
+    return [(300, 176 + d * 0.45), (336, 167 + d * 0.65), (374 + f * 0.6, 160 + d * 0.8), (398 + f * 0.9, 165 + d * 0.75),
+            (404 + f, 174 + d * 0.6), (392 + f * 0.9, 180 + d * 0.55), (352, 182 + d * 0.5 + (th - 1) * 8),
+            (312, 184 + d * 0.45)]
+
+
 def lower_lip_poly(p):
     """Full lower lip, in jaw space (unrotated).  Top border = stomion line."""
     c = 142 + p["corner"]; f = p["lpro"]; d = p["ldrop"]; th = p["thick"]
@@ -322,6 +372,7 @@ class Rig:
     def __init__(self):
         fib, cloud = fibre_field(1)
         self.fib, self.cloud = fib, cloud
+        self.grain = grain_field(1)
         # ---- head: base washi sheet + tissue under-sheets (cheek pad, philtrum column, nose ala)
         a_head = mask_of(cut(HEAD, 1))
         a_cheek = mask_of(cut(CHEEK_PAD, 2, 1.6)) * a_head
@@ -339,7 +390,7 @@ class Rig:
         rgb = rim(rgb, a_head, 0.16)
         self.a_head = a_head
         self.head = to_rgba(rgb, a_head)
-        self.head_sh = shadow_img(a_head, 2.0, 3.0, 2.6, 0.22)
+        self.head_sh = shadow_img(a_head, 1.6, 2.4, 1.5, 0.34)
         # ---- jaw/chin skin (FK group, front plane) with chin pad + labiomental crease tissue
         a_jaw = mask_of(cut(JAW, 6))
         a_chin = mask_of(cut(CHIN_PAD, 7, 1.4)) * a_jaw
@@ -394,7 +445,7 @@ class Rig:
         tint = np.array([0.990, 0.972, 0.975], np.float32)
         if unders:
             rgb = rgb * (1 - (1 - tint) * np.clip(over, 0, 2)[..., None])
-        rgb = rgb * (1 + 0.10 * self.fib[..., None] + 0.016 * self.cloud[..., None])
+        rgb = rgb * (1 + 0.12 * self.fib[..., None] + 0.016 * self.cloud[..., None] + 0.05 * self.grain[..., None])
         return rgb
 
     def lip(self, pose, lip_set):
@@ -415,29 +466,22 @@ class Rig:
                 border = np.clip(blur(a, 1.5 * S) - blur(a, 5 * S), 0, 1)
                 yy = np.arange(CH, dtype=np.float32)[:, None] / S
                 rgb = rgb + (border * 70 * (yy < 100))[..., None] * np.array([0.9, 0.75, 0.7], np.float32)
-            rgb = rgb * (1 + 0.018 * crepe[..., None])
-            # glaze: soft specular sheen where the domed lip faces the half-vector (no sticker strip)
-            spec = np.clip(nx * HALF[0] + ny * HALF[1] + nz * HALF[2], 0, 1) ** (14 if part == "lo" else 30)
-            spec = spec * (0.75 if part == "lo" else 0.30) * np.clip(0.75 + 0.35 * crepe, 0, 1.2)
-            spec = blur(spec, 1.2 * S)
-            if part == "lo":      # glazed-paper glints: a few soft reflections along the lit upper-front roll
-                rs = np.random.RandomState(seed)
-                gl = np.zeros((CH, CW), np.float32)
-                for k in range(5):
-                    gx = (300 + 22 * k + rs.uniform(-6, 6) + p["lpro"] * 0.6) * S
-                    gy = (172 + 3 * k + p["ldrop"] * 0.5 + rs.uniform(-4, 4)) * S
-                    rr = rs.uniform(5, 9) * S
-                    yy0, xx0 = int(max(0, gy - 3 * rr)), int(max(0, gx - 3 * rr))
-                    sub = np.mgrid[yy0:int(gy + 3 * rr), xx0:int(gx + 3 * rr)].astype(np.float32)
-                    v = np.exp(-(((sub[1] - gx) / (rr * 1.8)) ** 2 + ((sub[0] - gy) / rr) ** 2))
-                    gl[yy0:yy0 + v.shape[0], xx0:xx0 + v.shape[1]] += v * rs.uniform(0.45, 0.75)
-                spec = np.clip(spec + gl * a, 0, 1)
-            rgb = rgb + spec[..., None] * (np.array([250, 228, 228], np.float32) - rgb) * 0.85
+            rgb = rgb * (1 + 0.035 * crepe[..., None] + 0.08 * self.fib[..., None] + 0.055 * self.grain[..., None])
+            if part == "lo" and not p["tuck"]:
+                # E3: the glaze is a separate cut sheet of pale glazed tissue glued on the lower lip's upper-front
+                # roll (matte, no airbrushed specular blob); it has its own scissor edge, lit edge and shadow.
+                g = mask_of(cut(gloss_poly(p), seed + 7, 0.5)) * a * 0.75      # thin glazed tissue: partly see-through
+                gsh = np.clip(blur(shift(g, 1.0 * S, 1.4 * S), 0.9 * S) - g, 0, 1) * 0.30
+                rgb = rgb * (1 - gsh[..., None])
+                gc = rgb * 0.62 + np.array(ls["hi"], np.float32) * 0.38 + 8
+                gc = gc * (1 + 0.05 * self.grain[..., None])
+                rgb = rgb * (1 - g[..., None]) + gc * g[..., None]
+                rgb = rim(rgb, g, 0.22)
             rgb = rim(rgb, a, 0.18)
             out[part] = to_rgba(rgb, a)
             out[part + "_a"] = a
-        out["up_sh"] = shadow_img(out["up_a"], 1.5, 3.0, 2.4, 0.30)
-        out["lo_sh"] = shadow_img(out["lo_a"], 1.5, 3.0, 2.4, 0.22)
+        out["up_sh"] = shadow_img(out["up_a"], 1.5, 2.5, 1.4, 0.42)
+        out["lo_sh"] = shadow_img(out["lo_a"], 1.5, 2.5, 1.4, 0.32)
         self.lips[key] = out
         return out
 
@@ -447,10 +491,12 @@ class Rig:
         jaw_deg = float(np.clip(jaw_deg, 0.0, JAW_MAX))
         L = self.lip(pose, lip_set)
         img = Image.new("RGBA", (CW, CH), (0, 0, 0, 0))
-        img.alpha_composite(self.cavity)
+        img.alpha_composite(self._cavity_for(pose))
         back = Image.new("RGBA", (CW, CH), (0, 0, 0, 0))
         back.alpha_composite(self.tongue[p["tongue"]])
         back.alpha_composite(self.teeth_lo)
+        if p["tuck"]:       # E3: trim the lower teeth / tongue card behind the tucked F/V lip too
+            b = np.asarray(back).copy(); b[:, int(370 * S):, 3] = 0; back = Image.fromarray(b, "RGBA")
         img.alpha_composite(self._rot(back, jaw_deg))
         img.alpha_composite(self.teeth_up_sh)
         img.alpha_composite(self.teeth_up)
@@ -465,6 +511,18 @@ class Rig:
         img.alpha_composite(L["up"])
         return img
 
+    @lru_cache(maxsize=None)
+    def _cavity_for(self, pose):
+        """E3 repair: with the lower lip tucked (F/V) its front sits ~14 px back, and the cavity's front wall
+        showed as a red wedge past the lip (critic: 0:08.2, 0:21.7, 'of').  Trim the cavity card behind the
+        tucked lip there, as one would trim the paper."""
+        if not POSES[pose]["tuck"]:
+            return self.cavity
+        c = np.asarray(self.cavity).copy()
+        x0 = int((370 + POSES[pose]["lpro"] * 0.0) * S)
+        c[:, x0:, 3] = 0
+        return Image.fromarray(c, "RGBA")
+
     @staticmethod
     def _rot(im, deg):
         if abs(deg) < 1e-3:
@@ -477,7 +535,7 @@ class Rig:
         L = self.lip(pose, lip_set)
         a_lo = L["lo_a"]
         grp = self.jaw_rgb.copy()
-        sh = blur(shift(a_lo, 1.5 * S, 3.0 * S), 2.4 * S) * 0.22 * self.a_jaw          # lip on chin skin
+        sh = blur(shift(a_lo, 1.5 * S, 2.5 * S), 1.4 * S) * 0.34 * self.a_jaw          # lip on chin skin
         grp *= (1 - sh[..., None])
         lo = np.asarray(L["lo"], np.float32)
         al = lo[..., 3:4] / 255
@@ -500,10 +558,17 @@ def rig():
     return _RIG
 
 
+ZOOM = 1.35                  # E3: closer crop (critic: speech lips >= 35% of frame height), about the lip front
+ZOOM_C = (432.0, 150.0)
+
+
 @lru_cache(maxsize=512)
 def mouth_image(pose, lip_set, jaw_q):
-    """Film-resolution RGBA of one (pose, lip set, jaw angle in 0.25 deg steps)."""
-    return rig().render2x(pose, lip_set, jaw_q * 0.25).resize((W, H), Image.LANCZOS)
+    """Film-resolution RGBA of one (pose, lip set, jaw angle in 0.25 deg steps), framed ZOOM x closer about ZOOM_C
+    (the lip front stays put; the face grows left, up and down off the frame edges)."""
+    big = rig().render2x(pose, lip_set, jaw_q * 0.25).resize((int(round(W * ZOOM)), int(round(H * ZOOM))), Image.LANCZOS)
+    ox, oy = int(round(ZOOM_C[0] * (ZOOM - 1))), int(round(ZOOM_C[1] * (ZOOM - 1)))
+    return big.crop((ox, oy, ox + W, oy + H))
 
 
 # ================================================================== decoder (#38) ====================

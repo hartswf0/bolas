@@ -597,7 +597,7 @@ def counterexample():
                              runners_overhead_accepted=sum(1 for q in R.pose(417, 1.2)["puppets"] if q["group"] == "street")),
                harness_accepted=good, harness_rejected=bad,
                broken=[k for k, v in bad["checks"].items() if not v],
-               verdict="REJECTED and quarantined (I8); the accepted overhead stays rig.plan_frame",
+               verdict="REJECTED and quarantined (I8); the accepted overhead stays the film render (camera=overhead)",
                quarantine=rel(qd), strip=[rel(MEDIA / "rejected-drift-strip.jpg"), rel(VDIR / "rejected-drift-strip.jpg")])
     (VDIR / "rejected-drift.json").write_text(json.dumps(doc, indent=1, ensure_ascii=False))
     return doc
@@ -725,8 +725,12 @@ def evidence(files_read):
         lid = next(v for k, v in key.items() if c["title"].startswith(k))
         L = ledger.get(lid, {})
         lp = ROOT / L["local_path"] if L.get("local_path") else None
+        fam = [str((ROOT / it["local_path"]).resolve()) for k_, it in ledger.items() if it.get("local_path") and
+               (k_ == lid or k_.startswith(lid + ".") or it.get("derived_from") == lid)]
+        fam += [str(Path(rel_).resolve()) for rel_ in ((S.ROL,) if lid == "rol1916" else ())]
+        used = sorted(rel(p) for p in files_read if p in fam or (lid == "rol1916" and ("/test-shot/plates/" in p)))
         rows.append(dict(c, id="F-" + lid, local_path=L.get("local_path"), local_sha1=sha1f(lp) if lp and lp.exists() else None,
-                         read_by_film_render=bool(lp) and any(p == str(lp.resolve()) for p in files_read) if lid not in ("engine", "bell", "street") else "audio (mix)",
+                         read_by_film_render=(used or False) if lid not in ("engine", "bell", "street") else "audio: laid by the film's sound() (see audio_pcm)",
                          verified=L.get("verified_date_or_place", "")))
     derived = sorted(rel(p) for p in files_read if "/films/sources/" in p and Path(p).exists())
     bourse_read = any("bourse1933" in p for p in files_read)

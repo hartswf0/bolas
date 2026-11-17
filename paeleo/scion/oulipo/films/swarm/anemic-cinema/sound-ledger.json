@@ -1,0 +1,84 @@
+{
+ "unit": "U3 switch",
+ "date": "2026-11-17",
+ "source": {
+  "id": "BELL",
+  "title": "File:Striking a bell 15cm large.ogg",
+  "author": "stephan (via pdsounds.org)",
+  "license": "Public domain",
+  "license_url": "",
+  "source_url": "https://commons.wikimedia.org/wiki/File:Striking_a_bell_15cm_large.ogg",
+  "file_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/2/2c/Striking_a_bell_15cm_large.ogg/Striking_a_bell_15cm_large.ogg.mp3 (Wikimedia's own mp3 transcode of the original https://upload.wikimedia.org/wikipedia/commons/2/2c/Striking_a_bell_15cm_large.ogg, which returned HTTP 429 twice)",
+  "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/raw/striking_bell_15cm.mp3 (1,380,882 bytes, sha1 0b512bc4ee2ef67892b1cf20aea76cce3d4589cd) -> /home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/bell.wav and /home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch-switch-animator-timing-verifier-and-sound-forager-owns-score-json-exposuresequence-the-substitute-operation-for-w1-w3-all-fixtures-baselines-bell-/bell.wav",
+  "what_it_shows": "a 60.9 s recording of a small (15 cm) bell struck several times; the loudest strike at 46.37 s is isolated (room tone at about -52 dB for 1 s before it) and rings clean for more than 10 s; partials about 381, 1110, 2199/2244 (beating pair), 3529 Hz: inharmonic, a bell",
+  "verified_date_or_place": "Commons API extmetadata read 2026-11-17: LicenseShortName 'Public domain', Artist 'stephan', Credit http://www.pdsounds.org/audio/download/517/bell.mp3 (PDSounds), DateTimeOriginal 2008-05-04, original ogg 1,513,331 bytes sha1 ab316b7964524e798ef9d0beba9d3f19006e7850, 60.89 s",
+  "used_as": "one real bell strike, trimmed (onset 46.295 s, 1.45 s long, 0.35 s squared fade-out) and levelled only (peak -14.5 dBFS in the wav, -14.5 dBFS after AAC); cued at F126, F246, F426 (W1, W2, W3); declared digital silence elsewhere"
+ },
+ "trim": {
+  "source": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/raw/striking_bell_15cm.mp3",
+  "strike_peak_s": 46.37,
+  "chosen_onset_s": 46.295,
+  "loudest_level_in_1s_before_dB": -51.51674136854885,
+  "length_s": 1.45,
+  "fade_s": 0.35,
+  "peak_dbfs": -14.0,
+  "decay_to_minus20dB_s": 0.19,
+  "audible_ring_s": 1.27
+ },
+ "processing": "ffmpeg decode (mp3 -> s16le mono 44.1 kHz); numpy trim, squared fade-out, single gain to peak -14.5 dBFS; nothing else",
+ "cues": {
+  "frames": [
+   126,
+   246,
+   426
+  ],
+  "seconds": [
+   5.25,
+   10.25,
+   17.75
+  ],
+  "windows": [
+   "W1 T1->O_A",
+   "W2 O_A->T2",
+   "W3 T2->O_B"
+  ],
+  "tolerance": "exact sample position int(frame/24*44100)"
+ },
+ "elsewhere": "declared digital silence (0 nonzero samples outside the three cue spans, measured)",
+ "levels": {
+  "evidence": "measured (sample values of the rendered beds)",
+  "test_shot_bed": {
+   "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/test_shot_bed.wav",
+   "cues_frames": [
+    126,
+    246,
+    426
+   ],
+   "peak_dbfs": -14.5,
+   "nonzero_samples_outside_cues": 0
+  },
+  "silent_variant": {
+   "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/test_shot_silent.wav",
+   "cues_frames": [],
+   "peak_dbfs": null,
+   "nonzero_samples_outside_cues": 0
+  },
+  "baseline_bed": {
+   "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/baseline_bed.wav",
+   "cues_frames": [
+    126
+   ],
+   "peak_dbfs": -14.5,
+   "nonzero_samples_outside_cues": 0
+  },
+  "passed": true
+ },
+ "silent_variant": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/test-shot-silent.mp4 (all samples zero; peak -91 dB in the AAC decode)",
+ "files": {
+  "bell": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/bell.wav",
+  "bell_copy": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch-switch-animator-timing-verifier-and-sound-forager-owns-score-json-exposuresequence-the-substitute-operation-for-w1-w3-all-fixtures-baselines-bell-/bell.wav",
+  "test_shot_bed": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/test_shot_bed.wav",
+  "raw": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/switch/raw/striking_bell_15cm.mp3"
+ },
+ "rejected": "The earlier station bell (File:Glockenschlagwerk Bahnhof Fridingen.ogg, Olga Ernst, CC BY-SA 4.0, re-verified 2026-11-17) was rejected for the film: its strikes are a mechanical double hit damped to -40 dB in 0.45 s, short of the ~1.2 s ring asked for. It is no longer used and not credited."
+}

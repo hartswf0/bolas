@@ -33,13 +33,16 @@ def masks(pose, lip_set, jaw):
         return np.asarray(img(a).rotate(-jaw, resample=Image.BICUBIC, center=(M.HINGE[0] * M.S, M.HINGE[1] * M.S)),
                           np.float32) / 255 if jaw > 1e-3 else a
 
-    def film(a):
-        return np.asarray(img(a).resize((M.W, M.H), Image.BILINEAR), np.float32) / 255 > 0.5
+    def film(a):    # E3: same ZOOM framing as mouth_rig.mouth_image
+        z = M.ZOOM
+        big = img(a).resize((int(round(M.W * z)), int(round(M.H * z))), Image.BILINEAR)
+        ox, oy = int(round(M.ZOOM_C[0] * (z - 1))), int(round(M.ZOOM_C[1] * (z - 1)))
+        return np.asarray(big.crop((ox, oy, ox + M.W, oy + M.H)), np.float32) / 255 > 0.5
     up, lo = L["up_a"], rot(L["lo_a"])
     head, jawa, neck = R.a_head, rot(R.a_jaw), R.a_neck
     lip = (up > 0.5) | ((lo > 0.5) & (head < 0.5))
     skin = ((head > 0.5) | (jawa > 0.5) | (neck > 0.5)) & ~lip
-    cav = np.asarray(R.cavity.getchannel("A"), np.float32) / 255 > 0.5
+    cav = np.asarray(R._cavity_for(pose).getchannel("A"), np.float32) / 255 > 0.5
     cav = cav & ~lip & ~(head > 0.5) & ~(jawa > 0.5)
     return film(skin), film(lip), film(cav)
 

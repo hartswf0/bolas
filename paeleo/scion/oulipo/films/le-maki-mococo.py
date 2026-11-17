@@ -1,4 +1,8 @@
-"""le-maki-mococo -- a paper mouth reads one fixed poem; sound, then text, then image (SCION editor rev E2).
+"""le-maki-mococo -- a paper mouth reads one fixed poem; sound, then text, then image (SCION editor rev E3).
+
+E3 = repair round 1: mouth and gong re-made as visibly cut paper / printed card (mouth_rig.py, u3/make_gong.py);
+ledger synced with the cut (editor_ledger.py + u1/fixture_check.py); 'popcorn' closes on its medial p; cavity
+trimmed behind the F/V lip; closer framing; the engraving's label says it was cut out and re-hung, from 0:38.0.
 
 Direction 2 'Paper Mouth' (spine) + Direction 3 'Gong to Animal' (image cue), plan.md rev P1, shot list S0-S9.
 
@@ -60,10 +64,10 @@ def released(q, t):
 # ----------------------------------------------------------------------------------------- responses
 # Staging decision (U1 staging_warning, option b): the measured voice runs past the plan's 0:10 / 0:24, so each
 # guess is said 0.4 s after the voice that it answers has ended.  R3/R4 keep the plan times.  P1 is re-checked.
+# E3: these staged times are now written into the ledger itself (editor_ledger.py), so ledger = cut.
 RESP = {r["resp_id"]: dict(r) for r in TL["responses"]}
 if not IMAGE_FIRST:
-    RESP["R1"]["t_said"] = round(FT["S1"]["end"] + 0.4, 2)
-    RESP["R2"]["t_said"] = round(FT["S3"]["end"] + 0.4, 2)
+    assert RESP["R1"]["t_said"] >= FT["S1"]["end"] + 0.4 - 1e-6 and RESP["R2"]["t_said"] >= FT["S3"]["end"] + 0.4 - 1e-6
     SHOW = {"R1": (RESP["R1"]["t_said"], 15.25), "R2": (RESP["R2"]["t_said"], 31.6),
             "R3": (44.0, 51.8), "R4": (48.5, 51.8)}
     RESP_ON = ["R1", "R2", "R3", "R4"]
@@ -135,6 +139,10 @@ def invariant_3_citations():
         assert admit_reading(r), f"{rid} cites a cue released after it is said"
         assert SHOW[rid][0] >= r["t_said"] - 1e-9
         assert "(fictional)" in r["speaker"]
+        if not IMAGE_FIRST:   # E3: ledger time == on-screen label == first frame showing the caption (within 1 frame)
+            assert r["on_screen_label"] == resp_label(r), (rid, r["on_screen_label"], resp_label(r))
+            assert abs(r["first_frame_shown"] - SHOW[rid][0]) <= 1 / 24 + 1e-9
+            assert abs(SHOW[rid][0] * 24 - round(SHOW[rid][0] * 24)) < 1e-6, "caption must start on a frame"
     for x in ([] if IMAGE_FIRST else TL.get("quarantined_counterexamples", [])):
         assert not admit_reading(x), "counterexample should fail P1"
     if not IMAGE_FIRST:
@@ -174,7 +182,8 @@ def section_speech(sec, shift=0.0):
     for s in syl:
         t0, t1 = s["t0"] + shift, s["t1"] + shift
         onsets[s["seg_id"]] = (t0, t1)
-        ks = [k for k in keys if k["seg_id"] == s["seg_id"]]
+        ks = [dict(k) for k in keys if k["seg_id"] == s["seg_id"]]
+        sev = []
         for i, k in enumerate(ks):
             a = max(t0 - 0.06, k["t"] + shift - 0.02) if i == 0 else k["t"] + shift
             b = ks[i + 1]["t"] + shift if i + 1 < len(ks) else t1
@@ -183,8 +192,29 @@ def section_speech(sec, shift=0.0):
             op = TL["visemes"]["openness"].get(k["shape"], 0)
             base = M.POSES[k["shape"]]["jaw"]
             jaw = base * (k["jaw"] / op) if op > 0 else base              # U1 loudness factor on the pose's own jaw
-            ev.append(dict(t0=a, t1=b, pose=k["shape"], kind="speech", jaw=float(min(M.JAW_MAX, jaw)), seg=s["seg_id"]))
+            sev.append(dict(t0=a, t1=b, pose=k["shape"], kind="speech", jaw=float(min(M.JAW_MAX, jaw)), seg=s["seg_id"]))
+        # E3: a consonant-vowel-consonant syllable with a very short vowel ('pop' in 'popcorn': 0.06 s of O between
+        # two closures) loses its vowel on twos; trim each flanking consonant to one pair of frames (>= 0.09 s) and
+        # give the vowel the middle, so the lips close, open, and close again.
+        if len(sev) == 3 and sev[1]["t1"] - sev[1]["t0"] < 0.13:
+            c0, v, c1 = sev
+            c0["t1"] = min(c0["t1"], c0["t0"] + 0.09)
+            c1["t0"] = max(v["t1"], c1["t1"] - 0.10)
+            v["t0"], v["t1"] = c0["t1"], c1["t0"]
+        ev += sev
+    # E3 (critic: the medial p of 'popcorn' never closed): every bilabial closure is held >= 0.09 s, i.e. at least
+    # one full pair of frames on twos, borrowing the time from the following key (it starts later).
+    ev.sort(key=lambda e: e["t0"])
+    for i, e in enumerate(ev):
+        if e["pose"] == "MBP" and e["t1"] - e["t0"] < MBP_MIN:
+            e["t1"] = e["t0"] + MBP_MIN
+            for f in ev[i + 1:]:
+                if f["t0"] < e["t1"]:
+                    f["t0"] = min(e["t1"], f["t1"] - 0.09)       # the vowel keeps a pair of frames too
     return ev, onsets
+
+
+MBP_MIN = 0.09                     # one pair of frames on twos (>= 2 frames at 24 fps)
 
 
 def gestures():
@@ -300,7 +330,7 @@ def caption(d, rid, t, y):
     a0, a1 = SHOW[rid]
     if not (a0 <= t < a1):
         return
-    al = min(1.0, (t - a0) / 0.25) * min(1.0, (a1 - t) / 0.35)
+    al = min(1.0, (t - a0 + 1 / 24) / 0.25) * min(1.0, (a1 - t) / 0.35)     # visible from its first frame
     if rid == "R3" and not IMAGE_FIRST:     # the reconsideration steps back (still legible) when the alternate speaks
         al *= 1 - 0.4 * kit.smooth(kit.ramp(t, SHOW["R4"][0], SHOW["R4"][0] + 0.4))
     r = RESP[rid]
@@ -316,16 +346,32 @@ def end_card(d, t):
     d.text((480, 200), "Same poem.", font=F_END, fill=c, anchor="mm")
     d.text((480, 246), "Sound 0:02 · text 0:15 · image 0:38.  Readers A and B are fictional.",
            font=ImageFont.truetype(INTER + "Inter-Regular.otf", 17), fill=c, anchor="mm")
-    lines = ["Voice: Lingua Libre volunteer word recordings on Wikimedia Commons — Grendelkhan (CC0),",
-             "Vealhurl ('binturong', 'popcorn', CC BY-SA 4.0); single words re-ordered into a poem they never read.",
-             "Image: the binturong, Brehm's Life of Animals (1895) p. 265, engraved by F. Specht, public domain.",
-             "Handmade: paper mouth, bronze-card gong, cord, type, red pencil; room tone and paper sounds synthesised."]
+    lines = ["Voice: 14 Lingua Libre single-word recordings on Wikimedia Commons by Grendelkhan (CC0) and Vealhurl",
+             "('binturong', 'popcorn', CC BY-SA 4.0), trimmed, loudness-matched, re-ordered into a poem the speakers",
+             "never read; 'hangs', 'swings' = 'hang', 'swing' + the /z/ of 'is'. The soundtrack is CC BY-SA 4.0.",
+             "Image: the binturong from Brehm's Life of Animals (1895) p. 265, engraved by F. Specht, public domain;",
+             "cut out and hung by its tail by us (in the original it stands, tail curled round a branch).",
+             "Handmade: paper mouth, printed card gong, cord, type, red pencil; room tone and paper sounds synthesised."]
     for i, ln in enumerate(lines):
-        d.text((480, 330 + i * 21), ln, font=F_END_S, fill=m, anchor="mm")
+        d.text((480, 300 + i * 20), ln, font=F_END_S, fill=m, anchor="mm")
 
 
 # ----------------------------------------------------------------------------------------- picture
 HANG_CUES = {"Q_image": CUES["Q_image"]}
+G.ENGRAVING_LABEL = False      # E3: the editor draws the fuller disclosure label (engraving_label) from Q_image
+F_ENGR_M = ImageFont.truetype(INTER + "Inter-Medium.otf", 12)
+F_ENGR = ImageFont.truetype(INTER + "Inter-Regular.otf", 12)
+ENGRAVING_LABEL = [("cut out from Brehm, 1895 (engraved by F. Specht)", F_ENGR_M),
+                   ("hung here by us, by its tail, from our cord;", F_ENGR),
+                   ("in the original it stands, tail round a branch", F_ENGR)]
+
+
+def engraving_label(d, t):
+    if not released("Q_image", t):
+        return
+    al = min(1.0, (t - CUES["Q_image"] + 1 / 24) / (2 / 24))
+    for i, (txt, f) in enumerate(ENGRAVING_LABEL):
+        d.text((836, 44 + i * 15), txt, font=f, fill=MUTED + (int(255 * al),), anchor="ra")
 WHITE = (255, 255, 255)
 
 
@@ -352,6 +398,8 @@ def picture(t, ink):
             caption(d, "R4", t, 460)
     else:
         end_card(d, t)
+    if t < 60.0 or IMAGE_FIRST:
+        engraving_label(d, t)
     cue_strip(d, t)
     ink.img = img.convert("RGB")
     ink.d = ImageDraw.Draw(ink.img, "RGBA")
@@ -382,7 +430,7 @@ def sound(mix):
         mix.room(0, end, gain=0.018)
     else:
         mix.room(0, 31.2, gain=0.018)
-        mix.room(30.8, 7.4, gain=0.006)            # S5 declared silence: room tone only, about -40 dB
+        mix.room(30.8, 7.4, gain=0.006)            # S5 declared silence: room tone only (measured in assembly.md)
         mix.room(37.8, end - 37.8, gain=0.018)
     vp = load_wav(VOICE_DIR / "voice_poem.wav")
     if IMAGE_FIRST:

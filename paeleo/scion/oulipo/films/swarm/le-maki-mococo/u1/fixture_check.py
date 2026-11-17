@@ -38,8 +38,10 @@ for a, b in zip(pl, pl[1:]):
     if a["end"] > b["at"]:
         coll.append(f"{a['shot']} ends {a['end']} after {b['shot']} starts {b['at']}")
 s1 = [p for p in pl if p["shot"] == "S1"][0]; s3 = [p for p in pl if p["shot"] == "S3"][0]
-if s1["end"] > 10.0: coll.append(f"S1 voice ends {s1['end']} > Reader A at 10.0")
-if s3["end"] > 24.0: coll.append(f"S3 voice ends {s3['end']} > Reader B at 24.0")
+# E3 (editor): compare against the responses' staged t_said (the ledger now records the cut), not the plan's 10/24
+tR = {r["resp_id"]: r["t_said"] for r in tl["responses"]}
+if s1["end"] > tR["R1"]: coll.append(f"S1 voice ends {s1['end']} > Reader A at {tR['R1']}")
+if s3["end"] > tR["R2"]: coll.append(f"S3 voice ends {s3['end']} > Reader B at {tR['R2']}")
 # responses must be verbatim and the shift must name the image clue
 r3 = [r for r in tl["responses"] if r["resp_id"] == "R3"][0]
 shift_ok = "by its tail" in r3["quoted_span"] and "Q_image" in r3["cites"]
