@@ -151,7 +151,7 @@ def C1():
     Mw = W2P(*V)
     # the office clock on the wall above the cabinet, its own hands set to 4:10 (same pieces as P5)
     lay_clock(P, apply(Mw, (2700, 600)), 0.933 * V[0])
-    lift = T(620, 40) @ about(ROOT_, R(-4))              # P2's rising pose, nearer his chair: up and leaving right
+    lift = T(900, 40) @ about(ROOT_, R(-4))              # P2's rising pose, nearer his chair: up and leaving right
     Ms = B.lay_clerk(P, Mw @ lift, dict(B.POSE_ARRIVE, head=3.0), rec=FK)
     # foreground: the desk top of the same photograph laid back over his cut waist (he stands behind the desk), as P3
     desk = np.zeros((h, w), np.uint8)
@@ -163,7 +163,7 @@ def C1():
     mouth = apply(Ms["clerk.head"], (2992, 2018))
     b1 = B.balloon(P, "b_what_time", ["What time", "is it?"], 70, (440, 205), (-30, 430), 121, tail_w=0.26, bend=0.12)
     b1.update(speaker="VISITOR", tail_target="off-panel left, through the TICKET OFFICE window (the platform)")
-    b2 = B.balloon(P, "b_ten_past", ["Ten past", "four!"], 70, (1440, 600), (mouth[0] - 40, mouth[1] + 6), 133, tail_w=0.22, bend=-0.10)
+    b2 = B.balloon(P, "b_ten_past", ["Ten past", "four!"], 70, (1520, 640), (mouth[0] - 40, mouth[1] + 6), 133, tail_w=0.22, bend=-0.10)
     b2.update(speaker="CLERK", tail_target="clerk's mouth")
     SPEECH["C1"] = [b1, b2]
     return P
@@ -292,7 +292,7 @@ def V3():
     mouth = apply(Ms["clerk.head"], (2992, 2018))
     b1 = B.balloon(P, "b_ten_past", ["Ten past", "four!"], 66, (300, 175), (mouth[0] - 40, mouth[1] + 4), 233, tail_w=0.22, bend=-0.08)
     b1.update(speaker="CLERK", tail_target="clerk's mouth, through the glass")
-    b2 = B.balloon(P, "b_thanks", ["Thanks!"], 62, (780, 790), (w * 0.60, h + 30), 261, tail_w=0.30, bend=0.10)
+    b2 = B.balloon(P, "b_thanks", ["Thanks!"], 62, (780, 700), (w * 0.60, h + 30), 261, tail_w=0.30, bend=0.10)
     b2.update(speaker="VISITOR", tail_target="off-panel bottom: hers")
     SPEECH["V3"] = [b1, b2]
     FK["V3"] = {"mouth_px": list(map(float, mouth))}
