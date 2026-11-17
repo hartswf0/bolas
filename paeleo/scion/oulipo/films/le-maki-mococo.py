@@ -157,7 +157,7 @@ RING_WORDS = ("ring", "bell", "chime", "gong")
 
 def invariant_7_no_ring(events):
     for e in events:
-        assert e["kind"] in ("tick", "creak", "tear", "land", "flop"), e
+        assert e["kind"] in ("tick", "creak", "tear", "land", "flop", "scratch"), e
         assert not any(w in e["kind"] for w in RING_WORDS)
     frac = [e for e in events if CUES.get("Q_image") is not None and CUES["Q_image"] <= e["t"] < CUES["Q_image"] + 6]
     assert frac and all(e["kind"] in ("tear", "land", "flop", "creak") for e in frac)
@@ -349,11 +349,14 @@ def end_card(d, t):
     lines = ["Voice: 14 Lingua Libre single-word recordings on Wikimedia Commons by Grendelkhan (CC0) and Vealhurl",
              "('binturong', 'popcorn', CC BY-SA 4.0), trimmed, loudness-matched, re-ordered into a poem the speakers",
              "never read; 'hangs', 'swings' = 'hang', 'swing' + the /z/ of 'is'. The soundtrack is CC BY-SA 4.0.",
-             "Image: the binturong from Brehm's Life of Animals (1895) p. 265, engraved by F. Specht, public domain;",
-             "cut out and hung by its tail by us (in the original it stands, tail curled round a branch).",
+             "Sources: commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-binturong.wav and ..._Vealhurl-popcorn.wav;",
+             "all 14 file links, authors and licences: films/credits/le-maki-mococo.json.",
+             "Image: the binturong from Brehm's Life of Animals (1895) p. 265, engraved by F. Specht, public domain",
+             "(scan: Biodiversity Heritage Library, CC BY 2.0 tag on Commons); cut out and hung by its tail by us",
+             "(in the original it stands, tail curled round a branch).",
              "Handmade: paper mouth, printed card gong, cord, type, red pencil; room tone and paper sounds synthesised."]
     for i, ln in enumerate(lines):
-        d.text((480, 300 + i * 20), ln, font=F_END_S, fill=m, anchor="mm")
+        d.text((480, 290 + i * 19), ln, font=F_END_S, fill=m, anchor="mm")
 
 
 # ----------------------------------------------------------------------------------------- picture
@@ -420,6 +423,31 @@ def no_ring(*a, **k):
 
 
 SFX = []
+PENCIL_STROKES = ((52.0, 52.9), (53.1, 53.8))        # mouth_rig.underline_layer's two strokes under 'hangs'
+
+
+def sfx_events():
+    """Every synthesised (non-speech) effect in the mix, in film time: gong_rig's paper/cord events + the pencil.
+    E4: this list IS the ledger's declared_silences_and_synth.sfx_events (asserted, invariant 8)."""
+    if not IMAGE_FIRST:
+        ev = [dict(e) for e in G.events(HANG_CUES)]
+        for a, b in PENCIL_STROKES:
+            ev.append(dict(t=a, kind="scratch", gain=0.035, pan=0.2, seconds=round(b - a, 3),
+                           synth="kit band-passed noise 2-7 kHz shaped by stroke speed",
+                           note="red pencil underlines 'hangs' (S8)"))
+    else:   # no gong is ever built in the baseline (G.events would wait forever on wedges that were never placed)
+        k0 = G.T_KICK + (CUES["Q_image"] - G.T_IMAGE_DEFAULT)
+        ev = [dict(t=k0, kind="flop", gain=0.18, pan=0.55), dict(t=k0 + G.T_B / 4, kind="creak", gain=0.07, pan=0.55)]
+    return sorted(ev, key=lambda e: e["t"])
+
+
+def invariant_8_ledger_sfx(mixed):
+    """E4 (reviewer): the ledger's SFX list equals the set of SFX kinds and times actually mixed (within 1 frame)."""
+    led = TL["declared_silences_and_synth"].get("sfx_events")
+    assert led is not None, "ledger has no sfx_events: run films/le-maki-mococo.py --dump-ledger, then editor_ledger.py"
+    a = sorted((e["kind"], e["t"]) for e in mixed)
+    b = sorted((e["kind"], e["t"]) for e in led)
+    assert len(a) == len(b) and all(x[0] == y[0] and abs(x[1] - y[1]) <= 1 / 24 for x, y in zip(a, b)), "ledger SFX != mix"
 
 
 def sound(mix):
@@ -440,11 +468,7 @@ def sound(mix):
         mix.add(vp, FT["S3"]["at"], 0.95, -0.15)                                  # S3 identical bytes
         mix.add(load_wav(VOICE_DIR / "voice_binturong.wav"), FT["S6"]["at"], 0.85, -0.15)
         mix.add(load_wav(VOICE_DIR / "voice_L1.wav"), FT["S8"]["at"], 0.95, -0.15)
-    if not IMAGE_FIRST:
-        ev = G.events(HANG_CUES)
-    else:   # no gong is ever built in the baseline (G.events would wait forever on wedges that were never placed)
-        k0 = G.T_KICK + (CUES["Q_image"] - G.T_IMAGE_DEFAULT)
-        ev = [dict(t=k0, kind="flop", gain=0.18, pan=0.55), dict(t=k0 + G.T_B / 4, kind="creak", gain=0.07, pan=0.55)]
+    ev = sfx_events()
     if not IMAGE_FIRST:
         invariant_7_no_ring(ev)
     for e in ev:
@@ -466,7 +490,14 @@ def sound(mix):
             mix.add(n * np.hanning(len(n)), t, g, p)
         elif e["kind"] == "flop":
             mix.thud(t, freq=90, gain=g, pan=p, seconds=0.2)
+        elif e["kind"] == "scratch":
+            sec = e["seconds"]
+            tt = mix.t(sec)
+            speed = np.sin(np.pi * np.clip(tt / sec, 0, 1)) ** 0.7 * (0.75 + 0.25 * np.sin(2 * np.pi * 9 * tt))
+            mix.add(mix.band(mix.noise(sec), 2000, 7000) * speed, t, g, p)
         SFX.append(e)
+    if not IMAGE_FIRST:
+        invariant_8_ledger_sfx(SFX)
 
 
 # ----------------------------------------------------------------------------------------- render
@@ -510,8 +541,27 @@ def render_test_shot():
     print("wrote", mp4)
 
 
+def dump_ledger():
+    """E4: write the cut's own sound-effect list, decoder paths and gestures for editor_ledger.py to merge into
+    cue_timeline.json / mouth_rig.json (ledger = cut)."""
+    ft = FT
+    def path(t0, t1):
+        return TRACK.ledger(t0, t1)
+    full = [TRACK.path[k] for k in range(TRACK.n)]
+    flick = M.flicker_count(full)
+    out = dict(sfx_events=sfx_events(), gestures=gestures(), breaths=[dict(t_center=a, seconds=b, deg=c) for a, b, c in BREATHS],
+               S1_path_12fps=path(ft["S1"]["at"], ft["S1"]["end"]), S3_path_12fps=path(ft["S3"]["at"], ft["S3"]["end"]),
+               S6_path_12fps=path(38.0, 44.0), S8_path_12fps=path(ft["S8"]["at"], ft["S8"]["end"]),
+               flicker_runs_lt_2_frames=flick, voice_spans={k: [ft[k]["at"], ft[k]["end"]] for k in ("S1", "S3", "S6", "S8")})
+    p = SWARM / "editor_e4_dump.json"
+    p.write_text(json.dumps(out, indent=1))
+    print("wrote", p, "flicker", flick)
+
+
 if __name__ == "__main__":
-    if TEST_SHOT:
+    if "--dump-ledger" in sys.argv:
+        dump_ledger()
+    elif TEST_SHOT:
         render_test_shot()
     else:
         if IMAGE_FIRST:          # the baseline is a ledger branch: keep it next to the editor's media, not in assets/

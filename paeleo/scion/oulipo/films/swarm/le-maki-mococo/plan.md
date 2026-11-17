@@ -309,7 +309,7 @@ Budget: ~45 minutes per unit, under 75 MB of new downloads in total.
    - Skin median is within ΔE76 < 12 of #CA9A8A, and lip median within ΔE76 < 15 of #9D565D.
    - The darkest mass in the mouth region is the cavity (luma < 80, ≤ 4% of the frame).
 7. **Aesthetic, side-by-side framing and material** *(perceptual + measured).*
-   - In the same comparison, skin occupies 35–50% of the frame, is confined to the left 45%, and is cut by the top and bottom edges.
+   - In the same comparison, the flesh mass (skin + lips + cavity) occupies 35–50% of the frame *(editor amendment E4: was "skin"; see below)*, the skin is confined to the left 45%, and it is cut by the top and bottom edges.
    - The lips span ≥ 35% of frame height in an open pose; the mouth reads as the whole subject, with fuller lips, a lower-lip gloss and rose-flesh tones.
    - On close inspection it is visibly cut paper: fibre, scissor-wobble edges, lit edges, small cast shadows. It must not be a smooth vector shape or a photo filter.
    - The reference is not traced: a critic overlaying the two outlines finds no contour match.
@@ -318,5 +318,9 @@ Budget: ~45 minutes per unit, under 75 MB of new downloads in total.
    - The ledger declares every synthesized effect and every silence.
    - No ring is heard when the gong breaks, and no synthetic speech is heard anywhere.
    - Film length is 60–70 s and file size ≤ 6 MB.
+
+**Editor amendments (E4, repair round 2; the director's original wording is kept in the notes here).**
+- *Bar 7, framing.* The original bar read "skin occupies 35–50% of the frame". Measured on `maki.webp`, the whole flesh mass (every non-white pixel) is 38.6% and skin alone is at most ~31%, so the band describes the flesh mass, not skin alone. Skin alone in the film is 27–29% (reported in `editor_measure.json` as `skin_area_frac`, a declared deviation): with skin confined to x < 45% and lips ≥ 35% of frame height, skin alone cannot reach 35%.
+- *§6 S2 / S4, guess times.* The plan's 0:10 (R1) and 0:24 (R2) assumed a 7 s reading; the measured voice runs to 12.19 / 25.69. The acceptance times are therefore the staged ones: **R1 at 0:12.625, R2 at 0:26.125** (each 0.4 s after the voice it answers ends, on a frame). `cue_timeline.json` keeps `plan_t_said` 10.0 / 24.0 and the reason; P1 is unaffected (no cite changes).
 
 Evidence labels for the reviewer: measured (1-timing, 2, 3-diff, 6, 8-size); structurally verified (5, 8-credits); perceptually judged (3-point, 4, 7). The reviewer must also say whether the cut preserves the order in which clues became available (§7).

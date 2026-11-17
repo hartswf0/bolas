@@ -46,13 +46,14 @@ FPS = 24
 NFR = 576
 TICKS = 1280
 W_FAST = 16          # 1/80 rev/frame
-W_READ = 10          # 1/128 rev/frame (repair 1: U2's reading recommendation; was 5 = 1/256)
+W_READ = 5           # 1/256 rev/frame = 0.09375 rev/s, P = 256: the stable bar (repair 2 restores it; repair 1 had 10 = 1/128)
 WIN = {"W1": (126, "T1", "O_A"), "W2": (246, "O_A", "T2"), "W3": (426, "T2", "O_B")}
 WLEN = 18
 STAGGER = 2
 STAGES = 6
 KIND = {"T1": "text", "T2": "text", "O_A": "optical", "O_B": "optical"}
 READ = (288, 425)
+LAST_RING = 6         # optics.NR - 1 (7 rings)
 
 
 def smooth(x):
@@ -151,8 +152,17 @@ def plate_front(w, k):
 
 
 def ring_stage(w, k, ring):
-    """Local stage s = k - (k0 + 2 ring); <0 = not started, >= 6 = done."""
-    return k - (WIN[w][0] + STAGGER * ring)
+    """Local stage s = k - (k0 + 2 ring); <0 = not started, >= 6 = done.
+    Repair 2 (W1 only): the innermost ring holds its glyphs two frames longer (starts at k0 + 14)
+    and runs a 4-step metamorphosis squash -> slide -> closing -> ring, ending on the same frame
+    k0 + 17. Without the hold, F138->139 changed the shape of every angular mark at once (rings
+    4, 5, 6) and the rotation measured +1.8 % / -1.5 %; with it at most two rings change shape in
+    any pair while the rest are rigid, and every W1 pair meets the +-1 % bar."""
+    s = k - (WIN[w][0] + STAGGER * ring)
+    if w == "W1" and ring == LAST_RING:
+        s6 = k - (WIN[w][0] + STAGGER * ring + 2)
+        return s6 if s6 < 0 else (0, 2, 4, 5)[min(s6, 3)] + max(0, s6 - 3)
+    return s
 
 
 def build_score(bodies=None):
@@ -375,8 +385,13 @@ def _segs_close(k, ent, frac):
     segs = []
     for e in ent:
         h0 = e["h60"]
-        a0 = e["ak"] - max(h0, frac * e["gp"] / 2)
-        a1 = e["ak"] + max(h0, frac * e["gn"] / 2)
+        # repair 2: grow SYMMETRICALLY about the dash's own angle ak (half = frac x the mean
+        # half-gap), so each closing arc keeps the dash's centroid and the frame-to-frame change
+        # is a pure lengthening, not a shift (the asymmetric growth moved the centroids and read
+        # as a +1.8 % rotation error at F138->139)
+        hh = max(h0, frac * (e["gp"] + e["gn"]) / 4)
+        a0 = e["ak"] - hh
+        a1 = e["ak"] + hh
         segs.append(O.ring_segment_mask(k, a0, a1))
     return segs
 

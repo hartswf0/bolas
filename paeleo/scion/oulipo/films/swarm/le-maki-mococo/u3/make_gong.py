@@ -68,29 +68,53 @@ cloud = cv2.GaussianBlur(rs.randn(N, N).astype(np.float32), (0, 0), 10 * S); clo
 for _ in range(900):   # long fibres
     x, y, a_ = rs.uniform(0, N), rs.uniform(0, N), rs.uniform(0, math.pi); ln = rs.uniform(6, 22) * S / 2
     cv2.line(fibre, (int(x), int(y)), (int(x + ln * math.cos(a_)), int(y + ln * math.sin(a_))), float(rs.uniform(1.2, 2.2)), 1)
-card = np.array([176, 128, 66], np.float32)[None, None] * (1 + 0.045 * fibre[..., None] + 0.05 * cloud[..., None])
-INK_ = np.array([92, 58, 32], np.float32)
+# E4 editor repair (critic: 'reads more like a biscuit than a gong'): darker bronze-ink card, sparser printed
+# hammer marks, a separate glued card RIM FLANGE (embossed: lit inner edge, shadow cast onto the face), a wide
+# EMBOSSED BOSS (a pressed card dome, matte-shaded from the upper left, with a printed groove round it).
+card = np.array([150, 98, 46], np.float32)[None, None] * (1 + 0.045 * fibre[..., None] + 0.05 * cloud[..., None])
+INK_ = np.array([70, 42, 22], np.float32)
 def ring(r0, w, j):
     jit = cv2.GaussianBlur(rs.randn(N, N).astype(np.float32), (0, 0), 6 * S) * j
     return np.clip(1 - np.abs(r - r0 + jit) / w, 0, 1)
-ink = 0.62 * ring(R - 6.5 * S, 2.2 * S, 0.6 * S) + 0.55 * ring(0.62 * R, 0.9 * S, 0.5 * S) + 0.35 * ring(R - 11 * S, 0.6 * S, 0.4 * S)
+ink = 0.50 * ring(0.62 * R, 0.9 * S, 0.5 * S) + 0.30 * ring(0.80 * R, 0.6 * S, 0.4 * S)
 gy_, gx_ = np.gradient(cv2.GaussianBlur(dim, (0, 0), 0.8))
-away = np.clip((gx_ * L[0] + gy_ * L[1]) * 4.0, 0, 1)              # the printed crescent on each mark's shade side
-ink += 0.55 * away * (dim > 0.25 * S)
-ink *= np.clip(0.75 + 0.35 * fibre, 0.3, 1.2)                         # ink takes unevenly on the card tooth
+away = np.clip((gx_ * L[0] + gy_ * L[1]) * 4.0, 0, 1)
+ink += 0.28 * away * (dim > 0.25 * S)
+ink *= np.clip(0.75 + 0.35 * fibre, 0.3, 1.2)
 ink = np.clip(ink, 0, 0.85)
 rgb = card * (1 - ink[..., None]) + INK_ * ink[..., None]
-# boss: a separate paler card disc glued on, its own wobbly cut edge, lit edge, cast shadow on the face
+def lit_of(mask, sig):
+    gy, gx = np.gradient(cv2.GaussianBlur(mask, (0, 0), sig))
+    return np.clip(-(gx * L[0] + gy * L[1]) * 2.2 * S, -1, 1)
+# rim flange: a separate ring of card glued round the edge (own wobbly inner cut edge)
+fw = cv2.GaussianBlur(rs.randn(720).astype(np.float32).reshape(1, -1), (0, 0), 5)[0]; fw = fw / (np.abs(fw).max() + 1e-6) * 0.9 * S
+fidx = ((th + math.pi) / (2 * math.pi) * 720).astype(int) % 720
+flange = cv2.GaussianBlur((r > R - 12 * S + fw[fidx]).astype(np.float32), (0, 0), 0.6)
+fsh = cv2.GaussianBlur(np.roll(np.roll(flange, int(1.8 * S), 1), int(2.4 * S), 0), (0, 0), 1.6 * S)
+rgb *= (1 - 0.45 * np.clip(fsh - flange, 0, 1))[..., None]          # the raised flange's shadow on the face
+fl = lit_of(1 - flange, 0.9 * S)                       # the flange's inner cut edge, lit where it faces the light
+fcol = np.array([122, 78, 36], np.float32)[None, None] * (1 + 0.05 * fibre[..., None])
+fcol = fcol * (1 - 0.35 * ring(R - 3.5 * S, 0.8 * S, 0.3 * S))[..., None]        # printed line on the flange
+fcol = fcol + 60 * np.clip(-fl, 0, 1)[..., None] - 25 * np.clip(fl, 0, 1)[..., None]
+rgb = rgb * (1 - flange[..., None]) + fcol * flange[..., None]
+# embossed boss: pressed card dome, matte-shaded (no specular), printed groove round it, cast shadow
+boss_r2 = 27 * S
 bw = cv2.GaussianBlur(rs.randn(720).astype(np.float32).reshape(1, -1), (0, 0), 6)[0]; bw = bw / (np.abs(bw).max() + 1e-6) * 0.8 * S
 bidx = ((th + math.pi) / (2 * math.pi) * 720).astype(int) % 720
-boss = cv2.GaussianBlur(((r < boss_r + bw[bidx]).astype(np.float32)), (0, 0), 0.6)
-bsh = cv2.GaussianBlur(np.roll(np.roll(boss, int(1.6 * S), 1), int(2.2 * S), 0), (0, 0), 1.4 * S)
-rgb *= (1 - 0.38 * np.clip(bsh - boss, 0, 1))[..., None]
-bcol = np.array([198, 150, 84], np.float32)[None, None] * (1 + 0.045 * fibre[..., None])
-bcol = bcol * (1 - 0.45 * ring(boss_r * 0.55, 0.8 * S, 0.3 * S))[..., None] + INK_ * 0.45 * ring(boss_r * 0.55, 0.8 * S, 0.3 * S)[..., None]
-gyb, gxb = np.gradient(cv2.GaussianBlur(boss, (0, 0), 0.9 * S))
-litb = np.clip(-(gxb * L[0] + gyb * L[1]) * 2.2 * S, 0, 1)
-bcol = bcol + 34 * litb[..., None]
+boss = cv2.GaussianBlur(((r < boss_r2 + bw[bidx]).astype(np.float32)), (0, 0), 0.6)
+rgb *= (1 - 0.55 * ring(boss_r2 + 3.2 * S, 1.1 * S, 0.3 * S))[..., None]        # printed groove
+bsh = cv2.GaussianBlur(np.roll(np.roll(boss, int(2.2 * S), 1), int(3.0 * S), 0), (0, 0), 1.8 * S)
+rgb *= (1 - 0.50 * np.clip(bsh - boss, 0, 1))[..., None]
+dome = np.sqrt(np.clip(1 - (r / boss_r2) ** 2, 0, 1))
+gyd, gxd = np.gradient(dome * 10 * S)
+nz = 1 / np.sqrt(1 + gxd ** 2 + gyd ** 2)
+lam = (-gxd * L[0] - gyd * L[1] + L[2]) * nz
+lam = np.round(np.clip((lam - 0.55) * 2.6, -1, 1) * 3) / 3            # pressed in steps, like embossed card
+bcol = np.array([168, 112, 52], np.float32)[None, None] * (1 + 0.045 * fibre[..., None])
+bcol = np.where(lam[..., None] > 0, bcol + (np.array([224, 178, 110]) - bcol) * lam[..., None],
+                bcol + (bcol - np.array([96, 60, 28])) * lam[..., None])
+bcol = bcol * (1 - 0.30 * ring(boss_r2 * 0.45, 0.8 * S, 0.3 * S))[..., None]
+bcol = bcol + 30 * np.clip(lit_of(boss, 0.9 * S), 0, 1)[..., None]
 rgb = rgb * (1 - boss[..., None]) + bcol * boss[..., None]
 rgb = np.clip(rgb, 0, 236)
 

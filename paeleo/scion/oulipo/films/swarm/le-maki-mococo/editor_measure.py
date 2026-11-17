@@ -87,6 +87,16 @@ for t in (6.0, 46.0):
     d.text((970, 12), "reference maki.webp (measured only; never pasted or traced)", font=font, fill=(90, 80, 75))
     sbs.save(OUT / f"compare_{t:04.1f}.png")
 res["reference"] = Q.reference()
+# E4: the framing bar, settled.  Reference flesh mass (all non-white pixels) and an upper-bound skin-only share
+# (non-white minus lip-coloured, cavity and teeth pixels; colour segmentation under-counts the upper lip).
+_r = np.asarray(Image.open(REF).convert("RGB")).astype(float)
+_nw = ~(_r.min(2) > 240)
+_lip = _nw & ((_r[..., 1] / (_r[..., 0] + 1)) < 0.72) & (_r[..., 2] > _r[..., 1] * 0.97)
+_dk = _nw & (_r.mean(2) < 80)
+_th = _nw & (_r.min(2) > 200)
+res["reference_framing"] = dict(flesh_mass_frac=round(float(_nw.mean()), 3),
+                                skin_only_frac_upper_bound=round(float((_nw & ~_lip & ~_dk & ~_th).mean()), 3),
+                                note="maki.webp: non-white = skin + lips + cavity + teeth; skin-only by colour segmentation")
 # acceptance 3: 'hangs' box at 0:24 vs 0:46 (alpha identical) and the knot constant
 x0, y0, x1, y1 = [int(round(v)) for v in M.HANGS_BOX]
 box = (slice(y0 - 26, y1 + 8), slice(x0 - 4, x1 + 4))
@@ -95,13 +105,19 @@ a46 = np.asarray(M.type_layer(46.0, F.ONSETS, cursor=False))[..., 3][box]
 res["acc3_hangs_alpha_diff_24_vs_46"] = int(np.abs(a24.astype(int) - a46.astype(int)).sum())
 res["acc3_knot"] = list(G.KNOT)
 targets = dict(skin_dE76="<12", lip_dE76="<15", lip_span_h=">=0.35", lip_span_w=">=0.22", skin_max_x_frac="<0.45",
-               field=">=250 every channel", skin_area="0.35-0.50", dark_frac="<=0.04, cavity only")
+               field=">=250 every channel", flesh_area="0.35-0.50 (E4 amended bar: skin + lips + cavity; reference 0.386)",
+               skin_only_area="reported, declared deviation: no 35% skin-only target (reference itself ~0.31)",
+               dark_frac="<=0.04, cavity only")
 res["targets"] = targets
+res["framing_declaration"] = ("E4: plan §9 bar 7 said 'skin occupies 35-50%'. Measured on maki.webp, skin alone is at most "
+    "~31% and the whole flesh mass 38.6%, so the bar is amended (plan.md, editor amendment E4) to the flesh mass "
+    "(skin + lips + cavity) 35-50%. Skin alone is reported as skin_area_frac and is BELOW 35% (declared deviation): "
+    "with the skin confined to x < 45% and lips >= 35% of frame height, skin alone cannot reach 35%.")
 for k in ("6s", "46s"):
     m = res[k]
     m["pass"] = dict(skin=m["skin_dE76"] < 12, lip=m["lip_dE76"] < 15, field=min(m["field_mean_right_half_excl_layers"]) >= 250,
                      dark=m["dark_frac_mouth_region_left_half"] <= 0.04, skin_x=m["skin_max_x_frac"] < 0.45,
-                     skin_area=0.35 <= m["face_area_frac_skin_lips_cavity"] <= 0.50, cut_top_bottom=m["skin_touches_top"] and m["skin_touches_bottom"],
+                     flesh_area=0.35 <= m["face_area_frac_skin_lips_cavity"] <= 0.50, cut_top_bottom=m["skin_touches_top"] and m["skin_touches_bottom"],
                      lip_span=m["lip_span_h"] >= 0.35 and m["lip_span_w"] >= 0.22)
 json.dump(res, open(SW / "editor_measure.json", "w"), indent=1, default=lambda o: o.item() if hasattr(o, "item") else str(o))
 print(json.dumps(res, indent=1, default=lambda o: o.item() if hasattr(o, "item") else str(o)))

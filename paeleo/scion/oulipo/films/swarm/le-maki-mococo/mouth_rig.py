@@ -11,7 +11,7 @@ Paper (what each piece is "made of"):
               kozo fibres + cloudy formation; scissor-wobble edge with a lit cut edge.
   lips        glazed crepe paper: fine crepe striations across the lip, a soft specular sheen from the glaze
               where the domed lip faces the light (no sticker strip); two colourways A warm rose, B cool mauve.
-  teeth       smooth cream card, scalloped tooth by tooth.
+  teeth       E4: separate small cut pieces of cream card, one per tooth, overlapping back to front.
   cavity      deep red-brown card, lighter toward the front.
 Rig (Reiniger pinned joints, #2 folded into #38):
   static   : cavity < upper teeth < neck < [JAW FRONT] < head (with ala + nostril) < upper lip (substitution)
@@ -327,6 +327,10 @@ TEETH_UP = [(236, 112), (300, 94), (406, 90), (414, 104), (413, 130), (408, 150)
             (298, 132), (286, 128), (272, 134), (258, 130), (244, 134), (236, 128)]
 TEETH_LO = [(300, 140), (318, 132), (330, 134), (342, 128), (356, 130), (368, 124), (380, 126), (392, 120),
             (400, 124), (404, 140), (398, 160), (300, 166)]
+# E4: individual teeth, back to front (x0, x1, y_root, y_incisal edge); union ~ the old TEETH_UP / TEETH_LO strips
+UPPER_TEETH = [(236, 262, 104, 131), (257, 284, 100, 133), (279, 306, 96, 136), (301, 328, 93, 140), (323, 348, 92, 145),
+               (344, 369, 90, 150), (364, 389, 89, 153), (384, 414, 88, 155)]
+LOWER_TEETH = [(300, 322, 136, 168), (319, 342, 131, 168), (339, 362, 128, 168), (359, 383, 124, 168), (379, 404, 120, 164)]
 CAVITY_PTS = [(100, 150), (140, 150), (230, 130), (320, 104), (400, 96), (406, 122), (406, 160), (402, 200), (396, 236),
               (300, 232), (180, 214), (100, 200)]
 TONGUE_PTS = [(150, 166), (250, 140), (320, 132), (360, 138), (372, 156), (330, 186), (240, 200), (150, 204)]
@@ -409,21 +413,16 @@ class Rig:
         rgb = self._skin_paper(rgb, a_neck, []) * 0.97
         self.a_neck = a_neck
         self.neck = to_rgba(rim(rgb, a_neck, 0.12), a_neck)
-        # ---- teeth (smooth card, scalloped)
-        a_tu = mask_of(cut(TEETH_UP, 10, 0.3))
-        rgb, _ = shade(blur(a_tu, 6 * S), 160, TEETH, TEETH_SH, (252, 249, 242))
+        # ---- teeth (E4 editor repair, critic: 'flat strip with ruled lines'): each tooth is its own small
+        # piece of cream card, cut separately with its own scissor wobble and size, glued back-to-front so each
+        # front tooth overlaps (and casts a small soft shadow on) the one behind; fibre + grain on every piece.
+        a_tu, rgb = self._teeth(UPPER_TEETH, 10, TEETH, upper=True)
         xg = np.arange(CW, dtype=np.float32)[None, :] / S
         rgb *= (1 - 0.30 * np.clip((320 - xg) / 90, 0, 1))[..., None]          # back teeth recede into shade
-        for x0 in (284, 310, 334, 360, 384):                    # tooth divisions: little gaps where the snips met
-            xs = int(x0 * S)
-            rgb[:, xs - 1:xs + 2] *= np.where(a_tu[:, xs - 1:xs + 2, None] > 0, 0.84, 1.0)
-        yy = np.arange(CH, dtype=np.float32)[:, None] / S
-        rgb *= (1 - 0.10 * np.clip((yy - 136) / 14, 0, 1))[..., None]           # incisal edge in shade
-        self.teeth_up = to_rgba(rim(rgb, a_tu, 0.22), a_tu)
+        self.teeth_up = to_rgba(rgb, a_tu)
         self.teeth_up_sh = shadow_img(a_tu, 1.2, 2.0, 1.5, 0.35)
-        a_tl = mask_of(cut(TEETH_LO, 11, 0.3))
-        rgb, _ = shade(blur(a_tl, 6 * S), 160, (226, 216, 200), TEETH_SH, (246, 240, 230))
-        self.teeth_lo = to_rgba(rim(rgb, a_tl, 0.18), a_tl)
+        a_tl, rgb = self._teeth(LOWER_TEETH, 11, (226, 216, 200), upper=False)
+        self.teeth_lo = to_rgba(rgb, a_tl)
         # ---- cavity (deep at the back, lighter at the front)
         a_cav = mask_of(cut(CAVITY_PTS, 12, 0.3))
         xx = np.arange(CW, dtype=np.float32)[None, :] / S
@@ -438,6 +437,34 @@ class Rig:
             rgb, _ = shade(blur(a, 10 * S), 240, TONGUE, (110, 50, 52), (186, 104, 104))
             self.tongue[k] = to_rgba(rim(rgb, a, 0.10), a)
         self.lips = {}
+
+    def _teeth(self, spec, seed, base, upper):
+        """E4: separate cut tooth pieces.  spec = [(x0, x1, y_root, y_edge)] back to front (film px)."""
+        canvas = np.zeros((CH, CW, 3), np.float32)
+        alpha = np.zeros((CH, CW), np.float32)
+        rs = np.random.RandomState(700 + seed)
+        for k, (x0, x1, yr, ye) in enumerate(spec):
+            mid = (x0 + x1) / 2 + rs.uniform(-1.5, 1.5)
+            if upper:      # root up under the gum (hidden by the lip), rounded incisal edge at the bottom
+                pts = [(x0 + 1, yr), (x1 - 1, yr), (x1 + 0.6, ye - 7), (x1 - 2.5, ye - 1.2), (mid, ye + rs.uniform(-0.8, 0.8)),
+                       (x0 + 2.5, ye - 1.6), (x0 - 0.6, ye - 8)]
+            else:          # lower teeth: rounded incisal edge at the top, root down behind the lip
+                pts = [(x0 - 0.6, yr + 8), (x0 + 2.5, yr + 1.6), (mid, yr + rs.uniform(-0.8, 0.8)), (x1 - 2.5, yr + 1.2),
+                       (x1 + 0.6, yr + 7), (x1 - 1, ye), (x0 + 1, ye)]
+            a = mask_of(cut(pts, 900 + 17 * seed + k, 0.45))
+            tone = np.array(base, np.float32) * rs.uniform(0.95, 1.01) + np.array([0, 0, rs.uniform(-4, 2)], np.float32)
+            rgb, _ = shade(blur(a, 3.5 * S), 120, tuple(tone), TEETH_SH, (250, 246, 238), 0.7)
+            rgb = rgb * (1.03 + 0.045 * self.fib[..., None] + 0.035 * self.grain[..., None])
+            yy = np.arange(CH, dtype=np.float32)[:, None] / S
+            if upper:      # the incisal end turns away from the light
+                rgb *= (1 - 0.10 * np.clip((yy - (ye - 12)) / 12, 0, 1))[..., None]
+            rgb = rim(rgb, a, 0.24)
+            # this (front) tooth casts a small shadow on the teeth already glued behind it
+            sh = np.clip(blur(shift(a, -1.2 * S, 1.4 * S), 1.0 * S) - a, 0, 1) * 0.34 * alpha
+            canvas *= (1 - sh[..., None])
+            canvas = rgb * a[..., None] + canvas * (1 - a[..., None])
+            alpha = a + alpha * (1 - a)
+        return alpha, canvas
 
     def _skin_paper(self, rgb, a, unders):
         """Visible fibres + cloudy formation; under-sheets add a faint denser, rosier tint."""
@@ -920,12 +947,14 @@ def speech_events(syllables, env=None):
     return ev
 
 
-def gesture_events():
-    """Silent acting for the captions (plan §6).  Holds carry thought; nothing flaps."""
+def gesture_events(r1=12.625, r2=26.125):
+    """Silent acting for the captions (plan §6).  Holds carry thought; nothing flaps.
+    E4 (reviewer): timed from the staged response times (cue_timeline responses R1/R2 t_said), exactly as the
+    film's gestures(); the U2 'hm' at 10.0 overlapped spoken L4 (10.53-12.19) and is gone."""
     return [
-        dict(t0=10.0, t1=10.9, pose="hm", kind="gesture"),                     # S2 Reader A thinks: pursed 'hm'
-        dict(t0=10.9, t1=12.4, pose="LNT", kind="gesture", jaw=1.6),           # ... opens slightly ('a gong?')
-        dict(t0=23.5, t1=31.0, pose="rest", kind="gesture", jaw=2.8, ease=0.8, jaw_from=0.8),  # S4 thinking drop
+        dict(t0=r1 - 0.2, t1=r1 + 0.7, pose="hm", kind="gesture"),               # S2 Reader A thinks: pursed 'hm'
+        dict(t0=r1 + 0.7, t1=r1 + 2.4, pose="LNT", kind="gesture", jaw=1.6),     # ... opens slightly ('a gong?')
+        dict(t0=r2 - 0.2, t1=31.0, pose="rest", kind="gesture", jaw=2.8, ease=0.8, jaw_from=0.8),  # S4 thinking drop
         dict(t0=38.3, t1=44.0, pose="surprise", kind="gesture", ease=1.1, jaw_from=0.8),        # S6 slow surprise
         dict(t0=44.0, t1=45.2, pose="O", kind="gesture"),                      # S7 'Oh -'
         dict(t0=45.2, t1=45.8, pose="hm", kind="gesture"),                     # ... closes

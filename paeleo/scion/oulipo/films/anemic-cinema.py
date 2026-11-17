@@ -2,7 +2,7 @@
 
 24.0 s, 960x540, 24 fps. One plate turning about (480, 270), four discs in strict alternation:
   T1 (pun disc, door) -> W1 drawing substitution -> O_A (engraved rings, approaching)
-  -> W2 -> T2 (reading disc, key and bell) -> W3 letters become real key cutouts
+  -> W2 -> T2 (reading disc, key and bell, read at 0.09375 rev/s = 1/256 rev/frame) -> W3 letters become real key cutouts
   -> O_B (key rings, receding) -> still pass (F360 frozen, then F360-362 as a plain strip).
 
 All picture rendering is done by the swarm modules in films/swarm/anemic-cinema/:
@@ -180,11 +180,9 @@ def run_fixtures(infos):
     od = SF.omega_declared(sc)
     assert all(v["passed"] for v in od.values()), od
     om = SF.omega_measured()
-    # I4 bar (repair 1, stated before measuring, no post-hoc band): the declared omega is exact on
-    # integer ticks; MEASURED on the rendered frames, (a) no pause, (b) the aggregate rate over the
-    # whole measured span (W1: F118-152, i.e. the window with 8 body frames each side) within 1 % of
-    # the declared rate, (c) the entry/exit pairs and every body pair within 1 %. The largest
-    # interior hybrid pair is REPORTED with its error and whether it meets 1 %; it is not asserted.
+    # I4 bar (plan section 6/8, as written; repair 2): the declared omega is exact on integer ticks;
+    # MEASURED on the rendered frames, no pause and EVERY pair (W1: F118-152, i.e. the window with 8
+    # body frames each side; W2 F238-272; W3 F418-452) within +-1 % of the declared rate. Asserted.
     meas = {}
     for w in ("W1", "W2", "W3"):
         m = om[w]
@@ -198,6 +196,7 @@ def run_fixtures(infos):
         assert not m["paused_pairs"], (w, m["paused_pairs"])
         assert agg_err <= 0.01, (w, agg, exp)
         assert edge_err <= 0.01, (w, edge_err)
+        assert m["max_rel_err_in_window"] <= 0.01, (w, m["worst_pair"], m["max_rel_err_in_window"])
         meas[w] = dict(expected_deg=exp, aggregate_deg=round(agg, 4), aggregate_rel_err=round(agg_err, 5),
                        span=[pairs[0]["pair"][0], pairs[-1]["pair"][1]],
                        entry_exit_and_body_pairs_max_rel_err=round(edge_err, 5),
@@ -206,12 +205,22 @@ def run_fixtures(infos):
                        every_pair_within_1pc=bool(m["max_rel_err_in_window"] <= 0.01))
     res["I4_constant_omega"] = dict(
         declared="exact (integer ticks)", measured=meas,
-        bar="no pause; aggregate rate and every entry/exit/body pair within 1 % (asserted); interior hybrid "
-            "pairs reported, not asserted",
+        bar="no pause; every measured pair, hybrid pairs included, within +-1 % of the declared rate (asserted)",
         passed=True)
     per = SF.periodicity(sc)
     assert all(v["passed"] for v in per.values()), per
-    res["I5_periodicity"] = dict(P80=per["omega_fast"]["passed"], P_read=per["omega_read"]["P"],
+    # the bar's two speeds, as written: 0.30 rev/s (P = 80) and 0.09375 rev/s (P = 256)
+    assert S.W_FAST == 16 and S.W_READ == 5 and per["omega_read"]["P"] == 256, (S.W_READ, per)
+    a, b = S.READ
+    assert {FR[k]["omega_ticks"] for k in range(a, b + 1)} == {5}, "reading interval must be constant 1/256"
+    for k in range(24, 516 - 256):
+        if all(FR[j]["omega_ticks"] == 5 for j in range(k, k + 256)):
+            assert (FR[k + 256]["theta_ticks"] - FR[k]["theta_ticks"]) % S.TICKS == 0
+    for k in range(24, 516 - 80):
+        if all(FR[j]["omega_ticks"] == 16 for j in range(k, k + 80)):
+            assert (FR[k + 80]["theta_ticks"] - FR[k]["theta_ticks"]) % S.TICKS == 0
+    res["I5_periodicity"] = dict(omega_read_ticks=S.W_READ, rev_per_s_read=S.W_READ / S.TICKS * FPS,
+                                 P80=per["omega_fast"]["passed"], P_read=per["omega_read"]["P"],
                                  P_read_passed=per["omega_read"]["passed"], passed=True)
     go = SF.glyph_order(sc)
     assert go["passed"], go
@@ -236,6 +245,12 @@ def run_fixtures(infos):
     f = body_frame(200).astype(np.float32)
     corner = f[:40, :40].mean(), f[:40, :40].std()
     assert corner[0] <= 6 and corner[1] <= 1.5, corner
+    # credits: only the bar's foraged items (K0 key, one bell), each with a free licence
+    cr = json.load(open(HERE / "credits" / f"{SLUG}.json"))
+    assert [c["title"] for c in cr] == ["File:Skeleton key (Yale & Towne).png", "File:Striking a bell 15cm large.ogg"], cr
+    import optics as O
+    assert {s["key"] for s in O.key_slots()} == {"K0"} and set(O.KEY_FILES) == {"K0"}
+    res["credits_match_bar"] = dict(items=[c["title"] for c in cr], keys_used=["K0"], passed=True)
     res["black_field"] = dict(corner_L=round(float(corner[0]), 2), sigma=round(float(corner[1]), 3), passed=True)
     # I8 safe playback: inter-frame luminance change < 25 % of the frame mean (title excluded)
     # over the motion picture F24-515; the two cuts into and inside the still pass (F516, F552)

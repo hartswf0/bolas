@@ -259,7 +259,9 @@ def render_rings(theta, gain, ring_mask=None, omega=0.0, nsub=8, detune=0.0):
 
 
 # ---------------------------------------------------------------- keys (GrabCut cutouts)
-KEY_FILES = {"K0": MED + "/key0_rgba.png", "K1": MED + "/key1_rgba.png"}
+# repair 2: only K0 (Noy-nac, CC BY-SA 4.0) is used, as the acceptance bar requires; the odd
+# rings carry the same cutout mirrored (teeth down) where K1 used to be.
+KEY_FILES = {"K0": MED + "/key0_rgba.png"}
 _KEYSRC = {}
 
 
@@ -294,7 +296,7 @@ def key_ring_set(gain):
         length = h * ASPECT0
         n = int(2 * math.pi * KEY_R[k] // (length * KEY_GAP))
         out.append(dict(k=k, r=KEY_R[k], ox=-KEY_ECC * k * gain, oy=0.0,
-                        key="K0" if k % 2 == 0 else "K1", length=length, height=h, n=n,
+                        key="K0", flip=(k % 2 == 1), length=length, height=h, n=n,
                         b=1.0 - 0.20 * k / (NKR - 1)))
     return out
 
@@ -312,7 +314,7 @@ def key_slots(gain=1.0):
             ang = -math.pi / 2 + 2 * math.pi * (j + 0.5 * (q["k"] % 2)) / q["n"]
             px = q["ox"] + q["r"] * math.cos(ang)
             py = q["oy"] + q["r"] * math.sin(ang)
-            slots.append(dict(i=i, ring=q["k"], key=q["key"], ang=ang, ox=q["ox"], oy=q["oy"],
+            slots.append(dict(i=i, ring=q["k"], key=q["key"], flip=q["flip"], ang=ang, ox=q["ox"], oy=q["oy"],
                               r=q["r"], pos=[px, py], phi=math.atan2(py, px),
                               tangent=[-math.sin(ang), math.cos(ang)],
                               length=q["length"], height=q["height"], b=q["b"]))
@@ -326,15 +328,18 @@ _SPR = {}
 def key_sprite(i, scale=1.0):
     """The real cut-out key for slot i at 2x: dict(A, V (tone 0..1, premultiplied by A),
     key, length_2x, height_2x). Orientation: bit at the left (sprite -x), bow at the right
-    (sprite +x); K0 teeth up, K1 teeth down. Area-resampled from the GrabCut RGBA."""
+    (sprite +x); teeth up on even rings, the same K0 cutout mirrored (teeth down) on odd rings.
+    Area-resampled from the GrabCut RGBA."""
     s = key_slots()[i]
-    tag = (s["key"], round(s["length"] * scale, 2))
+    tag = (s["key"], s["flip"], round(s["length"] * scale, 2))
     if tag not in _SPR:
         a, v, asp = _key_src(s["key"])
         Lp = max(int(round(s["length"] * scale * SS)), 4)
         hp = max(int(round(Lp / asp)), 2)
         A = cv2.resize(a, (Lp, hp), interpolation=cv2.INTER_AREA)
         V = cv2.resize(v * a, (Lp, hp), interpolation=cv2.INTER_AREA)
+        if s["flip"]:
+            A, V = np.ascontiguousarray(A[::-1]), np.ascontiguousarray(V[::-1])
         _SPR[tag] = dict(A=A, V=V, key=s["key"], length_2x=Lp, height_2x=hp)
     return _SPR[tag]
 

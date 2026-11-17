@@ -1,10 +1,23 @@
-# le-maki-mococo · Assembly (editor rev E3, repair round 1)
+# le-maki-mococo · Assembly (editor rev E4, repair round 2)
 
 - **Built on:** plan.md rev P1, poem `poem-r1`, cue_timeline.json (U1, line 3 filled; responses re-staged by `editor_ledger.py`), mouth_rig.py/json (U2-r2 + E3 material repair), gong_rig.py / image_cue.json (U3) with the gong re-made by `u3/make_gong.py` (E3).
-- **Script:** `films/le-maki-mococo.py` renders `assets/films/le-maki-mococo.mp4`: 65.0 s, 960x540, 24 fps, about 1.8 MB.
-- **Test shot:** `films/sources/le-maki-mococo/editor/test_shot.mp4` (4.5 s): 0:15.5–0:18.0 cut straight to 0:38.0–0:40.0, rebuilt with the E3 material.
+- **Script:** `films/le-maki-mococo.py` renders `assets/films/le-maki-mococo.mp4`: 65.0 s, 960x540, 24 fps, 1.78 MB (1,776,917 bytes).
+- **Test shot:** `films/sources/le-maki-mococo/editor/test_shot.mp4` (4.5 s): 0:15.5–0:18.0 cut straight to 0:38.0–0:40.0, rebuilt with the E4 teeth and gong.
 - **Image-first baseline:** `films/sources/le-maki-mococo/editor/le-maki-mococo-image-first.mp4` (17.5 s), the separate condition `branches.image_first`.
+- **Ledger tools (E4):** `python3 films/le-maki-mococo.py --dump-ledger` writes `editor_e4_dump.json` (the cut's own SFX list, decoder paths, gestures); `editor_ledger_e4.py` merges it into `cue_timeline.json` and `mouth_rig.json`; `editor_room_levels.json` holds the room-tone levels measured on the decoded mp4.
 - **Measurements:** `editor_measure.json` (acceptance 6–7, frames beside maki.webp: `editor/compare_06.0.png`, `compare_46.0.png`) and `e3_check.json` (repair acceptance tests, measured on the decoded mp4; script `e3_check.py`).
+
+## Repair round 2 (critic + reviewer) — what changed (E4)
+
+1. **Ledger of record = the mix (disclosure).** `cue_timeline.json` → `declared_silences_and_synth` is now written from the film's own `sfx_events()` (= `gong_rig.events()` + the pencil), not by hand: `sfx_events` lists all **41** synthesised events at their mixed times, and `synthesized_effects` groups them: 12 ticks **13.158–14.075**, cord creak **26.562** (S4), 12 tears **38.000–39.375**, 12 landings **38.776–40.318**, flop **38.500**, soft creak **39.100** (S6), pencil scratch **52.0–52.9 / 53.1–53.8** (S8; this sound was declared before but not mixed: it is now mixed). Silences carry the levels measured on the decoded E4 mp4 (`editor_room_levels.json`): S0 **-55.5**, S5 **-65.2**, S7 **-55.5 dBFS** (the stale "-40 dB" is gone). **Invariant 8** (new, asserted on every render): ledger `sfx_events` == mixed SFX, kind and time within one frame; `fixture_check.sfx_ledger` records it. Heard peaks in the decoded mp4: creak 26.73 (0.35 s hanning swell from onset 26.56), flop 38.50, soft creak 39.25 (from 39.10), first tick 13.16.
+2. **Q_image 'what'** now reads "…cut out and re-hung by us by its tail from the knot (in the original it stands, tail round a branch)".
+3. **Brehm credit corrected** to the tags actually on the Commons page: `{{PD-scan|PD-old-70-1923}}` **and** `{{CC-BY-2.0}}` (BHL Flickr upload, FlickreviewR pass). Scan attributed "Biodiversity Heritage Library, CC BY 2.0 tag on Commons" with the Flickr link, beside the PD status; "PD-old-70-expired" removed from credits and image_cue.json. The end card says it too.
+4. **Framing metric settled (declared, not substituted).** On maki.webp the whole flesh mass is **38.6%** and skin alone at most **~31%**, so the bar's 35–50% describes the flesh mass. plan.md bar 7 now says so (editor amendment E4, original wording quoted). Skin alone in the film is **27.6% (0:06) / 28.4% (0:46): below 35%, a declared deviation.** Zooming would not help: the lip front is the zoom centre, so a closer crop enlarges the lips and *lowers* the skin share while skin must stay left of 45%.
+5. **Guess times in the bar.** plan.md (editor amendment E4) makes the acceptance times the staged ones, R1 **0:12.625**, R2 **0:26.125**; `plan_t_said` 10.0 / 24.0 and the reason stay in the ledger.
+6. **Teeth rebuilt as cut paper** (`mouth_rig.Rig._teeth`): 8 upper and 5 lower teeth, each its own small piece of cream card with its own scissor wobble, size and tone, fibre and grain, a lit cut edge, glued back to front so each front tooth casts a small soft shadow on the one behind; the upper lip's cast shadow falls on them. No ruled lines.
+7. **Gong re-made to read as a gong** (`u3/make_gong.py`, E4 block): darker bronze-ink card; a separate glued **rim flange** (own wobbly inner cut edge, lit edge, shadow cast onto the face, printed line); a wide **embossed boss** (pressed card dome in matte tone steps, printed groove round it, cast shadow); sparser printed hammer marks. Max luma 198 (matte). Sound unchanged, no ring.
+8. **mouth_rig.json** decoder paths regenerated from the render's own decoded path over the measured voice spans: S1 2.0–12.19, S3 15.5–25.69, S6 38–44, S8 52–55.08. MBP on twos at 5.33–5.50, 6.17–6.25, 7.33–7.50 (m of "smells"), 8.25–8.50 ("popcorn"), 10.42–10.50, 11.33–11.50 (the b's of each "binturong"; closures lead the 5.40 / 6.29 / 10.53 / 11.42 onsets by one decoder lead frame). Flicker over the whole 65 s path: **0**. `gesture_events()` retimed to the staged responses: the 'hm' at 10.0 that overlapped L4 is gone ('hm' now 12.425, after the voice ends).
+9. **End card** adds the Vealhurl Commons file links and a pointer to the credits file for all 14 links (BY-SA attribution: title, author, source, licence).
 
 ## Repair round 1 (critic + reviewer) — what changed
 
@@ -17,7 +30,7 @@
 6. **Cavity wedge at 0:08.2 / 0:21.7 ("of", F/V pose)** removed: the cavity card and the lower-teeth/tongue card are trimmed behind the tucked lip.
 7. **mouth_rig.json** `timing_status` = `measured` (U2's provisional note kept as `timing_note_U2`).
 8. **Closer framing:** the mouth is framed 1.35x closer about the lip front (432, 150); speech poses now span ≥ 54 % of frame height (see acceptance table). Lip set B measured ΔE76 9.3–10.6 by U2 (< 15), unchanged colours.
-9. **Room tone:** the S5 declaration is corrected to the measured level (below), instead of the earlier "-40 dB".
+9. **Room tone:** (E3 claimed this; it was only fixed in this file. E4 fixes it in the ledger itself, item E4-1.)
 10. **Engraving disclosure (reviewer):** from the first frame of Q_image (0:38.0) the label reads "cut out from Brehm, 1895 (engraved by F. Specht) / hung here by us, by its tail, from our cord; / in the original it stands, tail round a branch". The end card repeats it; credits `used_as` says it too, and notes the Commons 1280 px thumbnail and the four Brehm co-authors from the Artist field.
 11. **BY-SA obligations:** end card and credits state the edits (trimmed, loudness-matched, re-ordered, /z/ splices) and declare the soundtrack CC BY-SA 4.0 (ShareAlike). Note corrected to "14 single-word recordings (16 words)".
 
@@ -42,13 +55,13 @@
 |---|---|---|---|---|
 | S0 | 0:00–0:02 | Paper mouth at rest, one 1° breath. Strip ○○○. Empty cord and knot. | Room tone (kit, declared) | HANDMADE `mouth_rig` pose `rest`; `gong_rig` cord/knot |
 | S1 | 0:02.0–0:12.19 | **Q_sound ●**. Mouth speaks the poem from U1's measured visemes (MBP on b/p, A widest on -rong). No text. | `voice_poem.wav` at 2.0 | voice-Grendelkhan-{in,the,dark,it,hang,is(/z/),and,swing,smells,of,never,rings}, voice-Vealhurl-{binturong,popcorn} |
-| S2 | 0:12.2–0:15.5 | R1 caption (0:12.625–15.25; ledger t_said 12.625). Silent "hm", then a slight open. Printed card gong assembled one wedge per 2 frames from 13.075, then labelled "Reader A's picture (guess)". | Room tone; 12 paper ticks (kit) | R1 (cue_timeline.responses); HANDMADE gong wedges `imagecue/wedge_00..11` |
+| S2 | 0:12.2–0:15.5 | R1 caption (0:12.625–15.25; ledger t_said 12.625). Silent "hm" (12.425), then a slight open. Printed card gong (rim flange, embossed boss) assembled one wedge per 2 frames from 13.075, then labelled "Reader A's picture (guess)". | Room tone; 12 paper ticks 13.158–14.075 (kit) | R1 (cue_timeline.responses); HANDMADE gong wedges `imagecue/wedge_00..11` |
 | S3 | 0:15.5–0:25.69 | **Q_text ●**. The voice replays; each syllable's letters land on its measured onset with a rose cursor. Mouth synced on the same seg_ids. **TEST SHOT 15.5–18.0.** | `voice_poem.wav` at 15.5 (identical bytes) | same voice IDs; glyph table `mouth_rig.GLYPHS` (sha1 asserted) |
-| S4 | 0:25.9–0:31 | Lip set B (mauve). Jaw eases to 2.8°. R2 caption (26.125–31.6; ledger t_said 26.125). Card gong swings as a damped pendulum. Poem greys and "hangs", "swings", "never rings" come forward one by one. | Room tone; one cord creak (kit) | R2; HANDMADE |
+| S4 | 0:25.9–0:31 | Lip set B (mauve). Jaw eases to 2.8°. R2 caption (26.125–31.6; ledger t_said 26.125). Card gong swings as a damped pendulum. Poem greys and "hangs", "swings", "never rings" come forward one by one. | Room tone; one cord creak 26.562 (kit) | R2; HANDMADE |
 | S5 | 0:31–0:38 | Expressive hold: lip set A, closed, one slow breath (34.5 s). Pendulum settles. ○ image still empty. | **Declared silence**: room tone only, measured **-65 dBFS** (decoded mp4, 31.5–37.5), 10 dB under the rest of the room tone (-55 dBFS) | — |
-| S6 | 0:38.0–0:44 | **Q_image ●** at 38.00. The 12 wedges tear loose one per 3 frames, bottom first, and fall ballistically in front of the animal. Brehm/Specht binturong revealed hanging by its tail from the **same knot**. Disclosure label from 38.0 ("cut out from Brehm … hung here by us … in the original it stands"). Slow surprise; "binturong" said at 41.0. | 12 paper tears + 12 landings, flop 38.5, soft creak (all kit, declared); `voice_binturong.wav` at 41.0. **No ring.** | brehm-265 (Commons, PD); cutout `imagecue/binturong_hang_rgba.png`; voice-Vealhurl-binturong |
+| S6 | 0:38.0–0:44 | **Q_image ●** at 38.00. The 12 wedges tear loose one per 3 frames, bottom first, and fall ballistically in front of the animal. Brehm/Specht binturong revealed hanging by its tail from the **same knot**. Disclosure label from 38.0 ("cut out from Brehm … hung here by us … in the original it stands"). Slow surprise; "binturong" said at 41.0. | 12 paper tears 38.000–39.375 + 12 landings 38.776–40.318, flop 38.500, soft creak 39.100 (all kit, declared); `voice_binturong.wav` at 41.0. **No ring.** | brehm-265 (Commons, PD); cutout `imagecue/binturong_hang_rgba.png`; voice-Vealhurl-binturong |
 | S7 | 0:44–0:52 | "O", then the mouth closes. R3 caption (44.0–51.8), stepping back to 60% when R4 enters (48.5–51.8, 3.3 s ≥ 2.5 s). | Room tone | R3 (shift clue "by its tail" ← Q_image), R4 (alternate) |
-| S8 | 0:52–1:00 | Poem at full ink in the same boxes. Red pencil under "hangs" in two strokes (52.0–52.9 and 53.1–53.8). Mouth speaks L1. Binturong still. | `voice_L1.wav` at 52.0 | voice IDs for L1; HANDMADE pencil |
+| S8 | 0:52–1:00 | Poem at full ink in the same boxes. Red pencil under "hangs" in two strokes (52.0–52.9 and 53.1–53.8). Mouth speaks L1. Binturong still. | `voice_L1.wav` at 52.0; pencil scratch 52.0–52.9, 53.1–53.8 (kit) | voice IDs for L1; HANDMADE pencil |
 | S9 | 1:00–1:05 | End card: "Same poem. Sound 0:02 · text 0:15 · image 0:38. Readers A and B are fictional." Credits: 14 recordings, edits stated, soundtrack CC BY-SA 4.0; engraving cut out and re-hung, original pose stated. | Silence (room tone ends at 60.0) | — |
 
 The cue strip (● released / ○ not yet) and a timestamp `m:ss.d` are drawn on every frame, 0:00–1:05.
@@ -74,7 +87,8 @@ The cue strip (● released / ○ not yet) and a timestamp `m:ss.d` are drawn on
   - R3 contains "by its tail" and cites Q_image, while R1 and R2 do not cite Q_image;
   - R4 is held for at least 2.5 s;
   - the gong is assembled after R1.
-- **Invariant 7, no ring.** `mix.bell` and `mix.ring` are replaced by functions that raise. Every SFX kind is one of tick, creak, tear, land or flop, and the fracture window 38–44 s contains only tear, land, flop and creak.
+- **Invariant 7, no ring.** `mix.bell` and `mix.ring` are replaced by functions that raise. Every SFX kind is one of tick, creak, tear, land, flop or scratch, and the fracture window 38–44 s contains only tear, land, flop and creak.
+- **Invariant 8 (E4), ledger = mix.** After mixing, the list of mixed SFX equals `cue_timeline.json` `declared_silences_and_synth.sfx_events` (same kinds, times within 1/24 s); the render refuses to run otherwise.
 
 - **E3 additions.** Ledger `on_screen_label` == the drawn label, `first_frame_shown` == the caption's first frame (± 1 frame), captions start on a frame; `t_said` read from the ledger (no override in the script).
 
@@ -100,25 +114,15 @@ The cue strip (● released / ○ not yet) and a timestamp `m:ss.d` are drawn on
 - They published these recordings themselves on Commons, and that is the consent scope. They are credited by username and are never presented as the readers.
 - Their single words are re-ordered into a poem they never read. The end card says so.
 
-## Declared synthesis and silences
+## Declared synthesis and silences (= cue_timeline.json declared_silences_and_synth, E4)
 
-- **Kit synthesis (non-speech only):**
-  - room tone;
-  - 12 pin ticks (S2);
-  - cord creaks (S4, S6);
-  - 12 paper tears and 12 landings (S6);
-  - a low card "flop" (38.5).
-- **Room tone levels (decoded mp4):** S0 -55.8 dBFS, S5 -65.2 dBFS (declared quieter hold), S7 -55.3 dBFS.
+- **Kit synthesis (non-speech only), at mixed times:** room tone 0–60; 12 pin ticks 13.158–14.075 (S2); cord creak 26.562 (S4); 12 paper tears 38.000–39.375 and 12 landings 38.776–40.318 (S6); card flop 38.500; soft cord creak 39.100 (S6); red-pencil scratch 52.0–52.9 and 53.1–53.8 (S8). 41 events in `sfx_events`; invariant 8 asserts ledger == mix.
+- **Room tone levels (decoded E4 mp4):** S0 -55.5 dBFS, S5 -65.2 dBFS (declared quieter hold), S7 -55.5 dBFS.
 - **No paper-tear recording:** the one PD candidate stayed at HTTP 429 (U3).
 - **No ring. No synthetic speech.**
-- **Silences:**
-  - 0–2;
-  - 12.19–15.5;
-  - 25.69–41.0 (S5 31–38 is the declared expressive silence);
-  - 41.77–52;
-  - 55.08–65 (end card silent from 60).
+- **Silences (no voice):** 0–2; 12.19–15.5; 25.69–41.0 (S5 31–38 is the declared expressive silence); 41.77–52; 55.08–65 (end card in digital silence from 60).
 
-## Acceptance 6–7 (measured E3, editor_measure.json; frames beside maki.webp)
+## Acceptance 6–7 (measured on the E4 render, editor_measure.json; frames beside maki.webp)
 
 | measure | 0:06 | 0:46 | target |
 |---|---|---|---|
@@ -127,7 +131,8 @@ The cue strip (● released / ○ not yet) and a timestamp `m:ss.d` are drawn on
 | lip span (height / width), speech pose LNT / rest | 56.9% / 41.7% | 54.8% / 40.6% | ≥ 35% / ≥ 22% |
 | skin right edge | x 41.1% | x 41.2% | < 45% |
 | skin cut by top and bottom edges | yes | yes | yes |
-| face area (skin + lips + cavity) | 40.9% | 41.3% | 35–50% |
+| flesh mass (skin + lips + cavity), the amended bar 7 | 40.9% | 41.3% | 35–50% (reference 38.6%) |
+| skin alone (declared deviation) | **27.6%** | **28.4%** | below the original 35% wording; reference skin alone ≈ 31% |
 | white field (right half, excluding layers) | 255/255/255 | 252/252/252 | ≥ 250 |
 | luma < 80 in the mouth (left) half | 1.5% of frame | 1.0% | ≤ 4%, cavity only |
 | luma P5 / P25 / P50 | 96 / 155 / 255 | 81 / 139 / 242 | ref 97 / 167 / 255 |
@@ -139,6 +144,6 @@ At 0:46 the darker P5 / P50 come from the black B&W engraving, its disclosure la
 ## Pending (not judged here)
 
 - An ear check of lip sync at normal speed was not done: there is no audio playback in this environment. The timing is verified structurally against U1's waveform-measured onsets and the mp4's audio envelope. Voiced spans in the render start at 2.00, 15.50, 41.15 and 52.00, matching the placements.
-- The independent critic review of the E3 render has not been run.
+- The independent critic/reviewer pass of the E4 render has not been run.
 - Scissor wobble reaches ≥ 1 px in 42–76 % of 20 px windows (median max deviation about 1 px), not in every window.
 - The tone steps on the skin read as layered paper at film size; at 4x the paper grain is the dominant texture.

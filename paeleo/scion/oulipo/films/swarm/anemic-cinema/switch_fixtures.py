@@ -97,12 +97,10 @@ def omega_measured():
                       boundary_pairs_rel_err=[round(abs(r["deg"] - exp) / exp, 5) for r in win
                                               if r["pair"][0] in (k0 - 1, k0 + S.WLEN - 1)],
                       worst_pair=max(win, key=lambda r: abs(r["deg"] - exp))["pair"],
-                      criterion="no pause; median |err| <= 1 %; the entry/exit pairs and every body pair <= 1 %; "
-                                "interior hybrid pairs <= 3 % (in a hybrid pair the marks change shape and their "
-                                "arc centroids move inside the plate frame between the two frames, which a rigid-"
-                                "rotation estimator reads as rotation noise; the declared omega is exact)",
+                      criterion="plan bar (repair 2, no post-hoc band): no pause; EVERY measured pair, inside and "
+                                "outside the window, within +-1 % of the declared rate",
                       passed=(not [r for r in win if abs(r["deg"]) < 0.5 * exp]) and float(np.median(err)) <= 0.01
-                      and max(err) <= 0.03 and (max(out) <= 0.01 if out else True)
+                      and max(err) <= 0.01 and (max(out) <= 0.01 if out else True)
                       and all(abs(r["deg"] - exp) / exp <= 0.01 for r in win if r["pair"][0] in (k0 - 1, k0 + S.WLEN - 1)),
                       within_1pc_every_pair=max(err) <= 0.01)
     d, d0 = S.polar_step(load(125), load(126, "B1"))
