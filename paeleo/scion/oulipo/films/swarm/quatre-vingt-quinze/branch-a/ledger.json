@@ -1,0 +1,272 @@
+{
+ "unit": "forager-sound (U3)",
+ "plan_revision": "r0",
+ "built": "2026-11-17",
+ "outputs": {
+  "media_dir": "films/sources/quatre-vingt-quinze/forager-sound/ (also copied to films/sources/quatre-vingt-quinze/forage/)",
+  "key": [
+   "key_cut.png (269x582 RGBA, brass)",
+   "key_cut_silhouette.png",
+   "key_cut.json"
+  ],
+  "stencils": [
+   "stencil_A.png (900x600, ink #fcd0ca, coverage 0.67)",
+   "stencil_H.png (900x600, ink #e89284, coverage 0.64)",
+   "stencils.json"
+  ],
+  "cues": [
+   "cue_A.wav",
+   "cue_B.wav",
+   "cue_C.wav",
+   "cue_D.wav",
+   "cue_E.wav",
+   "cue_F.wav",
+   "cue_G.wav",
+   "cue_H.wav",
+   "cue_I.wav",
+   "room.wav",
+   "cues.json (per-cue sources, events, length, peak)"
+  ],
+  "checks": [
+   "route_check.json + route_mix_preview.wav: both routes simulated from the cues alone (r0 figures, superseded). Measured in the r1 film soundtrack (1.6-1.85 kHz band, RMS per 0.25 s, dBFS): down E 44.50-44.75 s -32.0, 45.00-45.25 s -36.2, 45.50-45.75 s -41.3, 46.00-46.25 s -44.7; across E 15.0-15.5 s -91.6, 16.0-16.5 s -90.8 (no bell energy). Same in branch-a (soundtrack PCM identical to r1)."
+  ],
+  "format": "44.1 kHz, stereo, 16-bit PCM; fixed levels (no per-cue normalisation; peaks -3 to -18 dBFS); sum cues + room directly"
+ },
+ "timing": "t = 0 of every cue is the cell's exposure-sheet frame 0 (puppets.layer(cell, 0)); events are puppets.EVENTS as imported at build time; rebuild with: python3 films/swarm/quatre-vingt-quinze/forage/tools/make_cues.py films/sources/quatre-vingt-quinze (re-run if U2 changes EVENTS)",
+ "route_independence": "every cue is a function of the cell id only; the only per-route difference is which predecessor's tail is still sounding",
+ "foraged": [
+  {
+   "id": "KEY",
+   "title": "File:Skeletonkey.png",
+   "author": "Blenheimears",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Skeletonkey.png",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/21/Skeletonkey.png",
+   "local_path": "films/sources/quatre-vingt-quinze/forage/src/skeletonkey.png (sha256 cf2401f2...; existing copy, not re-downloaded)",
+   "what_it_shows": "photograph of two padlock keys on white: a normal key (left) and a filed-down skeleton key (right), stamped CHINA",
+   "verified_date_or_place": "Commons extmetadata (LicenseShortName, LicenseUrl, Artist) re-read via commons.wikimedia.org API 2026-11-17; saved forage/meta/commons_meta.json",
+   "used_as": "the brass key: LEFT (normal) key density-cut at threshold 118, stamped letters filled, bow hole kept open (1838 px hole), printed flat brass #c49642 with an ink edge (key_cut.png) and as a black silhouette (key_cut_silhouette.png); D, E, F, I",
+   "derivative_note": "r1 (editor): the local source is a 960x720 thumbnail derivative (sha1 7bf11659...) of the 1600x1200 Commons original (sha1 bdd53680...); content matches (mean abs diff 0.8/255 after resize). puppets.key_source() uses forage/key_cut.png (exposure.json key_cut_used updated in r1)."
+  },
+  {
+   "id": "PLATE",
+   "title": "Chicago, Illinois. The main waiting room of Union Station at 1 a.m. (1943 Jan.)",
+   "author": "Jack Delano (1914-1997), photographer; U.S. Farm Security Administration/Office of War Information",
+   "license": "Public domain (US government work, FSA/OWI). LoC rights advisory: No known restrictions",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017843779/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d24000/8d24800/8d24845u.tif (master; local 1009x1024 derivative copied from films/sources/la-machine-a-tuer-le-temps/loc_2017843779.jpg)",
+   "local_path": "films/sources/quatre-vingt-quinze/forage/src/loc_2017843779.jpg",
+   "what_it_shows": "the empty main waiting room at night from a balcony: colonnade, rows of high-backed wooden benches, clock kiosk, a few travellers and a uniformed guard",
+   "verified_date_or_place": "loc.gov item JSON re-read 2026-11-17 (rights_advisory 'No known restrictions'; rights: FSA/OWI negatives are public domain); saved forage/meta/loc_2017843779.json",
+   "used_as": "two-level stencil plates, one hand-chosen threshold each, hand-placed crops and erase masks (all travellers and the guard removed): stencil_A.png (colonnade, pale salmon #fcd0ca) and stencil_H.png (empty bench rows, mid salmon #e89284), 900x600"
+  },
+  {
+   "id": "PLATE2",
+   "title": "Chicago, Illinois. Baggage check room at the Union Station (1943 Jan.)",
+   "author": "Jack Delano (1914-1997), photographer; U.S. Farm Security Administration/Office of War Information",
+   "license": "Public domain (US government work, FSA/OWI). LoC rights advisory: No known restrictions",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017843789/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d24000/8d24800/8d24855u.tif (master; local derivative copied from la-machine-a-tuer-le-temps)",
+   "local_path": "films/sources/quatre-vingt-quinze/forage/src/loc_2017843789.jpg",
+   "what_it_shows": "lit baggage-check window under a ceiling lamp, a man at the counter",
+   "verified_date_or_place": "loc.gov item JSON re-read 2026-11-17; saved forage/meta/loc_2017843789.json",
+   "used_as": "NOT USED (verified as an optional plate; the D/G stencils were dropped: the D cut needed a hard erase edge that read as a cut-off, not as a stencil)"
+  },
+  {
+   "id": "BELL",
+   "title": "File:Glockenschlagwerk Bahnhof Fridingen.ogg",
+   "author": "Olga Ernst",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Glockenschlagwerk_Bahnhof_Fridingen.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Glockenschlagwerk_Bahnhof_Fridingen.ogg",
+   "local_path": "films/sources/quatre-vingt-quinze/forage/src/Glockenschlagwerk_Bahnhof_Fridingen.ogg.mp3 (copied from la-belle-hortense forage) -> forage/wav/Glockenschlagwerk_Bahnhof_Fridingen.wav (ffmpeg)",
+   "what_it_shows": "recording of the striking mechanism of the station bell at Fridingen station: 14 strikes, ~1.2 s apart, the last ringing out to 15.9 s",
+   "verified_date_or_place": "Commons extmetadata (LicenseShortName, LicenseUrl, Artist) re-read via commons.wikimedia.org API 2026-11-17; saved forage/meta/commons_meta.json",
+   "used_as": "cue_B (r1): strike 12 (10.465-11.70 s) at the first drawn clapper strike (1.40 s); strike 13 (11.715-12.33 s, attack and first 0.6 s of its real ring) at the second (2.60 s), its ring continued for 3.2 s by overlap-add of 90 ms grains of its own ring (12.03-12.33 s) under a 7 dB/s exponential decay; shared handmade hall (wet 0.55), gain 0.42; cue capped at 6.0 s, so across the ring falls into C and is gone before E (15 s), and down it decays under E (1.7 kHz band in the film: -32 dBFS at 44.5-44.75 s, -36 at 45.0-45.25, -41 at 45.5-45.75). Licence of the adaptation: this cue, and the film soundtrack that contains it, are adaptations of a CC BY-SA work and are offered under CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). The steps are CC BY-SA 3.0, whose section 4(b) lets an adaptation be licensed under a later version with the same elements; the bell is CC BY-SA 4.0. One soundtrack, one licence: CC BY-SA 4.0.",
+   "r1_change": "cue_B rebuilt in r1: strikes 12 and 13 (strike 14 is damped within 0.3 s in the recording, so its claimed 'own ring-out' did not exist); strike 13's ring continued by overlap-add of its own ring grains (make_cues.bell_extend), 7 dB/s. Adapted cues are CC BY-SA 4.0."
+  },
+  {
+   "id": "KNOCK",
+   "title": "File:Knocking on wood or door.ogg",
+   "author": "stephan",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Knocking_on_wood_or_door.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Knocking_on_wood_or_door.ogg",
+   "local_path": "films/sources/quatre-vingt-quinze/forage/dl/Knocking_on_wood_or_door.ogg (downloaded 2026-11-17, 156 KB) -> forage/wav/Knocking_on_wood_or_door.wav",
+   "what_it_shows": "three groups of three knuckle knocks on a wooden door",
+   "verified_date_or_place": "Commons extmetadata LicenseShortName 'Public domain', Artist 'stephan', read via API search 2026-11-17 (forage/meta/search_knocking_door.json)",
+   "used_as": "cue_C: the first group's three knocks as separate grains (0.20-0.47, 0.47-0.745, 0.745-1.25 s), each peak-matched, placed on U2's three knuckle contacts (0.667, 1.0, 1.333 s): TOC TOC TOC"
+  },
+  {
+   "id": "STEPS",
+   "title": "File:Concrete Steps 2.ogg",
+   "author": "Pwaivers",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Concrete_Steps_2.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/bf/Concrete_Steps_2.ogg",
+   "local_path": "films/sources/quatre-vingt-quinze/forage/src/Concrete_Steps_2.ogg (copied from la-belle-hortense) -> forage/wav/Concrete_Steps_2.wav",
+   "what_it_shows": "two footsteps on concrete",
+   "verified_date_or_place": "Commons extmetadata (LicenseShortName, LicenseUrl, Artist) re-read via commons.wikimedia.org API 2026-11-17; saved forage/meta/commons_meta.json",
+   "used_as": "cue_A (four steps on the walk-in contacts, the two grains alternated) and cue_F (receding steps panned left, -2 dB per step). Licence of the adaptation: this cue, and the film soundtrack that contains it, are adaptations of a CC BY-SA work and are offered under CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). The steps are CC BY-SA 3.0, whose section 4(b) lets an adaptation be licensed under a later version with the same elements; the bell is CC BY-SA 4.0. One soundtrack, one licence: CC BY-SA 4.0."
+  },
+  {
+   "id": "KEYS",
+   "title": "File:Keys hitting tree 2 (Gravity Sound).wav",
+   "author": "Gravity Sound",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Keys_hitting_tree_2_(Gravity_Sound).wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Keys_hitting_tree_2_%28Gravity_Sound%29.wav",
+   "local_path": "films/sources/quatre-vingt-quinze/forage/src/Keys_hitting_tree_2_(Gravity_Sound).wav.mp3 (copied from la-belle-hortense) -> forage/wav/",
+   "what_it_shows": "a bunch of keys striking wood: two clinks",
+   "verified_date_or_place": "Commons extmetadata (LicenseShortName, LicenseUrl, Artist) re-read via commons.wikimedia.org API 2026-11-17; saved forage/meta/commons_meta.json",
+   "used_as": "key clinks: cue_E (r1: the soft grain 0.73-1.05 s, ducked to gain 0.12, at the top of the lift, 0.583 s), cue_D (soft clink 0.73-1.05 s as the key comes out), cue_F (key set on the bench), cue_I (key on the sill); sliced, placed, gain-set and run through the handmade hall"
+  },
+  {
+   "id": "HINGE",
+   "title": "File:Squeaky door hinge.ogg",
+   "author": "MKFI",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Squeaky_door_hinge.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Squeaky_door_hinge.ogg",
+   "local_path": "films/sources/quatre-vingt-quinze/forage/src/Squeaky_door_hinge.ogg (copied from la-belle-hortense) -> forage/wav/",
+   "what_it_shows": "a squeaky storage-locker door hinge, sustained squeaks",
+   "verified_date_or_place": "Commons extmetadata (LicenseShortName, LicenseUrl, Artist) re-read via commons.wikimedia.org API 2026-11-17; saved forage/meta/commons_meta.json",
+   "used_as": "cue_G: four 0.25-0.28 s squeak slices, one per hand-over-hand downstroke, as the rope creaking over its pulley"
+  },
+  {
+   "id": "HANDLE",
+   "title": "File:Door handle creaking.ogg",
+   "author": "stephan",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Door_handle_creaking.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/74/Door_handle_creaking.ogg",
+   "local_path": "films/sources/quatre-vingt-quinze/forage/src/Door_handle_creaking.ogg (copied from la-belle-hortense) -> forage/wav/",
+   "what_it_shows": "a door handle being worked, creaking",
+   "verified_date_or_place": "Commons extmetadata (LicenseShortName, LicenseUrl, Artist) re-read via commons.wikimedia.org API 2026-11-17; saved forage/meta/commons_meta.json",
+   "used_as": "low creaks under cue_G (rope taking load) and cue_B (the bell's cord jerking at 1.15 and 2.35 s)"
+  }
+ ],
+ "auditioned_or_absent": [
+  {
+   "id": "MIA-381d177e",
+   "title": "Communications and Our Town (1947)",
+   "author": "via movingimagearchive.com",
+   "license": "Rights as listed by movingimagearchive.com (largely public domain); not independently verified",
+   "license_url": "",
+   "source_url": "https://www.movingimagearchive.com/sources/communications-and-our-town-e75e0b4f?clip=381d177e-aa67-5119-9f0a-eca87325fd86",
+   "file_url": "",
+   "local_path": "/home/user/hartswf0/cineosis-lab/lab/clips/381d177e-aa67-5119-9f0a-eca87325fd86.mp4 (decoded to scratch only)",
+   "what_it_shows": "belfry with bells; narration over it",
+   "verified_date_or_place": "unverified (not used)",
+   "used_as": "REJECTED: 0.5 s analysis frames show speech-band energy 0.6-0.99 continuously from 1.0 to 22 s; the only bell-like burst (0.0-0.5 s, peak 1654 Hz) is cut off by the clip start and drops straight to silence, so no clean stroke with a natural tail could be isolated (agrees with the test shot's audition)"
+  },
+  {
+   "id": "MIA-room",
+   "title": "MIA cache search 'station|hall|waiting|footstep|corridor|depot|lobby' (--media clip) and all 78 clips classed audio 'sound'",
+   "author": "via movingimagearchive.com",
+   "license": "n/a",
+   "license_url": "",
+   "source_url": "tools/allways-forage/index.json",
+   "file_url": "",
+   "local_path": "films/sources/quatre-vingt-quinze/forager-sound/sheet_room.jpg (contact sheet)",
+   "what_it_shows": "29 visual hits; of those with sound, none carries location sound: Berlin Symphony (b6e217eb) and Electric House (bb5ffe06) have no audio, Coney Island at Night (cfbbf24e) and the Medicus fair reel (7cd6914c) are silent; candidates auditioned by spectrum (14c8b94b Third Avenue El, 433148ea Back-Room Boy, a267fee7 Dating Do's and Don'ts, eba7d1c4 Master Hands, a11ba534 Valley Town) are tonal music/narration (spectral flatness ~0, speech band 0.5-0.99)",
+   "verified_date_or_place": "unverified (not used)",
+   "used_as": "ABSENCE: no usable station room tone or footsteps in the MIA cache; steps came from Commons, room tone is handmade"
+  },
+  {
+   "id": "KNOCK-CC0",
+   "title": "File:Knock on door.wav",
+   "author": "Asud12",
+   "license": "CC0",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Knock_on_door.wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/28/Knock_on_door.wav",
+   "local_path": "films/sources/quatre-vingt-quinze/forage/dl/Knock_on_door.wav (downloaded 2026-11-17, 356 KB)",
+   "what_it_shows": "three quick knocks (1.335, 1.545, 1.755 s), quiet (peak -13 dBFS) with a noisy floor",
+   "verified_date_or_place": "Commons extmetadata LicenseShortName CC0, read via API search 2026-11-17",
+   "used_as": "auditioned, NOT USED (the PD 'Knocking on wood or door' is drier and more wooden)"
+  },
+  {
+   "id": "TEAR",
+   "title": "Commons search 'paper tearing' (audio)",
+   "author": "",
+   "license": "n/a",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/w/api.php",
+   "file_url": "",
+   "local_path": "",
+   "what_it_shows": "request refused with HTTP 429 three times (rate limit); not retried further to respect the limit",
+   "verified_date_or_place": "unverified",
+   "used_as": "ABSENCE: the paper tear in cue_D is handmade"
+  }
+ ],
+ "handmade": [
+  {
+   "id": "HALL",
+   "what": "hall impulse response: Gaussian noise x exponential decay (RT60 2.4 s), band 140-3600 Hz, 18 ms pre-delay (seed 95); every cue is placed in this one room",
+   "where": "forage/tools/make_cues.py"
+  },
+  {
+   "id": "ROOM",
+   "what": "room.wav, 66 s room bed: kit Mix.room (pink air, faint 50 Hz mains), 1.5 s fades, RMS about -54 dBFS",
+   "where": "films/sources/quatre-vingt-quinze/forager-sound/room.wav"
+  },
+  {
+   "id": "TEAR",
+   "what": "paper tear in cue_D: dense runs of tiny band-passed fibre clicks (900-7500 Hz), two tears at U2's tear contacts 0.333 and 0.5 s",
+   "where": "make_cues.py handmade_tear"
+  },
+  {
+   "id": "SCRAPE",
+   "what": "key dragged over the stone sill and under the door in cue_I: band noise with stick-slip amplitude grit, at 0.667 and 1.667 s",
+   "where": "make_cues.py handmade_scrape"
+  },
+  {
+   "id": "SLAPS",
+   "what": "palm slaps on the rope in cue_G, and a small wooden knock body under the key set down in cue_F",
+   "where": "make_cues.py cue()"
+  },
+  {
+   "id": "H",
+   "what": "cue_H is digital silence by design: the cell is heard as room tone only",
+   "where": "films/sources/quatre-vingt-quinze/forager-sound/cue_H.wav"
+  },
+  {
+   "id": "KEYCUT",
+   "what": "density cut of the CC0 key: crop (150,40)-(470,660), threshold 118, largest component, interior holes filled except the bow hole, sub-pixel edge smoothing, flat brass with a 2 px ink edge; plus a black silhouette variant",
+   "where": "films/sources/quatre-vingt-quinze/forager-sound/key_cut.png, key_cut_silhouette.png, key_cut.json (tool forage/tools/cut_key.py)"
+  },
+  {
+   "id": "STENCILS",
+   "what": "two-level stencil plates: median 3, one threshold (A 60, H 70), islands < 120/300 px dropped and holes < 90/200 px filled (what a knife can cut), hand-placed erase rectangles over every person, flat single ink, transparent paper; no halftone, no grey",
+   "where": "films/sources/quatre-vingt-quinze/forager-sound/stencil_A.png, stencil_H.png, stencils.json (tool forage/tools/cut_stencil.py)"
+  }
+ ],
+ "downloads_new_MB": 0.5,
+ "not_used": "nothing from Lécroart's page; no MIA material (none suitable); no filter or grain on the stencils or key",
+ "r1_bell_tail_measured": {
+  "method": "film soundtrack decoded with ffmpeg, 1.6-1.85 kHz FFT band, RMS per 0.25 s window, dBFS",
+  "down_E": {
+   "44.50-44.75": -32.0,
+   "45.00-45.25": -36.2,
+   "45.50-45.75": -41.3,
+   "46.00-46.25": -44.7
+  },
+  "across_E": {
+   "15.0-15.5": -91.6,
+   "16.0-16.5": -90.8
+  },
+  "note": "r0 figures (-31 dBFS 44-45 s, -42 dBFS 44.5-45 s full-band, -44 dBFS RMS 44.5-45.5 s in the ledger) used different windows and the old cue; superseded."
+ },
+ "adapted_licence": "cue_A, cue_B and cue_F (and the film soundtrack) adapt CC BY-SA recordings (steps CC BY-SA 3.0, bell CC BY-SA 4.0) and are offered under CC BY-SA 4.0; BY-SA 3.0 section 4(b) permits a later version for adaptations.",
+ "branch_a_note": "branch-a copy of forage/ledger.json: used_as for BELL/KEYS/STEPS synced to the r1 credits; outputs.checks and adapted_licence corrected. Upstream forage/ledger.json is unchanged."
+}
