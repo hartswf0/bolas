@@ -605,12 +605,12 @@ E_PAGE_DRAWING = 12
 
 def _e_mouth():
     p = e_pose(E_PAGE_DRAWING)
-    J = solve(VISITOR, p, (E_ROOT[0], E_ROOT[1] + p["drop"]), 1)
+    r = plant(p, E_ROOT, E_FLOOR - 4)
+    J = solve(VISITOR, p, r, 1)
     m = apply(J["neck"], [(-70 * HEAD_SCALE, -50 * HEAD_SCALE)])[0]
     return (m[0] - 26, m[1] - 6)
 
 
-E_TAIL = _e_mouth()
 
 
 def e_drawing_of(local_t):
@@ -621,10 +621,34 @@ def e_drawing_of(local_t):
 JOINT_LOG = []
 
 
+def plant(p, root0, ankle_y, rig=VISITOR, ankle_x=511.0, back_x=484.0):
+    """Contact plane. The front leg is FK; the root is moved so its ankle stays pinned at
+    (ankle_x, ankle_y), so the anticipation's knee bend lowers the pelvis instead of lifting the feet.
+    The back leg's two angles are then solved analytically (two-bone, knee flexing backward) so its
+    ankle stays pinned at (back_x, ankle_y). Everything above the hips stays pure FK."""
+    p.pop("drop", None)
+    J = solve(rig, p, root0, 1)
+    ax, ay = origin(J["ankle"])
+    root = (root0[0] + ankle_x - ax, root0[1] + ankle_y - ay)
+    H = origin(solve(rig, p, root, 1)["hip2"])
+    th, sh = rig["thigh"], rig["shin"]
+    vx, vy = back_x - H[0], ankle_y - H[1]
+    d = min(th + sh - 1e-6, math.hypot(vx, vy))
+    phi = math.degrees(math.atan2(vx, vy))
+    alpha = math.degrees(math.acos((th * th + d * d - sh * sh) / (2 * th * d)))
+    beta = math.degrees(math.acos((th * th + sh * sh - d * d) / (2 * th * sh)))
+    p["hip2"] = phi + alpha
+    p["knee2"] = -(180 - beta)
+    return root
+
+
+E_TAIL = _e_mouth()
+
+
 def lift_cell(ink, drawing, ground):
     k = E_PAGE_DRAWING if drawing is None else drawing
     p = e_pose(k)
-    root = (E_ROOT[0], E_ROOT[1] + p.pop("drop"))
+    root = plant(p, E_ROOT, E_FLOOR - 4)
     J = visitor(ink, p, root, 1, E_HEADS[k - 1], "pinch", "relaxed", ground=ground)
     JOINT_LOG.append(dict(cell="E", drawing=k, head=E_HEADS[k - 1], errors=bone_errors(VISITOR, J),
                           ankle=origin(J["ankle"]), ankle2=origin(J["ankle2"]), wrist=origin(J["wrist"])))

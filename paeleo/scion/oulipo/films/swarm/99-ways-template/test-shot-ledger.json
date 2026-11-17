@@ -1,0 +1,59 @@
+{
+ "slug": "99-ways-template",
+ "unit": "test-shot (E5, forgetting, P6->P8)",
+ "items": [
+  {
+   "title": "Railroad station agent. Randolph, Vermont (1937)",
+   "author": "Arthur Rothstein, U.S. Farm Security Administration",
+   "license": "No known restrictions on publication (FSA/OWI negatives are public domain, US government work)",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017776093/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8b16000/8b16700/8b16710u.tif",
+   "used_as": "Every photographic piece: window plate (P6), cupboard/wall set, interior beadboard and ticket-rack shelves, cupboard door, clerk torso/head/forearm+pencil (GrabCut). Fetched as every 3rd row/col of the uncompressed master via HTTP multi-range (~39 MB), reassembled 4360x3100, used at half that.",
+   "rights_checked": "loc item JSON rights_advisory re-read 2026-11-17"
+  },
+  {
+   "title": "Gold key to door of nurses memorial ... Florence Nightingale school, Bordeaux (May 12, 1922)",
+   "author": "American National Red Cross photograph collection",
+   "license": "No known restrictions on publication",
+   "license_url": "https://www.loc.gov/rr/print/res/717_anrc.html",
+   "source_url": "https://www.loc.gov/item/2017679951/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/anrc/14900/14940v.jpg",
+   "used_as": "The brass SERVICE key on its hook (GrabCut, one levels curve, no colour)",
+   "rights_checked": "loc item JSON rights_advisory read 2026-11-17"
+  },
+  {
+   "title": "[Unidentified Production: Sketch no. 27, Blank Sheet of Paper] (1934)",
+   "author": "Nels Astner, Federal Theatre Project Collection, Library of Congress",
+   "license": "LoC knows of no copyright; treated as US Government work (rights assessment is the user's responsibility)",
+   "license_url": "",
+   "source_url": "https://www.loc.gov/item/musftpsets.200218222/",
+   "file_url": "films/sources/99-ways-template/loc/blank.jpg (already foraged)",
+   "used_as": "Page ground (interior only, rotated to portrait, one levels lift to warm off-white)",
+   "rights_checked": "loc/blank.json re-read"
+  }
+ ],
+ "handmade": [
+  "Pen lettering: glyph-stroke table in test-shot-build/common.py (single tapered strokes, tremor, per-letter jitter); no typeface in balloons or tag",
+  "Cut-paper balloons, hand-ruled 9 px borders",
+  "Black card hook and paper SERVICE tag",
+  "Telea inpaint fills (clerk removed from plate; shirt under the forearm; pencil under the head)"
+ ],
+ "sound": {
+  "foraged": [],
+  "synthesized_with_kit.Mix (declared)": [
+   "room tone",
+   "paper taps on balloon landings",
+   "five receding wooden footsteps (visitor leaving)",
+   "paper-slide whoosh",
+   "three card-hinge clicks",
+   "two pencil scratches",
+   "one clock tick in the hold"
+  ],
+  "why": "Commons API rate-limited (HTTP 429) during this unit; MIA clip audio candidates (842ae581 1957, a267fee7 1949) are music/mixed or of unverified rights, so none used."
+ },
+ "rejected": [
+  "Moving Image Archive key stills: none showed a usable key (Bookkeeping and You 1947: rights unverified)",
+  "Commons search: HTTP 429"
+ ]
+}

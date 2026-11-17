@@ -40,7 +40,7 @@ def levels(a, lo, hi, gamma=1.0):
     return a * 255.0
 
 
-ROTH_LEVELS = (26, 200, 0.82)   # Rothstein 1937, one curve for every crop of it
+ROTH_LEVELS = (30, 186, 0.88)   # Rothstein 1937, one curve for every crop of it
 KEY_LEVELS = (22, 212, 0.95)    # ANRC 1922 key plate
 
 

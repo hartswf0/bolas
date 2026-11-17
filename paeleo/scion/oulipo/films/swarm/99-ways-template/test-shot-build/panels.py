@@ -24,8 +24,8 @@ PX0, PY0 = man["set_plate"]["bbox_src"][:2]
 WIN = cv2.imread(str(PIECES / "window.plate.png"), cv2.IMREAD_GRAYSCALE).astype(np.float32)
 DOOR_BOX = man["set_plate"]["opening_src"]
 
-HOOK_SRC = (1674.0, 731.0)      # hook on the cupboard's inner right wall, source (roth_H) coords
-KEY_PER_H = 0.153               # key plate px -> roth_H px (a ~15 cm door key against the clerk's scale)
+HOOK_SRC = (1630.0, 725.0)      # hook on the cupboard's inner right wall, source (roth_H) coords
+KEY_PER_H = 0.205               # key plate px -> roth_H px (a ~15 cm door key against the clerk's scale)
 
 # poses: arm angle about the elbow (deg, + lowers the fist across his front), head roll about the collar
 REST = dict(arm=0.0, head=-11.0, squash=0.955, scratch=0.0)     # P8 on the page
@@ -37,7 +37,7 @@ BALLOONS = {}
 def balloons():
     if not BALLOONS:
         BALLOONS["thanks"] = balloon_piece(["Thanks!"], 70, (-390, 70), 61)
-        BALLOONS["forgot"] = balloon_piece(["What the hell", "was I looking", "for, anyway?"], 68, (300, 300), 83)
+        BALLOONS["forgot"] = balloon_piece(["What the hell", "was I looking", "for, anyway?"], 68, (255, 250), 83)
         BALLOONS["tag"] = letter_lines(["SERVICE"], 22, 7, weight=0.14)
     return BALLOONS
 
@@ -73,7 +73,7 @@ def lay_set_pieces(c, k, x0, y0, log=None):
     hp = apply(W, HOOK_SRC)
     hm = np.zeros(c.shape[:2], np.uint8)
     s = k / 1.6
-    cv2.rectangle(hm, (int(hp[0] - 9 * s), int(hp[1] - 30 * s)), (int(hp[0] + 9 * s), int(hp[1] - 4 * s)), 255, -1, cv2.LINE_AA)
+    cv2.rectangle(hm, (int(hp[0] - 6 * s), int(hp[1] - 20 * s)), (int(hp[0] + 6 * s), int(hp[1] - 4 * s)), 255, -1, cv2.LINE_AA)
     cv2.ellipse(hm, (int(hp[0]), int(hp[1] + 4 * s)), (int(11 * s), int(12 * s)), 0, 0, 200, 255, max(2, int(6 * s)), cv2.LINE_AA)
     pm = scissor(hm, 5)
     shadow_onto(c, pm)
@@ -85,9 +85,9 @@ def lay_set_pieces(c, k, x0, y0, log=None):
     ks = KEY_PER_H * k
     Mk = T(hp[0], hp[1] + 8 * s) @ R(1.5) @ S(ks) @ T(-ring[0], -ring[1])
     # paper tag on a thread from the ring, lettered SERVICE (handmade)
-    tagc = apply(Mk, (ring[0] - 150, ring[1] + 420))
+    tagc = apply(Mk, (ring[0] - 190, ring[1] + 400))
     ringc = apply(Mk, (ring[0] - 20, ring[1] + 60))
-    tw, th = 120 * s, 50 * s
+    tw, th = 168 * s, 58 * s
     tm = np.zeros(c.shape[:2], np.uint8)
     poly = np.array([(-tw / 2, -th / 2 + 10 * s), (-tw / 2 + 10 * s, -th / 2), (tw / 2, -th / 2), (tw / 2, th / 2), (-tw / 2, th / 2)])
     ang = math.radians(-12)
@@ -136,7 +136,7 @@ P8_SET = (1.6, 1380, 300)
 P8_CLERK = ((900 - 399 * 1.3, 1025 - 572 * 1.3), 1.3)
 P7_SET = (1.33, 1300, 250)
 P7_CLERK = ((800 - 399 * 1.0, 1020 - 572 * 1.0), 1.0)
-P8_BALLOON_AT = (560, 188)
+P8_BALLOON_AT = (560, 205)
 P6_BALLOON_AT = (360, 170)
 
 

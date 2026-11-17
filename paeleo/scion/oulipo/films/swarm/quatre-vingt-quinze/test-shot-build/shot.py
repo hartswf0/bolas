@@ -73,10 +73,11 @@ def camera(t):
 
 def cell_drawing(c, t):
     lt = local(c, t)
-    if c == "B" and 0 <= lt < 3:
-        return min(31, int(lt * 12)) if lt < 2.6 else 31
-    if c == "E" and 0 <= lt < 3:
-        return qvq.e_drawing_of(lt)
+    f = int(round(lt * 24))          # frame index in the cell; drawings change on 2s
+    if c == "B" and 0 <= f < 72:
+        return min(31, f // 2)
+    if c == "E" and 0 <= f < 72:
+        return min(12, f // 2 + 1)
     return None
 
 
@@ -164,12 +165,27 @@ def sound(mix):
     # B's own cue: two consecutive strikes of the Fridingen station bell (the recording's own 1.2 s spacing),
     # placed where the drawn clapper strikes: B local 1.4 and 2.6 s.
     b0 = 32 + 3 * DOWN.index("B")
-    mix.add(seg(bell, 10.55, 11.75, 0.08), b0 + qvq.B_STRIKES[0] - T0 - 0.05, gain=0.75, pan=-0.1)
-    mix.add(seg(bell, 11.75, 12.88, 0.35), b0 + qvq.B_STRIKES[1] - T0 - 0.03, gain=0.75, pan=-0.1)
+    n = mix.n
+    dry = np.zeros(n)
+    for (a, bb, f), st in (((10.55, 11.75, 0.08), qvq.B_STRIKES[0]), ((11.75, 12.88, 0.35), qvq.B_STRIKES[1])):
+        x = seg(bell, a, bb, f)
+        i = int((b0 + st - T0 - 0.04) * r)
+        dry[i:i + len(x)] += x[: n - i]
+    # The waiting hall: the real strikes are placed in a large stone room by convolving them with a
+    # handmade impulse response (decaying filtered noise, RT60 about 3.2 s). Processing, not a new sound.
+    rs = np.random.RandomState(95)
+    L = int(3.6 * r)
+    tt = np.arange(L) / r
+    ir = rs.normal(0, 1, L) * np.exp(-tt / 0.46)
+    ir = mix.band(ir, 120, 3800)
+    ir[: int(0.012 * r)] = 0
+    ir /= np.sqrt((ir ** 2).sum())
+    wet = np.fft.irfft(np.fft.rfft(dry, 2 * n) * np.fft.rfft(ir, 2 * n), 2 * n)[:n]
+    mix.add(dry, 0.0, gain=0.75, pan=-0.1)
+    mix.add(wet, 0.0, gain=0.75 * 0.55, pan=0.05)
     # E's own cue: one key-on-key clink grain at the top of the lift (E local 1.0 s)
     e0 = 32 + 3 * DOWN.index("E")
     mix.add(seg(keys, 0.31, 0.62, 0.12), e0 + 1.0 - T0, gain=0.55, pan=0.1)
-    mix.reverb(amount=0.32, size=1.7)   # the waiting hall
 
 
 def main():
