@@ -321,7 +321,7 @@
   "files": {
    "voice_poem.wav": {
     "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-maki-mococo/u1-reading-cue-staging-reading-designer-cue-designer-staging-unit-merged-they-share-segment-ids-/voice_poem.wav",
-    "duration_s": 9.41
+    "duration_s": 10.19
    },
    "voice_L1.wav": {
     "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-maki-mococo/u1-reading-cue-staging-reading-designer-cue-designer-staging-unit-merged-they-share-segment-ids-/voice_L1.wav",
@@ -344,13 +344,7 @@
    "speakers": "Grendelkhan (CC0) for every word except 'binturong' and 'popcorn' (Vealhurl, CC BY-SA 4.0)",
    "refrain_takes": "only ONE English 'binturong' recording exists on Commons (Vealhurl); all four 'binturong' in L2/L4 and the S6 single word use that one take (declared; two different takes were not possible)"
   },
-  "declared_gaps": [
-   "L3.w1",
-   "L3.w2",
-   "L3.w3",
-   "L3.w4",
-   "L3.w5"
-  ],
+  "declared_gaps": [],
   "measured_in_file": {
    "words": [
     {
@@ -470,72 +464,67 @@
      "text": "smells",
      "key": "smells",
      "t0": 5.41,
-     "t1": 5.65,
-     "take": "GAP (silent, nominal 0.24 s/syllable, not measured)",
+     "t1": 6.01,
+     "take": "Grendelkhan-smells.mp3",
      "files": [
-      "GAP (silent, nominal 0.24 s/syllable, not measured)"
+      "Grendelkhan-smells.mp3"
      ],
-     "gap": true,
-     "trim_start_s": null
+     "trim_start_s": 0.18
     },
     {
      "seg_id": "L3.w2",
      "text": "of",
      "key": "of",
-     "t0": 5.71,
-     "t1": 5.95,
-     "take": "GAP (silent, nominal 0.24 s/syllable, not measured)",
+     "t0": 6.07,
+     "t1": 6.31,
+     "take": "Grendelkhan-of.mp3",
      "files": [
-      "GAP (silent, nominal 0.24 s/syllable, not measured)"
+      "Grendelkhan-of.mp3"
      ],
-     "gap": true,
-     "trim_start_s": null
+     "trim_start_s": 0.21
     },
     {
      "seg_id": "L3.w3",
      "text": "popcorn,",
      "key": "popcorn",
-     "t0": 6.02,
-     "t1": 6.5,
-     "take": "GAP (silent, nominal 0.24 s/syllable, not measured)",
+     "t0": 6.38,
+     "t1": 7.05,
+     "take": "Vealhurl-popcorn.mp3",
      "files": [
-      "GAP (silent, nominal 0.24 s/syllable, not measured)"
+      "Vealhurl-popcorn.mp3"
      ],
-     "gap": true,
-     "trim_start_s": null
+     "trim_start_s": 0.23
     },
     {
      "seg_id": "L3.w4",
      "text": "never",
      "key": "never",
-     "t0": 6.62,
-     "t1": 7.1,
-     "take": "GAP (silent, nominal 0.24 s/syllable, not measured)",
+     "t0": 7.17,
+     "t1": 7.59,
+     "take": "Grendelkhan-never.mp3",
      "files": [
-      "GAP (silent, nominal 0.24 s/syllable, not measured)"
+      "Grendelkhan-never.mp3"
      ],
-     "gap": true,
-     "trim_start_s": null
+     "trim_start_s": 0.22
     },
     {
      "seg_id": "L3.w5",
      "text": "rings —",
      "key": "rings",
-     "t0": 7.16,
-     "t1": 7.4,
-     "take": "GAP (silent, nominal 0.24 s/syllable, not measured)",
+     "t0": 7.65,
+     "t1": 8.18,
+     "take": "Grendelkhan-rings.mp3",
      "files": [
-      "GAP (silent, nominal 0.24 s/syllable, not measured)"
+      "Grendelkhan-rings.mp3"
      ],
-     "gap": true,
-     "trim_start_s": null
+     "trim_start_s": 0.22
     },
     {
      "seg_id": "L4.w1",
      "text": "binturong,",
      "key": "binturong",
-     "t0": 7.75,
-     "t1": 8.52,
+     "t0": 8.53,
+     "t1": 9.3,
      "take": "Vealhurl-binturong.wav",
      "files": [
       "Vealhurl-binturong.wav"
@@ -546,8 +535,8 @@
      "seg_id": "L4.w2",
      "text": "binturong.",
      "key": "binturong",
-     "t0": 8.64,
-     "t1": 9.41,
+     "t0": 9.42,
+     "t1": 10.19,
      "take": "Vealhurl-binturong.wav",
      "files": [
       "Vealhurl-binturong.wav"
@@ -574,7 +563,7 @@
      },
      "gap": false,
      "timing": "measured",
-     "rms_rel": 0.85
+     "rms_rel": 0.707
     },
     {
      "seg_id": "L1.w2.s1",
@@ -594,7 +583,7 @@
      },
      "gap": false,
      "timing": "measured",
-     "rms_rel": 0.806
+     "rms_rel": 0.67
     },
     {
      "seg_id": "L1.w3.s1",
@@ -614,7 +603,7 @@
      },
      "gap": false,
      "timing": "measured",
-     "rms_rel": 0.807
+     "rms_rel": 0.671
     },
     {
      "seg_id": "L1.w4.s1",
@@ -634,7 +623,7 @@
      },
      "gap": false,
      "timing": "measured",
-     "rms_rel": 0.825
+     "rms_rel": 0.687
     },
     {
      "seg_id": "L1.w5.s1",
@@ -654,7 +643,7 @@
      },
      "gap": false,
      "timing": "measured",
-     "rms_rel": 0.841
+     "rms_rel": 0.7
     },
     {
      "seg_id": "L1.w6.s1",
@@ -674,7 +663,7 @@
      },
      "gap": false,
      "timing": "measured",
-     "rms_rel": 0.82
+     "rms_rel": 0.683
     },
     {
      "seg_id": "L1.w7.s1",
@@ -694,7 +683,7 @@
      },
      "gap": false,
      "timing": "measured",
-     "rms_rel": 0.97
+     "rms_rel": 0.807
     },
     {
      "seg_id": "L2.w1.s1",
@@ -714,7 +703,7 @@
      },
      "gap": false,
      "timing": "measured",
-     "rms_rel": 1.0
+     "rms_rel": 0.832
     },
     {
      "seg_id": "L2.w1.s2",
@@ -734,7 +723,7 @@
      },
      "gap": false,
      "timing": "measured",
-     "rms_rel": 0.345
+     "rms_rel": 0.287
     },
     {
      "seg_id": "L2.w1.s3",
@@ -754,7 +743,7 @@
      },
      "gap": false,
      "timing": "measured",
-     "rms_rel": 0.501
+     "rms_rel": 0.417
     },
     {
      "seg_id": "L2.w2.s1",
@@ -774,7 +763,7 @@
      },
      "gap": false,
      "timing": "measured",
-     "rms_rel": 1.0
+     "rms_rel": 0.832
     },
     {
      "seg_id": "L2.w2.s2",
@@ -794,7 +783,7 @@
      },
      "gap": false,
      "timing": "measured",
-     "rms_rel": 0.345
+     "rms_rel": 0.287
     },
     {
      "seg_id": "L2.w2.s3",
@@ -814,17 +803,17 @@
      },
      "gap": false,
      "timing": "measured",
-     "rms_rel": 0.501
+     "rms_rel": 0.417
     },
     {
      "seg_id": "L3.w1.s1",
      "text": "smells",
      "word": "L3.w1",
      "t0": 5.41,
-     "t1": 5.65,
+     "t1": 6.01,
      "nucleus": [
-      5.47,
-      5.59
+      5.58,
+      5.78
      ],
      "stressed": true,
      "plan": {
@@ -832,19 +821,19 @@
       "nucleus": "EI",
       "coda": "LNT"
      },
-     "gap": true,
-     "timing": "NOMINAL (declared gap, silent mouthing)",
-     "rms_rel": 0.5
+     "gap": false,
+     "timing": "measured",
+     "rms_rel": 0.688
     },
     {
      "seg_id": "L3.w2.s1",
      "text": "of",
      "word": "L3.w2",
-     "t0": 5.71,
-     "t1": 5.95,
+     "t0": 6.07,
+     "t1": 6.31,
      "nucleus": [
-      5.77,
-      5.89
+      6.15,
+      6.23
      ],
      "stressed": true,
      "plan": {
@@ -852,19 +841,19 @@
       "nucleus": "A",
       "coda": "FV"
      },
-     "gap": true,
-     "timing": "NOMINAL (declared gap, silent mouthing)",
-     "rms_rel": 0.5
+     "gap": false,
+     "timing": "measured",
+     "rms_rel": 0.753
     },
     {
      "seg_id": "L3.w3.s1",
      "text": "pop",
      "word": "L3.w3",
-     "t0": 6.02,
-     "t1": 6.26,
+     "t0": 6.38,
+     "t1": 6.64,
      "nucleus": [
-      6.08,
-      6.2
+      6.46,
+      6.52
      ],
      "stressed": true,
      "plan": {
@@ -872,19 +861,19 @@
       "nucleus": "O",
       "coda": "MBP"
      },
-     "gap": true,
-     "timing": "NOMINAL (declared gap, silent mouthing)",
-     "rms_rel": 0.5
+     "gap": false,
+     "timing": "measured",
+     "rms_rel": 1.0
     },
     {
      "seg_id": "L3.w3.s2",
      "text": "corn",
      "word": "L3.w3",
-     "t0": 6.26,
-     "t1": 6.5,
+     "t0": 6.64,
+     "t1": 7.05,
      "nucleus": [
-      6.32,
-      6.44
+      6.75,
+      6.97
      ],
      "stressed": false,
      "plan": {
@@ -892,19 +881,19 @@
       "nucleus": "O",
       "coda": "LNT"
      },
-     "gap": true,
-     "timing": "NOMINAL (declared gap, silent mouthing)",
-     "rms_rel": 0.5
+     "gap": false,
+     "timing": "measured",
+     "rms_rel": 0.461
     },
     {
      "seg_id": "L3.w4.s1",
      "text": "nev",
      "word": "L3.w4",
-     "t0": 6.62,
-     "t1": 6.86,
+     "t0": 7.17,
+     "t1": 7.37,
      "nucleus": [
-      6.68,
-      6.8
+      7.24,
+      7.34
      ],
      "stressed": true,
      "plan": {
@@ -912,19 +901,19 @@
       "nucleus": "EI",
       "coda": "FV"
      },
-     "gap": true,
-     "timing": "NOMINAL (declared gap, silent mouthing)",
-     "rms_rel": 0.5
+     "gap": false,
+     "timing": "measured",
+     "rms_rel": 0.774
     },
     {
      "seg_id": "L3.w4.s2",
      "text": "er",
      "word": "L3.w4",
-     "t0": 6.86,
-     "t1": 7.1,
+     "t0": 7.37,
+     "t1": 7.59,
      "nucleus": [
-      6.92,
-      7.04
+      7.4,
+      7.49
      ],
      "stressed": false,
      "plan": {
@@ -932,19 +921,19 @@
       "nucleus": "A",
       "coda": null
      },
-     "gap": true,
-     "timing": "NOMINAL (declared gap, silent mouthing)",
-     "rms_rel": 0.5
+     "gap": false,
+     "timing": "measured",
+     "rms_rel": 0.394
     },
     {
      "seg_id": "L3.w5.s1",
      "text": "rings",
      "word": "L3.w5",
-     "t0": 7.16,
-     "t1": 7.4,
+     "t0": 7.65,
+     "t1": 8.18,
      "nucleus": [
-      7.22,
-      7.34
+      7.72,
+      7.96
      ],
      "stressed": true,
      "plan": {
@@ -952,19 +941,19 @@
       "nucleus": "EI",
       "coda": "LNT"
      },
-     "gap": true,
-     "timing": "NOMINAL (declared gap, silent mouthing)",
-     "rms_rel": 0.5
+     "gap": false,
+     "timing": "measured",
+     "rms_rel": 0.778
     },
     {
      "seg_id": "L4.w1.s1",
      "text": "bin",
      "word": "L4.w1",
-     "t0": 7.75,
-     "t1": 8.1,
+     "t0": 8.53,
+     "t1": 8.88,
      "nucleus": [
-      7.95,
-      8.08
+      8.73,
+      8.86
      ],
      "stressed": true,
      "plan": {
@@ -974,17 +963,17 @@
      },
      "gap": false,
      "timing": "measured",
-     "rms_rel": 1.0
+     "rms_rel": 0.832
     },
     {
      "seg_id": "L4.w1.s2",
      "text": "tu",
      "word": "L4.w1",
-     "t0": 8.1,
-     "t1": 8.18,
+     "t0": 8.88,
+     "t1": 8.96,
      "nucleus": [
-      8.1,
-      8.17
+      8.88,
+      8.95
      ],
      "stressed": false,
      "plan": {
@@ -994,17 +983,17 @@
      },
      "gap": false,
      "timing": "measured",
-     "rms_rel": 0.345
+     "rms_rel": 0.287
     },
     {
      "seg_id": "L4.w1.s3",
      "text": "rong",
      "word": "L4.w1",
-     "t0": 8.18,
-     "t1": 8.52,
+     "t0": 8.96,
+     "t1": 9.3,
      "nucleus": [
-      8.2,
-      8.38
+      8.98,
+      9.16
      ],
      "stressed": false,
      "plan": {
@@ -1014,17 +1003,17 @@
      },
      "gap": false,
      "timing": "measured",
-     "rms_rel": 0.501
+     "rms_rel": 0.417
     },
     {
      "seg_id": "L4.w2.s1",
      "text": "bin",
      "word": "L4.w2",
-     "t0": 8.64,
-     "t1": 8.99,
+     "t0": 9.42,
+     "t1": 9.77,
      "nucleus": [
-      8.84,
-      8.97
+      9.62,
+      9.75
      ],
      "stressed": true,
      "plan": {
@@ -1034,17 +1023,17 @@
      },
      "gap": false,
      "timing": "measured",
-     "rms_rel": 1.0
+     "rms_rel": 0.832
     },
     {
      "seg_id": "L4.w2.s2",
      "text": "tu",
      "word": "L4.w2",
-     "t0": 8.99,
-     "t1": 9.07,
+     "t0": 9.77,
+     "t1": 9.85,
      "nucleus": [
-      8.99,
-      9.06
+      9.77,
+      9.84
      ],
      "stressed": false,
      "plan": {
@@ -1054,17 +1043,17 @@
      },
      "gap": false,
      "timing": "measured",
-     "rms_rel": 0.345
+     "rms_rel": 0.287
     },
     {
      "seg_id": "L4.w2.s3",
      "text": "rong",
      "word": "L4.w2",
-     "t0": 9.07,
-     "t1": 9.41,
+     "t0": 9.85,
+     "t1": 10.19,
      "nucleus": [
-      9.09,
-      9.27
+      9.87,
+      10.05
      ],
      "stressed": false,
      "plan": {
@@ -1074,7 +1063,7 @@
      },
      "gap": false,
      "timing": "measured",
-     "rms_rel": 0.501
+     "rms_rel": 0.417
     }
    ]
   },
@@ -1085,7 +1074,7 @@
     "at": 2.0,
     "span": "L1-L4",
     "cue": "Q_sound",
-    "end": 11.41
+    "end": 12.19
    },
    {
     "shot": "S3",
@@ -1094,7 +1083,7 @@
     "span": "L1-L4",
     "cue": "Q_text",
     "note": "identical bytes to S1",
-    "end": 24.91
+    "end": 25.69
    },
    {
     "shot": "S6",
@@ -1118,7 +1107,7 @@
   "film_time": {
    "S1": {
     "at": 2.0,
-    "end": 11.41,
+    "end": 12.19,
     "file": "voice_poem.wav",
     "words": [
      {
@@ -1179,43 +1168,43 @@
       "seg_id": "L3.w1",
       "text": "smells",
       "t0": 7.41,
-      "t1": 7.65
+      "t1": 8.01
      },
      {
       "seg_id": "L3.w2",
       "text": "of",
-      "t0": 7.71,
-      "t1": 7.95
+      "t0": 8.07,
+      "t1": 8.31
      },
      {
       "seg_id": "L3.w3",
       "text": "popcorn,",
-      "t0": 8.02,
-      "t1": 8.5
+      "t0": 8.38,
+      "t1": 9.05
      },
      {
       "seg_id": "L3.w4",
       "text": "never",
-      "t0": 8.62,
-      "t1": 9.1
+      "t0": 9.17,
+      "t1": 9.59
      },
      {
       "seg_id": "L3.w5",
       "text": "rings —",
-      "t0": 9.16,
-      "t1": 9.4
+      "t0": 9.65,
+      "t1": 10.18
      },
      {
       "seg_id": "L4.w1",
       "text": "binturong,",
-      "t0": 9.75,
-      "t1": 10.52
+      "t0": 10.53,
+      "t1": 11.3
      },
      {
       "seg_id": "L4.w2",
       "text": "binturong.",
-      "t0": 10.64,
-      "t1": 11.41
+      "t0": 11.42,
+      "t1": 12.19
      }
     ],
     "syllables": [
@@ -1353,137 +1342,137 @@
       "seg_id": "L3.w1.s1",
       "text": "smells",
       "t0": 7.41,
-      "t1": 7.65,
+      "t1": 8.01,
       "nucleus": [
-       7.47,
-       7.59
+       7.58,
+       7.78
       ]
      },
      {
       "seg_id": "L3.w2.s1",
       "text": "of",
-      "t0": 7.71,
-      "t1": 7.95,
+      "t0": 8.07,
+      "t1": 8.31,
       "nucleus": [
-       7.77,
-       7.89
+       8.15,
+       8.23
       ]
      },
      {
       "seg_id": "L3.w3.s1",
       "text": "pop",
-      "t0": 8.02,
-      "t1": 8.26,
+      "t0": 8.38,
+      "t1": 8.64,
       "nucleus": [
-       8.08,
-       8.2
+       8.46,
+       8.52
       ]
      },
      {
       "seg_id": "L3.w3.s2",
       "text": "corn",
-      "t0": 8.26,
-      "t1": 8.5,
+      "t0": 8.64,
+      "t1": 9.05,
       "nucleus": [
-       8.32,
-       8.44
+       8.75,
+       8.97
       ]
      },
      {
       "seg_id": "L3.w4.s1",
       "text": "nev",
-      "t0": 8.62,
-      "t1": 8.86,
+      "t0": 9.17,
+      "t1": 9.37,
       "nucleus": [
-       8.68,
-       8.8
+       9.24,
+       9.34
       ]
      },
      {
       "seg_id": "L3.w4.s2",
       "text": "er",
-      "t0": 8.86,
-      "t1": 9.1,
+      "t0": 9.37,
+      "t1": 9.59,
       "nucleus": [
-       8.92,
-       9.04
+       9.4,
+       9.49
       ]
      },
      {
       "seg_id": "L3.w5.s1",
       "text": "rings",
-      "t0": 9.16,
-      "t1": 9.4,
+      "t0": 9.65,
+      "t1": 10.18,
       "nucleus": [
-       9.22,
-       9.34
+       9.72,
+       9.96
       ]
      },
      {
       "seg_id": "L4.w1.s1",
       "text": "bin",
-      "t0": 9.75,
-      "t1": 10.1,
+      "t0": 10.53,
+      "t1": 10.88,
       "nucleus": [
-       9.95,
-       10.08
+       10.73,
+       10.86
       ]
      },
      {
       "seg_id": "L4.w1.s2",
       "text": "tu",
-      "t0": 10.1,
-      "t1": 10.18,
+      "t0": 10.88,
+      "t1": 10.96,
       "nucleus": [
-       10.1,
-       10.17
+       10.88,
+       10.95
       ]
      },
      {
       "seg_id": "L4.w1.s3",
       "text": "rong",
-      "t0": 10.18,
-      "t1": 10.52,
+      "t0": 10.96,
+      "t1": 11.3,
       "nucleus": [
-       10.2,
-       10.38
+       10.98,
+       11.16
       ]
      },
      {
       "seg_id": "L4.w2.s1",
       "text": "bin",
-      "t0": 10.64,
-      "t1": 10.99,
+      "t0": 11.42,
+      "t1": 11.77,
       "nucleus": [
-       10.84,
-       10.97
+       11.62,
+       11.75
       ]
      },
      {
       "seg_id": "L4.w2.s2",
       "text": "tu",
-      "t0": 10.99,
-      "t1": 11.07,
+      "t0": 11.77,
+      "t1": 11.85,
       "nucleus": [
-       10.99,
-       11.06
+       11.77,
+       11.84
       ]
      },
      {
       "seg_id": "L4.w2.s3",
       "text": "rong",
-      "t0": 11.07,
-      "t1": 11.41,
+      "t0": 11.85,
+      "t1": 12.19,
       "nucleus": [
-       11.09,
-       11.27
+       11.87,
+       12.05
       ]
      }
     ]
    },
    "S3": {
     "at": 15.5,
-    "end": 24.91,
+    "end": 25.69,
     "file": "voice_poem.wav",
     "words": [
      {
@@ -1544,43 +1533,43 @@
       "seg_id": "L3.w1",
       "text": "smells",
       "t0": 20.91,
-      "t1": 21.15
+      "t1": 21.51
      },
      {
       "seg_id": "L3.w2",
       "text": "of",
-      "t0": 21.21,
-      "t1": 21.45
+      "t0": 21.57,
+      "t1": 21.81
      },
      {
       "seg_id": "L3.w3",
       "text": "popcorn,",
-      "t0": 21.52,
-      "t1": 22.0
+      "t0": 21.88,
+      "t1": 22.55
      },
      {
       "seg_id": "L3.w4",
       "text": "never",
-      "t0": 22.12,
-      "t1": 22.6
+      "t0": 22.67,
+      "t1": 23.09
      },
      {
       "seg_id": "L3.w5",
       "text": "rings —",
-      "t0": 22.66,
-      "t1": 22.9
+      "t0": 23.15,
+      "t1": 23.68
      },
      {
       "seg_id": "L4.w1",
       "text": "binturong,",
-      "t0": 23.25,
-      "t1": 24.02
+      "t0": 24.03,
+      "t1": 24.8
      },
      {
       "seg_id": "L4.w2",
       "text": "binturong.",
-      "t0": 24.14,
-      "t1": 24.91
+      "t0": 24.92,
+      "t1": 25.69
      }
     ],
     "syllables": [
@@ -1718,130 +1707,130 @@
       "seg_id": "L3.w1.s1",
       "text": "smells",
       "t0": 20.91,
-      "t1": 21.15,
+      "t1": 21.51,
       "nucleus": [
-       20.97,
-       21.09
+       21.08,
+       21.28
       ]
      },
      {
       "seg_id": "L3.w2.s1",
       "text": "of",
-      "t0": 21.21,
-      "t1": 21.45,
+      "t0": 21.57,
+      "t1": 21.81,
       "nucleus": [
-       21.27,
-       21.39
+       21.65,
+       21.73
       ]
      },
      {
       "seg_id": "L3.w3.s1",
       "text": "pop",
-      "t0": 21.52,
-      "t1": 21.76,
+      "t0": 21.88,
+      "t1": 22.14,
       "nucleus": [
-       21.58,
-       21.7
+       21.96,
+       22.02
       ]
      },
      {
       "seg_id": "L3.w3.s2",
       "text": "corn",
-      "t0": 21.76,
-      "t1": 22.0,
+      "t0": 22.14,
+      "t1": 22.55,
       "nucleus": [
-       21.82,
-       21.94
+       22.25,
+       22.47
       ]
      },
      {
       "seg_id": "L3.w4.s1",
       "text": "nev",
-      "t0": 22.12,
-      "t1": 22.36,
+      "t0": 22.67,
+      "t1": 22.87,
       "nucleus": [
-       22.18,
-       22.3
+       22.74,
+       22.84
       ]
      },
      {
       "seg_id": "L3.w4.s2",
       "text": "er",
-      "t0": 22.36,
-      "t1": 22.6,
+      "t0": 22.87,
+      "t1": 23.09,
       "nucleus": [
-       22.42,
-       22.54
+       22.9,
+       22.99
       ]
      },
      {
       "seg_id": "L3.w5.s1",
       "text": "rings",
-      "t0": 22.66,
-      "t1": 22.9,
+      "t0": 23.15,
+      "t1": 23.68,
       "nucleus": [
-       22.72,
-       22.84
+       23.22,
+       23.46
       ]
      },
      {
       "seg_id": "L4.w1.s1",
       "text": "bin",
-      "t0": 23.25,
-      "t1": 23.6,
+      "t0": 24.03,
+      "t1": 24.38,
       "nucleus": [
-       23.45,
-       23.58
+       24.23,
+       24.36
       ]
      },
      {
       "seg_id": "L4.w1.s2",
       "text": "tu",
-      "t0": 23.6,
-      "t1": 23.68,
+      "t0": 24.38,
+      "t1": 24.46,
       "nucleus": [
-       23.6,
-       23.67
+       24.38,
+       24.45
       ]
      },
      {
       "seg_id": "L4.w1.s3",
       "text": "rong",
-      "t0": 23.68,
-      "t1": 24.02,
+      "t0": 24.46,
+      "t1": 24.8,
       "nucleus": [
-       23.7,
-       23.88
+       24.48,
+       24.66
       ]
      },
      {
       "seg_id": "L4.w2.s1",
       "text": "bin",
-      "t0": 24.14,
-      "t1": 24.49,
+      "t0": 24.92,
+      "t1": 25.27,
       "nucleus": [
-       24.34,
-       24.47
+       25.12,
+       25.25
       ]
      },
      {
       "seg_id": "L4.w2.s2",
       "text": "tu",
-      "t0": 24.49,
-      "t1": 24.57,
+      "t0": 25.27,
+      "t1": 25.35,
       "nucleus": [
-       24.49,
-       24.56
+       25.27,
+       25.34
       ]
      },
      {
       "seg_id": "L4.w2.s3",
       "text": "rong",
-      "t0": 24.57,
-      "t1": 24.91,
+      "t0": 25.35,
+      "t1": 25.69,
       "nucleus": [
-       24.59,
-       24.77
+       25.37,
+       25.55
       ]
      }
     ]
@@ -2014,231 +2003,250 @@
    }
   },
   "rms_24fps_voice_poem": [
-   0.228,
-   0.764,
-   0.742,
-   0.554,
-   0.467,
-   0.462,
-   0.107,
-   0.082,
-   0.111,
-   0.008,
+   0.211,
+   0.705,
+   0.685,
+   0.512,
+   0.431,
+   0.426,
+   0.099,
+   0.076,
+   0.102,
+   0.007,
    0.001,
-   0.08,
-   0.253,
-   0.566,
-   0.729,
-   0.622,
-   0.437,
-   0.146,
-   0.053,
-   0.0,
-   0.001,
-   0.214,
-   0.7,
-   0.718,
-   0.406,
-   0.069,
-   0.0,
-   0.0,
-   0.26,
-   0.779,
-   0.599,
-   0.154,
-   0.017,
-   0.0,
-   0.069,
-   0.626,
-   0.751,
-   0.712,
-   0.537,
-   0.307,
-   0.253,
-   0.165,
-   0.083,
    0.074,
-   0.067,
-   0.044,
-   0.0,
-   0.022,
-   0.533,
-   0.785,
-   0.731,
-   0.645,
-   0.502,
-   0.309,
-   0.273,
-   0.151,
-   0.053,
-   0.0,
-   0.023,
-   0.096,
-   0.082,
-   0.208,
-   0.618,
-   1.0,
-   0.667,
-   0.602,
-   0.387,
-   0.437,
-   0.273,
-   0.152,
-   0.078,
-   0.149,
-   0.104,
-   0.013,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.143,
-   0.126,
-   0.045,
-   0.033,
-   0.798,
-   0.678,
-   0.882,
-   0.868,
-   0.278,
-   0.329,
-   0.496,
-   0.475,
-   0.225,
-   0.231,
-   0.232,
-   0.171,
-   0.139,
-   0.056,
-   0.009,
-   0.0,
-   0.0,
-   0.136,
-   0.143,
-   0.101,
-   0.033,
-   0.64,
-   0.798,
-   0.882,
-   0.879,
-   0.317,
-   0.329,
-   0.331,
-   0.496,
-   0.249,
-   0.231,
-   0.232,
-   0.209,
-   0.153,
-   0.104,
-   0.024,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.136,
-   0.143,
-   0.101,
-   0.033,
-   0.21,
-   0.798,
-   0.882,
-   0.879,
-   0.317,
-   0.329,
-   0.132,
-   0.496,
-   0.249,
-   0.231,
-   0.232,
-   0.209,
-   0.153,
-   0.122,
-   0.024,
-   0.0,
+   0.233,
+   0.523,
+   0.672,
+   0.574,
+   0.403,
+   0.134,
+   0.049,
    0.0,
    0.001,
-   0.143,
-   0.126,
-   0.045,
-   0.183,
-   0.798,
-   0.724,
-   0.882,
-   0.641,
-   0.329,
-   0.199,
+   0.197,
+   0.646,
+   0.663,
+   0.375,
+   0.064,
+   0.0,
+   0.0,
+   0.24,
+   0.719,
+   0.553,
+   0.142,
+   0.016,
+   0.0,
+   0.064,
+   0.578,
+   0.693,
+   0.657,
    0.496,
-   0.475,
-   0.225,
-   0.231,
-   0.232,
-   0.171,
-   0.139
+   0.283,
+   0.233,
+   0.152,
+   0.076,
+   0.068,
+   0.062,
+   0.041,
+   0.0,
+   0.021,
+   0.492,
+   0.724,
+   0.675,
+   0.595,
+   0.463,
+   0.285,
+   0.252,
+   0.139,
+   0.049,
+   0.0,
+   0.021,
+   0.088,
+   0.076,
+   0.192,
+   0.57,
+   0.923,
+   0.615,
+   0.555,
+   0.357,
+   0.403,
+   0.252,
+   0.14,
+   0.072,
+   0.137,
+   0.096,
+   0.012,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.132,
+   0.116,
+   0.041,
+   0.031,
+   0.736,
+   0.626,
+   0.813,
+   0.801,
+   0.257,
+   0.304,
+   0.458,
+   0.439,
+   0.207,
+   0.214,
+   0.214,
+   0.157,
+   0.128,
+   0.051,
+   0.008,
+   0.0,
+   0.0,
+   0.126,
+   0.132,
+   0.093,
+   0.031,
+   0.591,
+   0.736,
+   0.813,
+   0.811,
+   0.293,
+   0.304,
+   0.306,
+   0.458,
+   0.23,
+   0.214,
+   0.214,
+   0.193,
+   0.141,
+   0.096,
+   0.022,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.039,
+   0.09,
+   0.093,
+   0.363,
+   0.631,
+   0.635,
+   0.567,
+   0.69,
+   0.606,
+   0.227,
+   0.242,
+   0.16,
+   0.046,
+   0.036,
+   0.005,
+   0.001,
+   0.173,
+   0.538,
+   0.747,
+   0.584,
+   0.191,
+   0.023,
+   0.0,
+   0.046,
+   0.059,
+   1.0,
+   0.515,
+   0.179,
+   0.062,
+   0.018,
+   0.181,
+   0.065,
+   0.521,
+   0.463,
+   0.338,
+   0.411,
+   0.429,
+   0.279,
+   0.117,
+   0.008,
+   0.0,
+   0.0,
+   0.064,
+   0.421,
+   0.71,
+   0.759,
+   0.15,
+   0.236,
+   0.411,
+   0.292,
+   0.121,
+   0.069,
+   0.007,
+   0.001,
+   0.135,
+   0.621,
+   0.828,
+   0.756,
+   0.582,
+   0.337,
+   0.372,
+   0.344,
+   0.285,
+   0.191,
+   0.097,
+   0.086,
+   0.03,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.132,
+   0.116,
+   0.074,
+   0.031,
+   0.736,
+   0.626,
+   0.813,
+   0.801,
+   0.207,
+   0.304,
+   0.458,
+   0.439,
+   0.207,
+   0.214,
+   0.214,
+   0.193,
+   0.141,
+   0.051,
+   0.008,
+   0.0,
+   0.0,
+   0.028,
+   0.132,
+   0.093,
+   0.031,
+   0.194,
+   0.736,
+   0.668,
+   0.813,
+   0.293,
+   0.304,
+   0.122,
+   0.458,
+   0.356,
+   0.214,
+   0.214,
+   0.193,
+   0.141,
+   0.112
   ],
   "timing_method": "measured: word onsets/offsets are the sample positions of each trimmed take in the assembly; syllable boundaries inside binturong/popcorn/never are the deepest 10 ms RMS-envelope minima between voiced humps; nucleus = frames above 45% of the syllable's peak. Checked against voice_poem_waveform.png (structurally verified). Listening check: NOT performed by this unit (no audio playback here) - perceptual check pending for the editor/critic."
  },
@@ -2272,17 +2280,17 @@
      {
       "t": 0.04,
       "shape": "EI",
-      "jaw": 0.426,
+      "jaw": 0.404,
       "part": "nucleus"
      },
      {
       "t": 0.23,
       "shape": "LNT",
-      "jaw": 0.284,
+      "jaw": 0.269,
       "part": "coda"
      }
     ],
-    "emphasis": 0.948,
+    "emphasis": 0.897,
     "silent": false
    },
    {
@@ -2292,17 +2300,17 @@
      {
       "t": 0.44,
       "shape": "LNT",
-      "jaw": 0.28,
+      "jaw": 0.265,
       "part": "onset"
      },
      {
       "t": 0.54,
       "shape": "A",
-      "jaw": 0.932,
+      "jaw": 0.885,
       "part": "nucleus"
      }
     ],
-    "emphasis": 0.932,
+    "emphasis": 0.885,
     "silent": false
    },
    {
@@ -2312,23 +2320,23 @@
      {
       "t": 0.86,
       "shape": "LNT",
-      "jaw": 0.28,
+      "jaw": 0.265,
       "part": "onset"
      },
      {
       "t": 0.92,
       "shape": "A",
-      "jaw": 0.932,
+      "jaw": 0.885,
       "part": "nucleus"
      },
      {
       "t": 1.02,
       "shape": "LNT",
-      "jaw": 0.28,
+      "jaw": 0.265,
       "part": "coda"
      }
     ],
-    "emphasis": 0.932,
+    "emphasis": 0.885,
     "silent": false
    },
    {
@@ -2338,17 +2346,17 @@
      {
       "t": 1.21,
       "shape": "EI",
-      "jaw": 0.422,
+      "jaw": 0.401,
       "part": "nucleus"
      },
      {
       "t": 1.29,
       "shape": "LNT",
-      "jaw": 0.282,
+      "jaw": 0.267,
       "part": "coda"
      }
     ],
-    "emphasis": 0.939,
+    "emphasis": 0.89,
     "silent": false
    },
    {
@@ -2358,17 +2366,17 @@
      {
       "t": 1.46,
       "shape": "A",
-      "jaw": 0.944,
+      "jaw": 0.895,
       "part": "nucleus"
      },
      {
       "t": 1.62,
       "shape": "EI",
-      "jaw": 0.425,
+      "jaw": 0.403,
       "part": "coda"
      }
     ],
-    "emphasis": 0.944,
+    "emphasis": 0.895,
     "silent": false
    },
    {
@@ -2378,17 +2386,17 @@
      {
       "t": 2.025,
       "shape": "A",
-      "jaw": 0.937,
+      "jaw": 0.889,
       "part": "nucleus"
      },
      {
       "t": 2.205,
       "shape": "LNT",
-      "jaw": 0.281,
+      "jaw": 0.267,
       "part": "coda"
      }
     ],
-    "emphasis": 0.937,
+    "emphasis": 0.889,
     "silent": false
    },
    {
@@ -2398,23 +2406,23 @@
      {
       "t": 2.425,
       "shape": "UW",
-      "jaw": 0.346,
+      "jaw": 0.326,
       "part": "onset"
      },
      {
       "t": 2.605,
       "shape": "EI",
-      "jaw": 0.445,
+      "jaw": 0.42,
       "part": "nucleus"
      },
      {
       "t": 2.825,
       "shape": "EI",
-      "jaw": 0.445,
+      "jaw": 0.42,
       "part": "coda"
      }
     ],
-    "emphasis": 0.99,
+    "emphasis": 0.932,
     "silent": false
    },
    {
@@ -2430,17 +2438,17 @@
      {
       "t": 3.6,
       "shape": "EI",
-      "jaw": 0.45,
+      "jaw": 0.424,
       "part": "nucleus"
      },
      {
       "t": 3.73,
       "shape": "LNT",
-      "jaw": 0.3,
+      "jaw": 0.282,
       "part": "coda"
      }
     ],
-    "emphasis": 1.0,
+    "emphasis": 0.941,
     "silent": false
    },
    {
@@ -2450,17 +2458,17 @@
      {
       "t": 3.75,
       "shape": "LNT",
-      "jaw": 0.231,
+      "jaw": 0.225,
       "part": "onset"
      },
      {
       "t": 3.75,
       "shape": "UW",
-      "jaw": 0.27,
+      "jaw": 0.263,
       "part": "nucleus"
      }
     ],
-    "emphasis": 0.771,
+    "emphasis": 0.75,
     "silent": false
    },
    {
@@ -2470,23 +2478,23 @@
      {
       "t": 3.83,
       "shape": "UW",
-      "jaw": 0.289,
+      "jaw": 0.279,
       "part": "onset"
      },
      {
       "t": 3.85,
       "shape": "A",
-      "jaw": 0.825,
+      "jaw": 0.796,
       "part": "nucleus"
      },
      {
       "t": 4.03,
       "shape": "LNT",
-      "jaw": 0.248,
+      "jaw": 0.239,
       "part": "coda"
      }
     ],
-    "emphasis": 0.825,
+    "emphasis": 0.796,
     "silent": false
    },
    {
@@ -2502,17 +2510,17 @@
      {
       "t": 4.49,
       "shape": "EI",
-      "jaw": 0.45,
+      "jaw": 0.424,
       "part": "nucleus"
      },
      {
       "t": 4.62,
       "shape": "LNT",
-      "jaw": 0.3,
+      "jaw": 0.282,
       "part": "coda"
      }
     ],
-    "emphasis": 1.0,
+    "emphasis": 0.941,
     "silent": false
    },
    {
@@ -2522,17 +2530,17 @@
      {
       "t": 4.64,
       "shape": "LNT",
-      "jaw": 0.231,
+      "jaw": 0.225,
       "part": "onset"
      },
      {
       "t": 4.64,
       "shape": "UW",
-      "jaw": 0.27,
+      "jaw": 0.263,
       "part": "nucleus"
      }
     ],
-    "emphasis": 0.771,
+    "emphasis": 0.75,
     "silent": false
    },
    {
@@ -2542,23 +2550,23 @@
      {
       "t": 4.72,
       "shape": "UW",
-      "jaw": 0.289,
+      "jaw": 0.279,
       "part": "onset"
      },
      {
       "t": 4.74,
       "shape": "A",
-      "jaw": 0.825,
+      "jaw": 0.796,
       "part": "nucleus"
      },
      {
       "t": 4.92,
       "shape": "LNT",
-      "jaw": 0.248,
+      "jaw": 0.239,
       "part": "coda"
      }
     ],
-    "emphasis": 0.825,
+    "emphasis": 0.796,
     "silent": false
    },
    {
@@ -2572,183 +2580,183 @@
       "part": "onset"
      },
      {
-      "t": 5.47,
+      "t": 5.58,
       "shape": "EI",
-      "jaw": 0.371,
+      "jaw": 0.401,
       "part": "nucleus"
      },
      {
-      "t": 5.59,
+      "t": 5.78,
       "shape": "LNT",
-      "jaw": 0.247,
+      "jaw": 0.267,
       "part": "coda"
      }
     ],
-    "emphasis": 0.825,
-    "silent": true
+    "emphasis": 0.891,
+    "silent": false
    },
    {
     "seg_id": "L3.w2.s1",
     "text": "of",
     "keys": [
      {
-      "t": 5.77,
+      "t": 6.15,
       "shape": "A",
-      "jaw": 0.825,
+      "jaw": 0.914,
       "part": "nucleus"
      },
      {
-      "t": 5.89,
+      "t": 6.23,
       "shape": "FV",
-      "jaw": 0.124,
+      "jaw": 0.137,
       "part": "coda"
      }
     ],
-    "emphasis": 0.825,
-    "silent": true
+    "emphasis": 0.914,
+    "silent": false
    },
    {
     "seg_id": "L3.w3.s1",
     "text": "pop",
     "keys": [
      {
-      "t": 5.97,
+      "t": 6.33,
       "shape": "MBP",
       "jaw": 0.0,
       "part": "onset"
      },
      {
-      "t": 6.08,
+      "t": 6.46,
       "shape": "O",
-      "jaw": 0.577,
+      "jaw": 0.7,
       "part": "nucleus"
      },
      {
-      "t": 6.2,
+      "t": 6.52,
       "shape": "MBP",
       "jaw": 0.0,
       "part": "coda"
      }
     ],
-    "emphasis": 0.825,
-    "silent": true
+    "emphasis": 1.0,
+    "silent": false
    },
    {
     "seg_id": "L3.w3.s2",
     "text": "corn",
     "keys": [
      {
-      "t": 6.26,
+      "t": 6.64,
       "shape": "LNT",
-      "jaw": 0.247,
+      "jaw": 0.243,
       "part": "onset"
      },
      {
-      "t": 6.32,
+      "t": 6.75,
       "shape": "O",
-      "jaw": 0.577,
+      "jaw": 0.568,
       "part": "nucleus"
      },
      {
-      "t": 6.44,
+      "t": 6.97,
       "shape": "LNT",
-      "jaw": 0.247,
+      "jaw": 0.243,
       "part": "coda"
      }
     ],
-    "emphasis": 0.825,
-    "silent": true
+    "emphasis": 0.811,
+    "silent": false
    },
    {
     "seg_id": "L3.w4.s1",
     "text": "nev",
     "keys": [
      {
-      "t": 6.62,
+      "t": 7.17,
       "shape": "LNT",
-      "jaw": 0.247,
+      "jaw": 0.276,
       "part": "onset"
      },
      {
-      "t": 6.68,
+      "t": 7.24,
       "shape": "EI",
-      "jaw": 0.371,
+      "jaw": 0.414,
       "part": "nucleus"
      },
      {
-      "t": 6.8,
+      "t": 7.34,
       "shape": "FV",
-      "jaw": 0.124,
+      "jaw": 0.138,
       "part": "coda"
      }
     ],
-    "emphasis": 0.825,
-    "silent": true
+    "emphasis": 0.921,
+    "silent": false
    },
    {
     "seg_id": "L3.w4.s2",
     "text": "er",
     "keys": [
      {
-      "t": 6.92,
+      "t": 7.4,
       "shape": "A",
-      "jaw": 0.825,
+      "jaw": 0.788,
       "part": "nucleus"
      }
     ],
-    "emphasis": 0.825,
-    "silent": true
+    "emphasis": 0.788,
+    "silent": false
    },
    {
     "seg_id": "L3.w5.s1",
     "text": "rings",
     "keys": [
      {
-      "t": 7.16,
+      "t": 7.65,
       "shape": "UW",
-      "jaw": 0.289,
+      "jaw": 0.323,
       "part": "onset"
      },
      {
-      "t": 7.22,
+      "t": 7.72,
       "shape": "EI",
-      "jaw": 0.371,
+      "jaw": 0.415,
       "part": "nucleus"
      },
      {
-      "t": 7.34,
+      "t": 7.96,
       "shape": "LNT",
-      "jaw": 0.247,
+      "jaw": 0.277,
       "part": "coda"
      }
     ],
-    "emphasis": 0.825,
-    "silent": true
+    "emphasis": 0.922,
+    "silent": false
    },
    {
     "seg_id": "L4.w1.s1",
     "text": "bin",
     "keys": [
      {
-      "t": 7.7,
+      "t": 8.48,
       "shape": "MBP",
       "jaw": 0.0,
       "part": "onset"
      },
      {
-      "t": 7.95,
+      "t": 8.73,
       "shape": "EI",
-      "jaw": 0.45,
+      "jaw": 0.424,
       "part": "nucleus"
      },
      {
-      "t": 8.08,
+      "t": 8.86,
       "shape": "LNT",
-      "jaw": 0.3,
+      "jaw": 0.282,
       "part": "coda"
      }
     ],
-    "emphasis": 1.0,
+    "emphasis": 0.941,
     "silent": false
    },
    {
@@ -2756,19 +2764,19 @@
     "text": "tu",
     "keys": [
      {
-      "t": 8.1,
+      "t": 8.88,
       "shape": "LNT",
-      "jaw": 0.231,
+      "jaw": 0.225,
       "part": "onset"
      },
      {
-      "t": 8.1,
+      "t": 8.88,
       "shape": "UW",
-      "jaw": 0.27,
+      "jaw": 0.263,
       "part": "nucleus"
      }
     ],
-    "emphasis": 0.771,
+    "emphasis": 0.75,
     "silent": false
    },
    {
@@ -2776,25 +2784,25 @@
     "text": "rong",
     "keys": [
      {
-      "t": 8.18,
+      "t": 8.96,
       "shape": "UW",
-      "jaw": 0.289,
+      "jaw": 0.279,
       "part": "onset"
      },
      {
-      "t": 8.2,
+      "t": 8.98,
       "shape": "A",
-      "jaw": 0.825,
+      "jaw": 0.796,
       "part": "nucleus"
      },
      {
-      "t": 8.38,
+      "t": 9.16,
       "shape": "LNT",
-      "jaw": 0.248,
+      "jaw": 0.239,
       "part": "coda"
      }
     ],
-    "emphasis": 0.825,
+    "emphasis": 0.796,
     "silent": false
    },
    {
@@ -2802,25 +2810,25 @@
     "text": "bin",
     "keys": [
      {
-      "t": 8.59,
+      "t": 9.37,
       "shape": "MBP",
       "jaw": 0.0,
       "part": "onset"
      },
      {
-      "t": 8.84,
+      "t": 9.62,
       "shape": "EI",
-      "jaw": 0.45,
+      "jaw": 0.424,
       "part": "nucleus"
      },
      {
-      "t": 8.97,
+      "t": 9.75,
       "shape": "LNT",
-      "jaw": 0.3,
+      "jaw": 0.282,
       "part": "coda"
      }
     ],
-    "emphasis": 1.0,
+    "emphasis": 0.941,
     "silent": false
    },
    {
@@ -2828,19 +2836,19 @@
     "text": "tu",
     "keys": [
      {
-      "t": 8.99,
+      "t": 9.77,
       "shape": "LNT",
-      "jaw": 0.231,
+      "jaw": 0.225,
       "part": "onset"
      },
      {
-      "t": 8.99,
+      "t": 9.77,
       "shape": "UW",
-      "jaw": 0.27,
+      "jaw": 0.263,
       "part": "nucleus"
      }
     ],
-    "emphasis": 0.771,
+    "emphasis": 0.75,
     "silent": false
    },
    {
@@ -2848,25 +2856,25 @@
     "text": "rong",
     "keys": [
      {
-      "t": 9.07,
+      "t": 9.85,
       "shape": "UW",
-      "jaw": 0.289,
+      "jaw": 0.279,
       "part": "onset"
      },
      {
-      "t": 9.09,
+      "t": 9.87,
       "shape": "A",
-      "jaw": 0.825,
+      "jaw": 0.796,
       "part": "nucleus"
      },
      {
-      "t": 9.27,
+      "t": 10.05,
       "shape": "LNT",
-      "jaw": 0.248,
+      "jaw": 0.239,
       "part": "coda"
      }
     ],
-    "emphasis": 0.825,
+    "emphasis": 0.796,
     "silent": false
    }
   ],
@@ -2876,112 +2884,112 @@
      "t": 2.04,
      "seg_id": "L1.w1.s1",
      "shape": "EI",
-     "jaw": 0.426,
+     "jaw": 0.404,
      "part": "nucleus"
     },
     {
      "t": 2.23,
      "seg_id": "L1.w1.s1",
      "shape": "LNT",
-     "jaw": 0.284,
+     "jaw": 0.269,
      "part": "coda"
     },
     {
      "t": 2.44,
      "seg_id": "L1.w2.s1",
      "shape": "LNT",
-     "jaw": 0.28,
+     "jaw": 0.265,
      "part": "onset"
     },
     {
      "t": 2.54,
      "seg_id": "L1.w2.s1",
      "shape": "A",
-     "jaw": 0.932,
+     "jaw": 0.885,
      "part": "nucleus"
     },
     {
      "t": 2.86,
      "seg_id": "L1.w3.s1",
      "shape": "LNT",
-     "jaw": 0.28,
+     "jaw": 0.265,
      "part": "onset"
     },
     {
      "t": 2.92,
      "seg_id": "L1.w3.s1",
      "shape": "A",
-     "jaw": 0.932,
+     "jaw": 0.885,
      "part": "nucleus"
     },
     {
      "t": 3.02,
      "seg_id": "L1.w3.s1",
      "shape": "LNT",
-     "jaw": 0.28,
+     "jaw": 0.265,
      "part": "coda"
     },
     {
      "t": 3.21,
      "seg_id": "L1.w4.s1",
      "shape": "EI",
-     "jaw": 0.422,
+     "jaw": 0.401,
      "part": "nucleus"
     },
     {
      "t": 3.29,
      "seg_id": "L1.w4.s1",
      "shape": "LNT",
-     "jaw": 0.282,
+     "jaw": 0.267,
      "part": "coda"
     },
     {
      "t": 3.46,
      "seg_id": "L1.w5.s1",
      "shape": "A",
-     "jaw": 0.944,
+     "jaw": 0.895,
      "part": "nucleus"
     },
     {
      "t": 3.62,
      "seg_id": "L1.w5.s1",
      "shape": "EI",
-     "jaw": 0.425,
+     "jaw": 0.403,
      "part": "coda"
     },
     {
      "t": 4.025,
      "seg_id": "L1.w6.s1",
      "shape": "A",
-     "jaw": 0.937,
+     "jaw": 0.889,
      "part": "nucleus"
     },
     {
      "t": 4.205,
      "seg_id": "L1.w6.s1",
      "shape": "LNT",
-     "jaw": 0.281,
+     "jaw": 0.267,
      "part": "coda"
     },
     {
      "t": 4.425,
      "seg_id": "L1.w7.s1",
      "shape": "UW",
-     "jaw": 0.346,
+     "jaw": 0.326,
      "part": "onset"
     },
     {
      "t": 4.605,
      "seg_id": "L1.w7.s1",
      "shape": "EI",
-     "jaw": 0.445,
+     "jaw": 0.42,
      "part": "nucleus"
     },
     {
      "t": 4.825,
      "seg_id": "L1.w7.s1",
      "shape": "EI",
-     "jaw": 0.445,
+     "jaw": 0.42,
      "part": "coda"
     },
     {
@@ -2995,49 +3003,49 @@
      "t": 5.6,
      "seg_id": "L2.w1.s1",
      "shape": "EI",
-     "jaw": 0.45,
+     "jaw": 0.424,
      "part": "nucleus"
     },
     {
      "t": 5.73,
      "seg_id": "L2.w1.s1",
      "shape": "LNT",
-     "jaw": 0.3,
+     "jaw": 0.282,
      "part": "coda"
     },
     {
      "t": 5.75,
      "seg_id": "L2.w1.s2",
      "shape": "LNT",
-     "jaw": 0.231,
+     "jaw": 0.225,
      "part": "onset"
     },
     {
      "t": 5.75,
      "seg_id": "L2.w1.s2",
      "shape": "UW",
-     "jaw": 0.27,
+     "jaw": 0.263,
      "part": "nucleus"
     },
     {
      "t": 5.83,
      "seg_id": "L2.w1.s3",
      "shape": "UW",
-     "jaw": 0.289,
+     "jaw": 0.279,
      "part": "onset"
     },
     {
      "t": 5.85,
      "seg_id": "L2.w1.s3",
      "shape": "A",
-     "jaw": 0.825,
+     "jaw": 0.796,
      "part": "nucleus"
     },
     {
      "t": 6.03,
      "seg_id": "L2.w1.s3",
      "shape": "LNT",
-     "jaw": 0.248,
+     "jaw": 0.239,
      "part": "coda"
     },
     {
@@ -3051,49 +3059,49 @@
      "t": 6.49,
      "seg_id": "L2.w2.s1",
      "shape": "EI",
-     "jaw": 0.45,
+     "jaw": 0.424,
      "part": "nucleus"
     },
     {
      "t": 6.62,
      "seg_id": "L2.w2.s1",
      "shape": "LNT",
-     "jaw": 0.3,
+     "jaw": 0.282,
      "part": "coda"
     },
     {
      "t": 6.64,
      "seg_id": "L2.w2.s2",
      "shape": "LNT",
-     "jaw": 0.231,
+     "jaw": 0.225,
      "part": "onset"
     },
     {
      "t": 6.64,
      "seg_id": "L2.w2.s2",
      "shape": "UW",
-     "jaw": 0.27,
+     "jaw": 0.263,
      "part": "nucleus"
     },
     {
      "t": 6.72,
      "seg_id": "L2.w2.s3",
      "shape": "UW",
-     "jaw": 0.289,
+     "jaw": 0.279,
      "part": "onset"
     },
     {
      "t": 6.74,
      "seg_id": "L2.w2.s3",
      "shape": "A",
-     "jaw": 0.825,
+     "jaw": 0.796,
      "part": "nucleus"
     },
     {
      "t": 6.92,
      "seg_id": "L2.w2.s3",
      "shape": "LNT",
-     "jaw": 0.248,
+     "jaw": 0.239,
      "part": "coda"
     },
     {
@@ -3104,238 +3112,238 @@
      "part": "onset"
     },
     {
-     "t": 7.47,
+     "t": 7.58,
      "seg_id": "L3.w1.s1",
      "shape": "EI",
-     "jaw": 0.371,
+     "jaw": 0.401,
      "part": "nucleus"
     },
     {
-     "t": 7.59,
+     "t": 7.78,
      "seg_id": "L3.w1.s1",
      "shape": "LNT",
-     "jaw": 0.247,
+     "jaw": 0.267,
      "part": "coda"
     },
     {
-     "t": 7.77,
+     "t": 8.15,
      "seg_id": "L3.w2.s1",
      "shape": "A",
-     "jaw": 0.825,
+     "jaw": 0.914,
      "part": "nucleus"
     },
     {
-     "t": 7.89,
+     "t": 8.23,
      "seg_id": "L3.w2.s1",
      "shape": "FV",
-     "jaw": 0.124,
+     "jaw": 0.137,
      "part": "coda"
     },
     {
-     "t": 7.97,
+     "t": 8.33,
      "seg_id": "L3.w3.s1",
      "shape": "MBP",
      "jaw": 0.0,
      "part": "onset"
     },
     {
-     "t": 8.08,
+     "t": 8.46,
      "seg_id": "L3.w3.s1",
      "shape": "O",
-     "jaw": 0.577,
+     "jaw": 0.7,
      "part": "nucleus"
     },
     {
-     "t": 8.2,
+     "t": 8.52,
      "seg_id": "L3.w3.s1",
      "shape": "MBP",
      "jaw": 0.0,
      "part": "coda"
     },
     {
-     "t": 8.26,
+     "t": 8.64,
      "seg_id": "L3.w3.s2",
      "shape": "LNT",
-     "jaw": 0.247,
+     "jaw": 0.243,
      "part": "onset"
     },
     {
-     "t": 8.32,
+     "t": 8.75,
      "seg_id": "L3.w3.s2",
      "shape": "O",
-     "jaw": 0.577,
+     "jaw": 0.568,
      "part": "nucleus"
     },
     {
-     "t": 8.44,
+     "t": 8.97,
      "seg_id": "L3.w3.s2",
      "shape": "LNT",
-     "jaw": 0.247,
+     "jaw": 0.243,
      "part": "coda"
     },
     {
-     "t": 8.62,
+     "t": 9.17,
      "seg_id": "L3.w4.s1",
      "shape": "LNT",
-     "jaw": 0.247,
+     "jaw": 0.276,
      "part": "onset"
     },
     {
-     "t": 8.68,
+     "t": 9.24,
      "seg_id": "L3.w4.s1",
      "shape": "EI",
-     "jaw": 0.371,
-     "part": "nucleus"
-    },
-    {
-     "t": 8.8,
-     "seg_id": "L3.w4.s1",
-     "shape": "FV",
-     "jaw": 0.124,
-     "part": "coda"
-    },
-    {
-     "t": 8.92,
-     "seg_id": "L3.w4.s2",
-     "shape": "A",
-     "jaw": 0.825,
-     "part": "nucleus"
-    },
-    {
-     "t": 9.16,
-     "seg_id": "L3.w5.s1",
-     "shape": "UW",
-     "jaw": 0.289,
-     "part": "onset"
-    },
-    {
-     "t": 9.22,
-     "seg_id": "L3.w5.s1",
-     "shape": "EI",
-     "jaw": 0.371,
+     "jaw": 0.414,
      "part": "nucleus"
     },
     {
      "t": 9.34,
+     "seg_id": "L3.w4.s1",
+     "shape": "FV",
+     "jaw": 0.138,
+     "part": "coda"
+    },
+    {
+     "t": 9.4,
+     "seg_id": "L3.w4.s2",
+     "shape": "A",
+     "jaw": 0.788,
+     "part": "nucleus"
+    },
+    {
+     "t": 9.65,
+     "seg_id": "L3.w5.s1",
+     "shape": "UW",
+     "jaw": 0.323,
+     "part": "onset"
+    },
+    {
+     "t": 9.72,
+     "seg_id": "L3.w5.s1",
+     "shape": "EI",
+     "jaw": 0.415,
+     "part": "nucleus"
+    },
+    {
+     "t": 9.96,
      "seg_id": "L3.w5.s1",
      "shape": "LNT",
-     "jaw": 0.247,
+     "jaw": 0.277,
      "part": "coda"
     },
     {
-     "t": 9.7,
+     "t": 10.48,
      "seg_id": "L4.w1.s1",
      "shape": "MBP",
      "jaw": 0.0,
      "part": "onset"
     },
     {
-     "t": 9.95,
+     "t": 10.73,
      "seg_id": "L4.w1.s1",
      "shape": "EI",
-     "jaw": 0.45,
+     "jaw": 0.424,
      "part": "nucleus"
     },
     {
-     "t": 10.08,
+     "t": 10.86,
      "seg_id": "L4.w1.s1",
      "shape": "LNT",
-     "jaw": 0.3,
+     "jaw": 0.282,
      "part": "coda"
     },
     {
-     "t": 10.1,
+     "t": 10.88,
      "seg_id": "L4.w1.s2",
      "shape": "LNT",
-     "jaw": 0.231,
+     "jaw": 0.225,
      "part": "onset"
     },
     {
-     "t": 10.1,
+     "t": 10.88,
      "seg_id": "L4.w1.s2",
      "shape": "UW",
-     "jaw": 0.27,
+     "jaw": 0.263,
      "part": "nucleus"
     },
     {
-     "t": 10.18,
+     "t": 10.96,
      "seg_id": "L4.w1.s3",
      "shape": "UW",
-     "jaw": 0.289,
+     "jaw": 0.279,
      "part": "onset"
     },
     {
-     "t": 10.2,
+     "t": 10.98,
      "seg_id": "L4.w1.s3",
      "shape": "A",
-     "jaw": 0.825,
+     "jaw": 0.796,
      "part": "nucleus"
     },
     {
-     "t": 10.38,
+     "t": 11.16,
      "seg_id": "L4.w1.s3",
      "shape": "LNT",
-     "jaw": 0.248,
+     "jaw": 0.239,
      "part": "coda"
     },
     {
-     "t": 10.59,
+     "t": 11.37,
      "seg_id": "L4.w2.s1",
      "shape": "MBP",
      "jaw": 0.0,
      "part": "onset"
     },
     {
-     "t": 10.84,
+     "t": 11.62,
      "seg_id": "L4.w2.s1",
      "shape": "EI",
-     "jaw": 0.45,
+     "jaw": 0.424,
      "part": "nucleus"
     },
     {
-     "t": 10.97,
+     "t": 11.75,
      "seg_id": "L4.w2.s1",
      "shape": "LNT",
-     "jaw": 0.3,
+     "jaw": 0.282,
      "part": "coda"
     },
     {
-     "t": 10.99,
+     "t": 11.77,
      "seg_id": "L4.w2.s2",
      "shape": "LNT",
-     "jaw": 0.231,
+     "jaw": 0.225,
      "part": "onset"
     },
     {
-     "t": 10.99,
+     "t": 11.77,
      "seg_id": "L4.w2.s2",
      "shape": "UW",
-     "jaw": 0.27,
+     "jaw": 0.263,
      "part": "nucleus"
     },
     {
-     "t": 11.07,
+     "t": 11.85,
      "seg_id": "L4.w2.s3",
      "shape": "UW",
-     "jaw": 0.289,
+     "jaw": 0.279,
      "part": "onset"
     },
     {
-     "t": 11.09,
+     "t": 11.87,
      "seg_id": "L4.w2.s3",
      "shape": "A",
-     "jaw": 0.825,
+     "jaw": 0.796,
      "part": "nucleus"
     },
     {
-     "t": 11.27,
+     "t": 12.05,
      "seg_id": "L4.w2.s3",
      "shape": "LNT",
-     "jaw": 0.248,
+     "jaw": 0.239,
      "part": "coda"
     },
     {
-     "t": 11.45,
+     "t": 12.23,
      "seg_id": null,
      "shape": "rest",
      "jaw": 0.0,
@@ -3347,112 +3355,112 @@
      "t": 15.54,
      "seg_id": "L1.w1.s1",
      "shape": "EI",
-     "jaw": 0.426,
+     "jaw": 0.404,
      "part": "nucleus"
     },
     {
      "t": 15.73,
      "seg_id": "L1.w1.s1",
      "shape": "LNT",
-     "jaw": 0.284,
+     "jaw": 0.269,
      "part": "coda"
     },
     {
      "t": 15.94,
      "seg_id": "L1.w2.s1",
      "shape": "LNT",
-     "jaw": 0.28,
+     "jaw": 0.265,
      "part": "onset"
     },
     {
      "t": 16.04,
      "seg_id": "L1.w2.s1",
      "shape": "A",
-     "jaw": 0.932,
+     "jaw": 0.885,
      "part": "nucleus"
     },
     {
      "t": 16.36,
      "seg_id": "L1.w3.s1",
      "shape": "LNT",
-     "jaw": 0.28,
+     "jaw": 0.265,
      "part": "onset"
     },
     {
      "t": 16.42,
      "seg_id": "L1.w3.s1",
      "shape": "A",
-     "jaw": 0.932,
+     "jaw": 0.885,
      "part": "nucleus"
     },
     {
      "t": 16.52,
      "seg_id": "L1.w3.s1",
      "shape": "LNT",
-     "jaw": 0.28,
+     "jaw": 0.265,
      "part": "coda"
     },
     {
      "t": 16.71,
      "seg_id": "L1.w4.s1",
      "shape": "EI",
-     "jaw": 0.422,
+     "jaw": 0.401,
      "part": "nucleus"
     },
     {
      "t": 16.79,
      "seg_id": "L1.w4.s1",
      "shape": "LNT",
-     "jaw": 0.282,
+     "jaw": 0.267,
      "part": "coda"
     },
     {
      "t": 16.96,
      "seg_id": "L1.w5.s1",
      "shape": "A",
-     "jaw": 0.944,
+     "jaw": 0.895,
      "part": "nucleus"
     },
     {
      "t": 17.12,
      "seg_id": "L1.w5.s1",
      "shape": "EI",
-     "jaw": 0.425,
+     "jaw": 0.403,
      "part": "coda"
     },
     {
      "t": 17.525,
      "seg_id": "L1.w6.s1",
      "shape": "A",
-     "jaw": 0.937,
+     "jaw": 0.889,
      "part": "nucleus"
     },
     {
      "t": 17.705,
      "seg_id": "L1.w6.s1",
      "shape": "LNT",
-     "jaw": 0.281,
+     "jaw": 0.267,
      "part": "coda"
     },
     {
      "t": 17.925,
      "seg_id": "L1.w7.s1",
      "shape": "UW",
-     "jaw": 0.346,
+     "jaw": 0.326,
      "part": "onset"
     },
     {
      "t": 18.105,
      "seg_id": "L1.w7.s1",
      "shape": "EI",
-     "jaw": 0.445,
+     "jaw": 0.42,
      "part": "nucleus"
     },
     {
      "t": 18.325,
      "seg_id": "L1.w7.s1",
      "shape": "EI",
-     "jaw": 0.445,
+     "jaw": 0.42,
      "part": "coda"
     },
     {
@@ -3466,49 +3474,49 @@
      "t": 19.1,
      "seg_id": "L2.w1.s1",
      "shape": "EI",
-     "jaw": 0.45,
+     "jaw": 0.424,
      "part": "nucleus"
     },
     {
      "t": 19.23,
      "seg_id": "L2.w1.s1",
      "shape": "LNT",
-     "jaw": 0.3,
+     "jaw": 0.282,
      "part": "coda"
     },
     {
      "t": 19.25,
      "seg_id": "L2.w1.s2",
      "shape": "LNT",
-     "jaw": 0.231,
+     "jaw": 0.225,
      "part": "onset"
     },
     {
      "t": 19.25,
      "seg_id": "L2.w1.s2",
      "shape": "UW",
-     "jaw": 0.27,
+     "jaw": 0.263,
      "part": "nucleus"
     },
     {
      "t": 19.33,
      "seg_id": "L2.w1.s3",
      "shape": "UW",
-     "jaw": 0.289,
+     "jaw": 0.279,
      "part": "onset"
     },
     {
      "t": 19.35,
      "seg_id": "L2.w1.s3",
      "shape": "A",
-     "jaw": 0.825,
+     "jaw": 0.796,
      "part": "nucleus"
     },
     {
      "t": 19.53,
      "seg_id": "L2.w1.s3",
      "shape": "LNT",
-     "jaw": 0.248,
+     "jaw": 0.239,
      "part": "coda"
     },
     {
@@ -3522,49 +3530,49 @@
      "t": 19.99,
      "seg_id": "L2.w2.s1",
      "shape": "EI",
-     "jaw": 0.45,
+     "jaw": 0.424,
      "part": "nucleus"
     },
     {
      "t": 20.12,
      "seg_id": "L2.w2.s1",
      "shape": "LNT",
-     "jaw": 0.3,
+     "jaw": 0.282,
      "part": "coda"
     },
     {
      "t": 20.14,
      "seg_id": "L2.w2.s2",
      "shape": "LNT",
-     "jaw": 0.231,
+     "jaw": 0.225,
      "part": "onset"
     },
     {
      "t": 20.14,
      "seg_id": "L2.w2.s2",
      "shape": "UW",
-     "jaw": 0.27,
+     "jaw": 0.263,
      "part": "nucleus"
     },
     {
      "t": 20.22,
      "seg_id": "L2.w2.s3",
      "shape": "UW",
-     "jaw": 0.289,
+     "jaw": 0.279,
      "part": "onset"
     },
     {
      "t": 20.24,
      "seg_id": "L2.w2.s3",
      "shape": "A",
-     "jaw": 0.825,
+     "jaw": 0.796,
      "part": "nucleus"
     },
     {
      "t": 20.42,
      "seg_id": "L2.w2.s3",
      "shape": "LNT",
-     "jaw": 0.248,
+     "jaw": 0.239,
      "part": "coda"
     },
     {
@@ -3575,238 +3583,238 @@
      "part": "onset"
     },
     {
-     "t": 20.97,
+     "t": 21.08,
      "seg_id": "L3.w1.s1",
      "shape": "EI",
-     "jaw": 0.371,
+     "jaw": 0.401,
      "part": "nucleus"
     },
     {
-     "t": 21.09,
+     "t": 21.28,
      "seg_id": "L3.w1.s1",
      "shape": "LNT",
-     "jaw": 0.247,
+     "jaw": 0.267,
      "part": "coda"
     },
     {
-     "t": 21.27,
+     "t": 21.65,
      "seg_id": "L3.w2.s1",
      "shape": "A",
-     "jaw": 0.825,
+     "jaw": 0.914,
      "part": "nucleus"
     },
     {
-     "t": 21.39,
+     "t": 21.73,
      "seg_id": "L3.w2.s1",
      "shape": "FV",
-     "jaw": 0.124,
+     "jaw": 0.137,
      "part": "coda"
     },
     {
-     "t": 21.47,
+     "t": 21.83,
      "seg_id": "L3.w3.s1",
      "shape": "MBP",
      "jaw": 0.0,
      "part": "onset"
     },
     {
-     "t": 21.58,
+     "t": 21.96,
      "seg_id": "L3.w3.s1",
      "shape": "O",
-     "jaw": 0.577,
+     "jaw": 0.7,
      "part": "nucleus"
     },
     {
-     "t": 21.7,
+     "t": 22.02,
      "seg_id": "L3.w3.s1",
      "shape": "MBP",
      "jaw": 0.0,
      "part": "coda"
     },
     {
-     "t": 21.76,
+     "t": 22.14,
      "seg_id": "L3.w3.s2",
      "shape": "LNT",
-     "jaw": 0.247,
+     "jaw": 0.243,
      "part": "onset"
     },
     {
-     "t": 21.82,
+     "t": 22.25,
      "seg_id": "L3.w3.s2",
      "shape": "O",
-     "jaw": 0.577,
+     "jaw": 0.568,
      "part": "nucleus"
     },
     {
-     "t": 21.94,
+     "t": 22.47,
      "seg_id": "L3.w3.s2",
      "shape": "LNT",
-     "jaw": 0.247,
+     "jaw": 0.243,
      "part": "coda"
     },
     {
-     "t": 22.12,
+     "t": 22.67,
      "seg_id": "L3.w4.s1",
      "shape": "LNT",
-     "jaw": 0.247,
+     "jaw": 0.276,
      "part": "onset"
     },
     {
-     "t": 22.18,
+     "t": 22.74,
      "seg_id": "L3.w4.s1",
      "shape": "EI",
-     "jaw": 0.371,
-     "part": "nucleus"
-    },
-    {
-     "t": 22.3,
-     "seg_id": "L3.w4.s1",
-     "shape": "FV",
-     "jaw": 0.124,
-     "part": "coda"
-    },
-    {
-     "t": 22.42,
-     "seg_id": "L3.w4.s2",
-     "shape": "A",
-     "jaw": 0.825,
-     "part": "nucleus"
-    },
-    {
-     "t": 22.66,
-     "seg_id": "L3.w5.s1",
-     "shape": "UW",
-     "jaw": 0.289,
-     "part": "onset"
-    },
-    {
-     "t": 22.72,
-     "seg_id": "L3.w5.s1",
-     "shape": "EI",
-     "jaw": 0.371,
+     "jaw": 0.414,
      "part": "nucleus"
     },
     {
      "t": 22.84,
+     "seg_id": "L3.w4.s1",
+     "shape": "FV",
+     "jaw": 0.138,
+     "part": "coda"
+    },
+    {
+     "t": 22.9,
+     "seg_id": "L3.w4.s2",
+     "shape": "A",
+     "jaw": 0.788,
+     "part": "nucleus"
+    },
+    {
+     "t": 23.15,
+     "seg_id": "L3.w5.s1",
+     "shape": "UW",
+     "jaw": 0.323,
+     "part": "onset"
+    },
+    {
+     "t": 23.22,
+     "seg_id": "L3.w5.s1",
+     "shape": "EI",
+     "jaw": 0.415,
+     "part": "nucleus"
+    },
+    {
+     "t": 23.46,
      "seg_id": "L3.w5.s1",
      "shape": "LNT",
-     "jaw": 0.247,
+     "jaw": 0.277,
      "part": "coda"
     },
     {
-     "t": 23.2,
+     "t": 23.98,
      "seg_id": "L4.w1.s1",
      "shape": "MBP",
      "jaw": 0.0,
      "part": "onset"
     },
     {
-     "t": 23.45,
+     "t": 24.23,
      "seg_id": "L4.w1.s1",
      "shape": "EI",
-     "jaw": 0.45,
+     "jaw": 0.424,
      "part": "nucleus"
     },
     {
-     "t": 23.58,
+     "t": 24.36,
      "seg_id": "L4.w1.s1",
      "shape": "LNT",
-     "jaw": 0.3,
+     "jaw": 0.282,
      "part": "coda"
     },
     {
-     "t": 23.6,
+     "t": 24.38,
      "seg_id": "L4.w1.s2",
      "shape": "LNT",
-     "jaw": 0.231,
+     "jaw": 0.225,
      "part": "onset"
     },
     {
-     "t": 23.6,
+     "t": 24.38,
      "seg_id": "L4.w1.s2",
      "shape": "UW",
-     "jaw": 0.27,
+     "jaw": 0.263,
      "part": "nucleus"
     },
     {
-     "t": 23.68,
+     "t": 24.46,
      "seg_id": "L4.w1.s3",
      "shape": "UW",
-     "jaw": 0.289,
+     "jaw": 0.279,
      "part": "onset"
     },
     {
-     "t": 23.7,
+     "t": 24.48,
      "seg_id": "L4.w1.s3",
      "shape": "A",
-     "jaw": 0.825,
+     "jaw": 0.796,
      "part": "nucleus"
     },
     {
-     "t": 23.88,
+     "t": 24.66,
      "seg_id": "L4.w1.s3",
      "shape": "LNT",
-     "jaw": 0.248,
+     "jaw": 0.239,
      "part": "coda"
     },
     {
-     "t": 24.09,
+     "t": 24.87,
      "seg_id": "L4.w2.s1",
      "shape": "MBP",
      "jaw": 0.0,
      "part": "onset"
     },
     {
-     "t": 24.34,
+     "t": 25.12,
      "seg_id": "L4.w2.s1",
      "shape": "EI",
-     "jaw": 0.45,
+     "jaw": 0.424,
      "part": "nucleus"
     },
     {
-     "t": 24.47,
+     "t": 25.25,
      "seg_id": "L4.w2.s1",
      "shape": "LNT",
-     "jaw": 0.3,
+     "jaw": 0.282,
      "part": "coda"
     },
     {
-     "t": 24.49,
+     "t": 25.27,
      "seg_id": "L4.w2.s2",
      "shape": "LNT",
-     "jaw": 0.231,
+     "jaw": 0.225,
      "part": "onset"
     },
     {
-     "t": 24.49,
+     "t": 25.27,
      "seg_id": "L4.w2.s2",
      "shape": "UW",
-     "jaw": 0.27,
+     "jaw": 0.263,
      "part": "nucleus"
     },
     {
-     "t": 24.57,
+     "t": 25.35,
      "seg_id": "L4.w2.s3",
      "shape": "UW",
-     "jaw": 0.289,
+     "jaw": 0.279,
      "part": "onset"
     },
     {
-     "t": 24.59,
+     "t": 25.37,
      "seg_id": "L4.w2.s3",
      "shape": "A",
-     "jaw": 0.825,
+     "jaw": 0.796,
      "part": "nucleus"
     },
     {
-     "t": 24.77,
+     "t": 25.55,
      "seg_id": "L4.w2.s3",
      "shape": "LNT",
-     "jaw": 0.248,
+     "jaw": 0.239,
      "part": "coda"
     },
     {
-     "t": 24.95,
+     "t": 25.73,
      "seg_id": null,
      "shape": "rest",
      "jaw": 0.0,
@@ -3825,49 +3833,49 @@
      "t": 41.2,
      "seg_id": "L2.w1.s1",
      "shape": "EI",
-     "jaw": 0.45,
+     "jaw": 0.424,
      "part": "nucleus"
     },
     {
      "t": 41.33,
      "seg_id": "L2.w1.s1",
      "shape": "LNT",
-     "jaw": 0.3,
+     "jaw": 0.282,
      "part": "coda"
     },
     {
      "t": 41.35,
      "seg_id": "L2.w1.s2",
      "shape": "LNT",
-     "jaw": 0.231,
+     "jaw": 0.225,
      "part": "onset"
     },
     {
      "t": 41.35,
      "seg_id": "L2.w1.s2",
      "shape": "UW",
-     "jaw": 0.27,
+     "jaw": 0.263,
      "part": "nucleus"
     },
     {
      "t": 41.43,
      "seg_id": "L2.w1.s3",
      "shape": "UW",
-     "jaw": 0.289,
+     "jaw": 0.279,
      "part": "onset"
     },
     {
      "t": 41.45,
      "seg_id": "L2.w1.s3",
      "shape": "A",
-     "jaw": 0.825,
+     "jaw": 0.796,
      "part": "nucleus"
     },
     {
      "t": 41.63,
      "seg_id": "L2.w1.s3",
      "shape": "LNT",
-     "jaw": 0.248,
+     "jaw": 0.239,
      "part": "coda"
     },
     {
@@ -3883,112 +3891,112 @@
      "t": 52.04,
      "seg_id": "L1.w1.s1",
      "shape": "EI",
-     "jaw": 0.426,
+     "jaw": 0.404,
      "part": "nucleus"
     },
     {
      "t": 52.23,
      "seg_id": "L1.w1.s1",
      "shape": "LNT",
-     "jaw": 0.284,
+     "jaw": 0.269,
      "part": "coda"
     },
     {
      "t": 52.44,
      "seg_id": "L1.w2.s1",
      "shape": "LNT",
-     "jaw": 0.28,
+     "jaw": 0.265,
      "part": "onset"
     },
     {
      "t": 52.54,
      "seg_id": "L1.w2.s1",
      "shape": "A",
-     "jaw": 0.932,
+     "jaw": 0.885,
      "part": "nucleus"
     },
     {
      "t": 52.86,
      "seg_id": "L1.w3.s1",
      "shape": "LNT",
-     "jaw": 0.28,
+     "jaw": 0.265,
      "part": "onset"
     },
     {
      "t": 52.92,
      "seg_id": "L1.w3.s1",
      "shape": "A",
-     "jaw": 0.932,
+     "jaw": 0.885,
      "part": "nucleus"
     },
     {
      "t": 53.02,
      "seg_id": "L1.w3.s1",
      "shape": "LNT",
-     "jaw": 0.28,
+     "jaw": 0.265,
      "part": "coda"
     },
     {
      "t": 53.21,
      "seg_id": "L1.w4.s1",
      "shape": "EI",
-     "jaw": 0.422,
+     "jaw": 0.401,
      "part": "nucleus"
     },
     {
      "t": 53.29,
      "seg_id": "L1.w4.s1",
      "shape": "LNT",
-     "jaw": 0.282,
+     "jaw": 0.267,
      "part": "coda"
     },
     {
      "t": 53.46,
      "seg_id": "L1.w5.s1",
      "shape": "A",
-     "jaw": 0.944,
+     "jaw": 0.895,
      "part": "nucleus"
     },
     {
      "t": 53.62,
      "seg_id": "L1.w5.s1",
      "shape": "EI",
-     "jaw": 0.425,
+     "jaw": 0.403,
      "part": "coda"
     },
     {
      "t": 54.025,
      "seg_id": "L1.w6.s1",
      "shape": "A",
-     "jaw": 0.937,
+     "jaw": 0.889,
      "part": "nucleus"
     },
     {
      "t": 54.205,
      "seg_id": "L1.w6.s1",
      "shape": "LNT",
-     "jaw": 0.281,
+     "jaw": 0.267,
      "part": "coda"
     },
     {
      "t": 54.425,
      "seg_id": "L1.w7.s1",
      "shape": "UW",
-     "jaw": 0.346,
+     "jaw": 0.326,
      "part": "onset"
     },
     {
      "t": 54.605,
      "seg_id": "L1.w7.s1",
      "shape": "EI",
-     "jaw": 0.445,
+     "jaw": 0.42,
      "part": "nucleus"
     },
     {
      "t": 54.825,
      "seg_id": "L1.w7.s1",
      "shape": "EI",
-     "jaw": 0.445,
+     "jaw": 0.42,
      "part": "coda"
     },
     {
@@ -4223,14 +4231,14 @@
    },
    {
     "t": [
-     11.41,
+     12.19,
      15.5
     ],
     "what": "room tone; no voice (Reader A's guess is a caption)"
    },
    {
     "t": [
-     24.91,
+     25.69,
      41.0
     ],
     "what": "no voice; S5 31.0-38.0 is the declared expressive silence at room tone -40 dB"
@@ -4250,53 +4258,7 @@
     "what": "no voice; end card in silence from 60.0"
    }
   ],
-  "declared_word_gaps": [
-   {
-    "seg_id": "L3.w1",
-    "text": "smells",
-    "file_time": [
-     5.41,
-     5.65
-    ],
-    "what": "silent span inside voice_poem.wav; mouth mouths the word silently (nominal timing)"
-   },
-   {
-    "seg_id": "L3.w2",
-    "text": "of",
-    "file_time": [
-     5.71,
-     5.95
-    ],
-    "what": "silent span inside voice_poem.wav; mouth mouths the word silently (nominal timing)"
-   },
-   {
-    "seg_id": "L3.w3",
-    "text": "popcorn,",
-    "file_time": [
-     6.02,
-     6.5
-    ],
-    "what": "silent span inside voice_poem.wav; mouth mouths the word silently (nominal timing)"
-   },
-   {
-    "seg_id": "L3.w4",
-    "text": "never",
-    "file_time": [
-     6.62,
-     7.1
-    ],
-    "what": "silent span inside voice_poem.wav; mouth mouths the word silently (nominal timing)"
-   },
-   {
-    "seg_id": "L3.w5",
-    "text": "rings —",
-    "file_time": [
-     7.16,
-     7.4
-    ],
-    "what": "silent span inside voice_poem.wav; mouth mouths the word silently (nominal timing)"
-   }
-  ],
+  "declared_word_gaps": [],
   "synthesized_effects": [
    {
     "what": "room tone",
@@ -4353,13 +4315,13 @@
    "voice": {
     "file": "voice_poem.wav",
     "at": 3.0,
-    "end": 12.41
+    "end": 13.19
    },
    "responses": [
     {
      "resp_id": "B1",
      "speaker": "Reader A (fictional)",
-     "t_said": 12.91,
+     "t_said": 13.69,
      "cites": [
       "Q_image",
       "Q_sound"
@@ -4373,7 +4335,7 @@
     {
      "resp_id": "B2",
      "speaker": "Reader B (fictional)",
-     "t_said": 14.91,
+     "t_said": 15.69,
      "cites": [
       "Q_image",
       "Q_sound"
@@ -4480,6 +4442,66 @@
    "used_as": "voice: L1.w4"
   },
   {
+   "id": "voice-Grendelkhan-never",
+   "title": "File:LL-Q1860 (eng)-Grendelkhan-never.wav",
+   "author": "Speaker and recorder: Grendelkhan (Lingua Libre)",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Grendelkhan-never.wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/92/LL-Q1860_%28eng%29-Grendelkhan-never.wav?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-maki-mococo/reading/Grendelkhan-never.mp3",
+   "local_form": "Commons mp3 transcode of the original (downloaded 2026-11-17 by the editor; originals rate-limited HTTP 429)",
+   "sha1_commons": "7591722219e9b6da0db1c6d7c45c7f05a9880c0e",
+   "what_it_shows": "a single-word Lingua Libre recording of English 'never' by volunteer speaker Grendelkhan",
+   "verified_date_or_place": "2026-11-17 (Commons API extmetadata); LicenseShortName=CC0",
+   "used_as": "voice: L3.w4"
+  },
+  {
+   "id": "voice-Grendelkhan-of",
+   "title": "File:LL-Q1860 (eng)-Grendelkhan-of.wav",
+   "author": "Speaker and recorder: Grendelkhan (Lingua Libre)",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Grendelkhan-of.wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/ac/LL-Q1860_%28eng%29-Grendelkhan-of.wav?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-maki-mococo/reading/Grendelkhan-of.mp3",
+   "local_form": "Commons mp3 transcode of the original (downloaded 2026-11-17 by the editor; originals rate-limited HTTP 429)",
+   "sha1_commons": "ae8efb663d4e5ecb47447cde0d0dc0eb20b416ed",
+   "what_it_shows": "a single-word Lingua Libre recording of English 'of' by volunteer speaker Grendelkhan",
+   "verified_date_or_place": "2026-11-17 (Commons API extmetadata); LicenseShortName=CC0",
+   "used_as": "voice: L3.w2"
+  },
+  {
+   "id": "voice-Grendelkhan-rings",
+   "title": "File:LL-Q1860 (eng)-Grendelkhan-rings.wav",
+   "author": "Speaker and recorder: Grendelkhan (Lingua Libre)",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Grendelkhan-rings.wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/13/LL-Q1860_%28eng%29-Grendelkhan-rings.wav?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-maki-mococo/reading/Grendelkhan-rings.mp3",
+   "local_form": "Commons mp3 transcode of the original (downloaded 2026-11-17 by the editor; originals rate-limited HTTP 429)",
+   "sha1_commons": "44addb2c0ad66058e5f726cd84ad5856ec610375",
+   "what_it_shows": "a single-word Lingua Libre recording of English 'rings' by volunteer speaker Grendelkhan",
+   "verified_date_or_place": "2026-11-17 (Commons API extmetadata); LicenseShortName=CC0",
+   "used_as": "voice: L3.w5"
+  },
+  {
+   "id": "voice-Grendelkhan-smells",
+   "title": "File:LL-Q1860 (eng)-Grendelkhan-smells.wav",
+   "author": "Speaker and recorder: Grendelkhan (Lingua Libre)",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Grendelkhan-smells.wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/06/LL-Q1860_%28eng%29-Grendelkhan-smells.wav?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-maki-mococo/reading/Grendelkhan-smells.mp3",
+   "local_form": "Commons mp3 transcode of the original (downloaded 2026-11-17 by the editor; originals rate-limited HTTP 429)",
+   "sha1_commons": "677be22320ced9c823747bac0d41a7381de0076e",
+   "what_it_shows": "a single-word Lingua Libre recording of English 'smells' by volunteer speaker Grendelkhan",
+   "verified_date_or_place": "2026-11-17 (Commons API extmetadata); LicenseShortName=CC0",
+   "used_as": "voice: L3.w1"
+  },
+  {
    "id": "voice-Grendelkhan-swing",
    "title": "File:LL-Q1860 (eng)-Grendelkhan-swing.wav",
    "author": "Speaker and recorder: Grendelkhan (Lingua Libre)",
@@ -4523,6 +4545,21 @@
    "what_it_shows": "a single-word Lingua Libre recording of English 'binturong' by volunteer speaker Vealhurl",
    "verified_date_or_place": "2026-11-17 (Commons API extmetadata); LicenseShortName=CC BY-SA 4.0",
    "used_as": "voice: L2.w1, L2.w2, L4.w1, L4.w2"
+  },
+  {
+   "id": "voice-Vealhurl-popcorn",
+   "title": "File:LL-Q1860 (eng)-Vealhurl-popcorn.wav",
+   "author": "Speaker and recorder: Vealhurl (Lingua Libre)",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-popcorn.wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/23/LL-Q1860_%28eng%29-Vealhurl-popcorn.wav?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-maki-mococo/reading/Vealhurl-popcorn.mp3",
+   "local_form": "Commons mp3 transcode of the original (downloaded 2026-11-17 by the editor; originals rate-limited HTTP 429)",
+   "sha1_commons": "31d0fa27f182d2d0fb8716329d6b699fd56f5b3c",
+   "what_it_shows": "a single-word Lingua Libre recording of English 'popcorn' by volunteer speaker Vealhurl",
+   "verified_date_or_place": "2026-11-17 (Commons API extmetadata); LicenseShortName=CC BY-SA 4.0",
+   "used_as": "voice: L3.w3"
   }
  ],
  "absences": [
@@ -4545,10 +4582,6 @@
   {
    "searched": "Wiktionary En-us-hangs.ogg",
    "result": "missing on Commons"
-  },
-  {
-   "searched": "download of the verified Grendelkhan smells/of/never/rings/pop/corn/ring and Vealhurl popcorn originals (licences verified: CC0 / CC BY-SA 4.0)",
-   "result": "DECLARED GAP: upload.wikimedia.org answered HTTP 429 to every attempt (originals and mp3 transcodes) for ~45 min; words L3.w1 'smells', L3.w2 'of', L3.w3 'popcorn,', L3.w4 'never', L3.w5 'rings —' are silent spans of nominal length (0.24 s/syllable), mouthed silently. Rerun u1/fetch3.py, u1/build_voice.py, u1/make_timeline.py to fill them (licences already recorded)."
   }
  ],
  "handmade": [
@@ -4567,7 +4600,7 @@
  ],
  "fixture_check": {
   "script": "u1/fixture_check.py",
-  "run": "2026-11-17T01:03:12",
+  "run": "2026-11-17T01:36:30",
   "passed": true,
   "P1": [
    {
@@ -4647,14 +4680,14 @@
   "cue_order_ok": true,
   "staging_warnings": [
    {
-    "warning": "S1 voice ends 11.41 > Reader A at 10.0",
+    "warning": "S1 voice ends 12.19 > Reader A at 10.0",
     "option_a": "keep plan time; caption lands over the last refrain (mouth keeps speaking, the 'hm' gesture starts after the voice ends)",
-    "option_b": "delay the response to 11.81 s (voice end + 0.4 s); label m:ss changes accordingly; P1 still holds"
+    "option_b": "delay the response to 12.59 s (voice end + 0.4 s); label m:ss changes accordingly; P1 still holds"
    },
    {
-    "warning": "S3 voice ends 24.91 > Reader B at 24.0",
+    "warning": "S3 voice ends 25.69 > Reader B at 24.0",
     "option_a": "keep plan time; caption lands over the last refrain (mouth keeps speaking, the 'hm' gesture starts after the voice ends)",
-    "option_b": "delay the response to 25.31 s (voice end + 0.4 s); label m:ss changes accordingly; P1 still holds"
+    "option_b": "delay the response to 26.09 s (voice end + 0.4 s); label m:ss changes accordingly; P1 still holds"
    }
   ],
   "reconsideration_names_image_clue": true,

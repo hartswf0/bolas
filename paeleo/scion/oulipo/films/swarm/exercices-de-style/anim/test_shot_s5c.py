@@ -1,4 +1,4 @@
-"""TEST SHOT S5c « Narré par la clé », beat 5 (film 56.167-66.25 s per incident/anthology.json timing_revision).
+"""TEST SHOT S5c « Narré par la clé », beat 5 (film 51.5-61.75 s per incident/anthology.json timing_revision, repair 2).
 
 FORAGED: Rol 57642 'Homme marchant dans la rue' (Jan 1920, PD) cut + articulated (walk, rise, the lowering arm);
 CC0 Edna C. Rex key (NGA 24027); MIA 'Communications and Our Town' (1947) belfry still in strip cell 2;
@@ -50,9 +50,17 @@ def cam(t):
 def ix(v):
     return int(round(v))
 
+_GROUND = {}
+def _ground(y):
+    """the page's own colour under a caption line (sampled from the bare page), used as a thin knock-out stroke"""
+    if y not in _GROUND:
+        a = np.asarray(PAGE.convert('RGB').crop((S['captions']['x'], y, S['captions']['x'] + 300, y + 28))).reshape(-1, 3)
+        _GROUND[y] = tuple(int(v) for v in np.median(a, 0))
+    return _GROUND[y]
+
 def captions(img, t):
     d = ImageDraw.Draw(img)
-    d.text((S['captions']['x'], S['captions']['y'] - 22), '— la clé, 18:06', font=L.font(L.SANS, 15), fill=(118, 86, 36))
+    d.text((S['captions']['x'], S['captions']['y'] - 22), '— la clé, 18:06', font=L.font(L.SANS, 15), fill=(118, 86, 36), stroke_width=1, stroke_fill=_ground(S['captions']['y'] - 22))
     for i, ln in enumerate(LINES):
         if t < ln['t_in']:
             continue
@@ -64,7 +72,7 @@ def captions(img, t):
                 shown.append(w)
         if shown:
             d.text((S['captions']['x'], S['captions']['y'] + i * S['captions']['lead']), ' '.join(shown), font=CAP_F,
-                   fill=L.RED if ln['red'] else L.BLACK)
+                   fill=L.RED if ln['red'] else L.BLACK, stroke_width=2, stroke_fill=_ground(S['captions']['y'] + i * S['captions']['lead']))   # repair 2: page-colour knock-out keeps the line legible where the sleeve / key pass under it
 
 def title(img):
     L.set_title(img, [('Narré', L.RED), ('par', L.BLACK), ('la', L.RED), ('clé', L.BLACK)], x=30, base=70, size=48, seed=5)

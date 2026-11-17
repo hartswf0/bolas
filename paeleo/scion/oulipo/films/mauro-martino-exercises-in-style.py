@@ -324,6 +324,7 @@ def coverage():
 @functools.lru_cache(None)
 def drift_strip():
     im = Image.open(WS / "verify/rejected-drift-strip.jpg").convert("RGB")
+    im = im.crop((0, 283, im.size[0], im.size[1]))   # overhead rows only (accepted vs drift); the side row is not reused
     w = 340; return im.resize((w, int(im.size[1] * w / im.size[0])), Image.LANCZOS)
 
 
@@ -337,7 +338,7 @@ def card_coverage(k):
     lost = C["lost_anchor_ids"]["d-camera"]; part = C["partial_anchor_ids"]["d-camera"]
     pred = C["predicted_losses_overhead"]["predicted"]
     iou = C["outline_iou"]["puppets"]["min"]
-    au = C.get("audio_pcm", {})
+    au = pcm_report()
     rows = [
         ("intended effect", ""),
         ("  baseline", ie["baseline"]["rate"]),
@@ -350,7 +351,8 @@ def card_coverage(k):
         ("", "verified by frame hash (frames 0 29 132 × 6)"),
         ("", "seed moves runners (7 vs 8) only;"),
         ("", "protected masks identical"),
-        ("sound", "bed + bell PCM identical, 6 windows" if au.get("identical") else "PCM hashes: " + str(au.get("status", "pending"))),
+        ("sound", ("bed + bell PCM identical in all 7 clip windows" if au["identical"] else "PCM DIFFERS across clip windows")),
+        ("", "sha1 " + au["sha1"][0][:16] + " · hold: declared silence"),
         ("not claimed", "anything about text-to-video"),
         ("", "generators in general"),
     ]
@@ -503,6 +505,19 @@ def clip_audio():
     b[-tail:] *= np.linspace(1, 0, tail)[:, None]                 # cut at the clip end: no spill into the next window
     st[i:i + len(b)] += b
     return st
+
+
+@functools.lru_cache(None)
+def pcm_report():
+    """Rebuild the film's mix exactly as Film.render does and hash each 7.0 s clip window (s16 PCM)."""
+    m = kit.Mix(SECONDS, seed=film.seed)
+    sound(m)
+    pcm = np.asarray(m.master()).reshape(-1, 2)
+    hs = []
+    for at in CLIP_WINDOWS:
+        a0 = int(round(at * kit.RATE)); a1 = a0 + int(round(CLIP * kit.RATE))
+        hs.append(hashlib.sha1(pcm[a0:a1].tobytes()).hexdigest())
+    return dict(windows=CLIP_WINDOWS, sha1=hs, identical=len(set(hs)) == 1, rate=kit.RATE)
 
 
 def _lay(mix, st, at):

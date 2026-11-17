@@ -1,0 +1,790 @@
+{
+ "unit": "U1 optics (optical designer and key cutter)",
+ "date": "2026-11-17",
+ "module": {
+  "path": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/anemic-cinema/optics.py",
+  "run": "python3 -I",
+  "api": [
+   "ring_set(gain)",
+   "render_rings(theta, gain, ring_mask=None, omega=0, nsub=8, detune=0)",
+   "ring_segment_mask(k, a0, a1) -> RingSeg (k=7 is the core); put RingSeg or [RingSeg,..] at ring_mask[k]",
+   "key_ring_set(gain)",
+   "key_slots(gain=1.0)  (69 slots, token order: outer ring first, clockwise from 12 o'clock)",
+   "key_sprite(i, scale=1.0)",
+   "render_keys(theta, gain, placed=None|int|indices|{i:{pos,ang,scale,alpha}}, omega=0, nsub=8, grooves=True, detune=0)",
+   "plate(kind in 'text','A','B') -> (L, disc) at 2x, rotation-invariant, camera-fixed light",
+   "compose(plate_L, layers, warm) -> 960x540 RGB preview (INTER_AREA, warm grade only on optical discs)",
+   "WARM = (1.045, 0.99, 0.875) RGB gains"
+  ],
+  "returns": "dict(L float32 (1080,1920) straight 0..255, A float32 0..1, tint='warm'); 180 deg shutter integrates nsub sub-frames when omega (rev/frame) is given",
+  "other_scripts": [
+   "/home/user/bolas/paeleo/scion/oulipo/films/swarm/anemic-cinema/optics_keycut.py",
+   "/home/user/bolas/paeleo/scion/oulipo/films/swarm/anemic-cinema/optics_tests.py"
+  ]
+ },
+ "field_contract": {
+  "canvas": [
+   960,
+   540
+  ],
+  "centre": [
+   480,
+   270
+  ],
+  "R_1x": 232,
+  "internal_scale": 2,
+  "downsample": "cv2.INTER_AREA",
+  "theta": "radians, ccw-positive on screen, from score.json",
+  "seed": 1926,
+  "plate_angle_convention": "phi in plate frame, image coords (atan2(y,x), y down): 0 = 3 o'clock, increasing = clockwise on screen; phi_screen = phi_plate - theta; offsets in 1x px from the plate centre"
+ },
+ "rings": [
+  {
+   "k": 0,
+   "r_1x": 216.0,
+   "width_1x": 15.0,
+   "gap_to_next_1x": 15.0,
+   "centre_offset_1x_at_gain1": [
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "k": 1,
+   "r_1x": 186.0,
+   "width_1x": 15.0,
+   "gap_to_next_1x": 15.0,
+   "centre_offset_1x_at_gain1": [
+    11.0,
+    0.0
+   ]
+  },
+  {
+   "k": 2,
+   "r_1x": 156.0,
+   "width_1x": 15.0,
+   "gap_to_next_1x": 15.0,
+   "centre_offset_1x_at_gain1": [
+    22.0,
+    0.0
+   ]
+  },
+  {
+   "k": 3,
+   "r_1x": 126.0,
+   "width_1x": 15.0,
+   "gap_to_next_1x": 15.0,
+   "centre_offset_1x_at_gain1": [
+    33.0,
+    0.0
+   ]
+  },
+  {
+   "k": 4,
+   "r_1x": 96.0,
+   "width_1x": 15.0,
+   "gap_to_next_1x": 15.0,
+   "centre_offset_1x_at_gain1": [
+    44.0,
+    0.0
+   ]
+  },
+  {
+   "k": 5,
+   "r_1x": 66.0,
+   "width_1x": 15.0,
+   "gap_to_next_1x": 15.0,
+   "centre_offset_1x_at_gain1": [
+    55.0,
+    0.0
+   ]
+  },
+  {
+   "k": 6,
+   "r_1x": 36.0,
+   "width_1x": 15.0,
+   "gap_to_next_1x": 15.0,
+   "centre_offset_1x_at_gain1": [
+    66.0,
+    0.0
+   ]
+  }
+ ],
+ "core": {
+  "r_1x": 14.0,
+  "centre_offset_1x_at_gain1": [
+   77.0,
+   0.0
+  ],
+  "grooved": true
+ },
+ "ring_pitch_1x": 30.0,
+ "ring_width_over_gap": 1.0,
+ "eccentric_rule": "ring k centre (plate frame) = (11*k*gain, 0) px at 1x, core (77*gain, 0); near-side gap = 15 - 11*gain px (4.0 at gain 1, 7.3 at 0.7). Rings 216..36 px radius, fixed; only the centres drift (user fix: clearly eccentric, centres drifting like duchamp2)",
+ "O_A": {
+  "rings": [
+   {
+    "k": 0,
+    "r_1x": 216.0,
+    "width_1x": 15.0,
+    "centre_offset_1x_at_gain1": [
+     0.0,
+     0.0
+    ],
+    "stock_b": 0.9
+   },
+   {
+    "k": 1,
+    "r_1x": 186.0,
+    "width_1x": 15.0,
+    "centre_offset_1x_at_gain1": [
+     11.0,
+     0.0
+    ],
+    "stock_b": 0.9166666666666667
+   },
+   {
+    "k": 2,
+    "r_1x": 156.0,
+    "width_1x": 15.0,
+    "centre_offset_1x_at_gain1": [
+     22.0,
+     0.0
+    ],
+    "stock_b": 0.9333333333333333
+   },
+   {
+    "k": 3,
+    "r_1x": 126.0,
+    "width_1x": 15.0,
+    "centre_offset_1x_at_gain1": [
+     33.0,
+     0.0
+    ],
+    "stock_b": 0.9500000000000001
+   },
+   {
+    "k": 4,
+    "r_1x": 96.0,
+    "width_1x": 15.0,
+    "centre_offset_1x_at_gain1": [
+     44.0,
+     0.0
+    ],
+    "stock_b": 0.9666666666666667
+   },
+   {
+    "k": 5,
+    "r_1x": 66.0,
+    "width_1x": 15.0,
+    "centre_offset_1x_at_gain1": [
+     55.0,
+     0.0
+    ],
+    "stock_b": 0.9833333333333334
+   },
+   {
+    "k": 6,
+    "r_1x": 36.0,
+    "width_1x": 15.0,
+    "centre_offset_1x_at_gain1": [
+     66.0,
+     0.0
+    ],
+    "stock_b": 1.0
+   }
+  ],
+  "core": {
+   "r_1x": 14.0,
+   "centre_offset_1x_at_gain1": [
+    77.0,
+    0.0
+   ]
+  },
+  "groove_pitch_1x": 2.5,
+  "groove_pitch_2x": 5.0,
+  "groove_depth": 0.14,
+  "stock_L": 142.0,
+  "made": "HANDMADE procedural engraved disc, analytic per sample at 2x: 7 eccentric cream rings + grooved core; groove = 1 + 0.14 cos(2 pi d / pitch) about each ring's own centre; ring profile slightly rounded; innermost ring brightest (b 0.90 -> 1.00); camera-fixed convex light upper left (0.86 + 0.22 lambert)",
+  "plate": "plate('A'): dark convex, L 18 -> 46 (warm-graded by the editor)"
+ },
+ "O_B": {
+  "rings": [
+   {
+    "k": 0,
+    "r": 206.0,
+    "ox": -0.0,
+    "oy": 0.0,
+    "key": "K0",
+    "length": 79.92,
+    "height": 27.36,
+    "n": 15,
+    "b": 1.0
+   },
+   {
+    "k": 1,
+    "r": 168.0,
+    "ox": -5.0,
+    "oy": 0.0,
+    "key": "K1",
+    "length": 71.50736842105263,
+    "height": 24.48,
+    "n": 14,
+    "b": 0.96
+   },
+   {
+    "k": 2,
+    "r": 134.0,
+    "ox": -10.0,
+    "oy": 0.0,
+    "key": "K0",
+    "length": 63.094736842105256,
+    "height": 21.599999999999998,
+    "n": 12,
+    "b": 0.92
+   },
+   {
+    "k": 3,
+    "r": 104.0,
+    "ox": -15.0,
+    "oy": 0.0,
+    "key": "K1",
+    "length": 54.682105263157894,
+    "height": 18.72,
+    "n": 11,
+    "b": 0.88
+   },
+   {
+    "k": 4,
+    "r": 78.0,
+    "ox": -20.0,
+    "oy": 0.0,
+    "key": "K0",
+    "length": 46.269473684210524,
+    "height": 15.84,
+    "n": 10,
+    "b": 0.84
+   },
+   {
+    "k": 5,
+    "r": 56.0,
+    "ox": -25.0,
+    "oy": 0.0,
+    "key": "K1",
+    "length": 46.269473684210524,
+    "height": 15.84,
+    "n": 7,
+    "b": 0.8
+   }
+  ],
+  "n_slots": 69,
+  "key_ecc_1x": 5.0,
+  "made": "6 tight eccentric rings of the two GrabCut keys laid tangentially bow-to-bit (bit leads anticlockwise, bow clockwise), K0 iron on even rings (teeth out), K1 bronze on odd rings (teeth in); printed into cream L = (114 + 78*tone) * b * light, b 1.00 -> 0.80 inward; offsets reversed (-5*k*gain px); concave black-card plate('B') L 10 -> 34 with lit side lower right; faint engraved guide grooves (L 46, alpha 0.55, two 1.2 px circles per ring)"
+ },
+ "plate_continuity": "user fix 'one continuous plate tone through the switch': the plate is now a separate camera-fixed, rotation-invariant layer (plate()) and no renderer paints per-ring plate patches. Switch windows should blend plate('text') -> plate('A') (or 'B') with ONE global scalar ramped over the 18 frames, never per-ring region masks.",
+ "groove_choice": {
+  "chosen_pitch_1x": 2.5,
+  "chosen_pitch_2x": 5.0,
+  "reason": "The brief asked for ~3 px at 2x (1.5 px at 1x). That is above the 1x Nyquist limit (2 px period): at 1x it cannot be resolved, and the crops show a folded checker/moire rather than concentric lines (pitch 1.5 alias RMSE 0.81-0.87 L, contrast is moire). 2.5 px at 1x (5 px at 2x) is the finest pitch that reads as concentric grooves at 1:1, alias RMSE 0.50 L vs an 8x ground truth at both speeds, render/truth groove contrast 8.6/8.2 at 0.30 rev/s and 8.9/8.5 at 0.09375 rev/s. 3.5 px is cleaner (RMSE 0.29) but coarser than duchamp2's fine grooves. It also matches glyphs.py's letter groove (2.5 px at 1x), so letters and rings stay one stock.",
+  "measurement": {
+   "crop_1x_xywh": [
+    610,
+    170,
+    100,
+    100
+   ],
+   "frames": 12,
+   "gain": 1.0,
+   "method": "2x render (the film) area-downsampled vs 8x analytic render of the same shutter-integrated rotation, inside the ring interiors; groove contrast = std of the high-pass (L - gauss2) at 1x; crops saved x4 nearest (left = film, right = truth)",
+   "results": {
+    "pitch1.5_0.30rev_s": {
+     "groove_pitch_1x": 1.5,
+     "omega_rev_per_frame": 0.0125,
+     "alias_rmse_L_vs_8x_truth": 0.81,
+     "groove_contrast_1x_render": 6.42,
+     "groove_contrast_1x_truth": 5.89,
+     "frame_to_frame_change_render": 4.09,
+     "frame_to_frame_change_truth": 3.45
+    },
+    "pitch1.5_0.09375rev_s": {
+     "groove_pitch_1x": 1.5,
+     "omega_rev_per_frame": 0.00390625,
+     "alias_rmse_L_vs_8x_truth": 0.87,
+     "groove_contrast_1x_render": 6.78,
+     "groove_contrast_1x_truth": 6.19,
+     "frame_to_frame_change_render": 1.96,
+     "frame_to_frame_change_truth": 1.64
+    },
+    "pitch2.5_0.30rev_s": {
+     "groove_pitch_1x": 2.5,
+     "omega_rev_per_frame": 0.0125,
+     "alias_rmse_L_vs_8x_truth": 0.5,
+     "groove_contrast_1x_render": 8.62,
+     "groove_contrast_1x_truth": 8.2,
+     "frame_to_frame_change_render": 5.83,
+     "frame_to_frame_change_truth": 5.48
+    },
+    "pitch2.5_0.09375rev_s": {
+     "groove_pitch_1x": 2.5,
+     "omega_rev_per_frame": 0.00390625,
+     "alias_rmse_L_vs_8x_truth": 0.51,
+     "groove_contrast_1x_render": 8.89,
+     "groove_contrast_1x_truth": 8.46,
+     "frame_to_frame_change_render": 1.89,
+     "frame_to_frame_change_truth": 1.77
+    },
+    "pitch3.5_0.30rev_s": {
+     "groove_pitch_1x": 3.5,
+     "omega_rev_per_frame": 0.0125,
+     "alias_rmse_L_vs_8x_truth": 0.29,
+     "groove_contrast_1x_render": 10.36,
+     "groove_contrast_1x_truth": 10.1,
+     "frame_to_frame_change_render": 5.49,
+     "frame_to_frame_change_truth": 5.32
+    },
+    "pitch3.5_0.09375rev_s": {
+     "groove_pitch_1x": 3.5,
+     "omega_rev_per_frame": 0.00390625,
+     "alias_rmse_L_vs_8x_truth": 0.29,
+     "groove_contrast_1x_render": 10.6,
+     "groove_contrast_1x_truth": 10.34,
+     "frame_to_frame_change_render": 1.5,
+     "frame_to_frame_change_truth": 1.45
+    }
+   }
+  }
+ },
+ "section9_measurements": {
+  "OA_gain1.0_k48": {
+   "field_corner_L": 2.0,
+   "field_noise_sigma": 0.0,
+   "disc_height_frac": 0.859,
+   "ring_pixels_L_p10_p50_p90": [
+    101.0,
+    121.0,
+    140.0
+   ],
+   "ring_R_minus_B_mean": 21.23,
+   "gap_rgb_mean": [
+    34.3,
+    32.5,
+    28.7
+   ],
+   "centre_row_ring_runs_px": [
+    14,
+    15,
+    15,
+    15,
+    16,
+    18,
+    42,
+    17,
+    16,
+    15,
+    15,
+    14,
+    14
+   ],
+   "centre_row_gap_runs_px": [
+    7,
+    6,
+    7,
+    8,
+    9,
+    18,
+    38,
+    27,
+    25,
+    25,
+    25,
+    25
+   ],
+   "ring_over_gap_mean": 0.948
+  },
+  "OA_gain0.7_k0": {
+   "field_corner_L": 2.0,
+   "field_noise_sigma": 0.0,
+   "disc_height_frac": 0.859,
+   "ring_pixels_L_p10_p50_p90": [
+    101.0,
+    120.66666412353516,
+    140.0
+   ],
+   "ring_R_minus_B_mean": 21.12,
+   "gap_rgb_mean": [
+    35.1,
+    33.2,
+    29.4
+   ],
+   "centre_row_ring_runs_px": [
+    14,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    28,
+    15,
+    15,
+    15,
+    14,
+    15,
+    15,
+    14
+   ],
+   "centre_row_gap_runs_px": [
+    23,
+    23,
+    23,
+    22,
+    23,
+    23,
+    22,
+    7,
+    7,
+    7,
+    8,
+    8,
+    7,
+    8
+   ],
+   "ring_over_gap_mean": 1.039
+  },
+  "OB_gain1.0_k48_fast": {
+   "field_corner_L": 2.0,
+   "field_noise_sigma": 0.0,
+   "disc_height_frac": 0.859,
+   "ring_pixels_L_p10_p50_p90": [
+    97.66666412353516,
+    118.66666412353516,
+    148.3333282470703
+   ],
+   "ring_R_minus_B_mean": 21.2,
+   "gap_rgb_mean": [
+    25.2,
+    24.0,
+    21.2
+   ],
+   "centre_row_ring_runs_px": [
+    8,
+    5,
+    5,
+    6,
+    6,
+    11,
+    5,
+    5,
+    9,
+    6,
+    5,
+    4,
+    15,
+    16
+   ],
+   "centre_row_gap_runs_px": [
+    27,
+    10,
+    27,
+    27,
+    20,
+    20,
+    108,
+    14,
+    12,
+    15,
+    10,
+    13,
+    22
+   ],
+   "ring_over_gap_mean": 0.303,
+   "key_pixels_L_p10_p50_p90": [
+    89.0,
+    115.33333587646484,
+    148.6666717529297
+   ]
+  },
+  "OB_gain1.0_k48_read": {
+   "field_corner_L": 2.0,
+   "field_noise_sigma": 0.0,
+   "disc_height_frac": 0.859,
+   "ring_pixels_L_p10_p50_p90": [
+    99.0,
+    120.66666412353516,
+    150.6666717529297
+   ],
+   "ring_R_minus_B_mean": 21.55,
+   "gap_rgb_mean": [
+    24.0,
+    22.8,
+    20.2
+   ],
+   "centre_row_ring_runs_px": [
+    15,
+    4,
+    5,
+    6,
+    6,
+    11,
+    5,
+    5,
+    9,
+    6,
+    5,
+    4,
+    14,
+    17
+   ],
+   "centre_row_gap_runs_px": [
+    26,
+    11,
+    27,
+    27,
+    20,
+    20,
+    108,
+    13,
+    13,
+    15,
+    10,
+    13,
+    23
+   ],
+   "ring_over_gap_mean": 0.319,
+   "key_pixels_L_p10_p50_p90": [
+    95.33333587646484,
+    119.66666412353516,
+    153.6666717529297
+   ]
+  },
+  "duchamp2_reference_numbers": {
+   "size": [
+    512,
+    460
+   ],
+   "field_corner_L": 20.4,
+   "ring_pixels_L_p10_p50_p90": [
+    99.33333587646484,
+    117.66666412353516,
+    138.6666717529297
+   ],
+   "ring_R_minus_B_mean": 17.72
+  },
+  "note": "cmp_duchamp2_*.png are our frames only (no reference pixels copied); duchamp2 numbers were read with PIL"
+ },
+ "depth_tests": {
+  "clips": {
+   "OA_rise_locked": {
+    "clip": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/optics/depth_OA_rise_locked.mp4",
+    "frames": 96,
+    "rev_per_s": 0.3,
+    "gain_first_last": [
+     0.7,
+     1.0
+    ],
+    "detune": 0.0
+   },
+   "OA_fall_locked": {
+    "clip": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/optics/depth_OA_fall_locked.mp4",
+    "frames": 96,
+    "rev_per_s": 0.3,
+    "gain_first_last": [
+     1.0,
+     0.7
+    ],
+    "detune": 0.0
+   },
+   "OA_rise_detuned2": {
+    "clip": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/optics/depth_OA_rise_detuned2.mp4",
+    "frames": 96,
+    "rev_per_s": 0.3,
+    "gain_first_last": [
+     0.7,
+     1.0
+    ],
+    "detune": 0.02
+   },
+   "OB_fall_locked": {
+    "clip": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/optics/depth_OB_fall_locked.mp4",
+    "frames": 96,
+    "rev_per_s": 0.3,
+    "gain_first_last": [
+     1.0,
+     0.7
+    ],
+    "detune": 0.0
+   },
+   "OB_rise_locked": {
+    "clip": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/optics/depth_OB_rise_locked.mp4",
+    "frames": 96,
+    "rev_per_s": 0.3,
+    "gain_first_last": [
+     0.7,
+     1.0
+    ],
+    "detune": 0.0
+   },
+   "OB_fall_detuned2": {
+    "clip": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/optics/depth_OB_fall_detuned2.mp4",
+    "frames": 96,
+    "rev_per_s": 0.3,
+    "gain_first_last": [
+     1.0,
+     0.7
+    ],
+    "detune": 0.02
+   }
+  },
+  "locked_vs_detuned_f95_mean_abs_diff_L": {
+   "OA": 3.05,
+   "OB": 0.86
+  },
+  "chosen": {
+   "O_A": "OA_rise_locked: gain 0.7 -> 1.0 (smoothstep), locked orbit",
+   "O_B": "OB_fall_locked: gain 1.0 -> 0.7 (smoothstep), locked orbit, reversed offsets, darker smaller inner rings, concave plate"
+  },
+  "reason": "Locked over detuned: the 2 % detune precesses the core only 0.15 rad (about 12 px) over a 4 s body, so it adds no visible new motion but breaks invariant I1 (rigid rotation of one flat plate) and the exact 80-frame periodicity I5; with a locked orbit every ring returns exactly at k+80. Rising gain for O_A: the core's orbit radius grows 54 -> 77 px, so the stereokinetic cone lengthens while the innermost (brightest) ring is the tip - the approach cue. Falling gain for O_B: the funnel shortens while inner rings are smaller and darker - the recession cue. Rising O_B / falling O_A clips are kept as the comparison.",
+  "evidence_label": "measured: offsets, orbit radii, periodicity, frame differences. perceptually judged: NOT yet - depth sign was only inspected on still frames by the builder; an independent critic must watch the clips at 1:1 (plan.md acceptance 4). Stereokinetic depth sign is bistable."
+ },
+ "key_cutouts": {
+  "manifest": [
+   {
+    "id": "K0",
+    "source": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/key_yale_towne_1280.png",
+    "source_size_after_rotation": [
+     1280,
+     465
+    ],
+    "rotation": "none",
+    "crop_xywh_in_oriented_source": [
+     26,
+     28,
+     1221,
+     418
+    ],
+    "background_level": 185.0,
+    "grabcut_iterations": 6,
+    "init": "GC_INIT_WITH_MASK",
+    "islands_removed": 1,
+    "island_count_after": 0,
+    "pinholes_filled": 14,
+    "bow_hole_area_px": 36267,
+    "key_area_px": 185162,
+    "bit_teeth_runs": 2,
+    "teeth_side": "top",
+    "changed_vs_seed_px": {
+     "kept_against_seed": 3974,
+     "dropped_against_seed": 10347
+    },
+    "outputs": {
+     "rgba": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/optics/key0_rgba.png",
+     "mask": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/optics/key0_mask.png",
+     "failure_overlay": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/optics/key0_failure.png"
+    }
+   },
+   {
+    "id": "K1",
+    "source": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/optics/raw/llave_bronce.jpg",
+    "source_size_after_rotation": [
+     946,
+     289
+    ],
+    "rotation": "cv2.ROTATE_90_CLOCKWISE (bit left, bow right)",
+    "crop_xywh_in_oriented_source": [
+     8,
+     8,
+     930,
+     273
+    ],
+    "background_level": 255.0,
+    "grabcut_iterations": 6,
+    "init": "GC_INIT_WITH_MASK",
+    "islands_removed": 0,
+    "island_count_after": 0,
+    "pinholes_filled": 5,
+    "bow_hole_area_px": 11417,
+    "key_area_px": 117458,
+    "bit_teeth_runs": 2,
+    "teeth_side": "bottom",
+    "changed_vs_seed_px": {
+     "kept_against_seed": 1117,
+     "dropped_against_seed": 2093
+    },
+    "outputs": {
+     "rgba": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/optics/key1_rgba.png",
+     "mask": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/optics/key1_mask.png",
+     "failure_overlay": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/optics/key1_failure.png"
+    }
+   }
+  ],
+  "method": "optics_keycut.py: mask-seeded cv2.grabCut (GC_INIT_WITH_MASK, 6 iterations), largest component, pin-holes < 1.5 % filled, bow hole kept, 0.8 px feather; asserted: 1 component, bow hole present, >= 2 runs across the bit (teeth kept)",
+  "repair_notes": [
+   "K1 first pass (luminance/saturation seeds only) dropped the near-white specular band of the bronze shank and split the bit; repaired by changing the seed constraints, not the threshold: exact paper (L>=253, S<4) = definite bg (the Commons photo's paper is pre-flattened white), the non-paper region eroded 4 px = definite fg, so the graph cut decides only the boundary band. Result: 0 islands, bow hole 11417 px, notches kept.",
+   "K0: the cast shadow at the lower edge is dropped (blue fringe in key0_failure.png); 1 small island removed by largest-component."
+  ]
+ },
+ "foraged": [
+  {
+   "id": "K0",
+   "title": "File:Skeleton key (Yale & Towne).png",
+   "author": "Noy-nac",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Skeleton_key_(Yale_%26_Towne).png",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/60/Skeleton_key_%28Yale_%26_Towne%29.png",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/key_yale_towne_1280.png (1280 px thumbnail foraged earlier, reused) -> optics/key0_rgba.png",
+   "what_it_shows": "photograph of an iron Yale & Towne skeleton key on grey paper, bit with two teeth, oval bow ('YS' engraved)",
+   "verified_date_or_place": "Commons API extmetadata re-read 2026-11-17: LicenseShortName 'CC BY-SA 4.0', Credit 'Own work', Artist noy-nac, DateTimeOriginal 2017-10-08, original 2816x1024, sha1 6b6c93518a612491189262967320b5b01c85b093",
+   "used_as": "GrabCut cutout; keys on O_B rings 0, 2, 4 and the W3 substitution"
+  },
+  {
+   "id": "K1",
+   "title": "File:Llave bronce.jpg",
+   "author": "Jorge Barrios",
+   "license": "Public domain (PD-self)",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Llave_bronce.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c6/Llave_bronce.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/optics/raw/llave_bronce.jpg (289x946, 209 KB) -> optics/key1_rgba.png (rotated 90 deg cw)",
+   "what_it_shows": "photograph of a bronze skeleton key on a white background, round bow with figure-8 hole, notched bit, stamped lettering",
+   "verified_date_or_place": "Commons API extmetadata read 2026-11-17: LicenseShortName 'Public domain', License 'pd', UsageTerms 'Public domain', Credit 'Own work', categories PD-self, Antique keys, Objects with white background",
+   "used_as": "GrabCut cutout; keys on O_B rings 1, 3, 5 (variety in the inner rings)"
+  }
+ ],
+ "handmade": [
+  {
+   "what": "O_A engraved ring disc (7 eccentric rings + grooved core), procedural",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/anemic-cinema/optics.py render_rings()"
+  },
+  {
+   "what": "O_B key-ring layout, guide grooves, cream printing of the keys, concave black-card plate",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/anemic-cinema/optics.py render_keys(), plate('B')"
+  },
+  {
+   "what": "lit plates text / A / B (camera-fixed lambert sphere)",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/anemic-cinema/optics.py plate()"
+  }
+ ],
+ "absences": [
+  "No LoC 'No known restrictions' key photograph searched (Commons gave a usable PD key at once; budget).",
+  "Commons search 'skeleton key white background' (File namespace): only one other usable key photograph (Llave bronce, PD); the rest were book scans and PDFs."
+ ],
+ "media": {
+  "optics_dir": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/optics",
+  "editor_dir": "/home/user/bolas/paeleo/scion/oulipo/films/sources/anemic-cinema/optics-optical-designer-and-key-cutter-owns-o_a-procedural-engraved-ring-disc-grabcut-key-cutouts-o_b-key-ring-disc-depth-tuning-",
+  "files": [
+   "key0_rgba.png, key1_rgba.png, key0_mask.png, key1_mask.png, key0_failure.png, key1_failure.png, keys_manifest.json",
+   "depth_OA_rise_locked.mp4, depth_OA_fall_locked.mp4, depth_OA_rise_detuned2.mp4, depth_OB_fall_locked.mp4, depth_OB_rise_locked.mp4, depth_OB_fall_detuned2.mp4 (4 s, 96 f, 0.30 rev/s); depth/<profile>/f000,f047,f095.png",
+   "alias_crop_p{1.5,2.5,3.5}_{0.30,0.09375}rev_s.png (100x100 crop x4 nearest; left = film 2x render, right = 8x truth)",
+   "cmp_duchamp2_OA_gain1.0_k48.png, cmp_duchamp2_OA_gain0.7_k0.png, cmp_duchamp2_OB_gain1.0_k48_{fast,read}.png, key_crop100_*.png",
+   "tests.json"
+  ]
+ },
+ "downloads_MB": 0.21,
+ "notes_for_U2_U3": [
+  "Ring radii unchanged since the provisional publish: 216 - 30k (k=0..6), core 14 px.",
+  "O_B has 6 rings of 15/14/12/11/10/7 keys = 69 slots; map T2 glyphs of turn j to slots of ring min(j,5).",
+  "At 0.30 rev/s the outer keys blur by ~8 px (real 180 deg shutter); teeth and bow holes read crisply at 0.09375 rev/s (key_crop100_*), so O_B should start at omega_read as scored.",
+  "GROOVE 2.5 px at 1x matches glyphs.py's letter groove."
+ ]
+}

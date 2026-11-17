@@ -89,7 +89,7 @@ bh = [bbox_h[k] for k in sorted(bbox_h, key=int)]
 out['S5c'] = dict(
     film_t0=t0, film_t1=t1, duration=dur, frames=N, bench_top=352, key_length=380.0,
     door_xy=[804, 36], captions=dict(x=440, y=48, lead=34, source='anthology key.5-key.8 (14 chars/s, word reveal, held)'),
-    camera=dict(drift_px=40, t0=2.0, t1=dur, planes={'bench': 1.0, 'key': 1.0, 'hand': 1.0, 'visitor': 0.55, 'door': 0.55,
+    camera=dict(drift_px=40, t0=2.6, t1=dur, planes={'bench': 1.0, 'key': 1.0, 'hand': 1.0, 'visitor': 0.55, 'door': 0.55,
                 'ghost': 0.25, 'print (title, captions, strip, band)': 0.0}, note='#44: near moves more than far; door moves by whole pixels only'),
     key_contact_frame=K_CONTACT, key_settle=dict(frames=[K_CONTACT, K_CONTACT + 10], angle_deg='6 -> 0, one overshoot', bounce='3 px, peak on settle frame 4',
                                                  still_from_frame=K_CONTACT + 10, still_from_film_t=round(t0 + (K_CONTACT + 10) / FPS, 3)),

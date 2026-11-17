@@ -1,4 +1,4 @@
-"""le-maki-mococo -- a paper mouth reads one fixed poem; sound, then text, then image (SCION editor rev E1).
+"""le-maki-mococo -- a paper mouth reads one fixed poem; sound, then text, then image (SCION editor rev E2).
 
 Direction 2 'Paper Mouth' (spine) + Direction 3 'Gong to Animal' (image cue), plan.md rev P1, shot list S0-S9.
 
@@ -6,7 +6,8 @@ HANDMADE : the articulated cut-paper mouth, pose library + decoder, kinetic type
            the bronze-card gong, cord and knot (gong_rig.py, U3); captions, cue strip, end card; paper/cord
            sound effects and room tone (kit synthesis, declared).
 FORAGED  : the reading voice (Lingua Libre word recordings on Wikimedia Commons: Grendelkhan CC0, Vealhurl
-           CC BY-SA 4.0; assembled by U1, cue_timeline.json); the binturong (Brehm's Life of Animals p. 265,
+           CC BY-SA 4.0 'binturong' and 'popcorn'; all 16 words incl. line 3, assembled and measured by U1,
+           cue_timeline.json); the binturong (Brehm's Life of Animals p. 265,
            engraved by F. Specht, 1895, public domain; GrabCut cutout by U3).
 
 Run from the oulipo project root:
@@ -223,17 +224,27 @@ def lip_set(t):
     return "B" if RESP["R2"]["t_said"] - 0.2 <= t < 31.0 else "A"
 
 
+POEM_WORDS = sorted({v["word"] for v in M.SYL.values()})
+KEY_WORDS = (("hangs",), ("swings",), ("never", "rings"))
+
+
 def darken(t):
-    """S4: 'hangs', 'swings', 'never rings' darken one by one (no glyph moves); ease back in the S5 hold."""
+    """S4: 'hangs', 'swings', 'never rings' come forward one by one (no glyph moves, no glyph changes).
+    The poem ink is already near-black, so the rest of the poem greys (rig darken < 0 lightens: INK x (1 - 0.55 v))
+    and each key word returns to full ink in turn; everything eases back to full ink in the S5 hold."""
     if IMAGE_FIRST:
         return None
     r2 = RESP["R2"]["t_said"]
-    out = {}
-    for k, words in enumerate((("hangs",), ("swings",), ("never", "rings"))):
-        a = kit.smooth(kit.ramp(t, r2 + 0.6 + 0.8 * k, r2 + 0.9 + 0.8 * k)) * (1 - kit.smooth(kit.ramp(t, 33.0, 35.0)))
+    hold = kit.smooth(kit.ramp(t, r2 + 0.2, r2 + 0.6)) * (1 - kit.smooth(kit.ramp(t, 33.0, 35.0)))
+    if hold <= 0:
+        return None
+    grey = -3.2 * hold                                     # INK (42,36,34) -> about (116,99,94)
+    out = {w: grey for w in POEM_WORDS}
+    for k, words in enumerate(KEY_WORDS):
+        a = kit.smooth(kit.ramp(t, r2 + 0.7 + 0.8 * k, r2 + 1.0 + 0.8 * k))
         for w in words:
-            out[w] = a
-    return out if any(v > 0 for v in out.values()) else None
+            out[w] = grey * (1 - a)
+    return out
 
 
 # ----------------------------------------------------------------------------------------- type + labels
@@ -290,6 +301,8 @@ def caption(d, rid, t, y):
     if not (a0 <= t < a1):
         return
     al = min(1.0, (t - a0) / 0.25) * min(1.0, (a1 - t) / 0.35)
+    if rid == "R3" and not IMAGE_FIRST:     # the reconsideration steps back (still legible) when the alternate speaks
+        al *= 1 - 0.4 * kit.smooth(kit.ramp(t, SHOW["R4"][0], SHOW["R4"][0] + 0.4))
     r = RESP[rid]
     d.text((455, y), resp_label(r), font=F_LABEL, fill=MUTED + (int(255 * al),), anchor="la")
     for i, ln in enumerate(wrap("“" + r["quoted_span"] + "”", F_CAP, 485)):
@@ -304,7 +317,7 @@ def end_card(d, t):
     d.text((480, 246), "Sound 0:02 · text 0:15 · image 0:38.  Readers A and B are fictional.",
            font=ImageFont.truetype(INTER + "Inter-Regular.otf", 17), fill=c, anchor="mm")
     lines = ["Voice: Lingua Libre volunteer word recordings on Wikimedia Commons — Grendelkhan (CC0),",
-             "Vealhurl ('binturong', CC BY-SA 4.0); words re-ordered into a poem they never read.",
+             "Vealhurl ('binturong', 'popcorn', CC BY-SA 4.0); single words re-ordered into a poem they never read.",
              "Image: the binturong, Brehm's Life of Animals (1895) p. 265, engraved by F. Specht, public domain.",
              "Handmade: paper mouth, bronze-card gong, cord, type, red pencil; room tone and paper sounds synthesised."]
     for i, ln in enumerate(lines):

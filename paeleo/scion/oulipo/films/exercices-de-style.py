@@ -41,11 +41,14 @@ X = json.load(open(SW / 'anim' / 'exposure.json'))
 V = TS.V
 VAR = ANTH['variants']
 SCHED = {s['shot']: (s['t0'], s['t1']) for s in ANTH['schedule']}
-DUR = ANTH['schedule'][-1]['t1']                       # 74.25 s (timing_revision)
+DUR = ANTH['schedule'][-1]['t1']                       # 69.75 s (anthology timing_revision, repair 2)
 SRC = L.SRC
 CLOCKS = {'E1': '18:00', 'E2': '18:02', 'E3': '18:04', 'E4': '18:05', 'E5': '18:06', 'E6': '18:07'}
 EV = ['E1', 'E2', 'E3', 'E4', 'E5', 'E6']
 CREAMY = (250, 244, 226)
+DISCLOSE_S1 = ["personnages et lieu :", "archives, rôles inventés"]
+DISCLOSE_S6 = ["archives : Agence Rol 1920 (photographie) ;", "Berlin 1927 et Communications and Our Town 1947 (films) ;",
+               "rôles inventés. La clé : aquarelle d'Edna C. Rex."]
 
 
 def ix(v):
@@ -169,6 +172,8 @@ def render_S1(t, strip=True):
     img.alpha_composite(DECKLE, (28, 96))
     L.paste_door(img, *DOOR_S1)
     s1_stage(img, t)
+    for i, ln in enumerate(DISCLOSE_S1):                # repair 2: early label, under the vignette, clear of the bench
+        ImageDraw.Draw(img).text((30, 260 + 18 * i), ln, font=L.font(L.SANS, 14), fill=L.BLACK)
     d = ImageDraw.Draw(img); fnt = L.font(L.SERIF_R, 16); y = 96
     for c in VAR['baseline']['claims']:
         if c['t_in'] > t or c['id'] == 'baseline.7':
@@ -376,7 +381,9 @@ def notice_img(t):
 def render_S4(t, strip=True):
     v = VAR['notice']
     img = page_base('Avis', gxy=(360, -170))
-    L.set_title(img, [('Avis', L.RED)], x=30, base=70, size=54, seed=31)
+    x = 30                                             # mixed faces: red A, black v i (jumping), red s
+    for ch, col, sd in (('A', L.RED, 31), ('v', L.BLACK, 36), ('i', L.BLACK, 33), ('s', L.RED, 34)):
+        x = L.set_title(img, [(ch, col)], x=x, base=70, size=54, seed=sd) - 54 * 0.28
     if t >= v['claims'][0]['t_in']:
         img.alpha_composite(notice_img(t), CARD_XY)
     k = ix(t * FPS); ks = sorted(int(x) for x in S4X['frames'])
@@ -413,7 +420,7 @@ ImageDraw.Draw(GHOST_DARK).text((150, -200), 'Je', font=L.font(L.SERIF_R, 660), 
 CAP_F = L.font(L.SERIF_I, 24)
 S5_LINES = [c for c in KV['claims'] if c['t_in'] < SCHED['S5c'][0]]
 TEAR_END = TEAR_T0 + X['S5b']['tear']['n_frames'] / FPS
-SLIDE = (55.0, SCHED['S5c'][0])                        # the hand pulls the key (us) out of the envelope
+SLIDE = (SCHED['S5c'][0] - 0.45, SCHED['S5c'][0])      # the hand pulls the key (us) out: last 0.45 s of S5b (exposure S5b.hand)
 
 
 def typed(text, t, t_in, t_end, cps):
@@ -441,8 +448,8 @@ def render_S5ab(t, strip=True):
         hole = Image.new('RGBA', env.size, (0, 0, 0, 0))
         env.paste(hole, (0, 0), m)
     img.alpha_composite(env, (0, ix(slide)))
-    if t >= TEAR_END + 0.2:                            # the hand reaches in through the opening, toward us (the key)
-        u = ease(t, TEAR_END + 0.2, SLIDE[0])
+    if t >= TEAR_END + 0.05:                           # the hand reaches in through the opening, toward us (the key)
+        u = ease(t, TEAR_END + 0.05, SLIDE[0])
         lay = Image.new('RGBA', (W, H), (0, 0, 0, 0))
         tip = (470 - 20 * u, 150 + 70 * u - 120 * ease(t, *SLIDE))
         L.place(lay, ARM['img'], ARM['origin'], FINGER, tip, 24 + 10 * (1 - u), 0.8 + 0.9 * u)
@@ -526,7 +533,8 @@ def render_S6(t, strip=True):
                     tw = d.textlength(cell['mark'], font=MFONT)
                     d.ellipse([cx - tw / 2 - 8, y - 12, cx + tw / 2 + 8, y + 12], outline=L.RED, width=2)
             n += 1
-    d.text((40, 352), "photographies d'archives (Agence Rol, 1920 ; Berlin, 1927) : rôles inventés", font=L.font(L.SANS, 13), fill=(96, 76, 40))
+    for i, ln in enumerate(DISCLOSE_S6):                 # repair 2: full disclosure, warm black, clear of the strip
+        d.text((444, 371 + 20 * i), ln, font=L.font(L.SANS, 15), fill=L.BLACK)   # beside the strip, above the band
     L.band(img, pt['band'], 'EXERCICE 6 · COUVERTURE', None)
     if strip:
         L.strip(img, cells('S6'), ring=None)
@@ -562,8 +570,17 @@ def cells(ep):
                 out.append(crop_sq(im, f['hip'][0] + DX1, f['hip'][1] - 40, 190))
     elif ep == 'S2':
         for tm in VAR['rev']['timing']:
-            im = render_S2(tm['t_out'] - 0.05, strip=False)
-            out.append(crop_sq(im, (TAB_BOX[0] + TAB_BOX[2]) / 2, (TAB_BOX[1] + TAB_BOX[3]) / 2, 220))
+            tt = tm['t_out'] - 0.05
+            im = render_S2(tt, strip=False)
+            t1 = S1_BEATS[tm['event']]['t_in'] + min(tt - tm['t_in'], tm_len(tm))
+            f = S1X['frames'][str(min(max((ix(t1 * FPS) // 2) * 2, min(int(k) for k in S1X['frames'])), max(int(k) for k in S1X['frames'])))]
+            sx = (TAB_BOX[2] - TAB_BOX[0] - 16) / (TAB_SRC[2] - TAB_SRC[0])
+            hx = TAB_BOX[0] + 8 + (f['hip'][0] + DX1 - TAB_SRC[0]) * sx
+            hy = TAB_BOX[1] + 8 + (f['hip'][1] - 40 - TAB_SRC[1]) * sx
+            sz = 150                                                    # repair 2: centred on him, kept inside the card
+            hx = min(max(hx, TAB_BOX[0] + 8 + sz / 2), TAB_BOX[2] - 8 - sz / 2)
+            hy = min(max(hy, TAB_BOX[1] + 8 + sz / 2), TAB_BOX[3] - 8 - sz / 2)
+            out.append(crop_sq(im, hx, hy, sz))
         out = out[::-1]                                  # cells stay in event order; the cursor walks 6 -> 1
     elif ep == 'S3':
         for tm in VAR['sense']['timing']:
@@ -630,7 +647,7 @@ def sound(mix):
     thud = decode(FR / 'thud_dull.wav'); thud /= np.abs(thud).max()
     lp = mix.lowpass
 
-    # room tone: the Wreckless optical-track bed, looped with crossfades, from 0 to the declared silence at 71.25
+    # room tone: the Wreckless optical-track bed, looped with crossfades, from 0 to the declared silence (page_text S6)
     seg = room[int(2.0 * R): int(22.0 * R)]
     seg = seg / (np.sqrt(np.mean(seg ** 2)) + 1e-9) * 0.012
     silence = ANTH['page_text']['S6']['declared_silence_from']
@@ -802,7 +819,8 @@ def timing_fixtures():
     assert np_['t_out'] - np_['t_in'] >= 2.0
     assert all('clé' not in c['text'] for c in VAR['sense']['claims'])
     first_field = min(min(ft) for ft in FIELD_T)
-    assert first_field - VAR['notice']['claims'][0]['t_in'] >= 1.0, 'empty grid must show >= 1 s'
+    grid_clear = max(VAR['notice']['claims'][0]['t_in'], SCHED['S4'][0] + WIPE / FPS)     # grid fully on screen after the wipe
+    assert first_field - grid_clear >= 1.5, 'empty grid must show >= 1.5 s after the wipe'
     assert all(len(r) == 6 for r in ROWS)
     S = X['S5c']
     land = T5 + S['key_contact_frame'] / FPS
@@ -816,17 +834,23 @@ def timing_fixtures():
     assert all(b <= a + 1e-9 for a, b in zip(hs, hs[1:])), 'visitor scale must not grow while he walks away'
     assert all(S['visitor'][str(k)] is not None for k in range(0, S['key_contact_frame'] + 2, 2)), 'visitor must be there at contact'
     bh = visitor_bbox_heights()
-    assert all(b <= a for a, b in zip(bh, bh[1:])), 'visitor on-screen bbox height must be non-increasing 57.4-65.4 s'
+    # height: his scale never grows (above); his drawn silhouette height may rise by at most 1 px between two drawings
+    # (knee bend / bob rasterised at a new sub-pixel position), never above the lowest height already reached + 1 px,
+    # and it falls by >= 25 % over the walk.
+    rises = [(i, a, b) for i, (a, b) in enumerate(zip(bh, bh[1:])) if b > a]
+    assert all(b - a <= 1 for _, a, b in rises), rises
+    assert all(h <= min(bh[:j]) + 1 for j, h in enumerate(bh) if j), 'visitor height must keep falling (running min + 1 px)'
+    assert bh[-1] <= 0.75 * bh[0], (bh[0], bh[-1])
     for c in KV['claims']:
         assert KV['window'][0] <= c['t_in'] and c['t_type_end'] <= KV['window'][1]
-    return dict(bbox_h_first_last=(bh[0], bh[-1]), bbox_frames=len(bh), landing_s=round(land, 3), still_s=round(still, 3), s3_head_up_frame=head_k, s3_bell_frame=S3X['bell_onset_frame'],
-                empty_grid_s=round(first_field - VAR['notice']['claims'][0]['t_in'], 2), contacts=len(cts))
+    return dict(bbox_h_first_last=(bh[0], bh[-1]), bbox_frames=len(bh), bbox_1px_rises=len(rises), landing_s=round(land, 3), still_s=round(still, 3), s3_head_up_frame=head_k, s3_bell_frame=S3X['bell_onset_frame'],
+                empty_grid_after_wipe_s=round(first_field - grid_clear, 2), contacts=len(cts))
 
 
 def visitor_bbox_heights():
-    """The visitor's own layer, unoccluded, drawn exactly as TS.visitor_layer draws him, film 57.417-65.4 s."""
+    """The visitor's own layer, unoccluded, drawn exactly as TS.visitor_layer draws him, landing frame to exit frame."""
     out = []
-    for k in range(X['S5c']['key_contact_frame'], 222, 1):
+    for k in range(X['S5c']['key_contact_frame'], X['S5c']['walk']['exit_frame'], 1):
         lay = Image.new('RGBA', (W + 600, H), (0, 0, 0, 0))
         f = TS._vis(k)
         pose = dict(lean=f['lean'], head=f['head'], arm=f['arm'], hem=f['hem'], own_arm=True,
@@ -860,10 +884,10 @@ def _pic(t, ink):
 
 
 film.sound(sound)
-film.poster_at = KV['test_shot']['beat5_pair_frame_s']   # 58.667
+film.poster_at = KV['test_shot']['beat5_pair_frame_s']   # 54.0
 
 
-PAIR_T = KV['test_shot']['beat5_pair_frame_s']          # 58.667 = S5c start + 2.5 s (plan §10 revision 1: the bar's 54.0 re-anchored)
+PAIR_T = KV['test_shot']['beat5_pair_frame_s']          # 54.0 s, as the bar is written (S5c 51.5 + 2.5 s)
 
 
 def page_like_median(a_):
@@ -895,7 +919,7 @@ def sheets():
         bm = np.median(a_[500:525, 300:700].reshape(-1, 3), 0)
         rows.append(dict(t=t, page='#%02x%02x%02x' % tuple(int(v) for v in pm), dE_page=round(L.dE(pm, L.PAGE), 2), page_like_fraction=round(frac, 2),
                          band='#%02x%02x%02x' % tuple(int(v) for v in bm), dE_band=round(L.dE(bm, L.BAND), 2)))
-        lab = 'S5c + 2.5 s (bar 54.0 re-anchored)' if t == PAIR_T else ''
+        lab = 'S5c + 2.5 s' if t == PAIR_T else ''
         ImageDraw.Draw(sheet).text((rh.size[0] + 30, i * 560 + 544), f"{t:.3f} s {lab}  page {rows[-1]['page']} dE76 {rows[-1]['dE_page']} ({rows[-1]['page_like_fraction']:.0%} page-like)  band {rows[-1]['band']} dE76 {rows[-1]['dE_band']}",
                                    font=L.font(L.MONO, 12), fill=(255, 255, 255))
     sheet.save(out / 'exercices-de-style-aesthetic.jpg', quality=85)
