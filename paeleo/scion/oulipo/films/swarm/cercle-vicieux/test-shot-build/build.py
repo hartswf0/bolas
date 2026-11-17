@@ -237,7 +237,7 @@ def sound(mix):
     # paper: the leaf lifting and laying down (synthesized from noise, declared)
     nz = mix.noise(1.5, "pink")
     env = np.interp(np.arange(len(nz)) / rate, [0, .15, .6, 1.2, 1.38, 1.5], [0, .5, .25, .35, 1.0, 0])
-    mix.add(mix.band(nz, 500, 7000) * env * 0.10, T_TURN[0], 1.0, pan=0.2)
+    mix.add(mix.band(nz, 500, 7000) * env * 0.9, T_TURN[0], 1.0, pan=0.2)
     # bell strikes exactly where the simulated clapper hits the rim
     _, _, _, _, _, strikes = P.simulate_x()
     for ts, v in strikes:
