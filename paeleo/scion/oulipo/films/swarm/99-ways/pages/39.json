@@ -1,0 +1,77 @@
+{
+ "n": 39,
+ "id": "meanwhile",
+ "title": "Meanwhile",
+ "rule": "Two parallel tiers: the office above, the platform below, showing what the stranger does during each of the agent's beats.",
+ "medium": "busch-fold",
+ "family": "time and order",
+ "canon_revision": "c1",
+ "declares": "adds the stranger's platform actions (her arrival, waiting, train)",
+ "file": "assets/pages/99-ways/39-meanwhile.jpg",
+ "master": "films/sources/99-ways/masters/39-meanwhile.png",
+ "beats_dir": "films/sources/99-ways/beats/39",
+ "build": "films/swarm/99-ways/build/p39_meanwhile.py (busch-fold kit from p11_station_cat.py)",
+ "sources": [
+  "les-caids-de-la-gaudriole:busch-mm-031",
+  "99-ways:busch-helene-munzel",
+  "les-caids-de-la-gaudriole:vintage-paper",
+  "les-caids-de-la-gaudriole:wood-table",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "a printed picture sheet on the les-caids tabletop (vintage paper scan graded neutral, its relief kept; greyed wood), folded once along the line between the two tiers and opened again (valley crease shading, the halves lit differently), laid a hair off square with its shadow",
+  "two tiers of six tall pictures: the office above, the platform below; each column's clock time (4:09:30 ... 4:11:00) printed on the fold between its two pictures, with a ruled tick up and down to each: the pairing",
+  "the agent = the les-caids porter cutout (Busch 1865, Max und Moritz plate 31), re-cut by hand round his figure (door slab, wall and stick left behind), laid in all six office pictures (turned, tilted to the clock), a handmade ink pencil at his chin in the last",
+  "the stranger = Helene (Busch 1872, Die fromme Helene, Werke v2 p 246) cut by hand round her figure; a HANDMADE ink cloche hat (white crown, band, brim, hatching) drawn onto the piece so she wears the canon's hat; her own leaning pose put to the ticket window; seen through the office glass (picture 2), turned away (4), by the coach (5), her hatted head in a coach window (6)",
+  "HANDMADE ink set (penlib.brush_line): desk with the memo slip, the ticket window from both sides (TICKET OFFICE board on the platform side), the clock at 4:10 with its pendulum, the cupboard open on its left jamb, the key on its hook with its SERVICE tag, the shut SERVICE door with its card, platform boards, clapboard wall, the coach with its windows, wheels and steam; a small handmade wristwatch",
+  "captions (office: what he does; platform: each begins 'Meanwhile,') and the four canon lines in the shared pen hand and cut-paper balloons; the question and the answer appear in both tiers at the same column; folio '39 / Meanwhile' (pen99.folio)"
+ ],
+ "events": {
+  "E0": "column 1 (4:09:30): above, he reads the memo and gets up; below, she comes up the platform",
+  "E1": "column 2 (4:09:50): above, her hat through the glass, the question; below, she leans in and asks",
+  "E2": "column 3 (4:10:00): above, head up to the clock at 4:10, the answer; below, the answer through the glass, she sets her watch",
+  "E3": "column 4 (4:10:10): above, the empty window, 'Much obliged!', he walks on; below, she thanks him and turns",
+  "E4": "column 5 (4:10:40): above, the cupboard open, key on its hook; below, her train pulls in",
+  "E5": "column 6 (4:11:00): above, pencil to chin, the forgetting line, the SERVICE door shut; below, she is aboard and the train goes"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "none: the four lines verbatim (broken into short lines to fit the narrow columns); question and answer are repeated in the platform tier",
+ "added": "her platform actions: arrival, leaning in, setting her watch, turning, the train pulling in, boarding (declared)",
+ "beat": "the office tier lies complete; the platform tier is filled column by column under it, so each of her actions lands beneath his at the same printed time",
+ "beat_frames": [
+  "b01: the office tier alone, six moments of the agent; the platform tier still blank paper",
+  "b02: + platform 4:09:30: meanwhile she comes up the platform",
+  "b03: + platform 4:09:50: meanwhile she leans in and asks (the same line in both tiers)",
+  "b04: + platform 4:10:00: meanwhile she sets her watch by his answer",
+  "b05: + platform 4:10:10: meanwhile she thanks him and turns",
+  "b06: + platform 4:10:40: meanwhile her train pulls in",
+  "b07: + platform 4:11:00: meanwhile she is aboard and the train goes (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1145247,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "tiers": 2,
+  "columns": 6,
+  "times_on_fold": [
+   "4:09:30",
+   "4:09:50",
+   "4:10:00",
+   "4:10:10",
+   "4:10:40",
+   "4:11:00"
+  ],
+  "every_lower_caption_begins_meanwhile": true,
+  "clock_at_answer": "4:10 (column 3, printed time 4:10:00)",
+  "pending": "independent blind reading not run by the maker"
+ }
+}

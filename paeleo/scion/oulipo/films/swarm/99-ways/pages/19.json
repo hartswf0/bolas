@@ -19,8 +19,9 @@
  ],
  "made": [
   "ten storyboard boards, each a 1894 x 222 px strip of cream card, stacked in one column with 40 px gutters; board numbers 1-10 in graphite in the left gutter; a punched hole at each board's corner",
-  "AGENT and STRANGER as the engraving puppets of page 03 (films/swarm/99-ways/kit/build_page03.py: the 1863 telegraph operator cut at the joints and pinned with brass pins; the 1867 hatted woman cut along a drawn path; the operator's table and glazed window from the same plate), printed as ink on cream card, re-posed per board",
-  "set in the shared pen hand (HANDMADE): memo with the canon text, wall clock at 4:10, cupboard hinged on the left jamb with the key on its hook and SERVICE tag, SERVICE door lettered SERVICE, TICKET OFFICE on the window",
+  "AGENT and STRANGER as the engraving puppets of page 03 (films/swarm/99-ways/kit/build_page03.py: the 1863 telegraph operator cut at the joints and pinned with brass pins; the 1867 hatted woman cut along a drawn path; the operator's table from the same plate), printed as ink on cream card, re-posed per board; the woman is seen only head-and-shoulders THROUGH the ticket window (scale 0.42, laid into the opening and cut off at the sill, no pin), facing the agent in boards 4-6 and turned away in board 7",
+  "the ticket window drawn in the shared pen hand: a pale cool platform wash with the platform edge beyond the glass, frame, cross glazing bars and white glass glints drawn OVER her, a sill ledge and a counter front lettered TICKET OFFICE",
+  "set in the shared pen hand (HANDMADE): memo with the canon text, a large wall clock with all sixty minute ticks set to each board's time (4:08 in board 1, 4:09 in boards 2-5, 4:10 from board 6; at 4:10 the minute hand sits on the two-o'clock mark, at 4:09 one tick short), cupboard hinged on the left jamb with the key on its hook and SERVICE tag, SERVICE door lettered SERVICE, TICKET OFFICE on the window",
   "the four canon lines as cut-paper balloons in the shared pen hand (penlib.balloon_piece); ten torn commentary slips pinned with brass pins (build_page03.slip)",
   "hand-ruled borders (penlib.border_mask); folio '19 / One column' (pen99.folio)"
  ],
@@ -56,7 +57,7 @@
    2200,
    2850
   ],
-  "jpeg_bytes": 1167848,
+  "jpeg_bytes": 1177355,
   "jpeg_quality": 90,
   "in_target_0.4_1.2MB": true,
   "panels": 10,
@@ -68,12 +69,27 @@
   "panel_aspect": 8.53,
   "side_by_side_panels": 0,
   "lines_verbatim": true,
-  "pending": "independent blind reading not run by the maker"
+  "pending": "independent blind reading not run by the maker",
+  "beat_frames": 6,
+  "evidence": "measured (size, pixel checks named in the repair) and judged from the full-size page by the repair maker; a fresh blind reading of the repair is pending"
  },
  "weaknesses": [
   "at 222 px board height the puppets are about 200 px tall: small at phone width, legible at full size",
-  "the 1863 plate's window is a glazed door; she is seen through it by printing its line over her, so TICKET OFFICE in pen sits over engraved hatching and reads weakly",
-  "board 1 (memo close-up) is mostly empty card; commentary slips overlap the desk's memo in boards 2-10",
-  "the jpeg is 1.17 MB, near the top of the target"
+  "board 1 is still a close-up (memo, hand, clock at 4:08) with much empty card",
+  "one minute is a single tick on the dial: 4:09 and 4:10 are told apart only by whether the minute hand sits on the 2 mark or one tick short; legible at full size, not at phone width",
+  "the engraved window piece of the 1863 plate is no longer used; the window is pen-drawn so the glass can sit in front of her"
+ ],
+ "repairs": [
+  {
+   "date": "2026-11-17",
+   "by": "repair maker, batch 2",
+   "changed": [
+    "clock redrawn larger (r 56 px) with all sixty minute ticks, set per board: 4:08 in board 1 (clock now shown there), 4:09 in boards 2-5, 4:10 from board 6",
+    "the stranger is seen head-and-shoulders through a pen-drawn ticket window: platform wash behind her, her puppet laid into the opening and cut off at the sill (no pin on her), frame, cross glazing bars and white glints drawn over her; counter front lettered TICKET OFFICE",
+    "she faces the agent in boards 4-6 and is turned away in board 7",
+    "board 4 question balloon set in three lines to the right of the window, tail to the window's edge (off her head); board 6 answer balloon moved low so its tail passes under her face"
+   ],
+   "pass_test": "every board's clock agrees with its caption time, and her face is visible behind the glass in boards 4-7"
+  }
  ]
 }

@@ -1,0 +1,50 @@
+"""Record + credits for page 35 Snowball."""
+import sys
+sys.path.insert(0, "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways/build")
+import b1m2
+import p35_snowball as P
+
+jp = b1m2.PAGES_OUT / "35-snowball.jpg"
+src = ["99-ways-template:anrc-gold-key-1922", "99-ways-template:loc-blank-sheet-1934", "99-ways:handmade"]
+counts = [len(P.words(c)) for c in P.CAPTIONS]
+rec = {
+ "n": 35, "id": "snowball", "title": "Snowball", "family": "formal / Oulipian rule", "medium": "shadow-puppet",
+ "canon_revision": "c1", "rule": "Caption n has exactly n words, one to eight.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/35-snowball.jpg", "master": "films/sources/99-ways/masters/35-snowball.png",
+ "beats_dir": "films/sources/99-ways/beats/35",
+ "build": "films/swarm/99-ways/build/p35_snowball.py (screen and puppet tools: build/p05_noir.py; figures and set pieces: build/b1m2.py)",
+ "sources": src,
+ "made": [
+  "HANDMADE black cut-paper silhouette puppets of the b1m2 model (agent in profile with cut spectacles, waistcoat buttons, pencil, pinned joints; the stranger as a soft grey bust held back beyond the glass) and cut set pieces (desk and lamp, ticket window with TICKET OFFICE cut through its header, wall clock at 4:09 and 4:10, cupboard with its leaf on the left jamb, SERVICE door)",
+  "page 05's lamp-lit paper screen (LoC 1934 sheet fibre), even lamp, no blind slats",
+  "the ANRC 1922 key cutout as the one brass gel on its hook with a SERVICE tag (close-up in shot 7)",
+  "eight shots that grow as the captions grow: four rows 520/600/680/760 px tall, the right shot of each row wider (ratio n+4 : n+5)",
+  "eight pasted caption slips in the shared pen hand, of 1, 2, 3 ... 8 words; the four canon lines in cut-paper balloons (not captions, not counted)"
+ ],
+ "captions": P.CAPTIONS, "caption_word_counts": counts,
+ "events": {"E0": "shots 1-2 (desk and memo slip '4:15 - open SERVICE door. Key in cupboard.'; risen, walking to the cupboard)",
+            "E1": "shot 3 question", "E2": "shot 4 clock 4:10, answer", "E3": "shot 5 thanks; she turns from the glass",
+            "E4": "shots 6-7 the cupboard opened, the key on its hook tagged SERVICE",
+            "E5": "shot 8 pencil at his chin, the forgetting line; key on its hook; SERVICE door shut"},
+ "lines": dict(P.LN) if hasattr(P, "LN") else {"question": "Pardon me — have you the right time?", "answer": "Ten past four, by the clock.", "thanks": "Much obliged!", "forgetting": "Well, here I am... and what for?"},
+ "substitutions": "none",
+ "beat": "the snowball rolls: one shot per frame, each larger than the last, its caption one word longer",
+ "beat_frames": [f"b{k:02d}: shots 1-{k} (caption {k}: {k} word{'s' if k > 1 else ''})" for k in range(1, 9)],
+ "self_check": {
+  "size_px": [2200, 2850], "jpeg_bytes": jp.stat().st_size, "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": 400000 <= jp.stat().st_size <= 1200000,
+  "caption_word_counts": counts, "counts_are_1_to_8": counts == list(range(1, 9)),
+  "check": "A reader counts 1, 2, 3 ... 8 words in the captions (measured: word counts asserted at build time; hyphen-free, 'SERVICE' counted as one word; perceptually judged at full size: each caption on its own slip top left)",
+  "evidence": "measured (word counts, size, bytes) and perceptually judged (full-size page) by the maker"
+ },
+ "weaknesses": [
+  "the medium and set pieces repeat pages 05/30 closely; only the growing shots set it apart",
+  "the shot growth is gentle (520 to 760 px tall) and may not be noticed as part of the rule",
+  "caption 7 wraps to two lines, which can make a reader recount",
+  "the stranger is a grey shadow beyond the glass, as on pages 05 and 30"
+ ]
+}
+b1m2.write_record(rec)
+b1m2.credit_pages(src, 35)
+print("ok", counts, rec["self_check"]["jpeg_bytes"])

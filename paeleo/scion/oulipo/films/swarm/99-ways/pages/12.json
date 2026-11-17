@@ -21,9 +21,10 @@
  ],
  "made": [
   "FORAGED: three Daumier lithographs (CC0, Rijksmuseum via Commons; licence read from the Commons API extmetadata 2026-11-17), 1280 px renders, levelled once per print (red-filter luminance to drop the newsprint foxing, black/white points, a 0.8 px softening of the newsprint speckle; no threshold or posterize)",
-  "HANDMADE cuts: hand-placed scissor polygons for the agent's head and body (cut apart at the collar so the head tilts: down to the memo, up to the clock), the woman, the clasped hands, the window and the door; set pieces (desk, counter, cupboard and leaf, clock ring, dial and case, pencil) cut out of the prints' own crayon tone; every piece glued with a narrow paper rim and cast shadow on the LoC 1934 sheet",
+  "HANDMADE cuts: hand-placed scissor polygons for the agent's head and body (cut apart at the collar so the head tilts: down to the memo, up to the clock), the woman, the window and the door; set pieces (desk, counter, cupboard and leaf, clock ring, dial and case, pencil) cut out of the prints' own crayon tone; every piece glued with a narrow paper rim and cast shadow on the LoC 1934 sheet",
   "the ANRC 1922 key cutout (99-ways-template piece) glued in the cupboard, warmed to brass, with a SERVICE tag slip",
-  "the loop: eight panels in a ring round the memo, read clockwise from the top left; pen arrows in the gutters; the seam arrow from P8 (back to the desk) up into P1 (the memo again) drawn heavier; a ring of arrows and 'round and round' round the central memo",
+  "the loop: eight panels in a ring round the memo, read clockwise from the top left; every gutter connector a heavy pen arrow (11 px line, 24 px head, about 94 px long, reaching into both panels, on a paper halo) like the seam arrow from P8 up into P1; the bottom row's arrows point right to left (P5 -> P6 -> P7); small pasted paper discs numbered 1-8 at each panel's top-left corner; a ring of arrows and 'round and round' round the central memo",
+  "P7: a HANDMADE pencil (shaft cut from the window's pale paper warmed to yellow, a ferrule from the carriage wall's tone, a sharpened cone and a lead point from the tunnel's black) held up from his waistcoat, its point touching his chin; no grafted hands",
   "pen-hand clock numerals and hands at 4:10, captions, the four canon lines in cut-paper balloons, the TICKET OFFICE and SERVICE slips; folio by pen99.folio"
  ],
  "events": {
@@ -32,7 +33,7 @@
   "E2": "P4 head tilted up to the clock at 4:10; answer balloon",
   "E3": "P5 she turns away from the window; thanks balloon",
   "E4": "P6 the cupboard open, the key on its hook",
-  "E5": "P7 hands at his chin, the forgetting line; the key still on its hook, the SERVICE door shut",
+  "E5": "P7 pencil point at his chin, the forgetting line; the key still in the cupboard, the SERVICE door shut",
   "loop seam (declared)": "P8 he walks back to his desk; the arrow runs from P8 up into P1, where he reads the memo and sets off again"
  },
  "lines": {
@@ -55,20 +56,35 @@
    2200,
    2850
   ],
-  "jpeg_bytes": 1193176,
+  "jpeg_bytes": 1195587,
   "jpeg_quality": 90,
   "in_target_0.4_1.2MB": true,
   "beat_frames": 6,
   "panels": 8,
   "layout": "3x3 ring, centre cell the memo; reading clockwise from top left; P8 at middle left leads up into P1",
-  "check": "A reader can continue from the last panel straight into the first. -> P8's caption 'And back he goes to his desk...' and the heavy arrow lead straight into P1's 'The memo again...' (maker's judgement from the full-size page; blind reading pending)",
-  "evidence": "measured (size) and perceptually judged (from frames) by the maker; independent readers not yet run"
+  "check": "A reader can continue from the last panel straight into the first. -> P8's caption 'And back he goes to his desk...' and the heavy seam arrow lead into P1's 'The memo again...'; the numbers 1-8 and the heavy gutter arrows fix the bottom row as 5 (thanks) -> 6 (cupboard) -> 7 (forgetting)",
+  "evidence": "measured (size, pixel checks named in the repair) and judged from the full-size page by the repair maker; a fresh blind reading of the repair is pending"
  },
  "weaknesses": [
   "the agent is a Daumier bourgeois in a top hat and tail-coat (waistcoat kept, shirt-sleeves not); the hat indoors is the price of a print whose figure stands whole",
   "the agent is the same cut-out in every panel (only head tilt, flip and position change): his walk is a glide, not a stride",
-  "the clasped hands at his chin in P7 are grafted from another figure; at phone width they read as a white bundle under his chin more than as a pondering gesture",
   "the panel grounds are one stretched patch of the stairwell wall and floor, softened to keep the JPEG under 1.2 MB; they read as tone, not as a station office",
-  "the clock is built (tone ring, pale dial, pen hands) rather than found: no Daumier clock was in the three prints"
+  "the clock is built (tone ring, pale dial, pen hands) rather than found: no Daumier clock was in the three prints",
+  "the pencil in P7 has no hand holding it (the Daumier body's arms hang at his sides); it reads as a pencil raised to the chin, held from below the frame of the waistcoat",
+  "the empty white hook above the key was deleted; the key hangs in the cupboard without a drawn hook, though the P6 caption says 'on its hook'"
+ ],
+ "repairs": [
+  {
+   "date": "2026-11-17",
+   "by": "repair maker, batch 2",
+   "changed": [
+    "every gutter arrow redrawn as a heavy arrow (same weight as the seam arrow), about 94 px long, on a paper halo; the bottom row's three arrows point right to left",
+    "ordinal discs 1-8 at each panel's top-left corner",
+    "P7: the Daumier clasped-hands piece removed from his chest; a pale pencil cut set so its point touches his chin",
+    "the stray empty white hook above the key deleted (P6, P7)",
+    "the wall ground softened 2.4 -> 3.2 px to stay under 1.2 MB after the additions"
+   ],
+   "pass_test": "a fresh blind reader lists the bottom row as thanks, cupboard, forgetting, and names the pencil at his chin"
+  }
  ]
 }

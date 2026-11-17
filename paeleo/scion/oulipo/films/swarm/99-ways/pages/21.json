@@ -23,9 +23,9 @@
   "the evening frame: a dusk-blue card round the whole page; on it the 99-ways-template rest layers of P3 (Rothstein 1937 office, the agent before the cupboard whose leaf carries the SERVICE card) printed as a cold blue-grey toned press print with a white scissor margin, the hanging lamp lit (a warm glow laid round its bulb)",
   "the office clock cut out from the 99-ways-template clock pieces (LoC tavern clock) with its own hour and minute hands re-set on the arbor to 6:00, pasted with a scissor margin",
   "cover-page grammar of the rol-cutout kit: 'Six o'clock.' lettered letter by letter in the shared pen hand (jumping, ochre and cream on the dusk), caption slips; thought dots (cut-paper discs) from the evening print down onto the afternoon card",
-  "the afternoon: a warm butter card laid inside the frame, headed 'That afternoon'; six warm sepia prints of the 99-ways-template rest layers (P1, P4, P5, P6, P7, P8) with white scissor margins, numbered caption slips in past tense and the clock time of each beat (4:08 ... 4:11)",
+  "the afternoon: a warm butter card laid inside the frame, headed 'That afternoon'; six warm sepia prints of the 99-ways-template rest layers (P1, P4, P5, P6, P7, P8) with white scissor margins, caption slips in past tense, each red number set just above its slip at the end nearest its own print, and the clock time of each beat (4:08 ... 4:11)",
   "the stranger: the Agence Rol 34852 woman cutout (as on page 04) set behind the ticket-window glass at 80 % (E1) and turning away (E3), the four lines in the shared cut-paper balloons, hers tailed to her",
-  "closing evening slip at the foot: 'Six o'clock still. The key hangs on its hook; the SERVICE door stays shut; and what he came for, he cannot say.'",
+  "closing evening slip at the foot (cap 33, ending with its shadow above y = 2730, clear of the folio band): 'Six o'clock still. The key hangs on its hook; the SERVICE door stays shut; and what he came for, he cannot say.'",
   "folio '21 / Told at dusk' (pen99.folio)"
  ],
  "events": {
@@ -60,11 +60,25 @@
    2200,
    2850
   ],
-  "jpeg_bytes": 1064769,
+  "jpeg_bytes": 1056720,
   "jpeg_quality": 90,
   "in_target_0.4_1.2MB": true,
   "separation": "evening = dusk-blue frame, blue-toned print, clock at 6:00, present-tense slips; afternoon = butter card inside it, warm sepia prints, past-tense slips stamped 4:08-4:11",
   "lines_verbatim": true,
-  "pending": "independent blind reading not run by the maker"
- }
+  "pending": "independent blind reading not run by the maker",
+  "folio_band_check": "master PNG rows y 2730-2850 differ from a bare LoC sheet + folio render by at most 1 level: only paper ground and the folio line",
+  "beat_frames": 8,
+  "evidence": "measured (size, pixel checks named in the repair) and judged from the full-size page by the repair maker; a fresh blind reading of the repair is pending"
+ },
+ "repairs": [
+  {
+   "date": "2026-11-17",
+   "by": "repair maker, batch 2",
+   "changed": [
+    "closing slip set at cap 33 from y 2572 so it and its shadow end above y = 2730",
+    "the six red numbers moved off the slips' inner ends: each sits above its slip at the end nearest its own print (5 and 6 now about 800 px apart)"
+   ],
+   "pass_test": "rows y 2740-2850 contain only paper ground and the folio line"
+  }
+ ]
 }

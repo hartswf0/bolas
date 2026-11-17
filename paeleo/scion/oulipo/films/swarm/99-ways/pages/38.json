@@ -1,0 +1,67 @@
+{
+ "n": 38,
+ "id": "plan-view",
+ "title": "Plan view",
+ "rule": "Straight-down overhead view of office and platform as a floor plan; people are hat-tops and shoulders, the walk a dotted track.",
+ "medium": "cut-paper",
+ "family": "point of view",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/38-plan-view.jpg",
+ "master": "films/sources/99-ways/masters/38-plan-view.png",
+ "beats_dir": "films/sources/99-ways/beats/38",
+ "build": "films/swarm/99-ways/build/p38_plan_view.py",
+ "sources": [
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "every figure and object HANDMADE cut paper in code (films/swarm/99-ways/kit/cutpaper99.py: scissor-faceted flat papers with the LoC 1934 sheet's fibre as relative tone, one down-right paper shadow per piece)",
+  "one floor plan repeated in six panels: walls as dark cut strips (the plan's section line) with the ticket-window glass, counter and sill in the left wall and the SERVICE door shut flush in the top wall; office floorboards; the platform's boards and white edge; the track bed with ties and two rails",
+  "furniture from above: desk with the memo slip, inkwell and pencil, the chair, the cupboard (its top while shut; opened, its dark interior and the leaf swung 90 degrees on the left jamb with a dotted swing arc and the key on its inside face)",
+  "people from above: the agent as hair-top, nose tip, shirt shoulders with the waistcoat across the back, white sleeves, hands, shoes, yellow pencil; the stranger as a hat (brim, band, crown) on coat shoulders",
+  "his walk a growing track of punched paper dots from the chair round the desk, past the window, to the cupboard; her walk a finer track of small dots in and back out along the platform",
+  "draughtsman's detail circles with dashed leaders enlarge things lying flat or too small from above: the memo (P1), the clock face at 4:10 (P3), the key on its hook with its SERVICE tag (P5-P6); a dashed sight line from his head to the clock bracket (P3)",
+  "title block: 'PLAN: ticket office and platform, Randolph station, 4:09 to 4:11', the two-track legend, a cut scale bar and north arrow",
+  "lettering in the shared pen hand; the four canon lines in the shared cut-paper balloons (penlib.balloon_piece); hand-ruled borders (penlib.border_mask); folio '38 / Plan view' (pen99.folio)"
+ ],
+ "events": {
+  "E0": "P1: he stands up from the chair at the desk, the memo enlarged in a detail circle; the first dots of his track",
+  "E1": "P2: his track has rounded the desk to the counter; she stands at the glass outside; question balloon to her hat",
+  "E2": "P3: a dashed sight line from his head to the clock bracket; the clock detail at 4:10; answer balloon",
+  "E3": "P4: her small dots turn back up the platform; thanks balloon to her hat; his track bends toward the cupboard",
+  "E4": "P5: the track ends at the cupboard; its leaf is swung open on the left jamb; key detail circle",
+  "E5": "P6: pencil to his chin, forgetting balloon; the key still on its hook; SERVICE door shut flush in the wall"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "none: the four lines verbatim",
+ "beat": "the dotted track grows panel by panel as the agent's hat-less head-top moves from the chair to the cupboard; the cupboard leaf swings open on its left jamb; the forgetting line ends the track",
+ "beat_frames": [
+  "b01: E0 panel: he rises from the chair; the first dots of his track; she walks up the platform",
+  "b02: E1 panel: the dotted track has curved round the desk to the window; she stands at the glass",
+  "b03: + her question balloon",
+  "b04: E2 panel: he stops, a dotted sight line up to the clock bracket; detail circle at 4:10; the answer",
+  "b05: E3 panel: her small dots turn away up the platform; his track bends toward the cupboard; thanks",
+  "b06: E4 panel: his track reaches the cupboard, still shut (its top seen)",
+  "b07: the cupboard leaf swings open on its left jamb (dotted swing arc); key detail circle",
+  "b08: E5 panel: pencil to his chin, the forgetting line; the whole track ends at the open cupboard (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1137915,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "no_wall_standing": "every wall is a cut strip seen from above in section; the clock, memo and key faces appear only inside detail circles (plan callouts), never as standing walls",
+  "path_as_line": "his walk is one continuous dotted track, chair to cupboard, complete in P6",
+  "lines_verbatim": true,
+  "pending": "independent blind reading not run by the maker"
+ }
+}

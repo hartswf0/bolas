@@ -16,7 +16,7 @@
   "99-ways:handmade"
  ],
  "made": [
-  "six panels drawn entirely in the shared HANDMADE pen line (penlib.brush_line via build_page03.pen) on the LoC 1934 sheet: the agent (hair, glasses, collar and tie, waistcoat with three buttons, shirt sleeves, pencil), the stranger (hat with band, coat with collar and buttons) behind the glazed ticket window lettered TICKET OFFICE, desk, memo slip with the canon text, wall clock (4:09 at the desk, 4:10 at the answer), cupboard hinged on the left jamb with the key on its hook and its SERVICE tag, SERVICE door",
+  "six panels drawn entirely in the shared HANDMADE pen line (penlib.brush_line via build_page03.pen) on the LoC 1934 sheet: the agent (hair, glasses, collar and tie, waistcoat with three buttons, shirt sleeves, pencil), the stranger, a woman traveller seen to the waist (a bell cloche with ribbon band, back bow and a flower; bobbed hair and a kiss curl below it; lashes, lips and an earring; a travelling coat with sloping shoulders, a scalloped fur collar, a brooch, a belt and side buttons) behind the glazed ticket window lettered TICKET OFFICE, desk, memo slip with the canon text, wall clock (4:09 at the desk, 4:10 at the answer), cupboard hinged on the left jamb with the key on its hook and its SERVICE tag, SERVICE door",
   "four balloons drawn EMPTY in pen with their tails to the speakers; each balloon outline is computed from its own line in the pen hand (same size and wobble as its slip)",
   "the four canon lines lettered in the shared pen hand on four cut-out slips in the outer margin, shuffled (thanks, forgetting, question, answer): the same outline as the balloon, a dashed scissor line, a hatched paste tab on a dotted fold, a small pen scissors",
   "hand-ruled borders (penlib.border_mask); folio '18 / Fill the balloons' (pen99.folio)",
@@ -24,9 +24,9 @@
  ],
  "events": {
   "E0": "panel 1: the agent behind his desk, the memo '4:15 - open SERVICE door. Key in cupboard.' on it, clock at 4:09",
-  "E1": "panel 2: walking past the ticket window; the stranger behind the glass; empty balloon tailed to her",
+  "E1": "panel 2: walking past the ticket window; the woman traveller (cloche, bob, fur collar) behind the glass; empty balloon tailed to her",
   "E2": "panel 3: he turns to the wall clock (4:10); empty balloon tailed to him",
-  "E3": "panel 4: she turns away; empty balloon tailed to her; he walks on",
+  "E3": "panel 4: she turns away (cloche bow and nape curls toward him); empty balloon tailed to the back of her head",
   "E4": "panel 5: he swings the cupboard door open on its left jamb; key on its hook with the SERVICE tag",
   "E5": "panel 6: pencil to his chin before the open cupboard; empty balloon tailed to him; SERVICE door shut"
  },
@@ -85,7 +85,7 @@
    2200,
    2850
   ],
-  "jpeg_bytes": 1050587,
+  "jpeg_bytes": 1056756,
   "jpeg_quality": 90,
   "in_target_0.4_1.2MB": true,
   "balloons_on_page_all_empty": true,
@@ -98,11 +98,26 @@
   ],
   "slip_outline_equals_balloon_outline": true,
   "lines_verbatim": true,
-  "pending": "independent blind reading not run by the maker"
+  "pending": "independent blind reading not run by the maker",
+  "beat_frames": 6,
+  "evidence": "measured (size, pixel checks named in the repair) and judged from the full-size page by the repair maker; a fresh blind reading of the repair is pending"
  },
  "weaknesses": [
   "figures are a simple diagrammatic pen line, stiffer than the shared brush hand's lettering; the agent's pencil-to-chin hand crosses his face in panel 6",
   "matching is by shape and sense: the answer and forgetting balloons are both two-line ovals of similar width, told apart mainly by size and by their speaker",
-  "panel 3 drops the ticket window from shot (he turns to the clock); the stranger is implied off-panel"
+  "panel 3 drops the ticket window from shot (he turns to the clock); the stranger is implied off-panel",
+  "the woman is a pen-line drawing at panel scale (her head about 80 px): the cloche, bob and fur collar carry the reading; at phone width the lashes and lips are specks"
+ ],
+ "repairs": [
+  {
+   "date": "2026-11-17",
+   "by": "repair maker, batch 2",
+   "changed": [
+    "the stranger redrawn in the same pen line as a woman: a close bell cloche with ribbon band, a bow at the back and a five-petal flower; bobbed hair and a kiss curl below it; lashes, lips, earring; slender neck; a travelling coat with sloping shoulders, a scalloped fur collar, brooch, belt and side buttons (no V-collar)",
+    "she is drawn larger (0.92 vs 0.64) and seen to the waist; the counter hides the rest; the face oval stops under the brim",
+    "panel 4: the thanks tail ends at the back of her head instead of crossing her face"
+   ],
+   "pass_test": "a blind reader calls the window figure 'a woman' or 'a lady' without being prompted"
+  }
  ]
 }

@@ -28,6 +28,7 @@ BOXES = [(110, 110, 2090, 810),
          (110, 1490, 1080, 2090), (1120, 1490, 2090, 2090),
          (110, 2130, 1080, 2730), (1120, 2130, 2090, 2730)]
 S_IN = 0.14          # interior figure scale
+SOFT = 0.95
 
 LINES = {"q": ["Pardon me —", "have you the right time?"], "a": ["Ten past four,", "by the clock."],
          "t": ["Much obliged!"], "f": ["Well, here I am...", "and what for?"]}
@@ -41,21 +42,187 @@ CAPS = ["From the far platform, across the tracks: Randolph station, a September
         "The SERVICE door stays shut."]
 
 
-# ------------------------------------------------------------------ pieces
-def strip(lum, x0, y0, x1, y1, t, seed, edge=0.18):
-    m = np.zeros(lum.shape, np.uint8)
-    cv2.fillPoly(m, [np.int32(np.array([(x0, y0), (x1, y0), (x1, y1), (x0, y1)]) * 4)], 255, cv2.LINE_AA, shift=2)
-    C.card_piece(lum, m, t, seed, edge=edge, rub=0.035)
-    return m
+# ------------------------------------------------------------------ the card kit for this page
+# Every card is rubbed with the foraged rock (the teuf-teuf Cueva de las manos plain-rock relief, charcoal99.rock_tile,
+# CC BY-SA 3.0, Suzko) sampled at its own offset and scale, then worked over with charcoal hatching (broken parallel
+# strokes, heavier toward the cut edges and in patches; on dark cards the strokes are lifted, like an eraser), cut
+# with scissor facets or torn (ragged edge with a pale fibrous rim), and dropped with its own shadow.
+_RT = {}
 
 
-def poly(lum, pts, t, seed, edge=0.2, shadow=True):
+def rock_patch(h, w, seed, scale=None):
+    rnd = random.Random(seed * 7 + 3)
+    sc = scale or rnd.uniform(0.9, 1.6)
+    key = round(sc, 1)
+    if key not in _RT:
+        hp, br = C.rock_tile()
+        t = hp + br * 0.6
+        t = np.vstack([t, t[::-1]])
+        t = np.hstack([t, t[:, ::-1]])
+        _RT[key] = cv2.resize(t, (int(t.shape[1] * key), int(t.shape[0] * key)), interpolation=cv2.INTER_CUBIC)
+    t = _RT[key]
+    if rnd.random() < 0.5:
+        t = t.T
+    ry, rx = h // t.shape[0] + 2, w // t.shape[1] + 2
+    big = np.tile(t, (ry, rx))
+    oy, ox = rnd.randrange(0, t.shape[0]), rnd.randrange(0, t.shape[1])
+    return big[oy:oy + h, ox:ox + w].astype(np.float32)
+
+
+def lowf(h, w, seed, sigma):
+    g = C.grain(h, w, seed, sigma)
+    return g / (g.std() + 1e-6)
+
+
+def hatch_field(h, w, seed, spacing=None, angle=None):
+    """Charcoal hatching: broken parallel strokes at a hand-chosen angle (0..1 stroke strength)."""
+    rnd = random.Random(seed * 13 + 1)
+    th = math.radians(angle if angle is not None else rnd.choice([38, 46, 54, 128, 136, 144]) + rnd.uniform(-5, 5))
+    sp = spacing or rnd.uniform(5.5, 8.0)
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    ph = (xx * math.cos(th) + yy * math.sin(th)) / sp * 2 * math.pi + 1.2 * lowf(h, w, seed + 2, 9)
+    stroke = np.clip((np.sin(ph) - 0.45) / 0.55, 0, 1)
+    brk = np.clip(0.45 + 0.9 * lowf(h, w, seed + 3, 2.2), 0, 1)
+    return stroke * brk
+
+
+def bbox(m, pad=6):
+    ys, xs = np.nonzero(m)
+    if len(ys) == 0:
+        return None
+    H_, W_ = m.shape
+    return max(0, ys.min() - pad), min(H_, ys.max() + pad + 1), max(0, xs.min() - pad), min(W_, xs.max() + pad + 1)
+
+
+def tear(m, seed, amp=3.2):
+    """Tear a card: a ragged, fibrous edge in place of the clean cut."""
+    bb = bbox(m, 10)
+    if bb is None:
+        return m
+    y0, y1, x0, x1 = bb
+    sub = cv2.GaussianBlur(m[y0:y1, x0:x1].astype(np.float32) / 255, (0, 0), 1.6)
+    h, w = sub.shape
+    n = 0.10 * lowf(h, w, seed, 2.0) + 0.06 * lowf(h, w, seed + 1, 0.8)
+    out = m.copy()
+    out[y0:y1, x0:x1] = ((sub + n * amp / 3.2) > 0.5).astype(np.uint8) * 255
+    return out
+
+
+def card_k(lum, m, t, seed, edge=0.22, rub=0.06, hatch=None, torn=False, rock=1.0):
+    """Lay one card of base tone t: rock-rubbed, charcoal-hatched, darker at its cut edges, torn rim if torn."""
+    bb = bbox(m)
+    if bb is None:
+        return
+    y0, y1, x0, x1 = bb
+    mm = m[y0:y1, x0:x1]
+    a = mm.astype(np.float32) / 255
+    h, w = mm.shape
+    d = cv2.distanceTransform((mm > 127).astype(np.uint8), cv2.DIST_L2, 3)
+    e = np.exp(-d / 6.0)
+    rk = rock_patch(h, w, seed)
+    g = C.grain(h, w, seed, 1.7)
+    val = t * (1 - edge * e) + rock * 1.15 * rk * (0.45 + t) + rub * 0.5 * g * (0.5 + t)
+    hk = (0.13 if t < 0.9 else 0.035) if hatch is None else hatch
+    if hk > 0:
+        hf = hatch_field(h, w, seed + 11)
+        patch = np.clip(0.30 + 0.70 * e + 0.45 * lowf(h, w, seed + 12, 14), 0, 1)
+        if t < 0.3:
+            val += hk * 0.9 * hf * patch                       # lifted strokes on a dark card
+        else:
+            val -= hk * hf * patch * (0.6 + 0.4 * t)
+    if torn:
+        fr = ((d > 0) & (d < 2.4)).astype(np.float32) * np.clip(0.6 + 0.6 * lowf(h, w, seed + 13, 0.9), 0, 1)
+        val = val * (1 - 0.75 * fr) + 0.90 * 0.75 * fr
+    sub = lum[y0:y1, x0:x1]
+    sub[:] = sub * (1 - a) + np.clip(val, 0, 1) * a
+
+
+C.card_piece = card_k      # this page only: the figures pinned by charcoal99.pin_up get the same rubbed cards
+
+
+def scissor_poly(pts, seed, jog=1.4, step=16):
+    """Hand-cut outline: each straight edge cut in short scissor strokes that wander a little."""
+    rnd = random.Random(seed)
+    out = []
+    P_ = list(pts)
+    for i in range(len(P_)):
+        p0, p1 = np.array(P_[i], float), np.array(P_[(i + 1) % len(P_)], float)
+        L = np.linalg.norm(p1 - p0)
+        n = max(1, int(L / step))
+        nrm = np.array([-(p1 - p0)[1], (p1 - p0)[0]]) / (L + 1e-6)
+        for k in range(n):
+            q = p0 + (p1 - p0) * k / n
+            out.append(tuple(q + nrm * (rnd.uniform(-jog, jog) if k else 0)))
+    return out
+
+
+def strip(lum, x0, y0, x1, y1, t, seed, edge=0.18, torn=False, hatch=None, shadow=True):
+    return poly(lum, [(x0, y0), (x1, y0), (x1, y1), (x0, y1)], t, seed, edge=edge, torn=torn, hatch=hatch, shadow=shadow)
+
+
+def poly(lum, pts, t, seed, edge=0.2, shadow=True, torn=False, hatch=None, cut=True, rock=1.0):
     m = np.zeros(lum.shape, np.uint8)
-    cv2.fillPoly(m, [np.int32(np.array(pts) * 4)], 255, cv2.LINE_AA, shift=2)
+    pp = scissor_poly(pts, seed) if cut and not torn else pts
+    cv2.fillPoly(m, [np.int32(np.array(pp) * 4)], 255, cv2.LINE_AA, shift=2)
+    if torn:
+        m = tear(m, seed)
     if shadow:
-        C.drop(lum, m, (4, 5), 2.5, 0.25)
-    C.card_piece(lum, m, t, seed, edge=edge, rub=0.035)
+        C.drop(lum, m, (4, 5), 2.5, 0.28)
+    card_k(lum, m, t, seed, edge=edge, rub=0.035, hatch=hatch, torn=torn, rock=rock)
     return m
+
+
+def tree_card(lum, x, base, kind, size, seed, t):
+    """A hand-cut tree: a round lobed crown, a tall poplar, a tiered fir or a low bush, each its own outline."""
+    rnd = random.Random(seed)
+    h, w = lum.shape
+    m = np.zeros((h, w), np.uint8)
+    if kind == "round":
+        cy = base - size * 1.25
+        for k in range(rnd.randint(6, 9)):
+            a_ = rnd.uniform(0, 2 * math.pi)
+            rr = size * rnd.uniform(0.0, 0.55)
+            r_ = size * rnd.uniform(0.38, 0.62)
+            cv2.circle(m, (int(x + rr * math.cos(a_) * 1.2), int(cy + rr * math.sin(a_) * 0.8)), int(r_), 255, -1)
+        trunk = [(x - size * 0.09, cy + size * 0.3), (x + size * 0.08, cy + size * 0.3), (x + size * 0.12, base), (x - size * 0.13, base)]
+    elif kind == "poplar":
+        hgt = size * rnd.uniform(3.0, 3.8)
+        pts = []
+        n = 9
+        for k in range(n + 1):
+            f = k / n
+            wdt = size * 0.42 * math.sin(math.pi * min(1, f * 1.15)) ** 0.7 * rnd.uniform(0.75, 1.15)
+            pts.append((x + wdt, base - size * 0.3 - hgt * f))
+        left = []
+        for k in range(n, -1, -1):
+            f = k / n
+            wdt = size * 0.42 * math.sin(math.pi * min(1, f * 1.15)) ** 0.7 * rnd.uniform(0.75, 1.15)
+            left.append((x - wdt, base - size * 0.3 - hgt * f))
+        cv2.fillPoly(m, [np.int32(pts + left)], 255)
+        trunk = [(x - size * 0.06, base - size * 0.5), (x + size * 0.06, base - size * 0.5), (x + size * 0.08, base), (x - size * 0.08, base)]
+    elif kind == "fir":
+        tiers = rnd.randint(3, 5)
+        hgt = size * rnd.uniform(2.2, 2.9)
+        for k in range(tiers):
+            f0 = k / tiers
+            yb = base - size * 0.35 - hgt * f0 * 0.82
+            wd = size * (0.95 - 0.6 * f0) * rnd.uniform(0.9, 1.1)
+            cv2.fillPoly(m, [np.int32([(x - wd, yb), (x + wd, yb + rnd.uniform(-4, 4)), (x + rnd.uniform(-3, 3), yb - hgt * 0.42)])], 255)
+        trunk = [(x - size * 0.07, base - size * 0.4), (x + size * 0.07, base - size * 0.4), (x + size * 0.09, base), (x - size * 0.09, base)]
+    else:   # bush
+        for k in range(rnd.randint(4, 6)):
+            cv2.circle(m, (int(x + rnd.uniform(-1, 1) * size * 0.8), int(base - size * rnd.uniform(0.25, 0.5))),
+                       int(size * rnd.uniform(0.3, 0.5)), 255, -1)
+        m[int(base):, :] = 0
+        trunk = None
+    # re-cut the crown's outline as straight scissor facets (approxPolyDP), so it reads as cut card, not a blob
+    cs, _ = cv2.findContours(m, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    if trunk is not None:
+        poly(lum, trunk, max(0.10, t - 0.22), seed + 1, edge=0.15)
+    if cs:
+        cnt = max(cs, key=cv2.contourArea)
+        ap = cv2.approxPolyDP(cnt, max(1.5, size * 0.06), True)[:, 0, :].astype(float)
+        poly(lum, [tuple(p) for p in ap], t, seed + 2, edge=0.18, torn=(kind == "bush"), cut=False)
 
 
 def lady_back(cx, foot, h=100, walk=0.0, face=0):
@@ -87,7 +254,15 @@ def ballast(lum, y0, y1, seed):
     yy = np.arange(h)[:, None].astype(np.float32)
     band = ((yy >= y0) & (yy < y1)).astype(np.float32)
     band = cv2.GaussianBlur(band, (0, 0), 1.5)
-    val = 0.40 + 0.03 * g + 0.05 * C.grain(h, w, seed + 1, 4.0) * 3
+    val = 0.40 + 0.03 * g + 1.1 * rock_patch(h, w, seed + 1, 1.0) - 0.08 * hatch_field(h, w, seed + 2, 6.5, 172)
+    # stones: charcoal dabs and lifted flecks
+    rnd = random.Random(seed)
+    st = np.zeros((h, w), np.float32)
+    for _ in range(int(w * max(0, y1 - y0) / 600)):
+        sx_, sy_ = rnd.uniform(0, w), rnd.uniform(y0, y1)
+        cv2.ellipse(st, (int(sx_), int(sy_)), (rnd.randint(2, 4), rnd.randint(1, 3)), rnd.uniform(0, 180), 0, 360,
+                    rnd.choice((-1.0, 1.0)), -1)
+    val += 0.07 * st
     lum[:] = lum * (1 - band) + np.clip(val, 0, 1) * band
 
 
@@ -136,7 +311,7 @@ def lettered_balloon(lum, lines, cap, centre, tip, seed, tail_w=0.16, bend=0.06)
         return out
     pm, im = put(b["paper"]), put(b["ink"])
     C.drop(lum, pm, (5, 7), 3.5, 0.32)
-    C.card_piece(lum, pm, 0.965, seed, edge=0.04, rub=0.015)
+    card_k(lum, pm, 0.965, seed, edge=0.04, rub=0.015, hatch=0.02, rock=0.45)
     a = C.rub_mask(im, seed + 3, smear=(1, 1), keep=0.97)
     lum[:] = lum * (1 - a) + 0.06 * a
 
@@ -147,7 +322,7 @@ def caption_card(lum, text, x, y, maxw, seed, cap=36):
     mh, mw = m.shape
     bw, bh = mw + int(cap * 0.1), mh + int(cap * 0.1)
     pts = [(x, y), (x + bw, y + 2), (x + bw - 2, y + bh), (x + 1, y + bh - 1)]
-    cm = poly(lum, pts, 0.95, seed + 1, edge=0.05)
+    cm = poly(lum, pts, 0.95, seed + 1, edge=0.05, hatch=0.02, rock=0.45, torn=True)
     lm = np.zeros(lum.shape, np.uint8)
     B.blit_mask(lm, m, int(x + cap * 0.55 - cap * 0.5 + 6), int(y + 4))
     a = C.rub_mask(lm, seed + 2, smear=(1, 1), keep=0.97)
@@ -160,24 +335,34 @@ def scene(w, h, beat, seed, sx=None, foreground=False):
     """beat: dict(agent=dict(...)|None, where='W1'|'W2'|'W3', lady=dict|None, cup=deg, key=bool)."""
     sx = w * 0.5 if sx is None else sx
     by = int(h * 0.60)                # station platform level
-    lum = C.wall(w, h, seed, level=0.83, hp_gain=0.18, broad_gain=0.30, scale=1.6)
+    lum = C.wall(w, h, seed, level=0.80, hp_gain=0.55, broad_gain=0.45, scale=1.6)
     yy = np.arange(h)[:, None].astype(np.float32)
-    lum *= (1.0 - 0.10 * np.clip(1 - yy / by, 0, 1))                    # sky a touch darker high up
+    # the sky rubbed in charcoal: long broken strokes, heavier in patches high up (no smooth gradient)
+    sk = hatch_field(h, w, seed + 5, 9.0, 174) * np.clip(0.25 + 0.5 * lowf(h, w, seed + 6, 40), 0, 1)
+    lum -= 0.10 * sk * np.clip(1.3 - yy / by, 0, 1)
     # distant hills and trees (cards, pale -> far)
     rnd = random.Random(seed)
     hill = [(0, by - 95)]
     for k in range(9):
         hill.append((w * (k + 0.5) / 9, by - 120 - 70 * math.sin(k * 0.9 + seed % 7) ** 2 - rnd.uniform(0, 30)))
     hill += [(w, by - 100), (w, by + 10), (0, by + 10)]
-    poly(lum, hill, 0.62, seed + 1, edge=0.10, shadow=False)
-    for k in range(int(w / 70)):
-        tx = rnd.uniform(0, w)
-        if abs(tx - sx) < 330:
-            continue
-        r = rnd.uniform(18, 34)
-        ty = by - 30 - r
-        poly(lum, [(tx + r * math.cos(a) * rnd.uniform(0.8, 1.1), ty + r * 1.2 * math.sin(a) * rnd.uniform(0.8, 1.1))
-                   for a in np.linspace(0, 6.28, 11)[:-1]], 0.44, seed + 10 + k, edge=0.15, shadow=False)
+    poly(lum, hill, 0.62, seed + 1, edge=0.10, shadow=True, torn=True)
+    # a second, nearer torn ridge, darker
+    hill2 = [(0, by - 40)]
+    for k in range(13):
+        hill2.append((w * (k + 0.5) / 13, by - 52 - 30 * math.sin(k * 1.3 + seed % 5) ** 2 - rnd.uniform(0, 14)))
+    hill2 += [(w, by - 44), (w, by + 10), (0, by + 10)]
+    poly(lum, hill2, 0.52, seed + 2, edge=0.12, shadow=True, torn=True)
+    kinds = ["round", "poplar", "fir", "bush", "round", "poplar", "round", "fir"]
+    tx = rnd.uniform(-20, 40)
+    k = 0
+    while tx < w + 20:
+        if abs(tx - sx) > 320:
+            kind = kinds[(k + seed) % len(kinds)] if rnd.random() < 0.7 else rnd.choice(kinds)
+            tree_card(lum, tx, by - 6 + rnd.uniform(-6, 4), kind, rnd.uniform(22, 40), seed + 10 + 7 * k,
+                      rnd.uniform(0.34, 0.50))
+        tx += rnd.uniform(60, 150)
+        k += 1
     # telegraph poles along the far side
     for k, px in enumerate(np.arange(sx - 520, sx + 600, 260)):
         if 0 < px < w and abs(px - sx) > 300:
@@ -192,8 +377,12 @@ def scene(w, h, beat, seed, sx=None, foreground=False):
 
     # ---- the lit interior (rendered on its own, shown through the windows)
     inside = np.full((h, w), 0.95, np.float32)
-    inside -= 0.08 * np.clip((yy - (by - 150)) / 140, 0, 1)
-    inside += 0.012 * C.grain(h, w, seed + 70, 2.0)
+    lit = np.zeros((h, w), np.uint8)
+    lit[max(0, by - 260):by + 10, max(0, int(sx) - 300):int(sx) + 300] = 255
+    card_k(inside, lit, 0.93, seed + 69, edge=0.0, hatch=0.035, rock=0.75)
+    fl = np.zeros((h, w), np.uint8)
+    fl[by - 40:by + 10, max(0, int(sx) - 300):int(sx) + 300] = 255
+    card_k(inside, fl, 0.80, seed + 70, edge=0.0, hatch=0.10, rock=0.4)        # the office floor, hatched
     shapes = []
     shapes += desk(sx - 225, by - 62, 80, by - 2, drawers=1)
     shapes += clock(sx + 22, by - 125, 10, hh=4, mm=10 if beat.get("clock10") else 8, pend=False)
@@ -276,7 +465,8 @@ def scene(w, h, beat, seed, sx=None, foreground=False):
     # station platform (pale stone card) and the light falling on it from the windows
     strip(lum, sx - 420, by, sx + 420, by + 24, 0.62, seed + 101, edge=0.12)
     poly(lum, [(sx - 420, by + 24), (sx + 420, by + 24), (sx + 420, by + 34), (sx - 420, by + 34)], 0.26, seed + 102, shadow=False)
-    lum[:] = np.clip(lum + 0.18 * glow * (yy > by), 0, 1.0)
+    gmod = np.clip(0.55 + 4.0 * rock_patch(h, w, seed + 104, 1.2) + 0.35 * hatch_field(h, w, seed + 105, 7, 176), 0, 1.3)
+    lum[:] = np.clip(lum + 0.18 * glow * gmod * (yy > by), 0, 1.0)
     if beat.get("lady"):
         lk = dict(beat["lady"])
         C.pin_up(lum, lady_back(**lk), seed + 103, halo=False,
@@ -365,6 +555,9 @@ def build(n_panels=7, text_last=True):
             break
         x0, y0, x1, y1 = box
         lum = P(i, show_text=(text_last or i < n_panels - 1))
+        # one light softening of the pixel-level charcoal dust (0.95 px) so the page stays inside the 1.2 MB JPEG budget;
+        # the rock rub, hatching and card edges are 3-20 px features and survive it
+        lum = cv2.GaussianBlur(lum, (0, 0), SOFT)
         rgb = C.tone(lum)
         m = np.zeros((H, W), np.uint8)
         m[y0:y1, x0:x1] = 255

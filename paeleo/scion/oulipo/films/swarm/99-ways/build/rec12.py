@@ -22,7 +22,7 @@ NEW = [
     entry("99-ways:daumier-proprietaire-1846", "d1.jpg", "'Il est devenu pro-pri-e-taire !', Les bons bourgeois no. 18, 1846, Delteil 1494",
           "page 12: the station agent (the bourgeois, head and body cut apart so the head can tilt); the CONCIERGE door's upper half as the SERVICE door; the stairwell wall and floor tone as every panel's ground"),
     entry("99-ways:daumier-premier-voyage-1846", "c4.jpg", "'Un premier voyage en chemin de fer', Les beaux jours de la vie no. 90, 1846",
-          "page 12: the stranger (the old woman in her bonnet); the carriage window as the ticket window; the young man's clasped hands at the agent's chin (E5); the carriage wall tone for the desk, counter and cupboard body; the window's pale paper for the clock dial and cupboard leaf"),
+          "page 12: the stranger (the old woman in her bonnet); the carriage window as the ticket window; the carriage wall tone for the desk, counter and cupboard body; the window's pale paper for the clock dial and cupboard leaf"),
     entry("99-ways:daumier-grand-tunnel-1843", "c3.jpg", "'L'entree du grand tunnel d'un chemin de fer', Les chemins de fer no. 16, 1843",
           "page 12: the tunnel's black crayon tone, cut for the cupboard's dark inside, the clock case, the sill and the pencil"),
 ]
@@ -37,7 +37,7 @@ def r12():
         "sources": src,
         "made": [
             "FORAGED: three Daumier lithographs (CC0, Rijksmuseum via Commons; licence read from the Commons API extmetadata 2026-11-17), 1280 px renders, levelled once per print (red-filter luminance to drop the newsprint foxing, black/white points, a 0.8 px softening of the newsprint speckle; no threshold or posterize)",
-            "HANDMADE cuts: hand-placed scissor polygons for the agent's head and body (cut apart at the collar so the head tilts: down to the memo, up to the clock), the woman, the clasped hands, the window and the door; set pieces (desk, counter, cupboard and leaf, clock ring, dial and case, pencil) cut out of the prints' own crayon tone; every piece glued with a narrow paper rim and cast shadow on the LoC 1934 sheet",
+            "HANDMADE cuts: hand-placed scissor polygons for the agent's head and body (cut apart at the collar so the head tilts: down to the memo, up to the clock), the woman, the window and the door; set pieces (desk, counter, cupboard and leaf, clock ring, dial and case, pencil) cut out of the prints' own crayon tone; every piece glued with a narrow paper rim and cast shadow on the LoC 1934 sheet",
             "the ANRC 1922 key cutout (99-ways-template piece) glued in the cupboard, warmed to brass, with a SERVICE tag slip",
             "the loop: eight panels in a ring round the memo, read clockwise from the top left; pen arrows in the gutters; the seam arrow from P8 (back to the desk) up into P1 (the memo again) drawn heavier; a ring of arrows and 'round and round' round the central memo",
             "pen-hand clock numerals and hands at 4:10, captions, the four canon lines in cut-paper balloons, the TICKET OFFICE and SERVICE slips; folio by pen99.folio",
@@ -61,7 +61,7 @@ def r12():
     rec["weaknesses"] = [
         "the agent is a Daumier bourgeois in a top hat and tail-coat (waistcoat kept, shirt-sleeves not); the hat indoors is the price of a print whose figure stands whole",
         "the agent is the same cut-out in every panel (only head tilt, flip and position change): his walk is a glide, not a stride",
-        "the clasped hands at his chin in P7 are grafted from another figure; at phone width they read as a white bundle under his chin more than as a pondering gesture",
+        "the pencil in P7 has no hand holding it (the Daumier body's arms hang at his sides); it reads as a pencil raised to the chin",
         "the panel grounds are one stretched patch of the stairwell wall and floor, softened to keep the JPEG under 1.2 MB; they read as tone, not as a station office",
         "the clock is built (tone ring, pale dial, pen hands) rather than found: no Daumier clock was in the three prints",
     ]

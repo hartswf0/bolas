@@ -17,12 +17,15 @@
   "99-ways:handmade"
  ],
  "made": [
-  "one far viewpoint repeated in all seven panels: our own platform edge (pale painted edge line) at the foot, two tracks of charcoal-card sleepers and rails between, the station a small dark card box with a hipped roof, a RANDOLPH name board and three lit windows; hills, trees and telegraph poles behind as paler cards; the charcoal-card wall (teuf-teuf Cueva plain-rock relief, ramp-printed) as the sky's grain",
+  "one far viewpoint repeated in all seven panels: our own platform edge (pale painted edge line) at the foot, two tracks of charcoal-card sleepers and rails between, the station a small dark card box with a hipped roof, a RANDOLPH name board and three lit windows; two torn ridges of hills, hand-cut trees and telegraph poles behind; the sky is the teuf-teuf Cueva plain-rock relief (ramp-printed) worked over with long broken charcoal strokes",
+  "the charcoal-card kit rebuilt for this page (card_k in p20_across_the_tracks.py, also used for the figures pinned by charcoal99.pin_up): every card rubbed with the foraged Cueva rock relief (charcoal99.rock_tile, CC BY-SA 3.0, Suzko) sampled at its own offset and scale, worked over with broken charcoal hatching at a hand-chosen angle, heavier toward the cut edges and in patches (lifted, eraser-like strokes on the dark cards), cut with wandering scissor facets or torn with a ragged edge and pale fibrous rim (hills, bushes, caption cards), and each dropped with its own shadow; the ballast is rock-rubbed with charcoal dabs for stones; the window light on the platform is broken by the rock and strokes",
+  "trees: varied hand-cut cards (round lobed crowns, tall poplars, tiered firs, low torn bushes) of different sizes and tones, each outline re-cut as straight scissor facets, each with its own trunk card",
   "the lit office rendered on its own and seen only through the cut windows: the b1m2 agent at 0.14 scale (about 100 px tall) at his desk (W1), crossing past the ticket window (W2) under the office clock, and at the cupboard (W3); cupboard, its door leaf with the brass key and paper tag on its hook, and the SERVICE door with a pale card fleck, cut as plain cards at this distance",
   "the stranger: a small back-view card puppet made for this page (hat, head, coat, skirt, legs), outside on the station platform against the lit ticket window, then walking off down the platform",
   "panel 1 adds a big dark lamp post and bench end on our platform for scale",
   "the four canonical lines verbatim in cut-card balloons laid on our side of the rails, their long tails running across both tracks to the tiny speaker; short captions on pale cards in the shared pen hand",
-  "hand-ruled borders (penlib.border_mask); folio '20 / Across the tracks' (pen99.folio)"
+  "hand-ruled borders (penlib.border_mask); folio '20 / Across the tracks' (pen99.folio)",
+  "the panels are softened once by 0.95 px before toning so the page stays inside the 1.2 MB JPEG budget; rock relief, strokes and card edges are 3-20 px features and survive"
  ],
  "events": {
   "E0": "P1: the agent at his desk in the left window (caption: reads his memo); P2: 4:09, he crosses past the ticket window; the stranger approaches along the far platform",
@@ -55,11 +58,32 @@
    2200,
    2850
   ],
-  "jpeg_bytes": 1168051,
+  "jpeg_bytes": 1174310,
   "jpeg_quality": 90,
   "in_target_0.4_1.2MB": true,
   "viewer": "every panel framed from beyond two tracks: our platform's painted edge at the foot of each frame, rails between, figures about 100 px tall in a station 530 px wide; panel 1's near lamp post and bench give the scale",
   "lines_verbatim": true,
-  "pending": "independent blind reading not run by the maker"
- }
+  "pending": "independent blind reading not run by the maker",
+  "texture_check": "100 % crops of the station and the trees (panels 1 and 5) show rock grain, hatching strokes and cut or torn card edges on every card; no region is a flat or gradient fill",
+  "beat_frames": 8,
+  "evidence": "measured (size, pixel checks named in the repair) and judged from the full-size page by the repair maker; a fresh blind reading of the repair is pending"
+ },
+ "weaknesses": [
+  "the figures and the tiny interior set are small at this distance (about 100 px), so their rubbing and hatching read as tone rather than as strokes",
+  "the hatching is generated (sine stripes broken by noise) rather than drawn stroke by stroke; at 100 % it reads as charcoal hatching, at phone width as grain",
+  "the 0.95 px softening, needed for the JPEG budget, takes the finest charcoal dust off"
+ ],
+ "licence_note": "the page uses the CC BY-SA 3.0 Cueva de las manos texture (Suzko) as rubbing on every card and in the sky: the page image is an adaptation and is released under CC BY-SA 3.0 with attribution to Suzko",
+ "repairs": [
+  {
+   "date": "2026-11-17",
+   "by": "repair maker, batch 2",
+   "changed": [
+    "every card rebuilt with the charcoal-card kit: rock rub from the foraged Cueva relief, broken charcoal hatching, cut or torn card edges, per-card shadows",
+    "trees replaced by varied hand-cut shapes (round, poplar, fir, bush) in place of repeated polygons; a second torn ridge of hills",
+    "sky, ballast, interior and window light no longer smooth gradients: rubbed and hatched"
+   ],
+   "pass_test": "at a 100% crop of the station and trees, charcoal grain and card edges are visible, and no region is a flat gradient fill"
+  }
+ ]
 }

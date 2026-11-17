@@ -224,8 +224,11 @@ def build(reveal=8):
         lw_ = pen99.letter(cap_lines, 36, 2120 + i).shape[1]
         ww_ = max(sw, lw_ + int(36 * 0.6))
         sx = (px + dw / 2 + 24) if left else (px - dw / 2 - ww_ - 24)
-        ww, hh = K.slip(img, cap_lines, 36, sx, y0 + 60, sw, 2120 + i, deg=[0.8, -0.6, -1.0, 0.7, 0.9, -0.8][i],
-                        num=i + 1, num_right=left)
+        ww, hh = K.slip(img, cap_lines, 36, sx, y0 + 60, sw, 2120 + i, deg=[0.8, -0.6, -1.0, 0.7, 0.9, -0.8][i])
+        # the red number sits just above its slip at the end nearest its OWN print (left column: left end,
+        # right column: right end), so paired numbers in a row stay far apart
+        nx = (sx + 26) if left else (sx + ww - 60)
+        K.jumpy(img, str(i + 1), nx, y0 + 52, 64, 2120 + i + 5, (RED,))
         tmm = pen99.letter([tm], 46, 2130 + i, weight=0.17)
         K.ink_at(img, tmm, sx + ww / 2 - tmm.shape[1] / 2, y0 + 60 + hh + 8, hexc("#8a3a1c"))
         if bal:
@@ -247,8 +250,9 @@ def build(reveal=8):
                         balloon=(" ".join(bal[0]) if bal else None), rol_stranger=key in ("P4", "P6"))
     if reveal >= 8:
         # the frame closes: back to six o'clock
+        # the closing slip ends (with its shadow) above y = 2730: the band below is the folio's
         K.slip(img, ["Six o'clock still. The key hangs on its hook; the SERVICE door stays shut;",
-                     "and what he came for, he cannot say."], 40, 250, 2600, 1700, 2150, deg=0.3)
+                     "and what he came for, he cannot say."], 33, 330, 2572, 1540, 2150, deg=0.2)
     pen99.folio(img, N, TITLE)
     return np.clip(np.round(img), 0, 255).astype(np.uint8), rec, used3
 

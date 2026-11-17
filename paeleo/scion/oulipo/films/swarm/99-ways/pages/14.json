@@ -21,13 +21,14 @@
   "brushed figures from the b1m2 model; a head-turn rig made here (the head of a right-facing figure pinned at the neck of a left-facing body) for the glance, the look away and the snap back",
   "brushed whip lines round the snapping head (P5); brushed swoosh arcs tracing the cupboard leaf's swing (P7)",
   "a pasted paper overlay opening the cupboard on its left jamb, the leaf at 250 px for the near miss and 112 px at rest; the ANRC 1922 key printed in ink on its hook with a SERVICE tag",
-  "timing slips in the pen hand ('a glance...', 'away...', 'and back!', 'whoosh... missed!', 'beat.'), brushed balloons with the four canon lines; folio by pen99.folio"
+  "timing slips in the pen hand ('a glance...', 'away...', 'and back!', 'whoosh... missed!', 'beat.'), brushed balloons with the four canon lines; folio by pen99.folio",
+  "P2 and P6: the stranger seen THROUGH the ticket window (behind_glass in p14_double_take.py): a pale cool platform wash with the platform edge, the far eave and a canopy post brushed in the opening; her figure laid into the opening and cut off at the sill; then the plate's own window frame and both mullions re-laid in ink over her, and brushed white glass glints across the panes and her coat"
  ],
  "events": {
   "E0": "P1 seated at the desk behind the memo slip ('4:15 - open SERVICE door. Key in cupboard.'); P2 he is up and walking toward the cupboard",
-  "E1": "P2 the stranger at the TICKET OFFICE window, question balloon; he looks back over his shoulder",
+  "E1": "P2 the stranger outside on the platform, seen through the TICKET OFFICE window (the mullions cross her), question balloon; he looks back over his shoulder",
   "E2": "P3 a glance up at the clock; P4 head back to the window; P5 head snaps back to the clock (the double take, whip lines) and the answer; the clock reads 4:10 in every crop",
-  "E3": "P6 she turns away, thanks balloon into the window",
+  "E3": "P6 she turns away behind the glass, thanks balloon tailed to the window's edge",
   "E4": "P7 he pulls the cupboard open; the leaf swings out and stops a whisker from his nose, he leans back, no fall (the near miss); key on its hook; P8 held beat on the key",
   "E5": "P9 in the open doorway, pencil to his chin, the forgetting line; key unmoved; SERVICE door closed"
  },
@@ -51,7 +52,7 @@
    2200,
    2850
   ],
-  "jpeg_bytes": 958698,
+  "jpeg_bytes": 960255,
   "jpeg_quality": 90,
   "in_target_0.4_1.2MB": true,
   "beat_frames": 6,
@@ -65,12 +66,24 @@
    50
   ],
   "check": "A reader finds the double take (two consecutive head turns to the clock). -> row 2 shows the turn to the clock, the look away and the snap back (maker's judgement from the full-size page; blind reading pending)",
-  "evidence": "measured (plate hash, size) and perceptually judged (from frames) by the maker; independent readers not yet run"
+  "evidence": "measured (size, pixel checks named in the repair) and judged from the full-size page by the repair maker; a fresh blind reading of the repair is pending",
+  "plate_prints_note": "the plate itself is laid unchanged in all nine panels (hash as before); in P2 and P6 its window region is re-laid a second time over the stranger so the mullions cross her"
  },
  "weaknesses": [
   "the check asks for two consecutive head turns to the clock; the page puts a look-away panel between them (glance, away, back), which is the classic double take but a strict reader may count panels differently",
   "the near miss reads as 'leaning back from the swinging door' rather than a sharp gag; the stopped leaf and his face overlap in silhouette scale",
   "the plate is page 07's plate, so the set is identical to page 07 by design (one repeated plate); the page differs by camera crops and timing",
   "P1 crops the clock's pendulum oddly at the top edge"
+ ],
+ "repairs": [
+  {
+   "date": "2026-11-17",
+   "by": "repair maker, batch 2",
+   "changed": [
+    "P2, P6: platform wash behind her, figure clipped to the window opening at the sill, the plate's frame and mullions re-laid over her, white glass glints over her silhouette",
+    "P6 thanks-balloon tail now ends at the window's right edge instead of crossing her face"
+   ],
+   "pass_test": "a blind reader calls her a traveller or passenger at the window, not a clerk, and the mullion lines visibly cross her silhouette"
+  }
  ]
 }
