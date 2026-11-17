@@ -722,6 +722,8 @@ def evidence(files_read):
     key = {"1-6-16": "rol1916", "Mars 1919": "vilgrain1919", "14-3-19": "wilson1919", "WWS City": "engine", "Bell-ring": "bell", "Sunday in": "street"}
     rows = []
     for c in credits:
+        if c.get("synthesized"):
+            continue                                 # declared synthetic sounds: no source to join
         lid = next(v for k, v in key.items() if c["title"].startswith(k))
         L = ledger.get(lid, {})
         lp = ROOT / L["local_path"] if L.get("local_path") else None
@@ -748,6 +750,44 @@ def evidence(files_read):
                           "no openly licensed pre-1930 motorbus engine or conductor's bell on Commons: a 1991 diesel and a bicycle bell stand in (declared)",
                           "U4 foraged nothing new"])
 
+
+
+# ================================================================== puppet print checks (repair round 2)
+def puppet_print_checks():
+    """Critic round 2: (a) no cream knife line closes on itself in film 0:05.0-0:05.8 (clip t 1.00-1.80,
+    baseline 0417); (b) at 0:05.2 no cream rim brighter than the surrounding paper where street puppets
+    stand on cream ground; (c) bus framing measured with and without the rear platform."""
+    F.CARVE_LOG.clear()
+    M = F.manifest("baseline")
+    for f in range(24, 44):
+        F.render(M, 417, f / FPS)
+    ratios = [L / N for _, _, L, N in F.CARVE_LOG]
+    open_ok = bool(ratios) and max(ratios) < 0.5
+    t = 1.20; P = R.pose(417, t); dx = P["dx"]
+    img = np.asarray(F.render(M, 417, t).convert("L"), np.float32)
+    ref = np.asarray(F._cut_ref(417, t, dx).convert("L"), np.float32)
+    dark = F._darkness(F._cut_ref(417, t, dx))
+    m = R.side_mask(P, group="street") > 0.35
+    ring = (cv2.dilate(m.astype(np.uint8), np.ones((7, 7), np.uint8)) > 0) & ~(cv2.dilate(m.astype(np.uint8), np.ones((3, 3), np.uint8)) > 0)
+    cream = ring & (dark < 0.02) & (ref > 200)
+    diff = img[cream] - ref[cream]
+    rim_ok = bool(cream.sum() > 50 and float(np.percentile(diff, 99)) <= 2.0)
+    ba = np.asarray(S.bus_body(417, "cut-paper"), np.float32)[..., 3] > 128
+    xs = np.where(ba.any(0))[0]; ys = np.where(ba.any(1))[0]
+    g = R.geo()
+    x0, x1 = int(xs.min()), int(xs.max()) + 1
+    return dict(
+        open_strokes=dict(check="every cream gouge line in the puppets is an open run of one part outline (run/contour < 0.5)",
+                          frames="film 0:05.0-0:05.8 (clip frames 24-43, baseline 0417)", strokes=len(ratios),
+                          max_run_fraction=round(max(ratios), 3) if ratios else None, passed=open_ok),
+        no_rim_on_cream=dict(check="at 0:05.2, ring pixels 1-3 px outside street puppets on cream ground are not brighter than the paper beneath",
+                             ring_pixels_on_cream=int(cream.sum()), p99_brightening=round(float(np.percentile(diff, 99)), 2),
+                             mean_brightening=round(float(diff.mean()), 2), passed=rim_ok),
+        bus_framing=dict(frame_width=960, bus_x0=x0, bus_x1=x1, platform_x0=round(float(g["plat0"]), 1),
+                         span_with_platform_pct=round(100 * (x1 - x0) / 960, 1),
+                         span_without_platform_pct=round(100 * (float(g["plat0"]) - x0) / 960, 1),
+                         bus_y_pct=[round(100 * ys.min() / 540, 1), round(100 * (ys.max() + 1) / 540, 1)],
+                         target="bus long side 55-65 % of frame width, y about 32-75 %"))
 
 # ================================================================== main
 def main():
@@ -822,6 +862,7 @@ def main():
         counterexample=dict(file=rel(VDIR / "rejected-drift.json"), accepted_projector_passed=ce["harness_accepted"]["passed"],
                             drift_projector_passed=ce["harness_rejected"]["passed"], broken=ce["broken"], observed=ce["observed"]),
         aesthetic=cs,
+        puppet_print=puppet_print_checks(),
         capability_notes=dict(
             observed=["These results describe six inspected samples (3 conditions x seeds 0417, 0418) of one engine: "
                       "'kit.py procedural animatic' = stage.py + rig.py at generator_rev %s." % ra["generator_rev"]["sha1"][:12],

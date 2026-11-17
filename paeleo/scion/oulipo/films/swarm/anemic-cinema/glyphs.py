@@ -150,7 +150,7 @@ THETA_READ, THETA_READ_SOURCE = _theta_read()
 PHASE = {"T1": 0.0, "T2": THETA_READ % (2 * math.pi)}
 RIM_CLEAR = 5 * SS                         # letter tops stay this far inside the plate rim
 DELTA = min(PITCH / 2, R - RIM_CLEAR - CAP / 2 - RADII[0])   # the spiral starts at r_0 + DELTA (rim-limited)
-R_END = RADII[-1] - 0.45 * RING_PITCH      # and ends just inside the innermost ring
+R_END = RADII[-1] - 0.20 * RING_PITCH      # and ends just inside the innermost ring (repair 1: was 0.45; opens the inner turn)
 
 
 def _width(c):
@@ -432,8 +432,8 @@ def fixtures():
                         "ring c(i) = the ring nearest its radius (order-preserving: c is non-decreasing in i), "
                         "so its radial slide onto ring c(i) is at most half a pitch = one ring band. The "
                         "geometric turn index ('turn') runs ahead of 'ring' by the rim offset (the outer turn "
-                        "starts %.1f px outside ring 0 because the letter tops must stay inside the 232 px rim)."
-                        % (DELTA / SS)),
+                        "starts %.1f px inside ring 0's radius, a limit set by the 232 px rim that the letter tops must stay inside)."
+                        % (-DELTA / SS)),
             every_ring_has_glyphs=all(n > 0 for n in per_ring),
             ring_correspondence_order_preserving=mono_ring,
             glyphs_per_ring=per_ring,

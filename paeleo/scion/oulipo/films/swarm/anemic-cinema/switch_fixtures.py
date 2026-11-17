@@ -74,7 +74,7 @@ def omega_declared(sc):
 
 def omega_measured():
     res = {}
-    spans = {"W1": (118, 152, 16), "W2": (238, 272, 16), "W3": (418, 452, 5)}
+    spans = {"W1": (118, 152, 16), "W2": (238, 272, 16), "W3": (418, 452, S.W_READ)}
     for w, (a, b, ticks) in spans.items():
         k0 = S.WIN[w][0]
         exp = 360.0 * ticks / S.TICKS
@@ -116,7 +116,7 @@ def periodicity(sc):
     fr = sc["frames"]
     th = [f["theta_ticks"] for f in fr]
     out = {}
-    for P, ticks, name in ((80, S.W_FAST, "omega_fast"), (256, S.W_READ, "omega_read")):
+    for P, ticks, name in ((80, S.W_FAST, "omega_fast"), (S.TICKS // S.W_READ, S.W_READ, "omega_read")):
         exact = (P * ticks) % S.TICKS == 0
         # in the score: every k where omega is held at this value over [k, k+P)
         held = [k for k in range(S.NFR - P) if fr[k]["state"] != "still"

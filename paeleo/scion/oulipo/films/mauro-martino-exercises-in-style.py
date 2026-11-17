@@ -108,6 +108,140 @@ def photo_fill(P):
 
 R._bourse_fill = lambda: _tex("coat_dark_long")   # the 1933 plate is not used anywhere in the film
 
+# ------------------------------------------------------------------ puppet silhouettes (repair round 2)
+# The critic found capsule limbs: uniform rims, closed knife loops round each limb segment, visible
+# doll joints. The rig's drawings are re-cut here (same skeleton, same pins, same exposure sheet):
+# tapered limbs, larger replacement hands with a clear thumb notch, a filled elbow/knee web so each
+# arm and leg prints as one tapered silhouette, scalloped hems, and hem flutter on the runners.
+def _taper(pts, y0, y1, k):
+    out = []
+    for x, y in pts:
+        if y <= y1:
+            u = max(0.0, min(1.0, (y - y0) / (y1 - y0)))
+            x = x * (1 - k * u)
+        out.append((x, y))
+    return out
+
+
+def _hand(pts, ywr=16.5, g=1.32):
+    return [(x * g, ywr + (y - ywr) * g) if y > ywr else (x, y) for x, y in pts]
+
+
+_NEW = dict(R.SHAPES)
+_NEW["uarm"] = [(-4.7, -2.4), (-4.3, 8), (-3.4, 19), (-2.6, 24.4), (-0.6, 26.2), (1.6, 25.8), (2.9, 23.4), (3.6, 15), (4.2, 6), (4.9, -2.6)]
+for _k in ("farm_fist", "farm_open", "farm_flat", "farm_grip"):
+    _NEW[_k] = _hand(_taper(R.SHAPES[_k], 0, 17, 0.30))
+_NEW["thigh"] = [(-6.2, -2), (-5.8, 10), (-4.6, 24), (-3.6, 31.2), (0, 33.2), (3.4, 31.4), (4.6, 22), (5.6, 10), (6.2, -2.4)]
+_NEW["shin"] = _taper(R.SHAPES["shin"], 0, 27, 0.32)
+_NEW["shin_b"] = _taper(R.SHAPES["shin_b"], 0, 27, 0.30)
+_NEW["b_skirt"] = [(-8, -2), (8, -2), (11.5, 14), (16.5, 33), (13, 35.2), (9.5, 33.4), (5.5, 37.4), (0.5, 34.6), (-4.5, 37.8), (-9, 35.0), (-14, 36.6), (-10.5, 16)]
+_NEW["e_skirt"] = [(-8.5, -2), (8.5, -2), (11.5, 13), (14.5, 27), (10.5, 28.4), (6.5, 26.6), (2.5, 31.0), (-3, 28.2), (-8, 30.6), (-13, 28.8), (-11, 14)]
+_NEW["a_tail"] = [(-1, -2), (-6, 12), (-12.5, 25), (-9, 25.6), (-7.5, 29.4), (-3, 26.4), (2, 26.0), (7, 13), (9, -2)]
+_NEW["d_tail"] = [(-8, -2), (-12, 16), (-18, 36), (-13, 36.4), (-11, 40.6), (-5, 38), (0, 40.4), (5, 37.6), (9.5, 18), (10.5, -2)]
+for _k, _v in _NEW.items():
+    R.SHAPES[_k] = _v
+    R.SM[_k] = R.smooth_closed(_v) * R.SCALE.get(_k, 1.0)
+
+_JOINTS = (("fore_n", 4.6), ("fore_f", 4.6), ("shin_n", 6.0), ("shin_f", 6.0))
+_orig_puppet_mask = R._puppet_mask
+
+
+def _puppet_mask(P, pose_, cut_braid=True, crop=None):
+    """Rig outline plus a filled web at elbow and knee, so a limb prints as one tapered shape."""
+    m = _orig_puppet_mask(P, pose_, cut_braid=cut_braid, crop=crop)
+    ox, oy = (crop[0], crop[1]) if crop else (0, 0)
+    polys, pins, _ = R.parts_world(P)
+    by = {n: p for z, n, p in polys}
+    k = R.SS
+    im = Image.new("L", (m.shape[1], m.shape[0]), 0); d = ImageDraw.Draw(im)
+    for child, rad in _JOINTS:
+        if child not in by or child not in pins:
+            continue
+        parent = pins[child][2]; c = np.asarray(pins[child][1])
+        r_ = rad * P["s"]
+        pts = [q for q in by[parent] if np.hypot(*(q - c)) < r_] + [q for q in by[child] if np.hypot(*(q - c)) < r_]
+        if len(pts) < 3:
+            continue
+        hull = cv2.convexHull(np.array(pts, np.float32)).reshape(-1, 2)
+        d.polygon([((u - ox) * k, (v - oy) * k) for u, v in hull], fill=255)
+    web = np.asarray(im, np.float32) / 255.0
+    rr = R._clip_rect(P, pose_)
+    if rr is not None:
+        x0, y0, x1, y1 = [int(round((v - o) * k)) for v, o in zip(rr, (ox, oy, ox, oy))]
+        cc = np.zeros_like(web); cc[max(0, y0):max(0, y1), max(0, x0):max(0, x1)] = 1.0
+        web *= cc
+    return np.maximum(m, web)
+
+
+R._puppet_mask = _puppet_mask
+_orig_pose = R.pose
+
+
+def _flutter_pose(seed, t):
+    """Hem and coat-tail flutter on the runners (not the protected cast): a deterministic function of
+    the drawing number and puppet id, so it snaps on twos and never draws an RNG."""
+    P_ = _orig_pose(seed, t)
+    d = P_["drawing"]
+    for P in P_["puppets"]:
+        if P["id"].startswith("runner") and any(q[0] == "tail" for q in R.RIGS[P["kind"]]["parts"]):
+            ph = int(hashlib.sha1(P["id"].encode()).hexdigest()[:6], 16) % 628 / 100.0
+            amp = 11.0 if P.get("note") == "run" else 4.0
+            P["ang"] = dict(P["ang"]); P["ang"]["tail"] = P["ang"].get("tail", 0.0) - amp * (0.55 + 0.45 * math.sin(2 * math.pi * d / 3.0 + ph))
+    return P_
+
+
+R.pose = _flutter_pose
+
+# Cut gap: a gouge-width (1-3 px, irregular, fixed per seed) gap of shade paper is cleared only where a
+# figure crosses DARK ground. Dark ground is judged on the cut-paper stage (and the figures already
+# printed), so the gap is identical in both treatments: the treatment delta stays fill-only.
+
+
+@functools.lru_cache(None)
+def _gapwidth(seed):
+    g = cv2.GaussianBlur(R._grain(seed), (0, 0), 2.2)
+    g = (g - g.min()) / max(1e-6, g.max() - g.min())
+    return g
+
+
+def draw_side_gap(layer, pose_, fill, group, dark):
+    """Print puppets of `group` with the irregular dark-ground gap. `dark` (HxW 0..1) is updated in place."""
+    sd = pose_["seed"]
+    base = np.asarray(layer.convert("RGBA"), np.float32).copy()
+    hcol = np.array(SHADE, np.float32); gw = _gapwidth(sd)
+    for P in pose_["puppets"]:
+        if not R._group_ok(P, group):
+            continue
+        a, bb = R._puppet_alpha(P, pose_, sd)
+        if a is None:
+            continue
+        x0, y0, x1, y1 = bb
+        reg = base[y0:y1, x0:x1]
+        if P.get("clip") != "window":
+            ab = (a > 0.35).astype(np.uint8)
+            d1 = cv2.dilate(ab, np.ones((3, 3), np.uint8)).astype(np.float32)
+            d2 = cv2.dilate(ab, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))).astype(np.float32)
+            d3 = cv2.dilate(ab, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (7, 7))).astype(np.float32)
+            g = gw[y0:y1, x0:x1]
+            ring = np.where(g > 0.78, d3, np.where(g > 0.42, d2, d1))
+            ring = cv2.GaussianBlur(ring, (0, 0), 0.6) * (1 - a)
+            ha = (np.clip(ring, 0, 1) * dark[y0:y1, x0:x1] * 0.95)[..., None]
+            reg[..., :3] = reg[..., :3] * (1 - ha) + hcol * ha
+        fl = R._fill_for(fill, P["id"])
+        col = fl[y0:y1, x0:x1, :3].astype(np.float32) if isinstance(fl, np.ndarray) else np.array(fl[:3], np.float32)[None, None]
+        a3 = a[..., None]
+        reg[..., :3] = reg[..., :3] * (1 - a3) + col * a3
+        reg[..., 3:] = np.maximum(reg[..., 3:], a3 * 255)
+        base[y0:y1, x0:x1] = reg
+        dark[y0:y1, x0:x1] = np.maximum(dark[y0:y1, x0:x1], np.clip(a * 1.3, 0, 1))
+    return Image.fromarray(np.clip(base, 0, 255).astype(np.uint8), "RGBA")
+
+
+def _darkness(img):
+    L = np.asarray(img.convert("L"), np.float32)
+    L = cv2.GaussianBlur(L, (0, 0), 1.2)
+    return np.clip((150.0 - L) / 55.0, 0, 1)
+
 # ------------------------------------------------------------------ outline-preserving stage (repair round 1)
 # Treatment is a FILL change only: every stage layer keeps the baseline's outline (same block masks,
 # same printed alpha) and is refilled with real plate texture in photographic-plate.
@@ -276,10 +410,47 @@ S.bus_front = bus_front
 CARVE = tuple(S.PALETTE["shade"])
 
 
+LEAD = {"arm_n": "f", "fore_n": "f", "arm_f": "f", "fore_f": "f", "leg_n": "f", "shin_n": "f",
+        "tail": "down", "hat": "down"}
+
+
+def _outward(p):
+    t_ = np.roll(p, -1, 0) - np.roll(p, 1, 0)
+    n = np.stack([t_[:, 1], -t_[:, 0]], 1); n /= np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-6)
+    c = p.astype(np.float32).reshape(-1, 1, 2)
+    probe = p + n * 0.8
+    flip = np.array([cv2.pointPolygonTest(c, (float(u), float(v)), False) > 0 for u, v in probe])
+    n[flip] *= -1
+    return n
+
+
+def _longest_run(ok):
+    N = len(ok)
+    if ok.all() or not ok.any():
+        return None
+    s0 = int(np.argmin(ok))                       # start just after a False: runs never wrap
+    best, cur, bs, cs = 0, 0, 0, 0
+    for j in range(1, N + 1):
+        i = (s0 + j) % N
+        if ok[i]:
+            if cur == 0:
+                cs = i
+            cur += 1
+            if cur > best:
+                best, bs = cur, cs
+        else:
+            cur = 0
+    return bs, best
+
+
+CARVE_LOG = []      # (puppet, part, run_len, contour_len) for the open-stroke check
+
+
 def _carve_fill(P, pose_):
-    """INK fill with cream knife lines where a front part overlaps the body (sleeve over coat, coat
-    tail over leg, hat brim over head), the way a relief cutter separates parts inside a silhouette.
-    Derived from the drawn geometry only, so the lines move on twos and never boil."""
+    """INK fill with cream gouge strokes cut along ONE edge of a front part where it overlaps the
+    body (the leading edge of a sleeve or near leg, the hem of a coat tail, the under-brim of a hat).
+    Each stroke is an open run of the outline, tapered to nothing at both ends like a gouge, never a
+    loop round a limb. Derived from the drawn geometry, so it moves on twos and never boils."""
     bb = R._bbox(P, pose_)
     out = np.empty((H, W, 3), np.float32); out[:] = R.INK
     if bb is None:
@@ -289,13 +460,28 @@ def _carve_fill(P, pose_):
     polys, _, _ = R.parts_world(P)
     acc = Image.new("L", ((x1 - x0) * k, (y1 - y0) * k), 0); da = ImageDraw.Draw(acc)
     lines = Image.new("L", acc.size, 0); dl = ImageDraw.Draw(lines)
+    f = P["facing"]
     for z, nm, p in polys:                             # back to front
         q = [((u - x0) * k, (v - y0) * k) for u, v in p]
-        if nm in ("arm_n", "fore_n", "arm_f", "fore_f", "coat", "tail", "skirt", "hat", "thigh_n", "shin_n") or "hand" in nm:
-            prev = np.asarray(acc, np.uint8)
-            tmp = Image.new("L", acc.size, 0); ImageDraw.Draw(tmp).line(q + [q[0]], fill=255, width=k)
-            inside = cv2.erode(prev, np.ones((2 * k + 1, 2 * k + 1), np.uint8))
-            lines = Image.fromarray(np.maximum(np.asarray(lines), np.minimum(np.asarray(tmp), inside)))
+        if nm in LEAD:
+            prev = cv2.erode(np.asarray(acc, np.uint8), np.ones((2 * k + 1, 2 * k + 1), np.uint8))
+            dirv = np.array([f, 0.15]) if LEAD[nm] == "f" else np.array([0.0, 1.0])
+            dirv = dirv / np.linalg.norm(dirv)
+            nrm = _outward(np.asarray(p, float))
+            Q = np.asarray(q)
+            xi = np.clip(Q[:, 0].astype(int), 0, prev.shape[1] - 1); yi = np.clip(Q[:, 1].astype(int), 0, prev.shape[0] - 1)
+            ok = (prev[yi, xi] > 0) & (nrm @ dirv > 0.35)
+            run = _longest_run(ok)
+            if run is not None:
+                bs, L = run
+                L = min(L, int(0.42 * len(Q)))
+                if L >= 5:
+                    CARVE_LOG.append((P["id"], nm, L, len(Q)))
+                    idx = [(bs + j) % len(Q) for j in range(L)]
+                    for j in range(L - 1):
+                        u = (j + 0.5) / (L - 1)
+                        wd = max(1, int(round(k * (0.25 + 1.05 * math.sin(math.pi * u) ** 0.8))))
+                        dl.line([tuple(Q[idx[j]]), tuple(Q[idx[j + 1]])], fill=255, width=wd)
         da.polygon(q, fill=255)
     ln = cv2.resize(np.asarray(lines, np.float32) / 255.0, (x1 - x0, y1 - y0), interpolation=cv2.INTER_AREA)
     ln = np.clip(ln * 1.5, 0, 1)[..., None] * 0.85
@@ -372,14 +558,27 @@ def render(M, seed, t):
         layers.append((tile, (cx + dx - tile.size[0] / 2, cy - tile.size[1] / 2)))
     img = S.compose(layers)
     fill = carve_fill(P) if tr == "cut-paper" else photo_fill(P)
-    halo = True                      # the cleared rim: a cut edge, in both treatments (fill-independent)
-    img = R.draw_side(img, P, fill, group="window", halo=halo)
-    img = R.draw_side(img, P, fill, group="platform", halo=halo)
-    img.alpha_composite(S.shift(S.bus_front(seed, tr), dx))
+    # dark ground for the cut gap is judged on the cut-paper stage in BOTH treatments (fill-only delta)
+    ref = img if tr == "cut-paper" else _cut_ref(seed, t, dx)
+    dark = _darkness(ref)
+    img = draw_side_gap(img, P, fill, "window", dark)
+    img = draw_side_gap(img, P, fill, "platform", dark)
+    bf = S.shift(S.bus_front(seed, tr), dx)
+    img.alpha_composite(bf)
+    dark = np.maximum(dark, np.clip(np.asarray(S.shift(S.bus_front(seed, "cut-paper"), dx), np.float32)[..., 3] / 255.0 * 1.2, 0, 1))
     img.alpha_composite(S.shift(S.bell_tassel(seed, P["bell_pull"], tr), dx))
     img.alpha_composite(S.shadow_slivers(seed, "runners", R.feet(P), 150))
-    img = R.draw_side(img, P, fill, group="street", halo=halo)
+    img = draw_side_gap(img, P, fill, "street", dark)
     return img.convert("RGB")
+
+
+def _cut_ref(seed, t, dx):
+    layers = [S.backdrop(seed, "cut-paper"), S.crowd(seed, "cut-paper"), S.bus_shadow(seed, dx), S.shift(S.bus_body(seed, "cut-paper"), dx)]
+    travel = S.bus_x(0) - S.bus_x(t)
+    for name in ("front", "rear"):
+        tile, (cx, cy) = S.wheel(seed, name, S.wheel_angle_for(travel), "cut-paper")
+        layers.append((tile, (cx + dx - tile.size[0] / 2, cy - tile.size[1] / 2)))
+    return S.compose(layers)
 
 
 def dtext(d, xy, s, font, fill, spacing=2):
@@ -415,7 +614,7 @@ def tag(img, text, size=13, xy=(12, None)):
 
 
 def clip_tag(cond, seed, t):
-    extra = {"baseline": "", "d-treatment": " photographic-plate", "d-camera": " overhead"}[cond]
+    extra = {"baseline": "", "d-treatment": " photographic-plate · composite · staged", "d-camera": " overhead"}[cond]
     return f"{LABEL[cond]}{extra} · seed {seed:04d} · t {t:4.2f}"
 
 
@@ -599,9 +798,11 @@ def card_coverage(k):
             d.text((x0, y0 + st.size[1] + 34 + j * 15), ("fails: " if j == 0 else "       ") + b, font=kit.font("mono", 11), fill=INKC)
     if k > 20:
         d = ImageDraw.Draw(img)
-        d.text((42, 500), "photographs: Agence Rol 1916, 1919 (BnF Gallica via Wikimedia Commons, public domain) · street: cori (PD) · bell: qubodup (CC0)",
+        d.text((42, 485), "photographs: Agence Rol 1916, 1919 (BnF Gallica via Wikimedia Commons, public domain) · street: cori (PD) · bell: qubodup (CC0)",
                font=kit.font("mono", 10), fill=DTINT)
-        d.text((42, 515), "engine: Work With Sounds / Technical Museum of Slovenia, WWS CityBusMANSG220engine, CC BY 4.0 · everything else handmade",
+        d.text((42, 500), "engine: WWS CityBusMANSG220engine, Work With Sounds / Technical Museum of Slovenia, CC BY 4.0",
+               font=kit.font("mono", 10), fill=DTINT)
+        d.text((42, 515), "(creativecommons.org/licenses/by/4.0), trimmed and mixed · thud, clicks synthesized · everything else handmade",
                font=kit.font("mono", 10), fill=DTINT)
     return img
 
@@ -624,7 +825,7 @@ def grid_frame(tt, hold):
         lab = {"baseline": ["baseline"], "d-treatment": ["Δ treat-", "  ment"], "d-camera": ["Δ camera"]}[cond]
         for j, ln in enumerate(lab):
             dtext(d, (8, y + 4 + j * 15), ln, kit.font("mono", 12), INKC)
-        d.text((8, y + 40), {"baseline": "street-side\ncut-paper", "d-treatment": "photo-\ngraphic-\nplate", "d-camera": "overhead"}[cond],
+        d.text((8, y + 40), {"baseline": "street-side\ncut-paper", "d-treatment": "photo-\ngraphic-\nplate\n\ncomposite\n· staged", "d-camera": "overhead"}[cond],
                font=fs, fill=DTINT, spacing=2)
         for c_, seed in enumerate(SEEDS):
             x = 88 + c_ * 304

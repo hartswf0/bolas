@@ -1,8 +1,8 @@
 {
  "film": "mauro-martino-exercises-in-style",
  "unit": "U4 verify",
- "run_seconds": 209,
- "generator_rev": "013c0bb1ec5b8f3006a8f14dd247e85f5ccfdf9d",
+ "run_seconds": 245,
+ "generator_rev": "a81c80d6f3e3b7906f40295c401333a2fef97fd5",
  "manifests": {
   "baseline_sha1": "6bb9bc5f4c9d4a1b7f4ce3a164be3cfba801fd6f",
   "deltas": {
@@ -46,11 +46,11 @@
    "per_seed": {
     "417": {
      "intended": true,
-     "criterion": "puppet outline IoU 1.0 on every checked frame; bus-region fill changed (mean |ΔL| 47.6, grey levels/4 56 -> 48); all protected anchors visible"
+     "criterion": "puppet outline IoU 1.0 on every checked frame; bus-region fill changed (mean |ΔL| 47.4, grey levels/4 56 -> 48); all protected anchors visible"
     },
     "418": {
      "intended": true,
-     "criterion": "puppet outline IoU 1.0 on every checked frame; bus-region fill changed (mean |ΔL| 47.2, grey levels/4 56 -> 47); all protected anchors visible"
+     "criterion": "puppet outline IoU 1.0 on every checked frame; bus-region fill changed (mean |ΔL| 46.9, grey levels/4 56 -> 47); all protected anchors visible"
     }
    }
   },
@@ -130,15 +130,15 @@
    },
    "A2": {
     "status": "visible",
-    "px": 7971,
+    "px": 8027,
     "t": 1.05,
-    "why": "7 runners in pose; street-mask px near the platform 7971"
+    "why": "7 runners in pose; street-mask px near the platform 8027"
    },
    "A3": {
     "status": "visible",
-    "px": 86,
+    "px": 129,
     "t": 1.2,
-    "why": "jostler forearm/hand within 2 px of the man: 86 contact px"
+    "why": "jostler forearm/hand within 2 px of the man: 129 contact px"
    },
    "A4": {
     "status": "visible",
@@ -154,9 +154,9 @@
    },
    "A5": {
     "status": "visible",
-    "px": 314,
+    "px": 381,
     "t": 2.6,
-    "why": "fore_n+arm_n px unoccluded 314 (of 314 drawn); man in group 'platform'"
+    "why": "fore_n+arm_n px unoccluded 381 (of 381 drawn); man in group 'platform'"
    },
    "A5v": {
     "status": "visible",
@@ -166,9 +166,9 @@
    },
    "A5d": {
     "status": "visible",
-    "px": 2196,
+    "px": 2241,
     "t": 4.5,
-    "why": "man px unoccluded 2196 (of 2200 drawn); man in group 'platform'"
+    "why": "man px unoccluded 2241 (of 2245 drawn); man in group 'platform'"
    },
    "A6": {
     "status": "visible",
@@ -184,9 +184,9 @@
    },
    "A7": {
     "status": "visible",
-    "px": 385,
+    "px": 462,
     "t": 6.0,
-    "why": "conductor mask change 5.80 -> 6.00: 385 px; bell_pull 1.00; tassel drawn"
+    "why": "conductor mask change 5.80 -> 6.00: 462 px; bell_pull 1.00; tassel drawn"
    },
    "A8": {
     "status": "visible",
@@ -222,15 +222,15 @@
    },
    "A2": {
     "status": "visible",
-    "px": 10108,
+    "px": 10261,
     "t": 1.05,
-    "why": "8 runners in pose; street-mask px near the platform 10108"
+    "why": "8 runners in pose; street-mask px near the platform 10261"
    },
    "A3": {
     "status": "visible",
-    "px": 86,
+    "px": 129,
     "t": 1.2,
-    "why": "jostler forearm/hand within 2 px of the man: 86 contact px"
+    "why": "jostler forearm/hand within 2 px of the man: 129 contact px"
    },
    "A4": {
     "status": "visible",
@@ -246,9 +246,9 @@
    },
    "A5": {
     "status": "visible",
-    "px": 314,
+    "px": 381,
     "t": 2.6,
-    "why": "fore_n+arm_n px unoccluded 314 (of 314 drawn); man in group 'platform'"
+    "why": "fore_n+arm_n px unoccluded 381 (of 381 drawn); man in group 'platform'"
    },
    "A5v": {
     "status": "visible",
@@ -258,9 +258,9 @@
    },
    "A5d": {
     "status": "visible",
-    "px": 2194,
+    "px": 2239,
     "t": 4.5,
-    "why": "man px unoccluded 2194 (of 2200 drawn); man in group 'platform'"
+    "why": "man px unoccluded 2239 (of 2245 drawn); man in group 'platform'"
    },
    "A6": {
     "status": "visible",
@@ -276,9 +276,9 @@
    },
    "A7": {
     "status": "visible",
-    "px": 385,
+    "px": 462,
     "t": 6.0,
-    "why": "conductor mask change 5.80 -> 6.00: 385 px; bell_pull 1.00; tassel drawn"
+    "why": "conductor mask change 5.80 -> 6.00: 462 px; bell_pull 1.00; tassel drawn"
    },
    "A8": {
     "status": "visible",
@@ -314,15 +314,15 @@
    },
    "A2": {
     "status": "visible",
-    "px": 7971,
+    "px": 8027,
     "t": 1.05,
-    "why": "7 runners in pose; street-mask px near the platform 7971"
+    "why": "7 runners in pose; street-mask px near the platform 8027"
    },
    "A3": {
     "status": "visible",
-    "px": 86,
+    "px": 129,
     "t": 1.2,
-    "why": "jostler forearm/hand within 2 px of the man: 86 contact px"
+    "why": "jostler forearm/hand within 2 px of the man: 129 contact px"
    },
    "A4": {
     "status": "visible",
@@ -338,9 +338,9 @@
    },
    "A5": {
     "status": "visible",
-    "px": 314,
+    "px": 381,
     "t": 2.6,
-    "why": "fore_n+arm_n px unoccluded 314 (of 314 drawn); man in group 'platform'"
+    "why": "fore_n+arm_n px unoccluded 381 (of 381 drawn); man in group 'platform'"
    },
    "A5v": {
     "status": "visible",
@@ -350,9 +350,9 @@
    },
    "A5d": {
     "status": "visible",
-    "px": 2196,
+    "px": 2241,
     "t": 4.5,
-    "why": "man px unoccluded 2196 (of 2200 drawn); man in group 'platform'"
+    "why": "man px unoccluded 2241 (of 2245 drawn); man in group 'platform'"
    },
    "A6": {
     "status": "visible",
@@ -368,9 +368,9 @@
    },
    "A7": {
     "status": "visible",
-    "px": 385,
+    "px": 462,
     "t": 6.0,
-    "why": "conductor mask change 5.80 -> 6.00: 385 px; bell_pull 1.00; tassel drawn"
+    "why": "conductor mask change 5.80 -> 6.00: 462 px; bell_pull 1.00; tassel drawn"
    },
    "A8": {
     "status": "visible",
@@ -406,15 +406,15 @@
    },
    "A2": {
     "status": "visible",
-    "px": 10108,
+    "px": 10261,
     "t": 1.05,
-    "why": "8 runners in pose; street-mask px near the platform 10108"
+    "why": "8 runners in pose; street-mask px near the platform 10261"
    },
    "A3": {
     "status": "visible",
-    "px": 86,
+    "px": 129,
     "t": 1.2,
-    "why": "jostler forearm/hand within 2 px of the man: 86 contact px"
+    "why": "jostler forearm/hand within 2 px of the man: 129 contact px"
    },
    "A4": {
     "status": "visible",
@@ -430,9 +430,9 @@
    },
    "A5": {
     "status": "visible",
-    "px": 314,
+    "px": 381,
     "t": 2.6,
-    "why": "fore_n+arm_n px unoccluded 314 (of 314 drawn); man in group 'platform'"
+    "why": "fore_n+arm_n px unoccluded 381 (of 381 drawn); man in group 'platform'"
    },
    "A5v": {
     "status": "visible",
@@ -442,9 +442,9 @@
    },
    "A5d": {
     "status": "visible",
-    "px": 2194,
+    "px": 2239,
     "t": 4.5,
-    "why": "man px unoccluded 2194 (of 2200 drawn); man in group 'platform'"
+    "why": "man px unoccluded 2239 (of 2245 drawn); man in group 'platform'"
    },
    "A6": {
     "status": "visible",
@@ -460,9 +460,9 @@
    },
    "A7": {
     "status": "visible",
-    "px": 385,
+    "px": 462,
     "t": 6.0,
-    "why": "conductor mask change 5.80 -> 6.00: 385 px; bell_pull 1.00; tassel drawn"
+    "why": "conductor mask change 5.80 -> 6.00: 462 px; bell_pull 1.00; tassel drawn"
    },
    "A8": {
     "status": "visible",
@@ -498,9 +498,9 @@
    },
    "A2": {
     "status": "visible",
-    "px": 2472,
+    "px": 2529,
     "t": 1.05,
-    "why": "7 runners in pose; street-mask px near the platform 2472"
+    "why": "7 runners in pose; street-mask px near the platform 2529"
    },
    "A3": {
     "status": "visible",
@@ -522,9 +522,9 @@
    },
    "A5": {
     "status": "partial",
-    "px": 154,
+    "px": 174,
     "t": 2.6,
-    "why": "plan arm bars of the man 154 px: the open hand raised toward the jostler projects only as a short bar; head turn not readable from above"
+    "why": "plan arm bars of the man 174 px: the open hand raised toward the jostler projects only as a short bar; head turn not readable from above"
    },
    "A5v": {
     "status": "visible",
@@ -534,9 +534,9 @@
    },
    "A5d": {
     "status": "partial",
-    "px": 787,
+    "px": 807,
     "t": 4.5,
-    "why": "man plan px 787: his disc moves toward the bulkhead; the stoop itself has no plan form"
+    "why": "man plan px 807: his disc moves toward the bulkhead; the stoop itself has no plan form"
    },
    "A6": {
     "status": "visible",
@@ -552,9 +552,9 @@
    },
    "A7": {
     "status": "partial",
-    "px": 118,
+    "px": 121,
     "t": 6.0,
-    "why": "conductor present in plan (674 px), change 5.80 -> 6.00 118 px; the bell cord pull is vertical and has no plan form"
+    "why": "conductor present in plan (696 px), change 5.80 -> 6.00 121 px; the bell cord pull is vertical and has no plan form"
    },
    "A8": {
     "status": "partial",
@@ -590,9 +590,9 @@
    },
    "A2": {
     "status": "visible",
-    "px": 2531,
+    "px": 2626,
     "t": 1.05,
-    "why": "8 runners in pose; street-mask px near the platform 2531"
+    "why": "8 runners in pose; street-mask px near the platform 2626"
    },
    "A3": {
     "status": "visible",
@@ -614,9 +614,9 @@
    },
    "A5": {
     "status": "partial",
-    "px": 154,
+    "px": 174,
     "t": 2.6,
-    "why": "plan arm bars of the man 154 px: the open hand raised toward the jostler projects only as a short bar; head turn not readable from above"
+    "why": "plan arm bars of the man 174 px: the open hand raised toward the jostler projects only as a short bar; head turn not readable from above"
    },
    "A5v": {
     "status": "visible",
@@ -626,9 +626,9 @@
    },
    "A5d": {
     "status": "partial",
-    "px": 787,
+    "px": 807,
     "t": 4.5,
-    "why": "man plan px 787: his disc moves toward the bulkhead; the stoop itself has no plan form"
+    "why": "man plan px 807: his disc moves toward the bulkhead; the stoop itself has no plan form"
    },
    "A6": {
     "status": "visible",
@@ -644,9 +644,9 @@
    },
    "A7": {
     "status": "partial",
-    "px": 118,
+    "px": 121,
     "t": 6.0,
-    "why": "conductor present in plan (674 px), change 5.80 -> 6.00 118 px; the bell cord pull is vertical and has no plan form"
+    "why": "conductor present in plan (696 px), change 5.80 -> 6.00 121 px; the bell cord pull is vertical and has no plan form"
    },
    "A8": {
     "status": "partial",
@@ -752,11 +752,11 @@
    "all_puppet_xor": [
     {
      "f": 29,
-     "all_puppet_mask_xor_px": 26399
+     "all_puppet_mask_xor_px": 26636
     },
     {
      "f": 132,
-     "all_puppet_mask_xor_px": 21790
+     "all_puppet_mask_xor_px": 22334
     }
    ],
    "note": "Both seeds happen to vacate seat A; the vacate draw is still seeded (rng(seed,'vacate'))."
@@ -772,93 +772,93 @@
   "all_identical": true,
   "samples": {
    "baseline/0417/f000": {
-    "in_process": "231c4375a954b64c85f2eb9700d13bb8cca74b97",
-    "fresh_process": "231c4375a954b64c85f2eb9700d13bb8cca74b97",
+    "in_process": "45cdbfcb12927e0a6f268318aa4255bf0e3a7bad",
+    "fresh_process": "45cdbfcb12927e0a6f268318aa4255bf0e3a7bad",
     "identical": true
    },
    "baseline/0417/f029": {
-    "in_process": "9fae87437b8fa320afe74211beec5b17f638518f",
-    "fresh_process": "9fae87437b8fa320afe74211beec5b17f638518f",
+    "in_process": "907138f782c39bceb518888a17cb400fae90e16a",
+    "fresh_process": "907138f782c39bceb518888a17cb400fae90e16a",
     "identical": true
    },
    "baseline/0417/f132": {
-    "in_process": "86ff90d5ec293d48d04323c4d2ef0acd7927762e",
-    "fresh_process": "86ff90d5ec293d48d04323c4d2ef0acd7927762e",
+    "in_process": "e198f3e88727d60a0243edb330f154c96d5ce672",
+    "fresh_process": "e198f3e88727d60a0243edb330f154c96d5ce672",
     "identical": true
    },
    "baseline/0418/f000": {
-    "in_process": "b039bb6d8dc6916f46508686f1fdbdb1cecdd35e",
-    "fresh_process": "b039bb6d8dc6916f46508686f1fdbdb1cecdd35e",
+    "in_process": "4887a083e8d975f105ae60568c9eddc79c83bea6",
+    "fresh_process": "4887a083e8d975f105ae60568c9eddc79c83bea6",
     "identical": true
    },
    "baseline/0418/f029": {
-    "in_process": "96d5a8605d437c4fb3e3de8317348a810fb0e262",
-    "fresh_process": "96d5a8605d437c4fb3e3de8317348a810fb0e262",
+    "in_process": "0b5422a7bd098ad9053faa629ddd92bc69cd8645",
+    "fresh_process": "0b5422a7bd098ad9053faa629ddd92bc69cd8645",
     "identical": true
    },
    "baseline/0418/f132": {
-    "in_process": "a29a82f12f2aac56fd73cdfeff8d9b39752ea648",
-    "fresh_process": "a29a82f12f2aac56fd73cdfeff8d9b39752ea648",
+    "in_process": "abf1b5d457822389389a7afcbc94c17818cca8d7",
+    "fresh_process": "abf1b5d457822389389a7afcbc94c17818cca8d7",
     "identical": true
    },
    "d-treatment/0417/f000": {
-    "in_process": "5b528e859b64e069bafe93e3a83b217146ae6a20",
-    "fresh_process": "5b528e859b64e069bafe93e3a83b217146ae6a20",
+    "in_process": "fc676544498ad8203ca96acb2feac14bb5f69254",
+    "fresh_process": "fc676544498ad8203ca96acb2feac14bb5f69254",
     "identical": true
    },
    "d-treatment/0417/f029": {
-    "in_process": "1405ac31579be0ae5e0d7d4ff98191b7f2ea8ef2",
-    "fresh_process": "1405ac31579be0ae5e0d7d4ff98191b7f2ea8ef2",
+    "in_process": "b9e61024fb81632af9d80df1951f111db6edb978",
+    "fresh_process": "b9e61024fb81632af9d80df1951f111db6edb978",
     "identical": true
    },
    "d-treatment/0417/f132": {
-    "in_process": "8983c0c0a0deb175e571eab95bd13a5d61a751e2",
-    "fresh_process": "8983c0c0a0deb175e571eab95bd13a5d61a751e2",
+    "in_process": "33d5549a869767df4ea3be7ffbb626db83adcd52",
+    "fresh_process": "33d5549a869767df4ea3be7ffbb626db83adcd52",
     "identical": true
    },
    "d-treatment/0418/f000": {
-    "in_process": "98aacec0ab028283d1b5ee0e32e3e7748f03236f",
-    "fresh_process": "98aacec0ab028283d1b5ee0e32e3e7748f03236f",
+    "in_process": "31869ea35f2a3a882a6fbcc54fd26fc8733c9f5f",
+    "fresh_process": "31869ea35f2a3a882a6fbcc54fd26fc8733c9f5f",
     "identical": true
    },
    "d-treatment/0418/f029": {
-    "in_process": "97816e645fad4d3bba53e98079a752a659bd7913",
-    "fresh_process": "97816e645fad4d3bba53e98079a752a659bd7913",
+    "in_process": "1cf8d628ff2217dd7f147c718de42d92fdd1d42d",
+    "fresh_process": "1cf8d628ff2217dd7f147c718de42d92fdd1d42d",
     "identical": true
    },
    "d-treatment/0418/f132": {
-    "in_process": "a277e4b982adbaf5a5ff4d66b5d87fbd29765564",
-    "fresh_process": "a277e4b982adbaf5a5ff4d66b5d87fbd29765564",
+    "in_process": "d18b35fcb8e2dc5ab92e14d28422a1a4c5a87367",
+    "fresh_process": "d18b35fcb8e2dc5ab92e14d28422a1a4c5a87367",
     "identical": true
    },
    "d-camera/0417/f000": {
-    "in_process": "4ab57121454acd34113188909c8fa776841e7037",
-    "fresh_process": "4ab57121454acd34113188909c8fa776841e7037",
+    "in_process": "c9e5a8e3ff6bf736d7d98c49ccae55aad550b943",
+    "fresh_process": "c9e5a8e3ff6bf736d7d98c49ccae55aad550b943",
     "identical": true
    },
    "d-camera/0417/f029": {
-    "in_process": "d35f20b7caf7555fbc370958ca54580af7bda47c",
-    "fresh_process": "d35f20b7caf7555fbc370958ca54580af7bda47c",
+    "in_process": "cec2391dee7e6e191aa783e6d3516828b0626f3c",
+    "fresh_process": "cec2391dee7e6e191aa783e6d3516828b0626f3c",
     "identical": true
    },
    "d-camera/0417/f132": {
-    "in_process": "c07567cbd1ff18d6c1c2da6cb00ebf3e88860adb",
-    "fresh_process": "c07567cbd1ff18d6c1c2da6cb00ebf3e88860adb",
+    "in_process": "f86b9351adf96dbc68ffa3e51336480efd5e47ec",
+    "fresh_process": "f86b9351adf96dbc68ffa3e51336480efd5e47ec",
     "identical": true
    },
    "d-camera/0418/f000": {
-    "in_process": "3b2390d745775d0749d4313b83e3f265619c7f97",
-    "fresh_process": "3b2390d745775d0749d4313b83e3f265619c7f97",
+    "in_process": "b8a631a63566970d195ee2944e1de7bbd1a51c7c",
+    "fresh_process": "b8a631a63566970d195ee2944e1de7bbd1a51c7c",
     "identical": true
    },
    "d-camera/0418/f029": {
-    "in_process": "c4c8c1d37b2a6c66422c140aa49ac3ab06b2f1a9",
-    "fresh_process": "c4c8c1d37b2a6c66422c140aa49ac3ab06b2f1a9",
+    "in_process": "24a58429ca793d96c130e9fa97712974376b4cba",
+    "fresh_process": "24a58429ca793d96c130e9fa97712974376b4cba",
     "identical": true
    },
    "d-camera/0418/f132": {
-    "in_process": "75785dc2fa8128ae62bc3c2bd9a9d28facaf64ac",
-    "fresh_process": "75785dc2fa8128ae62bc3c2bd9a9d28facaf64ac",
+    "in_process": "97ff147c851fe3dc9918c5727c801b0750ef180f",
+    "fresh_process": "97ff147c851fe3dc9918c5727c801b0750ef180f",
     "identical": true
    }
   }
@@ -951,7 +951,7 @@
   "method": "kit.Mix rebuilt in-process from the film module's sound function, mastered exactly as Film.render does, s16 PCM sliced per 7.0 s window (6 clip windows + the S9 grid window), hashed BEFORE the AAC encode",
   "aac_decoded": {
    "file": "assets/films/mauro-martino-exercises-in-style.mp4",
-   "file_sha1": "c0ad3409ce99cbc491862f9a3cba284443e01dd7",
+   "file_sha1": "0cc20f480759a7e013fe47d78d74abe539d994be",
    "snr_db_vs_first_window": {
     "baseline/0417": null,
     "baseline/0418": 17.3,
@@ -987,12 +987,12 @@
   "baseline": {
    "p2_25_50_75_98": [
     33,
-    39,
+    38,
     130,
-    197,
+    198,
     232
    ],
-   "mid_70_170": 0.281,
+   "mid_70_170": 0.278,
    "chroma": 13.2,
    "paper_rgb": [
     238,
@@ -1046,13 +1046,13 @@
    "baseline/0417": {
     "p2_25_50_75_98": [
      33,
-     42,
+     40,
      131,
      200,
      232
     ],
-    "mid_70_170": 0.282,
-    "chroma": 13.4,
+    "mid_70_170": 0.28,
+    "chroma": 13.3,
     "paper_rgb": [
      238,
      230,
@@ -1070,13 +1070,13 @@
    "baseline/0418": {
     "p2_25_50_75_98": [
      33,
-     39,
+     38,
      130,
      203,
      232
     ],
-    "mid_70_170": 0.265,
-    "chroma": 13.4,
+    "mid_70_170": 0.261,
+    "chroma": 13.3,
     "paper_rgb": [
      238,
      230,
@@ -1099,7 +1099,7 @@
      191,
      231
     ],
-    "mid_70_170": 0.368,
+    "mid_70_170": 0.365,
     "chroma": 12.9,
     "paper_rgb": [
      238,
@@ -1123,7 +1123,7 @@
      193,
      231
     ],
-    "mid_70_170": 0.353,
+    "mid_70_170": 0.35,
     "chroma": 12.9,
     "paper_rgb": [
      238,
@@ -1147,7 +1147,7 @@
      209,
      233
     ],
-    "mid_70_170": 0.413,
+    "mid_70_170": 0.414,
     "chroma": 17.1,
     "paper_rgb": [
      239,
@@ -1189,17 +1189,46 @@
    }
   },
   "frame_sha1": {
-   "baseline/0417": "9fae87437b8fa320afe74211beec5b17f638518f",
-   "baseline/0418": "96d5a8605d437c4fb3e3de8317348a810fb0e262",
-   "d-treatment/0417": "1405ac31579be0ae5e0d7d4ff98191b7f2ea8ef2",
-   "d-treatment/0418": "97816e645fad4d3bba53e98079a752a659bd7913",
-   "d-camera/0417": "d35f20b7caf7555fbc370958ca54580af7bda47c",
-   "d-camera/0418": "c4c8c1d37b2a6c66422c140aa49ac3ab06b2f1a9"
+   "baseline/0417": "907138f782c39bceb518888a17cb400fae90e16a",
+   "baseline/0418": "0b5422a7bd098ad9053faa629ddd92bc69cd8645",
+   "d-treatment/0417": "b9e61024fb81632af9d80df1951f111db6edb978",
+   "d-treatment/0418": "1cf8d628ff2217dd7f147c718de42d92fdd1d42d",
+   "d-camera/0417": "cec2391dee7e6e191aa783e6d3516828b0626f3c",
+   "d-camera/0418": "24a58429ca793d96c130e9fa97712974376b4cba"
+  }
+ },
+ "puppet_print": {
+  "open_strokes": {
+   "check": "every cream gouge line in the puppets is an open run of one part outline (run/contour < 0.5)",
+   "frames": "film 0:05.0-0:05.8 (clip frames 24-43, baseline 0417)",
+   "strokes": 504,
+   "max_run_fraction": 0.414,
+   "passed": true
+  },
+  "no_rim_on_cream": {
+   "check": "at 0:05.2, ring pixels 1-3 px outside street puppets on cream ground are not brighter than the paper beneath",
+   "ring_pixels_on_cream": 1443,
+   "p99_brightening": -1.0,
+   "mean_brightening": -24.91,
+   "passed": true
+  },
+  "bus_framing": {
+   "frame_width": 960,
+   "bus_x0": 140,
+   "bus_x1": 720,
+   "platform_x0": 614.4,
+   "span_with_platform_pct": 60.4,
+   "span_without_platform_pct": 49.4,
+   "bus_y_pct": [
+    29.3,
+    75.2
+   ],
+   "target": "bus long side 55-65 % of frame width, y about 32-75 %"
   }
  },
  "capability_notes": {
   "observed": [
-   "These results describe six inspected samples (3 conditions x seeds 0417, 0418) of one engine: 'kit.py procedural animatic' = stage.py + rig.py at generator_rev 013c0bb1ec5b.",
+   "These results describe six inspected samples (3 conditions x seeds 0417, 0418) of one engine: 'kit.py procedural animatic' = stage.py + rig.py at generator_rev a81c80d6f3e3.",
    "Seeds are repeatable in this engine: frames 0, 29, 132 of all six samples re-render byte-identically in a fresh process (True).",
    "In this engine the seed governs only unprotected elements (runner count 7 vs 8, positions, phases, idle holds, print grain); protected masks are identical across seeds on all 168 frames, side and plan (True).",
    "The treatment field changed fill only (puppet outline IoU min 1.0000).",
@@ -1284,7 +1313,7 @@
     "license_url": "https://creativecommons.org/licenses/by/4.0",
     "source_url": "https://commons.wikimedia.org/wiki/File:WWS_CityBusMANSG220engine.ogg",
     "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/69/WWS_CityBusMANSG220engine.ogg",
-    "used_as": "engine half of the one 7.0 s sound bed under every clip window (a 1991 bus engine standing in for 1916; declared)",
+    "used_as": "engine half of the one 7.0 s sound bed under every clip window; trimmed to 16.8-23.8 s and mixed with the street recording (modified). A 1991 bus engine standing in for 1916; declared",
     "id": "F-engine",
     "local_path": "films/sources/mauro-martino-exercises-in-style/plates/audio/engine_idle_pullaway_7.0s.wav",
     "local_sha1": "9bce4e46b095432bd3df6d786ca38b0a5466ff2d",
@@ -1388,106 +1417,5 @@
    "films/sources/mauro-martino-exercises-in-style/verify/sample_d-treatment_0418_t1.20.png"
   ],
   "quarantine": "films/sources/mauro-martino-exercises-in-style/verify/quarantine"
- },
- "delivered_stills": {
-  "5.2": {
-   "p2_25_50_75_98": [
-    30,
-    39,
-    128,
-    196,
-    230
-   ],
-   "mid_70_170": 0.284,
-   "chroma": 13.4,
-   "paper_rgb": [
-    236,
-    228,
-    214
-   ],
-   "ink_rgb": [
-    32,
-    31,
-    28
-   ],
-   "dE76_paper_to_eee6d6": 1.2,
-   "dE76_ink_to_22211f": 1.3,
-   "method": "L = Rec.601 luma; paper = median RGB of the top-decile L pixels; ink = median of the bottom decile; ΔE76 in CIELAB (D65)",
-   "bar5": {
-    "p2_ge_15": true,
-    "p98_222_242": true,
-    "mid_ge_12pct": true,
-    "chroma_le_20": true,
-    "paper_dE_le_10": true,
-    "ink_dE_le_10": true
-   },
-   "source": "decoded from the delivered mp4 (ffmpeg -ss 5.2)"
-  },
-  "21.2": {
-   "p2_25_50_75_98": [
-    31,
-    61,
-    109,
-    187,
-    229
-   ],
-   "mid_70_170": 0.366,
-   "chroma": 13.1,
-   "paper_rgb": [
-    235,
-    227,
-    213
-   ],
-   "ink_rgb": [
-    33,
-    32,
-    28
-   ],
-   "dE76_paper_to_eee6d6": 1.4,
-   "dE76_ink_to_22211f": 1.5,
-   "method": "L = Rec.601 luma; paper = median RGB of the top-decile L pixels; ink = median of the bottom decile; ΔE76 in CIELAB (D65)",
-   "bar5": {
-    "p2_ge_15": true,
-    "p98_222_242": true,
-    "mid_ge_12pct": true,
-    "chroma_le_20": true,
-    "paper_dE_le_10": true,
-    "ink_dE_le_10": true
-   },
-   "source": "decoded from the delivered mp4 (ffmpeg -ss 21.2)"
-  },
-  "37.2": {
-   "p2_25_50_75_98": [
-    31,
-    122,
-    155,
-    205,
-    231
-   ],
-   "mid_70_170": 0.415,
-   "chroma": 17.2,
-   "paper_rgb": [
-    237,
-    230,
-    214
-   ],
-   "ink_rgb": [
-    36,
-    32,
-    29
-   ],
-   "dE76_paper_to_eee6d6": 0.4,
-   "dE76_ink_to_22211f": 1.7,
-   "method": "L = Rec.601 luma; paper = median RGB of the top-decile L pixels; ink = median of the bottom decile; ΔE76 in CIELAB (D65)",
-   "bar5": {
-    "p2_ge_15": true,
-    "p98_222_242": true,
-    "mid_ge_12pct": true,
-    "chroma_le_20": true,
-    "paper_dE_le_10": true,
-    "ink_dE_le_10": true
-   },
-   "source": "decoded from the delivered mp4 (ffmpeg -ss 37.2)"
-  }
  }
 }

@@ -22,6 +22,17 @@
 8. **Bus plate.** The test-shot rectification of the same Rol 1916 photograph (same licence).
 9. **Grain.** kit's per-frame grain is off; the paper grain is the stage's own, fixed per seed.
 10. **Verification runs on the delivered render path.** coverage.py imports this film script as a module and renders every sample with its `render(M, seed, t)`. Its comparison sheet uses the film's own frame 0:05.2.
+11. **Puppet silhouettes re-cut (repair round 2).** The film script rebinds the rig's drawings (rig.py itself is not edited). The skeleton, pins and exposure sheet stay the same.
+    - Tapered upper arms and forearms, tapered calves, and larger replacement hands (×1.32) with a clear thumb notch, including the jostler's flat hand at A3.
+    - A filled convex web at each elbow and knee (`_puppet_mask`), so each arm and leg prints as one tapered silhouette with no doll joint. This applies to the outline mask itself, so IoU and mask-identity checks run on the new shapes.
+    - Scalloped hems on skirts and coat tails, plus deterministic hem flutter on the runners only (drawing number and puppet id; no RNG; the protected cast is untouched).
+    - The uniform 1.5 px halo is gone. A shade-paper gap of irregular 1–3 px width, fixed per seed, is cut only where a figure crosses dark ground. Dark ground is judged on the cut-paper stage plus the figures already printed, in both treatments, so Δ treatment stays fill-only. There is no rim on cream ground.
+    - Knife lines are now open gouge strokes: one run along the leading edge of a sleeve or near leg, or the hem of a tail or brim, where it overlaps the body. Each tapers to nothing at both ends and never encircles a part.
+    - Checked in coverage.json `puppet_print`:
+      - `open_strokes`: max run is 0.414 of the contour over 504 strokes in 0:05.0–0:05.8.
+      - `no_rim_on_cream`: at 0:05.2, p99 brightening is −1 on 1,443 ring pixels on cream.
+      - `bus_framing`: 60.4 % of the width with the platform, 49.4 % without; y 29–75 %.
+12. **Composite label (repair round 2).** During S4/S5 the burn-in reads `Δ treatment photographic-plate · composite · staged · seed · t`. The grid's photographic row label says "composite · staged". S10 gives the engine credit with its licence link and "trimmed and mixed", and declares the thud and clicks as synthesized. The credits JSON carries an explicit `synthesized` row.
 
 ## Timecoded sequence
 
@@ -31,7 +42,7 @@
 | 0:04.0–0:11.0 | S1 | **Baseline, seed 0417.** The test shot is at 0:05.2 (A3 shove, drawing 14). | F1 Rol 1916 (bus, wheels, window passengers), F-vilgrain (crowd mass), H1 facade, H2 pavement, H3 platform and board, H4 puppets (rig exposure sheet). Clip audio. |
 | 0:11.0–0:18.0 | S2 | Baseline, seed 0418. There are 8 runners instead of 7; the protected masks are identical. | as S1 |
 | 0:18.0–0:20.0 | S3 | Delta card: `treatment: cut-paper` is struck through over 6 frames and `photographic-plate` is typed. Shows diff keys {treatment}, the intended effect, and the composite note (Rol 1916 bus + facade/cobble texture, Rol 1919 crowd + cloth; board handmade). | H6. verify/manifests.json d-treatment |
-| 0:20.0–0:27.0 | S4 | **Delta treatment, photographic-plate, seed 0417.** | F1 bus plate in its own greys; baseline carved facade/arcade/pavement blocks refilled with Rol 1916 stone and cobble texture (same outlines); F-vilgrain crowd in its own greys (same outline); puppets filled with F-vilgrain and F-wilson swatches; same outlines as the baseline. |
+| 0:20.0–0:27.0 | S4 | **Delta treatment, photographic-plate, seed 0417.** Burn-in labels it `composite · staged`. | F1 bus plate in its own greys; baseline carved facade/arcade/pavement blocks refilled with Rol 1916 stone and cobble texture (same outlines); F-vilgrain crowd in its own greys (same outline); puppets filled with F-vilgrain and F-wilson swatches; same outlines as the baseline. |
 | 0:27.0–0:34.0 | S5 | Delta treatment, seed 0418. | as S4 |
 | 0:34.0–0:36.0 | S6 | Delta card: `camera: street-side` is struck through and `overhead` is typed. | H6. d-camera |
 | 0:36.0–0:43.0 | S7 | **Delta camera, overhead, seed 0417.** Shows the carved roof with its roof-edge board, the rear-bay roof-light over seat A, the hat discs, and the man's cord ring. | H5 plan stage, H4 plan forms (rig.plan_parts) |
@@ -69,17 +80,17 @@
 
   | Still | p2/25/50/75/98 | Mid-tones | Chroma | dE paper / ink |
   |---|---|---|---|---|
-  | 0:05.2 | 30/39/128/196/230 | 28.4 % | 13.4 | 1.2 / 1.3 |
-  | 0:21.2 | 31/61/109/187/229 | 36.6 % | 13.1 | 1.4 / 1.5 |
-  | 0:37.2 | 31/122/155/205/231 | 41.5 % | 17.2 | 0.4 / 1.7 |
+  | 0:05.2 | 30/38/128/196/230 | 28.0 % | 13.2 (coverage.json, film frame 125) | 0.0 / 0.0 |
+  | 0:21.2 | 30/60/107/186/229 | 36.3 % | not re-measured (round 1: 13.1) | not re-measured |
+  | 0:37.2 | 31/122/155/203/231 | 41.5 % | not re-measured (round 1: 17.2) | not re-measured |
 
-  All pass. verify/comparison-sheet.jpg sets the film's own frame 0:05.2 beside martinoCharcoal.webp.
+  Luma is re-measured on the round-2 mp4 decode; all pass. verify/comparison-sheet.jpg sets the film's own frame 0:05.2 beside martinoCharcoal.webp.
 - **Bar 7, provenance.**
   - films/credits/mauro-martino-exercises-in-style.json has 6 rows (PD, CC0, CC BY 4.0, from Commons extmetadata via U1 plates/evidence/).
   - coverage.json `evidence.foraged` holds the same 6 rows, each joined to the files the film render actually read.
   - The 1933 Bourse plate is an absence, not a source: no render reads it.
   - S10 carries on-screen attribution, including the CC BY engine.
 - **Bar 8, honest report.**
-  - S10 and coverage.json give "2 of 2 inspected samples" per condition, the exact lost and partial IDs, and that seeds are repeatable by frame hash (frames 0, 29, 132 × 6, fresh process, generator_rev 013c0bb1ec5b).
+  - S10 and coverage.json give "2 of 2 inspected samples" per condition, the exact lost and partial IDs, and that seeds are repeatable by frame hash (frames 0, 29, 132 × 6, fresh process, generator_rev a81c80d6f3e3).
   - The sound line quotes the measured status: pre-encode identity, lossy AAC.
   - The card also says "not claimed: anything about text-to-video generators in general".

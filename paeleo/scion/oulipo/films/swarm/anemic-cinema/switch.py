@@ -2,7 +2,7 @@
 
 One plate, one integer clock. theta is kept in integer TICKS, 1280 ticks per revolution
 (lcm of the two periods 80 and 256), so omega_fast = 1/80 rev/frame = 16 ticks/frame and
-omega_read = 1/256 rev/frame = 5 ticks/frame; periodicity is exact in integer arithmetic.
+omega_read = 1/128 rev/frame = 10 ticks/frame (repair 1; was 1/256); periodicity is exact in integer arithmetic.
 theta in radians = 2 pi ticks / 1280, ccw positive on screen (shared field contract).
 
 Substitute(D_from, D_to, window [k0, k0+18), omega) -- the central operation (plan.md s.4):
@@ -46,7 +46,7 @@ FPS = 24
 NFR = 576
 TICKS = 1280
 W_FAST = 16          # 1/80 rev/frame
-W_READ = 5           # 1/256 rev/frame
+W_READ = 10          # 1/128 rev/frame (repair 1: U2's reading recommendation; was 5 = 1/256)
 WIN = {"W1": (126, "T1", "O_A"), "W2": (246, "O_A", "T2"), "W3": (426, "T2", "O_B")}
 WLEN = 18
 STAGGER = 2
@@ -128,6 +128,28 @@ def plate_mix(k):
     return smooth((k - k0 + 1) / WLEN)
 
 
+def plate_front(w, k):
+    """Radial plate front (repair 1): the ground transforms band by band with the marks, outer
+    bands first, instead of one global crossfade. u(r) = smooth((k - k0 + 1 - 2 f(r)) / 4), with
+    f(r) the continuous ring index at plate radius r (O_A rings for W1/W2, key rings for W3), so
+    each band starts turning with its ring (2-frame stagger) and the innermost band completes at
+    k0 + 17. Returns u at 2x (1080x1920), camera-fixed like the plates; no hard band edges."""
+    G, O, cv2 = mods()
+    key = ("rr2",)
+    if key not in _CACHE:
+        X, Y = O._grid(0, 0, O.W1X, O.H1X, 2)
+        _CACHE[key] = np.hypot(X - O.CX, Y - O.CY).astype(np.float32)
+    r = _CACHE[key]
+    k0 = WIN[w][0]
+    if w == "W3":
+        R0, R1, n = O.KEY_R[0], O.KEY_R[-1], O.NKR - 1
+    else:
+        R0, R1, n = O.RING_R[0], O.RING_R[-1], O.NR - 1
+    f = np.clip((R0 - r) / (R0 - R1) * n, 0, n)
+    x = np.clip((k - k0 + 1 - STAGGER * f) / 4.0, 0, 1)
+    return (x * x * (3 - 2 * x)).astype(np.float32)
+
+
 def ring_stage(w, k, ring):
     """Local stage s = k - (k0 + 2 ring); <0 = not started, >= 6 = done."""
     return k - (WIN[w][0] + STAGGER * ring)
@@ -160,7 +182,7 @@ def build_score(bodies=None):
     return dict(
         film="anemic-cinema", unit="U3 switch", fps=FPS, frames_total=NFR, seconds=NFR / FPS,
         clock=dict(ticks_per_rev=TICKS, omega_fast=dict(ticks=W_FAST, rev_per_frame="1/80"),
-                   omega_read=dict(ticks=W_READ, rev_per_frame="1/256"), direction="ccw on screen",
+                   omega_read=dict(ticks=W_READ, rev_per_frame="1/%d" % (TICKS // W_READ)), direction="ccw on screen",
                    rule="theta_{k+1} = theta_k + omega_ticks(k); theta = 2 pi theta_ticks / 1280"),
         windows={w: dict(frames=[k0, k0 + WLEN - 1], **{"from": a, "to": b},
                          stagger_frames=STAGGER, stages_per_ring=STAGES) for w, (k0, a, b) in WIN.items()},
@@ -173,7 +195,7 @@ def build_score(bodies=None):
                "runs in token order) or s = 1 (second half): glyphs -> one real key of the run's arc at "
                "the run's place (2 frames) -> slide to its slot (3 frames) -> home."),
         bodies=bodies or ["T1", "O_A", "T2", "O_B"],
-        reading_interval=dict(frames=list(READ), omega="1/256 rev/frame constant"),
+        reading_interval=dict(frames=list(READ), omega="1/%d rev/frame constant" % (TICKS // W_READ)),
         theta_reading_start=2 * math.pi * (th[READ[0]] % TICKS) / TICKS,
         sound_cues=dict(bell=[126, 246, 426], elsewhere="declared digital silence"),
         frames=frames)
@@ -515,6 +537,8 @@ def _final(L, u_warm):
         X, Y = O._grid(0, 0, O.W1X, O.H1X, 1)
         _CACHE["disc1"] = np.clip(O.R - np.hypot(X - O.CX, Y - O.CY) + 0.5, 0, 1)[..., None]
     disc = _CACHE["disc1"]
+    if isinstance(u_warm, np.ndarray):          # radial warm front (2x map) -> 1x
+        u_warm = cv2.resize(u_warm, (O.W1X, O.H1X), interpolation=cv2.INTER_AREA)[..., None]
     rgb = small[..., None] * (1 + (O.WARM[None, None] - 1) * disc * u_warm)
     return np.clip(rgb + 0.5, 0, 255).astype(np.uint8)
 
@@ -578,8 +602,9 @@ def render_frame(k, variant="film"):
     th, om = f["theta"], f["omega_rev_per_frame"]
     if w in ("W1", "W2"):
         pun, states, ring_mask, arcs, log, gain = ring_switch_layers(w, k)
-        plateL = (1 - u) * P["text"] + u * P["A"] if w == "W1" else (1 - u) * P["A"] + u * P["text"]
-        uw = u if w == "W1" else 1 - u
+        um = plate_front(w, k)
+        plateL = (1 - um) * P["text"] + um * P["A"] if w == "W1" else (1 - um) * P["A"] + um * P["text"]
+        uw = um if w == "W1" else 1 - um
         stack = letter_stack(pun, states)
         L, At = text_composite(plateL, stack, th, om)
         Ao = np.zeros_like(L)
@@ -599,11 +624,12 @@ def render_frame(k, variant="film"):
         return _final(L, uw), info
     # W3
     states, placed, log = key_switch_layers(k)
-    plateL = (1 - u) * P["text"] + u * P["B"]
+    um = plate_front("W3", k)
+    plateL = (1 - um) * P["text"] + um * P["B"]
     stack = letter_stack("T2", states)
     L, At = text_composite(plateL, stack, th, om)
     gr = O.render_keys(th, 1.0, placed={}, omega=om, grooves=True)
-    gr = dict(gr, A=gr["A"] * u)
+    gr = dict(gr, A=gr["A"] * um)
     L = _over(L, gr)
     Ao = np.zeros_like(L)
     if placed:
@@ -615,7 +641,7 @@ def render_frame(k, variant="film"):
         cnt[v] = cnt.get(v, 0) + 1
     info.update(slot_states=cnt, glyphs=sum(1 for s in states if s == "glyph"), keys=len(placed),
                 overlap=_overlap(At, Ao, 1.0, 1.0), plate_mix=u)
-    return _final(L, u), info
+    return _final(L, um), info
 
 
 def _mark_states(states, log, path_len):
