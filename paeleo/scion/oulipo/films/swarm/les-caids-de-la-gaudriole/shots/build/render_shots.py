@@ -34,6 +34,7 @@ WS = os.path.dirname(SHOTS)
 FILMS = os.path.normpath(os.path.join(WS, "../.."))
 sys.path.insert(0, os.path.join(WS, "strip"))
 sys.path.insert(0, HERE)
+import occlusion_check as OC  # noqa: E402  (repair r1)
 import fold as FG                # noqa: E402  (U1's pure geometry, read-only)
 import puppet as PUP             # noqa: E402  (rig.json forward kinematics)
 
@@ -126,8 +127,33 @@ def ease(x):
 
 
 # ------------------------------------------------------------------ geometry
+def table_contact(cs):
+    """Repair r1 (#40 physical constraint): paper cannot pass through the table.
+    fold.cross_section integrates the free curve from u = W; when the A band turns the
+    tail down before M has lifted F1, the raw curve dips below z = 0 (up to -54 u).
+    A real sheet lies on the table from the touchdown point on: from the first point
+    with z < 0 the rest of the tail (smaller u) is laid flat on z = 0, face up,
+    continuing in the direction of travel, arc length preserved (texture stays u)."""
+    u, X, z = cs["u"], cs["X"].copy(), cs["z"].copy()
+    neg = np.nonzero(z < -1e-9)[0]
+    if len(neg) == 0:
+        return cs
+    i0 = int(neg[0])
+    if i0 == 0:
+        return cs
+    # touchdown between i0-1 (z>=0) and i0 (z<0)
+    t = z[i0 - 1] / (z[i0 - 1] - z[i0]) if z[i0 - 1] != z[i0] else 0.0
+    Xt = X[i0 - 1] + t * (X[i0] - X[i0 - 1]); ut = u[i0 - 1] + t * (u[i0] - u[i0 - 1])
+    d = 1.0 if X[i0] >= X[i0 - 1] else -1.0
+    X[i0:] = Xt + d * (ut - u[i0:]); z[i0:] = 0.0
+    out = dict(cs); out["X"], out["z"] = X, z
+    ph = cs["phi"].copy(); ph[i0:] = math.pi if d < 0 else 0.0
+    out["phi"] = ph; out["nz"] = -np.cos(ph); out["table_contact_from_u"] = float(ut)
+    return out
+
+
 def section(al, be, La, Lm, lag=(0.0, 0.0)):
-    cs = FG.cross_section(al, be, La, Lm, lag, du=2.0)
+    cs = table_contact(FG.cross_section(al, be, La, Lm, lag, du=2.0))
     return cs
 
 
@@ -245,7 +271,7 @@ class Renderer:
                 nv = n_here if front_vis else -n_here
                 lam = (0.40 + 0.60 * max(0.0, nv @ LIGHT) / LF) * gain       # strong curl shading
                 tex = self.front if front_vis else self.back
-                pieces.append((corners, float(mid[2]), tex, c0, c1, r0, r1, lam))
+                pieces.append((corners, float(mid[2]), tex, c0, c1, r0, r1, lam, int(FG.facet_of(0.5 * (ua + ub))[1])))
         # contact shadows: project each piece along the lamp onto the table; soft by height
         bins = [(0, 14, 2.2, 0.42), (14, 120, 9.0, 0.36), (120, 1e9, 22.0, 0.28)]
         smaps = []
@@ -264,7 +290,9 @@ class Renderer:
             if any_:
                 sig_px = sig * cam.foc / 2600
                 smaps.append((lo, cv2.GaussianBlur(sm, (0, 0), max(0.8, sig_px * SS))))
-        for corners, zm, tex, c0, c1, r0, r1, lam in pieces:
+        idbuf = np.full((Hp, Wp), -1, np.int16)
+        foot = {}
+        for corners, zm, tex, c0, c1, r0, r1, lam, fid in pieces:
             r = self.warp(cam, tex, c0, c1, r0, r1, corners)
             if r is None:
                 continue
@@ -274,6 +302,10 @@ class Renderer:
             img[Y0:Y1, X0:X1][ok] = col[ok] * lam
             zb[ok] = dep[ok]
             hbuf[Y0:Y1, X0:X1][ok] = zm
+            idbuf[Y0:Y1, X0:X1][ok] = fid
+            fm = foot.setdefault(fid, np.zeros((Hp, Wp), bool))
+            fm[Y0:Y1, X0:X1] |= m > 0.5
+        self.last_ids, self.last_foot = idbuf, foot
         isp = hbuf > -5
         f2 = np.where(isp, 0.97 + 0.018 * (fall - fall.mean()) / fall.std(), fall)
         img *= f2[..., None]
@@ -359,9 +391,11 @@ def fold_state(p):
     return al, be, La, Lm, (k0, k1)
 
 
-SETTLE = [  # 3-exposure settle after the landing: pleat presses, free edge bounces down
-    (math.pi, math.pi, 4.0, 4.0, (0.035, 0.0)),
-    (math.pi, math.pi, 2.6, 2.6, (0.012, 0.0)),
+SETTLE = [  # 3-exposure settle after the landing: pleat presses, free edge springs up and comes down
+    # (repair r1: the lag sign was positive, which bent F0's free edge DOWN through F3 and
+    #  the table, to z = -5.7 u; it now lifts the free edge 16 u, then 7 u, then flat)
+    (math.pi, math.pi, 4.0, 4.0, (-0.035, 0.0)),
+    (math.pi, math.pi, 2.6, 2.6, (-0.012, 0.0)),
     (math.pi, math.pi, 1.6, 1.6, (0.0, 0.0)),
 ]
 FLAT = (math.pi, math.pi, 1.6, 1.6, (0.0, 0.0))
@@ -521,7 +555,7 @@ def run(only=None):
         os.makedirs(d_out, exist_ok=True)
         for f in os.listdir(d_out):
             os.remove(os.path.join(d_out, f))
-        evs, cache = [], {}
+        evs, cache, occ = [], {}, {}
         for k, ex in enumerate(seq):
             t = round(k / 12.0, 4)
             if sk == "8":
@@ -561,6 +595,11 @@ def run(only=None):
                         img = rend.frame(cam, cs_e, gain)
                     else:
                         img = rend.frame(cam, cs, gain, rigid=ex.get("rigid"), lift=lift, ny=4 if lift else 1)
+                        if sk in ("5", "7"):
+                            g = OC.geometry_ok(cs)
+                            top = OC.f0_on_top(cs, A) and ex["kind"] != "rest" and ex["kind"] != "open-hold"
+                            pc = OC.pixel_check(rend, SS) if top else dict(checked=False)
+                            occ[key] = dict(geometry=g, f0_top=bool(top), pixels=pc)
                     cache[key] = img
                 img = cache[key]
                 if pose:
@@ -576,6 +615,7 @@ def run(only=None):
                     ev["min_z_u"] = round(float(cs["z"].min()), 3); ev["max_z_u"] = round(float(cs["z"].max()), 1)
                     if sk in ("5", "7"):
                         ev["occlusion_dag"] = FG.layer_order(cs)
+                        ev["occlusion_check"] = occ.get(key)
                 if ex.get("rigid"):
                     ev["sheet_rigid_dx_dy_dz_rotz"] = list(ex["rigid"])
                 if ex.get("lift"):
@@ -589,6 +629,14 @@ def run(only=None):
                 evs.append(ev)
             Image.fromarray(np.clip(img, 0, 255).astype(np.uint8)).save(os.path.join(d_out, f"e{k:03d}.png"))
         events["shots"][sk] = dict(n=len(seq), seconds=len(seq) / 12.0, events=evs)
+        if sk in ("5", "7"):
+            oc = [e["occlusion_check"] for e in evs if e.get("occlusion_check")]
+            events["shots"][sk]["occlusion_summary"] = dict(
+                exposures=len(evs), geometry_ok_all=all(o["geometry"]["ok"] for o in oc),
+                f0_top_exposures_pixel_checked=sum(1 for o in oc if o["pixels"].get("checked")),
+                pixel_ok_all=all(o["pixels"].get("ok", True) for o in oc),
+                max_wrong_px=max([o["pixels"].get("wrong_px", 0) for o in oc] + [0]))
+            print("occlusion", sk, events["shots"][sk]["occlusion_summary"], flush=True)
         print("shot", sk, len(seq), "exposures, distinct renders", len(cache), flush=True)
     return events
 

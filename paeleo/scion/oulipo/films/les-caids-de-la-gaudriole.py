@@ -2,7 +2,9 @@
 
 A printed two-panel strip (Wilhelm Busch's 1865 Max und Moritz plates cut out as
 puppets, pen-drawn balloons, lettering, key, forearm and service door, printed on
-a real paper scan) lies on a real wood table. Its puppets settle into the printed
+a real paper scan) lies on a table made from a real wood scan. The tabletop is a
+computed stop-motion: every exposure is rendered in code (perspective-warped facets
+of the scanned sheet, z-buffer, contact shadows), not photographed. Its puppets settle into the printed
 pose; then the sheet folds by stop-motion (mountain A, valley M) until A lies on
 B and the two half-panels read as one: "THE KEY? I HAD IT / IN MY POCKET / ALL
 ALONG." -- "OH? REALLY?". It unfolds, refolds, and ends on a light box that
@@ -105,13 +107,15 @@ C_L1 = RS.cam_at(1590, 205, 1180, 24, 1150)    # "THE KEY? I HAD IT" (left of th
 C_L2 = RS.cam_at(1930, 205, 1180, 24, 1150)    # "...IN MY POCKET / ALL ALONG." across it
 C_JOIN = RS.cam_at(1800, 560, 1180, 24, 1150)  # the miller's sleeve into the porter's hand + key
 C_OH = RS.cam_at(2070, 450, 1240, 24, 1150)    # the boys, "OH? REALLY?"
-SHOT6 = ([C_HOLD] * 12 +
+# repair r1: the first still hold on the settled reading is 3 (end of shot 5) + 18
+# exposures = 1.75 s (was 1.25 s), so A3's >= 1.5 s holds before the push-in starts.
+SHOT6 = ([C_HOLD] * 18 +
          [RS.cam_mix(C_HOLD, C_L1, RS.ease((i + 1) / 12)) for i in range(12)] +
          [C_L1] * 6 +
          [RS.cam_mix(C_L1, C_L2, RS.ease((i + 1) / 14)) for i in range(14)] +
-         [C_L2] * 10 +
+         [C_L2] * 6 +
          [RS.cam_mix(C_L2, C_JOIN, RS.ease((i + 1) / 8)) for i in range(8)] +
-         [C_JOIN] * 10 +
+         [C_JOIN] * 8 +
          [RS.cam_mix(C_JOIN, C_OH, RS.ease((i + 1) / 6)) for i in range(6)] +
          [C_OH] * 18)
 assert len(SHOT6) == 96, len(SHOT6)
@@ -161,15 +165,17 @@ def card(lines, e, write_xps=None):
 
 TITLE = [("FOLDED DIALOGUE", 92, 400),
          ("AFTER LÉCROART - OUBAPO - FIGURES W. BUSCH 1865", 30, 600)]
-CREDITS = [(t, 30, 220 + 82 * i) for i, t in enumerate([
+CREDITS = [(t, 28, 170 + 80 * i) for i, t in enumerate([
     "FIGURES: W. BUSCH, MAX UND MORITZ 1865, PD, COMMONS",
-    "PAPER: J. PUCKETT, CC BY 2.0 - TABLE: BANGO, CC0",
+    "PAPER SCAN: JAMES PUCKETT, CC BY 2.0, GRADED",
+    "TABLE SCAN: BANGO TEXTURES, CC0",
     "PAPER, THUD, SWITCH: STEPHAN, GREGORYWEIR, MKFI (PD)",
-    "BELL: WORK WITH SOUNDS / LVR-INDUSTRIEMUSEUM, CC BY 4.0",
-    "ROOM TONE: WRECKLESS (1935), MOVINGIMAGEARCHIVE.COM",
-    "HANDMADE: LETTERING, BALLOONS, KEY, DOOR, LIGHT BOX",
-    "FOLD AND PUPPETS: STOP-MOTION, ONE EXPOSURE AT A TIME",
-    "LAMP HUM SYNTHESISED"])]
+    "BELL: WORK WITH SOUNDS / KONRAD GUTKOWSKI, CC BY 4.0,",
+    "WWS SIGNALBELL, ONE STRIKE CUT, FADED, RE-LEVELLED",
+    "ROOM TONE: WRECKLESS (1935), JAM HANDY, PD, PRELINGER",
+    "PEN-DRAWN: LETTERING, BALLOONS, KEY, FOREARM, DOOR",
+    "TABLE, FOLD, LIGHT BOX: RENDERED IN CODE FROM THE SCANS,",
+    "ONE EXPOSURE AT A TIME - LAMP HUM SYNTHESISED"])]
 
 
 # --------------------------------------------------------- timeline ---------

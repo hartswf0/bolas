@@ -150,6 +150,8 @@ for sk, sh in ev["shots"].items():
     # mux the shot: exposures at 12/s held two frames each (24 fps container)
     src = os.path.join(FILMS, f"sources/les-caids-de-la-gaudriole/tabletop/shot-{sk}/e%03d.png")
     out = os.path.join(SHOTS, f"shot-{sk}.mp4")
+    if not os.path.exists(src % 0):      # exposures not on disk (shots 2-3 are rendered by the film script)
+        print("shot", sk, len(c), "cues (no exposures on disk; mux skipped)"); continue
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", "12", "-i", src, "-i", os.path.join(OUT, f"shot-{sk}.wav"),
                     "-vf", "fps=24", "-c:v", "libx264", "-preset", "slow", "-crf", "19", "-pix_fmt", "yuv420p",
                     "-c:a", "aac", "-b:a", "128k", "-shortest", "-movflags", "+faststart", out], check=True)
