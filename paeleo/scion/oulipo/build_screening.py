@@ -129,46 +129,69 @@ WORKSHOPS = [
     ]),
 ]
 
-INTRO = """
-<header class="lockup">
-  <div class="l">
-    <span class="lbl">PAELEO · SCION · Oulipo · the Screening Room</span>
-    <h1>OULIPO</h1>
-    <div class="exp"><span>Ouxpo: workshops of potential everything</span><b>Foraged or handmade, never faked</b></div>
-    <p class="tag">Playful rulebooks from the Oulipo and its sister workshops, used as building codes for an AI film crew.</p>
-    <p>Most AI video tools guess pixels frame by frame, so rooms melt and stories drift. We went back to the Oulipo and the workshops that grew from it across cinema, comics, music, cooking, theatre, history, code and architecture. Each one locks a single strict rule: tell a story backward, fold a comic page to hide a clue, recut one fixed pool of shots. Our {nprompts} prompts turn those rules into assignments for a crew of AI agents. The crew forages real archive clips or makes the material by hand, and an independent critic rejects any cut where a viewer cannot see the rule at work.</p>
-  </div>
-  <div class="r">
-    <span class="lbl">The three names</span>
-    <dl class="names"><dt>PAELEO</dt><dd>The studio: Promptable Augmented Environments Lab · Ekphrastic Operations. From describing worlds to operating within them.</dd><dt>Oulipo</dt><dd>Ouvroir de littérature potentielle, the Workshop for Potential Literature, founded in 1960 by Raymond Queneau and François Le Lionnais. Le Lionnais's idea grew into the Ouxpo: a workshop of potential X for any craft.</dd><dt>SCION</dt><dd>Our AI production crews. Each prompt is a SCION: a rule, a proof to build, a test, and the crew that builds and checks it.</dd></dl>
-  </div>
+INTRO = """<header class="thesis">
+  <span class="lbl">PAELEO · SCION · Oulipo · the Screening Room</span>
+  <h1>A rule you can see is a direction a machine can be held to.</h1>
+  <p class="lede">The Oulipo showed that a work can start from a declared rule instead of from inspiration. We hand those rules to crews of AI agents, as instructions to make short films from real archive material and things built for the film. Then a separate critic checks, from the finished film alone, whether a viewer can see the rule at work. "Is this good?" becomes a question anyone can answer by watching. Most of the films so far do not pass, and they are all shown here.</p>
+  <p class="jump"><a href="#words">Four words</a> · <a href="#real">What is real</a> · <a href="#pair">One pass, one fail</a> · <a href="#films">All {total} films</a> · <a href="#ouxpo">The seventeen workshops</a></p>
 </header>
 
-<section class="sec" id="ouxpo"><div class="sechead"><h2>Seventeen workshops</h2><p>Literature is one parent among many. The Oulipo, founded in 1960 inside the Collège de ’Pataphysique, was followed by workshops for detective fiction, painting, comics, photography, cinema, cooking, music and more. The Collège itself says the list will never be complete. Here, every workshop is tested on the same railway-station incident: a visitor, a sealed envelope, a bell, a brass key left on a bench, a service door that stays closed. They are grouped by what the constraint touches.</p></div>
+<section class="sec" id="words"><div class="sechead"><h2>Four words, four differences</h2><p>Each term adds one thing to the one before it. The added thing is in red.</p></div>
+<ol class="chain">
+  <li><div class="term"><b>Oulipo</b><span>1960 · literature</span></div>
+    <blockquote>« Au commencement était le verbe, l’Oulipo, Ouvroir de Littérature Potentielle fondé en 1960 vulg. au sein du Collège de ’Pataphysique par Raymond Queneau et François Le Lionnais. »<cite>Collège de ’Pataphysique, “Ouxpo”</cite></blockquote>
+    <p>The Workshop for Potential Literature. Its members describe themselves as rats who build the labyrinth they then try to escape (the line is usually credited to Queneau). A lipogram leaves out one letter; a sonnet is cut into strips so every line can be swapped.</p>
+    <p class="diff"><b>The difference:</b> the rule comes first. It is declared before the writing starts, so a reader can check it.</p></li>
+  <li><div class="term"><b>Ouxpo</b><span>Ouvroir d’X potentiel · any craft</span></div>
+    <blockquote>« Et les Ouxpo sont illimités, chaque OUvroir d’X POtentielle peut traiter de tout domaine. »<cite>Collège de ’Pataphysique, “Ouxpo”</cite></blockquote>
+    <p>“And the Ouxpo are unlimited: each workshop of potential X can take on any field.” Le Lionnais’s idea, put into practice by later workshops: detective fiction, painting, comics, cinema, cooking, music, theatre, photography and more.</p>
+    <p class="diff"><b>The difference:</b> the rule leaves literature. X can be any craft, so a rule can govern montage, a menu or a floor plan.</p></li>
+  <li><div class="term"><b>SCION</b><span>our prompts and crews</span></div>
+    <blockquote>“State the defining beat and a comparison baseline before allocating large work. Specify what the viewer or reader should be able to point to when that beat succeeds.”<cite>From every SCION prompt, section 2</cite></blockquote>
+    <p>A SCION is one workshop rule written as a full instruction for a crew of AI agents. It says what to make, the one moment that proves the rule, and how to test it. The crew is a director, builders, an editor, blind readers, an independent critic and a rights reviewer.</p>
+    <p class="diff"><b>The difference:</b> the rule becomes an instruction to a machine, and the test is written into the instruction. Passing is defined before anything is made.</p></li>
+  <li><div class="term"><b>PAELEO</b><span>the studio</span></div>
+    <blockquote>“From describing worlds to operating within them.”<cite>PAELEO, Promptable Augmented Environments Lab · Ekphrastic Operations</cite></blockquote>
+    <p>The studio where the SCIONs run and their films are kept, credited and judged in public. The Oulipo collection is one of its programmes, alongside The Burning House, after Calvino, and Threshold, the film of a dog that can refuse.</p>
+    <p class="diff"><b>The difference:</b> the results are published, failures included, with every source and every verdict.</p></li>
+</ol></section>
+
+<section class="sec" id="real"><div class="sechead"><h2>What is real</h2><p>The rule the crews work under is “Foraged or handmade, never faked.” Here is what that does and does not mean.</p></div>
+<div class="cols">
+  <div class="part"><h3>Real</h3><ul>
+    <li><b>The archive material.</b> Photographs, film clips and recordings come from the Library of Congress, Wikimedia Commons, the Rijksmuseum and the Prelinger collection. Each is public domain or openly licensed (CC0, CC BY, CC BY-SA), and each is credited on its card with a link. Films cite between 2 and {nsources} sources.</li>
+    <li><b>The verdicts.</b> Each card shows what the independent critic and the rights reviewer actually returned, word for word in the notes.</li>
+    <li><b>The rules.</b> All {nprompts} prompts are public. Each film links to the one it was made from.</li></ul></div>
+  <div class="part"><h3>Not what it might seem</h3><ul>
+    <li><b>No AI video generator made any frame.</b> The agents write code that cuts out, layers, moves and times the real material.</li>
+    <li><b>“Handmade” means made in code by the crew, not by human hands.</b> Examples: cut-out puppets jointed from real scans, ink lines drawn stroke by stroke, a paper fold simulated on a scanned table.</li>
+    <li><b>The critic is also an AI agent.</b> It watches as frames and listens through measurements, and says so when that limits its judgement. The final viewing, with sound, is a human one.</li>
+    <li><b>The station incident is a fiction.</b> A visitor, a sealed envelope, a bell, a brass key, a closed service door: a shared test case that every workshop retells.</li></ul></div>
+</div></section>
+
+<section class="sec" id="pair"><div class="sechead"><h2>One pass, one fail</h2><p>Both are comics made the same way, by a crew of the same size. One rule reads from the picture; the other only reads from the sound and the panel order.</p></div>
+<div class="cols">
+  <div class="part ex"><figure class="film" data-src="../assets/films/boucle-la.mp4" data-seg="22,40" data-len="1:06"><div class="screen"><video muted playsinline preload="none" poster="../assets/films/boucle-la.webp"></video></div></figure>
+    <span class="st passed">Passed</span><h3>Boucle-là !</h3>
+    <p><b>Rule:</b> three panels, one hinge, the same three in reverse, so a repeated line changes meaning.</p>
+    <p><b>Material:</b> Daumier’s 1839 lithograph of a quarrelling couple (Rijksmuseum, CC0), cut out and jointed.</p>
+    <p><b>Test:</b> two blind readers, told nothing, named the hinge and said how the repeated line changed. Passed on the first round.</p></div>
+  <div class="part ex"><figure class="film" data-src="../assets/films/quatre-vingt-quinze.mp4" data-seg="40,50" data-len="1:04"><div class="screen"><video muted playsinline preload="none" poster="../assets/films/quatre-vingt-quinze.webp"></video></div></figure>
+    <span class="st open">Not passed</span><h3>Quatre-vingt-quinze</h3>
+    <p><b>Rule:</b> a 3×3 page read across or down, with a centre panel that never changes but means something different on each route.</p>
+    <p><b>Material:</b> cut-paper silhouettes with drawn heads, stencilled FSA station photographs, a CC0 key.</p>
+    <p><b>Test:</b> all four blind readers saw her looking at the key on both routes. The bell meaning came only from the sound and the panel order, never the image. Two competing repairs were tried, and neither fixed it.</p></div>
+</div></section>
+
+<section class="sec" id="record"><div class="sechead"><h2>The record</h2><p>Of {total} films, {passed} pass the independent critic, {near} narrowly miss, {open} have not passed and {earlier} are earlier builds not yet remade by a crew.</p></div>
+<div class="filters" role="group" aria-label="Show"><button class="btn" type="button" data-f="all" aria-pressed="true">All {total}</button><button class="btn" type="button" data-f="passed" aria-pressed="false">Passed · {passed}</button><button class="btn" type="button" data-f="near" aria-pressed="false">Nearly · {near}</button><button class="btn" type="button" data-f="open" aria-pressed="false">Not yet · {open}</button></div>
+</section>
+"""
+
+WORKSHOPS_HTML = """<section class="sec" id="ouxpo"><div class="sechead"><h2>The seventeen workshops</h2><p>Literature is one parent among many. The Oulipo, founded in 1960 inside the Collège de ’Pataphysique, was followed by workshops for detective fiction, painting, comics, photography, cinema, cooking, music and more. The Collège itself says the list will never be complete. Here, every workshop is tested on the same railway-station incident: a visitor, a sealed envelope, a bell, a brass key left on a bench, a service door that stays closed. They are grouped by what the constraint touches.</p></div>
 <div class="wgroups">{groups}</div>
 <p class="cap">Each workshop links to its prompt. Sources: <a href="https://www.college-de-pataphysique.fr/presentation/ouxpo/">Collège de ’Pataphysique, Ouxpo</a> · <a href="https://en.wikipedia.org/wiki/Ouxpo">Ouxpo on Wikipedia</a>.</p>
-</section>
-
-<section class="sec" id="crew"><div class="sechead"><h2>The vow and the crew</h2><p>Every film follows one material rule and is made by one kind of crew.</p></div>
-<div class="cols">
-  <div class="part"><h3>The material vow</h3><p class="vow">Foraged or handmade, never faked.</p><p>Every image and sound is foraged or handmade. Foraged means a real archival photograph, film clip or recording under an open licence (public domain, CC0, CC BY or CC BY-SA), each one credited. Handmade means made for the film: cut-paper puppets, brush and pen drawings, a paper strip folded on a table, engraved rings. No synthetic stock footage, and no style filters that fake a look. The films here cite between 2 and {nsources} foraged sources each.</p></div>
-  <div class="part"><h3>Six roles</h3><ol class="roles"><li><b>Director</b> reads the prompt, writes the plan and freezes the test the film must pass.</li><li><b>Builders</b> forage archives or make the material by hand.</li><li><b>Editor</b> assembles, animates and renders the cut.</li><li><b>Blind readers</b> watch with no briefing and say what they saw.</li><li><b>Independent critic</b> judges the cut against the frozen test and the reference.</li><li><b>Rights reviewer</b> traces every source to an open licence.</li></ol></div>
-</div></section>
-
-<section class="sec" id="failures"><div class="sechead"><h2>The failures stay public</h2><p>A referee only means something if it can say no. Of {total} films, {passed} pass the independent critic. {near} narrowly miss, {open} have not passed, and {earlier} are earlier builds not yet remade. Each card below says which, and why.</p></div>
-<div class="cols tallyrow">
-  <dl class="tally"><dt style="color:var(--teal)">{passed}</dt><dd>passed independent review</dd><dt style="color:var(--lamp-2)">{near}</dt><dd>nearly passed (one narrow point)</dd><dt style="color:var(--stamp)">{open}</dt><dd>made by a crew, not yet passed</dd><dt style="color:var(--ink-2)">{earlier}</dt><dd>earlier versions, not yet remade</dd></dl>
-  <div class="part"><p>The critic fails a film when a viewer who hasn't been told the rule cannot see it work. <a href="#la-machine-a-tuer-le-temps">La Machine à tuer le temps</a> passed the rights review and still failed the critic. So did <a href="#la-belle-hortense">La Belle Hortense</a>, after Jacques Roubaud.</p><div class="filters" role="group" aria-label="Show"><button class="btn" type="button" data-f="all" aria-pressed="true">All</button><button class="btn" type="button" data-f="passed" aria-pressed="false">Passed</button><button class="btn" type="button" data-f="near" aria-pressed="false">Nearly</button><button class="btn" type="button" data-f="open" aria-pressed="false">Not yet</button></div></div>
-</div></section>
-
-<section class="sec" id="start"><div class="sechead"><h2>Where to start</h2><p>Four stops, about ten minutes.</p></div>
-<ol class="tour">
-  <li><b>A page that folds into a film.</b> Watch <a href="#boucle-la">Boucle-là !</a> or <a href="#les-caids-de-la-gaudriole">Les caïds de la gaudriole</a>. Each comic is both a printable page and a short film that reverses or folds it in time. Then leaf through <a href="#ninety-nine">99 ways</a>, {npages} of 99 pages so far, after Raymond Queneau and Matt Madden.</li>
-  <li><b>A film the critic failed.</b> Open <a href="#la-machine-a-tuer-le-temps">La Machine à tuer le temps</a> and read why it failed even though its rights review passed.</li>
-  <li><b>One incident, seventeen crafts.</b> Open the <a href="#ouxpo">workshops</a> and follow the same station incident through montage, a tasting menu, a floor plan and an agenda.</li>
-  <li><b>The same rule-first idea at scale.</b> Finish in <a href="https://hartswf0.github.io/burning-house/paeleo/abominable-house/live/player.html">The Burning House</a>, after Calvino's The Burning of the Abominable House, where you recast the four flour-sack tenants from a casting card.</li>
-</ol></section>
-"""
+</section>"""
 
 
 def introduction(counts, total, nsources, nprompts, npages):
@@ -177,7 +200,7 @@ def introduction(counts, total, nsources, nprompts, npages):
         + "".join(f'<tr><td><a href="../s/{esc(slug)}/">{esc(name)}</a></td><td>{esc(craft)}</td><td>{esc(rule)}</td><td>{esc(fixed)}</td></tr>' for slug, name, craft, rule, fixed in rows)
         + "</tbody></table></div>"
         for g, sub, rows in WORKSHOPS)
-    return INTRO.format(groups=groups, total=total, nsources=nsources, nprompts=nprompts, npages=npages, **counts)
+    return INTRO.format(total=total, nsources=nsources, nprompts=nprompts, npages=npages, **counts), WORKSHOPS_HTML.format(groups=groups)
 
 
 def main():
@@ -194,6 +217,7 @@ def main():
     nsources = max([len(json.loads(f.read_text())) for f in (PROJECT / 'films' / 'credits').glob('*.json') if f.name != '99-ways.json'] or [0])
     nprompts = len(list((PROJECT / 'prompts').glob('*.md')))
     npages = len(list((PROJECT / 'assets' / 'pages' / '99-ways').glob('[0-9][0-9]-*.jpg')))
+    intro_top, workshops_html = introduction(counts, total, nsources, nprompts, npages)
     doc = f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Oulipo Screening Room · PAELEO</title>
 <meta name="description" content="PAELEO Oulipo: rulebooks from the Oulipo and the seventeen Ouxpo workshops, used as building codes for an AI film crew. Foraged or handmade, never faked.">
@@ -202,6 +226,16 @@ def main():
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=JetBrains+Mono:wght@400;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
 <link rel="stylesheet" href="../../../paeleo.css">
 <style>
+.thesis{{margin-top:28px;border:2px solid var(--ink);background:var(--label);padding:26px 26px 22px;display:grid;gap:16px}}
+.thesis h1{{font-size:clamp(40px,7.2vw,92px);font-weight:900;line-height:.9;text-transform:uppercase;max-width:16ch}}
+.lede{{font-size:clamp(18px,2vw,21px);line-height:1.5;max-width:62ch}} .jump{{font-family:var(--mono);font-size:12.5px}}
+.chain{{list-style:none;margin:0;padding:0;display:grid;gap:0;border-left:4px solid var(--ink)}}
+.chain li{{padding:18px 0 22px 22px;border-bottom:1px solid var(--rule);display:grid;gap:10px;position:relative}}
+.chain li::before{{content:"";position:absolute;left:-12px;top:26px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:4px solid var(--ink)}}
+.term{{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}} .term b{{font-family:var(--display);font-weight:900;font-size:clamp(40px,6vw,60px);line-height:1;text-transform:uppercase}} .term span{{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}}
+blockquote{{margin:0;padding:10px 0 10px 16px;border-left:3px solid var(--kraft);font-style:italic;font-size:18px;max-width:64ch}} blockquote cite{{display:block;font-style:normal;font-family:var(--mono);font-size:11.5px;color:var(--ink-2);margin-top:6px}}
+.diff{{font-size:18px}} .diff b{{color:var(--stamp)}}
+.part ul{{gap:10px}} .ex{{gap:8px}} .ex h3{{font-size:30px}} .ex p{{font-size:15.5px}} .ex .st.passed{{color:var(--teal)}} .ex .st.open{{color:var(--stamp)}} .ex .st{{justify-self:start}}
 .names{{display:grid;gap:10px;margin:0}} .names dt{{font-family:var(--display);font-weight:900;font-size:30px;line-height:1;color:var(--stamp)}} .names dd{{margin:0;font-size:15px;line-height:1.45}}
 .wgroups{{display:grid;gap:30px}} .wg{{display:grid;gap:6px;min-width:0;overflow-x:auto}} .wg h3{{font-size:28px;font-weight:800;text-transform:uppercase}}
 .wg table{{border-collapse:collapse;width:100%;font-size:14.5px;min-width:620px}} .wg th{{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;text-align:left;color:var(--ink-2);border-bottom:2px solid var(--ink);padding:6px 8px}}
@@ -234,9 +268,10 @@ def main():
 <div class="wrap"><div class="sitebar"><a class="home" href="../../../../"><img src="../../../../favicon.svg" alt="" width="22" height="22">CRASH LAB</a><nav><a href="../../../">PAELEO</a><a href="../../">SCION</a><a href="../">Oulipo prompts</a><a href="./" aria-current="page">Screening Room</a></nav></div>
 <p class="crumbs"><a href="../../../">PAELEO</a> / <a href="../../">SCION</a> / <a href="../">Oulipo</a> / Screening Room</p>
 
-{introduction(counts, total, nsources, nprompts, npages)}
-<section class="sec" id="films"><div class="sechead"><h2>The films</h2><p>Each film loops a silent excerpt while it is on screen. Press the button to watch the whole film with sound.</p></div></section>
+{intro_top}
+<section class="sec" id="films"><div class="sechead"><h2>All the films</h2><p>Each film loops a silent excerpt while it is on screen. Press the button to watch the whole film with sound.</p></div></section>
 {"".join(secs)}
+{workshops_html}
 {ninety_nine()}
 </div>
 <script>
