@@ -250,9 +250,9 @@ def world_for(k, w, h):
 
 def incident_text(c, P, sd):
     cap = 40
-    balloon(c, ["Pardon me -", "have you the", "right time?"], cap, (400, 118), P(-300, 255), sd + 21)
-    balloon(c, ["Ten past four,", "by the clock."], cap, (730, 120), P(102, 300), sd + 22)
-    balloon(c, ["Much", "obliged!"], cap, (190, 300), P(-345, 300), sd + 23)
+    balloon(c, ["Pardon me -", "have you the", "right time?"], cap, (375, 152), P(-300, 255), sd + 21)
+    balloon(c, ["Ten past four,", "by the clock."], cap, (815, 128), P(102, 300), sd + 22)
+    balloon(c, ["Much", "obliged!"], cap, (172, 350), P(-345, 300), sd + 23)
     balloon(c, ["Well, here I am...", "and what for?"], cap, (1720, 330), P(690, 300), sd + 24)
 
 
