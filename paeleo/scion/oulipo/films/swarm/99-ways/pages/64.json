@@ -1,0 +1,103 @@
+{
+ "n": 64,
+ "id": "window-in-window",
+ "title": "Window in a window",
+ "rule": "Each panel sits inside the previous one, closing in from the station front to the key on its hook.",
+ "medium": "cut-paper",
+ "family": "layout and page grammar",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/64-window-in-window.jpg",
+ "master": "films/sources/99-ways/masters/64-window-in-window.png",
+ "beats_dir": "films/sources/99-ways/beats/64",
+ "build": "films/swarm/99-ways/build/p64_window_in_window.py (cut paper: kit/cutpaper99.py; agent, clock, office papers: kit/build_page02.py)",
+ "sources": [
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "six HANDMADE cut-paper panel cards (cutpaper99.Cut: scissor-faceted flat papers, the LoC 1934 sheet's fibre as relative tone, one down-right paper shadow), each pasted inside the one before, flush to its lower right, so each shows an inverted L (top strip + left column) round the next and a 50 px strip on its right and foot",
+  "P1 station front: slate roof, fascia with RANDOLPH cut in dark paper, eave brackets, clapboard, platform planks, lamp post; through the office window the agent at his desk with the memo slip (pen-lettered '4:15 - open SERVICE door. Key in cupboard.'); the stranger arriving along the platform",
+  "P2 the ticket window from the platform: TICKET OFFICE cut through the header board, the agent behind the glass, the stranger at the window, her question",
+  "P3 the office: page 02's cut-paper clock at 4:10 and the agent looking up to it, his answer",
+  "P4 the window from inside: her back through the glass as she goes, her thanks; the cupboard's cornice ahead",
+  "P5 the cupboard case with its leaf swung open on the left jamb; the agent, pencil to his chin, his line; the SERVICE door shut beside it, its card lettered",
+  "P6 innermost: the brass key cut in brass paper on its hook, the paper tag lettered SERVICE",
+  "the stranger as a new full-length cut-paper figure (cloche hat with band and bow, coat, gloves, bag); the agent is page 02's cut-paper agent, imported",
+  "hand-ruled borders on every card (penlib.border_mask); the four canon lines in the shared cut-paper balloons (penlib.balloon_piece); folio '64 / Window in a window' (pen99.folio)"
+ ],
+ "boxes": {
+  "P1": [
+   110,
+   110,
+   2090,
+   2730
+  ],
+  "P2": [
+   410,
+   670,
+   2040,
+   2680
+  ],
+  "P3": [
+   660,
+   1000,
+   1990,
+   2630
+  ],
+  "P4": [
+   900,
+   1320,
+   1940,
+   2580
+  ],
+  "P5": [
+   1140,
+   1630,
+   1890,
+   2530
+  ],
+  "P6": [
+   1390,
+   1930,
+   1840,
+   2480
+  ]
+ },
+ "events": {
+  "E0": "P1: through the station's office window, the agent at his desk over the memo; the stranger coming along the platform",
+  "E1": "P2: at the TICKET OFFICE window, 'Pardon me — have you the right time?'",
+  "E2": "P3: he looks up to the clock at 4:10: 'Ten past four, by the clock.'",
+  "E3": "P4: her back through the glass as she leaves: 'Much obliged!'",
+  "E4": "P5: the cupboard open on its left jamb; P6: the key on its hook in plain view, tagged SERVICE",
+  "E5": "P5: pencil to his chin, 'Well, here I am... and what for?'; the SERVICE door shut beside the cupboard; P6, the innermost frame, is the key that stays on its hook"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "beat": "the closing in performed: the station front lies alone, then each smaller card is pasted into the lower right of the last, down to the key on its hook",
+ "beat_frames": [
+  "b01: P1 the station front alone",
+  "b02: P1-P2 nested",
+  "b03: P1-P3 nested",
+  "b04: P1-P4 nested",
+  "b05: P1-P5 nested",
+  "b06: P1-P6 nested"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 950632,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "every_panel_strictly_inside_the_last": true,
+  "innermost_panel": "P6, the key on its hook",
+  "check": "A reader sees each panel framed inside the last, the frames nesting toward the key.",
+  "pending": "independent blind reading not run by the maker"
+ }
+}

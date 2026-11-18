@@ -1,0 +1,43 @@
+import os, sys
+sys.path.insert(0, "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways/build")
+from b1m2 import write_record, credit_pages, PAGES_OUT
+src = ["99-ways-template:loc-blank-sheet-1934", "99-ways:handmade"]
+jp = PAGES_OUT / "72-through-the-flap.jpg"
+sz = os.path.getsize(jp)
+rec = {"n": 72, "id": "through-the-flap", "title": "Lift the flap", "family": "reader and object", "medium": "cut-paper",
+ "canon_revision": "c1",
+ "rule": "The cupboard door is a flap the reader lifts to find the key; other flaps hide the clock and the stranger.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/72-through-the-flap.jpg", "master": "films/sources/99-ways/masters/72-through-the-flap.png",
+ "beats_dir": "films/sources/99-ways/beats/72",
+ "build": "films/swarm/99-ways/build/p72_lift_the_flap.py (cut paper: kit/cutpaper99.py; agent, clock, office papers: kit/build_page02.py; stranger: build/p64_window_in_window.woman)",
+ "sources": src,
+ "made": [
+  "three HANDMADE cut-paper scenes stacked like the pages of a lift-the-flap book (cutpaper99.Cut: scissor-faceted papers, LoC 1934 sheet fibre as relative tone, one down-right shadow)",
+  "three HANDMADE paper flaps, each cut as a separate paper with its own front and back, hinged on a strip of paper tape, numbered, with a pull tab: flap 1 the ticket-window shutter (boards and battens, hinged at its top) over the stranger; flap 2 a paper disc (hinged at its top) over the clock face; flap 3 the cupboard door itself (panels and brass knob, hinged on its left jamb) over the key",
+  "each flap front carries a cut numeral roundel and the word LIFT; each back a pen-ringed numeral and 'lifted', laid reversed so it reads upright once the flap is back",
+  "flaps laid by a projective warp about the hinge line (foreshortening for the lift angle, a little widening of the free edge), with a shadow that lengthens as the flap stands up; no filter",
+  "scene A: desk with the memo slip ('4:15 - open SERVICE door. Key in cupboard.'), the agent risen, the TICKET OFFICE window (letters cut in pale paper) with the stranger behind flap 1 and her question",
+  "scene B: the window from inside (she turns away), page 02's cut-paper clock at 4:10 under flap 2, the agent looking up; answer and thanks",
+  "scene C: the cupboard (interior, shelves, hook, brass key cut in brass paper, SERVICE tag) under flap 3, the SERVICE door shut with its card, the agent pencil to chin; the forgetting line and an outcome caption",
+  "narrative caption slips in the book's voice, the four canon lines in the shared cut-paper balloons, hand-ruled borders; folio '72 / Lift the flap' (pen99.folio)"],
+ "flaps": {"1": "ticket-window shutter: hides the stranger (E1)", "2": "clock cover: hides the clock face at 4:10 (E2)", "3": "the cupboard door: hides the brass key (E4)"},
+ "events": {"E0": "A: memo slip on the desk, caption '4:09. His memo...'; the agent risen", "E1": "A: flap 1 lifted, the stranger at the glass: question",
+  "E2": "B: flap 2 lifted, the clock at 4:10: answer", "E3": "B: she turns from the glass: thanks", "E4": "C: flap 3 (the cupboard door) lifted: the key on its hook, tag SERVICE",
+  "E5": "C: pencil to the chin, the forgetting line; caption 'It stays on its hook; the SERVICE door stays shut.'"},
+ "lines": {"question": "Pardon me — have you the right time?", "answer": "Ten past four, by the clock.", "thanks": "Much obliged!", "forgetting": "Well, here I am... and what for?"},
+ "beat": "the reader's lifting performed: all three flaps closed; flap 1 lifts (half, then back) and the question appears; flap 2 lifts on the clock, answer and thanks; flap 3, the cupboard door, swings open on its left hinge to the key; the forgetting line is laid last",
+ "beat_frames": ["b01: all flaps closed (fronts: 1 LIFT, 2 LIFT, 3 LIFT); no balloons", "b02: flap 1 at 62 deg, the stranger appearing", "b03: flap 1 laid back (138 deg), the question",
+  "b04: flap 2 at 70 deg", "b05: flap 2 back (140 deg): 4:10, answer and thanks", "b06: flap 3 at 64 deg, the key coming into view", "b07: flap 3 back (128 deg): the key on its hook",
+  "b08: the forgetting line and outcome caption (the page)"],
+ "self_check": {"size_px": [2200, 2850], "jpeg_bytes": sz, "jpeg_quality": 90, "in_target_0.4_1.2MB": 400000 <= sz <= 1200000,
+  "flaps": 3, "order": [1, 2, 3], "cupboard_door_is_flap": True,
+  "check": "A reader lifts (or sees lifted, on the film) each flap in order: the page shows the three flaps lifted back with numbered backs and pull tabs; beats b01-b07 lift them 1, 2, 3 (perceptually judged from frames by the maker; blind reading pending)",
+  "evidence": "perceptually judged (from frames) by the maker"},
+ "weaknesses": ["on a printed page the flaps cannot actually be lifted: the page shows them already lifted and the film does the lifting",
+  "the cut-paper agent is frontal and stiff; in scene C he already stands pencil to chin before flap 3 is lifted (the scene is one fixed picture under its flap)",
+  "flap 2's lifted disc is small (about 230 px), its 'lifted' label tiny at phone width",
+  "the stranger in scene B is small behind the window glass"]}
+write_record(rec)
+credit_pages(src, 72)
+print("ok", sz)

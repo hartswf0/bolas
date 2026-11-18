@@ -1,0 +1,81 @@
+{
+ "n": 58,
+ "id": "talks-himself-through",
+ "title": "He talks himself through it",
+ "rule": "The agent narrates every step aloud in his own balloons, from the memo to the forgetting.",
+ "medium": "photo-cutout",
+ "family": "voice and language",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/58-talks-himself-through.jpg",
+ "master": "films/sources/99-ways/masters/58-talks-himself-through.png",
+ "beats_dir": "films/sources/99-ways/beats/58",
+ "build": "films/swarm/99-ways/build/p58_talks_himself.py (panels: kit/build_page01.py, 99-ways-template rest layers)",
+ "sources": [
+  "99-ways-template:rothstein-randolph-agent-1937",
+  "99-ways-template:rothstein-tavern-clock-1937",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "made": [
+  "page 01's eight photo panels recomposed from films/swarm/99-ways-template/page/rest/P1..P8 with the template balloons left out",
+  "P2: P1's own cut-out agent (torso, head and their paper shadows) laid risen and moved to the right edge, his head leaving the frame (P2's sleeve stub left out); P6: P4's cut-out agent laid at the window side (P6's view is P4's, 40 px on), so the agent is in all eight panels",
+  "eleven HANDMADE cut-paper balloons in the shared pen hand: nine tailed to the agent's mouth (his running commentary: 'Four-fifteen, the SERVICE door. Key's in the cupboard. Right!' / 'Up we get. Cupboard, key, door. Easy as pie.' / 'Past the SERVICE door, over to the cupboard...' / 'Eh? The time? Just a moment...' / 'Let me look at the clock...' + the answer / 'There she goes. Now, the cupboard.' / 'Here's the cupboard. Open her up... there we are.' / 'Now I came over for... for...' + the forgetting line) and the stranger's two canon lines",
+  "hand-ruled borders; page scaled 2550x3300 -> 2200x2850; folio by pen99.folio"
+ ],
+ "events": {
+  "E0": "P1 memo, 'Four-fifteen, the SERVICE door. Key's in the cupboard. Right!'; P2 rising, 'Up we get...'; P3 walking past the SERVICE card",
+  "E1": "P4 the stranger's question through the window; his 'Eh? The time? Just a moment...'",
+  "E2": "P5 'Let me look at the clock...' then 'Ten past four, by the clock.' under the clock at 4:10",
+  "E3": "P6 the thanks; his 'There she goes. Now, the cupboard.'",
+  "E4": "P7 'Here's the cupboard. Open her up... there we are.' key on its hook",
+  "E5": "P8 'Now I came over for... for...' then 'Well, here I am... and what for?'; key unmoved; SERVICE card on the closed door"
+ },
+ "substitutions": "none: the four lines verbatim; the agent's added commentary is his own, in his own balloons",
+ "beat": "he talks his way across the page: panel by panel his balloons are laid; in P2 he rises (two positions) before his balloon comes; in P8 the faltering 'for... for...' comes first, then the forgetting line",
+ "beat_frames": [
+  "b01: P1 with its balloon",
+  "b02: + P2, the agent half risen, no balloon",
+  "b03: P2 risen",
+  "b04: P2 balloon",
+  "b05: + P3-P5",
+  "b06: + P6-P7",
+  "b07: + P8 with only 'Now I came over for... for...'",
+  "b08: the forgetting line (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1156040,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "beat_frames": 8,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "agent_tailed_balloons_per_panel": {
+   "P1": 1,
+   "P2": 1,
+   "P3": 1,
+   "P4": 1,
+   "P5": 2,
+   "P6": 1,
+   "P7": 1,
+   "P8": 2
+  },
+  "every_panel_agent_balloon": true,
+  "lines_verbatim": true,
+  "outcome": "key on its hook, SERVICE door closed (P8 picture)",
+  "pending": "independent blind reading not run by the maker"
+ }
+}

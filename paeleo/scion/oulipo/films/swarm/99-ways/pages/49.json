@@ -25,15 +25,16 @@
  },
  "made": [
   "a storyboard sheet headed by a torn title slip 'THE QUEST OF THE BRASS KEY / an epic of Randolph station, in six cantos' with pen-drawn laurel sprigs; six cream storyboard boards titled 'CANTO I-VI' with event and time (4:09-4:11), each with a torn commentary slip pinned below",
-  "page 03's ENGRAVING PUPPETS reused (kit/build_page03.py): the AGENT is the Harper's Weekly 1863 telegraph operator (LoC cph.3c11072) cut at the joints and pinned with brass brads; the STRANGER the hatted woman of the 1867 Steinway Hall engraving (LoC cph.3c32079); his table and the TICKET OFFICE window cut from the 1863 plate; memo, clock (4:09 / 4:10), cupboard (closed / open with the key on its hook tagged SERVICE) and SERVICE door drawn in the shared pen hand",
+  "page 03's ENGRAVING PUPPETS reused (kit/build_page03.py): the AGENT is the Harper's Weekly 1863 telegraph operator (LoC cph.3c11072) cut at the joints and pinned with brass brads; the STRANGER the hatted woman of the 1867 Steinway Hall engraving (LoC cph.3c32079), in cantos II-IV seen only THROUGH the window glass on the platform side (as page 45, print 2): head and bust cropped at the sill (the sash's meeting rail), masked to the two upper panes so the sash bars and frame stay in front of her, tone-lifted toward the glass and multiplied under the plate's own glass hatching; his table and the TICKET OFFICE window cut from the 1863 plate; memo, clock (4:09 / 4:10), cupboard (closed / open with the key on its hook tagged SERVICE) and SERVICE door drawn in the shared pen hand",
   "six commentary slips in an inflated heroic register (invocation, epithets, 'lo!'), written for this page; the four canon lines verbatim in cut-paper balloons",
-  "layout measured from the slips so no heading touches a slip; the LoC sheet softened 1.8 px for the JPEG budget"
+  "layout measured from the slips so no heading touches a slip; the LoC sheet softened 1.8 px for the JPEG budget",
+  "repair (batch 5): canto headings now read 'CANTO N' and the time only; the canto II balloon moved right of the window so her head and hat show; canto III re-laid (clock, agent, balloon in the office; the window and her bust behind its glass at the right); canto IV she has turned to face right (west) and is half past the right edge of the pane"
  ],
  "events": {
   "E0": "canto I: the sacred scroll (memo) on the desk, the hero rises, arm flung toward the Vault",
-  "E1": "canto II: the stranger at the gate of glass; 'cried a summons'; question balloon",
-  "E2": "canto III: the Orb of the Hours at 4:10; answer balloon",
-  "E3": "canto IV: thanks balloon; she passes from the gate into the west",
+  "E1": "canto II: the stranger behind the gate of glass (head and hat through the upper panes); 'cried a summons'; question balloon beside the window, tailed to her",
+  "E2": "canto III: the Orb of the Hours at 4:10 in the office; his answer balloon; she waits behind the glass",
+  "E3": "canto IV: thanks balloon tailed to her; turned toward the west, half past the pane's right edge, she passes from the gate",
   "E4": "canto V: the Vault flung wide; the Brass Key on its hook, the rune SERVICE",
   "E5": "canto VI: pencil to chin before the open Vault; forgetting balloon; 'the Key hung on, unclaimed; the Door of SERVICE stayed sealed'"
  },
@@ -54,7 +55,7 @@
    2200,
    2850
   ],
-  "jpeg_bytes": 1188461,
+  "jpeg_bytes": 1170046,
   "jpeg_quality": 90,
   "in_target_0.4_1.2MB": true,
   "beat_frames": 8,
@@ -72,6 +73,21 @@
    "But the jealous gods had stolen his purpose from his breast. Pencil to chin he stood before the open Vault, and spoke unto his own heart. So the Key hung on, unclaimed; the Door of SERVICE stayed sealed. Here ends the Quest."
   ],
   "lines_verbatim": true,
-  "pending": "independent blind reading not run by the maker"
- }
+  "pending": "independent blind reading not run by the maker",
+  "repair_checks": {
+   "stranger_behind_glass_cantos": [
+    2,
+    3,
+    4
+   ],
+   "stranger_lowest_row_px_in_board": 188,
+   "office_floor_line_row_px": 342,
+   "stranger_overlaps_floor_line": false,
+   "canto_headings": "'CANTO N    time' (no E-codes printed on the page; E0-E5 kept in this record only)"
+  }
+ },
+ "weaknesses": [
+  "the stranger is small behind the glass (a bust about 130 px tall in a 372 px board) and pale by design; she reads as a hatted woman at full size, less so at phone width",
+  "the agent in cantos I-VI is the same engraving puppet re-posed by its pinned joints; canto IV's 'turned away' is told by her facing right and being cut by the pane edge"
+ ]
 }

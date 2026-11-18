@@ -130,7 +130,7 @@ def caption(pg, k, box, write=True):
 # ------------------------------------------------------------------ layout
 PW, PH = p16.PW, p16.PH          # 970 x 640 panels
 COLX = [110, 1120]
-CAPH, CGAP, RGAP = 186, 14, 53
+CAPH, CGAP, RGAP = 186, 14, 50
 ROWS = [110 + r * (CAPH + CGAP + PH + RGAP) for r in range(3)]
 
 

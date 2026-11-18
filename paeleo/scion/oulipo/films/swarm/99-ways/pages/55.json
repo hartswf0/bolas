@@ -1,0 +1,119 @@
+{
+ "n": 55,
+ "id": "stairs",
+ "title": "Stairs",
+ "rule": "Panels step diagonally from top left to bottom right, each lower than the last, a staircase down into forgetting.",
+ "medium": "brush-plate",
+ "family": "layout and page grammar",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/55-stairs.jpg",
+ "master": "films/sources/99-ways/masters/55-stairs.png",
+ "beats_dir": "films/sources/99-ways/beats/55",
+ "build": "films/swarm/99-ways/build/p55_stairs.py (plate and states: p40_not_unlike.py, p29_one_fixed_lens.py, p07_two_panels.py, brushkit.py, b1m2.py)",
+ "sources": [
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "six wide panels (1180 x 410) stepping down the page diagonally from top left to bottom right, each 442 px lower and 160 px further right than the last",
+  "each panel a framing of the ONE HANDMADE brush plate of the office (page 07's plate geometry, page 29's heavier dab-chain brush after moins-dun-quart-de-seconde-pour-vivre): TICKET OFFICE window, clock, desk with the memo slip, cupboard, SERVICE door with its card; plate hash recorded per panel",
+  "changing parts from page 40 (steps 1-4 as there; steps 5-6 re-staged here with the SERVICE tag hung beside the key's bow and the forgetting balloon set to his left, over the open leaf): clock hands 4:09/4:10/4:11, the cupboard door closed or opened on its left jamb with the ANRC 1922 key printed in ink on its hook tagged SERVICE, the brushed b1m2 figures (agent: spectacles, waistcoat, pencil; the stranger in her hat behind the glass), the four canon lines in brushed balloons",
+  "the page brushed as a staircase round the panels (brushkit dab-chain brush, ink only): a banister rail with a newel post and balusters standing on the panels' top edges in the upper right; the stringer under the steps inked solid in the lower left with white brushed nosings",
+  "hand-ruled borders; folio '55 / Stairs' (pen99.folio)"
+ ],
+ "events": {
+  "E0": "step 1: at the desk, the memo slip '4:15 - open SERVICE door. Key in cupboard.', he rises (4:09)",
+  "E1": "step 2: the stranger at the TICKET OFFICE glass, question balloon",
+  "E2": "step 3: head up to the clock at 4:10, answer balloon",
+  "E3": "step 4: she turns from the window, thanks balloon; he walks on",
+  "E4": "step 5: the cupboard open on its left jamb, the key on its hook tagged SERVICE",
+  "E5": "step 6, the lowest: pencil to his chin, forgetting balloon; the key on its hook, the SERVICE door shut"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "none",
+ "beat": "the panels are printed step by step down the stair, each one lower, until the last step is the forgetting",
+ "beat_frames": [
+  "b01: steps 1-1 printed (later steps blank plate)",
+  "b02: steps 1-2 printed (later steps blank plate)",
+  "b03: steps 1-3 printed (later steps blank plate)",
+  "b04: steps 1-4 printed (later steps blank plate)",
+  "b05: steps 1-5 printed (later steps blank plate)",
+  "b06: steps 1-6 printed (later steps blank plate)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 866337,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "panel_tops_px": [
+   110,
+   552,
+   994,
+   1436,
+   1878,
+   2320
+  ],
+  "every_top_lower_than_previous": true,
+  "panel_lefts_px": [
+   110,
+   270,
+   430,
+   590,
+   750,
+   910
+  ],
+  "plate_hashes_as_laid": [
+   "a76a6002f531b4750a5b49431a2fa8b85ad9665b1d87a831e6014af9b1ed63fb"
+  ],
+  "plate_identical_in_all_panels": true,
+  "crops_plate_px": [
+   [
+    40,
+    350,
+    1450
+   ],
+   [
+    0,
+    170,
+    1450
+   ],
+   [
+    230,
+    100,
+    1650
+   ],
+   [
+    0,
+    150,
+    1450
+   ],
+   [
+    880,
+    362,
+    1100
+   ],
+   [
+    800,
+    362,
+    1100
+   ]
+  ],
+  "pending": "independent blind reading not run by the maker"
+ },
+ "weaknesses": [
+  "the six steps are framings of page 40's (and 29's) plate and states, so the drawings repeat those pages; the new work is the stair layout, the brushed banister and stringer, and the re-hung tag and re-placed balloon in steps 5-6",
+  "the panels are shallow (1180 x 410): figures are cut at the chest or waist, and in step 2 the agent's head sits behind the question balloon (as on page 40)",
+  "in steps 5-6 the SERVICE tag hangs beside the key's bow rather than from it, to keep the bit in the shallow frame; the bit is near the panel's lower edge",
+  "the solid stringer is a heavy black mass on the lower left"
+ ]
+}

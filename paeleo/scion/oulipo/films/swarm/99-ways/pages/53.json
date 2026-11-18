@@ -1,0 +1,90 @@
+{
+ "n": 53,
+ "id": "tautogram-k",
+ "title": "Tautogram",
+ "rule": "Every word of every caption begins with K.",
+ "medium": "cut-paper",
+ "family": "formal / Oulipian rule",
+ "canon_revision": "c1",
+ "declares": "lines rewritten as K-words",
+ "file": "assets/pages/99-ways/53-tautogram-k.jpg",
+ "master": "films/sources/99-ways/masters/53-tautogram-k.png",
+ "beats_dir": "films/sources/99-ways/beats/53",
+ "build": "films/swarm/99-ways/build/p53_tautogram_k.py (panels: p16_fewest_marks.py; cut paper: kit/cutpaper99.py)",
+ "sources": [
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "six panels E0-E5 re-cut from page 16's HANDMADE cut-paper kit (p16_fewest_marks.panel: scissor-faceted flat papers with the LoC 1934 sheet's fibre as relative tone, one down-right paper shadow): memo on the desk, the stranger behind the TICKET OFFICE glass, the clock at 4:10, the cupboard open on its left jamb with the key on its hook tagged SERVICE, the SERVICE door shut",
+  "six caption slips cut from cream paper, each opening on a large vermilion cut-paper K (cutpaper99.cut_letters: the shared pen hand's K cut out of paper); the caption written on in the shared pen hand with the initial K of every word inked in vermilion",
+  "the four lines rewritten as K-words in the shared cut-paper balloons (penlib.balloon_piece)",
+  "hand-ruled borders (penlib.border_mask); folio '53 / Tautogram' (pen99.folio)"
+ ],
+ "captions": [
+  "Keeper knows: key kept kupboard-side. Keeper kommences, keenly.",
+  "Kiosk! Kindly kustomer kalls keeper.",
+  "Keeper kranes klockward, kalkulates.",
+  "Kustomer, kontent, kwits kiosk.",
+  "Kupboard kracked: key kept, klearly.",
+  "Key kept. Keeper kaput. Kloset kept klosed."
+ ],
+ "events": {
+  "E0": "panel 1: memo on the desk, he rises; 'Keeper knows: key kept kupboard-side. Keeper kommences, keenly.'",
+  "E1": "panel 2: the stranger at the glass; 'Kiosk! Kindly kustomer kalls keeper.'; balloon 'Kindly, keeper: know klock-kount?'",
+  "E2": "panel 3: head back to the clock at 4:10; 'Keeper kranes klockward, kalkulates.'; balloon 'Klock kalls: kwarter-past, kut kwintet.'",
+  "E3": "panel 4: she turns away; 'Kustomer, kontent, kwits kiosk.'; balloon 'Kudos, kind keeper!'",
+  "E4": "panel 5: the cupboard open, key on its hook; 'Kupboard kracked: key kept, klearly.'",
+  "E5": "panel 6: pencil to chin; 'Key kept. Keeper kaput. Kloset kept klosed.'; balloon 'Keeper's kome... kwhy?'"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": {
+  "question": {
+   "canon": "Pardon me — have you the right time?",
+   "page": "Kindly, keeper: know klock-kount?"
+  },
+  "answer": {
+   "canon": "Ten past four, by the clock.",
+   "page": "Klock kalls: kwarter-past, kut kwintet."
+  },
+  "thanks": {
+   "canon": "Much obliged!",
+   "page": "Kudos, kind keeper!"
+  },
+  "forgetting": {
+   "canon": "Well, here I am... and what for?",
+   "page": "Keeper's kome... kwhy?"
+  }
+ },
+ "substitution_notes": "answer: 'quarter past, cut [a] quintet' = quarter past less five = ten past (the clock in the panel reads 4:10); 'Kloset' is the SERVICE door; hard c and qu respelled with K (klock, kupboard, kustomer, kwarter, kwintet, kwits, kwhy, kalkulates, kracked, kranes, kut, kome, kontent, kommences, kalls, klosed, kloset, klearly), every other word a dictionary K-word (keeper, key, kept, knows, keenly, kiosk, kindly, kind, know, kudos, kaput)",
+ "beat": "the caption slips are written on one by one: each slip gets its cut vermilion K, then its K-words",
+ "beat_frames": [
+  "b01: the six panels with six blank cut slips",
+  "b02: slips 1-1 written",
+  "b03: slips 1-2 written",
+  "b04: slips 1-3 written",
+  "b05: slips 1-4 written",
+  "b06: slips 1-5 written",
+  "b07: slips 1-6 written"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1019547,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "every_caption_word_begins_with_k": true,
+  "every_balloon_word_begins_with_k": true,
+  "words_checked": 48,
+  "outside_rule": "object lettering on the props (memo slip, TICKET OFFICE, SERVICE card and tag) and the folio line",
+  "check": "Every caption word begins with K (machine-checked on the text; vermilion initials let a reader check by eye)",
+  "pending": "independent blind reading not run by the maker"
+ }
+}

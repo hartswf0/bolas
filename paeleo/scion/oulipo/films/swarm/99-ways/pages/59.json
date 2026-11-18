@@ -1,0 +1,74 @@
+{
+ "n": 59,
+ "id": "once-upon-a-time",
+ "title": "Once upon a time",
+ "rule": "A fairy tale: the forbidden door, the enchanted key, the stranger as a fairy who takes his memory with a question.",
+ "medium": "busch-fold",
+ "family": "genre",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/59-once-upon-a-time.jpg",
+ "master": "films/sources/99-ways/masters/59-once-upon-a-time.png",
+ "beats_dir": "films/sources/99-ways/beats/59",
+ "build": "films/swarm/99-ways/build/p59_once_upon.py (busch-fold kit: build/p39_meanwhile.py, build/p11_station_cat.py)",
+ "sources": [
+  "les-caids-de-la-gaudriole:busch-mm-031",
+  "99-ways:busch-helene-munzel",
+  "les-caids-de-la-gaudriole:vintage-paper",
+  "les-caids-de-la-gaudriole:wood-table",
+  "99-ways:handmade"
+ ],
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "made": [
+  "a printed picture-book spread on the les-caids tabletop (vintage paper scan, its relief kept; greyed wood), folded down the middle like a booklet and opened again (crease shading, the halves lit differently), laid a hair off square with its shadow",
+  "heading 'Once upon a time...' with a HANDMADE ornamented initial O (boxed, corner curls and sparkles); six pictures in two columns, each over a passage of tale prose; 'THE END' under the last",
+  "the agent = the les-caids porter cutout (Busch 1865, Max und Moritz plate 31) in p39's hand cut, laid in all six pictures (turned to the window, tilted to the clock, walking on), a handmade ink pencil at his chin in the last",
+  "the stranger as the FAIRY = Helene (Busch 1872, Die fromme Helene) in p39's hand cut with its HANDMADE cloche, seen through the ticket-window glass, with HANDMADE pale paper wings with ink veins and a star wand drawn on the sheet; in picture 4 she is gone, leaving sparkles, and a dotted trail carries a little blank memo slip from his head out through the window: the memory taken",
+  "HANDMADE ink set (penlib.brush_line): desk with the lettered memo slip, the ticket window and its TICKET OFFICE board, the clock at 4:10, the cupboard (closed, then open on its left jamb), the enchanted brass key on its hook with its SERVICE tag (p39's drawing) ringed with ink rays and sparkles, the forbidden SERVICE door with its card",
+  "tale prose and the four canon lines in the shared pen hand and cut-paper balloons; folio by pen99.folio"
+ ],
+ "events": {
+  "E0": "picture 1: 'Once upon a time... in a little station... a memo came: at a quarter past four he must open the forbidden SERVICE door, and the key to it lay in the cupboard.' Memo on the desk, agent rising",
+  "E1": "picture 2: the fairy at the window, wings and wand; question balloon",
+  "E2": "picture 3: he looks up at the clock (4:10); answer balloon",
+  "E3": "picture 4: 'Much obliged!'; she is gone in a glitter; the blank memo flies off with her along a dotted trail from his head",
+  "E4": "picture 5: the cupboard open, 'the enchanted key, shining in the dark', tagged SERVICE",
+  "E5": "picture 6: pencil to chin, 'Well, here I am... and what for?'; 'the key hangs there still, and the SERVICE door is shut to this day. THE END'"
+ },
+ "substitutions": "none: the four lines verbatim; the fairy-tale frame is caption prose only",
+ "beat": "the spell: the fairy's question is put; then she vanishes and the little memo travels along the dotted trail from his head out of the window; then the blank before the key and the forgetting line",
+ "beat_frames": [
+  "b01: pictures 1-2, the fairy at the window, no question yet",
+  "b02: the question",
+  "b03: + pictures 3-4, the memo a quarter of the way along the trail",
+  "b04: the memo past half way",
+  "b05: the memo out at the window",
+  "b06: + pictures 5-6, no forgetting line",
+  "b07: the forgetting line (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 995468,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "beat_frames": 7,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "text_begins": "Once upon a time... (heading at the head of the page, continued by picture 1's prose)",
+  "genre_signals": "'Once upon a time', fairy with wings and star wand, 'forbidden SERVICE door', 'enchanted key', 'the spell was cast', 'to this day', 'THE END'",
+  "lines_verbatim": true,
+  "outcome": "key on its hook, SERVICE door shut (picture 6 and prose)",
+  "pending": "independent blind reading not run by the maker",
+  "repair": "2026-11-18 repair: picture 3 answer balloon moved up into the wall band above the clock, agent recut upright (scale 0.76, deg 2) so his whole head and the upward gaze at the clock are uncovered; picture 6 agent re-posed upright (deg 9) and planted at the open cupboard, facing it, balloon moved left clear of his head"
+ }
+}

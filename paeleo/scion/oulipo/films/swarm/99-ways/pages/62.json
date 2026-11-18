@@ -1,0 +1,120 @@
+{
+ "n": 62,
+ "id": "prisoner",
+ "title": "Prisoner's text",
+ "rule": "All text uses only letters without ascenders or descenders (a c e m n o r s u v w x z), lines included.",
+ "medium": "pen-hand",
+ "family": "formal / Oulipian rule",
+ "canon_revision": "c1",
+ "declares": "lines rewritten in the restricted letters",
+ "file": "assets/pages/99-ways/62-prisoner.jpg",
+ "master": "films/sources/99-ways/masters/62-prisoner.png",
+ "beats_dir": "films/sources/99-ways/beats/62",
+ "build": "films/swarm/99-ways/build/p62_prisoner.py (one-pen kit: build/p51_pen_alone.py; figure model build/b1m2.py)",
+ "sources": [
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "seven panels drawn with page 51's one-pen kit (the folio's pen, 4.42 px, hidden lines lifted) from the b1m2 figure model on the LoC 1934 sheet: desk and memo, walk past the closed cupboard, the lady at a blank-boarded ticket window, the wall clock at 4:10, her leaving, the cupboard opened with the key on its screw and its tag, the forgetting before the SERVICE door",
+  "all lettering in the shared pen hand, lowercase only, from the thirteen x-height letters; an epigraph strip 'a c e m n o r s u v w x z' states the alphabet",
+  "what the letters cannot spell is DRAWN inline with the same pen as small pictures set into the lines: a clock face at 4:15 (memo) and 4:10 (answer, caption), a key (memo, captions)",
+  "every string asserted at build time against the thirteen letters plus non-letter punctuation (check())"
+ ],
+ "substitutions": {
+  "question": {
+   "canon": "Pardon me — have you the right time?",
+   "page": "excuse me — can one measure now?"
+  },
+  "answer": {
+   "canon": "Ten past four, by the clock.",
+   "page": "now? [drawn clock at 4:10] — as near as one can measure."
+  },
+  "thanks": {
+   "canon": "Much obliged!",
+   "page": "o, ever so, ever so!"
+  },
+  "forgetting": {
+   "canon": "Well, here I am... and what for?",
+   "page": "so... now, near a case... ...ummm... a reason...?"
+  },
+  "SERVICE (door card and key tag)": "annex",
+  "memo": "'memo / [clock 4:15] — uncover annex. / [key] : case.'",
+  "TICKET OFFICE": "board left blank",
+  "cupboard": "case",
+  "hook": "screw",
+  "open": "uncover",
+  "key, times": "drawn pictograms"
+ },
+ "page_strings": [
+  "a c e m n o r s u v w x z",
+  "our man sees a memo:",
+  "memo",
+  "{c415} — uncover annex.",
+  "{key} : case.",
+  "so, across a room — on, on...",
+  "now a woman, over a screen,",
+  "summons our man:",
+  "excuse me —",
+  "can one",
+  "measure now?",
+  "our man scans a {c410}:",
+  "now? {c410} —",
+  "as near as",
+  "one can measure.",
+  "a woman, ever so warm,",
+  "moves on. no more.",
+  "o, ever so,",
+  "ever so!",
+  "our man uncovers a case:",
+  "a {key} on a screw — annex.",
+  "so... now, near a case...",
+  "...ummm... a reason...?",
+  "a {key} on a screw, as ever.",
+  "annex: secure as ever.",
+  "annex"
+ ],
+ "events": {
+  "E0": "P1 'our man sees a memo:' memo on the desk; P2 'so, across a room — on, on...'",
+  "E1": "P3 'now a woman, over a screen, summons our man:' + question",
+  "E2": "P4 'our man scans a [clock]:' + answer with drawn 4:10 clock; the wall clock at 4:10",
+  "E3": "P5 'a woman, ever so warm, moves on. no more.' + thanks",
+  "E4": "P6 'our man uncovers a case: a [key] on a screw — annex.'",
+  "E5": "P7 forgetting line; 'a [key] on a screw, as ever. annex: secure as ever.'; door card 'annex'"
+ },
+ "beat": "the page is written and drawn panel by panel in the one pen; the case is drawn shut, then uncovered; the forgetting written last",
+ "beat_frames": [
+  "b01: frames and the alphabet strip",
+  "b02: panel 1",
+  "b03: panel 2",
+  "b04: panel 3",
+  "b05: panels 4-5",
+  "b06: panel 6 with the case shut",
+  "b07: panel 7 without the line (case open in 6)",
+  "b08: the forgetting balloon (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 930338,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "beat_frames": 8,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "allowed_letters": "acemnorsuvwxz",
+  "check": "Outside the folio line, no letter with an ascender or descender appears: measured (all page strings pass check(); no capitals, digits, i, j or t; the pen hand's glyphs for the 13 letters span y 0..0.62 cap); the drawings carry no lettering",
+  "non_letters_used": ". , : - — ... ? ! (punctuation kept; '?' and '!' rise above x-height but are not letters)",
+  "pending": "independent blind reading not run by the maker"
+ },
+ "weaknesses": [
+  "the rewritten question 'can one measure now?' is oblique; the clock in the next panel carries most of its meaning",
+  "'o, ever so, ever so!' as thanks leans on the caption ('ever so warm')",
+  "SERVICE becomes 'annex' everywhere, so the door's name changes",
+  "'?' and '!' are taller than the x-height; they are kept as non-letters"
+ ]
+}

@@ -1,0 +1,82 @@
+{
+ "n": 60,
+ "id": "wall-drawing",
+ "title": "Wall drawing",
+ "rule": "Drawn in charcoal on the plaster of the station wall, the cupboard and the SERVICE door being real parts of that wall.",
+ "medium": "charcoal-card",
+ "family": "medium and material",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/60-wall-drawing.jpg",
+ "master": "films/sources/99-ways/masters/60-wall-drawing.png",
+ "beats_dir": "films/sources/99-ways/beats/60",
+ "build": "films/swarm/99-ways/build/p60_wall_drawing.py (card kit: build/charcoal99.py; figure model build/b1m2.py)",
+ "sources": [
+  "teuf-teuf:cueva-de-las-manos",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways:handmade"
+ ],
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "made": [
+  "the whole page is one stretch of office wall: lime plaster made from the teuf-teuf rock relief (charcoal99.wall, Cueva de las manos, CC BY-SA 3.0) at a paler level with HANDMADE lime-wash unevenness, two smoothed patches, four cracks with a light lip, nail holes and the clean ghost of a notice that once hung there; a card skirting board with moulding and a scrubbed board floor below it",
+  "three REAL parts of that wall, built as grey charcoal cards with their own drop shadows (charcoal99.pin_up): the wall clock hanging on its nail at 4:10 (b1m2 clock), the office cupboard standing against the wall (door on the left jamb; inside, the ANRC 1922 key cutout cut as a pale card on its hook with a SERVICE tag card), and the SERVICE door in its card architrave with a SERVICE card; a stick of charcoal (card) lies on the skirting ledge with its dust",
+  "everything else DRAWN on the plaster in charcoal (HANDMADE): six rough frames, the agent and the stranger as outlines of the b1m2 figure model with hatching and finger smudge, each nearer shape erasing the lines behind it; desk, memo slip, ticket window lettered TICKET OFFICE; captions and the four canon lines in the shared pen hand rubbed as charcoal; balloons rag-cleaned on the plaster with charcoal outlines",
+  "the drawing uses the real things: in frame 4 the drawn agent looks up (a drawn arrow) at the real clock, captioned 'a real one, on its nail'; a long charcoal arrow runs from frame 5 down the wall to the real cupboard; frame 6 is drawn round the real cupboard and the real SERVICE door, the drawn agent standing before the open cupboard"
+ ],
+ "events": {
+  "E0": "frame 1: drawn desk and memo slip, the agent getting up; frame 2: walking 'toward the cupboard'",
+  "E1": "frame 3: drawn ticket window, the lady; question balloon",
+  "E2": "frame 4: the drawn agent looks up at the REAL clock (4:10); answer balloon",
+  "E3": "frame 5: thanks balloon; 'She goes. He goes on to the cupboard, down there.' with an arrow to the real cupboard",
+  "E4": "frame 6: the real cupboard open, the key card on its hook, SERVICE tag; caption",
+  "E5": "frame 6: drawn agent, pencil to chin, forgetting balloon; the real SERVICE door closed; caption"
+ },
+ "substitutions": "none: the four lines verbatim",
+ "beat": "the story is drawn onto the wall frame by frame around the real things; the real cupboard door swings open on the wall before the last frame is drawn round it",
+ "beat_frames": [
+  "b01: the bare wall: plaster, the real clock, the real closed cupboard, the real SERVICE door, the skirting",
+  "b02: frame 1 drawn",
+  "b03: frames 2-3 drawn",
+  "b04: frame 4 drawn under the real clock",
+  "b05: frame 5 and the arrow to the cupboard",
+  "b06: the real cupboard door half open",
+  "b07: frame 6 drawn round the open cupboard and the SERVICE door, no line yet",
+  "b08: the forgetting balloon written (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1143567,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "beat_frames": 8,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "real_parts_as_cards": [
+   "clock",
+   "cupboard (with key and tag)",
+   "SERVICE door and card",
+   "skirting board",
+   "charcoal stick"
+  ],
+  "drawn_in_charcoal": "frames, figures, desk, memo, window, lettering, balloons, arrows",
+  "check": "A reader says the story is drawn on a wall: plaster texture, cracks, skirting and floor, real furniture standing in front of the drawing (perceptually judged from the full-size page by the maker)",
+  "lines_verbatim": true,
+  "pending": "independent blind reading not run by the maker"
+ },
+ "weaknesses": [
+  "the plaster takes the charcoal99 greenish-sepia ramp, so it reads as an old distempered wall rather than fresh white lime",
+  "the caption '(a real one, on its nail)' explains the device instead of leaving it to the picture",
+  "the question balloon's tail crosses the drawn TICKET OFFICE board",
+  "the open cupboard leaf dips a little below the floor line toward the folio band"
+ ]
+}

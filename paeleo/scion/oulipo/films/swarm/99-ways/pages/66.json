@@ -1,0 +1,105 @@
+{
+ "n": 66,
+ "id": "the-plan",
+ "title": "The plan",
+ "rule": "Each panel pairs what the 4:15 memo planned, ghosted in pale ink, with what happened; the ghost door opens, the real one stays shut.",
+ "medium": "pen-hand",
+ "family": "time and order",
+ "canon_revision": "c1",
+ "declares": "adds an unrealised planned strand, marked as ghost",
+ "file": "assets/pages/99-ways/66-the-plan.jpg",
+ "master": "films/sources/99-ways/masters/66-the-plan.png",
+ "beats_dir": "films/sources/99-ways/beats/66",
+ "build": "films/swarm/99-ways/build/p66_the_plan.py (pen: p51_pen_alone.Pen; figure model: b1m2.py)",
+ "sources": [
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "six panels drawn with page 51's one pen (the folio's 4.42 px pen along b1m2's HANDMADE figure-model outlines, hidden lines lifted), in two inks: the plan in a pale washed blue-grey (62% wash), what happened in full black",
+  "the ghost strand (an unrealised plan, declared by the canon): the agent rising and taking the dotted route straight to the cupboard, walking on past the window, lifting the key off its hook from a ghost-open cupboard, carrying it to the SERVICE door, turning it at 4:14, the ghost door swinging open at 4:15 with him stepping through",
+  "the solid strand: E0-E5 with the four canon lines in pen-drawn balloons; the real cupboard drawn shut while the ghost one stands open over it (panel 3); the real SERVICE door drawn shut under the open ghost leaf (panel 6)",
+  "a two-line caption at each panel's head in the shared pen hand: 'Plan: ...' in the ghost ink, 'Fact: ...' in black",
+  "folio '66 / The plan' (pen99.folio)"
+ ],
+ "captions": [
+  {
+   "plan": "Plan: up from the desk, straight to the cupboard.",
+   "fact": "Fact: he rises and sets off."
+  },
+  {
+   "plan": "Plan: on past the ticket window.",
+   "fact": "Fact: a voice at the window stops him."
+  },
+  {
+   "plan": "Plan: the key lifted off its hook.",
+   "fact": "Fact: he looks up at the clock."
+  },
+  {
+   "plan": "Plan: key in hand, on to the SERVICE door.",
+   "fact": "Fact: she thanks him and goes."
+  },
+  {
+   "plan": "Plan: 4:14, the key turns in the lock.",
+   "fact": "Fact: the cupboard opens on the key."
+  },
+  {
+   "plan": "Plan: 4:15, the SERVICE door opens.",
+   "fact": "Fact: the key stays; the door stays shut."
+  }
+ ],
+ "ghost": [
+  "rises and heads straight for the cupboard (dotted route)",
+  "walks on past the window",
+  "at the open cupboard, lifts the key off its hook",
+  "carries the key toward the SERVICE door",
+  "turns the key in the SERVICE door's lock",
+  "the ghost leaf of the SERVICE door swings open; he steps through"
+ ],
+ "events": {
+  "E0": "1: memo on the desk; he rises and sets off (ghost: already striding along the dotted route to the cupboard)",
+  "E1": "2: the stranger at the TICKET OFFICE window: 'Pardon me — have you the right time?' (ghost walks on past)",
+  "E2": "3: he looks up at the clock, 4:10: 'Ten past four, by the clock.' (ghost lifts the key from the ghost-open cupboard; the real one is shut)",
+  "E3": "4: 'Much obliged!' as she turns away (ghost carries the key to the SERVICE door)",
+  "E4": "5: the cupboard open, the key on its hook, tagged SERVICE (ghost at the lock, 4:14)",
+  "E5": "6: pencil to chin, 'Well, here I am... and what for?'; key on hook, the real SERVICE door shut; the ghost door open at 4:15"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "beat": "what happened lies drawn in black; the plan is washed in beside it panel by panel in pale ink; last the ghost door swings open over the real one, which stays shut",
+ "beat_frames": [
+  "b01: solid strand only (six panels)",
+  "b02: ghost strand in panels 1-2",
+  "b03: ghost in panels 1-4",
+  "b04: ghost in panels 1-5",
+  "b05: panel 6 ghost door half open",
+  "b06: ghost door open, ghost agent going through; the real door shut"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1013362,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "inks": {
+   "ghost_rgb": [
+    120.0,
+    146.0,
+    170.0
+   ],
+   "ghost_alpha": 0.62,
+   "solid": "penlib.INK #121110"
+  },
+  "every_panel_has_ghost_and_solid_agent": true,
+  "real_service_door": "drawn shut in panels 4-6; only the ghost leaf opens",
+  "check": "A reader tells the ghosted (planned) figure from the solid (actual) one in every panel.",
+  "pending": "independent blind reading not run by the maker",
+  "repair": "2026-11-18 repair: panel 3 answer balloon moved up-left above the clock (cap 32), head, glasses and upward tilt uncovered; panel 6 forgetting balloon moved into the space above the cupboard (cap 30) with its tail to his mouth, head and pencil-at-chin uncovered; beats b01-b06 re-rendered"
+ }
+}

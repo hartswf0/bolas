@@ -21,7 +21,7 @@ import daumier12 as D
 import p12_loop as L
 
 N, PID, TITLE = 50, "brief-meeting", "Brief meeting"
-SHEET = cv2.GaussianBlur(pen99.sheet99(), (0, 0), 1.6)
+SHEET = cv2.GaussianBlur(pen99.sheet99(), (0, 0), 2.0)
 PAPER = np.array([246, 242, 230], np.float32)
 ROSE = np.array([1.0, 0.66, 0.68], np.float32)
 BCAP, CAP = 42, 31
@@ -46,14 +46,30 @@ def cap_at(c, text, width, seed, corner="tl", inset=16):
     return slip(c, int(x), int(y), wrap(text, CAP, width), CAP, seed, paper=PAPER, shadow=0.35)
 
 
+def tone_tiled(name, w, h, k=1.7):
+    """a crayon-tone patch enlarged uniformly (k) and mirror-tiled to w x h, so the crayon grain keeps its
+    own proportion instead of being stretched into streaks"""
+    sname, (x0, y0, x1, y1) = D.TONE[name]
+    t = D.src(sname)[y0:y1, x0:x1]
+    t = cv2.resize(t, (int((x1 - x0) * k), int((y1 - y0) * k)), interpolation=cv2.INTER_CUBIC)
+    th, tw = t.shape
+    big = np.block([[t, t[:, ::-1]], [t[::-1], t[::-1, ::-1]]])
+    reps = (int(math.ceil(h / (2 * th))) + 1, int(math.ceil(w / (2 * tw))) + 1)
+    return cv2.GaussianBlur(np.tile(big, reps)[:h, :w], (0, 0), 0.9)
+
+
 def ground(w, h, fl_frac=0.82, dark=False):
     c = np.zeros((h, w, 3), np.float32)
     fl = int(h * fl_frac)
-    wl = cv2.GaussianBlur(D.tone("wall", w, fl), (0, 0), 3.2)
-    wl = wl.mean() + (wl - wl.mean()) * 0.75
-    f = cv2.GaussianBlur(D.tone("floor", w, h - fl), (0, 0), 3.0)
+    wl = tone_tiled("wall", w, fl)
+    wl = wl.mean() + (wl - wl.mean()) * 0.45
+    f = tone_tiled("floor", w, h - fl, k=1.3)
+    f = f.mean() + (f - f.mean()) * 0.8
     c[:fl] = np.clip(wl * (0.86 if dark else 1.02) + 6, 0, 255)[..., None] * D.TINT
     c[fl:] = f[..., None] * D.TINT
+    sk = np.zeros(c.shape[:2], np.uint8)                 # the skirting: a pen line where wall meets floor
+    penlib.brush_line(sk, [(0, fl), (w, fl)], 4, 5099 + w)
+    comp(c, sk, INK, 0.7)
     return c, fl
 
 
@@ -90,16 +106,173 @@ def window(c, x, y, scale, fl, woman=None):
     return L.window_unit(c, x, y, scale, woman=woman)
 
 
+# ------------------------------------------------------------------ the agent re-cut (HANDMADE cuts of the CC0 print)
+# His near arm (the one that held the cane in 'Il est devenu pro-pri-e-taire !') is cut off the body at the coat's
+# edge and split at the elbow, so it can swing on two pinned joints: shoulder (712, 712), elbow (686, 850), source px.
+SHOULDER, ELBOW, GRIP = (712.0, 712.0), (686.0, 850.0), (676.0, 962.0)
+ARM_U_POLY = [(703, 690), (726, 696), (726, 760), (720, 800), (716, 856), (658, 858), (668, 820), (680, 790),
+              (686, 750), (692, 718)]
+ARM_F_POLY = [(660, 842), (716, 842), (713, 880), (705, 905), (707, 945), (703, 984), (688, 1005), (661, 997),
+              (651, 962), (653, 930), (651, 890), (655, 860)]
+
+
+def _poly_cut(poly):
+    g = D.src("stair")
+    P = np.array(poly, np.float32)
+    x0, y0 = np.floor(P.min(0)).astype(int) - 2
+    x1, y1 = np.ceil(P.max(0)).astype(int) + 2
+    a = np.zeros((y1 - y0, x1 - x0), np.uint8)
+    cv2.fillPoly(a, [np.int32(np.round((P - [x0, y0]) * 4))], 255, cv2.LINE_AA, shift=2)
+    return dict(gray=g[y0:y1, x0:x1].copy(), alpha=a, origin=(int(x0), int(y0)))
+
+
+ARM_U, ARM_F = _poly_cut(ARM_U_POLY), _poly_cut(ARM_F_POLY)
+_bm = L.BODY["alpha"].copy()
+_ox, _oy = L.BODY["origin"]
+_cut = np.zeros_like(_bm)
+for _P in (ARM_U_POLY, ARM_F_POLY):
+    cv2.fillPoly(_cut, [np.int32(np.round((np.array(_P, np.float32) - [_ox, _oy]) * 4))], 255, cv2.LINE_AA, shift=2)
+_cut[: int(700 - _oy)] = 0          # the shoulder cap stays on the body
+BODY_NOARM = dict(L.BODY, alpha=np.where(_cut > 127, 0, _bm).astype(np.uint8))
+
+
+def agent2(c, foot, face=-1, scale=0.40, head_deg=0.0, body_deg=0.0, sh=0.0, el=0.0, front=True, pencil=False):
+    """the re-cut Daumier agent: body (arm cut away), head pinned at the collar, upper arm on the shoulder,
+    forearm+hand on the elbow. sh/el in degrees (screen-clockwise in the print's own left-facing frame).
+    Returns dict of canvas points: mouth, chin, grip, head."""
+    flip = face > 0
+    neck_src = np.array(D.ANCHOR["agent_body"], float)
+    neck = np.array([foot[0], foot[1] - (1410.0 - neck_src[1]) * scale])
+    Mb = D.M_for(BODY_NOARM, tuple(neck), scale, body_deg, flip, anchor=tuple(neck_src))
+    Ms = Mb @ penlib.T(-_ox, -_oy)                     # source px -> canvas
+    Mu = Ms @ penlib.about(SHOULDER, penlib.R(sh))
+    Mf = Mu @ penlib.about(ELBOW, penlib.R(el))
+    arms = [(ARM_U, Mu), (ARM_F, Mf)]
+
+    def glue_arms():
+        for pc, M in arms:
+            D.glue(c, pc, M @ penlib.T(*pc["origin"]), rim=3, lift=2)
+        for M, pv in ((Ms, SHOULDER), (Mu, ELBOW)):
+            q = penlib.apply(M, pv)
+            m = np.zeros(c.shape[:2], np.uint8)
+            cv2.circle(m, (int(q[0] * 4), int(q[1] * 4)), int(max(2, 5 * scale / 0.4) * 4), 255, -1, cv2.LINE_AA, shift=2)
+            comp(c, m, np.array([96, 92, 84], np.float32), 0.8)     # a paper brad in the print's crayon grey
+    if not front:
+        glue_arms()
+    D.glue(c, BODY_NOARM, Mb, rim=3)
+    hn = L.at_src(Mb, L.BODY, neck_src)
+    Mh = D.M_for(L.HEAD, tuple(hn), scale, head_deg + body_deg, flip, anchor=D.ANCHOR["agent_head"])
+    D.glue(c, L.HEAD, Mh, rim=3)
+    if front:
+        glue_arms()
+    rec = {}
+    if pencil:       # held in his fingers: laid across the fist (butt end in his palm), its point at the chin
+        ch = L.at_src(Mh, L.HEAD, (796, 668))
+        bt = penlib.apply(Mf, (GRIP[0] + 4, GRIP[1] + 42))
+        crayon_pencil(c, tuple(bt), tuple(ch), w=max(8, 30 * scale))
+        # the thumb closes over the pencil: the forearm piece's own thumb strip re-glued on top
+        th = _poly_cut([(664, 940), (690, 936), (694, 958), (668, 962)])
+        D.glue(c, th, Mf @ penlib.T(*th["origin"]), rim=0, shadow=False)
+        rec.update(pencil=(list(map(float, bt)), list(map(float, ch))))
+    return dict(rec, Mb=Mb, Mh=Mh, Mf=Mf, mouth=L.at_src(Mh, L.HEAD, (786, 642)), chin=L.at_src(Mh, L.HEAD, (800, 676)),
+                head=L.at_src(Mh, L.HEAD, (850, 500)), grip=penlib.apply(Mf, GRIP))
+
+
+def crayon_pencil(c, p, q, w=9):
+    """a pencil cut from the prints' own crayon tones: shaft from the carriage wall's mid grey, sharpened cone from
+    the window's pale paper, lead from the tunnel black; no colour added (the print's cream tint only)"""
+    Lh = float(np.hypot(q[0] - p[0], q[1] - p[1]))
+    ang = math.degrees(math.atan2(q[1] - p[1], q[0] - p[0]))
+    M = penlib.T(p[0], p[1]) @ penlib.R(ang) @ penlib.T(0, -w / 2)
+    tip = w * 1.8
+    shaft, _ = D.shape_piece("mid", [(0, 0), (Lh - tip, 0), (Lh - tip, w), (0, w)])
+    D.glue(c, shaft, M, rim=2, shade=0.80)
+    cone, _ = D.shape_piece("pale", [(0, 0), (tip, w * 0.40), (tip, w * 0.60), (0, w)])
+    D.glue(c, cone, M @ penlib.T(Lh - tip, 0), rim=1, shadow=False)
+    lead, _ = D.shape_piece("dark", [(0, 0), (tip * 0.45, w * 0.40), (tip * 0.45, w * 0.60), (0, w)])
+    D.glue(c, lead, M @ penlib.T(Lh - tip * 0.45, 0), rim=0, shadow=False)
+
+
+def pose_grip(foot, face, scale, body_deg, sh, el):
+    flip = face > 0
+    neck_src = np.array(D.ANCHOR["agent_body"], float)
+    neck = np.array([foot[0], foot[1] - (1410.0 - neck_src[1]) * scale])
+    Mb = D.M_for(BODY_NOARM, tuple(neck), scale, body_deg, flip, anchor=tuple(neck_src))
+    Ms = Mb @ penlib.T(-_ox, -_oy)
+    return penlib.apply(Ms @ penlib.about(SHOULDER, penlib.R(sh)) @ penlib.about(ELBOW, penlib.R(el)), GRIP)
+
+
+def solve_to(foot, face, scale, body_deg, target):
+    best = None
+    for sh in range(-120, 121, 3):
+        for el in range(-170, 171, 3):
+            d = float(np.hypot(*(pose_grip(foot, face, scale, body_deg, sh, el) - np.array(target))))
+            if best is None or d < best[0]:
+                best = (d, sh, el)
+    return best
+
+
+def full_door(c, x0, top, x1, floor):
+    """the SERVICE door at full height: the CONCIERGE door's glazed upper half (cut from the 1846 print) above a
+    panelled lower leaf cut from the carriage wall's crayon tone, in a casing cut from the tunnel black"""
+    L.set_piece(c, "dark", [(x0 - 12, top - 12), (x1 + 12, top - 12), (x1 + 12, floor + 2), (x0 - 12, floor + 2)], rim=3)
+    k = (x1 - x0) / L.DOOR["gray"].shape[1]
+    uh = L.DOOR["gray"].shape[0] * k
+    D.glue(c, L.DOOR, penlib.T(x0, top) @ penlib.S(k) @ penlib.T(0, 0), rim=0, shadow=False)
+    L.set_piece(c, "mid", [(x0, top + uh - 2), (x1, top + uh - 2), (x1, floor), (x0, floor)], rim=0, shade=0.95)
+    lh = floor - (top + uh)
+    for px0, px1 in ((x0 + 14, (x0 + x1) / 2 - 7), ((x0 + x1) / 2 + 7, x1 - 14)):
+        L.set_piece(c, "pale", [(px0, top + uh + 16), (px1, top + uh + 16), (px1, floor - 18), (px0, floor - 18)], rim=2,
+                  shade=0.80)
+    knob = [((x1 - 22) + 7 * math.cos(t), (top + uh + 10) + 7 * math.sin(t)) for t in np.linspace(0, 2 * math.pi, 16, endpoint=False)]
+    L.set_piece(c, "dark", knob, rim=1)
+    slip(c, int(x0 + (x1 - x0) / 2 - 62), int(top + 18), ["SERVICE"], 30, 1260, paper=np.array([246, 242, 230], np.float32),
+         pad=(14, 5), shadow=0.4)
+    return (x0 - 12, top - 12, x1 + 12, floor + 2)
+
+
+def solve_chin(scale, head_deg, face=-1, target_off=(-6, 14)):
+    """search shoulder/elbow angles that bring the grip to just under the chin (in the print's own frame)"""
+    best = None
+    tmp = np.zeros((10, 10, 3), np.float32)
+    neck_src = np.array(D.ANCHOR["agent_body"], float)
+    Ms = penlib.T(-0.0, 0.0)
+    chin = np.array([800 + (neck_src[0] - D.ANCHOR["agent_head"][0]), 676.0]) + np.array(target_off)
+    for sh in range(-80, 81, 2):
+        for el in range(-180, 181, 3):
+            g = penlib.apply(penlib.about(SHOULDER, penlib.R(sh)) @ penlib.about(ELBOW, penlib.R(el)), GRIP)
+            e = penlib.apply(penlib.about(SHOULDER, penlib.R(sh)), ELBOW)
+            d = np.hypot(*(g - chin))
+            if e[1] < SHOULDER[1] + 40:     # the elbow stays low, by his side
+                continue
+            if best is None or d < best[0]:
+                best = (d, sh, el)
+    return best
+
+
 # ------------------------------------------------------------------ panels
 def P1(st):
+    """E0: he rises from the desk: the chair pushed back behind him, his body leaning forward over the desk,
+    his near hand pressing on the desk top to push himself up"""
     w, h = 925, 590
     c, fl = ground(w, h)
-    L.desk(c, 60, 340, 380, fl + 8)
-    L.memo_slip(c, 80, 372, cap=22, tilt=-5, seed=5011)
     rise = st.get("rise", 1.0)
-    L.agent(c, (430 + 250 * rise, fl + 66), face=1, scale=0.40, head_deg=6)
+    # the chair he is getting up from, pushed back and tipped (cut from the carriage wall's mid tone)
+    ch = penlib.about((150, fl + 4), penlib.R(-6))
+    chair = [[(120, 250), (146, 250), (146, fl + 4), (120, fl + 4)], [(120, 372), (262, 372), (262, 392), (120, 392)],
+             [(240, 392), (258, 392), (258, fl + 4), (240, fl + 4)]]
+    for poly in chair:
+        L.set_piece(c, "mid", [tuple(penlib.apply(ch, q)) for q in poly], rim=3, shade=0.78)
+    top = 352
+    foot = (330, fl + 66)
+    bd = 12 * rise
+    d, sh, el = solve_to(foot, 1, 0.42, bd, (478, top + 4))
+    POSES["P1"] = dict(foot=foot, face=1, scale=0.42, head_deg=10, body_deg=bd, sh=sh, el=el)
+    agent2(c, **POSES["P1"])
+    L.desk(c, 470, top, 400, fl + 8)
+    L.memo_slip(c, 560, 300, cap=20, tilt=-4, seed=5011)
     cap_at(c, "September, 1937. A quiet office; a memo: 4:15, the SERVICE door, the key in the cupboard. "
-              "Nothing else on his mind.", 560, 5012)
+              "Nothing else on his mind. He gets up.", 860, 5012, corner="tl")
     return c
 
 
@@ -143,10 +316,12 @@ def P4(st):
     w, h = 925, 590
     c, fl = ground(w, h)
     L.clock(c, 160, 170, 92)
-    Mb, Mh = L.agent(c, (450, fl + 66), face=-1, scale=0.40, head_deg=st.get("look", 16))
-    mouth = L.at_src(Mh, L.HEAD, (786, 642))
-    balloon(c, ["Ten past four,", "by the clock."], BCAP, (700, 120), (mouth[0] + 6, mouth[1] + 4), 5041, tail_w=0.22)
-    cap_at(c, "He gave her the hour. He would have given her the clock.", 330, 5042, corner="br")
+    # E2: his head tipped right back toward the clock, his arm half lifted to it
+    POSES["P4"] = dict(foot=(640, fl + 66), face=-1, scale=0.40, head_deg=st.get("look", 30), sh=-38, el=-30)
+    r = agent2(c, **POSES["P4"])
+    mouth = r["mouth"]
+    balloon(c, ["Ten past four,", "by the clock."], BCAP, (470, 104), (mouth[0] + 6, mouth[1] + 4), 5041, tail_w=0.22)
+    cap_at(c, "He gave her the hour. He would have given her the clock.", 330, 5042, corner="bl")
     return c
 
 
@@ -165,9 +340,11 @@ def P5(st):
 def P6(st):
     w, h = 740, 600
     c, fl = ground(w, h)
-    L.cupboard(c, 230, 190, 180, 290, open_=st.get("open", True))
-    L.agent(c, (560, fl + 64), face=-1, scale=0.38, head_deg=6)
-    cap_at(c, "The cupboard. The key on its hook, just where it always was.", 400, 5061, corner="tr")
+    L.cupboard(c, 170, 190, 180, 290, open_=st.get("open", True))
+    DOORS["P6"] = full_door(c, 384, 178, 524, fl + 4)
+    CUPS["P6"] = (170 - 12, 190 - 24, 170 + 180 + 12, 190 + 290)
+    L.agent(c, (640, fl + 64), face=-1, scale=0.38, head_deg=6)
+    cap_at(c, "The cupboard. The key on its hook, just where it always was.", 400, 5061, corner="tl")
     return c
 
 
@@ -175,22 +352,26 @@ def P7(st):
     w, h = 1200, 600
     c, fl = ground(w, h)
     L.cupboard(c, 150, 190, 180, 290, open_=True)
-    L.set_piece(c, "pale", [(1010, 300), (1140, 300), (1140, fl + 4), (1010, fl + 4)], shade=0.82)
-    L.service_door(c, 1075, 365, 0.44)
-    Mb, Mh = L.agent(c, (540, fl + 64), face=-1, scale=0.38, head_deg=-4)
-    chin = L.at_src(Mh, L.HEAD, (800, 674))
-    L.pencil(c, (chin[0] - 66, chin[1] + 70), (chin[0] - 1, chin[1] + 1), w=10, pale=True)
-    head = L.at_src(Mh, L.HEAD, (850, 500))
+    DOORS["P7"] = full_door(c, 364, 178, 504, fl + 4)
+    CUPS["P7"] = (150 - 12, 190 - 24, 150 + 180 + 12, 190 + 290)
+    # E5: his hand raised to his chin, the pencil held in his fingers, its point at his chin
+    d, sh, el = solve_chin(0.42, -4, target_off=(-44, 78))
+    POSES["P7"] = dict(foot=(650, fl + 64), face=-1, scale=0.42, head_deg=-4, sh=sh, el=el, pencil=True)
+    r = agent2(c, **POSES["P7"])
+    PENCIL["P7"] = r["pencil"]
+    Mh = r["Mh"]
+    head = r["head"]
     if st.get("drift", True):
-        heart(c, head[0] + 80, head[1] - 30, 22, 14, 5071)
+        heart(c, head[0] - 30, head[1] - 70, 22, 14, 5071)
     if st.get("line", True):
         mouth = L.at_src(Mh, L.HEAD, (786, 642))
-        balloon(c, ["Well, here I am...", "and what for?"], BCAP, (290, 90), (mouth[0] - 8, mouth[1] - 4), 5072, tail_w=0.22)
+        balloon(c, ["Well, here I am...", "and what for?"], BCAP, (330, 88), (mouth[0] - 8, mouth[1] - 4), 5072, tail_w=0.22)
     cap_at(c, "But his heart was out on the platform; the errand had gone with her. "
-              "The key stayed on its hook. The SERVICE door stayed closed.", 560, 5073, corner="tr")
+              "The key stayed on its hook. The SERVICE door stayed closed.", 430, 5073, corner="tr")
     return c
 
 
+POSES, DOORS, CUPS, PENCIL = {}, {}, {}, {}
 PANELS = {"P1": P1, "P2": P2, "P3": P3, "P4": P4, "P5": P5, "P6": P6, "P7": P7}
 
 
@@ -248,8 +429,44 @@ def finish(p):
     return p
 
 
+def checks():
+    """the repair's own checks: three distinct agent poses (not pixel-identical cutouts), the pencil over his hand
+    and chin, the SERVICE door at least 90% of the cupboard's height"""
+    out = {}
+    def solo(k):
+        c = np.zeros((700, 700, 3), np.float32) + 255
+        q = dict(POSES[k], foot=(350, 660))
+        agent2(c, **q)
+        return (c.mean(2) < 250)
+    base = solo("P1")
+    for k in ("P4", "P7"):
+        m = solo(k)
+        out[k + "_vs_P1_silhouette_IoU"] = round(float((m & base).sum() / (m | base).sum()), 3)
+        assert out[k + "_vs_P1_silhouette_IoU"] < 0.97
+    c = np.zeros((700, 700, 3), np.float32) + 255
+    q = dict(POSES["P7"], foot=(350, 660))
+    r = agent2(c, **{**q, "pencil": False})
+    g, ch = r["grip"], r["chin"]
+    bt, tp = PENCIL["P7"]
+    off = np.array([350 - POSES["P7"]["foot"][0], 660 - POSES["P7"]["foot"][1]])
+    out["pencil_butt_to_grip_px"] = round(float(np.hypot(*(np.array(bt) + off - g))), 1)
+    out["pencil_tip_to_chin_px"] = round(float(np.hypot(*(np.array(tp) + off - ch))), 1)
+    assert out["pencil_butt_to_grip_px"] < 30 and out["pencil_tip_to_chin_px"] < 8
+    for k in ("P6", "P7"):
+        dx0, dy0, dx1, dy1 = DOORS[k]
+        cx0, cy0, cx1, cy1 = CUPS[k]
+        out[k + "_door_over_cupboard_height"] = round((dy1 - dy0) / (cy1 - cy0), 3)
+        out[k + "_door_gap_to_cupboard_px"] = int(dx0 - cx1)
+        assert out[k + "_door_over_cupboard_height"] >= 0.9
+    out["poses"] = {k: {kk: (round(float(v), 1) if isinstance(v, (int, float)) else v) for kk, v in d.items()
+                        if kk in ("head_deg", "body_deg", "sh", "el")} for k, d in POSES.items()}
+    return out
+
+
 if __name__ == "__main__":
     page = build()
+    import json as _json
+    print(_json.dumps(checks()))
     img, size = save_page(page, N, PID, TITLE)
     print("jpeg bytes", size)
     if "--page-only" not in sys.argv:

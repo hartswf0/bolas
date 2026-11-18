@@ -1,0 +1,72 @@
+{
+ "n": 69,
+ "id": "picture-sheet",
+ "title": "Picture sheet",
+ "rule": "A 19th-century picture sheet: a grid of plate pictures, a printed verse under each.",
+ "medium": "busch-fold",
+ "family": "medium and material",
+ "canon_revision": "c1",
+ "declares": "lines quoted inside the verses",
+ "file": "assets/pages/99-ways/69-picture-sheet.jpg",
+ "master": "films/sources/99-ways/masters/69-picture-sheet.png",
+ "beats_dir": "films/sources/99-ways/beats/69",
+ "build": "films/swarm/99-ways/build/p69_picture_sheet.py (busch-fold kit: build/p59_once_upon.py, build/p39_meanwhile.py, build/p11_station_cat.py)",
+ "sources": [
+  "les-caids-de-la-gaudriole:busch-mm-031",
+  "99-ways:busch-helene-munzel",
+  "les-caids-de-la-gaudriole:vintage-paper",
+  "les-caids-de-la-gaudriole:wood-table",
+  "99-ways:handmade"
+ ],
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "made": [
+  "a 19th-century picture sheet on the les-caids tabletop: head 'PICTURE SHEET No. 69 / THE AGENT AND THE KEY / a true and improving history of Randolph station, in twelve pictures' between ornament rules; foot rule and colophon 'Plain one penny, coloured twopence. Printed for the station agents of Vermont.'",
+  "twelve numbered plate pictures in a 3 x 4 grid, each ruled with a double line, printed into the vintage paper's grain; under each a rhymed couplet (our own verses, 3 lines in the pen hand); no balloon anywhere",
+  "the agent = the les-caids porter cutout (Busch 1865, Max und Moritz plate 31) in p39's cut; the stranger = Helene (Busch 1872) with p39's HANDMADE cloche, clipped to the ticket-window glass; HANDMADE ink set (p59/p39 helpers): desk and memo slip, clock at 4:10, ticket window and TICKET OFFICE board, cupboard closed then open on its left jamb, the brass key on its hook with its SERVICE tag, the SERVICE door",
+  "HANDMADE hand-colouring: five flat washes (blue coat, madder dress, ochre floor and desk, green SERVICE door, grey glass) laid slightly off register, as stencil-and-brush coloured sheets were",
+  "the sheet carries the creases of being sold folded in four (a valley down the middle, a ridge across)"
+ ],
+ "events": {
+  "E0": "pictures 1-3: reads the memo; sets off; nearly at the cupboard and SERVICE door, a tap at the glass",
+  "E1": "pictures 4-5: the lady at the pane; the question quoted in verse 5",
+  "E2": "pictures 6-7: he reads the clock (4:10); the answer quoted in verse 7",
+  "E3": "pictures 8-9: the thanks quoted in verse 8; the empty window",
+  "E4": "pictures 10-11: the cupboard open, the key on its hook, the SERVICE tag",
+  "E5": "picture 12: pencil to chin; the forgetting quoted in verse 12; key on its hook, SERVICE door shut"
+ },
+ "substitutions": "the four lines verbatim but quoted inside rhymed verses instead of balloons (as the canon constraint declares)",
+ "beat": "the sheet is unfolded on the table (a quarter, a half, whole) and then hand-coloured row by row",
+ "beat_frames": [
+  "b01: folded in four, one quarter up",
+  "b02: opened once, the top half",
+  "b03: open flat, uncoloured",
+  "b04: row 1 coloured",
+  "b05: rows 1-2",
+  "b06: rows 1-3",
+  "b07: fully coloured"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1172898,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "beat_frames": 7,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "pictures": 12,
+  "verse_under_every_picture": true,
+  "balloons": 0,
+  "lines_quoted_verbatim_in_verses": true,
+  "pending": "independent blind reading not run by the maker"
+ }
+}
