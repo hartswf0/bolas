@@ -125,8 +125,18 @@ def pt(M, p):
 
 
 def balloon(c, lines, cap, centre, tip, seed):
-    b = penlib.balloon_piece([pen99.clean(l) for l in lines], cap, (tip[0] - centre[0], tip[1] - centre[1]), seed,
-                             tail_w=0.26, bend=0.08)
+    """a cut-paper balloon fitted inside the narrow picture: the cap shrinks and the centre shifts until the
+    ellipse clears both picture edges (no letter is cut by a frame line)"""
+    lines = [pen99.clean(l) for l in lines]
+    while True:
+        tw = penlib.letter_lines(lines, cap, seed + 1).shape[1]
+        rx = tw * 0.5 * 1.18 + cap * 0.35
+        if 2 * rx <= PW - 30 or cap <= 22:
+            break
+        cap -= 1
+    cx = min(max(centre[0], rx + 14), PW - rx - 14)
+    centre = (cx, centre[1])
+    b = penlib.balloon_piece(lines, cap, (tip[0] - centre[0], tip[1] - centre[1]), seed, tail_w=0.26, bend=0.08)
     penlib.lay_balloon(c, b, centre)
 
 
@@ -194,21 +204,32 @@ def cupboard(m, seed, x0=120, x1=236, y0=470, y1=FLOOR, open_=True):
 
 
 def key_on_hook(c, hook, seed):
-    """the brass key on its hook with the SERVICE tag, on a white paper ground over the cupboard's dark inside"""
+    """the brass key on its hook with the SERVICE tag, on a white paper ground over the cupboard's dark inside:
+    the key drawn large (bow, shaft, two-tooth bit) with a thin brass wash, its tag hung beside it on a string"""
     hx, hy = hook
     bg = np.zeros(c.shape[:2], np.uint8)
-    cv2.rectangle(bg, (int(hx - 30), int(hy - 26)), (int(hx + 100), int(hy + 128)), 255, -1)
+    cv2.rectangle(bg, (int(hx - 26), int(hy - 30)), (int(min(PW - 6, hx + 96)), int(hy + 170)), 255, -1)
     pa = bg.astype(np.float32)[..., None] / 255
     c[:] = c * (1 - pa) + np.array([240, 238, 232], np.float32) * pa
+    # brass wash under the ink (hand-colouring on the printed sheet)
+    wash = np.zeros(c.shape[:2], np.uint8)
+    cv2.circle(wash, (int(hx), int(hy + 30)), 19, 255, -1, cv2.LINE_AA)
+    cv2.rectangle(wash, (int(hx - 5), int(hy + 46)), (int(hx + 5), int(hy + 150)), 255, -1)
+    cv2.rectangle(wash, (int(hx + 2), int(hy + 122)), (int(hx + 24), int(hy + 150)), 255, -1)
+    wa = (cv2.GaussianBlur(wash, (0, 0), 1.2).astype(np.float32) / 255 * 0.8)[..., None]
+    c[:] = c * (1 - wa) + np.array([214, 168, 62], np.float32) * wa
     m = np.zeros(c.shape[:2], np.uint8)
-    line(m, [(hx, hy - 16), (hx, hy), (hx + 8, hy + 8)], 4, seed)
-    line(m, ellipse_pts(hx, hy + 22, 12, 12), 4, seed + 1)
-    line(m, [(hx, hy + 34), (hx, hy + 104)], 5, seed + 2)
-    line(m, [(hx, hy + 94), (hx + 13, hy + 94), (hx + 13, hy + 104), (hx, hy + 104)], 4, seed + 3)
-    line(m, [(hx + 4, hy + 40), (hx + 26, hy + 60)], 2, seed + 4)
-    tx, ty = hx + 6, hy + 60
-    line(m, [(tx, ty), (tx + 88, ty + 4), (tx + 86, ty + 38), (tx - 2, ty + 34), (tx, ty)], 3, seed + 5)
-    text(m, ["SERVICE"], tx + 44, ty + 30, 17, seed + 6, align="centre", weight=0.16)
+    line(m, [(hx - 8, hy - 18), (hx, hy - 6), (hx, hy + 8), (hx + 6, hy + 12)], 5, seed)        # the hook
+    line(m, ellipse_pts(hx, hy + 30, 19, 19), 5, seed + 1)                                       # bow
+    line(m, ellipse_pts(hx, hy + 30, 7, 7), 3, seed + 7)
+    line(m, [(hx - 5, hy + 48), (hx - 5, hy + 150)], 4, seed + 2)                                # shaft
+    line(m, [(hx + 5, hy + 48), (hx + 5, hy + 150)], 4, seed + 8)
+    line(m, [(hx + 5, hy + 122), (hx + 24, hy + 122), (hx + 24, hy + 132), (hx + 14, hy + 132),
+             (hx + 14, hy + 140), (hx + 24, hy + 140), (hx + 24, hy + 150), (hx - 5, hy + 150)], 4, seed + 3)  # bit
+    tx, ty = hx + 30, hy + 52
+    line(m, [(hx + 14, hy + 38), (tx + 4, ty + 2)], 2, seed + 4)                                 # the tag's string
+    line(m, [(tx, ty), (tx + 62, ty + 3), (tx + 60, ty + 30), (tx - 2, ty + 27), (tx, ty)], 3, seed + 5)
+    text(m, ["SERVICE"], tx + 30, ty + 23, 13, seed + 6, align="centre", weight=0.16)
     penlib.ink_onto(c, m, INK)
 
 
@@ -289,7 +310,7 @@ def upper(i, ground):
         pass
     penlib.ink_onto(c, m, INK)
     if i in (4, 5):
-        key_on_hook(c, (214, 500), seed + 45)
+        key_on_hook(c, (204, 500), seed + 45)
     if i == 0:   # memo slip lying on the desk edge
         slip = np.zeros((PH, PW), np.uint8)
         poly = [(178, 798), (196, 728), (322, 734), (322, 802)]
@@ -340,9 +361,9 @@ def upper(i, ground):
     mouth = pt(M, PORTER_MOUTH)
     caption(c, ground, CAP_UP[i], seed + 100)
     if i == 1:
-        balloon(c, ["Pardon me —", "have you", "the right", "time?"], 33, (182, 300), (70, 470), seed + 120)
+        balloon(c, ["Pardon", "me — have you", "the right", "time?"], 33, (182, 300), (70, 470), seed + 120)
     if i == 2:
-        balloon(c, ["Ten past", "four, by", "the clock."], 31, (100, 330), mouth, seed + 120)
+        balloon(c, ["Ten past", "four, by the", "clock."], 31, (100, 330), mouth, seed + 120)
     if i == 3:
         balloon(c, ["Much", "obliged!"], 34, (190, 300), (60, 460), seed + 120)
     if i == 5:
@@ -369,7 +390,7 @@ def lower(i, ground):
         ticket_sign(c, win, seed + 30)
     g, a = HELENE
     if i == 0:
-        M = affine(HEL_FEET, (10, PLAT + 60), 0.58, deg=-6)
+        M = affine(HEL_FEET, (70, PLAT + 60), 0.58, deg=-6)
     elif i in (1, 2):
         M = affine(HEL_HAND, (196, 560), 0.70)                    # leaning in at the window
     elif i == 3:
@@ -395,9 +416,9 @@ def lower(i, ground):
     head = pt(M, HEL_HEAD)
     caption(c, ground, CAP_LO[i], seed + 100)
     if i == 1:
-        balloon(c, ["Pardon me —", "have you", "the right", "time?"], 28, (92, 380), (head[0] + 6, head[1] - 34), seed + 120)
+        balloon(c, ["Pardon", "me — have you", "the right", "time?"], 28, (92, 380), (head[0] + 6, head[1] - 34), seed + 120)
     if i == 2:   # his answer, coming out through the glass
-        balloon(c, ["Ten past", "four, by", "the clock."], 28, (92, 380), (250, 420), seed + 120)
+        balloon(c, ["Ten past", "four, by the", "clock."], 28, (92, 380), (250, 420), seed + 120)
     if i == 3:
         balloon(c, ["Much", "obliged!"], 30, (100, 430), (head[0] - 4, head[1] - 30), seed + 120)
     return c
@@ -489,7 +510,7 @@ def main():
             "two tiers of six tall pictures: the office above, the platform below; each column's clock time (4:09:30 ... 4:11:00) printed on the fold between its two pictures, with a ruled tick up and down to each: the pairing",
             "the agent = the les-caids porter cutout (Busch 1865, Max und Moritz plate 31), re-cut by hand round his figure (door slab, wall and stick left behind), laid in all six office pictures (turned, tilted to the clock), a handmade ink pencil at his chin in the last",
             "the stranger = Helene (Busch 1872, Die fromme Helene, Werke v2 p 246) cut by hand round her figure; a HANDMADE ink cloche hat (white crown, band, brim, hatching) drawn onto the piece so she wears the canon's hat; her own leaning pose put to the ticket window; seen through the office glass (picture 2), turned away (4), by the coach (5), her hatted head in a coach window (6)",
-            "HANDMADE ink set (penlib.brush_line): desk with the memo slip, the ticket window from both sides (TICKET OFFICE board on the platform side), the clock at 4:10 with its pendulum, the cupboard open on its left jamb, the key on its hook with its SERVICE tag, the shut SERVICE door with its card, platform boards, clapboard wall, the coach with its windows, wheels and steam; a small handmade wristwatch",
+            "HANDMADE ink set (penlib.brush_line): desk with the memo slip, the ticket window from both sides (TICKET OFFICE board on the platform side), the clock at 4:10 with its pendulum, the cupboard open on its left jamb, the brass key drawn large on its hook (bow, shaft, bit, a thin brass wash as hand-colouring) with its SERVICE tag on a string, the shut SERVICE door with its card, platform boards, clapboard wall, the coach with its windows, wheels and steam; a small handmade wristwatch",
             "captions (office: what he does; platform: each begins 'Meanwhile,') and the four canon lines in the shared pen hand and cut-paper balloons; the question and the answer appear in both tiers at the same column; folio '39 / Meanwhile' (pen99.folio)"],
         "events": {"E0": "column 1 (4:09:30): above, he reads the memo and gets up; below, she comes up the platform",
                    "E1": "column 2 (4:09:50): above, her hat through the glass, the question; below, she leans in and asks",

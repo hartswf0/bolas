@@ -37,25 +37,46 @@ T = ["Much", "obliged!"]
 F = ["Well, here I am...", "and what for?"]
 assert " ".join(Q) == LN["question"] and " ".join(A) == LN["answer"] and " ".join(T) == LN["thanks"] and " ".join(F) == LN["forgetting"]
 
-# board boxes (x0, y0, w, h) and their canto slips
-BX = {1: (110, 372, 1980, 420), 2: (110, 1010, 970, 380), 3: (1120, 1010, 970, 380),
-      4: (110, 1610, 970, 380), 5: (1120, 1610, 970, 380), 6: (110, 2214, 1980, 360)}
+# board boxes (x0, y0, w, h), laid out below from the measured heights of the commentary slips
+BW = {1: (110, 1980, 390), 2: (110, 970, 372), 3: (1120, 970, 372), 4: (110, 970, 372), 5: (1120, 970, 372),
+      6: (110, 1980, 380)}
 CANTO = {1: ("I", "E0", "4:09"), 2: ("II", "E1", "4:10"), 3: ("III", "E2", "4:10"), 4: ("IV", "E3", "4:10"),
          5: ("V", "E4", "4:11"), 6: ("VI", "E5", "4:11")}
 SLIPS = {
     1: "Sing, O Muse, of the Agent of Randolph, keeper of the hours! Upon his desk the sacred scroll laid its command: "
        "at the fourth hour and the quarter the Door of SERVICE must be opened, and the Key lies in the Vault. "
-       "Then rose the hero from his seat, and set forth upon the Quest.",
-    2: "But lo! as he strode across the great hall, a stranger from far lands, hatted and gloved, "
-       "cried a summons through the gate of glass.",
+       "Then rose the hero and set forth upon the Quest.",
+    2: "But lo! as he strode the great hall, a stranger from far lands cried a summons through the gate of glass.",
     3: "And he lifted his eyes to the mighty Orb of the Hours, that never sleeps, and gave answer.",
-    4: "Then the far-travelled one gave thanks, as is the ancient custom of wayfarers, and passed from the gate into the west.",
-    5: "Onward to the Vault strode the hero, and flung wide its door; and there upon its hook hung the Brass Key, "
-       "bearing the rune SERVICE.",
+    4: "Then the far-travelled one gave thanks, as wayfarers have ever done, and passed from the gate into the west.",
+    5: "Onward to the Vault strode the hero and flung wide its door: lo, the Brass Key, bearing the rune SERVICE!",
     6: "But the jealous gods had stolen his purpose from his breast. Pencil to chin he stood before the open Vault, "
        "and spoke unto his own heart. So the Key hung on, unclaimed; the Door of SERVICE stayed sealed. Here ends the Quest.",
 }
 SCAP = 31
+HDR_H, TOP0 = 44, 346
+
+
+def slip_h(n):
+    w = BW[n][1]
+    let = B.letter_left(B.wrap(SLIPS[n], SCAP, w - 90), SCAP, 5000 + n)
+    return let.shape[0] + int(SCAP * 0.9)
+
+
+def layout():
+    rows = [(1,), (2, 3), (4, 5), (6,)]
+    need = sum(HDR_H + max(BW[n][2] for n in r) + 12 + max(slip_h(n) for n in r) for r in rows)
+    gap = (2725 - TOP0 - need) / (len(rows) - 1)
+    assert gap >= 12, gap
+    bx, y = {}, TOP0
+    for r in rows:
+        for n in r:
+            bx[n] = (BW[n][0], int(y + HDR_H), BW[n][1], BW[n][2])
+        y += HDR_H + max(BW[n][2] for n in r) + 12 + max(slip_h(n) for n in r) + gap
+    return bx
+
+
+BX = layout()
 
 
 def balloon(c, lines, cap, centre, tip, seed):
@@ -65,7 +86,7 @@ def balloon(c, lines, cap, centre, tip, seed):
 
 
 def card(w, h, seed):
-    return np.zeros((h, w, 3), np.float32) + b3.CARD + (np.random.RandomState(seed).rand(h, w, 1) - 0.5) * 3
+    return np.zeros((h, w, 3), np.float32) + b3.CARD + (np.random.RandomState(seed).rand(h, w, 1) - 0.5) * 0.8
 
 
 def window_board(c, P, wx, gy, woman_at, woman_flip, seed):
@@ -94,7 +115,7 @@ def board(n, P, with_line=True):
         window_board(c, P, 560, gy, 740, False, 4930)
         b3.agent(c, P, (300, gy + 2), s, arms=(12, 0, -8), flip=True, head=6)
         if with_line:
-            balloon(c, Q, 36, (820, 92), (735, 150), 4931)
+            balloon(c, Q, 36, (790, 98), (735, 156), 4931)
     elif n == 3:    # E2: the Orb of the Hours at 4:10, and his answer
         b3.clock(c, 140, 96, 54, 4, 10, 4940)
         window_board(c, P, 600, gy, 790, False, 4941)
@@ -115,7 +136,7 @@ def board(n, P, with_line=True):
         b3.memo(c, 210, 176, 0.56, 4970, deg=-4)
         b3.cupboard(c, 1060, 60, 1280, gy - 20, 1.0, 4971)
         b3.service_door(c, 1400, 44, 1570, gy, 4972)
-        hnd = b3.agent(c, P, (900, gy + 2), 0.32, arms=(47, 132, 0), head=-6, flip=True)
+        hnd = b3.agent(c, P, (900, gy + 2), 0.30, arms=(47, 132, 0), head=-6, flip=True)
         pen(c, [(hnd[0] + 2, hnd[1] + 4), (hnd[0] - 6, hnd[1] - 34)], 5, 4973)
         if with_line:
             balloon(c, F, 36, (620, 80), (900, 120), 4974)
@@ -181,8 +202,11 @@ def slip_left(pg, lines, cap, x, y, seed):
     return ww, hh
 
 
+SHEET = cv2.GaussianBlur(pen99.sheet99(), (0, 0), 0.7)   # the LoC sheet, its scan grain softened (file size)
+
+
 def build(upto=6, line_on=True):
-    pg = pen99.sheet99()
+    pg = SHEET.copy()
     P = b3.load_puppets()
     title_slip(pg)
     for n in range(1, 7):
@@ -192,7 +216,7 @@ def build(upto=6, line_on=True):
         roman, ev, t = CANTO[n]
         hdr = pen99.letter([f"CANTO {roman}    {ev}    {t}"], 32, 4980 + n)
         sub = np.zeros(pg.shape[:2], np.uint8)
-        sub[y0 - 50:y0 - 50 + hdr.shape[0], x0 - 14:x0 - 14 + hdr.shape[1]] = hdr
+        sub[y0 - 46:y0 - 46 + hdr.shape[0], x0 - 14:x0 - 14 + hdr.shape[1]] = hdr
         penlib.ink_onto(pg, sub, b3.GRAPH)
         pg[y0:y0 + h, x0:x0 + w] = board(n, P, with_line=(line_on or n < upto))
         bm = penlib.border_mask(pg.shape[:2], [(x0, y0, x0 + w, y0 + h)], 7, 4985 + n)

@@ -288,10 +288,10 @@ def P6(st):   # E4
     if st.get("lit", 1.0) < 0.5:
         return img
     od = st.get("open", 112)
-    cupboard_lit(img, 300, 200, 360, 560, od, 0.50, 4261)
+    cupboard_lit(img, 390, 200, 360, 560, od, 0.50, 4261)
     # his reaching arm: its shadow falls across the cupboard and the wall, hand at the door's edge
     a = agent(0, 0, face=1, scale=1.0, sh=70 + 14 * (od / 112), el=-6, wr=0, pencil_deg=200, tilt=2, lean=6)
-    cast(img, a, [(-170, 140), (420, 230), (360, h + 120), (-240, h + 120)], depth=0.62, soft=5.5)
+    cast(img, a, [(-40, 170), (470, 250), (420, h + 110), (-100, h + 110)], depth=0.66, soft=5.0)
     return img
 
 
