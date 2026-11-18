@@ -1,0 +1,85 @@
+{
+ "n": 88,
+ "id": "close-ups",
+ "title": "Close-ups only",
+ "family": "reduction and expansion",
+ "medium": "photo-cutout",
+ "canon_revision": "c1",
+ "rule": "Only extreme close-ups: hand, mouth, clock hand, latch, key, eye, pencil at the chin.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/88-close-ups.jpg",
+ "master": "films/sources/99-ways/masters/88-close-ups.png",
+ "beats_dir": "films/sources/99-ways/beats/88",
+ "build": "films/swarm/99-ways/build/p88_close_ups.py",
+ "sources": [
+  "99-ways-template:rothstein-randolph-agent-1937",
+  "99-ways-template:bubley-stranger-1943",
+  "99-ways-template:rothstein-tavern-clock-1937",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "nine extreme close-ups cut from the 99-ways-template photographs at their source resolution and only resized, one neutral print grade on all: Rothstein's 1937 Randolph agent (levelled 4360 px master: his fist on the desk, the cupboard latch, his mouth, his eyes behind the glasses, the pencil at his chin, the cupboard panelling), Bubley's 1943 visitor (hi cutout: her clasped hands, her mouth), the Rothstein tavern clock (face with its hands removed, its own hour and minute hands re-set on the hub to 4:10 with a small cast shadow), the ANRC 1922 key cutout laid with a white scissor margin",
+  "HANDMADE: the memo slip ('MEMO C.V.RY. / 4:15 - open SERVICE door. / Key in cupboard.') laid on the desk by his fist, the SERVICE tag, a cut-paper hook, caption slips and the four canon lines in the shared cut-paper balloons, hand-ruled borders",
+  "folio '88 / Close-ups only' (pen99.folio)"
+ ],
+ "panels": {
+  "P1": "hand: his fist on the desk beside the memo slip (E0)",
+  "P2": "latch: the closed cupboard's latch (E0, where he is going)",
+  "P3": "hand: her clasped hands at the window; the question (E1)",
+  "P4": "clock hand: the hands at 4:10 (E2)",
+  "P5": "mouth: his mouth and chin; the answer (E2)",
+  "P6": "mouth: her mouth; the thanks (E3)",
+  "P7": "key: the brass key on its hook, tagged SERVICE, inside the open cupboard (E4)",
+  "P8": "eye: his eyes behind the glasses, cast down (E5)",
+  "P9": "pencil at the chin: the forgetting line; caption: key stays, SERVICE door shut (E5, outcome)"
+ },
+ "events": {
+  "E0": "P1-P2",
+  "E1": "P3",
+  "E2": "P4-P5",
+  "E3": "P6",
+  "E4": "P7",
+  "E5": "P8-P9"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "none",
+ "beat": "the cutting-in performed: the close-ups are laid one after another, hand, latch, her hands and question, the clock at 4:10, the two mouths, the key, the eyes, and last the pencil at the chin with the forgetting line",
+ "beat_frames": [
+  "b01: P1-P2 (hand on the memo, latch)",
+  "b02: + P3 her hands, the question",
+  "b03: + P4 the clock at 4:10",
+  "b04: + P5 his mouth, the answer",
+  "b05: + P6 her mouth, the thanks",
+  "b06: + P7 the key on its hook",
+  "b07: + P8 his eyes",
+  "b08: + P9 pencil at the chin, the forgetting line (the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1071775,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "panels": 9,
+  "whole_figures": 0,
+  "whole_faces": 0,
+  "check": "No panel shows a whole figure: each crop is a part of a body or object (largest crop: the pencil-at-chin band, chin to hand); checked by the maker on the full page",
+  "evidence": "perceptually judged (from the full page) by the maker; blind reading pending"
+ },
+ "weaknesses": [
+  "the Rothstein negative is out of focus at the cupboard: the latch close-up (P2) is soft and blown out, readable as hasp and lock plate only with its caption",
+  "the stranger's mouth (P6) is upscaled about 2.5x from the Bubley cutout and is soft; her clasped hands (P3) carry no hat or glove, and the canon's hat is never seen on this page",
+  "the clock face was retouched by 99-ways-template to remove its hands: pale ghost hands remain visible in the P4 close-up beside the re-set hands at 4:10",
+  "in the source photograph his eyes are cast down and the pencil is raised near his cheek, so 'pencil at the chin' and the downcast eyes fit E5 better than the look up at the clock (E2 is given by the clock and his mouth instead)",
+  "P7's cupboard interior is a darkened crop of the cupboard's outer panelling and the hook is cut paper"
+ ]
+}

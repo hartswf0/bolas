@@ -1,0 +1,75 @@
+{
+ "n": 83,
+ "id": "clocks-eye",
+ "title": "The clock's eye",
+ "family": "point of view",
+ "medium": "engraving-puppet",
+ "canon_revision": "c1",
+ "rule": "Seen from the wall clock: one fixed high downward view, the clock's own hand edging into the panel border.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/83-clocks-eye.jpg",
+ "master": "films/sources/99-ways/masters/83-clocks-eye.png",
+ "beats_dir": "films/sources/99-ways/beats/83",
+ "build": "films/swarm/99-ways/build/p83_clocks_eye.py (engraving puppets and pen set: kit/build_page03.py, build/p49_epic.py)",
+ "sources": [
+  "99-ways:loc-harpers-1863-army-telegraph-operator",
+  "99-ways:loc-1867-dickens-tickets-steinway",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "made": [
+  "one fixed camera at the clock's face (3.1 m up the near wall, centre, pitched 33 deg down, focal 640 px) through which every board is projected: a model office built of standing cards (the far wall card with window, cupboard and SERVICE door; the desk front; the agent puppet) each mapped by its own true perspective homography, plus flat cards (the desk top with the memo, inkwell and pen, seen from above) and pen-ruled floorboards converging away from the clock",
+  "page 03/49's ENGRAVING PUPPETS reused: the AGENT is the Harper's Weekly 1863 telegraph operator (LoC cph.3c11072) pinned at the joints, re-posed per board (rising, turning, head tipped back up at the clock in board 3, arm out to the cupboard, pencil to chin); the STRANGER the hatted woman of the 1867 Steinway Hall engraving (LoC cph.3c32079), seen only through the 1863 plate's window glass; his table from the 1863 plate as the desk front",
+  "the clock's own minute hand: a HANDMADE black cut card with a pierced spade tip and a brass boss, seen from behind the dial (so it turns the other way), its pivot below each board's bottom border where the clock is, edging up across the border into the view; a short hour-hand stub below; it creeps 4:09:05 -> 4:11:20 from board to board, the time pencilled under each board",
+  "a soft floor shadow under the agent; the four canon lines verbatim in cut-paper balloons; folio by pen99.folio"
+ ],
+ "events": {
+  "E0": "board 1: at the desk, the memo seen from above, he rises and turns for the cupboard",
+  "E1": "board 2: halfway across the floor; question balloon from the window",
+  "E2": "board 3: he looks up at the clock, i.e. at us; answer balloon",
+  "E3": "board 4: thanks balloon; she has turned from the glass",
+  "E4": "board 5: at the cupboard, its door open on the left jamb, the key on its hook with its SERVICE tag",
+  "E5": "board 6: pencil to chin before the open cupboard, forgetting balloon; the SERVICE door shut"
+ },
+ "substitutions": "none: the four lines verbatim",
+ "beat": "the fixed eye: the empty office from the clock (all six boards), then the agent and the lines appear board by board in the same unmoving view while the clock's hand creeps at the bottom border",
+ "beat_frames": [
+  "b01: six boards, the empty room from the clock, the hand at each border",
+  "b02: board 1 peopled",
+  "b03: board 2, the question",
+  "b04: board 3, he looks up at the clock: the answer",
+  "b05: board 4, the thanks",
+  "b06: board 5, the cupboard opened",
+  "b07: board 6, the forgetting"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1190231,
+  "jpeg_quality": 90,
+  "in_target_0_4_1_2MB": true,
+  "master_exists": true,
+  "beat_frames": 7,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "check": "A reader says the view is from high on the wall, where the clock hangs. -- structural: every board uses the same camera and set (identical background); perceptually judged by the maker at full size: the far wall's top is cut off, the floor and desk top are seen from above and the hand enters from the border below, so the eye is high on the wall",
+  "pending": "independent blind reading not run by the maker"
+ },
+ "weaknesses": [
+  "the engraving puppet is a side view printed flat, so he stands as a card in the model room: the downward view is carried by the floor, desk top and wall cut-off rather than by the figure's own foreshortening",
+  "much of each board is empty floor (the honest cost of the clock's height); the agent is only 230-300 px tall",
+  "the desk is cut by the left border; the stranger behind the glass is faint and small",
+  "the minute hand moves only 14 degrees across the page, so its creep reads only on close comparison (the pencilled times carry it)",
+  "the pencil at the chin in board 6 is tiny at this scale"
+ ]
+}

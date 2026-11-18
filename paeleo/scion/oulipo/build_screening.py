@@ -97,8 +97,17 @@ def ninety_nine():
     cells = "".join(
         f'<a class="pg" href="../assets/pages/99-ways/{esc(p.name)}"><img src="../assets/pages/99-ways/{esc(p.name)}" alt="" loading="lazy"><span>{p.name[:2]} · {esc(titles.get(int(p.name[:2]), p.stem[3:]))}</span></a>'
         for p in pages)
-    return f'''<section class="sec" id="ninety-nine"><div class="sechead"><h2>99 ways</h2><p>One station incident told 99 times, one constraint per page, in the lineage of Queneau and Madden: our own constraints, our own words, mixed media. {len(pages)} of 99 pages so far; the film that leafs through them comes when the book is complete.</p></div>
-<div class="pages">{cells}</div></section>'''
+    film = ""
+    mp4 = PROJECT / "assets" / "films" / "99-ways.mp4"
+    if mp4.is_file():
+        d = duration(mp4)
+        mins = f"{int(d // 60)}:{int(round(d % 60)):02d}"
+        pdf = PROJECT / "assets" / "pages" / "99-ways" / "99-ways-book.pdf"
+        book = f' · <a href="../assets/pages/99-ways/99-ways-book.pdf">The book (PDF, {pdf.stat().st_size // 1000000} MB)</a>' if pdf.is_file() else ""
+        film = f'''<div class="cols"><figure class="film tall" data-src="../assets/films/99-ways.mp4" data-seg="20,34" data-len="{mins}"><div class="screen"><video muted playsinline preload="none" poster="../assets/films/99-ways.webp"></video></div></figure>
+<div class="part"><h3>The book film</h3><p>All 99 pages in order. Each page turns with a paper curl and its shadow, holds, then plays its key beat frame by frame: a balloon written on, a fold, a figure moving. About 1.6 seconds a page, with one real page-turn sound (public domain) per leaf.</p><p>Every page was checked by two blind readers, an independent critic and a rights reviewer. The critic sent 26 of the 99 back, and each got one repair round.</p><p class="links"><a href="../assets/films/99-ways.mp4" download>Download the film</a>{book}</p></div></div>'''
+    return f'''<section class="sec" id="ninety-nine"><div class="sechead"><h2>99 ways</h2><p>One station incident told 99 times, one constraint per page, in the lineage of Queneau and Madden: our own constraints, our own words, mixed media. {"All 99 pages" if len(pages) >= 99 else f"{len(pages)} of 99 pages so far"}.</p></div>
+{film}<div class="pages">{cells}</div></section>'''
 
 
 WORKSHOPS = [
@@ -259,6 +268,7 @@ blockquote{{margin:0;padding:10px 0 10px 16px;border-left:3px solid var(--kraft)
 .tally{{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:baseline;margin:0}}
 .tally dt{{font-family:var(--display);font-weight:900;font-size:34px;line-height:1}}
 .tally dd{{margin:0;font-family:var(--mono);font-size:13px}}
+.film.tall .screen{{aspect-ratio:960/1242;max-height:80vh}}
 .pages{{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(46%,150px),1fr));gap:14px}}
 .pg{{display:grid;gap:4px;text-decoration:none}} .pg img{{border:1px solid var(--rule);aspect-ratio:2200/2850;object-fit:cover;width:100%;background:var(--panel)}}
 .pg span{{font-family:var(--mono);font-size:11.5px;color:var(--ink-2)}}

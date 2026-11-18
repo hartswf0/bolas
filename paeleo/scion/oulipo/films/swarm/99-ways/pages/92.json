@@ -1,0 +1,74 @@
+{
+ "n": 92,
+ "id": "keyhole",
+ "title": "Through the keyhole",
+ "medium": "stencil-dye",
+ "rule": "Seen from inside the SERVICE room through its keyhole: every panel is masked by the keyhole shape, and the door never opens.",
+ "build": "films/swarm/99-ways/build/p92_keyhole.py (dye method: build/p08_lipogram.py dye/ties/fig_layers; cut model: build/b1m2.py)",
+ "sources": [
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "six panels, each the inside of the SERVICE door printed from an umber stencil (its paper ties left as thin pale bridges) with a second faint umber pass for the dark of the room, an ochre escutcheon with two umber screws, and a keyhole-shaped opening with a dark cut rim",
+  "through the opening, the office in page 08's flat dyes (wash wall, verdigris floor, indigo window and waistcoat, madder clock and coat, ochre desk, skin, umber): desk with lamp, the ticket window with TICKET OFFICE reserved out of its header, the clock (4:09, then 4:10); the stranger (b1m2) behind the glass in panels 2-4",
+  "the agent (b1m2 cut model) comes nearer panel by panel: small at the desk, at the window, under the clock, walking this way, then close at the cupboard beside the door, and in the last panel standing right at the keyhole, pencil to his chin",
+  "the cupboard is beside this door and out of view; at E4 only its madder leaf swings into the keyhole's left edge, the brass key (the ANRC 1922 cutout as an ochre stencil) hanging inside it",
+  "the memo slip on the desk, cut off by the keyhole's edge; captions in the shared pen hand above each panel; the four lines in pen-hand cut-paper balloons laid on the door with their tails running into the keyhole; folio by pen99.folio"
+ ],
+ "events": {
+  "E0": "P1: at the desk, the memo partly in view ('4:15 - open SERVICE door. Key in cupboard.' cut by the keyhole edge); he gets up",
+  "E1": "P2: at the window, the lady behind the glass; the question",
+  "E2": "P3: he looks up at the clock (4:10); the answer",
+  "E3": "P4: she turns from the glass; the thanks; he walks this way",
+  "E4": "P5: the cupboard's leaf swings into view, the key on its hook inside it (only partly in view)",
+  "E5": "P6: right at the keyhole, pencil to chin; the forgetting line; the key still on its hook; the door never opens"
+ },
+ "declares": "E0 memo and E4 key only partly in view through the keyhole",
+ "substitutions": "none: the four lines verbatim",
+ "beat": "the film looks through the one keyhole: the agent comes nearer frame by frame until he stands at it",
+ "beat_frames": [
+  "b01: P1 at the desk",
+  "b02: P2 at the window",
+  "b03: P3 under the clock",
+  "b04: P4 coming this way",
+  "b05: P5 the cupboard leaf and the key swing into view",
+  "b06: P6 at the keyhole"
+ ],
+ "self_check": {
+  "check": "Every panel has a keyhole-shaped opening; a reader says the viewer is behind the SERVICE door. -- by construction every panel's scene is multiplied by the same keyhole mask inside the door field; the first caption names the SERVICE door and the last says the door stays shut; perceptually judged by the maker at full size",
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 969778,
+  "jpeg_quality": 90,
+  "in_target_0_4_1_2MB": true,
+  "master_exists": true,
+  "beat_frames": 6,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "pending": "independent blind reading not run by the maker"
+ },
+ "weaknesses": [
+  "the SERVICE room is named by the caption ('Behind the SERVICE door, at its keyhole'): without it a reader knows only that this is a keyhole in a door beside the cupboard",
+  "the stencil ties cut pale lines across the escutcheon and, in panels 4-6, across the agent; true to the method but they cross the figure",
+  "the key's SERVICE tag is not shown (the key alone is cut on the leaf)",
+  "the escutcheon is oversized for a real lock, to give the keyhole room at page scale",
+  "the balloons sit on the dark door, outside the keyhole: the voices come through the door"
+ ],
+ "family": "point of view",
+ "canon_revision": "c1",
+ "file": "assets/pages/99-ways/92-keyhole.jpg",
+ "master": "films/sources/99-ways/masters/92-keyhole.png",
+ "beats_dir": "films/sources/99-ways/beats/92",
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ }
+}

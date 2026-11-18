@@ -1,0 +1,91 @@
+{
+ "n": 96,
+ "id": "engraved-plate",
+ "title": "Engraved plate",
+ "family": "medium and material",
+ "medium": "engraving-puppet",
+ "canon_revision": "c1",
+ "rule": "A steel-engraved catalogue plate: figures and objects numbered and named in a lettered key ('Fig. 4, the key').",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/96-engraved-plate.jpg",
+ "master": "films/sources/99-ways/masters/96-engraved-plate.png",
+ "beats_dir": "films/sources/99-ways/beats/96",
+ "build": "films/swarm/99-ways/build/p96_engraved_plate.py (engraving puppets and pen set: kit/build_page03.py; window and stranger behind glass: build/p49_epic.window_board)",
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "none: the four lines verbatim",
+ "sources": [
+  "99-ways:loc-harpers-1863-army-telegraph-operator",
+  "99-ways:loc-1867-dickens-tickets-steinway",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "the page as PLATE XCVI inside an embossed plate-mark with a pen double rule, headed 'RANDOLPH STATION, VT. - THE TICKET OFFICE, SEPT. 1937' and 'The figures of the afternoon, numbered in the order of their use.'",
+  "ten numbered figures, each lettered 'Fig. n.' beneath: 1 memo, 2 agent risen from his desk, 3 window with the stranger behind its glass, 4 wall clock at 4:10, 5 agent looking up and pointing to it, 6 stranger leaving, 7 cupboard open on its left jamb, 8 the brass key and SERVICE tag enlarged, 9 agent pencil to chin, 10 SERVICE door",
+  "puppets: page 03's ENGRAVING PUPPETS (Harper's 1863 telegraph operator, pinned at the joints and re-posed; the 1867 Steinway Hall woman; the 1863 table and window), with their cream scissor margins",
+  "the set drawn in the shared pen line with HANDMADE engraver's hatching: parallel pen strokes clipped to each surface (clock case, cupboard interior and door leaf, key shank, door panels, cast shadows and floor strips)",
+  "a lettered KEY TO THE FIGURES in two columns naming each figure in order and quoting the four canon lines verbatim; no balloon",
+  "folio '96 / Engraved plate'"
+ ],
+ "key": [
+  "Fig. 1. The memo on his desk: '4:15 - open SERVICE door. Key in cupboard.'",
+  "Fig. 2. The agent, risen from the desk, setting off for the cupboard.",
+  "Fig. 3. The stranger at the ticket window: \"Pardon me — have you the right time?\"",
+  "Fig. 4. The office wall clock, at ten past four.",
+  "Fig. 5. The agent, looking up at it: \"Ten past four, by the clock.\"",
+  "Fig. 6. The stranger, leaving the window: \"Much obliged!\"",
+  "Fig. 7. The cupboard, its door opened on the left jamb.",
+  "Fig. 8. The brass key on its hook, tagged SERVICE (enlarged).",
+  "Fig. 9. The agent before the open cupboard, pencil to chin: \"Well, here I am... and what for?\"",
+  "Fig. 10. The SERVICE door, which stays closed; the key stays on its hook."
+ ],
+ "events": {
+  "E0": "Figs. 1-2",
+  "E1": "Fig. 3",
+  "E2": "Figs. 4-5",
+  "E3": "Fig. 6",
+  "E4": "Figs. 7-8",
+  "E5": "Figs. 9-10 (outcome in the key)"
+ },
+ "beat": "the plate is filled in order: empty plate and heading, then figures two at a time with their key entries",
+ "beat_frames": [
+  "b01 the empty plate",
+  "b02 Figs. 1-2",
+  "b03 Figs. 3-4",
+  "b04 Figs. 5-6",
+  "b05 Figs. 7-8",
+  "b06 Figs. 9-10 (the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1180434,
+  "jpeg_quality": 90,
+  "in_target_0_4_1_2MB": true,
+  "beat_frames": 6,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "check": "A reader finds numbered figures and a key that names them.",
+  "evidence": "perceptually judged by the maker at full size after the repair re-render: ten 'Fig. n.' labels and ten matching key entries, all legible",
+  "pending": "independent blind reading not run by the maker",
+  "figures": 10,
+  "key_entries": 10
+ },
+ "weaknesses": [
+  "the puppets are 1863/1867 wood engravings, not steel engravings; the 'steel plate' is carried by the plate-mark, pen hatching and lettering",
+  "figures are separate specimens, so the narrative (he answers her, he stands before the cupboard) is carried by number order and the key rather than by staging",
+  "the agent puppets keep page 03's cream scissor margins, so they read as cut-outs laid on the plate",
+  "Fig. 4 is the clock, not the key (the rule's 'Fig. 4, the key' is read as an example of the format)",
+  "the sheet fibre is a little softer than on the other LoC-sheet pages (repair to meet the 1.2 MB ceiling); size margin is about 20 KB"
+ ],
+ "repair": "2026-11-18: the LoC sheet's finest fibre softened (0.4 sheet + 0.6 Gaussian sigma 1.8, tone and mottling kept; pen hatching, puppets and lettering untouched), page re-rendered and re-encoded at JPEG quality 90 (1,261,601 -> 1180434 bytes); master and beats b01-b06 re-rendered"
+}

@@ -1,0 +1,91 @@
+{
+ "n": 94,
+ "id": "telegram",
+ "title": "Telegram",
+ "family": "voice and language",
+ "medium": "cut-paper",
+ "canon_revision": "c1",
+ "rule": "All captions in telegraphese: no articles, every sentence ends STOP.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/94-telegram.jpg",
+ "master": "films/sources/99-ways/masters/94-telegram.png",
+ "beats_dir": "films/sources/99-ways/beats/94",
+ "build": "films/swarm/99-ways/build/p94_telegram.py (cut paper: kit/cutpaper99.py; agent and clock: kit/build_page02.py; stranger: build/p64_window_in_window.woman; cupboard, key, memo, window, SERVICE door: build/p86_picture_book.py helpers)",
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "none: the four lines verbatim",
+ "sources": [
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "the page is a station telegraph blank of our own invention (no real company's name or mark): one large HANDMADE cut sheet of buff paper with 'TELEGRAM' cut from brown paper and its printed heads in brown pen ink (STATION WIRE - DAY MESSAGE - FORM 94; FROM: AGENT, RANDOLPH VT.; TO: DIVISION OFFICE; SEPT 1937 4:16 PM)",
+  "six cut-paper pictures on scissor-cut cards in muted office papers: page 02's cut-paper agent and clock (4:10), page 64's cut-paper stranger, page 86's cupboard (open on the left jamb), brass key with SERVICE tag, memo slip and blue SERVICE door",
+  "the captions: lengths of telegraph tape (HANDMADE cut strips of pale paper, each end cut askew, one paper shadow) pasted one sentence per strip, lettered in capitals in the shared pen hand",
+  "the four canon lines verbatim in cut-paper balloons inside the pictures (speech, not captions)",
+  "folio '94 / Telegram'"
+ ],
+ "captions": [
+  "MEMO SAYS OPEN SERVICE DOOR 4:15 STOP",
+  "KEY IN CUPBOARD STOP",
+  "AGENT RISES TO FETCH IT STOP",
+  "STRANGER AT TICKET WINDOW ASKS TIME STOP",
+  "AGENT CONSULTS WALL CLOCK STOP",
+  "CLOCK READS 4:10 STOP",
+  "LADY THANKS HIM STOP",
+  "DEPARTS STOP",
+  "AGENT REACHES CUPBOARD STOP",
+  "OPENS IT STOP",
+  "BRASS KEY ON HOOK TAGGED SERVICE STOP",
+  "AGENT FORGETS ERRAND STOP",
+  "KEY STAYS ON HOOK STOP",
+  "SERVICE DOOR STAYS CLOSED STOP"
+ ],
+ "events": {
+  "E0": "picture 1: memo, he rises",
+  "E1": "picture 2: question",
+  "E2": "picture 3: clock at 4:10, answer",
+  "E3": "picture 4: thanks, she goes",
+  "E4": "picture 5: open cupboard, key tagged SERVICE",
+  "E5": "picture 6: forgetting; tapes give the outcome"
+ },
+ "beat": "the wire comes in: the blank first, then each picture is pasted and its tapes are pasted under it, strip by strip",
+ "beat_frames": [
+  "b01 the empty blank",
+  "b02 pictures 1-2",
+  "b03 + tapes 1",
+  "b04 + tapes 2, pictures 3-4",
+  "b05 + tapes 3-4",
+  "b06 + pictures 5-6, tapes 5",
+  "b07 + tapes 6 (the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1004548,
+  "jpeg_quality": 90,
+  "in_target_0_4_1_2MB": true,
+  "beat_frames": 7,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "check": "Every caption sentence ends with STOP; no 'a' or 'the' appears in the captions.",
+  "evidence": "checked in code (p94_telegram.check_caps: every strip ends ' STOP', no word a/an/the) and by eye on the full page",
+  "pending": "independent blind reading not run by the maker",
+  "caption_sentences": 14,
+  "articles_in_captions": 0
+ },
+ "weaknesses": [
+  "the balloons keep the canon lines with their articles ('the right time', 'the clock'); the rule is read as applying to captions only",
+  "the figures and props are the same cut-paper kit as page 86, so the pictures look close to that page; the telegram blank and tapes carry the difference",
+  "the form header ('STATION WIRE', 'DIVISION OFFICE', '4:16 PM') is invented furniture, not caption; it also has no articles",
+  "the agent's 'walk' pose in picture 1 reads more as standing than rising"
+ ]
+}

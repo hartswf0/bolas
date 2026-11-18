@@ -1,0 +1,72 @@
+{
+ "n": 89,
+ "id": "crossing-routes",
+ "title": "Crossing routes",
+ "medium": "shadow-puppet",
+ "rule": "A 3x3 grid read across tells the agent's story and read down tells the stranger's; both meet in the centre cell at the question.",
+ "build": "films/swarm/99-ways/build/p89_crossing_routes.py (figure model and set pieces: build/b1m2.py; screen and puppet tools: build/p05_noir.py; grid after build/p82_nine_cells.py)",
+ "sources": [
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "a 3x3 grid; each off-centre cell is two shadow screens ruled in the pen border: an upper lamp-lit OFFICE screen (his route) and a lower daylight-cool PLATFORM screen (her route); the centre cell is ONE screen, warm on the office side and cool on the platform side, the cross-section of the ticket window where both stand",
+  "numbered tags: warm tags 1-9 at the top-left of his screens run row by row (row-major); cool tags 1-9 at the bottom-left of her screens run column by column (column-major); the centre is 5 both ways; cut arrowheads sit in the gutters (right-pointing in his rows, down-pointing in her columns)",
+  "a two-line legend in the pen hand: 'Read ACROSS, the lamp-lit screens: his route, 1 to 9. / Read DOWN, the daylight screens: her route, 1 to 9. They cross at 5.'",
+  "black cut-paper puppets: the b1m2 agent, and a NEW full-length stranger platform puppet (long coat, legs, shoes, sleeve, valise, wrist-watch arm, gloved rapping arm) built on the b1m2 head/hat; cut set pieces: desk, lamp, memo slip, clock (4:09, then 4:10), ticket window from both sides (TICKET OFFICE cut through the header), cupboard, SERVICE door with its card, platform deck, RANDOLPH board, bench",
+  "the ANRC 1922 key cutout on its hook with a SERVICE tag (his 8 and 9); the other person seen grey and soft beyond the glass (far puppets, clipped to the pane)",
+  "the four lines in pen-hand cut-paper balloons; folio by pen99.folio"
+ ],
+ "routes": {
+  "his (across)": "1 desk + memo (E0) | 2 rises, sets off (E0) | 3 toward cupboard and SERVICE door (E0) | 4 a rap at the glass, he turns (E1 cue) | 5 QUESTION (E1) | 6 reads the clock 4:10, answer (E2) | 7 'Much obliged!' from the glass (E3) | 8 cupboard open, key on hook (E4) | 9 pencil to chin, forgetting line; key on hook, SERVICE door shut (E5)",
+  "hers (down)": "1 arrives along the platform with her valise | 2 sets the valise down, looks at her wristwatch | 3 walks up to the ticket window | 4 raps at the glass (he grey beyond) | 5 QUESTION | 6 hears the answer through the glass, sets her watch | 7 'Much obliged!' | 8 walks away along the platform | 9 waits by the bench under the RANDOLPH board"
+ },
+ "substitutions": "none: the four lines verbatim; the answer and the thanks appear once in each route (his screen and hers), the question once, in the shared centre",
+ "additions": "the stranger's platform actions (arrival with a valise, a glance at her wristwatch, setting it by the answer, waiting by a bench) -- her route needs nine beats; none changes E0-E5 or the outcome",
+ "beat": "the two routes fill the grid: his screens row by row, then hers column by column, meeting at the centre",
+ "beat_frames": [
+  "b01: the ruled empty grid and legend",
+  "b02: his 1-4 (row 1 and the first of row 2)",
+  "b03: her 1-4 added (column 1 and the top of column 2)",
+  "b04: the centre: both at the window, the question",
+  "b05: his 6-9 (answer, thanks, cupboard, forgetting)",
+  "b06: her 6-9 (= the page)"
+ ],
+ "self_check": {
+  "check": "Rows and columns each make sense; the centre cell is the question. -- by construction: the warm tags read 1-9 row-major, the cool tags 1-9 column-major, and cell (row 2, col 2) is index 5 in both orders and carries the question balloon; perceptually judged by the maker at full size",
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 962029,
+  "jpeg_quality": 90,
+  "in_target_0_4_1_2MB": true,
+  "master_exists": true,
+  "beat_frames": 6,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "pending": "independent blind reading not run by the maker"
+ },
+ "weaknesses": [
+  "each off-centre cell holds two different moments (his beat above, hers below), so a cell is not one instant; the screens' colour and the tags carry the reading, and a reader who ignores them may read (row 1, col 3) as her thanks during his walk",
+  "her route adds small invented platform business (valise, wristwatch, bench) to fill nine beats",
+  "the centre cross-section is a narrow wall with a thin glass strip; it reads as a counter between two people more than as a glazed window",
+  "the screens are shallow (452 and 345 px): the figures are small and the far puppets behind the glass are faint grey blobs",
+  "the stranger puppet is a new simple profile (bell coat, stick legs); her face is a hat-and-nose silhouette"
+ ],
+ "family": "formal / Oulipian rule",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "canon_revision": "c1",
+ "file": "assets/pages/99-ways/89-crossing-routes.jpg",
+ "master": "films/sources/99-ways/masters/89-crossing-routes.png",
+ "beats_dir": "films/sources/99-ways/beats/89",
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ }
+}

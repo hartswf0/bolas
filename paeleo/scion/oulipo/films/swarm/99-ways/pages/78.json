@@ -1,0 +1,89 @@
+{
+ "n": 78,
+ "id": "front-page",
+ "title": "Front page",
+ "family": "medium and material",
+ "medium": "rol-cutout",
+ "canon_revision": "c1",
+ "rule": "A newspaper page: headline, a press photograph, a column of report and captions.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/78-front-page.jpg",
+ "master": "films/sources/99-ways/masters/78-front-page.png",
+ "beats_dir": "films/sources/99-ways/beats/78",
+ "build": "films/swarm/99-ways/build/p78_front_page.py (rol-cutout kit: kit/build_page04.py; agent print: kit/build_page01.panel_rest P7)",
+ "sources": [
+  "99-ways:rothstein-randolph-station-1937",
+  "99-ways-template:rothstein-randolph-agent-1937",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways:rol-34852-sainte-catherine-1913",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "made": [
+  "front page of an invented local paper, THE VALLEY LANTERN (ours), dated Friday, September 24, 1937 (the morning after): ears, masthead, dateline rules, all lettered in the shared pen hand (no font)",
+  "headline 'STATION AGENT FORGETS / ERRAND AT CUPBOARD', deck 'Brass Key Stays on Its Hook; SERVICE Door Not Opened'",
+  "one column of report (our copy) headed 'LADY ASKED THE TIME', carrying E0-E5 in order with the memo and the four canon lines quoted verbatim, ending with the outcome",
+  "press photograph: Rothstein's 1937 Randolph station (LoC 2017776101, reused from page 74), with caption 'THE SCENE...'",
+  "second block: the 99-ways-template rest layers P7 (Rothstein agent before the open cupboard, ANRC key on its HANDMADE hook, SERVICE card), captioned",
+  "third block: the Agence Rol 34852 woman (page 04's GrabCut cutout) as an outlined halftone, 'THE LADY AT THE WINDOW ... not identified'",
+  "every photograph printed through a HANDMADE 45-degree dot screen (block maker's tone curve), in news ink on a newsprint tint of the LoC 1934 sheet",
+  "a boxed small notice: 'LOST: one errand ... between the desk and the cupboard'; hand-ruled column rules; folio '78 / Front page'"
+ ],
+ "events": {
+  "E0": "report paras 1-2 (memo, he rises for the key); headline",
+  "E1": "report para 3 (question verbatim); deck 'LADY ASKED THE TIME'; lady block",
+  "E2": "report para 4 (clock 4:10, answer verbatim)",
+  "E3": "report para 5 (thanks verbatim)",
+  "E4": "report para 6; agent-at-cupboard block",
+  "E5": "report paras 7-8 (forgetting verbatim, outcome); headline and deck"
+ },
+ "substitutions": "none: the four lines verbatim",
+ "beat": "the page made up on the stone, block by block: masthead; headline; press photograph; column (half, then whole); the two lower blocks with captions; the notice",
+ "beat_frames": [
+  "b01 masthead and rules",
+  "b02 + headline and deck",
+  "b03 + station photograph and caption",
+  "b04 + column, first four paragraphs",
+  "b05 + whole column",
+  "b06 + agent and lady blocks with captions",
+  "b07 + LOST notice (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1221875,
+  "jpeg_quality": 90,
+  "in_target_0_4_1_2MB": false,
+  "beat_frames": 7,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "check": "A reader finds a headline and a news column carrying the events.",
+  "evidence": "perceptually judged by the maker from the full-size page; blind reading pending",
+  "headline": true,
+  "report_column_covers": [
+   "E0",
+   "E1",
+   "E2",
+   "E3",
+   "E4",
+   "E5"
+  ],
+  "photographs": 3
+ },
+ "weaknesses": [
+  "JPEG 1.22 MB, a little over the 1.2 MB target (dense pen lettering plus halftone); halftone dots softened to get there",
+  "the agent's face in the P7 block is blown out to bare paper and the key on the cupboard door is small and grey in the halftone; the caption has to point to it",
+  "the lady is the Rol 1913 woman (festive bonnet), not Bubley's 1943 figure, as on pages 04/73",
+  "body text at cap 35 px reads at full size but is small at phone width (headline and deck read at phone width)"
+ ]
+}

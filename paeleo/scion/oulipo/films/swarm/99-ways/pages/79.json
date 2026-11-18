@@ -1,0 +1,76 @@
+{
+ "n": 79,
+ "id": "stutter",
+ "title": "Stutter",
+ "family": "reduction and expansion",
+ "medium": "brush-plate",
+ "canon_revision": "c1",
+ "rule": "Every beat is drawn twice in a row, the second slightly altered, the errand already fading.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/79-stutter.jpg",
+ "master": "films/sources/99-ways/masters/79-stutter.png",
+ "beats_dir": "films/sources/99-ways/beats/79",
+ "build": "films/swarm/99-ways/build/p79_stutter.py (plate, figures, balloons: build/p29_one_fixed_lens.py, p07_two_panels.py; brush: build/brushkit.py; figures: build/b1m2.py)",
+ "sources": [
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "made": [
+  "page 29's HANDMADE brush plate of the office printed in twelve tall panels (3 rows x 2 pairs), six beats E0-E5 each drawn twice side by side, pairs grouped by a narrow inner gutter",
+  "the second of each pair is a ghost pull: the plate printed again without re-inking (74 % ink, 3-4 px off register) with the figure redrawn slightly moved (step, arm, head tilt, her nod)",
+  "balloons with the four canon lines redrawn in both drawings of their pair (p29 brushed balloons, the shared pen hand)",
+  "stuttering captions under every panel ('He sets off..., He looks, looks up...'); the errand's own words (key, SERVICE door, 4:15, cupboard) printed word by word at an ink that falls panel by panel (1.0 -> 0.0) until the last pairs drop them",
+  "closing caption with the outcome at full ink; hand-ruled borders; folio '79 / Stutter'"
+ ],
+ "events": {
+  "E0": "pair 1: memo on the desk, he sets off",
+  "E1": "pair 2: question at the window",
+  "E2": "pair 3: he looks at the clock (4:10), answer",
+  "E3": "pair 4: thanks; on toward the cupboard",
+  "E4": "pair 5: cupboard open, key on its hook tagged SERVICE",
+  "E5": "pair 6: pencil to chin, forgetting line; outcome caption"
+ },
+ "substitutions": "none: the four lines verbatim",
+ "beat": "the page printed panel by panel, each beat pulled twice: the inked pull, then its paler ghost beside it, while the errand words in the captions fade",
+ "beat_frames": [
+  "b01 panel 1",
+  "b02 + panel 2 (pair 1)",
+  "b03 + pair 2",
+  "b04 + pair 3",
+  "b05 + pair 4",
+  "b06 + pair 5",
+  "b07 + panel 11",
+  "b08 + panel 12 (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1142219,
+  "jpeg_quality": 90,
+  "in_target_0_4_1_2MB": true,
+  "beat_frames": 8,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "check": "A reader finds panels in near-identical pairs.",
+  "evidence": "perceptually judged by the maker from the full-size page; blind reading pending",
+  "pairs": 6,
+  "panels": 12
+ },
+ "weaknesses": [
+  "the stutter of the drawing (each moment drawn twice) can be read as the events happening twice (she asks twice); the captions frame it, nothing else",
+  "the fading errand words are pale grey at mid-page and may look like a printing fault rather than intent at phone width",
+  "panel crops cut the TICKET OFFICE board and the memo slip at the panel edge in several panels",
+  "the T of 'Ten' in the brushed balloon is light at this size"
+ ]
+}

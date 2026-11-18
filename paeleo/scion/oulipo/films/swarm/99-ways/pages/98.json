@@ -1,0 +1,79 @@
+{
+ "n": 98,
+ "id": "short-words",
+ "title": "Short words",
+ "family": "formal / Oulipian rule",
+ "medium": "daumier-collage",
+ "canon_revision": "c1",
+ "rule": "Every word on the page has one syllable.",
+ "declares": "lines rewritten in one-syllable words",
+ "file": "assets/pages/99-ways/98-short-words.jpg",
+ "master": "films/sources/99-ways/masters/98-short-words.png",
+ "beats_dir": "films/sources/99-ways/beats/98",
+ "build": "films/swarm/99-ways/build/p98_short_words.py (collage kit: build/daumier12.py, p12_loop.py, p50_brief_meeting.py; compositions after p67_inner_voice.py; forage record: films/sources/99-ways/forage/p12-daumier/meta.json)",
+ "sources": [
+  "99-ways:daumier-proprietaire-1846",
+  "99-ways:daumier-premier-voyage-1846",
+  "99-ways:daumier-grand-tunnel-1843",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "REUSED FORAGED: the three CC0 Daumier lithographs of pages 12/50/67 (Rijksmuseum via Commons; licence recorded by page 12), cut by that kit's hand-placed scissor polygons: the bourgeois as agent (arm re-cut on two pinned joints), the bonneted woman as stranger, the carriage window as ticket window, the CONCIERGE door as the staff door; set pieces cut from the prints' own crayon tone; the ANRC 1922 key cutout warmed to brass",
+  "HANDMADE: six panels laid as page 67 with its thought clouds removed; a masthead slip 'SHORT WORDS / a tale told in words of one beat'; caption slips, balloons and signs all in one-syllable words in the shared pen hand",
+  "sign substitutions: TICKET OFFICE -> FARES, SERVICE -> STAFF (door card and key tag), MEMO -> NOTE; the memo's 4:15 given as a small pen clock face at a quarter past four drawn on the note (a numeral would read 'four fif-teen')",
+  "the door print's own lettering CONCIERGE pasted over with a lintel board cut from the prints' tone, under the STAFF card, so no printed long word shows",
+  "LoC 1934 sheet ground; folio by pen99.folio"
+ ],
+ "lines": {
+  "question": "Say — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Thanks so much!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "question 'Pardon me — have you the right time?' -> 'Say — have you the right time?'; thanks 'Much obliged!' -> 'Thanks so much!'; answer and forgetting lines already all one-syllable, kept verbatim",
+ "events": {
+  "E0": "P1 he reads the note (STAFF door at [clock 4:15], key in the case) and gets up",
+  "E1": "P2 the woman behind the FARES window: 'Say — have you the right time?'",
+  "E2": "P3 he looks up at the clock (4:10): 'Ten past four, by the clock.'",
+  "E3": "P4 'Thanks so much!'; she nods and goes",
+  "E4": "P5 the case swung wide, the key on its hook in plain view",
+  "E5": "P6 pencil to his chin: 'Well, here I am... and what for?'; key stays; STAFF door stays shut"
+ },
+ "word_list": "a am and at be beat by case clock desk door drawn fares for four gets glass goes hangs have he here his hook i in is it its key looks much must nods note now of on one past plain reads right say she short shut so staff stays swings tale ten thanks that the there thrown time to told up view voice way well what wide words you",
+ "beat": "the long words go: the canon question balloon is struck through in pen and replaced by the short-word line, then the thanks; last the signs TICKET OFFICE / SERVICE / MEMO are pasted over with FARES / STAFF / NOTE",
+ "beat_frames": [
+  "b01: canon lines and old signs ('Pardon me —', 'Much obliged!', TICKET OFFICE, SERVICE, MEMO)",
+  "b02: 'Pardon me — have you the right time?' struck through",
+  "b03: 'Say — have you the right time?' pasted",
+  "b04: 'Much obliged!' struck through",
+  "b05: 'Thanks so much!' pasted",
+  "b06: the signs pasted over: FARES, STAFF, NOTE with its clock (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1122371,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "beat_frames": 6,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "polysyllables_outside_folio": 0,
+  "check": "No word on the page has two syllables -> every distinct word listed in word_list was checked by hand as one syllable; the only exception is the shared folio numeral '98' (ninety-eight), which the book's folio rule fixes on every page",
+  "evidence": "measured (size, word lists) and perceptually judged from the full-size page by the maker; blind reading pending"
+ },
+ "weaknesses": [
+  "the folio numeral '98' reads as a three-syllable word; it is the book's fixed margin and was left as is",
+  "the Daumier agent wears a top hat and tail-coat (as on pages 12/50/67), not the canon's shirt sleeves",
+  "the note's drawn clock (4:15) is small (about 48 px across): legible on the full page, a dot at phone width; the P1 caption says only 'at the time drawn there'",
+  "'case' for cupboard, 'STAFF' for SERVICE and 'FARES' for TICKET OFFICE are declared substitutions forced by the rule",
+  "the woman faces into the window in P4 rather than visibly walking off; 'She nods and goes' carries the leaving",
+  "the carriage-window piece shows faint show-through lettering from the print's verso (not legible as words)"
+ ]
+}

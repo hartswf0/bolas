@@ -1,0 +1,92 @@
+{
+ "n": 87,
+ "id": "two-colour-stencil",
+ "title": "Two-colour stencil",
+ "family": "medium and material",
+ "medium": "stencil-dye",
+ "canon_revision": "c1",
+ "rule": "Only stencilled shapes in two dyes: no outline, no shading.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/87-two-colour-stencil.jpg",
+ "master": "films/sources/99-ways/masters/87-two-colour-stencil.png",
+ "beats_dir": "films/sources/99-ways/beats/87",
+ "build": "films/swarm/99-ways/build/p87_two_colour_stencil.py (dye method: build/p08_lipogram.dye; cut model: build/b1m2.py; scissor cuts: kit/cutpaper99.Cut.mask)",
+ "sources": [
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "two HANDMADE stencils cut for the whole page, one per dye: VERMILION (the walls, the stranger's coat, the pencil, the brass key) and INDIGO (the floors, furniture, waistcoat, trousers, hair, hat, the ticket-window frame, clock case and hands, and all lettering); each printed once by page 08's method (paper ties across large openings, a few px of misregistration, mottled density, dye pooling at the edges) on the LoC 1934 sheet",
+  "where indigo falls on vermilion it overprints to a dark plum (cupboard, desk, doors, waistcoat against the wall); no third ink",
+  "bare paper RESERVED by both stencils for faces, shirt sleeves, hands, window glass, clock dial, the open cupboard's lit interior, the memo slip, the SERVICE card and tag, and the balloons: balloons are reserved paper ovals with tails, no outline",
+  "every word cut in the indigo stencil from the shared pen hand's strokes (thickened, as page 08's cut letters) and printed on reserved paper; TICKET OFFICE reserved out of the indigo window board",
+  "the ANRC 1922 key cutout used as the vermilion key stencil on the reserved interior of the open cupboard",
+  "panels have no frame line: each is a vermilion wall field over an indigo floor, with a band of bare paper at its head for the caption",
+  "folio '87 / Two-colour stencil' (pen99.folio, the book's shared pen line in the margin band, the only non-stencil mark)"
+ ],
+ "events": {
+  "E0": "P1: the memo slip on the desk ('4:15 - open SERVICE door. Key in cupboard.'); he sets off past the closed cupboard toward the SERVICE door",
+  "E1": "P2: the lady behind the TICKET OFFICE glass; the question",
+  "E2": "P3: the wall clock at 4:10; the answer",
+  "E3": "P4: she turns away; the thanks",
+  "E4": "P5: the cupboard open, the key on its hook, tagged SERVICE",
+  "E5": "P6: pencil to his chin, the forgetting line; key on its hook, SERVICE door shut"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "none",
+ "beat": "the page printed: the vermilion stencil dabbed down the sheet, then the indigo stencil over it, and only with the second dye do the figures, words and furniture appear",
+ "beat_frames": [
+  "b01: the bare 1934 sheet",
+  "b02: vermilion dabbed over the top half",
+  "b03: vermilion complete (walls, coat, key, pencil; reserved shapes blank)",
+  "b04: indigo over the top third",
+  "b05: indigo over two thirds",
+  "b06: indigo complete (the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 938201,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "dyes": [
+   "vermilion",
+   "indigo"
+  ],
+  "drawn_outlines": 0,
+  "ink_colour_clusters_measured": {
+   "vermilion_only": [
+    194,
+    92,
+    71
+   ],
+   "indigo_only": [
+    75,
+    87,
+    122
+   ],
+   "overprint": [
+    58,
+    33,
+    38
+   ]
+  },
+  "check": "A reader counts two ink colours and finds no drawn outline: structurally, the page is the sheet times two dye layers and nothing else (no border_mask, no balloon_piece, no ink_onto) before the folio; the measured colour clusters of the inked pixels are vermilion, indigo and their overprint",
+  "evidence": "structural (build) + perceptually judged from the full page by the maker; blind reading pending"
+ },
+ "weaknesses": [
+  "the ticket-window glass and the stranger's face are both reserved paper, so her face is carried only by the indigo hat, collar and eye dot; it reads as a face but faintly",
+  "the stencil ties (unprinted bridges) cut thin paper lines across walls and, in P2/P4, across the stranger and the window; authentic to the method but they cross figures",
+  "indigo printed over vermilion gives a dark plum for furniture and the waistcoat against the wall; a reader may count it as a third colour although no third ink was used",
+  "the folio line is in the book's shared black pen (canon margin rule): the only mark on the page not printed from the two stencils",
+  "the agent is a profile silhouette: shirt and face are reserved paper, so his shirt sleeves merge with the bare paper of the caption band in places"
+ ]
+}

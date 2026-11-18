@@ -33,7 +33,7 @@ P[68] = dict(
     n=68, pid="showdown", title="Showdown", medium="engraving-puppet", family="genre",
     declares="keeps E0-E5, the four lines and the outcome",
     build="films/swarm/99-ways/build/p68_showdown.py (engraving puppets and storyboard sheet: kit/build_page03.py, build/p49_epic.py)",
-    sources=["99-ways:loc-harpers-1863-army-telegraph-operator", "99-ways:loc-1867-dickens-tickets-steinway",
+    sources=["99-ways:loc-harpers-1863-army-telegraph-operator", "99-ways:loc-hyde-1883-cruelties-of-fashion",
              "99-ways-template:loc-blank-sheet-1934", "99-ways:handmade"],
     made=["a western storyboard sheet: a torn frontier bill pinned at the head, 'SHOWDOWN / AT THE TICKET WINDOW / Randolph station, 4:10 sharp. Eight shots, one clock.', with pen five-point stars",
           "eight widescreen shot boards (two full-width establishing shots, six half-width), each letterboxed with black bars, headed 'SHOT n' with its framing (WIDE, MEDIUM, EXTREME CLOSE-UP, HANDS AT THE HIP, CLOSE: THE CLOCK) and a running time to the second, 4:09:30 to 4:11:00, beside a small pen clock face whose second hand moves: the clock as the duel's timer",

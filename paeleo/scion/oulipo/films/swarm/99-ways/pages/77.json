@@ -1,0 +1,78 @@
+{
+ "n": 77,
+ "id": "the-cupboard",
+ "title": "The cupboard",
+ "rule": "Shot as horror: creeping dread toward the cupboard, a shock cut to the hanging key, and the horror is the blank.",
+ "medium": "charcoal-card",
+ "family": "genre",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/77-the-cupboard.jpg",
+ "master": "films/sources/99-ways/masters/77-the-cupboard.png",
+ "beats_dir": "films/sources/99-ways/beats/77",
+ "build": "films/swarm/99-ways/build/p77_the_cupboard.py (charcoal-card kit: charcoal99.py; key card and floor: p31_sounds_only.py; cut model: b1m2)",
+ "sources": [
+  "teuf-teuf:cueva-de-las-manos",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "nine panels of articulated grey-card puppets and set pieces (charcoal99.pin_up: separate cut cards, charcoal rubbed in darker at the cut edges, drop shadows, brass split pins) from the b1m2 cut model, pinned on the teuf-teuf Cueva plain-rock wall (CC BY-SA 3.0, relief only) and printed through the teuf-teuf sepia ramp",
+  "horror lighting made per panel as one lamp pool with a deep falloff over the pinned cards (low key, vignettes, underlighting on the face at the glass and on his face), Dutch tilts on the clock and the shock panel",
+  "the creep: the memo under the lamp; his shadow (his own puppet blurred, enlarged and swung up the wall) going ahead of him to the cupboard; a pale face at the black glass; the emptied window still saying 'Much obliged!'; the cupboard looming as he reaches",
+  "the shock cut: the ANRC 1922 key cut as a pale card filling the big panel in the cupboard's black, the near leaf edge, a burst of rubbed charcoal strokes, CREEEAK in fattened charcoal pen lettering; SERVICE written on its tag",
+  "the blank: his underlit face with the forgetting line, then a small man at the open cupboard (key on its hook, SERVICE door shut) under a huge EMPTY cut-card thought balloon",
+  "captions as black cards lettered bone in the shared pen hand ('It was the simplest errand in the world.' ... 'Where the errand was: nothing.'); the four canon lines in the shared cut-paper balloons; folio '77 / The cupboard' (pen99.folio)"
+ ],
+ "events": {
+  "E0": "P1 the memo under the lamp; P2 he rises, his shadow goes ahead",
+  "E1": "P3 a face at the black glass: 'Pardon me — have you the right time?'",
+  "E2": "P4 the clock, tilted, 4:10: 'Ten past four, by the clock.'",
+  "E3": "P5 the window empty: 'Much obliged!'",
+  "E4": "P6 he reaches the cupboard; P7 shock cut: the key on its hook, tagged SERVICE",
+  "E5": "P8 his face, pencil at chin: 'Well, here I am... and what for?'; P9 the empty thought balloon, key on its hook, SERVICE door shut"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "genre_cues": [
+  "low-key single-lamp light and vignettes",
+  "shadow going ahead of the figure",
+  "face at a black window",
+  "Dutch angles",
+  "slow push-in on a looming door",
+  "shock cut with sound effect (CREEEAK) and burst lines",
+  "underlit face close-up",
+  "dread captions on black cards",
+  "the empty thought balloon as the monster"
+ ],
+ "beat": "the push-in and the shock: the cupboard grows in three frames as he creeps up and reaches, a hard cut to the key in the dark (CREEEAK), his underlit face says the line, then the empty thought balloon swells over him in three frames",
+ "beat_frames": [
+  "b01: cupboard far, he creeps",
+  "b02: closer",
+  "b03: the cupboard fills the frame, his hand reaches",
+  "b04: SHOCK CUT: the key in the black, CREEEAK",
+  "b05: his face, 'Well, here I am... and what for?'",
+  "b06: small man at the open cupboard, thought bubbles rising",
+  "b07: the blank balloon swelling",
+  "b08: the blank balloon full"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 848514,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "panels": 9,
+  "beat_frames": 8,
+  "outcome": "key on its hook (P7, P9), SERVICE door shut (P9)",
+  "check": "A reader names the genre as horror.",
+  "pending": "independent blind reading not run by the maker"
+ }
+}

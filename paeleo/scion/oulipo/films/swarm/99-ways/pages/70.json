@@ -23,7 +23,8 @@
  },
  "made": [
   "page 51's eight one-pen panels (base page order) redrawn at 0.56 in two tiers across the top 36% of the sheet (y 110-1036); the upper tier's frames widened to the measure, floor and wainscot lines run on",
-  "27 superscript footnote numbers in a red-brown pen ink: on every object (memo, desk, agent, pencil, cupboard, SERVICE door, TICKET OFFICE window, stranger, clock, open cupboard, key, tag, hook, the pencil at the chin, the key and door at the end) and on the words of the four canon lines (placed at measured word ends inside the balloons)",
+  "batch 7 repair: page 51's balloons re-set for this page: P4 'Pardon me — / have you the right time?' at cap 38, P5 at cap 38 moved left, P6 at 48 and P8 at 42 lowered, so each balloon lies inside its panel frame with at least 11 px of paper (mask-checked)",
+  "27 footnote numbers in a red-brown pen ink on every object and on the words of the four canon lines; batch 7 repair: each numeral set in the nearest clear paper beside its object or word (searched outward from the old superscript point), its bounding box kept 6 px clear of every black stroke (lettering, frames, drawing) and of the other numerals, and inside its panel frame; the opening words' numerals (10 'Pardon', 22 'Well') set before the balloon, the others after their line",
   "a short footnote rule, then 27 numbered notes in two columns in the shared pen hand (cap 30), our own text, cross-referring to one another"
  ],
  "events": {
@@ -50,7 +51,7 @@
    2200,
    2850
   ],
-  "jpeg_bytes": 1183216,
+  "jpeg_bytes": 1185121,
   "jpeg_quality": 90,
   "in_target_0.4_1.2MB": true,
   "beat_frames": 7,
@@ -63,6 +64,15 @@
   "panels_bottom_y": 1036,
   "panels_height_fraction_of_page": 0.36,
   "lines_verbatim": true,
-  "pending": "independent blind reading not run by the maker"
+  "pending": "independent blind reading not run by the maker",
+  "callouts_in_panels": 27,
+  "red_vs_black_overlap_px_after_6px_dilation": 0,
+  "callout_bboxes_within_6px_of_ink": 0,
+  "balloon_min_clearance_to_frame_px": {
+   "P4": 14.6,
+   "P5": 12.3,
+   "P6": 11.1,
+   "P8": 12.4
+  }
  }
 }

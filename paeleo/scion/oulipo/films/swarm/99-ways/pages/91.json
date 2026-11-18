@@ -1,0 +1,76 @@
+{
+ "n": 91,
+ "id": "polyptych",
+ "title": "Polyptych",
+ "medium": "charcoal-card",
+ "rule": "One continuous drawing of the office runs behind all the panels; the borders cut it into moments and the agent recurs in each.",
+ "build": "films/swarm/99-ways/build/p91_polyptych.py (card kit: build/charcoal99.py; figure model build/b1m2.py; key card build/p31_sounds_only.py; written() from build/p77_the_cupboard.py)",
+ "sources": [
+  "teuf-teuf:cueva-de-las-manos",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "ONE office wall pinned up once at page size in charcoal card pieces (charcoal99.pin_up) on the teuf-teuf rock-wall ground (Cueva de las manos, Suzko, CC BY-SA 3.0, printed through the teuf-teuf ramp): from left to right desk, lamp and memo card; the ticket window with TICKET OFFICE; the wall clock at 4:10; a NOTICES board with pinned cards; the cupboard open on its left jamb with the brass key card (ANRC 1922 key silhouette) on its hook; the SERVICE door shut with its card",
+  "things that run on across the gutters so the panels join: the picture rail, a long parcel shelf with its parcels, a long DEPARTURES board ('NORTH 4:22   SOUTH 4:48   LOCAL 5:30') whose words are cut by three gutters, the wainscot boards and the floor band",
+  "six tall panels (380, 300, 280, 280, 300, 290 px wide, 30 px gutters) cut out of that one drawing; the LoC 1934 sheet shows in the gutters; pen border by B.frame_border",
+  "the agent, the same b1m2 card puppet with brads at shoulder and elbow, pinned into each panel at its moment; the stranger (b1m2 card, paler tones) only in the window panel, behind the glass",
+  "the four lines in pen-hand cut-paper balloons, each kept inside its panel (the thanks has its tail running out toward the window panel); folio by pen99.folio"
+ ],
+ "events": {
+  "E0": "panel 1: by the desk, the memo card on it, he gets up",
+  "E1": "panel 2: at the ticket window, the lady behind the glass; the question",
+  "E2": "panel 3: under the clock (4:10), head up; the answer",
+  "E3": "panel 4: walking on past the notices; 'Much obliged!' from the left (the window panel)",
+  "E4": "panel 5: at the open cupboard, the key on its hook",
+  "E5": "panel 6: before the SERVICE door, pencil to chin; the forgetting line"
+ },
+ "substitutions": "none: the four lines verbatim",
+ "beat": "the one drawing of the room appears whole and empty; the gutters cut it into six panels; the agent is pinned into each panel in turn",
+ "beat_frames": [
+  "b01: the whole office wall, one drawing, no gutters",
+  "b02: the gutters cut it into six panels",
+  "b03: E0",
+  "b04: E1",
+  "b05: E2",
+  "b06: E3",
+  "b07: E4",
+  "b08: E5 (= the page)"
+ ],
+ "self_check": {
+  "check": "A reader can join the panel backgrounds into one unbroken room. -- by construction: every panel is a crop of one page-size drawing (build: room() once, panels copy their window of it); perceptually: the rail, shelf, DEPARTURES lettering, wainscot and floor line up across every gutter; judged by the maker at full size",
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 981686,
+  "jpeg_quality": 90,
+  "in_target_0_4_1_2MB": true,
+  "master_exists": true,
+  "beat_frames": 8,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "pending": "independent blind reading not run by the maker"
+ },
+ "weaknesses": [
+  "the panels are tall and narrow, so the agent nearly fills their width and is cut by the panel edges in places",
+  "the upper half of each panel is wall (rail, shelf, board, lamps); necessary for the continuity, but the figures sit in the lower half",
+  "the stranger behind the glass is a dark card bust, small; she reads as a figure at the window more than as a face",
+  "the SERVICE door and the cupboard sit in neighbouring narrow panels; the canon's 'beside' holds but both are cropped"
+ ],
+ "family": "layout and page grammar",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "canon_revision": "c1",
+ "file": "assets/pages/99-ways/91-polyptych.jpg",
+ "master": "films/sources/99-ways/masters/91-polyptych.png",
+ "beats_dir": "films/sources/99-ways/beats/91",
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ }
+}

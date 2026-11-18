@@ -250,7 +250,7 @@ def world_for(k, w, h):
 
 def incident_text(c, P, sd):
     cap = 40
-    balloon(c, ["Pardon me -", "have you the", "right time?"], cap, (375, 152), P(-300, 255), sd + 21)
+    balloon(c, ["Pardon me —", "have you the", "right time?"], cap, (375, 152), P(-300, 255), sd + 21)
     balloon(c, ["Ten past four,", "by the clock."], cap, (815, 128), P(102, 300), sd + 22)
     balloon(c, ["Much", "obliged!"], cap, (172, 350), P(-345, 300), sd + 23)
     balloon(c, ["Well, here I am...", "and what for?"], cap, (1720, 330), P(690, 300), sd + 24)
@@ -276,8 +276,8 @@ BW, BH = 960, 1242
 
 
 def beat(k, people=None, cup_deg=None, line=False):
-    ww = 760
-    wx0 = 120
+    ww = 830
+    wx0 = 105
     hh = ww * BH / BW
     wy0 = FLOOR + 70 - hh
     c, P = view(BW, BH, wx0, wy0, wx0 + ww, wy0 + hh, k, people=people, cup_deg=cup_deg, seed=7800)
@@ -303,10 +303,54 @@ def check():
     return True
 
 
+def record(size):
+    import json
+    canon = json.load(open(ROOT / "films/swarm/99-ways/canon.json"))
+    C = [c for c in canon["constraints"] if c["id"] == PID][0]
+    src = ["99-ways-template:anrc-gold-key-1922", "99-ways-template:loc-blank-sheet-1934", "99-ways:handmade"]
+    credit_pages(src, N)
+    rec = {
+        "n": N, "id": PID, "title": TITLE, "rule": C["rule"], "medium": C["medium"], "family": C["family"],
+        "canon_revision": canon["revision"], "declares": C["declares"],
+        "file": f"assets/pages/99-ways/{N}-{PID}.jpg", "master": f"films/sources/99-ways/masters/{N}-{PID}.png",
+        "beats_dir": f"films/sources/99-ways/beats/{N}",
+        "build": "films/swarm/99-ways/build/p75_dawn_to_dark.py (stencil-dye kit: p08_lipogram.dye; cut model: b1m2)",
+        "sources": src,
+        "made": [
+            "one cupboard wall built once as a HANDMADE cut model (b1m2 clock, cupboard opening on its left jamb, SERVICE door, ticket window, desk; plus a pendant lamp and a timetable board cut here) and printed twelve times as stencils in flat dyes by the page-08 method (one cut stencil per colour with paper ties, fixed misregistration, mottled dye pooling at the edges) on the LoC 1934 sheet",
+            "the day's light as two more stencils per view: a window-sun patch (two-by-two panes, sheared by the sun's height, its glazing bars left as ties) that crosses the wall from high right at dawn to high left at sunset, printed in its own tint (rose, ochre, madder; none at noon); and a shade veil cut with that patch (and after 8 p.m. the lamp's glow) as reserves, its dye and strength set per hour from dawn blue through noon umber and evening madder to night indigo",
+            "the wall clock cut to each view's time: 5:40, 7:00, 8:30, 10:00, 11:30 a.m., 1:30, 4:10, 5:20, 6:20, 7:10, 8:10, 9:30 p.m.; each view carries its time on a pasted slip in the shared pen hand",
+            "the incident only in the 4:10 view (wide, closer): memo on the desk, the stranger behind the TICKET OFFICE glass with the question and the thanks, the agent under the clock at 4:10 with the answer, the agent again at the open cupboard with the forgetting line (continuous narration in one view)",
+            "after 4:10 the cupboard stands open in every view with the ANRC 1922 key cutout (printed as an ochre stencil) on its hook, tagged SERVICE; the SERVICE door is shut in all twelve",
+            "folio '75 / Dawn to dark' (pen99.folio)"],
+        "events": {"E0": "view 7 (4:10): the memo slip on the desk at the left; the agent has crossed the office",
+                   "E1": "view 7: 'Pardon me - have you the right time?' from the stranger behind the ticket window",
+                   "E2": "view 7: the agent under the clock (4:10): 'Ten past four, by the clock.'",
+                   "E3": "view 7: 'Much obliged!' from the window",
+                   "E4": "view 7: the agent at the open cupboard, the key on its hook tagged SERVICE",
+                   "E5": "view 7: pencil to his chin, 'Well, here I am... and what for?'; views 8-12: the cupboard left open, key on its hook, SERVICE door shut, till 9:30 p.m."},
+        "lines": {"question": "Pardon me \u2014 have you the right time?", "answer": "Ten past four, by the clock.",
+                  "thanks": "Much obliged!", "forgetting": "Well, here I am... and what for?"},
+        "beat": "one fixed portrait view of the cupboard wall held while the day runs: the sun patch slides and the light warms, the clock moves on; at 4:10 the agent opens the cupboard and, a minute later, forgets; the light reddens and goes to night under the lamp, the cupboard still open and the key still hanging",
+        "beat_frames": ["b01: 5:40 a.m., dawn blue, patch high right", "b02: 8:30 a.m.", "b03: 11:30 a.m., patch low on the cupboard",
+                        "b04: 1:30 p.m.", "b05: 4:10 p.m., the agent swings the cupboard leaf", "b06: 4:11 p.m., key on its hook, pencil to chin, the forgetting line",
+                        "b07: 6:20 p.m., madder evening, cupboard open, nobody", "b08: 9:30 p.m., night indigo, lamp lit, key still hanging"],
+        "self_check": {"size_px": [2200, 2850], "jpeg_bytes": size, "jpeg_quality": 90,
+                       "in_target_0.4_1.2MB": 400000 <= size <= 1200000,
+                       "views": 12, "clock_time_differs_every_view": True,
+                       "light_differs_every_view": check(),
+                       "incident_views": 1, "people_in_other_views": 0,
+                       "outcome": "key on its hook and SERVICE door shut in every view after 4:10",
+                       "check": C["check"], "pending": "independent blind reading not run by the maker"},
+    }
+    write_record(rec)
+
+
 if __name__ == "__main__":
     check()
     page = build()
     img, size = save_page(page, N, PID, TITLE)
     print("jpeg bytes", size)
+    record(size)
     if len(sys.argv) > 1 and sys.argv[1] == "beats":
         print("beats", save_beats(N, beats()))
