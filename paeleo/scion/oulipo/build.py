@@ -188,6 +188,7 @@ def html_page(page, data):
   <a class="skip" href="#selection">Skip to current prompt</a>
   <header class="masthead">
     <a class="brand" id="home" href="./">SCION <span>/</span> OULIPO</a>
+    <a class="reference" href="{root}screening/">Watch all films</a>
     <a class="reference" href="{root}../operator.html#s2">Animation Swarms</a>
   </header>
   <main class="desk">
@@ -318,3 +319,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+    import build_screening
+    build_screening.main()
