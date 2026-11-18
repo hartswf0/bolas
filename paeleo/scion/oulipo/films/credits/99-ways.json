@@ -145,7 +145,7 @@
   "license_url": "https://www.loc.gov/legal/",
   "source_url": "https://www.loc.gov/item/musftpsets.200218222/",
   "file_url": "https://tile.loc.gov/storage-services/public/music/musftpsets-200218222/musftpsets-200218222.0001.jp2",
-  "used_as": "page ground of the main page and both derivatives (interior only, one levels lift) and of the ledger card (S12)",
+  "used_as": "page ground of the main page and both derivatives (interior only, one levels lift) and of the ledger card (S12) | also the ground of the book front matter (title, contents, end leaf) and the back of every leaf in the film page turns",
   "credit_line": "Library of Congress, Music Division, Federal Theatre Project Collection",
   "carried_from": "films/credits/99-ways-template.json",
   "pages": [
@@ -516,7 +516,8 @@
    69,
    80,
    90
-  ]
+  ],
+  "attribution": "'Vintage Paper Texture (9789792113).jpg' by James Puckett from Boulder, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons; modified (cut, scaled, re-toned) for this work"
  },
  {
   "title": "File:Wood Texture Background.jpg",
@@ -594,7 +595,8 @@
    77,
    84,
    91
-  ]
+  ],
+  "attribution": "'Cueva de las manos - detalle.jpg' by Suzko, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons; modified (cut, scaled, re-toned) for this work"
  },
  {
   "id": "99-ways:daumier-proprietaire-1846",
@@ -780,5 +782,45 @@
   "pages": [
    90
   ]
+ },
+ {
+  "id": "99-ways:book-paper-pages-assorted",
+  "title": "File:Book paper pages assorted.ogg",
+  "author": "stephan (via PDsounds.org)",
+  "license": "Public domain (Commons LicenseShortName 'Public domain', UsageTerms 'Public domain'; extmetadata read live 2026-11-18, saved in films/sources/99-ways/sound/meta/extmeta.json; file SHA-1 cdd0f8c6... matches)",
+  "license_url": "https://commons.wikimedia.org/wiki/File:Book_paper_pages_assorted.ogg",
+  "source_url": "https://commons.wikimedia.org/wiki/File:Book_paper_pages_assorted.ogg",
+  "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/79/Book_paper_pages_assorted.ogg",
+  "local_path": "films/sources/99-ways/sound/Book_paper_pages_assorted.ogg (copied from the renzo-e-luciana forage, same file; credited there and in les-caids-de-la-gaudriole, monsieur-ripois)",
+  "used_as": "film sound: the paper turn, one per page turn (100): single handling gestures cut at energy onsets between 4 and 40 s, 0.55 s each, gentle high-pass, fades, peak about -11 dBFS, panned slightly right",
+  "film": true
+ },
+ {
+  "title": "Panama by Air (Reel 4) (1914)",
+  "author": "Producer not recorded in the cached metadata (1914 film); copy accessed via movingimagearchive.com",
+  "license": "Public domain in the US by date only (published 1914, pre-1929). No archive licence statement was read: movingimagearchive.com was refused by the network proxy (403); title and year rest on cached cineosis-lab metadata (slopfeeder/forage.json, atlas.json). Not one of the archives listed in BRIEF-2; used as the project's designated primary moving-image source",
+  "license_url": "https://www.copyright.gov/help/faq/faq-duration.html",
+  "source_url": "https://www.movingimagearchive.com/sources/panama-by-air-reel-4-1a07ad16?clip=d3c1f500-55a9-50c7-9ca4-11791246582d",
+  "file_url": "",
+  "used_as": "film sound: the station room tone under the whole film, reused as the 99-ways-template stem films/swarm/99-ways-template/anim/sound/room_tone.wav (11 s seamless loop, band 60-7000 Hz, RMS -42 dBFS), looped unchanged",
+  "id": "99-ways-template:panama-by-air-room-tone",
+  "film": true
+ },
+ {
+  "id": "99-ways:film-handmade",
+  "title": "99 ways (film): handmade elements",
+  "author": "this production (99 ways film editor), films/99-ways.py",
+  "license": "made for this work",
+  "used_as": "the dark table (painted ground, wood streaks and lamp falloff computed in code), the book's shadow and the stack edges of the leaves still to turn, the page-turn geometry (paper rolled over a cylinder, cv2.remap; the leaf's back is the LoC 1934 sheet with the page showing faintly through), timing: hold, key beat on twos, last state held",
+  "film": true
+ },
+ {
+  "id": "99-ways:book-front-matter",
+  "title": "99 ways (book): title page, contents, end leaf",
+  "author": "this production (99 ways film editor), films/swarm/99-ways/kit/build_book.py",
+  "license": "made for this work",
+  "used_as": "lettered in the shared pen hand (pen99 / 99-ways-template penlib glyphs) on the LoC 1934 sheet ground (99-ways-template:loc-blank-sheet-1934): title page, seven contents pages listing every page's number, constraint title and rule, end leaf; shown in the film (title, end) and bound into assets/pages/99-ways/99-ways-book.pdf",
+  "film": true,
+  "book": true
  }
 ]
