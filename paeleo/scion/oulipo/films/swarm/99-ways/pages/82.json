@@ -1,0 +1,77 @@
+{
+ "n": 82,
+ "id": "nine-cells",
+ "title": "Nine cells",
+ "family": "layout and page grammar",
+ "medium": "shadow-puppet",
+ "canon_revision": "c1",
+ "rule": "A strict 3x3 grid of equal cells, one beat or held pause per cell, no cell larger than another.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/82-nine-cells.jpg",
+ "master": "films/sources/99-ways/masters/82-nine-cells.png",
+ "beats_dir": "films/sources/99-ways/beats/82",
+ "build": "films/swarm/99-ways/build/p82_nine_cells.py (figure model and set pieces: build/b1m2.py; screen and puppet tools: build/p05_noir.py, layout grammar after build/p30_jump_cuts.py)",
+ "sources": [
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "made": [
+  "a strict 3x3 grid of nine identical cells, each 640 x 853 px, 30 px gutters, ruled in one pen border pass (frame_border)",
+  "black cut-paper silhouette puppets (b1m2 agent, stranger held soft and grey behind the glass) and cut set pieces (desk, lamp, clock, ticket window with TICKET OFFICE cut through its header, cupboard, SERVICE door) on lamp-lit paper screens carrying the LoC 1934 sheet fibre",
+  "the ANRC 1922 key cutout as an amber gel on its hook with a SERVICE card tag (cells 8, 9)",
+  "the memo slip and the four canon lines in the shared pen hand (penlib cut-paper balloons); folio by pen99.folio"
+ ],
+ "cells": {
+  "1": "E0 seated at the desk, the memo slip '4:15 - open SERVICE door. Key in cupboard.'; clock at 4:09",
+  "2": "E0 on his way across the office toward the closed cupboard",
+  "3": "E1 the question from the ticket window",
+  "4": "E2 held pause: he looks up at the wall clock, 4:10 (silent)",
+  "5": "E2 the answer",
+  "6": "E3 the thanks; she turns from the glass",
+  "7": "E3 held pause: the window empty, he strides on toward the cupboard (silent)",
+  "8": "E4 the cupboard open, the key on its hook, tag SERVICE",
+  "9": "E5 pencil to chin, the forgetting line; key on its hook; SERVICE door shut with its card"
+ },
+ "substitutions": "none: the four lines verbatim",
+ "beat": "the grid is ruled empty, then the cells fill in reading order, one beat or held pause at a time",
+ "beat_frames": [
+  "b01: the empty 3x3 grid",
+  "b02: cell 1",
+  "b03: cells 1-2",
+  "b04: cells 1-3 (the question)",
+  "b05: cells 1-5 (the pause and the answer)",
+  "b06: cells 1-6",
+  "b07: cells 1-8 (the cupboard opens)",
+  "b08: all nine (the forgetting)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 821176,
+  "jpeg_quality": 90,
+  "in_target_0_4_1_2MB": true,
+  "master_exists": true,
+  "beat_frames": 8,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "check": "A reader counts nine cells of identical size. -- measured: nine boxes, all 640 x 853 px (set of sizes has one member); perceptually judged by the maker at full size",
+  "pending": "independent blind reading not run by the maker"
+ },
+ "weaknesses": [
+  "the cells are narrow (640 px): the window in cell 5 is cut at the left edge and its TICKET OFFICE header reads only 'OFFICE'",
+  "cells 2 and 7 are near rhymes (walking right past a closed cupboard), which is what a held pause asks for but reads a little repetitive",
+  "the 'T' of 'Ten' sits tight on the balloon outline (the shared pen hand's T is wide)",
+  "the SERVICE door in cell 9 is cut by the right border (its card fully legible)"
+ ]
+}

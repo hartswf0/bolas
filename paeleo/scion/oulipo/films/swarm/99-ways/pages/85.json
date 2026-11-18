@@ -1,0 +1,74 @@
+{
+ "n": 85,
+ "id": "form-99",
+ "title": "Form 99",
+ "family": "voice and language",
+ "medium": "pen-hand",
+ "canon_revision": "c1",
+ "rule": "The incident told only as a railway incident report form, its printed fields filled in pencil, with the form's own sketch box.",
+ "declares": "lines quoted in a 'statements' field",
+ "file": "assets/pages/99-ways/85-form-99.jpg",
+ "master": "films/sources/99-ways/masters/85-form-99.png",
+ "beats_dir": "films/sources/99-ways/beats/85",
+ "build": "films/swarm/99-ways/build/p85_form_99.py (pen tools: kit/pen99.py -> 99-ways-template page/penlib.py; b1m2 letter/wrap helpers)",
+ "sources": [
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "made": [
+  "the whole page is one invented railway form, 'FORM 99 / REPORT OF IRREGULARITY AT STATION' (no real railway's name or form): printed heading and instructions, a double rule, 15 numbered fields in boxes with ruled writing lines and YES/NO tick boxes, all 'printed' in blue-black ink with straight rules and the shared pen hand's capitals",
+  "every answer written in by the agent in pencil: the same shared pen hand in graphite, grain-broken, slightly tilted and jittered per line, one struck-out false start ('Key was') in field 11, pencil crosses in the NO boxes of 9 (key removed) and 10 (SERVICE door opened), a scrawled signature and 'Agent, Randolph'",
+  "field 12 STATEMENTS OF PERSONS PRESENT quotes the four canon lines verbatim, each with its speaker",
+  "field 13, the form's own SKETCH OF SCENE box: his pencil plan of the office (walls, ticket window with the lady as an X outside, the clock 'clock (4:10)', the desk, the cupboard open on the right wall with the key on its hook, the SERVICE door 'shut', his dotted path numbered 1 got up, 2 asked the time, 3 here, and ?)",
+  "field 15 REMARKS OF SUPERINTENDENT left blank '(Not to be filled in by agent)'; all on the LoC 1934 sheet; folio by pen99.folio"
+ ],
+ "events": {
+  "E0": "fields 4 (the memo quoted) and 5 (got up about 4:09, started across to the cupboard)",
+  "E1": "field 6 (a lady at the ticket window asked the time); field 12 line 1",
+  "E2": "field 7 (looked at the office clock, which read 4:10, told her); field 12 line 2",
+  "E3": "field 7 (she thanked me and left the window); field 12 line 3",
+  "E4": "field 8 (opened the cupboard; brass key on its hook, tagged SERVICE)",
+  "E5": "fields 9-11 (key not removed, SERVICE door not opened; 'could not think what I had come for'); field 12 line 4; sketch point 3"
+ },
+ "substitutions": "the four lines are quoted (verbatim) in the statements field rather than spoken in balloons, as declared",
+ "beat": "the form is filled in pencil field by field: the blank printed form, then the heading answers, the narrative fields, the tick boxes and the crossing-out, the statements, the sketch, the signature",
+ "beat_frames": [
+  "b01: the blank printed form",
+  "b02: fields 1-5",
+  "b03: fields 6-7",
+  "b04: field 8",
+  "b05: fields 9-11 (ticks, crossing-out)",
+  "b06: field 12 statements",
+  "b07: field 13 sketch",
+  "b08: field 14 signature (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1115273,
+  "jpeg_quality": 90,
+  "in_target_0_4_1_2MB": true,
+  "master_exists": true,
+  "beat_frames": 8,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "check": "A reader finds printed field names and the events in the answers. -- perceptually judged by the maker at full size: printed field names (ink, capitals, numbered) and pencil answers carrying E0-E5 in order are distinct in colour and hand; the sketch box is labelled by the form",
+  "pending": "independent blind reading not run by the maker"
+ },
+ "weaknesses": [
+  "printed and pencil text share the one pen hand (by the book's rule); the difference is carried by ink colour, capitals, ruling and grain, not by a typeface",
+  "the date is left as 'Sept. 1937, afternoon' because the canon gives no day",
+  "the right-hand remarks column below field 15 is mostly empty paper",
+  "the pencil grey is light at phone width for the smaller sketch labels (cap 24-26)"
+ ]
+}

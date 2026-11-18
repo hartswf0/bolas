@@ -49,12 +49,28 @@ def layout():
 
 BOX = layout()
 
-BAL = {   # p51's balloons: panel -> (lines, centre (panel px), cap)
-    4: (["Pardon me —", "have you the", "right time?"], (250, 118 - 44 * 0.05), 44),
-    5: (["Ten past four,", "by the clock."], (400, 100 - 44 * 0.05), 44),
-    6: (["Much", "obliged!"], (250, 110 - 50 * 0.05), 50),
-    8: (["Well, here I am...", "and what for?"], (560, 110 - 44 * 0.05), 44),
+BAL = {   # p51's balloons: panel -> (lines, centre (panel px), cap); P4 and P5 re-set smaller so that each balloon
+          # lies inside its panel frame with clear paper above it (checked in check())
+    4: (["Pardon me —", "have you the right time?"], (262, 118), 38),
+    5: (["Ten past four,", "by the clock."], (372, 114), 38),
+    6: (["Much", "obliged!"], (250, 132), 48),
+    8: (["Well, here I am...", "and what for?"], (560, 122), 42),
 }
+_BY_FIRST = {v[0][0]: (k, v) for k, v in BAL.items()}
+_FIRST_OLD = {"Pardon me —": 4, "Ten past four,": 5, "Much": 6, "Well, here I am...": 8}
+_orig_balloon = P51.Pen.balloon
+
+
+def _balloon(self, lines, cx, cy, tip, seed, cap=P51.LCAP):
+    """page 51's balloon, re-set for this page's small panels (BAL holds the lines, centre and cap used here)"""
+    k = _FIRST_OLD.get(lines[0])
+    if k is None:
+        return _orig_balloon(self, lines, cx, cy, tip, seed, cap)
+    ln, (bx, by), bc = BAL[k]
+    return _orig_balloon(self, ln, bx, by, tip, seed, bc)
+
+
+P51.Pen.balloon = _balloon
 
 # number, panel, anchor, note. anchor: ("pt", x, y) in p51 panel px, or ("w", line index, prefix) in that panel's balloon
 NOTES = [
@@ -76,7 +92,7 @@ NOTES = [
     (10, 4, ("w", 0, "Pardon"), "'Pardon me': the formula of interruption. It costs the speaker nothing. For what it costs "
                                    "the hearer, see note 24."),
     (11, 4, ("w", 0, "Pardon me —"), "The dash. A breath taken. In it, the errand begins to slip."),
-    (12, 4, ("w", 2, "right time?"), "'The right time', as against the wrong one. Railway clocks kept the true time; she asks the "
+    (12, 4, ("w", 1, "have you the right time?"), "'The right time', as against the wrong one. Railway clocks kept the true time; she asks the "
                                      "one man in town bound to know it."),
     (13, 5, ("pt", 250, 300), "The clock. The office wall clock, reading ten past four: five minutes before the memo's hour."),
     (14, 5, ("w", 0, "Ten past four,"), "Ten past four, i.e. 4:10. Correct; compare note 13."),
@@ -119,7 +135,7 @@ def word_anchor(k, li, prefix):
     hm, wm = m.shape
     wl = adv(lines[li], cap)
     left = cx - wl / 2
-    base = cy - hm / 2 + cap * 1.15 + li * cap * 1.42
+    base = cy - cap * 0.05 - hm / 2 + cap * 1.15 + li * cap * 1.42
     return (left + adv(prefix, cap) + 3, base - cap * 0.78)
 
 
@@ -154,15 +170,90 @@ def panels_ink(upto=8, state=None):
     return ink
 
 
+CLEAR = 6          # px of clear paper between a callout's bounding box and any black ink (lettering, frames, drawing)
+_PLACED = {}
+LEFT = {10, 22}
+
+
+def _bbox(m):
+    ys, xs = np.nonzero(m > 20)
+    return xs.min(), ys.min(), xs.max() + 1, ys.max() + 1
+
+
+def place_callouts():
+    """Each numeral goes in the nearest clear paper beside its anchor: its bounding box, grown by CLEAR px, must touch
+    no black ink and no numeral already placed, and must lie inside its panel frame."""
+    if _PLACED:
+        return _PLACED
+    ink = panels_ink(8) > 20
+    taken = np.zeros_like(ink)
+    for n, k, a, _ in NOTES:
+        t = pen99.letter([str(n)], SUPCAP, 7100 + n, weight=0.16)
+        bx0, by0, bx1, by1 = _bbox(t)
+        x, y = anchor(k, a)
+        want = (x + t.shape[1] / 2 - SUPCAP * 0.6, y)          # where the old superscript stood
+        if n in LEFT:                                            # a word that opens its balloon: the numeral before it
+            lx, ly = anchor(k, (a[0], a[1], ""))
+            want = (lx - t.shape[1] / 2 - 10, ly)
+        fx0, fy0, fx1, fy1, _ = BOX[k]
+        best = None
+        for r in range(0, 220, 3):
+            for dx in range(-r, r + 1, 3):
+                for dy in ((-r, r) if abs(dx) != r else range(-r, r + 1, 3)):
+                    cx, cy = want[0] + dx, want[1] + dy
+                    x0 = int(round(cx - t.shape[1] / 2)) + bx0
+                    y0 = int(round(cy - t.shape[0] / 2)) + by0
+                    x1, y1 = x0 + (bx1 - bx0), y0 + (by1 - by0)
+                    if x0 - CLEAR < fx0 + 4 or x1 + CLEAR > fx1 - 4 or y0 - CLEAR < fy0 + 4 or y1 + CLEAR > fy1 - 4:
+                        continue
+                    win = (slice(y0 - CLEAR, y1 + CLEAR), slice(x0 - CLEAR, x1 + CLEAR))
+                    if ink[win].any() or taken[win].any():
+                        continue
+                    d = (dx * dx + dy * dy) ** 0.5 + (8 if dx < -4 else 0)     # a slight preference for the right
+                    if best is None or d < best[0]:
+                        best = (d, cx, cy, (x0, y0, x1, y1))
+            if best is not None and best[0] <= r:
+                break
+        assert best is not None, n
+        _, cx, cy, bb = best
+        taken[bb[1]:bb[3], bb[0]:bb[2]] = True
+        _PLACED[n] = (t, cx, cy, bb)
+    return _PLACED
+
+
 def sup_mask(n_list):
     m = np.zeros((H, W), np.uint8)
-    for n, k, a, _ in NOTES:
-        if n not in n_list:
-            continue
-        x, y = anchor(k, a)
-        t = pen99.letter([str(n)], SUPCAP, 7100 + n, weight=0.16)
-        B.put_mask(m, t, x + t.shape[1] / 2 - SUPCAP * 0.6, y)
+    for n, (t, cx, cy, _) in place_callouts().items():
+        if n in n_list:
+            B.put_mask(m, t, cx, cy)
     return m
+
+
+def check():
+    """the mask test: red callouts against black ink; balloons against their frames"""
+    ink = panels_ink(8)
+    red = sup_mask(list(range(1, 28)))
+    blk = ink > 20
+    k = np.ones((2 * CLEAR + 1, 2 * CLEAR + 1), np.uint8)
+    overlap = int(((cv2.dilate((red > 20).astype(np.uint8), k) > 0) & blk).sum())
+    bb_hits = 0
+    for n, (t, cx, cy, (x0, y0, x1, y1)) in place_callouts().items():
+        bb_hits += int(blk[y0 - CLEAR:y1 + CLEAR, x0 - CLEAR:x1 + CLEAR].any())
+    inside = all(BOX[nk][0] < bb[0] and bb[2] < BOX[nk][2] and BOX[nk][1] < bb[1] and bb[3] < BOX[nk][3]
+                 for (n, nk, _, _), (_, _, _, bb) in zip(NOTES, [place_callouts()[n] for n, *_ in NOTES]))
+    # balloon clearance: render each balloon panel alone, find the balloon outline's extent in page px
+    bal = {}
+    for kk, (ln, (bx, by), bc) in BAL.items():
+        lm = P51.letters(ln, bc, 0)
+        rx, ry = lm.shape[1] / 2 * 1.10 + 8, lm.shape[0] / 2 * 1.12 + 4
+        x0p, y0p = to_page(kk, (bx - rx, by - ry))
+        x1p, y1p = to_page(kk, (bx + rx, by + ry))
+        fx0, fy0, fx1, fy1, _ = BOX[kk]
+        pen_half = 3      # half the pen stroke, page px
+        bal[kk] = round(min(x0p - fx0, y0p - fy0, fx1 - x1p) - 2 * pen_half, 1)
+    return dict(red_black_overlap_px_at_6px=overlap, callout_bboxes_touching_ink=bb_hits,
+                callouts_inside_frames=bool(inside), callouts=len(place_callouts()),
+                balloon_min_clearance_to_frame_px=bal)
 
 
 NOTE_TOP = Y0[1] + PANEL_H + 100
@@ -237,6 +328,7 @@ if __name__ == "__main__":
         from PIL import Image
         Image.fromarray(g[100:1100]).save("/tmp/claude-0/-home-user/a99ec93a-6f31-57b0-a2ec-fb930dfe1aad/scratchpad/g70.png")
         sys.exit()
+    print(check())
     img, size = B.save_page(page, N, PID, TITLE)
     print("jpeg bytes", size)
     if "--page-only" not in sys.argv:

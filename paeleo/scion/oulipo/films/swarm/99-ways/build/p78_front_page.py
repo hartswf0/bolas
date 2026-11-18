@@ -36,10 +36,11 @@ STATION = ROOT / "films/sources/99-ways/forage/p74/t_v2400.jpg"
 def ground():
     F = pen99.sheet99().mean(axis=2)
     F = F - F.mean()
-    return np.zeros((H, W, 3), np.float32) + NEWS + F[..., None] * 0.55
+    F = cv2.GaussianBlur(F, (0, 0), 2.0)
+    return np.zeros((H, W, 3), np.float32) + NEWS + F[..., None] * 0.25
 
 
-def halftone(g, pitch=7.0, deg=45.0, gain=1.0):
+def halftone(g, pitch=9.0, deg=45.0, gain=1.0):
     """HANDMADE dot screen: g gray float 0..255 -> ink coverage 0..1 (round dots growing into a chequer)."""
     h, w = g.shape
     yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
@@ -48,6 +49,7 @@ def halftone(g, pitch=7.0, deg=45.0, gain=1.0):
     v = (-xx * math.sin(a) + yy * math.cos(a)) / pitch
     s = (np.cos(2 * np.pi * u) + np.cos(2 * np.pi * v)) / 2      # -1..1 spot function
     t = (s + 1) / 2                                             # 0 at cell corners .. 1 at cell centres
+    g = 22 + g * 0.86                                          # the block maker's tone: highlights keep a fine dot
     dark = np.clip((1 - g / 255.0) * gain, 0, 1)
     dark = dark * 0.94 + 0.03                                   # the screen never prints pure white or solid
     cov = np.clip((t - (1 - dark)) / 0.10 + 0.5, 0, 1)
@@ -62,7 +64,7 @@ def print_block(img, g, x0, y0, x1, y1, alpha=None, gain=1.0, rule=True):
     if alpha is not None:
         aa = cv2.resize(alpha.astype(np.float32), (bw, bh), interpolation=cv2.INTER_AREA) / 255.0
         cov = cov * aa
-    cov = cv2.GaussianBlur(cov, (0, 0), 0.6)
+    cov = cv2.GaussianBlur(cov, (0, 0), 1.8)
     sub = img[y0:y1, x0:x1]
     sub[:] = sub * (1 - cov[..., None] * 0.93) + INKN * (cov[..., None] * 0.93)
     if rule:
@@ -149,45 +151,45 @@ def build(reveal=9):
         hrule(img, 110, 2090, 935, 3)
     used = []
     if reveal >= 3:     # --- the press photograph: the scene
-        print_block(img, station_gray(), 750, 960, 2090, 1770, gain=1.0)
+        print_block(img, station_gray(), 750, 960, 2090, 1700, gain=1.0)
         text(img, ["THE SCENE. Randolph station, seen from the tracks. The ticket office,",
-                   "where the agent keeps his desk, his clock and his cupboard, is within."], 33, 760, 1792, 7820)
+                   "where the agent keeps his desk, his clock and his cupboard, is within."], 33, 760, 1722, 7820)
     vrule(img, 725, 960, 2720, 2)
     if reveal >= 4:     # --- the column of report
-        text(img, ["LADY AT WINDOW", "ASKED THE TIME"], 44, (COL_X0 + COL_X1) / 2 - 10, 962, 7830, centre=True,
+        text(img, ["LADY ASKED THE TIME"], 42, (COL_X0 + COL_X1) / 2 - 10, 962, 7830, centre=True,
              weight=0.15, bold=2)
-        hrule(img, 250, 570, 1092, 2)
-        y = 1118
+        hrule(img, 250, 570, 1034, 2)
+        y = 1056
         lh = int(COL_CAP * 1.42)
         paras = REPORT if reveal >= 5 else REPORT[:4]
         for i, p in enumerate(paras):
             ls = wrap(p, COL_CAP, COL_X1 - COL_X0 - 10)
             text(img, ls, COL_CAP, COL_X0 + (0 if i == 0 else 0), y, 7840 + i)
-            y += lh * len(ls) + 12
+            y += lh * len(ls) + 8
         col_end = y
     else:
         col_end = None
-    hrule(img, 750, 2090, 1900, 2)
+    hrule(img, 750, 2090, 1826, 2)
     if reveal >= 6:     # --- the agent at the cupboard; the lady (Rol cutout, outlined halftone)
         g, used = agent_gray()
-        print_block(img, g, 760, 1925, 1395, 2560, gain=1.05)
-        text(img, ["THE AGENT before the open", "cupboard. The key hangs on", "its hook, at left."], 33, 770, 2582, 7850)
+        print_block(img, g, 780, 1850, 1375, 2410, gain=1.05)
+        text(img, ["THE AGENT before the open", "cupboard. The key hangs on", "its hook, at left."], 33, 770, 2430, 7850)
         wg, wa = k4.woman()
         wg = wg.mean(axis=2)
-        hh = 640
+        hh = 560
         ww = int(wg.shape[1] * hh / wg.shape[0])
         x0 = 1745 - ww // 2
         a8 = (wa > 127).astype(np.uint8) * 255
-        print_block(img, wg, x0, 1925, x0 + ww, 1925 + hh, alpha=a8, gain=1.0, rule=False)
-        text(img, ["THE LADY AT THE WINDOW,", "who asked the time.", "She has not been identified."], 33, 1440, 2582,
+        print_block(img, wg, x0, 1850, x0 + ww, 1850 + hh, alpha=a8, gain=1.0, rule=False)
+        text(img, ["THE LADY AT THE WINDOW,", "who asked the time.", "She has not been identified."], 33, 1440, 2430,
              7851)
-        vrule(img, 1418, 1925, 2720, 2)
+        vrule(img, 1418, 1850, 2580, 2)
     if reveal >= 7:     # --- one small notice under the column
-        bx0, by0 = 760, 2668
-        text(img, ["LOST: one errand, at Randolph station, between desk and cupboard. Finder please call at the office."],
-             28, 1425, by0, 7860, centre=True)
+        bx0, by0 = 760, 2640
+        text(img, ["LOST: one errand, at Randolph station, somewhere between",
+                   "the desk and the cupboard. Finder please call at the office."], 29, 1425, by0, 7860, centre=True)
         m = np.zeros((H, W), np.uint8)
-        cv2.rectangle(m, (bx0, by0 - 18), (2090, by0 + 44), 255, 2, cv2.LINE_AA)
+        cv2.rectangle(m, (bx0, by0 - 18), (2090, by0 + 84), 255, 2, cv2.LINE_AA)
         penlib.ink_onto(img, m, INKN)
     return img, used, col_end
 

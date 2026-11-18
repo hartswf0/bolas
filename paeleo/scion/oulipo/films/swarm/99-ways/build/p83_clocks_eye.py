@@ -43,13 +43,13 @@ COLX = (110, 1130)
 ROWY = (110, 980, 1850)
 BOX = {i + 1: (COLX[i % 2], ROWY[i // 2], PW, PH) for i in range(6)}
 TIMES = {1: (4, 9, 5), 2: (4, 9, 40), 3: (4, 10, 2), 4: (4, 10, 14), 5: (4, 10, 50), 6: (4, 11, 20)}
-WALLZ, ROOMX, ROOMH = 5.4, 3.3, 3.4
+WALLZ, ROOMX, ROOMH = 3.9, 3.3, 3.4
 
 # ------------------------------------------------------------------ the clock's camera
-CAM = np.array([0.0, 3.05, 0.0])          # the clock's face: high on the near wall, centre
-PITCH = math.radians(37)                  # looking down
-FOC = 760.0
-CX, CY = PW / 2, PH * 0.44
+CAM = np.array([0.0, 3.1, 0.0])          # the clock's face: high on the near wall, centre
+PITCH = math.radians(33)                  # looking down
+FOC = 640.0
+CX, CY = PW / 2, PH * 0.33
 fwd = np.array([0, -math.sin(PITCH), math.cos(PITCH)])
 upv = np.array([0, math.cos(PITCH), math.sin(PITCH)])
 rgt = np.array([1.0, 0, 0])
@@ -113,7 +113,7 @@ def floor_shadow(panel, X, Z, rx=0.34, rz=0.22, op=0.30):
 WPPM = 200.0                       # far-wall card px per metre
 WALL_W, WALL_H = int(2 * ROOMX * WPPM), int(ROOMH * WPPM)
 WIN_X = 260                        # window board x on the wall card (p49 window_board coords)
-CUP = (840, 300, 1030, 680)        # cupboard on the wall card (x0, y0, x1, y1); floor = WALL_H
+CUP = (840, 330, 1030, 650)        # cupboard on the wall card (x0, y0, x1, y1); floor = WALL_H
 SDOOR = (1110, 250, 1290, WALL_H)
 
 
@@ -128,6 +128,10 @@ def wall_card(P, open_k, woman, seed):
         sub = c[200:, :]
         wm = E.window_board(sub, P, WIN_X, seed + 30, woman=woman)
         b3.cupboard(c, *CUP, open_k, seed + 40)
+        x0_, y0_, x1_, y1_ = CUP
+        pen(c, [(x0_ - 16, y0_ - 4), (x1_ + 16, y0_ - 4), (x1_ + 16, y0_ - 26), (x0_ - 16, y0_ - 26)], 4, seed + 45, closed=True)
+        pen(c, [(x0_ + 4, y1_), (x0_ + 4, WALL_H - 4)], 5, seed + 46)
+        pen(c, [(x1_ - 4, y1_), (x1_ - 4, WALL_H - 4)], 5, seed + 47)
         b3.service_door(c, *SDOOR, seed + 50)
         return wm
     # the wall card is opaque: draw once on card
@@ -168,7 +172,7 @@ def wall_pt(u, v):
     return proj(((u - WALL_W / 2) / WPPM, (WALL_H - v) / WPPM, WALLZ))
 
 
-DESK = (-2.75, -1.55, 1.75, 2.55, 0.78)    # x0, x1, z0, z1, top height (m)
+DESK = (-2.2, -0.75, 1.15, 1.8, 0.78)    # x0, x1, z0, z1, top height (m)
 
 
 def desk(panel, P, seed, memo=True):
@@ -191,7 +195,9 @@ def desk(panel, P, seed, memo=True):
     pen(top, [(6, 6), (394, 6), (394, 214), (6, 214)], 4, seed + 1, closed=True)
     pen(top, [(18, 22), (382, 22)], 1.5, seed + 2, colour=b3.GRAPH)
     if memo:
-        b3.memo(top, 200, 118, 1.05, seed + 3, deg=-5)
+        b3.memo(top, 230, 112, 1.12, seed + 3, deg=-4)
+        pen(top, b3.circle_pts(60, 60, 18, 16), 3, seed + 4, closed=True)
+        pen(top, [(52, 150), (120, 196)], 4, seed + 5)
     flat(panel, top, np.ones((220, 400), np.float32), [(x0, ht, z1), (x1, ht, z1), (x1, ht, z0), (x0, ht, z0)])
     stand(panel, rgb2, a2, ppm, ((xs.min() + xs.max()) / 2, 640 * ppm / ppm_y), (x0 + x1) / 2, z0)
 
@@ -278,27 +284,27 @@ def board(n, P, figures=True, line_on=True):
         return pnl
     win_mouth = wall_pt(WIN_X + 30, 330)
     if n == 1:      # E0: at the desk, the memo before him; he rises and turns for the cupboard
-        f = place_agent(pnl, P, -1.15, 2.55, arms=(-30, 20, 0), head=10, flip=False)
+        f = place_agent(pnl, P, -0.35, 1.95, arms=(-30, 20, 0), head=10, flip=True)
     elif n == 2:    # E1: halfway across the floor; the question from the window
-        f = place_agent(pnl, P, -0.2, 3.7, arms=(12, 0, -8), head=0, flip=False)
+        f = place_agent(pnl, P, -0.8, 2.7, arms=(12, 0, -8), head=0, flip=False)
         if line_on:
-            E.balloon(pnl, Q, 34, (330, 92), (win_mouth[0], win_mouth[1] - 6), 8361)
+            E.balloon(pnl, Q, 36, (470, 100), (win_mouth[0], win_mouth[1] - 6), 8361)
     elif n == 3:    # E2: he looks UP, at the clock, at us; the answer
-        f = place_agent(pnl, P, -0.35, 3.3, arms=(60, 150, 0), head=-30, flip=False)
+        f = place_agent(pnl, P, -0.85, 2.6, arms=(60, 150, 0), head=-30, flip=False)
         if line_on:
-            E.balloon(pnl, A, 36, (700, 120), f["mouth"], 8371)
+            E.balloon(pnl, A, 38, (620, 110), f["mouth"], 8371)
     elif n == 4:    # E3: the thanks; she turns from the glass
-        f = place_agent(pnl, P, -0.35, 3.4, arms=(0, 0, 0), head=6, flip=False)
+        f = place_agent(pnl, P, -0.7, 2.75, arms=(0, 0, 0), head=6, flip=False)
         if line_on:
-            E.balloon(pnl, T, 38, (180, 92), (win_mouth[0] + 10, win_mouth[1] - 6), 8381)
+            E.balloon(pnl, T, 40, (440, 90), (win_mouth[0] + 10, win_mouth[1] - 6), 8381)
     elif n == 5:    # E4: at the cupboard; the door opens on its left jamb; the key on its hook
-        f = place_agent(pnl, P, 0.95, 4.75, arms=(-62, 30, 0), head=0, flip=True)
+        f = place_agent(pnl, P, 0.5, 3.45, arms=(-62, 30, 0), head=0, flip=True)
     else:           # E5: pencil to chin before the open cupboard; the key stays; the SERVICE door stays shut
-        f = place_agent(pnl, P, 0.55, 4.6, arms=(47, 132, 0), head=-6, flip=True)
+        f = place_agent(pnl, P, 0.35, 3.35, arms=(47, 132, 0), head=-6, flip=True)
         hd = f["hand"]
         pen(pnl, [(hd[0] + 1, hd[1] + 2), (hd[0] - 3, hd[1] - 16)], 3, 8391)
         if line_on:
-            E.balloon(pnl, F, 34, (300, 96), (f["mouth"][0] - 4, f["mouth"][1]), 8392)
+            E.balloon(pnl, F, 36, (225, 345), (f["mouth"][0] - 4, f["mouth"][1]), 8392)
     return pnl
 
 

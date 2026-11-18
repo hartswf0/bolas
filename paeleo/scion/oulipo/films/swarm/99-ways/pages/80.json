@@ -1,0 +1,83 @@
+{
+ "n": 80,
+ "id": "fold-in",
+ "title": "Fold-in",
+ "family": "formal / Oulipian rule",
+ "medium": "busch-fold",
+ "canon_revision": "c1",
+ "rule": "Folding the page along its marked lines hides the interruption and joins departure to cupboard, making a story in which he remembers.",
+ "declares": "the folded reading is a marked alternate (outcome changed only when folded)",
+ "file": "assets/pages/99-ways/80-fold-in.jpg",
+ "master": "films/sources/99-ways/masters/80-fold-in.png",
+ "beats_dir": "films/sources/99-ways/beats/80",
+ "build": "films/swarm/99-ways/build/p80_fold_in.py (busch-fold kit: build/p59_once_upon.py, p39_meanwhile.py, p11_station_cat.py, p69_picture_sheet.py)",
+ "sources": [
+  "les-caids-de-la-gaudriole:busch-mm-031",
+  "99-ways:busch-helene-munzel",
+  "les-caids-de-la-gaudriole:vintage-paper",
+  "les-caids-de-la-gaudriole:wood-table",
+  "99-ways:handmade"
+ ],
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "made": [
+  "the sheet (les-caids vintage paper on the les-caids wood table) ruled by two red dashed fold lines A (x 770) and B (x 1430), lettered A/B top and bottom, with an A-to-B arrow",
+  "head: 'FOLD-IN' | the question in the hidden strip | the folding instructions; the headline 'WHAT HE | CAME FOR, HE FOR | GETS' set so that unfolded it reads 'WHAT HE CAME FOR, HE FORGETS' and folded 'WHAT HE GETS'",
+  "three wide tiers in the HANDMADE ink set with the les-caids porter cutout (Busch 1865) as the agent: T1 desk and memo | clock | he walks off; T2 he crosses | the ticket window with Helene (Busch 1872) behind the glass, clock 4:10, question, answer and thanks balloons | on to the cupboard; T3 the open cupboard door (left jamb) with the brass key on its hook and SERVICE tag | the dark inside and the forgetting balloon | the agent, pencil to chin, a HANDMADE reaching arm whose fingertips stop exactly at line B, the SERVICE door shut",
+  "tier captions written for both readings: L text on the first row, the hidden strip's rows, R text on the last row; unfolded they keep the canon ('...Nobody takes it.'), folded they close up into 'So off he goes for the key.' / 'Across the office he goes, and on he goes, to the cupboard.' / 'He opens it, sees the key, and takes it.'",
+  "foot: 'Fold so that A meets B.' | 'Unfolded, it is what happened.' | 'Folded, it is what he came for.'; folio '80 / Fold-in'"
+ ],
+ "events": {
+  "E0": "T1 (all strips)",
+  "E1": "T2 middle strip: question balloon",
+  "E2": "T2 middle strip: clock 4:10, answer balloon",
+  "E3": "T2 middle strip: thanks balloon",
+  "E4": "T3 left strip: cupboard open, key on its hook",
+  "E5": "T3 middle strip: forgetting balloon; caption 'The key stays on its hook; the SERVICE door stays shut. Nobody takes it.'"
+ },
+ "substitutions": "none: the four lines verbatim",
+ "beat": "the sheet folded on the table: the middle strip folds back and closes up until A meets B; the folded sheet shows the hand on the key and 'WHAT HE GETS'",
+ "beat_frames": [
+  "b01 flat (unfolded = the page)",
+  "b02 fold 30 %",
+  "b03 fold 55 %",
+  "b04 fold 75 %",
+  "b05 fold 90 %",
+  "b06 folded: A meets B"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 994219,
+  "jpeg_quality": 90,
+  "in_target_0_4_1_2MB": true,
+  "beat_frames": 6,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "check": "Unfolded the page keeps the canon; folded it shows the agent taking the key.",
+  "evidence": "perceptually judged by the maker from the full-size page; blind reading pending",
+  "interruption_in_hidden_strip_only": true,
+  "forgetting_in_hidden_strip_only": true,
+  "fingertips_at_B_page_px": [
+   1432,
+   2120
+  ],
+  "key_bow_ends_at_A": true,
+  "folded_state": "structurally verified in beat b06"
+ },
+ "weaknesses": [
+  "the reaching arm and hand are crude HANDMADE ink against Busch's line; unfolded the arm reads as a long reach that stops short, which is the point but looks odd",
+  "folded, the hand touches the key's bow rather than closing round it; the caption 'and takes it' does the rest",
+  "the folded state is not on the still page itself (only in the beats); the reader must fold to see it",
+  "T2's middle strip is crowded: three small balloons (cap 24) over the window and clock, small at phone width",
+  "in the folded rows the R caption sits one or two rows below the L caption (blank rows between)"
+ ]
+}

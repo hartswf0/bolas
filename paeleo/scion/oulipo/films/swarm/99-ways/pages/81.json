@@ -1,0 +1,81 @@
+{
+ "n": 81,
+ "id": "quarter-turns",
+ "title": "Quarter turns",
+ "family": "reader and object",
+ "medium": "spiral-disc",
+ "canon_revision": "c1",
+ "rule": "Each tier is lettered in a different orientation; the reader turns the page a quarter turn per tier.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/81-quarter-turns.jpg",
+ "master": "films/sources/99-ways/masters/81-quarter-turns.png",
+ "beats_dir": "films/sources/99-ways/beats/81",
+ "build": "films/swarm/99-ways/build/p81_quarter_turns.py (scenes: build/p46_clock_face.scene on the b1m2 cut-paper model; ring disc: films/swarm/anemic-cinema/optics.render_rings)",
+ "sources": [
+  "99-ways:handmade",
+  "anemic-cinema:o-a-engraved-ring-disc",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "les-caids-de-la-gaudriole:wood-table"
+ ],
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "made": [
+  "three card bands on the LoC 1934 sheet, each composed upright and laid in a different orientation: tier 1 a quarter turn anticlockwise, tier 2 upside down, tier 3 a quarter turn clockwise; no tier reads upright as the page lies",
+  "each tier: four round disc prints of the b1m2 HANDMADE cut-paper office scenes in ink (page 46's scene()), the ANRC 1922 key cutout in brass, captions in the shared pen hand, the four canon lines in cut-paper balloons",
+  "at each tier's head a turning key: the anemic-cinema O_A engraved ring disc (procedural) printed in ink, a red tier numeral on a card pin and a red cut-card arrow, lettered 'one / two / three quarter turns'",
+  "tier 2 also carries 'Now turn the page one more quarter, for the cupboard.'; the folio line stays upright ('81 / Quarter turns') and is the page's home orientation after the fourth turn"
+ ],
+ "events": {
+  "E0": "tier 1: desk and memo, he gets up, on his way",
+  "E1": "tier 1 disc 4: question",
+  "E2": "tier 2: looks at the clock, answer",
+  "E3": "tier 2: thanks, she goes",
+  "E4": "tier 3: on to the cupboard, he opens it, the key tagged SERVICE",
+  "E5": "tier 3 disc 4: forgetting; caption with the outcome"
+ },
+ "substitutions": "none: the four lines verbatim",
+ "beat": "the page turned clockwise on the table a quarter at a time; at each stop the upright tier stays full and the others pale",
+ "beat_frames": [
+  "b01 the page as it lies",
+  "b02 turning (45 deg)",
+  "b03 one quarter turn: tier 1 upright",
+  "b04 turning (135 deg)",
+  "b05 two quarter turns: tier 2 upright",
+  "b06 three quarter turns: tier 3 upright",
+  "b07 four: home again"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 941256,
+  "jpeg_quality": 90,
+  "in_target_0_4_1_2MB": true,
+  "beat_frames": 7,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "check": "Each tier reads upright only after a quarter turn.",
+  "evidence": "perceptually judged by the maker from the full-size page; blind reading pending",
+  "tiers": 3,
+  "orientations_deg_ccw": [
+   90,
+   180,
+   270
+  ],
+  "discs": 12
+ },
+ "weaknesses": [
+  "three tiers (not four) so that no tier is upright before turning; the fourth turn only brings the page home",
+  "disc prints are small silhouettes (R 196-206 px); the memo slip and clock time need a close look",
+  "the ring discs at the tier heads are orientation keys, not narrative",
+  "captions beside the discs in tiers 1 and 3 read across the tier's short side in 3-4 short lines"
+ ]
+}

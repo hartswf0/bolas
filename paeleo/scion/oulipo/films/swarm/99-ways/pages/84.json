@@ -1,0 +1,75 @@
+{
+ "n": 84,
+ "id": "thirty-years-on",
+ "title": "Thirty years on",
+ "family": "time and order",
+ "medium": "charcoal-card",
+ "canon_revision": "c1",
+ "rule": "The office in 1967, disused: the key still on its hook, the door still closed; the 1937 beats appear as pale figures in the same room.",
+ "declares": "frames the incident in 1967",
+ "file": "assets/pages/99-ways/84-thirty-years-on.jpg",
+ "master": "films/sources/99-ways/masters/84-thirty-years-on.png",
+ "beats_dir": "films/sources/99-ways/beats/84",
+ "build": "films/swarm/99-ways/build/p84_thirty_years_on.py (card kit: build/charcoal99.py; figure model build/b1m2.py; key card build/p31_sounds_only.py; written() from build/p77_the_cupboard.py)",
+ "sources": [
+  "teuf-teuf:cueva-de-las-manos",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "made": [
+  "seven boards of the same office in 1967, built in dark charcoal card pieces (charcoal99.pin_up) on the teuf-teuf rock-wall ground (Cueva de las manos, CC BY-SA 3.0, printed through the teuf-teuf ramp): the ticket window boarded with four nailed planks (brads), its glass grimed; the desk under a draped dust sheet; the wall clock stopped at 11:52; a SEPTEMBER 1967 calendar card (board 1); charcoal cobwebs in the corners and over the cupboard; the cupboard door hanging open with the brass key (the ANRC 1922 cutout cut as a card, dulled with dust) still on its hook; the SERVICE door shut, its card faded",
+  "the 1937 beats as PALE figures: the same b1m2 card puppets (agent, stranger) and the 1937 state of things (the memo slip, the cupboard door closed in E0-E3 and swinging open in E4, the clock's 4:10 hands over the stopped ones) cut in near-white chalk card, laid three-quarters transparent with a chalk outline, so the 1967 room shows through them",
+  "captions as bone-on-black slips naming the year; the four canon lines verbatim in pale cut-paper balloons; folio by pen99.folio"
+ ],
+ "events": {
+  "E0": "board 2 (1937): the pale memo on the sheeted desk; he gets up",
+  "E1": "board 3 (1937): the pale lady at the boarded window; question",
+  "E2": "board 4: the clock stopped at 11:52, its pale 1937 hands at 4:10; he looks up; answer",
+  "E3": "board 5 (1937): thanks; she turns from the glass",
+  "E4": "board 6 (1937): the pale cupboard door swings open; the key hangs there (the same key, solid, in 1967)",
+  "E5": "board 7: pale agent, pencil to chin, forgetting line; caption '1967: the key is still on its hook. The SERVICE door is still closed.'"
+ },
+ "frame": "board 1: the empty office, September 1967 (declared: frames the incident in 1967)",
+ "substitutions": "none: the four lines verbatim",
+ "beat": "the 1967 room stays; the pale 1937 figures arrive in it board by board",
+ "beat_frames": [
+  "b01: all seven boards in 1967, empty",
+  "b02: E0 ghost",
+  "b03: E1",
+  "b04: E2",
+  "b05: E3",
+  "b06: E4",
+  "b07: E5 (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1103966,
+  "jpeg_quality": 90,
+  "in_target_0_4_1_2MB": true,
+  "master_exists": true,
+  "beat_frames": 7,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "check": "A reader tells the two times apart and finds the key in both. -- perceptually judged by the maker at full size: the 1967 things are dark solid cards, the 1937 figures pale and see-through, the captions name each year; the key is the solid dusty card on its hook in every board, seen through the pale closed door in boards 2-5",
+  "pending": "independent blind reading not run by the maker"
+ },
+ "weaknesses": [
+  "the cupboard door hangs open in 1967, an assumption (the canon does not say whether he shut it); declared here so the key can be seen in both times",
+  "the pale stranger behind the planks is a chalky blob of hat and coat, not a face",
+  "in board 4 the answer balloon covers the ghost stranger and the TICKET OFFICE header",
+  "captions carry part of the time distinction (the years are written); a reader without them still has dust, boards and calendar vs pale figures",
+  "the small boards crowd window, desk, clock, cupboard and SERVICE door into 960 px; the SERVICE door is narrow"
+ ]
+}

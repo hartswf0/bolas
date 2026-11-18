@@ -73,8 +73,8 @@ def v2():   # E0 your hands push up from the desk: the cupboard and the SERVICE 
     p28.service_door_set(c, 740, 130, 150, 340, 30)
     c.rect(-10, 90, 70, 450, s=40)                                   # the ticket window's jamb at the edge
     c.rect(-10, 530, c.w + 10, c.h + 10, s=2)                        # your desk edge, close
-    c.left_hand((250, 505), -80)
-    c.hand((860, 505), -100)
+    c.left_hand((250, 462), -80)
+    c.hand((860, 462), -100)
     return c
 
 
@@ -119,7 +119,7 @@ def v7():   # E5 pencil up to your chin (from below the card), the line
     box, leaf = p28.cupboard_set(c, 220, 90, 300, 440, open_=True, seed=80)
     p28.key_on_hook(c, 370, 250, 0.27, 7672)
     p28.service_door_set(c, 840, 50, 200, 480, 90)
-    c.hand((560, 560), -100, pencil=140)
+    c.hand((560, 500), -100, pencil=140)
     c.balloon(F, 44, (650, 105), (640, 620), 7673)
     return c
 
@@ -196,7 +196,7 @@ def beat_frames():
     cw = 900
     ch = int(round(cw * CH / CW))
     cards = [cv2.resize(card_rgb(k), (cw, ch), interpolation=cv2.INTER_AREA) for k in (5, 6)]
-    ys = [30, 30 + ch + 150]
+    ys = [18, 18 + ch + 142]
 
     def words(k, n):
         ws = CAPTIONS[k].split()
