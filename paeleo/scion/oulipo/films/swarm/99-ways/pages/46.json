@@ -1,0 +1,156 @@
+{
+ "n": 46,
+ "id": "clock-face",
+ "title": "Clock face",
+ "rule": "Twelve panels arranged round a circle like the hours of the station clock, read clockwise from twelve.",
+ "medium": "spiral-disc",
+ "family": "layout and page grammar",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/46-clock-face.jpg",
+ "master": "films/sources/99-ways/masters/46-clock-face.png",
+ "beats_dir": "films/sources/99-ways/beats/46",
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "build": "films/swarm/99-ways/build/p46_clock_face.py (b1m2 cut-paper model; anemic-cinema optics.render_rings)",
+ "sources": [
+  "99-ways:handmade",
+  "anemic-cinema:o-a-engraved-ring-disc",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934"
+ ],
+ "made": [
+  "HANDMADE card clock dial (the LoC 1934 sheet fibre in the card), rim with minute ticks, red hour numerals XII-XI in the shared pen hand",
+  "twelve round panels at the hour positions, each an upright print of the b1m2 HANDMADE cut-paper figures in ink (as page 06), the ANRC 1922 key cutout as a brass spot colour; XII the memo ... XI the forgetting",
+  "the four c1 lines in cut-paper balloons (III question, V answer, VI thanks, XI forgetting); short pen captions on pasted slips in the other panels",
+  "hub: the anemic-cinema O_A engraved eccentric-ring disc (procedural, reused from films/swarm/anemic-cinema/optics.py render_rings, printed in ink), pinned with a red cut-card reading hand pointing at XII",
+  "a cut-card pendulum case under the dial with a brass bob; reading directions and an hour key in the pen hand",
+  "folio '46 / Clock face' (pen99.folio)"
+ ],
+ "panels": [
+  {
+   "hour": "XII",
+   "event": "E0",
+   "scene": "desk",
+   "caption": "The memo: 4:15, SERVICE door"
+  },
+  {
+   "hour": "I",
+   "event": "E0",
+   "scene": "rise",
+   "caption": "He gets up for the key."
+  },
+  {
+   "hour": "II",
+   "event": "E0",
+   "scene": "walk",
+   "caption": "Across the office."
+  },
+  {
+   "hour": "III",
+   "event": "E1",
+   "scene": "ask",
+   "line": "Pardon me — have you the right time?",
+   "speaker": "STRANGER"
+  },
+  {
+   "hour": "IV",
+   "event": "E2",
+   "scene": "look",
+   "caption": "He looks at the clock."
+  },
+  {
+   "hour": "V",
+   "event": "E2",
+   "scene": "answer",
+   "line": "Ten past four, by the clock.",
+   "speaker": "AGENT"
+  },
+  {
+   "hour": "VI",
+   "event": "E3",
+   "scene": "thanks",
+   "line": "Much obliged!",
+   "speaker": "STRANGER"
+  },
+  {
+   "hour": "VII",
+   "event": "E3",
+   "scene": "gone",
+   "caption": "She goes."
+  },
+  {
+   "hour": "VIII",
+   "event": "E4",
+   "scene": "walk2",
+   "caption": "On to the cupboard."
+  },
+  {
+   "hour": "IX",
+   "event": "E4",
+   "scene": "open",
+   "caption": "He opens it."
+  },
+  {
+   "hour": "X",
+   "event": "E4",
+   "scene": "key",
+   "caption": "The key, on its hook."
+  },
+  {
+   "hour": "XI",
+   "event": "E5",
+   "scene": "forget",
+   "line": "Well, here I am... and what for?",
+   "speaker": "AGENT"
+  }
+ ],
+ "events": {
+  "E0": "XII memo (4:15 on the slip), I he gets up, II across the office",
+  "E1": "III question at the window",
+  "E2": "IV he looks at the clock (4:10), V 'Ten past four, by the clock.'",
+  "E3": "VI 'Much obliged!', VII she goes",
+  "E4": "VIII on to the cupboard, IX he opens it, X the key on its hook (SERVICE tag)",
+  "E5": "XI 'Well, here I am... and what for?' before the open cupboard, key unmoved; next comes XII again, the memo"
+ },
+ "beat": "the reading performed as the clock: the red reading hand sweeps clockwise from XII through II, IV, VI, VIII, X to XI and on toward XII, the ring disc turning with it and the pendulum swinging; panels not yet reached lie pale",
+ "beat_frames": [
+  "b01: hand at XII, only XII read",
+  "b02: hand at II",
+  "b03: hand at IV",
+  "b04: hand at VI",
+  "b05: hand at VIII",
+  "b06: hand at X",
+  "b07: hand at XI, the forgetting read",
+  "b08: hand just short of XII again, all twelve read"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1004240,
+  "jpeg_quality": 90,
+  "in_target_0_4_1_2MB": true,
+  "beat_frames": 8,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "panels": 12,
+  "panel_order": "clockwise from XII (structurally: panel h placed at angle h*30 deg)",
+  "forgetting_at": "XI (just before XII)",
+  "lines_verbatim": true,
+  "check": "A reader starts at the top panel and reads clockwise; the forgetting sits just before twelve again (maker's judgement from the full-size page; blind reading pending)",
+  "evidence": "structurally verified (placement) and perceptually judged (full-size page, beat frames) by the maker"
+ },
+ "weaknesses": [
+  "the twelve panels are small (376 px across on a 2200 px page): the cut-paper figures read as silhouettes, details such as the memo slip need a close look",
+  "panels in the lower half are upright, not turned with the dial, so 'round a circle' is a layout of upright pictures, as on a picture clock",
+  "the hub's eccentric rings are decoration plus the turning in the beats; on the still page they do not tell anything"
+ ]
+}

@@ -1,0 +1,67 @@
+{
+ "n": 42,
+ "id": "lamp-shadows",
+ "title": "Lamp shadows",
+ "family": "medium and material",
+ "medium": "shadow-puppet",
+ "canon_revision": "c1",
+ "rule": "Only the shadows the lamp throws on the office wall tell the story; the people themselves are never seen.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/42-lamp-shadows.jpg",
+ "master": "films/sources/99-ways/masters/42-lamp-shadows.png",
+ "beats_dir": "films/sources/99-ways/beats/42",
+ "build": "films/swarm/99-ways/build/p42_lamp_shadows.py (puppets and set pieces: build/b1m2.py, key/hook/card: p05_noir.py)",
+ "sources": [
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "seven panels, each a stretch of the office wall: plaster (LoC 1934 sheet fibre as the plaster grain) over a boarded wainscot with a rail, lit by a lamp below or beside the frame (radial fall-off, warm)",
+  "the HANDMADE b1m2 cut-paper puppets (agent in profile with spectacles cut through, pencil, waistcoat buttons; stranger bust with cloche hat) never shown: only their cast shadows, projected onto the wall through a homography (stretched, leaning away from the lamp), penumbra by blur, multiplied into the wall light",
+  "the ticket-window pendant lamp throws the window grille onto the wall as a bright skewed patch with dark glazing bars, and TICKET OFFICE through the etched header glass mirror-reversed; the stranger's shadow stands in that patch",
+  "objects in plain lamplight (they are not people): the green desk lamp, the memo slip on the desk edge (pen hand: 'MEMO / 4:15 - open SERVICE door. / Key in cupboard.'), the wall clock (4:09 in P1, 4:10 at the answer), the cupboard hinged on the left jamb, the ANRC 1922 brass key cutout on its hook with the SERVICE tag, the SERVICE door with its card",
+  "the four canon lines in the shared cut-paper balloons, tails to the shadows' heads; folio '42 / Lamp shadows' (pen99.folio)",
+  "repair this session: P6 shadow re-cast so the agent's shadow head and reaching arm are whole (it was cut by the panel edge) and the cupboard moved right so the arm's shadow lands on the open leaf"
+ ],
+ "events": {
+  "E0": "P1 his shadow bent over the desk, pencil up, the memo slip lit on the desk edge; P2 his shadow, huge, walks along the wall toward the closed cupboard",
+  "E1": "P3 her shadow in the window patch (reversed TICKET OFFICE), his shadow turned to her; question balloon tailed to her shadow",
+  "E2": "P4 his shadow head tilted up to the clock at 4:10; answer balloon",
+  "E3": "P5 her shadow turns away in the window patch; thanks balloon",
+  "E4": "P6 cupboard open, the brass key on its hook with the SERVICE tag; his arm's shadow reaches across the open leaf",
+  "E5": "P7 his shadow, pencil to chin, before the open cupboard; forgetting balloon; key on its hook, SERVICE door closed"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "beat": "the lamps come on panel by panel, each wall waking with its shadow; in P2 the shadow walks along the wall, in P6 the cupboard leaf swings open under the reaching shadow, in P7 the pencil-shadow rises to the chin and the forgetting balloon is laid",
+ "beat_frames": [
+  "b01: only P1 lit (shadow at the desk, memo)",
+  "b02: P2 lit, shadow at the start of its walk",
+  "b03: P3 lit (her shadow in the window patch, question)",
+  "b04: P4 lit (answer under the clock)",
+  "b05: P5 lit (thanks)",
+  "b06: P6 lit, cupboard leaf at 40 degrees",
+  "b07: P7 lit, pencil down, no balloon",
+  "b08: the finished page"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 676496,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "evidence": "perceptually judged (from frames) by the maker at full size; independent blind readers not yet run",
+  "check": "No figure appears except as a shadow on a wall: every person on the page is a cast shadow (puppet masks only ever drawn through cast()); objects are seen, people never (structurally verified in the build: agent() and stranger() shapes are passed only to cast())",
+  "panels": 7,
+  "balloon_cap_px": 44,
+  "beats": 8,
+  "outcome": "key on its hook in P6 and P7; SERVICE door closed with its card in P7"
+ }
+}

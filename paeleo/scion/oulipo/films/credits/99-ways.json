@@ -15,7 +15,11 @@
    10,
    17,
    21,
-   27
+   27,
+   41,
+   43,
+   45,
+   48
   ],
   "used_as_99_ways": "page 01: every office piece and plate (rest layers P1-P8 of 99-ways-template)"
  },
@@ -35,7 +39,11 @@
    10,
    17,
    21,
-   27
+   27,
+   41,
+   43,
+   45,
+   48
   ],
   "used_as_99_ways": "page 01 P5: the wall clock at 4:10"
  },
@@ -75,7 +83,16 @@
    35,
    36,
    37,
-   40
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   50
   ],
   "used_as_99_ways": "page 01 P7-P8: the brass SERVICE key on its hook"
  },
@@ -125,7 +142,20 @@
    35,
    36,
    37,
-   40
+   38,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49,
+   50,
+   51,
+   52
   ],
   "used_as_99_ways": "page 01 ground (penlib.sheet); default page ground for the 99 (pen99.sheet99)"
  },
@@ -173,8 +203,21 @@
    35,
    36,
    37,
+   38,
    39,
-   40
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49,
+   50,
+   51,
+   52
   ]
  },
  {
@@ -206,7 +249,8 @@
    3,
    19,
    26,
-   34
+   34,
+   49
   ]
  },
  {
@@ -223,7 +267,8 @@
    3,
    19,
    26,
-   34
+   34,
+   49
   ]
  },
  {
@@ -238,7 +283,9 @@
   "used_as": "page 04: the STRANGER as narrator on the train (GrabCut + drawn scissor paths, white scissor margin)",
   "pages": [
    4,
-   21
+   21,
+   43,
+   45
   ]
  },
  {
@@ -252,7 +299,8 @@
   "local_path": "films/sources/99-ways/forage/rol_wagon_etage_1933_1280.jpg",
   "used_as": "page 04: the railway carriage picture in the band",
   "pages": [
-   4
+   4,
+   43
   ]
  },
  {
@@ -265,7 +313,9 @@
   "carried_from": "films/credits/exercices-de-style.json (cutout films/sources/exercices-de-style/forage/man_rgba.png)",
   "used_as": "page 04: the fellow passenger who listens",
   "pages": [
-   4
+   4,
+   41,
+   43
   ]
  },
  {
@@ -377,7 +427,8 @@
   "used_as_99_ways": "the charcoal-card wall: only the plain rock of the photograph's upper-left (x 0-470, y 0-215, no painted figures), its L-channel relief high-passed at low gain, mirror-tiled to each panel and printed through the teuf-teuf ramp. Adaptation shared under CC BY-SA.",
   "pages": [
    20,
-   31
+   31,
+   52
   ]
  },
  {
@@ -397,7 +448,8 @@
   "pages": [
    12,
    24,
-   37
+   37,
+   50
   ]
  },
  {
@@ -416,7 +468,8 @@
   "used_as": "page 12: the stranger (the old woman in her bonnet); the carriage window as the ticket window; the carriage wall tone for the desk, counter and cupboard body; the window's pale paper for the clock dial and cupboard leaf",
   "pages": [
    12,
-   37
+   37,
+   50
   ]
  },
  {
@@ -435,7 +488,8 @@
   "used_as": "page 12: the tunnel's black crayon tone, cut for the cupboard's dark inside, the clock case, the sill and the pencil",
   "pages": [
    12,
-   37
+   37,
+   50
   ]
  },
  {
@@ -464,5 +518,30 @@
   "used_as_99_ways": "page 24: the STRANGER (the woman's bust and cap) behind the ticket-window glass",
   "pages": [],
   "note": "not used by any 99-ways page since the page 24 repair (2026-11-17): the stranger there is now the woman of Les bons bourgeois no. 18 (99-ways:daumier-proprietaire-1846)"
+ },
+ {
+  "id": "exercices-de-style:rol-57642-homme-marchant-1920",
+  "title": "Homme marchant dans la rue (Rol 57642), janvier 1920",
+  "author": "Agence Rol (BnF, Pho20Rol)",
+  "license": "Public domain",
+  "license_url": "",
+  "source_url": "https://commons.wikimedia.org/wiki/File:Homme_marchant_dans_la_rue_-_btv1b530359957.jpg",
+  "carried_from": "films/credits/exercices-de-style.json (cutout films/sources/exercices-de-style/forage/visitor_rgba.png)",
+  "used_as": "page 43: the 2:12 passenger, a free cutout with a white scissor margin",
+  "pages": [
+   43
+  ]
+ },
+ {
+  "id": "anemic-cinema:o-a-engraved-ring-disc",
+  "title": "O_A engraved eccentric-ring disc (procedural)",
+  "author": "anemic-cinema optics unit (made for this production in code: films/swarm/anemic-cinema/optics.py render_rings)",
+  "license": "made for this work",
+  "source_url": "films/swarm/anemic-cinema/optics.py",
+  "used_as": "page 46: the clock dial's hub, printed in ink and turned in the beat frames (no foraged pixels: the ring disc is procedural; the CC BY-SA key cutouts of anemic-cinema are NOT used)",
+  "carried_from": "films/swarm/anemic-cinema (no foraged material)",
+  "pages": [
+   46
+  ]
  }
 ]

@@ -1,0 +1,76 @@
+{
+ "n": 51,
+ "id": "pen-alone",
+ "title": "Pen alone",
+ "rule": "The whole page drawn in the shared pen hand alone: one line weight, no tone, no fill.",
+ "medium": "pen-hand",
+ "family": "medium and material",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/51-pen-alone.jpg",
+ "master": "films/sources/99-ways/masters/51-pen-alone.png",
+ "beats_dir": "films/sources/99-ways/beats/51",
+ "build": "films/swarm/99-ways/build/p51_pen_alone.py (figure and set shapes: build/b1m2.py)",
+ "sources": [
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "made": [
+  "eight panels after the base page's order, every mark in the shared pen hand at one width (the folio pen, 4.42 px)",
+  "figures and set drawn as pen outlines of page 05's HANDMADE figure model (b1m2.agent with spectacles, waistcoat, sleeve garter and pencil; b1m2.stranger with her hat and bow; desk, ticket window, clock at 4:10, cupboard, SERVICE door), hidden lines lifted (each nearer shape erases the lines behind it before its outline is drawn: bare paper, never fill); thin parts (slits, ticks, pencil, garter) drawn as single centre lines, tiny rounds opened to rings",
+  "the brass key drawn in outline (hook, bow ring and eye, shank, bit) with its SERVICE tag on a string",
+  "balloons as pen outlines with the four canon lines verbatim; MEMO, TICKET OFFICE and SERVICE lettered in boxes",
+  "the LoC 1934 sheet as the only ground"
+ ],
+ "events": {
+  "E0": "P1 at the desk with the memo; P2 risen and walking; P3 walking past the closed cupboard and the SERVICE door",
+  "E1": "P4: she behind the TICKET OFFICE window; question balloon",
+  "E2": "P5: the clock at 4:10; answer balloon",
+  "E3": "P6: she turned away; thanks balloon",
+  "E4": "P7: the cupboard open, the key on its hook tagged SERVICE",
+  "E5": "P8: pencil to chin, forgetting balloon; key on its hook; SERVICE door shut"
+ },
+ "substitutions": "none: the four lines verbatim",
+ "beat": "the page is drawn as by one pen: the frames ruled first, then the panels in reading order; the cupboard drawn shut and then redrawn open; the forgetting balloon written last",
+ "beat_frames": [
+  "b01: the eight frames ruled",
+  "b02: panels 1-2 drawn",
+  "b03: panels 3-4",
+  "b04: panels 5-6",
+  "b05: panel 7 with the cupboard shut",
+  "b06: panel 7 with the cupboard open, the key on its hook",
+  "b07: panel 8 without the line",
+  "b08: the forgetting balloon written (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 896560,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "beat_frames": 8,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "pen_width_px": 4.42,
+  "one_weight": "every mark is the one pen: drawing strokes 4.42 px (13 px at 3x supersampling), lettering at weight = 4.42 / cap for every size (44 px balloons, 50 px thanks, 25 px memo, 30 px TICKET OFFICE / SERVICE, 24 px key tag), the folio's own pen (34 px x 0.13)",
+  "measured_stroke_width_px_on_master": {
+   "median": 6.0,
+   "p5": 4.0,
+   "p95": 6.0,
+   "note": "thresholded at L<110 incl. anti-aliasing; wider readings only at line junctions"
+  },
+  "no_tone_no_fill": "no fills, hatching, shadows, slips or photographs; balloons are pen outlines on the bare sheet",
+  "lines_verbatim": true,
+  "pending": "independent blind reading not run by the maker"
+ }
+}

@@ -48,11 +48,11 @@ assert " ".join(Q) == LN["question"] and " ".join(A) == LN["answer"] and " ".joi
 
 # ------------------------------------------------------------------ the two tiers (same set plate, same rig)
 V = (0.88, 1950, 600)            # Rothstein set plate -> tier px (left: ticket racks and wall; right: cupboard, SERVICE leaf)
-TW, TH_ = 1980, 880
+TW, TH_ = 1980, 850
 CLERK_AT, KC = (1560, 1000), 0.66
 POSE_A = dict(arm=-58.0, pencil=26.0, head=0.0)          # just opened the door: hand dropped, pencil in it, eyes down
 POSE_B = bp.solve_pencil_to_chin(np.array(bp.CHIN_TOUCH), head=-11.0)  # pencil to the chin, head tipped up
-STATE = {"A": dict(pose=POSE_A, swing=0.34, tag=30.0, mm=10, balloon=False),
+STATE = {"A": dict(pose=POSE_A, swing=0.34, tag=-16.0, mm=10, balloon=False),
          "B": dict(pose=POSE_B, swing=0.34, tag=12.0, mm=11, balloon=True)}
 CLOCK_AT, CLOCK_K = (560, 250), 0.55
 
@@ -91,11 +91,11 @@ def differences(fa, fb):
 # ------------------------------------------------------------------ page parts
 STRIP = [  # rest panel, crop in panel px, event, balloon (lines, cap, centre frac, tail tip in panel px or None)
     ("P1", (0, 160, 740, 930), "E0", None),
-    ("P4", (0, 120, 560, 890), "E1", (Q, 40, (0.48, 0.15), (-40, 330))),
+    ("P4", (0, 120, 560, 890), "E1", (Q, 40, (0.50, 0.14), (150, 330))),
     ("P5", (60, 0, 940, 937), "E2", (A, 44, (0.30, 0.14), "P5")),
     ("P6", (0, 120, 600, 890), "E3", (TH, 50, (0.62, 0.17), (-40, 300))),
 ]
-STRIP_CAPS = [["4:09. The memo:", "open SERVICE door", "at 4:15."], ["He gets up. At the", "window, a question."],
+STRIP_CAPS = [["The memo: SERVICE door", "at 4:15. He gets up."], ["At the window,", "a question."],
               ["He looks at", "the clock."], ["She thanks him", "and goes."]]
 
 
@@ -108,15 +108,15 @@ def strip_print(i):
         g = g.mean(2)
         bust = slice(0, 560)
         g, a = g[bust], a[bust]
-        s = 430 / g.shape[0]
-        M = k4.affine(165, 40 + 215, s, 1.5, g.shape[1], g.shape[0])
+        s = 360 / g.shape[0]
+        M = k4.affine(165, 300 + 180, s, 1.5, g.shape[1], g.shape[0])
         gw = cv2.warpAffine(g, M, (c.shape[1], c.shape[0]), flags=cv2.INTER_CUBIC)
         aw = cv2.warpAffine(a, M, (c.shape[1], c.shape[0]), flags=cv2.INTER_LINEAR).astype(np.float32) / 255
         L = c.mean(2)
         glass = np.zeros_like(L)
-        glass[:560, :400] = 1.0                       # the glazed part of the window in this crop
+        glass[:640, :390] = 1.0                       # the glazed part of the window in this crop
         glass = cv2.GaussianBlur(glass, (0, 0), 6)
-        behind = gw * 0.62 + L * 0.38                 # seen through the glass: lifted, with the glass's own tone
+        behind = gw * 0.85 + L * 0.15                 # seen through the glass: lifted, with the glass's own tone
         lit = (L > 150).astype(np.float32)            # the gilt TICKET OFFICE letters stay on top of her
         lit = cv2.GaussianBlur(lit, (0, 0), 1.2)
         aa = (aw * glass * (1 - lit))[..., None]
@@ -146,16 +146,17 @@ def ring_mask(c, r, seed):
 TA_Y, TB_Y, TX = 800, 1690, 110
 
 
+
 def build(stage=8):
     """stage 1: tier B still blank; 2: the full page; 3..7: rings 1..(stage-2) drawn on tier B (the reader's search)."""
     img, F_ = k4.ground()
     rec = {}
     # ---- masthead
-    k4.jumpy(img, "Spot the difference!", 140, 225, 96, 4501)
-    sub = pen99.letter(["Five things change between picture A and picture B.", "Can you find them all?"], 38, 4502)
-    k4.ink_at(img, sub, 2090 - sub.shape[1] + 20, 128, BLACK)
+    k4.jumpy(img, "Spot the difference!", 140, 222, 90, 4501)
+    sub = pen99.letter(["Five things change", "between A and B.", "Can you find them?"], 36, 4502)
+    k4.ink_at(img, sub, 2090 - sub.shape[1] + 20, 104, BLACK)
     # ---- the grey band: what came before (E0-E3)
-    by0, by1 = 290, 760
+    by0, by1 = 285, 775
     img[by0:by1, 110:2090] = BAND + F_[by0:by1, 110:2090, None] * 1.4
     lab = pen99.letter(["First, at 4:09..."], 36, 4503)
     k4.ink_at(img, lab, 120, by0 + 2, hexc("#fbf7ee"))
@@ -166,15 +167,15 @@ def build(stage=8):
         c, used = strip_print(i)
         g = k4.sepia(c)
         ph, pw = g.shape[:2]
-        s = 330 / ph
+        s = 300 / ph
         dw = pw * s
-        cx, cy = xs[i] + 230, by0 + 70 + 165
+        cx, cy = xs[i] + 230, by0 + 62 + 150
         M = k4.affine(cx, cy, s, degs[i], pw, ph)
         k4.paste(img, g.astype(np.float32), np.full((ph, pw), 255, np.uint8), M, margin=12, op=0.4)
         cap = pen99.letter(STRIP_CAPS[i], 30, 4520 + i)
-        k4.ink_at(img, cap, cx - cap.shape[1] / 2, by0 + 70 + 330 + 8, hexc("#fbf7ee"))
+        k4.ink_at(img, cap, cx - cap.shape[1] / 2, by0 + 62 + 300 + 4, hexc("#fbf7ee"))
         strip.append(dict(panel=STRIP[i][0], event=STRIP[i][2], layers=used, caption=" ".join(STRIP_CAPS[i])))
-        k4.jumpy(img, str(i + 1), cx - dw / 2 - 6, by0 + 70 + 40, 46, 4530 + i, (RED,))
+        k4.jumpy(img, str(i + 1), cx - dw / 2 - 6, by0 + 62 + 40, 46, 4530 + i, (RED,))
     rec["strip"] = strip
     # ---- the two tiers
     tiers = {}
@@ -196,7 +197,7 @@ def build(stage=8):
         # the tier's letter tab: a cut slip, A or B, with its time
         tab = ["A  At 4:10 he opens the cupboard."] if which == "A" else ["B  A moment later."]
         k4.slip(img, tab, 38, TX + 24, y + TH_ - 92, 10, 4560 + (which == "B"), deg=-0.6)
-        k4.jumpy(img, which, TX + TW - 118, y + 30, 84, 4565 + (which == "B"), (RED,))
+        k4.jumpy(img, which, TX + TW - 112, y + 108, 84, 4565 + (which == "B"), (RED,))
     diffs = differences(tiers["A"], tiers["B"])
     rec["tiers"] = tiers
     rec["differences"] = diffs
@@ -211,7 +212,7 @@ def build(stage=8):
            "Not a difference: the brass key, still on its hook. The SERVICE door stays shut."]
     am = pen99.letter(ans, 29, 4590)
     am = am[::-1, ::-1].copy()
-    k4.ink_at(img, am, (W - am.shape[1]) / 2, 2588, hexc("#3b332a"))
+    k4.ink_at(img, am, (W - am.shape[1]) / 2, 2572, hexc("#3b332a"))
     pen99.folio(img, 45, C["title"])
     return np.clip(np.round(img), 0, 255).astype(np.uint8), rec
 
@@ -236,7 +237,7 @@ def main():
                                      "tier B laid: the forgetting (the finished page)" if j == 2 else
                                      f"the reader's red pencil rings difference {j - 2}: {rec['differences'][j - 3]['what']}"))
     A_, B_ = rec["tiers"]["A"]["state"], rec["tiers"]["B"]["state"]
-    # measured: the tiers differ only where the six differences are
+    # measured: the tiers differ only where the five differences are
     PA, _ = tier("A")
     PB, _ = tier("B")
     dif = (np.abs(PA.c - PB.c).max(2) > 18).astype(np.uint8)
@@ -257,7 +258,7 @@ def main():
             "band: E0-E3 as four small press prints recomposed from the 99-ways-template rest layers P1, P4, P5, P6, with the c1 lines in cut-paper balloons, white print borders, one 7 % warm grade, pen captions",
             "the stranger in print 2 (E1): the Agence Rol 34852 cutout (page 04's GrabCut cut), head and bust only, pasted behind the ticket-window glass (lifted toward the glass tone, the TICKET OFFICE lettering kept on top of her)",
             "tiers A and B: the same Rothstein set plate view (k 0.88), the same SERVICE card, the cupboard door on its left jamb with the ANRC key on its HANDMADE hook and tag, the Rothstein clock case with its own hands re-set on the arbor, the Rothstein clerk on the FK rig at the same place and scale; only five things change between A and B (pencil arm, head, minute hand, tag angle, balloon); door swing, key, hook, card and plate are identical",
-            "A: 4:10, tag swinging at 30 deg, hand dropped with the pencil; B: 4:11, tag hanging at rest (12 deg), pencil at the chin (FK solve), head tipped up 11 deg, the forgetting line in a cut-paper balloon",
+            "A: 4:10, tag swung out to -16 deg, hand dropped with the pencil; B: 4:11, tag hanging at rest (12 deg), pencil at the chin (FK solve), head tipped up 11 deg, the forgetting line in a cut-paper balloon",
             "HANDMADE: letter tabs A/B as pasted slips, upside-down answer lines at the foot in the pen hand; red-pencil rings (beats only)",
             "folio '45 / Spot the difference' (pen99.folio)"],
         "events": {"E0": "band print 1: the memo on the desk, caption '4:09. The memo: open SERVICE door at 4:15.'",
@@ -268,7 +269,7 @@ def main():
                    "E5": "tier B: the same, a moment later: pencil to the chin, 'Well, here I am... and what for?'; key unmoved; SERVICE door shut"},
         "lines": LN,
         "differences": [{k: d[k] for k in ("n", "what")} for d in rec["differences"]],
-        "beat": "the difference performed: tier B arrives over a blank print (the forgetting), then a reader's red pencil rings the six differences one by one",
+        "beat": "the difference performed: tier B arrives over a blank print (the forgetting), then a reader's red pencil rings the five differences one by one",
         "beat_frames": bd,
         "self_check": {
             "size_px": [page.shape[1], page.shape[0]], "jpeg_bytes": size, "jpeg_quality": 90,
@@ -276,9 +277,9 @@ def main():
             "stated_number": 5, "differences_built": 5,
             "state_A": {k: (v if k != "pose" else {kk: round(vv, 2) for kk, vv in v.items()}) for k, v in A_.items()},
             "state_B": {k: (v if k != "pose" else {kk: round(vv, 2) for kk, vv in v.items()}) for k, v in B_.items()},
-            "changed_pixels_outside_the_six_rings_fraction": round(outside, 4),
+            "changed_pixels_outside_the_five_rings_fraction": round(outside, 4),
             "key_same_in_A_and_B": "door, hook and key are laid with identical parameters in A and B; the answers name the key as no difference",
-            "check": "A reader finds the stated six differences (maker's judgement from the full-size page; blind reading pending)",
+            "check": "A reader finds the stated five differences (maker's judgement from the full-size page; blind reading pending)",
             "evidence": "measured (pixel difference of the two tiers confined to the five ringed regions) and perceptually judged (full-size page) by the maker"},
     }
     json.dump(record, open(ROOT / "films/swarm/99-ways/pages/45.json", "w"), indent=1, ensure_ascii=False, default=float)

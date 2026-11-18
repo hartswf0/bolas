@@ -1,0 +1,234 @@
+{
+ "n": 43,
+ "id": "the-morning-before",
+ "title": "The morning before",
+ "family": "reduction and expansion",
+ "medium": "rol-cutout",
+ "canon_revision": "c1",
+ "rule": "The day from dawn to four is compressed into the top two tiers; the incident itself fits in the bottom tier.",
+ "declares": "adds the morning (how the memo came): a man off the 7:40 leaves word from the Division that a freight inspector comes at 4:15 and the SERVICE door must be open; the agent writes the memo; E0-E5 keep the canon in the bottom tier",
+ "file": "assets/pages/99-ways/43-the-morning-before.jpg",
+ "master": "films/sources/99-ways/masters/43-the-morning-before.png",
+ "beats_dir": "films/sources/99-ways/beats/43",
+ "build": "films/swarm/99-ways/build/p43_morning_before.py (rol-cutout kit: kit/build_page04.py; rest layers: kit/build_page01.py)",
+ "sources": [
+  "99-ways-template:rothstein-randolph-agent-1937",
+  "99-ways-template:rothstein-tavern-clock-1937",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways:rol-34852-sainte-catherine-1913",
+  "99-ways:rol-wagon-a-etage-1933",
+  "exercices-de-style:rol-49112-homme-pardessus-1917",
+  "exercices-de-style:rol-57642-homme-marchant-1920",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "three tier cards on the LoC 1934 sheet: tier 1 'First light to noon' (cool grey-blue), tier 2 'Noon to four' (warm), tier 3 '4:08 to 4:11' (the kit's butter card); tier titles in the kit's jumping cover lettering (shared pen hand)",
+  "tier 1, four press prints with white scissor margins: 5:50 the empty office at first light (99-ways-template office plate, Rothstein 1937 with the clerk removed, toned cold and dim); 7:40 the Agence Rol 1933 double-deck carriage; 7:42 the ticket window from inside with the Rol 49112 man behind the glass and his order in a balloon ('From the Division: freight inspector at 4:15. Have the SERVICE door open.', ours); 7:50 the memo being pencilled (Rothstein P1 rest layers, close on the slip)",
+  "tier 2: 12:00 the empty desk (office plate, warm) with a pasted pen-lettered memo slip by the inkwell; 2:12 the Rol 57642 walking man as a free cutout with a ticket stub 'RANDOLPH to MONTPELIER'; 3:55 the agent at the TICKET OFFICE window (Rothstein P4 rest layers)",
+  "on every tier-1/2 piece the office clock cut out from the 99-ways-template LoC clock pieces with its own hands re-set on the arbor to that hour (5:50, 7:40, 7:42, 7:50, 12:00, 2:12, 3:55): the hands race through the day",
+  "tier 3: E0-E5 in six narrow press prints of the 99-ways-template rest layers P1, P4, P5, P6, P7, P8, red numbers 1-6, the Agence Rol 34852 stranger behind the glass in E1 and E3, the four canon lines in the shared cut-paper balloons, caption slips and clock times 4:08-4:11",
+  "folio '43 / The morning before' (pen99.folio)"
+ ],
+ "tiers": {
+  "tier1": [
+   {
+    "time": "5:50",
+    "caption": "First light. He unlocks the office and winds the clock."
+   },
+   {
+    "time": "7:40",
+    "caption": "The 7:40 stops two minutes: milk cans, one mailbag."
+   },
+   {
+    "time": "7:42",
+    "caption": "A man off the train leaves word at the window."
+   },
+   {
+    "time": "7:50",
+    "caption": "He pencils it on a memo slip. Key in the cupboard."
+   }
+  ],
+  "tier2": [
+   {
+    "time": "12:00",
+    "caption": "Noon. Dinner at the desk. The memo waits by the inkwell."
+   },
+   {
+    "time": "2:12",
+    "caption": "Tickets for the 2:12: a gentleman for Montpelier."
+   },
+   {
+    "time": "3:55",
+    "caption": "Five to four. Quiet. The memo before him."
+   }
+  ],
+  "tier3": [
+   {
+    "event": "E0",
+    "print_layers": [
+     "bg",
+     "clerk.torso.shadow",
+     "clerk.torso",
+     "clerk.head.shadow",
+     "clerk.head",
+     "clerk.forearm.shadow",
+     "clerk.forearm",
+     "clerk.pencil.shadow",
+     "clerk.pencil",
+     "memo.shadow",
+     "memo",
+     "memo.print",
+     "memo.pencil"
+    ],
+    "caption": "He sets off for the key.",
+    "balloon": null
+   },
+   {
+    "event": "E1",
+    "print_layers": [
+     "bg",
+     "clerk.torso.shadow",
+     "clerk.torso",
+     "clerk.head.shadow",
+     "clerk.head"
+    ],
+    "caption": "A lady at the window:",
+    "balloon": "Pardon me — have you the right time?"
+   },
+   {
+    "event": "E2",
+    "print_layers": [
+     "bg",
+     "clock.case.shadow",
+     "clock.case",
+     "clock.hour",
+     "clock.minute",
+     "clerk.torso.shadow",
+     "clerk.torso",
+     "clerk.head.shadow",
+     "clerk.head",
+     "clerk.forearm.shadow",
+     "clerk.forearm",
+     "clerk.pencil.shadow",
+     "clerk.pencil"
+    ],
+    "caption": "He looks at the clock:",
+    "balloon": "Ten past four, by the clock."
+   },
+   {
+    "event": "E3",
+    "print_layers": [
+     "bg"
+    ],
+    "caption": "She thanks him and goes.",
+    "balloon": "Much obliged!"
+   },
+   {
+    "event": "E4",
+    "print_layers": [
+     "bg",
+     "service_card.shadow",
+     "service_card",
+     "service_card.ink",
+     "cupboard.door.shadow",
+     "cupboard.door",
+     "hook.paper.shadow",
+     "hook.paper",
+     "hook",
+     "tag.shadow",
+     "tag",
+     "tag.ink",
+     "key.shadow",
+     "key",
+     "clerk.torso.shadow",
+     "clerk.torso",
+     "clerk.head.shadow",
+     "clerk.head",
+     "clerk.forearm.shadow",
+     "clerk.forearm",
+     "clerk.pencil.shadow",
+     "clerk.pencil"
+    ],
+    "caption": "He opens the cupboard.",
+    "balloon": null
+   },
+   {
+    "event": "E5",
+    "print_layers": [
+     "bg",
+     "service_card.shadow",
+     "service_card",
+     "service_card.ink",
+     "cupboard.door.shadow",
+     "cupboard.door",
+     "hook.paper.shadow",
+     "hook.paper",
+     "hook",
+     "tag.shadow",
+     "tag",
+     "tag.ink",
+     "key.shadow",
+     "key",
+     "clerk.torso.shadow",
+     "clerk.torso",
+     "clerk.head.shadow",
+     "clerk.head",
+     "clerk.forearm.shadow",
+     "clerk.forearm",
+     "clerk.pencil.shadow",
+     "clerk.pencil"
+    ],
+    "caption": "And there he stands.",
+    "balloon": "Well, here I am... and what for?"
+   }
+  ]
+ },
+ "events": {
+  "E0": "tier 3 print 1: at the desk with the memo (4:08), 'He sets off for the key.'",
+  "E1": "tier 3 print 2: the stranger behind the TICKET OFFICE glass, question balloon (4:09)",
+  "E2": "tier 3 print 3: he looks up at the clock (4:10 in the print), answer balloon",
+  "E3": "tier 3 print 4: she turns from the window, thanks balloon (4:10)",
+  "E4": "tier 3 print 5: the cupboard open, the key on its hook with the SERVICE tag (4:11)",
+  "E5": "tier 3 print 6: pencil to his chin, forgetting balloon (4:11)"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "beat": "the day is laid down piece by piece, each print with its clock re-set further on (5:50 ... 3:55); then the six incident prints are laid in the bottom tier two at a time",
+ "beat_frames": [
+  "b01: tier 1, 5:50 only",
+  "b02: + 7:40, 7:42",
+  "b03: + 7:50 (tier 1 full)",
+  "b04: + 12:00",
+  "b05: + 2:12, 3:55 (tier 2 full)",
+  "b06: tier 3 E0-E1",
+  "b07: + E2-E3",
+  "b08: + E4-E5 (the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1186033,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "evidence": "perceptually judged (from frames) by the maker at full size; independent blind readers not yet run",
+  "check": "A reader finds E0-E5 only in the bottom tier: tiers 1-2 hold only the day before 4:00 (5:50 to 3:55, no stranger, cupboard closed); the six numbered tier-3 prints hold E0-E5 and the four lines",
+  "balloon_cap_px": [
+   28,
+   30,
+   34
+  ],
+  "caption_cap_px": [
+   31,
+   33
+  ],
+  "beats": 8,
+  "outcome": "key on its hook in print 5; nothing in print 6 opens the SERVICE door"
+ }
+}

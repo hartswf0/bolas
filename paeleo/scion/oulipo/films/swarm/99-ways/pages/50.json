@@ -1,0 +1,71 @@
+{
+ "n": 50,
+ "id": "brief-meeting",
+ "title": "Brief meeting",
+ "rule": "Played as romance: glances through the glass, a lingering thanks, the lost errand as a heart's distraction.",
+ "medium": "daumier-collage",
+ "family": "genre",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/50-brief-meeting.jpg",
+ "master": "films/sources/99-ways/masters/50-brief-meeting.png",
+ "beats_dir": "films/sources/99-ways/beats/50",
+ "build": "films/swarm/99-ways/build/p50_brief_meeting.py (collage kit: build/daumier12.py, build/p12_loop.py)",
+ "sources": [
+  "99-ways:daumier-proprietaire-1846",
+  "99-ways:daumier-premier-voyage-1846",
+  "99-ways:daumier-grand-tunnel-1843",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "made": [
+  "seven collage panels (the third an oval vignette across the page) glued on the LoC sheet, under a masthead slip 'BRIEF MEETING' with two rose-paper hearts",
+  "page 12's Daumier collage kit reused: the bourgeois of 'Il est devenu pro-pri-e-taire !' (1846) as the AGENT; the bonneted woman and the carriage window of 'Un premier voyage en chemin de fer' (1846) as the STRANGER and the TICKET OFFICE window; the CONCIERGE door as the SERVICE door; desk, counter, cupboard and clock case cut from the prints' own crayon tone (incl. the tunnel black of 'L'entree du grand tunnel', 1843); the ANRC 1922 key in the cupboard",
+  "the oval close-up: her head and shoulders cut from her figure at 1.85x, his figure at 1.3x, the pane cut from the carriage window's pale paper with tunnel-black sash bars and white pen glints",
+  "HANDMADE: rose-paper hearts (heart curve cut as scissor facets, rim and shadow), romance narration slips, pen-hand balloons with the four canon lines verbatim, pencil to his chin, hand-ruled borders and the oval's pen line"
+ ],
+ "events": {
+  "E0": "P1: desk, memo slip ('4:15 - open SERVICE door. Key in cupboard.'), he has risen; 'Nothing else on his mind'",
+  "E1": "P2: she at the TICKET OFFICE window; question balloon; 'a voice at the glass'; P3: the glance through the pane",
+  "E2": "P4: clock at 4:10, he looks up; answer balloon",
+  "E3": "P5: thanks balloon, she turns away; 'Her thanks lingered... and then she was gone'",
+  "E4": "P6: the cupboard open, the key on its hook tagged SERVICE",
+  "E5": "P7: pencil to chin, forgetting balloon, a heart drifting where the errand was; key on its hook; SERVICE door shut"
+ },
+ "substitutions": "none: the four lines verbatim",
+ "beat": "the glance: in the oval panel the two cut-out faces slide toward each other across the pane and the rose heart is glued between them; then the thanks raises its little hearts; then the forgetting balloon and the drifting heart",
+ "beat_frames": [
+  "b01: panels 1-3, the faces apart, no heart",
+  "b02: the faces closer",
+  "b03: faces at the pane, heart glued on",
+  "b04: + panels 4-5, the thanks without hearts",
+  "b05: the hearts rise from the thanks",
+  "b06: + panels 6-7, no forgetting line, no heart",
+  "b07: forgetting balloon and drifting heart (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1045616,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "beat_frames": 7,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "genre_signals": "masthead 'BRIEF MEETING / a love story at the ticket window'; an oval close-up of the two faces with the pane between them and a rose-paper heart; romance narration ('Their eyes met through the pane', 'He would have given her the clock', 'Her thanks lingered', 'his heart was out on the platform; the errand had gone with her'); hearts rising from the thanks and one drifting above his head at the forgetting",
+  "lines_verbatim": true,
+  "outcome": "key on its hook, SERVICE door closed (caption and picture)",
+  "pending": "independent blind reading not run by the maker"
+ }
+}

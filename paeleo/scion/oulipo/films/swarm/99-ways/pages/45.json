@@ -1,0 +1,120 @@
+{
+ "n": 45,
+ "id": "spot-the-difference",
+ "title": "Spot the difference",
+ "rule": "Two near-identical tiers: the agent at the cupboard before and after the forgetting; the reader finds the changes.",
+ "medium": "rol-cutout",
+ "family": "reader and object",
+ "canon_revision": "c1",
+ "declares": "E0-E3 in a strip above",
+ "file": "assets/pages/99-ways/45-spot-the-difference.jpg",
+ "master": "films/sources/99-ways/masters/45-spot-the-difference.png",
+ "beats_dir": "films/sources/99-ways/beats/45",
+ "build": "films/swarm/99-ways/build/p45_spot_the_difference.py (rig: build/rig45.py on 99-ways-template build_page.py)",
+ "sources": [
+  "99-ways-template:rothstein-randolph-agent-1937",
+  "99-ways-template:rothstein-tavern-clock-1937",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways:rol-34852-sainte-catherine-1913",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "rol-cutout cover grammar (page 04's kit: butter ground over the LoC 1934 sheet fibre, warm grey band, jumping red/black cover lettering letter by letter in the shared pen hand; no font)",
+  "band: E0-E3 as four small press prints recomposed from the 99-ways-template rest layers P1, P4, P5, P6, with the c1 lines in cut-paper balloons, white print borders, one 7 % warm grade, pen captions",
+  "the stranger in print 2 (E1): the Agence Rol 34852 cutout (page 04's GrabCut cut), head and bust only, pasted behind the ticket-window glass (lifted toward the glass tone, the TICKET OFFICE lettering kept on top of her)",
+  "tiers A and B: the same Rothstein set plate view (k 0.88), the same SERVICE card, the cupboard door on its left jamb with the ANRC key on its HANDMADE hook and tag, the Rothstein clock case with its own hands re-set on the arbor, the Rothstein clerk on the FK rig at the same place and scale; only five things change between A and B (pencil arm, head, minute hand, tag angle, balloon); door swing, key, hook, card and plate are identical",
+  "A: 4:10, tag swung out to -16 deg, hand dropped with the pencil; B: 4:11, tag hanging at rest (12 deg), pencil at the chin (FK solve), head tipped up 11 deg, the forgetting line in a cut-paper balloon",
+  "HANDMADE: letter tabs A/B as pasted slips, upside-down answer lines at the foot in the pen hand; red-pencil rings (beats only)",
+  "folio '45 / Spot the difference' (pen99.folio)"
+ ],
+ "events": {
+  "E0": "band print 1: the memo on the desk, caption '4:09. The memo: open SERVICE door at 4:15.'",
+  "E1": "band print 2: the question, tail out to the stranger seen behind the glass",
+  "E2": "band print 3: 'Ten past four, by the clock.' under the clock at 4:10",
+  "E3": "band print 4: 'Much obliged!' from the emptied window",
+  "E4": "tier A: the cupboard just opened, the key on its hook, the clock at 4:10",
+  "E5": "tier B: the same, a moment later: pencil to the chin, 'Well, here I am... and what for?'; key unmoved; SERVICE door shut"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "differences": [
+  {
+   "n": 1,
+   "what": "his pencil has gone up to his chin"
+  },
+  {
+   "n": 2,
+   "what": "his head is tipped up"
+  },
+  {
+   "n": 3,
+   "what": "the clock has moved on from 4:10 to 4:11"
+  },
+  {
+   "n": 4,
+   "what": "the tag has stopped swinging"
+  },
+  {
+   "n": 5,
+   "what": "he says 'Well, here I am... and what for?'"
+  }
+ ],
+ "beat": "the difference performed: tier B arrives over a blank print (the forgetting), then a reader's red pencil rings the five differences one by one",
+ "beat_frames": [
+  "b01: tier A and the band; tier B still a blank print with a '?'",
+  "b02: tier B laid: the forgetting (the finished page)",
+  "b03: the reader's red pencil rings difference 1: his pencil has gone up to his chin",
+  "b04: the reader's red pencil rings difference 2: his head is tipped up",
+  "b05: the reader's red pencil rings difference 3: the clock has moved on from 4:10 to 4:11",
+  "b06: the reader's red pencil rings difference 4: the tag has stopped swinging",
+  "b07: the reader's red pencil rings difference 5: he says 'Well, here I am... and what for?'"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1185394,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "stated_number": 5,
+  "differences_built": 5,
+  "state_A": {
+   "pose": {
+    "arm": -58.0,
+    "pencil": 26.0,
+    "head": 0.0
+   },
+   "swing": 0.34,
+   "tag": -16.0,
+   "mm": 10,
+   "balloon": false
+  },
+  "state_B": {
+   "pose": {
+    "arm": -27.25,
+    "pencil": 49.88,
+    "head": -11.0
+   },
+   "swing": 0.34,
+   "tag": 12.0,
+   "mm": 11,
+   "balloon": true
+  },
+  "changed_pixels_outside_the_five_rings_fraction": 0.0893,
+  "key_same_in_A_and_B": "door, hook and key are laid with identical parameters in A and B; the answers name the key as no difference",
+  "check": "A reader finds the stated five differences (maker's judgement from the full-size page; blind reading pending)",
+  "evidence": "measured (pixel difference of the two tiers confined to the five ringed regions) and perceptually judged (full-size page) by the maker"
+ },
+ "weaknesses": [
+  "about 9 % of the changed pixels between tiers A and B fall outside the five ringed regions: they are the rising forearm and hand (part of difference 1, which the ring marks only at the pencil tip)",
+  "the lowered hand of tier A is out of frame, so difference 1 reads as 'a hand and pencil appear', not as a pencil moving",
+  "the stranger in band print 2 is the Agence Rol 1913 woman, not Bubley's 1943 figure (as on page 04's rol-cutout grammar); she is seen only behind the glass, and the glass cut is a straight edge at the counter",
+  "the band prints are small (about 300 px tall), their balloons at 40-50 px cap on the 2550 panel scale shrink to roughly 13-17 px on the page: legible full size, not at phone width"
+ ]
+}

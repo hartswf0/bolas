@@ -40,13 +40,13 @@ CAPTIONS = [
 
 
 def door_open_tag_aside(c, seed):
-    """p29's door_open, but its SERVICE tag hung to the right of the key's shaft (on page 40 the slip at p29's place
+    """p29's door_open, but its SERVICE tag hung below the key (on page 40 the slip at p29's place
     covered the key's bit, so the key read as a hook with a label)"""
     orig = p29.slip
 
     def moved(c_, x, y, *a, **k):
-        k["tilt"] = -6
-        return orig(c_, x + 74, y - 120, *a, **k)
+        k["tilt"] = 4
+        return orig(c_, x + 4, y + 56, *a, **k)
     p29.slip = moved
     try:
         door_open(c, seed)

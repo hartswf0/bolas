@@ -202,7 +202,7 @@ def slip_left(pg, lines, cap, x, y, seed):
     return ww, hh
 
 
-SHEET = cv2.GaussianBlur(pen99.sheet99(), (0, 0), 0.7)   # the LoC sheet, its scan grain softened (file size)
+SHEET = cv2.GaussianBlur(pen99.sheet99(), (0, 0), 1.8)   # the LoC sheet, its scan grain softened (file size)
 
 
 def build(upto=6, line_on=True):
