@@ -48,21 +48,21 @@ def st2(c):   # E1 the question at the window
     clock_hands(c, 4, 10, 4021); door_closed(c, 4012)
     figs(c, stranger(WX - 10, p29.SILL + 6, face=1, scale=1.25, glove=True), 4022)
     figs(c, agent(1010, AGENT_Y, face=-1, scale=0.86, legs=(8, -8), sh=6, el=10, tilt=-2, pencil_deg=200), 4023)
-    bal(c, ["Pardon me —", "have you the", "right time?"], 80, (760, 420), (300, 470), 4024)
+    bal(c, ["Pardon me —", "have you the", "right time?"], 58, (790, 340), (300, 470), 4024)
 
 
 def st3(c):   # E2 he looks up at the clock and answers
     clock_hands(c, 4, 10, 4021); door_closed(c, 4012)
     a = agent(1010, AGENT_Y, face=-1, scale=0.86, legs=(8, -8), sh=10, el=-20, tilt=-26, pencil_deg=200)
     figs(c, a, 4033)
-    bal(c, ["Ten past four,", "by the clock."], 80, (1080, 290), agent_mouth(a), 4034)
+    bal(c, ["Ten past four,", "by the clock."], 56, (1110, 205), agent_mouth(a), 4034)
 
 
 def st4(c):   # E3 the thanks; she turns from the window; he walks on
     clock_hands(c, 4, 10, 4021); door_closed(c, 4012)
     figs(c, stranger(WX - 60, p29.SILL + 6, face=-1, scale=1.2, tilt=-6), 4042)
     figs(c, agent(1060, AGENT_Y, face=1, scale=0.86, legs=(14, -12), sh=-8, el=16, pencil_deg=200), 4043)
-    bal(c, ["Much", "obliged!"], 84, (760, 360), (330, 450), 4044)
+    bal(c, ["Much", "obliged!"], 62, (740, 360), (330, 450), 4044)
 
 
 def st5(c):   # E4 the cupboard opened, the key on its hook
@@ -75,22 +75,23 @@ def st6(c):   # E5 the forgetting: pencil to his chin
     a = p7.agent2()
     figs(c, a, 4063)
     fp = p7.face_points(a)
-    bal(c, ["Well, here I am...", "and what for?"], 80, (1560, 330), (fp["nose"][0] + 4, fp["lip_lo"][1] + 11), 4064,
-        ctrl=(1440, 470))
+    bal(c, ["Well, here I am...", "and what for?"], 54, (1650, 385), (fp["nose"][0] + 4, fp["lip_lo"][1] + 11), 4064)
 
 
 STATES = [st1, st2, st3, st4, st5, st6]
 GX, GY = 30, 30
 PWp = (1980 - GX) // 2
-PHp = (2620 - 2 * GY) // 3
+ROWH = (2620 - 2 * GY) // 3
+CAPH = 124                       # the caption band above each picture: the slip sits on the sheet, not on the drawing
+PHp = ROWH - CAPH
 ASP = PWp / PHp
 # the framing of the one plate in each panel: (x0, y0, width) in plate px; height follows the panel's aspect
-CROPS = [(380, 70, 1000), (0, 40, 1150), (380, 20, 1000), (0, 40, 1150), (880, 130, 1100), (880, 130, 1100)]
+CROPS = [(380, 120, 1000), (0, 40, 1150), (330, 40, 1100), (0, 40, 1150), (880, 130, 1100), (880, 130, 1100)]
 BOXES = []
 for r in range(3):
     for col in range(2):
         x0 = 110 + col * (PWp + GX)
-        y0 = 110 + r * (PHp + GY)
+        y0 = 110 + r * (ROWH + GY) + CAPH
         BOXES.append((x0, y0, x0 + PWp, y0 + PHp))
 LAID = []
 
@@ -115,7 +116,7 @@ def build(upto=6):
         p = panel(k, k < upto)
         page[y0:y1, x0:x1] = page[y0:y1, x0:x1] * (p / 255.0)
         if k < upto:
-            slip(page, x0 + 14, y0 + 14, CAPTIONS[k], 40, 4090 + k, pad=(20, 12), shadow=0.3, weight=0.14)
+            slip(page, x0 - 4, y0 - CAPH + 2, CAPTIONS[k], 40, 4090 + k, pad=(20, 12), shadow=0.3, weight=0.14, min_w=PWp + 8)
     frame_border(page, BOXES, w=10, seed=4099)
     return page
 

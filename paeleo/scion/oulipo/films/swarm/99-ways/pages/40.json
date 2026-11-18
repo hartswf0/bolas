@@ -1,0 +1,104 @@
+{
+ "n": 40,
+ "id": "not-unlike",
+ "title": "Not unlike",
+ "rule": "Every caption states its fact by denying the opposite ('He was not idle').",
+ "medium": "brush-plate",
+ "family": "voice and language",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/40-not-unlike.jpg",
+ "master": "films/sources/99-ways/masters/40-not-unlike.png",
+ "beats_dir": "films/sources/99-ways/beats/40",
+ "build": "films/swarm/99-ways/build/p40_not_unlike.py (plate and states machinery: p29_one_fixed_lens.py, p07_two_panels.py, brushkit.py, b1m2.py)",
+ "sources": [
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "the ONE HANDMADE brush plate of the office (page 07's plate geometry, inked with page 29's heavier dab-chain brush after moins-dun-quart-de-seconde-pour-vivre): window with TICKET OFFICE, clock, desk and lamp, cupboard, SERVICE door with its card, wainscot and floor; printed unchanged in all six panels (sha256 of the plate as laid recorded), each panel a different framing of it",
+  "changing parts only: the clock hands (4:09, 4:10, 4:11), the cupboard door (closed / opened overlay with the ANRC 1922 key printed in ink on its hook and a SERVICE tag), and the brushed b1m2 figures (agent with spectacles, waistcoat, pencil; the stranger in her hat behind the glass)",
+  "six captions on pasted slips in the shared pen hand, each stating its fact by denying the opposite ('He was not idle', 'The clock was not slow', 'The cupboard was not locked', 'The key did not move; the door did not open')",
+  "the four canon lines verbatim in the brushed balloons; hand-ruled borders; folio '40 / Not unlike' (pen99.folio)"
+ ],
+ "captions": [
+  "He was not idle. The memo was no riddle: not later than 4:15, and not without the key.",
+  "He had not gone far when a voice, not his own, came through the glass.",
+  "He did not guess. The clock was not slow.",
+  "She did not linger. It was no long delay.",
+  "The cupboard was not locked. The key was not hidden.",
+  "Not a thing was missing but the reason. The key did not move; the door did not open."
+ ],
+ "events": {
+  "E0": "P1: memo slip on the desk ('4:15 - open SERVICE door. Key in cupboard.'), he rises; 'He was not idle. The memo was no riddle'",
+  "E1": "P2: the stranger at the glass, question balloon; 'He had not gone far when a voice, not his own...'",
+  "E2": "P3: head up to the clock at 4:10, answer balloon; 'He did not guess. The clock was not slow.'",
+  "E3": "P4: she turns from the window, thanks balloon, he walks on; 'She did not linger. It was no long delay.'",
+  "E4": "P5: the cupboard open, key on its hook; 'The cupboard was not locked. The key was not hidden.'",
+  "E5": "P6: pencil to his chin, forgetting balloon; 'Not a thing was missing but the reason. The key did not move; the door did not open.'"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "none: the four lines verbatim (balloons are speech, not captions)",
+ "beat": "the six framings of the one plate are printed in turn, each with its caption slip pasted on: the reader's eye moves across the same drawing while the denials carry the facts",
+ "beat_frames": [
+  "b01: panels 1-1 printed with their caption slips",
+  "b02: panels 1-2 printed with their caption slips",
+  "b03: panels 1-3 printed with their caption slips",
+  "b04: panels 1-4 printed with their caption slips",
+  "b05: panels 1-5 printed with their caption slips",
+  "b06: panels 1-6 printed with their caption slips"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1047232,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "every_caption_has_not_or_no": true,
+  "plate_hashes_as_laid": [
+   "a76a6002f531b4750a5b49431a2fa8b85ad9665b1d87a831e6014af9b1ed63fb"
+  ],
+  "plate_identical_in_all_panels": true,
+  "crops_plate_px": [
+   [
+    380,
+    120,
+    1000
+   ],
+   [
+    0,
+    40,
+    1150
+   ],
+   [
+    330,
+    40,
+    1100
+   ],
+   [
+    0,
+    40,
+    1150
+   ],
+   [
+    880,
+    130,
+    1100
+   ],
+   [
+    880,
+    130,
+    1100
+   ]
+  ],
+  "pending": "independent blind reading not run by the maker"
+ }
+}
