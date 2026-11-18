@@ -1,0 +1,77 @@
+{
+ "n": 49,
+ "id": "epic",
+ "title": "Epic",
+ "rule": "Captions in an inflated heroic register: the errand a quest, the cupboard a vault, the question a summons.",
+ "medium": "engraving-puppet",
+ "family": "voice and language",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/49-epic.jpg",
+ "master": "films/sources/99-ways/masters/49-epic.png",
+ "beats_dir": "films/sources/99-ways/beats/49",
+ "build": "films/swarm/99-ways/build/p49_epic.py (engraving puppets and storyboard sheet: kit/build_page03.py; slips and wrap: build/b1m2.py)",
+ "sources": [
+  "99-ways:loc-harpers-1863-army-telegraph-operator",
+  "99-ways:loc-1867-dickens-tickets-steinway",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "made": [
+  "a storyboard sheet headed by a torn title slip 'THE QUEST OF THE BRASS KEY / an epic of Randolph station, in six cantos' with pen-drawn laurel sprigs; six cream storyboard boards titled 'CANTO I-VI' with event and time (4:09-4:11), each with a torn commentary slip pinned below",
+  "page 03's ENGRAVING PUPPETS reused (kit/build_page03.py): the AGENT is the Harper's Weekly 1863 telegraph operator (LoC cph.3c11072) cut at the joints and pinned with brass brads; the STRANGER the hatted woman of the 1867 Steinway Hall engraving (LoC cph.3c32079); his table and the TICKET OFFICE window cut from the 1863 plate; memo, clock (4:09 / 4:10), cupboard (closed / open with the key on its hook tagged SERVICE) and SERVICE door drawn in the shared pen hand",
+  "six commentary slips in an inflated heroic register (invocation, epithets, 'lo!'), written for this page; the four canon lines verbatim in cut-paper balloons",
+  "layout measured from the slips so no heading touches a slip; the LoC sheet softened 1.8 px for the JPEG budget"
+ ],
+ "events": {
+  "E0": "canto I: the sacred scroll (memo) on the desk, the hero rises, arm flung toward the Vault",
+  "E1": "canto II: the stranger at the gate of glass; 'cried a summons'; question balloon",
+  "E2": "canto III: the Orb of the Hours at 4:10; answer balloon",
+  "E3": "canto IV: thanks balloon; she passes from the gate into the west",
+  "E4": "canto V: the Vault flung wide; the Brass Key on its hook, the rune SERVICE",
+  "E5": "canto VI: pencil to chin before the open Vault; forgetting balloon; 'the Key hung on, unclaimed; the Door of SERVICE stayed sealed'"
+ },
+ "substitutions": "none: the four lines verbatim (balloons); only the captions carry the epic register",
+ "beat": "the storyboard sheet fills canto by canto: each board is pinned up with its torn commentary slip; cantos II and VI arrive silent and then have their balloon laid on",
+ "beat_frames": [
+  "b01: title slip + canto I (E0)",
+  "b02: + canto II silent",
+  "b03: canto II summons balloon laid",
+  "b04: + canto III answer",
+  "b05: + canto IV thanks",
+  "b06: + canto V the Vault flung wide",
+  "b07: + canto VI silent",
+  "b08: canto VI forgetting balloon (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1188461,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "beat_frames": 8,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "register": "heroic/epic: invocation of the Muse, epithets (keeper of the hours, the far-travelled one), the errand a Quest, the cupboard the Vault, the question a summons, the clock the Orb of the Hours, the memo the sacred scroll, the SERVICE tag a rune, 'lo!', 'Here ends the Quest'",
+  "captions": [
+   "Sing, O Muse, of the Agent of Randolph, keeper of the hours! Upon his desk the sacred scroll laid its command: at the fourth hour and the quarter the Door of SERVICE must be opened, and the Key lies in the Vault. Then rose the hero and set forth upon the Quest.",
+   "But lo! as he strode the great hall, a stranger from far lands cried a summons through the gate of glass.",
+   "And he lifted his eyes to the mighty Orb of the Hours, that never sleeps, and gave answer.",
+   "Then the far-travelled one gave thanks, as wayfarers have ever done, and passed from the gate into the west.",
+   "Onward to the Vault strode the hero and flung wide its door: lo, the Brass Key, bearing the rune SERVICE!",
+   "But the jealous gods had stolen his purpose from his breast. Pencil to chin he stood before the open Vault, and spoke unto his own heart. So the Key hung on, unclaimed; the Door of SERVICE stayed sealed. Here ends the Quest."
+  ],
+  "lines_verbatim": true,
+  "pending": "independent blind reading not run by the maker"
+ }
+}

@@ -39,6 +39,21 @@ CAPTIONS = [
 ]
 
 
+def door_open_tag_aside(c, seed):
+    """p29's door_open, but its SERVICE tag hung below the key (on page 40 the slip at p29's place
+    covered the key's bit, so the key read as a hook with a label)"""
+    orig = p29.slip
+
+    def moved(c_, x, y, *a, **k):
+        k["tilt"] = 4
+        return orig(c_, x + 4, y + 56, *a, **k)
+    p29.slip = moved
+    try:
+        door_open(c, seed)
+    finally:
+        p29.slip = orig
+
+
 def st1(c):   # E0 at the desk, the memo: he rises
     clock_hands(c, 4, 9, 4011); door_closed(c, 4012)
     figs(c, agent(930, AGENT_Y, face=-1, scale=0.86, legs=(4, -4), sh=30, el=-70, wr=10, tilt=18, pencil_deg=200), 4013)
@@ -48,7 +63,7 @@ def st2(c):   # E1 the question at the window
     clock_hands(c, 4, 10, 4021); door_closed(c, 4012)
     figs(c, stranger(WX - 10, p29.SILL + 6, face=1, scale=1.25, glove=True), 4022)
     figs(c, agent(1010, AGENT_Y, face=-1, scale=0.86, legs=(8, -8), sh=6, el=10, tilt=-2, pencil_deg=200), 4023)
-    bal(c, ["Pardon me —", "have you the", "right time?"], 58, (790, 340), (300, 470), 4024)
+    bal(c, ["Pardon", "me — have you", "the right time?"], 56, (790, 330), (300, 470), 4024)
 
 
 def st3(c):   # E2 he looks up at the clock and answers
@@ -66,12 +81,12 @@ def st4(c):   # E3 the thanks; she turns from the window; he walks on
 
 
 def st5(c):   # E4 the cupboard opened, the key on its hook
-    clock_hands(c, 4, 11, 4051); door_open(c, 4052)
+    clock_hands(c, 4, 11, 4051); door_open_tag_aside(c, 4052)
     figs(c, agent(1262, AGENT_Y, face=1, scale=0.86, legs=(4, -4), sh=-4, el=12, pencil_deg=200), 4053)
 
 
 def st6(c):   # E5 the forgetting: pencil to his chin
-    clock_hands(c, 4, 11, 4051); door_open(c, 4052)
+    clock_hands(c, 4, 11, 4051); door_open_tag_aside(c, 4052)
     a = p7.agent2()
     figs(c, a, 4063)
     fp = p7.face_points(a)

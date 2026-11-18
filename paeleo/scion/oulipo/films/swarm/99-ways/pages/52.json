@@ -1,0 +1,82 @@
+{
+ "n": 52,
+ "id": "from-the-hill",
+ "title": "From the hill",
+ "rule": "Extreme long shots: the station small in its Vermont valley, the balloons reaching across the land.",
+ "medium": "charcoal-card",
+ "family": "reduction and expansion",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/52-from-the-hill.jpg",
+ "master": "films/sources/99-ways/masters/52-from-the-hill.png",
+ "beats_dir": "films/sources/99-ways/beats/52",
+ "build": "films/swarm/99-ways/build/p52_from_the_hill.py (card kit: build/charcoal99.py and the page-20 card helpers in build/p20_across_the_tracks.py; figure model build/b1m2.py)",
+ "sources": [
+  "teuf-teuf:cueva-de-las-manos",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "made": [
+  "one Vermont valley built once as charcoal cards and seen from the hill in six frames (a slow pan along it): the far range and a nearer range as torn pale cards, the valley's two wooded sides closing in with fringes of cut firs, a perspective patchwork of fields (woodlots dotted with cut trees, hedgerows rubbed in charcoal), the White River meandering down toward us (dark banks, pale water, torn), the railway along the valley, farm houses, barns and a white church, and our own hill crest across the foot of each frame with its trees and fence posts",
+  "page 20's charcoal-card kit reused (charcoal99.py, p20_across_the_tracks.py): every card rubbed with the foraged Cueva de las manos rock relief (teuf-teuf, CC BY-SA 3.0, Suzko), hatched, darker at its cut edges, torn or scissor-cut, dropped with its own shadow; the sky is the same rock wash worked with broken strokes",
+  "the station about 112 px wide: dark card box, hipped roof, three lit windows; the agent a 14 px speck that moves from window to window (desk, ticket window, cupboard), the cupboard opened as a dark slot and pale leaf in the right window; the stranger page 20's back-view card puppet at 26 px on the platform, then walking off",
+  "the four canon lines verbatim in cut-card balloons laid on the land, their tails running across fields and river to the speaker; captions on torn pale cards in the shared pen hand; hand-ruled borders"
+ ],
+ "events": {
+  "E0": "frame 1: the valley; caption: the agent reads his memo (4:15, the SERVICE door) and gets up; speck in W1",
+  "E1": "frame 2: the lady (26 px) at the ticket window; question balloon tailed to her",
+  "E2": "frame 3: caption 'He looks at the office clock'; answer balloon tailed to the middle window",
+  "E3": "frame 4: thanks balloon; she walks off along the platform",
+  "E4": "frame 5: caption 'He opens the cupboard: the key hangs on its hook'; dark slot and leaf in W3 (implied by the stated cue: the key itself is too small to see at this distance)",
+  "E5": "frame 6: forgetting balloon tailed to W3; caption: the key stays on its hook, the SERVICE door stays closed"
+ },
+ "substitutions": "none: the four lines verbatim",
+ "beat": "the valley fills frame by frame; each balloon arrives after its frame, its tail stretched across fields and river down to the speck of its speaker",
+ "beat_frames": [
+  "b01: frame 1, the whole valley (E0)",
+  "b02: + frame 2 silent, the lady at the window",
+  "b03: the question balloon laid across the fields",
+  "b04: + frame 3 with the answer from the window",
+  "b05: + frame 4 with the thanks, the lady walking off",
+  "b06: + frame 5, the cupboard opened (W3)",
+  "b07: + frame 6 silent",
+  "b08: the forgetting balloon from the right window (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1181255,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "beat_frames": 8,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "panel_heights_px": [
+   690,
+   575,
+   575,
+   575,
+   575,
+   660
+  ],
+  "tallest_figure_px": {
+   "agent_speck": 14,
+   "stranger_card": 26
+  },
+  "max_figure_to_panel_ratio": 0.045,
+  "rule_no_figure_over_one_tenth": true,
+  "station_width_px": 112,
+  "lines_verbatim": true,
+  "pending": "independent blind reading not run by the maker"
+ }
+}

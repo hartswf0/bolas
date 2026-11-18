@@ -1,0 +1,346 @@
+{
+ "n": 48,
+ "id": "by-the-clock",
+ "title": "By the clock",
+ "rule": "Every panel shows the clock, and the time between panels is a constant ten seconds, 4:09:20 to 4:10:30.",
+ "medium": "photo-cutout",
+ "family": "time and order",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/48-by-the-clock.jpg",
+ "master": "films/sources/99-ways/masters/48-by-the-clock.png",
+ "beats_dir": "films/sources/99-ways/beats/48",
+ "build": "films/swarm/99-ways/build/p48_by_the_clock.py (rig: build/rig45.py; panels: kit/build_page01.py)",
+ "sources": [
+  "99-ways-template:rothstein-randolph-agent-1937",
+  "99-ways-template:rothstein-tavern-clock-1937",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "page 01's eight panels recomposed from films/swarm/99-ways-template/page/rest/P1..P8 (P5's own clock layers left out and re-laid), c1 balloons as on page 01",
+  "the Rothstein clock case (FORAGED, 99-ways-template cutout, white scissor margin) pinned into every panel on a stretch of office wall, its own hour and minute hands re-set on the arbor to each panel's time",
+  "a HANDMADE seconds hand (inked needle with counterweight, red) on every clock, at 20, 30, 40, 50, 0, 10, 20, 30 s",
+  "a HANDMADE cut-paper time slip under each clock, the time pencilled in red in the shared pen hand (4:09:20 ... 4:10:30)",
+  "hand-ruled borders; folio '48 / By the clock' (pen99.folio)"
+ ],
+ "events": {
+  "P1": "E0 at 4:09:20",
+  "P2": "E0 at 4:09:30",
+  "P3": "E0 at 4:09:40",
+  "P4": "E1 at 4:09:50 | STRANGER: Pardon me — have you the right time?",
+  "P5": "E2 at 4:10:00 | AGENT: Ten past four, by the clock.",
+  "P6": "E3 at 4:10:10 | STRANGER: Much obliged!",
+  "P7": "E4 at 4:10:20",
+  "P8": "E5 at 4:10:30 | AGENT: Well, here I am... and what for?"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "panels": [
+  {
+   "panel": "P1",
+   "event": "E0",
+   "time": "4:09:20",
+   "seconds_hand_deg": 120,
+   "minute": 9,
+   "clock_centre_panel_px": [
+    600.0,
+    175.0
+   ],
+   "clock_scale": 0.5,
+   "layers": [
+    "bg",
+    "clerk.torso.shadow",
+    "clerk.torso",
+    "clerk.head.shadow",
+    "clerk.head",
+    "clerk.forearm.shadow",
+    "clerk.forearm",
+    "clerk.pencil.shadow",
+    "clerk.pencil",
+    "memo.shadow",
+    "memo",
+    "memo.print",
+    "memo.pencil"
+   ],
+   "balloons": []
+  },
+  {
+   "panel": "P2",
+   "event": "E0",
+   "time": "4:09:30",
+   "seconds_hand_deg": 180,
+   "minute": 9,
+   "clock_centre_panel_px": [
+    520.0,
+    175.0
+   ],
+   "clock_scale": 0.5,
+   "layers": [
+    "bg",
+    "memo.shadow",
+    "memo",
+    "memo.print",
+    "memo.pencil",
+    "clerk.torso.shadow",
+    "clerk.torso"
+   ],
+   "balloons": []
+  },
+  {
+   "panel": "P3",
+   "event": "E0",
+   "time": "4:09:40",
+   "seconds_hand_deg": 240,
+   "minute": 9,
+   "clock_centre_panel_px": [
+    150.0,
+    250.0
+   ],
+   "clock_scale": 0.52,
+   "layers": [
+    "bg",
+    "service_card.shadow",
+    "service_card",
+    "service_card.ink",
+    "clerk.torso.shadow",
+    "clerk.torso",
+    "clerk.head.shadow",
+    "clerk.head"
+   ],
+   "balloons": []
+  },
+  {
+   "panel": "P4",
+   "event": "E1",
+   "time": "4:09:50",
+   "seconds_hand_deg": 300,
+   "minute": 9,
+   "clock_centre_panel_px": [
+    112.0,
+    640.0
+   ],
+   "clock_scale": 0.42,
+   "layers": [
+    "bg",
+    "clerk.torso.shadow",
+    "clerk.torso",
+    "clerk.head.shadow",
+    "clerk.head"
+   ],
+   "balloons": [
+    {
+     "event": "E1",
+     "speaker": "STRANGER",
+     "line": "Pardon me — have you the right time?",
+     "centre_panel_px": [
+      252.23999999999998,
+      173.4
+     ]
+    }
+   ]
+  },
+  {
+   "panel": "P5",
+   "event": "E2",
+   "time": "4:10:00",
+   "seconds_hand_deg": 0,
+   "minute": 10,
+   "clock_centre_panel_px": [
+    845.0,
+    200.0
+   ],
+   "clock_scale": 0.7,
+   "layers": [
+    "bg",
+    "clerk.torso.shadow",
+    "clerk.torso",
+    "clerk.head.shadow",
+    "clerk.head",
+    "clerk.forearm.shadow",
+    "clerk.forearm",
+    "clerk.pencil.shadow",
+    "clerk.pencil"
+   ],
+   "balloons": [
+    {
+     "event": "E2",
+     "speaker": "AGENT",
+     "line": "Ten past four, by the clock.",
+     "centre_panel_px": [
+      325.95,
+      160.45000000000002
+     ]
+    }
+   ]
+  },
+  {
+   "panel": "P6",
+   "event": "E3",
+   "time": "4:10:10",
+   "seconds_hand_deg": 60,
+   "minute": 10,
+   "clock_centre_panel_px": [
+    122.0,
+    640.0
+   ],
+   "clock_scale": 0.42,
+   "layers": [
+    "bg"
+   ],
+   "balloons": [
+    {
+     "event": "E3",
+     "speaker": "STRANGER",
+     "line": "Much obliged!",
+     "centre_panel_px": [
+      345.0,
+      178.8
+     ]
+    }
+   ]
+  },
+  {
+   "panel": "P7",
+   "event": "E4",
+   "time": "4:10:20",
+   "seconds_hand_deg": 120,
+   "minute": 10,
+   "clock_centre_panel_px": [
+    560.0,
+    130.0
+   ],
+   "clock_scale": 0.48,
+   "layers": [
+    "bg",
+    "service_card.shadow",
+    "service_card",
+    "service_card.ink",
+    "cupboard.door.shadow",
+    "cupboard.door",
+    "hook.paper.shadow",
+    "hook.paper",
+    "hook",
+    "tag.shadow",
+    "tag",
+    "tag.ink",
+    "key.shadow",
+    "key",
+    "clerk.torso.shadow",
+    "clerk.torso",
+    "clerk.head.shadow",
+    "clerk.head",
+    "clerk.forearm.shadow",
+    "clerk.forearm",
+    "clerk.pencil.shadow",
+    "clerk.pencil"
+   ],
+   "balloons": []
+  },
+  {
+   "panel": "P8",
+   "event": "E5",
+   "time": "4:10:30",
+   "seconds_hand_deg": 180,
+   "minute": 10,
+   "clock_centre_panel_px": [
+    1090.0,
+    455.0
+   ],
+   "clock_scale": 0.55,
+   "layers": [
+    "bg",
+    "service_card.shadow",
+    "service_card",
+    "service_card.ink",
+    "cupboard.door.shadow",
+    "cupboard.door",
+    "hook.paper.shadow",
+    "hook.paper",
+    "hook",
+    "tag.shadow",
+    "tag",
+    "tag.ink",
+    "key.shadow",
+    "key",
+    "clerk.torso.shadow",
+    "clerk.torso",
+    "clerk.head.shadow",
+    "clerk.head",
+    "clerk.forearm.shadow",
+    "clerk.forearm",
+    "clerk.pencil.shadow",
+    "clerk.pencil"
+   ],
+   "balloons": [
+    {
+     "event": "E5",
+     "speaker": "AGENT",
+     "line": "Well, here I am... and what for?",
+     "centre_panel_px": [
+      390.0,
+      160.45000000000002
+     ]
+    }
+   ]
+  }
+ ],
+ "beat": "the clock performed: the panels are laid one by one, each ten seconds after the last, the red seconds hand stepping a sixth of the dial per panel, from 4:09:20 to 4:10:30",
+ "beat_frames": [
+  "b01: panels P1-P1; the newest clock reads 4:09:20",
+  "b02: panels P1-P2; the newest clock reads 4:09:30",
+  "b03: panels P1-P3; the newest clock reads 4:09:40",
+  "b04: panels P1-P4; the newest clock reads 4:09:50",
+  "b05: panels P1-P5; the newest clock reads 4:10:00",
+  "b06: panels P1-P6; the newest clock reads 4:10:10",
+  "b07: panels P1-P7; the newest clock reads 4:10:20",
+  "b08: panels P1-P8; the newest clock reads 4:10:30"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1128902,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "panels_with_clock": 8,
+  "panels": 8,
+  "times": [
+   "4:09:20",
+   "4:09:30",
+   "4:09:40",
+   "4:09:50",
+   "4:10:00",
+   "4:10:10",
+   "4:10:20",
+   "4:10:30"
+  ],
+  "steps_s": [
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10
+  ],
+  "equal_steps": true,
+  "answer_panel_time": [
+   "4:10:00"
+  ],
+  "check": "A reader reads a time in every panel, rising by equal steps (structurally verified from the build; legibility of slips and dials judged by the maker from the full-size page; blind reading pending)",
+  "evidence": "structurally verified (times set by code) and perceptually judged (full-size page) by the maker"
+ },
+ "weaknesses": [
+  "the clock is one wall clock pinned into eight different views, so in P4 and P6 it sits on the ticket-window glass and in P3/P7/P8 on whatever wall the view shows: geography is sacrificed to the rule",
+  "the time slips state the time that the dials also show; the seconds hand alone would be hard to read at phone width",
+  "a 0.5 px softening of the whole page was needed to bring the JPEG under 1.2 MB",
+  "as on page 01 the stranger is never seen; her lines come through the window from off-panel"
+ ]
+}

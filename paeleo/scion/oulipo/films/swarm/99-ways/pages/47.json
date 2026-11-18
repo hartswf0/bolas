@@ -1,0 +1,87 @@
+{
+ "n": 47,
+ "id": "floorboard",
+ "title": "Floorboard",
+ "rule": "Camera at floor level: boots, chair legs, the stranger's hem beyond the counter; no face ever enters.",
+ "medium": "shadow-puppet",
+ "family": "point of view",
+ "canon_revision": "c1",
+ "declares": "faces and the key's hook seen from below",
+ "file": "assets/pages/99-ways/47-floorboard.jpg",
+ "master": "films/sources/99-ways/masters/47-floorboard.png",
+ "beats_dir": "films/sources/99-ways/beats/47",
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "build": "films/swarm/99-ways/build/p47_floorboard.py (b1m2 cut-paper model; p05_noir screen)",
+ "sources": [
+  "99-ways:handmade",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934"
+ ],
+ "made": [
+  "seven lit shadow screens (page 05's screen: lamp hotspot, the LoC 1934 sheet as paper fibre)",
+  "HANDMADE floor-level cut paper: a grey floor strip with black board seams converging to a low vanishing point; desk legs and pedestal, a wooden chair from below, a ticket counter on legs open below, the cupboard plinth and its lit inside, the SERVICE door's lower panels with a line of light under it",
+  "the agent only as legs: the b1m2 TROUSER outline laid at >=2.05x with HANDMADE laced boots (lace holes and welt cut through); his hip held above every panel's top edge by the rule in legs()",
+  "the stranger only as hem, ankles and Louis-heel shoes (HANDMADE), held back from the screen (soft grey) beyond the counter",
+  "the clock (b1m2 cut-paper clock at 4:10) high up the wall; the ANRC 1922 key cutout in brass on its hook, seen from below, SERVICE tag",
+  "the four c1 lines in balloons whose tails leave the panel top (speakers above the frame); short third-person caption slips",
+  "hand-ruled borders; folio '47 / Floorboard' (pen99.folio)"
+ ],
+ "events": {
+  "P1": "E0 boots and chair legs under the desk; caption: the memo up on the desk, out of sight",
+  "P2": "E0 the chair scrapes back, the boots set off",
+  "P3": "E1 beyond the counter her hem; 'Pardon me — have you the right time?' from above",
+  "P4": "E2 up the wall the clock at 4:10; 'Ten past four, by the clock.'",
+  "P5": "E3 'Much obliged!'; her shoes turn away",
+  "P6": "E4 the cupboard door swings open; high up the key on its hook, seen from below",
+  "P7": "E5 'Well, here I am... and what for?'; the boots stand still, the key stays, light under the shut SERVICE door"
+ },
+ "beat": "the floor-level reading performed: the seven screens laid one by one, the boots crossing the boards from desk to counter to cupboard while the hem comes and goes beyond the counter",
+ "beat_frames": [
+  "b01: panels P1-P1",
+  "b02: panels P1-P2",
+  "b03: panels P1-P3",
+  "b04: panels P1-P4",
+  "b05: panels P1-P5",
+  "b06: panels P1-P6",
+  "b07: panels P1-P7"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 832973,
+  "jpeg_quality": 90,
+  "in_target_0_4_1_2MB": true,
+  "beat_frames": 7,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "panels": 7,
+  "hip_y_px_in_panel": [
+   -30.0,
+   -30.0,
+   -30.0,
+   -30.0,
+   -30.0,
+   -30.0,
+   -30.0
+  ],
+  "max_hip_y_px": -30.0,
+  "no_torso_or_head_laid": true,
+  "faces_on_page": 0,
+  "check": "No figure is seen above the waist (structurally: only trousers and boots of the agent and hem/ankles/shoes of the stranger are laid, every hip y < 0); a reader still retells E0-E5 (maker's judgement from the full-size page and captions; blind reading pending)",
+  "evidence": "structurally verified (shape roles, hip y) and perceptually judged (full-size page) by the maker"
+ },
+ "weaknesses": [
+  "the giant trouser legs are flat black masses; at phone width P1 reads as 'legs under a desk' only with the caption's help",
+  "the memo cannot be seen from the floor, so E0's errand is carried by the caption, not the picture",
+  "the counter, the cupboard frame and the legs are all the same black; overlaps merge where no light falls between them"
+ ]
+}
