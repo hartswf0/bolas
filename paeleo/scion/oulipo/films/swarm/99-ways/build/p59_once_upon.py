@@ -41,6 +41,9 @@ FOLD_X = W // 2
 ROWY = (300, 1110, 1920)           # picture tops
 TXT_H = 250                        # prose under each picture
 FLOOR = 450
+BAL3 = (556, 46)
+P3_X, P3_S, P3_DEG = 700, 0.76, 2
+ST6_X, ST6_DEG = 455, 9          # picture 6: the agent upright before the cupboard
 M39.PW = PW                         # p39's key/hook helpers size their paper to the picture width
 
 PROSE = [
@@ -251,11 +254,13 @@ def picture(i, ground, st):
     elif i == 1:
         Ma = affine(M39.PORTER_FEET, (500, FLOOR + 30), 0.72, flip=True)          # turned to the window
     elif i == 2:
-        Ma = affine(M39.PORTER_FEET, (700, FLOOR + 30), 0.80, deg=-12, flip=True)  # head up to the clock
+        Ma = affine(M39.PORTER_FEET, (P3_X, FLOOR + 30), P3_S, deg=P3_DEG, flip=True)  # head up to the clock
     elif i == 3:
         Ma = affine(M39.PORTER_FEET, (st.get("walk", 620), FLOOR + 30), 0.80)    # walks on, to the right
-    else:
-        Ma = affine(M39.PORTER_FEET, (460, FLOOR + 30), 0.80)
+    elif i == 4:
+        Ma = affine(M39.PORTER_FEET, (460, FLOOR + 30), 0.80)                    # arrives at the cupboard
+    else:   # he stands before it: drawn upright, planted close, his face to the open cupboard and the key
+        Ma = affine(M39.PORTER_FEET, (ST6_X, FLOOR + 30), 0.80, deg=ST6_DEG)
     lay(c, PORTER, Ma)
     if i == 5:
         pm = np.zeros((PH, PW), np.uint8)
@@ -284,11 +289,11 @@ def picture(i, ground, st):
     if i == 1 and st.get("ask", True):
         balloon(c, ["Pardon me —", "have you the", "right time?"], 32, (560, 82), (head[0] + 20, head[1] + 10), seed + 130)
     if i == 2:
-        balloon(c, ["Ten past four,", "by the clock."], 34, (800, 90), mouth, seed + 130)
+        balloon(c, ["Ten past four, by the clock."], 24, BAL3, mouth, seed + 130)   # above, clear of his head
     if i == 3:
         balloon(c, ["Much", "obliged!"], 36, (440, 400), (250, 300), seed + 130)
     if i == 5 and st.get("line", True):
-        balloon(c, ["Well, here I am...", "and what for?"], 34, (250, 110), mouth, seed + 130)
+        balloon(c, ["Well, here I am...", "and what for?"], 34, (212, 128), mouth, seed + 130)   # left, clear of his head
     return c
 
 

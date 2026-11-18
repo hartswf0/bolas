@@ -1,0 +1,48 @@
+import os, sys
+sys.path.insert(0, "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways/build")
+from b1m2 import write_record, credit_pages, PAGES_OUT
+new = {"id": "99-ways:rothstein-randolph-station-1937",
+ "title": "Railroad station. Randolph, Vermont (1937)",
+ "author": "Arthur Rothstein, U.S. Farm Security Administration (LoC 2017776101, LC-USF34-025753-C)",
+ "license": "No known restrictions (LoC rights advisory, read from item JSON 2026-11-18); FSA/OWI, US government work, public domain",
+ "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+ "source_url": "https://www.loc.gov/item/2017776101/",
+ "file_url": "https://tile.loc.gov/image-services/iiif/service:pnp:fsa:8b36000:8b36100:8b36164v/full/2400,/0/default.jpg",
+ "local": "films/sources/99-ways/forage/p74/t_v2400.jpg (and t_8b36164v.jpg, item_2017776101.json)",
+ "used_as": "page 74: the outside of Randolph station from the platform (P1), an out-of-focus wall behind the stranger (P5), and the tracks faintly reflected in the ticket-window glass",
+ "kind": "FORAGED"}
+src = ["99-ways:rothstein-randolph-station-1937", "99-ways-template:rothstein-randolph-agent-1937", "99-ways-template:rothstein-tavern-clock-1937",
+       "99-ways-template:bubley-stranger-1943", "99-ways-template:anrc-gold-key-1922", "99-ways-template:loc-blank-sheet-1934", "99-ways:handmade"]
+sz = os.path.getsize(PAGES_OUT / "74-from-the-platform.jpg")
+rec = {"n": 74, "id": "from-the-platform", "title": "From the platform", "family": "point of view", "medium": "photo-cutout", "canon_revision": "c1",
+ "rule": "The whole incident watched from the stranger's side of the ticket window; office events after E3 seen only through the glass.",
+ "declares": "E4-E5 seen only through the window glass, the line read through it",
+ "file": "assets/pages/99-ways/74-from-the-platform.jpg", "master": "films/sources/99-ways/masters/74-from-the-platform.png", "beats_dir": "films/sources/99-ways/beats/74",
+ "build": "films/swarm/99-ways/build/p74_from_the_platform.py (office: kit/build_page01.panel_rest; pen and balloons: build/b1m2.py)",
+ "sources": src,
+ "made": [
+  "FORAGED for this page: Rothstein's 1937 photograph of the outside of Randolph station (LoC 2017776101), P1 establishing view from the platform (the arched windows, RANDOLPH board, platform edge)",
+  "the stranger: the Bubley 1943 visitor cutout (99-ways-template variant-builders bubley.visitor.hi.png) with a white scissor margin, small at the window in P1, large in P5 as she turns from the window toward us",
+  "the ticket-window glass: the window cut from Rothstein's interior photograph (99-ways-template piece rothstein.window.png) laid MIRROR-REVERSED, because we look at it from its other side: TICKET OFFICE reads backwards in every office panel",
+  "behind the glass: the 99-ways-template rest layers P1, P3, P5, P7, P8 (Rothstein agent, clock, cupboard door, ANRC key, HANDMADE memo, hook, tag, SERVICE card) recomposed without balloons, seen through the etched pane (lettering and etching kept from the glass photograph, the pane 20 % frosted, the platform's tracks faintly reflected)",
+  "his lines (answer, forgetting) laid INSIDE, under the glass; her lines (question, thanks) on the platform side, on top",
+  "caption slips and cut-paper balloons in the shared pen hand, hand-ruled borders; one warm grade on every photograph; folio '74 / From the platform'"],
+ "events": {"E0": "P1 the station from the platform, the traveller at the window; P2 through the glass the agent at his memo, rising", "E1": "P3 through the glass he crosses the office; her question, outside",
+  "E2": "P4 through the glass, under his clock: 'Ten past four, by the clock.' behind the glass", "E3": "P5 on the platform she thanks him and turns from the window toward us",
+  "E4": "P6 through the emptied window: the cupboard door open, the key on its hook", "E5": "P7 through the glass: pencil to his chin, the forgetting line read through the glass; caption: key stays, SERVICE door shut"},
+ "lines": {"question": "Pardon me — have you the right time?", "answer": "Ten past four, by the clock.", "thanks": "Much obliged!", "forgetting": "Well, here I am... and what for?"},
+ "beat": "the watching performed: the platform view, then panel by panel the office seen through the reversed TICKET OFFICE glass; she leaves toward us; last, the forgetting line appears behind the glass",
+ "beat_frames": ["b01: P1 the station from the platform", "b02: + P2 through the glass, the memo", "b03: + P3 the question", "b04: + P4 the answer behind the glass",
+  "b05: + P5 she leaves toward us", "b06: + P6 the cupboard through the empty window", "b07: + P7 without its line", "b08: the forgetting line behind the glass (the page)"],
+ "self_check": {"size_px": [2200, 2850], "jpeg_bytes": sz, "jpeg_quality": 90, "in_target_0.4_1.2MB": 400000 <= sz <= 1200000,
+  "glass_mirrored": True, "office_panels_through_glass": ["P2", "P3", "P4", "P6", "P7"], "after_E3_through_glass": True,
+  "check": "A reader says the viewer stands outside on the platform: the station exterior, the backwards TICKET OFFICE lettering over every office view, the stranger walking toward us (perceptually judged from the full page by the maker; blind reading pending)",
+  "evidence": "perceptually judged (from the full page) by the maker"},
+ "weaknesses": ["the foraged station photograph came only as a 1024 px LoC derivative (served upscaled to 2400): P1 and P5 are soft (P5 deliberately out of focus)",
+  "the glass lettering crosses the agent's face in P2, P4, P6 and P7; legible as 'through the glass' but his expressions are partly hidden",
+  "the Bubley visitor is frontal: in P1 she faces the camera rather than the window; in E1-E2 she is off-frame (her question's tail leaves the panel)",
+  "the interior views keep the inside camera angles of the rest layers, not a true sight-line from the window",
+  "JPEG at 1.19 MB, close to the 1.2 MB ceiling"]}
+write_record(rec)
+credit_pages(src, 74, new_entries=[new])
+print("ok", sz)

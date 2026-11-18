@@ -34,6 +34,28 @@ CROPS = [(400, 0, 1400, 1285), (0, 0, 1000, 1285), (60, 0, 1060, 1285)]   # plat
 SY0, SH, SG = 975, 333, 23                                               # five strips
 STRIPS = [(110, SY0 + k * (SH + SG), 2090, SY0 + k * (SH + SG) + SH) for k in range(5)]
 BAND = (0, 350, PW, 350 + SH)                                            # the same plate band in every strip
+# repair: hang the key higher on the cupboard's back wall so hook, key (bit included) and its SERVICE tag
+# all lie inside the band with >= 20 px clear of the strip border
+P.KEY = (P.CUP[2] - 60, 495)
+
+
+def door_open57(c, seed):
+    """P.door_open with the key hung higher and its SERVICE tag tied below the bit (smaller, less tilt), so
+    hook, ring, shaft, bit and all seven letters of the tag sit inside the 333 px band"""
+    orig = P.slip
+    kx, ky = P.KEY
+
+    def tag(canvas, x, y, lines, cap, sd, **kw):
+        kw["tilt"] = 4
+        return orig(canvas, int(kx + 2), int(ky + 114), lines, 28, sd, **kw)
+    P.slip = tag
+    try:
+        P.door_open(c, seed)
+    finally:
+        P.slip = orig
+    s = np.zeros(c.shape[:2], np.uint8)       # the tag's string, from the bit to the tag
+    penlib.brush_line(s, [(kx + 6, ky + 100), (kx + 12, ky + 110), (kx + 18, ky + 118)], 4, seed + 7)
+    comp(c, s, INK)
 
 
 def thought(c, lines, cap, at, toward, seed):
@@ -78,7 +100,7 @@ def t2(c):   # E1 + E2: the question at the window, the answer under the clock: 
     a = agent(900, AY, face=-1, scale=0.86, legs=(8, -8), sh=10, el=-20, tilt=-26, pencil_deg=200)
     P.figs(c, a, 5721)
     P.bal(c, ["Pardon me —", "have you the", "right time?"], 72, (310, 175), (215, 420), 5722)
-    P.bal(c, ["Ten past four,", "by the clock."], 72, (590, 980), P.agent_mouth(a), 5723)
+    P.bal(c, ["Ten past", "four, by", "the clock."], 54, (818, 182), P.agent_mouth(a), 5723)   # top right, clear of the memo
 
 
 def t3(c):   # E3: the thanks; she turns away, he heads for the cupboard: 4:10
@@ -97,7 +119,7 @@ THINK = [["the key...", "the SERVICE door...", "at 4:15..."], ["the key...", "th
 def long_state(c, k, speak=True):
     mm, el, wr, pd, tilt = POSE[k]
     P.clock_hands(c, 4, mm, 5740 + k)
-    P.door_open(c, 2962)
+    door_open57(c, 2962)
     a = agent(1262, AY, face=1, scale=0.86, legs=(4, -4), sh=5, el=el, wr=wr, pencil_deg=pd, tilt=tilt)
     P.figs(c, a, 2973)
     fp = p7.face_points(a)
@@ -139,7 +161,7 @@ def build(n_strips=5, speak=True):
         slip(page, x0 + 14, y0 + 14, [f"{k + 1} of 5"], 30, 5780 + k, paper=np.array([246, 242, 230], np.float32),
              pad=(12, 6), shadow=0.3)
     if n_strips == 5:
-        slip(page, 1580, STRIPS[4][1] + 18, ["4:15. The key stays", "on its hook. The", "SERVICE door stays shut."], 32,
+        slip(page, STRIPS[4][0] + 14, STRIPS[4][1] + 92, ["4:15. The key stays", "on its hook. The", "SERVICE door stays shut."], 32,
              5790, paper=np.array([246, 242, 230], np.float32), shadow=0.35)
     frame_border(page, TOP + STRIPS[:n_strips], w=10, seed=5791)
     return page

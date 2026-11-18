@@ -1,0 +1,69 @@
+{
+ "n": 68,
+ "id": "showdown",
+ "title": "Showdown",
+ "rule": "Framed as a frontier standoff at the ticket window, hands at the hip, the clock as the duel's timer.",
+ "medium": "engraving-puppet",
+ "family": "genre",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/68-showdown.jpg",
+ "master": "films/sources/99-ways/masters/68-showdown.png",
+ "beats_dir": "films/sources/99-ways/beats/68",
+ "build": "films/swarm/99-ways/build/p68_showdown.py (engraving puppets and storyboard sheet: kit/build_page03.py, build/p49_epic.py)",
+ "sources": [
+  "99-ways:loc-harpers-1863-army-telegraph-operator",
+  "99-ways:loc-1867-dickens-tickets-steinway",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "made": [
+  "a western storyboard sheet: a torn frontier bill pinned at the head, 'SHOWDOWN / AT THE TICKET WINDOW / Randolph station, 4:10 sharp. Eight shots, one clock.', with pen five-point stars",
+  "eight widescreen shot boards (two full-width establishing shots, six half-width), each letterboxed with black bars, headed 'SHOT n' with its framing (WIDE, MEDIUM, EXTREME CLOSE-UP, HANDS AT THE HIP, CLOSE: THE CLOCK) and a running time to the second, 4:09:30 to 4:11:00, beside a small pen clock face whose second hand moves: the clock as the duel's timer",
+  "page 03/49's ENGRAVING PUPPETS reused: the AGENT is the Harper's Weekly 1863 telegraph operator (LoC cph.3c11072) pinned at the joints; the STRANGER the hatted woman of the 1867 Steinway Hall engraving (LoC cph.3c32079), behind the 1863 plate's window glass; shot 3 cuts both heads large, split by a black sash bar (the eyes-only standoff); shot 4 the agent at 0.78 scale, both arms out at the hip, pen twitch marks at the hovering hand; shot 5 the wall clock filling the frame at 4:10 with its second hand, 'tick / tock'",
+  "HANDMADE pen props: a tumbleweed (blown hay) rolling past after she leaves, clock faces, set; torn commentary slips in a frontier drawl, written for this page; the four canon lines verbatim in cut-paper balloons"
+ ],
+ "events": {
+  "E0": "shot 1 (wide): desk and memo, he gets up; shot 2: crossing the floor, he stops, a shape at the window",
+  "E1": "shot 3: eyes (no line); shot 4: hands at the hip, question balloon from the window",
+  "E2": "shot 5: the clock at 4:10 fills the frame; answer balloon",
+  "E3": "shot 6: thanks balloon; she turns away; tumbleweed",
+  "E4": "shot 7: the cupboard open, the key on its hook, tagged SERVICE",
+  "E5": "shot 8 (wide): pencil to chin before the open cupboard, forgetting balloon; the SERVICE door shut"
+ },
+ "substitutions": "none: the four lines verbatim",
+ "beat": "the duel on the clock: shot by shot, the header timer running to the second; the question laid in the standoff, the big clock's second hand ticking 4:10:04 to 4:10:09, the answer, the tumbleweed rolling through, the forgetting",
+ "beat_frames": [
+  "b01: shots 1-2",
+  "b02: shot 3, the eyes",
+  "b03: shot 4, the standoff, silent",
+  "b04: the question",
+  "b05: shot 5, the clock at 4:10:04, silent",
+  "b06: second hand at :09, the answer",
+  "b07: shot 6, the tumbleweed at the window's edge, the thanks",
+  "b08: the whole sheet"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1072645,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "beat_frames": 8,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "genre_cues": "letterboxed shot boards, frontier bill, eyes-only close-up, hands at the hip, clock-as-timer to the second in every header, tumbleweed, drawl commentary",
+  "lines_verbatim": true,
+  "pending": "independent blind reading not run by the maker"
+ }
+}

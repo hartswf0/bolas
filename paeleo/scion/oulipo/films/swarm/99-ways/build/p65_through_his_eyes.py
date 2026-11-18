@@ -195,7 +195,7 @@ def beat_view(t):
     """t in 0..5: 0 cupboard shut, hand reaching; 1-2 leaf swinging; 3 open, key; 4 pencil hand rising; 5 the line"""
     with Sized(BW, BH):
         c = Eye(6600)
-        c.rect(-10, 1200, BW + 10, BH + 10, s=1)                     # floor
+        c.rect(-10, 1300, BW + 10, BH + 10, s=1)                     # floor
         x0, y0, w, h = 250, 260, 480, 900
         c.rect(x0 - 20, y0 - 40, x0 + w + 20, y0, s=2)               # cornice
         p28.service_door_set(c, 860, 200, 240, 1000, 90)
@@ -212,7 +212,8 @@ def beat_view(t):
             # the interior: back board in shadow until the leaf clears it
             if open_k < 1:
                 c.rect(x0 + 30, y0, x0 + 30 + (w - 60) * (1 - open_k), y0 + h, s=8)
-            p28.key_on_hook(c, x0 + w * 0.55, y0 + h * 0.43, 0.42, 6601)
+            if open_k >= 0.5:                                         # hidden in the shadow until the leaf clears it
+                p28.key_on_hook(c, x0 + w * 0.55, y0 + h * 0.43, 0.42, 6601)
             # the leaf swings on the left jamb toward him: its free edge sweeps from the right jamb leftward
             ex = x0 + w - (w + w * 0.45) * open_k
             spread = 70 * math.sin(math.pi * open_k)
@@ -222,9 +223,9 @@ def beat_view(t):
                 c.hand((ex + (10 if open_k < 1 else -6), y0 + h * 0.45), -150 if open_k < 0.5 else -60)
         if t >= 4:
             lift = [0, 0, 0, 0, 0.55, 1.0][t]
-            c.hand((620 - 40 * lift, BH - 40 - 260 * lift + 260), -100, pencil=140)
+            c.hand((700 - 30 * lift, BH + 160 - 500 * lift), -100, pencil=150)
         if t >= 5:
-            c.balloon(F, 60, (560, 120), (640, BH + 80), 6602)
+            c.balloon(F, 60, (640, 120), (790, BH + 80), 6602)
         return c.render()
 
 

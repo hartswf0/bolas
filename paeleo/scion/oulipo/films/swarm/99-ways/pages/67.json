@@ -1,0 +1,73 @@
+{
+ "n": 67,
+ "id": "inner-voice",
+ "title": "Inner voice",
+ "rule": "The agent's thoughts run in cloud balloons beside the spoken lines; we watch the errand leave his head.",
+ "medium": "daumier-collage",
+ "family": "voice and language",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/67-inner-voice.jpg",
+ "master": "films/sources/99-ways/masters/67-inner-voice.png",
+ "beats_dir": "films/sources/99-ways/beats/67",
+ "build": "films/swarm/99-ways/build/p67_inner_voice.py (collage kit: build/daumier12.py, build/p12_loop.py, build/p50_brief_meeting.py)",
+ "sources": [
+  "99-ways:daumier-proprietaire-1846",
+  "99-ways:daumier-premier-voyage-1846",
+  "99-ways:daumier-grand-tunnel-1843",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "made": [
+  "masthead slip 'INNER VOICE' with its own legend: a small speech balloon 'what he says' and a small thought cloud 'what he thinks'",
+  "six collage panels on the LoC sheet; page 12/50's Daumier kit reused: the bourgeois of 'Il est devenu pro-pri-e-taire !' (1846) as the AGENT (p50's jointed re-cut for rising and for the pencil at the chin), the bonneted woman and carriage window of 'Un premier voyage en chemin de fer' (1846) as the STRANGER behind the TICKET OFFICE glass, desk, clock, cupboard and full-height SERVICE door cut from the prints' crayon tone",
+  "HANDMADE thought clouds: cut-paper clouds (ellipse core with a ring of scissor scallops, paper rim, shadow, pen outline) joined to his head by chains of paper bubbles; the errand cloud carries the memo's content and a small cut of the ANRC 1922 brass key",
+  "the thoughts (ours): '4:15, the SERVICE door. The key's in the cupboard.' / 'Key, cupboard, door.' x2 / 'Ten past. Five minutes yet.' beside a smaller '...key, cupboard...' / the errand cloud breaking free / 'Now then...' / an empty cloud",
+  "the four canon lines verbatim in smooth pen balloons with pointed tails; four short narration slips"
+ ],
+ "events": {
+  "E0": "P1: at the desk with the memo, rising; errand cloud with the key",
+  "E0-E1": "P2: walking, 'Key, cupboard, door' cloud; question balloon from the window",
+  "E2": "P3: head tipped to the clock at 4:10; answer balloon; a new cloud 'Ten past' crowds the errand into a small one",
+  "E3": "P4: thanks balloon; the bubble chain is broken (two loose bubbles by his head) and the errand cloud, key and all, sails off over the ticket window after her: 'Here the errand leaves his head'",
+  "E4": "P5: the cupboard open, the key on its hook tagged SERVICE; cloud 'Now then...'",
+  "E5": "P6: pencil to chin, 'Well, here I am... and what for?' spoken; his thought cloud empty; key on its hook, SERVICE door shut"
+ },
+ "substitutions": "none: the four lines verbatim (the forgetting line is spoken aloud to himself, in a speech balloon, beside an empty thought cloud)",
+ "beat": "the errand leaves his head: the thought forms over the desk, crowds at the clock, then the bubble chain breaks and the errand cloud drifts out across the panel over the ticket window after her, leaving the empty cloud at the cupboard",
+ "beat_frames": [
+  "b01: page with panel 1 only, no thought yet",
+  "b02: the errand cloud with the key forms over his head",
+  "b03: panels 2-3: key, cupboard, door; then crowded by 'Ten past'",
+  "b04: panel 4: the thanks, errand cloud still joined to his head",
+  "b05: chain broken, the cloud a third of the way to the window",
+  "b06: two-thirds of the way",
+  "b07: over the window, after her; caption 'Here the errand leaves his head'",
+  "b08: the whole page: 'Now then...' and the empty cloud"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1186131,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "beat_frames": 8,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "thought_clouds": "scalloped clouds with bubble chains in every panel; spoken lines in smooth balloons with pointed tails",
+  "errand_leaves": "panel 4 (the thanks), named in its caption",
+  "lines_verbatim": true,
+  "pending": "independent blind reading not run by the maker"
+ }
+}
