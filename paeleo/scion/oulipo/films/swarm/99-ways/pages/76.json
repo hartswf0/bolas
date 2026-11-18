@@ -1,0 +1,78 @@
+{
+ "n": 76,
+ "id": "you",
+ "title": "You",
+ "rule": "Captions address the reader as the agent, in the second person, present tense.",
+ "medium": "paper-hands",
+ "family": "voice and language",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/76-you.jpg",
+ "master": "films/sources/99-ways/masters/76-you.png",
+ "beats_dir": "films/sources/99-ways/beats/76",
+ "build": "films/swarm/99-ways/build/p76_you.py (lit cards and set pieces: p28_dealt_cards.py -> 99-ways-subjective lightbox.py, e4.py; left hand: p65_through_his_eyes.Eye.left_hand)",
+ "sources": [
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways-subjective:lightbox-paper-hands",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "eight lit paper cards (p28_dealt_cards.Card: the 99-ways-subjective lamp-lit fibrous sheet, set pieces cut sharp against it) laid two by four on the lightbox felt board, each a view through your eyes",
+  "your hands: the 99-ways-subjective scissor-cut RightHand rig behind the sheet (soft body and penumbra) in pinch, push and reach poses, the left hand the same rig cut mirror-wise; your pencil a cut bar through the pinch",
+  "eight caption slips of vellum pasted under the cards, lettered in the shared pen hand: second person, present tense, every one containing 'you'; the first says who you are ('You are the station agent at Randolph')",
+  "the four canon lines in the shared cut-paper balloons; your own two tailed off the card's bottom edge toward your mouth; the stranger's from beyond the TICKET OFFICE glass, her figure (b1m2 stranger bust) soft grey behind it",
+  "the ANRC 1922 key cutout as the key on its hook (p28.key_on_hook), SERVICE tag slip; folio '76 / You' (pen99.folio)"
+ ],
+ "captions": [
+  "You are the station agent at Randolph. You read your memo, and you rise.",
+  "You set off across your office for the cupboard, as the memo tells you.",
+  "On your way a woman at your ticket window stops you.",
+  "You look up at your clock, and you tell her.",
+  "She thanks you and goes. You go on to the cupboard.",
+  "You open it. The brass key hangs on its hook, tagged SERVICE, right in front of you.",
+  "You stand before it, your pencil at your chin. You cannot think why you came.",
+  "The key stays on its hook. The SERVICE door stays shut. And you stay where you are."
+ ],
+ "events": {
+  "E0": "1-2: your memo; your hands push up from the desk",
+  "E1": "3: the question through your ticket window",
+  "E2": "4: your clock at 4:10, your answer",
+  "E3": "5: her thanks; she goes",
+  "E4": "6: your hand swings the cupboard open, the key on its hook",
+  "E5": "7: your pencil at your chin, 'Well, here I am... and what for?'; 8: key on its hook, SERVICE door shut, your empty hands"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "beat": "the cupboard card is laid and its caption is written on word by word ('You open it...'), then the forgetting card is laid beneath and its caption written: 'You stand before it, your pencil at your chin. You cannot think why you came.'",
+ "beat_frames": [
+  "b01: card 6 laid, blank slip",
+  "b02: 'You open it. The brass key hangs'",
+  "b03: caption 6 complete",
+  "b04: card 7 laid under it, blank slip",
+  "b05: 'You stand before it, your pencil'",
+  "b06: '... at your chin. You cannot'",
+  "b07: caption 7 complete"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 859418,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "captions": 8,
+  "every_caption_contains_you": true,
+  "who_is_you": "caption 1: 'You are the station agent at Randolph'",
+  "tense": "present throughout ('why you came' is the only past form, inside a present sentence)",
+  "agent_face_drawn": false,
+  "beat_frames": 7,
+  "check": "Every caption contains 'you'; a reader says who 'you' is.",
+  "pending": "independent blind reading not run by the maker"
+ }
+}
