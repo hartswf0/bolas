@@ -27,17 +27,19 @@
  },
  "made": [
   "seven collage panels (the third an oval vignette across the page) glued on the LoC sheet, under a masthead slip 'BRIEF MEETING' with two rose-paper hearts",
-  "page 12's Daumier collage kit reused: the bourgeois of 'Il est devenu pro-pri-e-taire !' (1846) as the AGENT; the bonneted woman and the carriage window of 'Un premier voyage en chemin de fer' (1846) as the STRANGER and the TICKET OFFICE window; the CONCIERGE door as the SERVICE door; desk, counter, cupboard and clock case cut from the prints' own crayon tone (incl. the tunnel black of 'L'entree du grand tunnel', 1843); the ANRC 1922 key in the cupboard",
+  "page 12's Daumier collage kit reused: the bourgeois of 'Il est devenu pro-pri-e-taire !' (1846) as the AGENT; the bonneted woman and the carriage window of 'Un premier voyage en chemin de fer' (1846) as the STRANGER and the TICKET OFFICE window; the CONCIERGE door's glazed upper half as the top of a full-height SERVICE door; desk, counter, cupboard and clock case cut from the prints' own crayon tone (incl. the tunnel black of 'L'entree du grand tunnel', 1843); the ANRC 1922 key in the cupboard",
   "the oval close-up: her head and shoulders cut from her figure at 1.85x, his figure at 1.3x, the pane cut from the carriage window's pale paper with tunnel-black sash bars and white pen glints",
-  "HANDMADE: rose-paper hearts (heart curve cut as scissor facets, rim and shadow), romance narration slips, pen-hand balloons with the four canon lines verbatim, pencil to his chin, hand-ruled borders and the oval's pen line"
+  "HANDMADE: rose-paper hearts (heart curve cut as scissor facets, rim and shadow), romance narration slips, pen-hand balloons with the four canon lines verbatim, pencil to his chin, hand-ruled borders and the oval's pen line",
+  "repair (batch 5): the agent RE-CUT from the 1846 print as a jointed puppet: his near arm cut off the body at the coat edge and split at the elbow (shoulder and elbow pinned with crayon-grey paper brads), so he has three new poses: P1 rising from the desk (chair pushed back and tipped, body leaning forward 12 deg, hand pressing the desk top), P4 head tipped 30 deg back toward the clock with the arm half lifted, P7 the hand raised to the chin holding a pencil cut from the prints' own crayon tones (mid-grey shaft from the carriage wall, pale cone from the window paper, tunnel-black lead), laid across his fist with the thumb re-glued over it and its point at his chin",
+  "repair (batch 5): the SERVICE door rebuilt at full height (CONCIERGE glazed upper half over a panelled lower leaf cut from the carriage wall's tone, in a tunnel-black casing), as tall as the cupboard and 10 px beside it in P6 and P7; the panel grounds re-made by mirror-tiling the wall and floor crayon patches at a uniform scale (no more stretched, blurred streaks), with a pen skirting line"
  ],
  "events": {
-  "E0": "P1: desk, memo slip ('4:15 - open SERVICE door. Key in cupboard.'), he has risen; 'Nothing else on his mind'",
+  "E0": "P1: desk, memo slip ('4:15 - open SERVICE door. Key in cupboard.'); he rises from the desk, chair pushed back, hand on the desk top; 'Nothing else on his mind. He gets up.'",
   "E1": "P2: she at the TICKET OFFICE window; question balloon; 'a voice at the glass'; P3: the glance through the pane",
-  "E2": "P4: clock at 4:10, he looks up; answer balloon",
+  "E2": "P4: clock at 4:10, his head tipped back to look up at it; answer balloon",
   "E3": "P5: thanks balloon, she turns away; 'Her thanks lingered... and then she was gone'",
   "E4": "P6: the cupboard open, the key on its hook tagged SERVICE",
-  "E5": "P7: pencil to chin, forgetting balloon, a heart drifting where the errand was; key on its hook; SERVICE door shut"
+  "E5": "P7: hand raised to his chin holding the pencil, forgetting balloon, a heart drifting above his hat; key on its hook; the full-height SERVICE door shut beside the cupboard"
  },
  "substitutions": "none: the four lines verbatim",
  "beat": "the glance: in the oval panel the two cut-out faces slide toward each other across the pane and the rose heart is glued between them; then the thanks raises its little hearts; then the forgetting balloon and the drifting heart",
@@ -55,7 +57,7 @@
    2200,
    2850
   ],
-  "jpeg_bytes": 1045616,
+  "jpeg_bytes": 1195193,
   "jpeg_quality": 90,
   "in_target_0.4_1.2MB": true,
   "beat_frames": 7,
@@ -66,6 +68,40 @@
   "genre_signals": "masthead 'BRIEF MEETING / a love story at the ticket window'; an oval close-up of the two faces with the pane between them and a rose-paper heart; romance narration ('Their eyes met through the pane', 'He would have given her the clock', 'Her thanks lingered', 'his heart was out on the platform; the errand had gone with her'); hearts rising from the thanks and one drifting above his head at the forgetting",
   "lines_verbatim": true,
   "outcome": "key on its hook, SERVICE door closed (caption and picture)",
-  "pending": "independent blind reading not run by the maker"
- }
+  "pending": "independent blind reading not run by the maker",
+  "repair_checks": {
+   "P4_vs_P1_silhouette_IoU": 0.391,
+   "P7_vs_P1_silhouette_IoU": 0.475,
+   "pencil_butt_to_grip_px": 17.7,
+   "pencil_tip_to_chin_px": 3.8,
+   "P6_door_over_cupboard_height": 1.054,
+   "P6_door_gap_to_cupboard_px": 10,
+   "P7_door_over_cupboard_height": 1.054,
+   "P7_door_gap_to_cupboard_px": 10,
+   "poses": {
+    "P1": {
+     "head_deg": 10.0,
+     "body_deg": 12.0,
+     "sh": 51.0,
+     "el": 7.0
+    },
+    "P4": {
+     "head_deg": 30.0,
+     "sh": -38.0,
+     "el": -30.0
+    },
+    "P7": {
+     "head_deg": -4.0,
+     "sh": 0.0,
+     "el": -153.0
+    }
+   },
+   "note": "silhouette IoU of each agent pose rendered alone against P1 (1.0 = identical); pencil butt within the fist (grip) and tip at the chin, canvas px; door height over cupboard height (cornice to foot)"
+  }
+ },
+ "weaknesses": [
+  "the jointed arm shows a straight scissor cut down the coat edge where it was taken off the body; the hand at the chin is the print's cane hand turned up, so the fingers read as a fist",
+  "P2, P5 and P6 keep the print's standing pose (only P1, P4 and P7 were re-posed); the SERVICE door's lower leaf is cut tone, not Daumier's drawing",
+  "the pencil is small at page scale (about 50 x 13 px)"
+ ]
 }

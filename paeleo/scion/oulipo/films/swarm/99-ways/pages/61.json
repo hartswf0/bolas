@@ -1,0 +1,81 @@
+{
+ "n": 61,
+ "id": "blank-middle",
+ "title": "Blank middle",
+ "rule": "Only the first and last beats are pictured; the middle panels are bare paper carrying only the balloons.",
+ "medium": "shadow-puppet",
+ "family": "reduction and expansion",
+ "canon_revision": "c1",
+ "declares": "E1-E4 carried by balloons in empty panels",
+ "file": "assets/pages/99-ways/61-blank-middle.jpg",
+ "master": "films/sources/99-ways/masters/61-blank-middle.png",
+ "beats_dir": "films/sources/99-ways/beats/61",
+ "build": "films/swarm/99-ways/build/p61_blank_middle.py (screen, silhouettes, brass key: build/p05_noir.py; figure model build/b1m2.py)",
+ "sources": [
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways:handmade"
+ ],
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "made": [
+  "two lit shadow screens (page 05's screen: lamp hotspot, the LoC 1934 sheet's fibre) with black cut-paper b1m2 puppets and set pieces (HANDMADE): the top one E0 (desk, lamp, memo slip lit on the desk, clock at 4:09, the agent walking off toward the closed cupboard and the SERVICE door with its card), the foot one E4-E5 (cupboard open on its left jamb, the ANRC 1922 key cutout as an amber gel on its hook with its SERVICE tag, the agent pencil to chin, the SERVICE door shut with its card)",
+  "three middle panels left as bare LoC 1934 sheet inside hand-ruled borders, carrying only the shared cut-paper balloons with the question, the answer and the thanks, tails pointing out toward unseen speakers (question and thanks to the window side, answer to the agent's side)",
+  "caption slips only in the two pictured panels; folio by pen99.folio"
+ ],
+ "events": {
+  "E0": "P1 pictured: memo, agent setting off",
+  "E1": "P2 bare paper: question balloon",
+  "E2": "P3 bare paper: answer balloon",
+  "E3": "P4 bare paper: thanks balloon",
+  "E4": "P5 pictured: cupboard open, key on its hook, SERVICE tag (E4 carried by the last picture, not a bare panel)",
+  "E5": "P5: pencil to chin, forgetting balloon; caption: key stays, SERVICE door stays closed"
+ },
+ "substitutions": "none: the four lines verbatim",
+ "beat": "the middle stays bare: the three balloons arrive one by one on blank paper; only then does the last screen light, the cupboard open, and the forgetting line appear",
+ "beat_frames": [
+  "b01: first picture only; middle and last frames empty",
+  "b02: + question balloon on bare paper",
+  "b03: + answer balloon",
+  "b04: + thanks balloon",
+  "b05: the last screen lit, cupboard shut, agent reaching",
+  "b06: cupboard open, the key glows",
+  "b07: pencil to chin",
+  "b08: the forgetting balloon (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 824882,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "beat_frames": 8,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "pictured_panels": [
+   "P1",
+   "P5"
+  ],
+  "bare_panels": [
+   "P2",
+   "P3",
+   "P4"
+  ],
+  "bare_panel_content": "balloons only (no drawing, no caption, no tone)",
+  "lines_verbatim": true,
+  "check": "A reader finds pictures only in the first and last panels (structurally verified: the middle boxes receive nothing but balloon_piece)",
+  "pending": "independent blind reading not run by the maker"
+ },
+ "weaknesses": [
+  "E4 has no line of its own, so it is carried by the last picture rather than by a bare panel; the declares' 'E1-E4' is met only for E1-E3",
+  "the balloon tails in the bare panels can only point at the frame edge, so who speaks relies on the reader's knowledge of the first and last pictures"
+ ]
+}

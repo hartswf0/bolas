@@ -89,13 +89,60 @@ def card(w, h, seed):
     return np.zeros((h, w, 3), np.float32) + b3.CARD + (np.random.RandomState(seed).rand(h, w, 1) - 0.5) * 0.8
 
 
-def window_board(c, P, wx, gy, woman_at, woman_flip, seed):
-    """the 1863 plate's window cut out as the gate of glass, TICKET OFFICE lettered beneath; her puppet outside it"""
-    Mw = Mof(1.05, 0, np.array([140, 280]) * OPS, (wx, 175))
+GLASS_PANES = [(104, 235, 151, 379), (163, 235, 226, 379)]   # upper sash panes in tel_operator_crop px (x0, y0, x1, y1);
+# the meeting rail below them (crop y ~380-402) is the sill: she is seen only above it, through the glass
+WIN_ABOUT = np.array([140, 280]) * OPS
+WIN_S = 1.05
+
+
+def win_px(wx, p):
+    """tel_operator_crop px -> board px for the window laid at wx"""
+    return (np.asarray(p, np.float64) - WIN_ABOUT) * WIN_S + np.array([wx, 175.0])
+
+
+def woman_behind_glass(c, P, wx, flip, shift=0.0, s=0.56):
+    """the stranger seen THROUGH the gate of glass (as page 45, print 2): her head and bust only, cropped at the
+    sill (meeting rail), masked to the two upper panes so the sash bars and frame stay in front of her, tone-lifted
+    toward the glass (multiplied under the engraving, so the plate's own glass hatching runs across her)."""
+    h, w = c.shape[:2]
+    glass = np.zeros((h, w), np.uint8)
+    for x0, y0, x1, y1 in GLASS_PANES:
+        a0, a1 = win_px(wx, (x0, y0)), win_px(wx, (x1, y1))
+        cv2.rectangle(glass, (int(a0[0]) + 2, int(a0[1]) + 2), (int(a1[0]) - 2, int(a1[1]) - 2), 255, -1)
+    glass = cv2.GaussianBlur(glass.astype(np.float32) / 255, (0, 0), 1.4)
+    p0 = np.array(GLASS_PANES)
+    cx = (p0[:, 0].min() + p0[:, 2].max()) / 2
+    top = win_px(wx, (cx, p0[:, 1].min()))
+    pane_w = (p0[:, 2].max() - p0[:, 0].min()) * WIN_S
+    target = np.array([top[0] + shift * pane_w, top[1] + 22])         # her hat crown under the top rail
+    anchor = np.array([222.0, 66.0])                                    # hat crown, woman crop px
+    F = np.diag([-1.0 if flip else 1.0, 1.0])
+    A = s * F
+    M = np.zeros((2, 3))
+    M[:, :2] = A
+    M[:, 2] = target - A @ anchor
+    pc = P["woman"]
+    ox, oy = pc["origin"]
+    MM = M.copy()
+    MM[:, 2] = M[:, 2] + A @ np.array([ox, oy], np.float64)
+    rgb = cv2.warpAffine(pc["rgb"].astype(np.float32), MM, (w, h), flags=cv2.INTER_AREA, borderValue=tuple(float(v) for v in b3.CARD))
+    al = cv2.warpAffine(pc["a"], MM, (w, h), flags=cv2.INTER_LINEAR).astype(np.float32) / 255
+    wn = np.clip(rgb / b3.CARD, 0, 1)
+    lifted = 1 - 0.82 * (1 - wn)                    # seen through the glass: lifted toward its pale tone
+    aa = (al * glass)[..., None]
+    c[:] = c * (1 - aa) + (c * lifted) * aa
+    return float((al * glass > 0.05).sum()), aa[..., 0]
+
+
+def window_board(c, P, wx, seed, woman=None):
+    """the 1863 plate's window cut out as the gate of glass, TICKET OFFICE lettered beneath; she is behind its glass"""
+    Mw = Mof(WIN_S, 0, WIN_ABOUT, (wx, 175))
     lay(c, P["window"], Mw)
+    out = None
+    if woman is not None:
+        out = woman_behind_glass(c, P, wx, **woman)
     letters(c, ["TICKET", "OFFICE"], 22, wx, 300, seed)
-    if woman_at is not None:
-        b3.woman(c, P, (woman_at, gy + 2), 0.44, flip=woman_flip)
+    return out
 
 
 def board(n, P, with_line=True):
@@ -112,21 +159,22 @@ def board(n, P, with_line=True):
         b3.service_door(c, 1740, 54, 1900, gy, 4923)
         b3.agent(c, P, (720, gy + 2), 0.35, arms=(-112, 10, -10), head=8, flip=True)
     elif n == 2:    # E1: the summons through the glass
-        window_board(c, P, 560, gy, 740, False, 4930)
+        WOM[n] = window_board(c, P, 560, 4930, woman=dict(flip=True, shift=0.10))
         b3.agent(c, P, (300, gy + 2), s, arms=(12, 0, -8), flip=True, head=6)
         if with_line:
-            balloon(c, Q, 36, (790, 98), (735, 156), 4931)
+            balloon(c, Q, 32, (808, 112), (612, 96), 4931)
     elif n == 3:    # E2: the Orb of the Hours at 4:10, and his answer
-        b3.clock(c, 140, 96, 54, 4, 10, 4940)
-        window_board(c, P, 600, gy, 790, False, 4941)
-        b3.agent(c, P, (360, gy + 2), s, arms=(60, 150, 0), head=-14, flip=True)
+        b3.clock(c, 120, 96, 54, 4, 10, 4940)
+        WOM[n] = window_board(c, P, 810, 4941, woman=dict(flip=True, shift=0.0))
+        b3.agent(c, P, (320, gy + 2), s, arms=(60, 150, 0), head=-14, flip=True)
         if with_line:
-            balloon(c, A, 34, (590, 66), (390, 110), 4942)
+            balloon(c, A, 34, (548, 88), (362, 108), 4942)
     elif n == 4:    # E3: her thanks, lingering as she turns away into the west
-        window_board(c, P, 520, gy, 820, True, 4950)
+        # she has turned away (faces right, west) and is half past the pane's right edge, going
+        WOM[n] = window_board(c, P, 520, 4950, woman=dict(flip=False, shift=0.42))
         b3.agent(c, P, (270, gy + 2), s, arms=(0, 0, 0), flip=True, head=10)
         if with_line:
-            balloon(c, T, 38, (700, 92), (800, 150), 4951)
+            balloon(c, T, 38, (712, 96), (578, 88), 4951)
     elif n == 5:    # E4: the Vault flung wide
         b3.service_door(c, 740, 60, 900, gy, 4960)
         b3.cupboard(c, 430, 70, 650, gy - 20, 0.8, 4961)
@@ -202,6 +250,7 @@ def slip_left(pg, lines, cap, x, y, seed):
     return ww, hh
 
 
+WOM = {}
 SHEET = cv2.GaussianBlur(pen99.sheet99(), (0, 0), 1.8)   # the LoC sheet, its scan grain softened (file size)
 
 
@@ -214,7 +263,7 @@ def build(upto=6, line_on=True):
             continue
         x0, y0, w, h = BX[n]
         roman, ev, t = CANTO[n]
-        hdr = pen99.letter([f"CANTO {roman}    {ev}    {t}"], 32, 4980 + n)
+        hdr = pen99.letter([f"CANTO {roman}    {t}"], 32, 4980 + n)
         sub = np.zeros(pg.shape[:2], np.uint8)
         sub[y0 - 46:y0 - 46 + hdr.shape[0], x0 - 14:x0 - 14 + hdr.shape[1]] = hdr
         penlib.ink_onto(pg, sub, b3.GRAPH)
@@ -231,6 +280,12 @@ def build(upto=6, line_on=True):
 
 def main():
     page = build(6)
+    for n in (2, 3, 4):
+        npx, aa = WOM[n]
+        ys = np.where(aa.max(1) > 0.02)[0]
+        gy = BX[n][3] - 30
+        print("canto", n, "stranger px", int(npx), "rows", ys.min(), ys.max(), "floor line", gy)
+        assert npx > 2000 and ys.max() < gy - 60, (n, ys.max(), gy)
     img, size = B.save_page(page.copy(), N, PID, TITLE)
     print("jpeg", size)
     if "--page-only" in sys.argv:

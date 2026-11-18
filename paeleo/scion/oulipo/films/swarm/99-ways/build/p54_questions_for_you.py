@@ -43,8 +43,62 @@ ANSWERS = [
     "5. On its hook, tagged SERVICE.",
     "6. No. He has forgotten why he came.",
 ]
-# which panel answers which question (the six of page 28's seven cards that carry E0-E5)
-CARDS = [p28.card1, p28.card3, p28.card4, p28.card5, p28.card6, p28.card7]
+# ------------------------------------------------------------------ the two cards re-staged for this page
+WIN = (120, 90, 560, 680, 74)        # window_set(x0, y0, w, h, header) as on page 28's cards 3 and 5
+GLASS_STATS = {}
+
+
+def glass_mask():
+    x0, y0, w, h, hd = WIN
+    sill = y0 + h * 0.70
+    m = np.zeros((p28.CH, p28.CW), np.float32)
+    m[int(y0 + hd):int(sill), int(x0):int(x0 + w)] = 1.0
+    return m
+
+
+def card4_leaving():
+    """E3 'Much obliged!': she has turned in profile (facing right, the way out) and is half past the right edge of the
+    pane: her shadow is seen only through the glass, cut by the right post, and fading as she goes; the left pane empty.
+    The thanks balloon stays tailed to her."""
+    c = p28.Card(2851)
+    sill = p28.window_set(c, *WIN[:4], 60)
+    far = p28.stranger(668, sill + 40, face=1, scale=1.35, tilt=4)
+    c.shapes(far, layer="far", holes=False)
+    g = glass_mask()
+    c.far[:] = c.far * g * 0.80                     # behind the office wall once she is past the post; fading
+    c.balloon(["Much", "obliged!"], 50, (330, 250), (600, 300), 2852)
+    GLASS_STATS["card4_far_on_glass"] = float((c.far > 0.05).sum())
+    return c
+
+
+def card2_ref_area():
+    c = p28.card3()
+    GLASS_STATS["card2_far_on_glass"] = float(((c.far * glass_mask()) > 0.05).sum())
+    return GLASS_STATS["card2_far_on_glass"]
+
+
+def card6_pencil_up():
+    """E5: the forgetting; key still on its hook, SERVICE door shut; his pencil hand raised so the pencil point
+    reaches the upper third of the card (pencil to his chin, seen from his own eyes)"""
+    c = p28.Card(2871)
+    c.rect(-10, 730, p28.CW + 10, p28.CH + 10, s=1)
+    box, leaf = p28.cupboard_set(c, 200, 170, 320, 560, open_=True, seed=80)
+    p28.key_on_hook(c, 360, 330, 0.30, 2872)
+    p28.service_door_set(c, 840, 110, 220, 620, 90)
+    tgt, hdeg, plen = (722, 368), -100, 120
+    c.hand(tgt, hdeg, pencil=plen)
+    h = math.radians(hdeg)
+    Rm = np.array([[math.cos(h), -math.sin(h)], [math.sin(h), math.cos(h)]])
+    d = Rm @ np.array([math.cos(math.radians(-30)), math.sin(math.radians(-30))])
+    tip = np.array(tgt) + d * (plen + 22)
+    GLASS_STATS["card6_pencil_tip"] = [round(float(tip[0]), 1), round(float(tip[1]), 1)]
+    GLASS_STATS["card6_pencil_tip_frac_of_height"] = round(float(tip[1] / p28.CH), 3)
+    c.balloon(["Well, here I am...", "and what for?"], 48, (585, 116), (500, 800), 2873)
+    return c
+
+
+# which panel answers which question (page 28's cards carrying E0-E2 and E4; E3 and E5 re-staged here)
+CARDS = [p28.card1, p28.card3, p28.card4, card4_leaving, p28.card6, card6_pencil_up]
 EVENTS = ["E0", "E1", "E2", "E3", "E4", "E5"]
 
 # ------------------------------------------------------------------ layout (page px)
@@ -194,6 +248,11 @@ def build(hands=6, answers=True, moving=None):
 
 if __name__ == "__main__":
     page = build()
+    card2_ref_area()
+    ratio = GLASS_STATS["card4_far_on_glass"] / GLASS_STATS["card2_far_on_glass"]
+    GLASS_STATS["card4_over_card2_shadow_on_glass"] = round(ratio, 3)
+    assert ratio < 0.6 and GLASS_STATS["card6_pencil_tip_frac_of_height"] < 1 / 3, GLASS_STATS
+    print(GLASS_STATS)
     img, size = save_page(page, N, PID, TITLE)
     print("jpeg bytes", size)
     frames = []
@@ -215,7 +274,8 @@ if __name__ == "__main__":
         "build": "films/swarm/99-ways/build/p54_questions_for_you.py (cards and felt: p28_dealt_cards.py, which imports 99-ways-subjective/test-shot-build/lightbox.py and e4.py)",
         "sources": src,
         "made": [
-            "six lit paper cards laid square on the lightbox felt board (page 28's first-person cards, rebuilt: the 99-ways-subjective lamp-lit fibrous sheet, set pieces cut sharp, the agent's own scissor-cut paper hands soft behind the sheet): memo in his hand; the stranger beyond the TICKET OFFICE glass; the clock at 4:10 with his pencil hand; she turns from the window; his hand swings the cupboard leaf open on the left jamb, the ANRC 1922 key cutout on its hook tagged SERVICE; the key still on its hook, the SERVICE door shut, the pencil coming up",
+            "six lit paper cards laid square on the lightbox felt board (page 28's first-person cards, rebuilt: the 99-ways-subjective lamp-lit fibrous sheet, set pieces cut sharp, the agent's own scissor-cut paper hands soft behind the sheet): memo in his hand; the stranger beyond the TICKET OFFICE glass; the clock at 4:10 with his pencil hand; his hand swings the cupboard leaf open on the left jamb, the ANRC 1922 key cutout on its hook tagged SERVICE",
+            "two cards re-staged for this page (repair): card 4 (E3) her shadow turned in profile toward the right and half past the right post of the pane, seen only through the glass and fading, the left pane empty, 'Much obliged!' tailed to her; card 6 (E5) his pencil hand raised so the pencil point reaches the upper third of the card (pencil to his chin), the key still on its hook, the SERVICE door shut",
             "under each card a strip of the same lit paper with a numbered question for the reader in the shared pen hand, and behind it a paper pointing hand: the 99-ways-subjective RightHand rig (scissor-cut sleeve, cuff, forearm, palm, curled fingers, two-segment index and thumb) posed with the index straight and the thumb tucked, reaching in from the left to point at the question",
             "the six answers printed on a long lit strip, numbered, turned through 180 degrees along the foot of the board",
             "the four canon lines on the cards' cut-paper pen-hand balloons; folio '54 / Questions for the reader' (pen99.folio)"],
@@ -225,9 +285,9 @@ if __name__ == "__main__":
         "events": {"E0": "card 1: the memo '4:15 - open SERVICE door. Key in cupboard.' in his hand; Q1",
                    "E1": "card 2: the stranger beyond the glass, question balloon; Q2",
                    "E2": "card 3: the clock at 4:10, his answer balloon tailed to the viewer; Q3",
-                   "E3": "card 4: she turns from the window, thanks balloon; Q4",
+                   "E3": "card 4: thanks balloon tailed to her; she has turned in profile and is half past the right edge of the pane, going; the left pane empty; Q4",
                    "E4": "card 5: the cupboard opened on its left jamb, the key on its hook tagged SERVICE; Q5",
-                   "E5": "card 6: the forgetting balloon; key on its hook, SERVICE door shut; Q6"},
+                   "E5": "card 6: the forgetting balloon; the pencil hand raised to his chin (pencil point in the card's upper third); key on its hook, SERVICE door shut; Q6"},
         "lines": LN,
         "substitutions": "none",
         "beat": "the paper hands come in one by one, each pointing at its question as it is printed; last, the answers strip is laid upside down at the foot",
@@ -236,9 +296,12 @@ if __name__ == "__main__":
                        "in_target_0.4_1.2MB": 400000 <= size <= 1200000,
                        "panels": 6, "questions": 6, "hands": 6, "answers_upside_down": True,
                        "check": "A reader answers each question from the panels alone (each answer is on its own card: the memo text, the balloon, the clock face, the turned figure, the key on its hook, the closed door), then turns the page to check the answers (maker's judgement; blind reading pending)",
+                       "repair_checks": GLASS_STATS,
+                       "repair_check_rule": "card 4: her shadow on the window glass < 60% of its area in card 2 (she is leaving); card 6: the pencil point above one third of the card height",
                        "hand_rig_info": {f"hand{k + 1}": {kk: vv for kk, vv in (INFO.get(k) or {}).items() if kk in ("idx_residual", "th_residual", "limits_ok")} for k in range(6)}},
         "weaknesses": [
-            "the six cards are page 28's cards re-laid (same compositions), so the pictures repeat that page; the new work is the strips, hands and answers",
+            "four of the six cards are page 28's cards re-laid (same compositions); cards 4 and 6 are re-staged for this page; the new work is the strips, hands, answers and those two cards",
+            "card 4's departure is told by position (half past the right post, fading, profile toward the right) on a soft shadow; no blind reader was run by the maker",
             "the pointing hands are small soft silhouettes behind the strips (the hand rig's thumb sits up like a cocked thumb rather than tucked flat)",
             "the upside-down answers are small print (cap 26 px), legible at full size, tiny at phone width, as answer keys usually are",
             "first-person cards: the agent is never seen, so Q1 (what is he to do) leans on the memo text in his hand"],

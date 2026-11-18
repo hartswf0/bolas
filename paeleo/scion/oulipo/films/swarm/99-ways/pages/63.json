@@ -1,0 +1,71 @@
+{
+ "n": 63,
+ "id": "mirror",
+ "title": "Mirror",
+ "rule": "All lettering is mirror-reversed; the page reads true in a mirror.",
+ "medium": "stencil-dye",
+ "family": "reader and object",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/63-mirror.jpg",
+ "master": "films/sources/99-ways/masters/63-mirror.png",
+ "beats_dir": "films/sources/99-ways/beats/63",
+ "build": "films/swarm/99-ways/build/p63_mirror.py (stencil kit: build/p08_lipogram.py; figure model build/b1m2.py)",
+ "sources": [
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways:handmade"
+ ],
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "made": [
+  "six panels printed as HANDMADE stencils in flat dyes with page 08's kit (one cut stencil per dye with paper ties, misregistration, mottle, edge pooling) from the b1m2 cut model; the ANRC 1922 key cutout as an ochre stencil; on the LoC 1934 sheet",
+  "captions, the four canon lines in the shared cut-paper balloons, MEMO, TICKET OFFICE and the SERVICE card and tag, all in the shared pen hand",
+  "the page is composed the right way round and printed reversed as a whole (the ink mirrored left to right, the sheet's fibre kept): every word and the reading order of the panels come true only in a mirror; the folio line alone is printed the right way (pen99.folio after reversal)"
+ ],
+ "events": {
+  "E0": "P1 (top band): memo slip on the desk, agent rising; cupboard and SERVICE door beyond",
+  "E1": "P2: lady at the TICKET OFFICE window; question",
+  "E2": "P3: clock at 4:10; answer",
+  "E3": "P4: she turns away; thanks",
+  "E4": "P5: cupboard opened, key on its hook tagged SERVICE",
+  "E5": "P6: forgetting line; key on its hook; SERVICE door shut"
+ },
+ "substitutions": "none: the four lines verbatim (mirror-reversed)",
+ "beat": "the reversed page is printed dye by dye and lettered backwards; then a mirror slides across it and the page comes true under the glass",
+ "beat_frames": [
+  "b01: wash and ochre (reversed)",
+  "b02: + verdigris, indigo",
+  "b03: + madder, skin",
+  "b04: + umber",
+  "b05: + reversed lettering (= the page)",
+  "b06: a mirror slid over the left 38%: the page reads true under the glass",
+  "b07: mirror over 72%",
+  "b08: the whole page as the mirror shows it"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1129224,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "beat_frames": 8,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "check": "Outside the folio line, every word reads correctly only in a mirror: structurally verified (the whole composed page, lettering included, is flipped left-right after composition; only pen99.folio is drawn afterwards); verified by viewing the flipped JPEG, in which every caption, balloon, MEMO, TICKET OFFICE and SERVICE read true",
+  "pending": "independent blind reading not run by the maker"
+ },
+ "weaknesses": [
+  "the pictures are reversed too, so the panel order runs right to left on the page; a reader without a mirror has to start at the top right",
+  "the clock's face is mirrored as well, so on the page itself it reads 7:50; true (4:10) only in the mirror",
+  "the beat frames' 'mirror' is a wipe showing the reflected page in place, not a physically placed mirror"
+ ]
+}

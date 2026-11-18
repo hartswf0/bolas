@@ -23,7 +23,7 @@ BOX = {"P1": (110, 110, 2090, 720),
        "P4": (110, 1440, 1080, 2080), "P5": (1120, 1440, 2090, 2080),
        "P6": (110, 2120, 2090, 2730)}
 TEXT = {
-    "c1": "Randolph station, 1937. The memo says: open the SERVICE door at 4:15; the key is in the cupboard. Up he gets to fetch it.",
+    "c1": "Randolph, 1937. The memo: open the SERVICE door at 4:15; the key is in the cupboard. Up he gets.",
     "c2": "On his way, a lady at the ticket window:",
     "c3": "He looks up at the wall clock:",
     "c4": "She thanks him and goes.",
@@ -70,16 +70,16 @@ def card(c, x, y, cap, seed, tilt=0.0):
 def P1(st):
     w, h = size("P1")
     floor = h - 80
-    fig = agent(560, floor + 6, face=1, scale=0.52, legs=(16, -10), sh=10, el=40, pencil_deg=200, lean=6)
+    fig = agent(560, floor + 6, face=1, scale=0.48, legs=(16, -10), sh=10, el=40, pencil_deg=200, lean=6)
     fig += desk(640, floor - 200, 360, floor)
-    cup, _ = cupboard(1480, floor - 400, 190, 400)
-    fig += cup + service_door(1730, floor - 470, 170, 470)
+    cup, _ = cupboard(1480, floor - 380, 190, 380)
+    fig += cup + service_door(1730, floor - 420, 170, 420)
     c = printed(fig, w, h, floor, 6301)
     if not S.STAGE["text"]:
         return c
-    S.caption(c, TEXT["c1"], 6302, cap=38, width=1300)
+    S.caption(c, TEXT["c1"], 6302, cap=38, width=1900)
     slip(c, 690, floor - 300, ["MEMO", "4:15 - open SERVICE door.", "Key in cupboard."], 26, 6303, paper=PAPER, tilt=-3, shadow=0.35)
-    card(c, 1758, floor - 420, 26, 6304)
+    card(c, 1758, floor - 372, 26, 6304)
     return c
 
 
@@ -98,8 +98,8 @@ def window_panel(key, seed, st_kw, ag_kw, cap_key):
 
 
 def P2(st):
-    c = window_panel("P2", 6311, {"glove": True}, dict(x=720, floor=640, face=-1, scale=0.50, sh=8, el=20, tilt=-3, pencil_deg=190), "c2")
-    S.bal(c, TEXT["q"], (640, 230), (330, 330), 6315, cap=40)
+    c = window_panel("P2", 6311, {"glove": True}, dict(x=830, floor=576, face=-1, scale=0.50, sh=8, el=20, tilt=-3, pencil_deg=190), "c2")
+    S.bal(c, TEXT["q"], (590, 250), (330, 340), 6315, cap=40)
     return c
 
 
@@ -114,15 +114,15 @@ def P3(st):
 
 
 def P4(st):
-    c = window_panel("P4", 6331, {"dx": -40, "face": -1, "tilt": -4}, dict(x=720, floor=640, face=-1, scale=0.50, sh=4, el=10, tilt=2, pencil_deg=190), "c4")
-    S.bal(c, TEXT["t"], (560, 250), (300, 330), 6335, cap=44)
+    c = window_panel("P4", 6331, {"dx": -40, "face": -1, "tilt": -4}, dict(x=830, floor=576, face=-1, scale=0.50, sh=4, el=10, tilt=2, pencil_deg=190), "c4")
+    S.bal(c, TEXT["t"], (590, 250), (320, 340), 6335, cap=44)
     return c
 
 
 def cupboard_panel(key, seed, ag_kw, cap_key, sdoor, open_deg=112):
     w, h = size(key)
     floor = h - 70
-    c0, c1, cw, ch = (360 if not sdoor else 250), 150, 260, floor - 150
+    c0, c1, cw, ch = (360 if not sdoor else 250), 178, 260, floor - 178
     cup, ins = cupboard(c0, c1, cw, ch, open_deg=open_deg)
     fig = list(cup)
     if sdoor:

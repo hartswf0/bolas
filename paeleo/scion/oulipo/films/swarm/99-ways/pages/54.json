@@ -18,7 +18,8 @@
   "99-ways:handmade"
  ],
  "made": [
-  "six lit paper cards laid square on the lightbox felt board (page 28's first-person cards, rebuilt: the 99-ways-subjective lamp-lit fibrous sheet, set pieces cut sharp, the agent's own scissor-cut paper hands soft behind the sheet): memo in his hand; the stranger beyond the TICKET OFFICE glass; the clock at 4:10 with his pencil hand; she turns from the window; his hand swings the cupboard leaf open on the left jamb, the ANRC 1922 key cutout on its hook tagged SERVICE; the key still on its hook, the SERVICE door shut, the pencil coming up",
+  "six lit paper cards laid square on the lightbox felt board (page 28's first-person cards, rebuilt: the 99-ways-subjective lamp-lit fibrous sheet, set pieces cut sharp, the agent's own scissor-cut paper hands soft behind the sheet): memo in his hand; the stranger beyond the TICKET OFFICE glass; the clock at 4:10 with his pencil hand; his hand swings the cupboard leaf open on the left jamb, the ANRC 1922 key cutout on its hook tagged SERVICE",
+  "two cards re-staged for this page (repair): card 4 (E3) her shadow turned in profile toward the right and half past the right post of the pane, seen only through the glass and fading, the left pane empty, 'Much obliged!' tailed to her; card 6 (E5) his pencil hand raised so the pencil point reaches the upper third of the card (pencil to his chin), the key still on its hook, the SERVICE door shut",
   "under each card a strip of the same lit paper with a numbered question for the reader in the shared pen hand, and behind it a paper pointing hand: the 99-ways-subjective RightHand rig (scissor-cut sleeve, cuff, forearm, palm, curled fingers, two-segment index and thumb) posed with the index straight and the thumb tucked, reaching in from the left to point at the question",
   "the six answers printed on a long lit strip, numbered, turned through 180 degrees along the foot of the board",
   "the four canon lines on the cards' cut-paper pen-hand balloons; folio '54 / Questions for the reader' (pen99.folio)"
@@ -51,9 +52,9 @@
   "E0": "card 1: the memo '4:15 - open SERVICE door. Key in cupboard.' in his hand; Q1",
   "E1": "card 2: the stranger beyond the glass, question balloon; Q2",
   "E2": "card 3: the clock at 4:10, his answer balloon tailed to the viewer; Q3",
-  "E3": "card 4: she turns from the window, thanks balloon; Q4",
+  "E3": "card 4: thanks balloon tailed to her; she has turned in profile and is half past the right edge of the pane, going; the left pane empty; Q4",
   "E4": "card 5: the cupboard opened on its left jamb, the key on its hook tagged SERVICE; Q5",
-  "E5": "card 6: the forgetting balloon; key on its hook, SERVICE door shut; Q6"
+  "E5": "card 6: the forgetting balloon; the pencil hand raised to his chin (pencil point in the card's upper third); key on its hook, SERVICE door shut; Q6"
  },
  "lines": {
   "question": "Pardon me — have you the right time?",
@@ -78,7 +79,7 @@
    2200,
    2850
   ],
-  "jpeg_bytes": 864494,
+  "jpeg_bytes": 857335,
   "jpeg_quality": 90,
   "in_target_0.4_1.2MB": true,
   "panels": 6,
@@ -86,6 +87,17 @@
   "hands": 6,
   "answers_upside_down": true,
   "check": "A reader answers each question from the panels alone (each answer is on its own card: the memo text, the balloon, the clock face, the turned figure, the key on its hook, the closed door), then turns the page to check the answers (maker's judgement; blind reading pending)",
+  "repair_checks": {
+   "card4_far_on_glass": 30327.0,
+   "card6_pencil_tip": [
+    630.7,
+    259.2
+   ],
+   "card6_pencil_tip_frac_of_height": 0.324,
+   "card2_far_on_glass": 80893.0,
+   "card4_over_card2_shadow_on_glass": 0.375
+  },
+  "repair_check_rule": "card 4: her shadow on the window glass < 60% of its area in card 2 (she is leaving); card 6: the pencil point above one third of the card height",
   "hand_rig_info": {
    "hand1": {
     "idx_residual": 0.0,
@@ -150,7 +162,8 @@
   }
  },
  "weaknesses": [
-  "the six cards are page 28's cards re-laid (same compositions), so the pictures repeat that page; the new work is the strips, hands and answers",
+  "four of the six cards are page 28's cards re-laid (same compositions); cards 4 and 6 are re-staged for this page; the new work is the strips, hands, answers and those two cards",
+  "card 4's departure is told by position (half past the right post, fading, profile toward the right) on a soft shadow; no blind reader was run by the maker",
   "the pointing hands are small soft silhouettes behind the strips (the hand rig's thumb sits up like a cocked thumb rather than tucked flat)",
   "the upside-down answers are small print (cap 26 px), legible at full size, tiny at phone width, as answer keys usually are",
   "first-person cards: the agent is never seen, so Q1 (what is he to do) leans on the memo text in his hand"

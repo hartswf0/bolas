@@ -25,6 +25,7 @@ from pen99 import penlib  # noqa: E402
 import p11_station_cat as k11  # noqa: E402
 from p11_station_cat import line, hatch, text, ellipse_pts, paste, affine  # noqa: E402
 import p39_meanwhile as M39  # noqa: E402
+from b1m2 import wrap  # noqa: E402
 
 ROOT = pen99.ROOT
 W, H = pen99.PAGE_W, pen99.PAGE_H
@@ -43,24 +44,16 @@ FLOOR = 450
 M39.PW = PW                         # p39's key/hook helpers size their paper to the picture width
 
 PROSE = [
-    ["Once upon a time, in a little station among the green hills,",
-     "there lived an agent who kept the hours. One day a memo came:",
-     "at a quarter past four he must open the forbidden SERVICE",
-     "door, and the key to it lay in the cupboard."],
-    ["So he rose and set out across the office. But at the little",
-     "window there appeared a fairy in a travelling hat, and she",
-     "put to him a question, as fairies will:"],
-    ["He looked up at the great clock on the wall, and because",
-     "he was an honest man, he answered her truly:"],
-    ["\"Much obliged!\" said the fairy, and was gone in a glitter;",
-     "and with her, though he never knew it, flew the thing he",
-     "had set out to do."],
-    ["He came to the cupboard and opened it, and there on its",
-     "hook hung the enchanted key, shining in the dark."],
-    ["But the spell was cast. He stood before it with his pencil",
-     "to his chin and asked himself what he had come for. And the",
-     "key hangs there still, and the SERVICE door is shut to this",
-     "day. THE END"],
+    "in a little station among the green hills, there lived an agent who kept the hours. One day a memo came: "
+    "at a quarter past four he must open the forbidden SERVICE door, and the key to it lay in the cupboard.",
+    "So he rose and set out across the office. But at the little window there appeared a fairy in a travelling "
+    "hat, and she put to him a question, as fairies will:",
+    "He looked up at the great clock on the wall, and because he was an honest man, he answered her truly:",
+    "\"Much obliged!\" said the fairy, and was gone in a glitter; and with her, though he never knew it, flew "
+    "the thing he had set out to do.",
+    "He came to the cupboard and opened it, and there on its hook hung the enchanted key, shining in the dark.",
+    "But the spell was cast. He stood before it with his pencil to his chin and asked himself what he had come "
+    "for. And the key hangs there still, and the SERVICE door is shut to this day.",
 ]
 
 
@@ -243,7 +236,7 @@ def picture(i, ground, st):
         g, a = HELENE
         Mh = affine(M39.HEL_HAND, (300, 250), 0.62)
         hd = pt(Mh, M39.HEL_HEAD)
-        wings(c, (hd[0] - 70, hd[1] + 70), 150, seed + 90)
+        wings(c, (hd[0] - 50, hd[1] + 80), 210, seed + 90)
         c[:] = c * (1 - glass[..., None]) + c * glass[..., None]
         lay(c, HELENE, Mh, clip=glass)
         wm = np.zeros((PH, PW), np.uint8)
@@ -252,6 +245,26 @@ def picture(i, ground, st):
             sparkles(wm, [(wtip[0] + 40, wtip[1] + 10, 10), (wtip[0] - 10, wtip[1] - 40, 8), (wtip[0] + 70, wtip[1] + 60, 7)], seed + 97)
         penlib.ink_onto(c, wm, INK)
         head = (hd[0] + 10, hd[1] - 20)
+    # the agent
+    if i == 0:
+        Ma = affine(M39.PORTER_FEET, (480, FLOOR + 30), 0.80, deg=4)
+    elif i == 1:
+        Ma = affine(M39.PORTER_FEET, (500, FLOOR + 30), 0.72, flip=True)          # turned to the window
+    elif i == 2:
+        Ma = affine(M39.PORTER_FEET, (700, FLOOR + 30), 0.80, deg=-12, flip=True)  # head up to the clock
+    elif i == 3:
+        Ma = affine(M39.PORTER_FEET, (st.get("walk", 620), FLOOR + 30), 0.80)    # walks on, to the right
+    else:
+        Ma = affine(M39.PORTER_FEET, (460, FLOOR + 30), 0.80)
+    lay(c, PORTER, Ma)
+    if i == 5:
+        pm = np.zeros((PH, PW), np.uint8)
+        line(pm, [pt(Ma, (M39.PORTER_HAND[0] + 2, M39.PORTER_HAND[1] - 4)), pt(Ma, (M39.PORTER_CHIN[0] + 4, M39.PORTER_CHIN[1] + 4))],
+             8, seed + 120, tremor=0.2)
+        if st.get("cloud", True):   # a little cloud of nothing over his head
+            mh = pt(Ma, (250, 30))
+            sparkles(pm, [(mh[0] - 30, mh[1] - 10, 9), (mh[0] + 10, mh[1] - 34, 7)], seed + 125)
+        penlib.ink_onto(c, pm, INK)
     if i == 3:   # vanished in a glitter; the little memo flies off with her through the window
         k = st.get("fly", 1.0)
         wm = np.zeros((PH, PW), np.uint8)
@@ -267,33 +280,13 @@ def picture(i, ground, st):
         q[1] -= 70 * math.sin(math.pi * 0.98 * k)
         memo_slip(c, [(q[0] - 38, q[1] - 22), (q[0] + 36, q[1] - 30), (q[0] + 40, q[1] + 18), (q[0] - 34, q[1] + 24)], seed + 105,
                   lines=())
-    # the agent
-    if i == 0:
-        Ma = affine(M39.PORTER_FEET, (480, FLOOR + 30), 0.80, deg=4)
-    elif i == 1:
-        Ma = affine(M39.PORTER_FEET, (560, FLOOR + 30), 0.80, flip=True)          # turned to the window
-    elif i == 2:
-        Ma = affine(M39.PORTER_FEET, (700, FLOOR + 30), 0.80, deg=-12, flip=True)  # head up to the clock
-    elif i == 3:
-        Ma = affine(M39.PORTER_FEET, (st.get("walk", 640), FLOOR + 30), 0.80)    # walks on, to the right
-    else:
-        Ma = affine(M39.PORTER_FEET, (460, FLOOR + 30), 0.80)
-    lay(c, PORTER, Ma)
-    if i == 5:
-        pm = np.zeros((PH, PW), np.uint8)
-        line(pm, [pt(Ma, (M39.PORTER_HAND[0] + 2, M39.PORTER_HAND[1] - 4)), pt(Ma, (M39.PORTER_CHIN[0] + 4, M39.PORTER_CHIN[1] + 4))],
-             8, seed + 120, tremor=0.2)
-        if st.get("cloud", True):   # a little cloud of nothing over his head
-            mh = pt(Ma, (250, 30))
-            sparkles(pm, [(mh[0] - 30, mh[1] - 10, 9), (mh[0] + 10, mh[1] - 34, 7)], seed + 125)
-        penlib.ink_onto(c, pm, INK)
     mouth = pt(Ma, M39.PORTER_MOUTH)
     if i == 1 and st.get("ask", True):
-        balloon(c, ["Pardon me —", "have you the", "right time?"], 34, (470, 100), (head[0] + 20, head[1] + 10), seed + 130)
+        balloon(c, ["Pardon me —", "have you the", "right time?"], 32, (560, 82), (head[0] + 20, head[1] + 10), seed + 130)
     if i == 2:
         balloon(c, ["Ten past four,", "by the clock."], 34, (800, 90), mouth, seed + 130)
     if i == 3:
-        balloon(c, ["Much", "obliged!"], 36, (430, 90), (230, 180), seed + 130)
+        balloon(c, ["Much", "obliged!"], 36, (440, 400), (250, 300), seed + 130)
     if i == 5 and st.get("line", True):
         balloon(c, ["Well, here I am...", "and what for?"], 34, (250, 110), mouth, seed + 130)
     return c
@@ -321,8 +314,8 @@ def build(upto=6, state=None):
     sheet = 238 + cv2.GaussianBlur(sheet - 238, (0, 0), 2.6) * 0.85
     boxes = []
     m = np.zeros((H, W), np.uint8)
-    text(m, ["The Station Agent and the Forbidden Door"], W / 2, 175, 50, 5990, align="centre", weight=0.14)
-    text(m, ["a fairy tale"], W / 2, 240, 34, 5991, align="centre")
+    s0 = initial_O(sheet, 300, 92, 5992)
+    text(m, ["nce upon a time..."], 300 + s0 + 30, 215, 92, 5990, weight=0.13)
     for i in range(upto):
         col, row = i % 2, i // 2
         x0, y0 = COLX[col], ROWY[row]
@@ -330,15 +323,10 @@ def build(upto=6, state=None):
         boxes.append((x0, y0, x0 + PW, y0 + PH))
         ty = y0 + PH + 52
         tx = x0 + 6
-        if i == 0:
-            s = initial_O(sheet, x0, y0 + PH + 20, 5992)
-            first = PROSE[0][0][len("O"):]
-            text(m, [first], x0 + s + 26, ty, 30, 6000)
-            for k, ln in enumerate(PROSE[0][1:], 1):
-                text(m, [ln], (x0 + s + 26) if k < 3 else tx, ty + k * 46, 30, 6000 + k)
-        else:
-            for k, ln in enumerate(PROSE[i]):
-                text(m, [ln], tx, ty + k * 46, 30, 6010 + 10 * i + k)
+        for k, ln in enumerate(wrap(PROSE[i], 31, PW - 30)):
+            text(m, [ln], tx, ty + k * 48, 31, 6010 + 10 * i + k)
+        if i == 5:
+            text(m, ["THE END"], x0 + PW / 2, ty + 4 * 48 + 20, 44, 6099, align="centre", weight=0.15)
     penlib.ink_onto(sheet, m, INK)
     penlib.ink_onto(sheet, penlib.border_mask((H, W), boxes, 6, 5995), INK)
     pen99.folio(sheet, N, TITLE)
