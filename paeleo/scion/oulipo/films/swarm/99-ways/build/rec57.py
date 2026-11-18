@@ -1,0 +1,20 @@
+import sys; sys.path.insert(0, "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways/build")
+from rec56_59 import make
+make(57, "the-long-beat", "The long beat", "brush-plate", "time and order", "E0-E3 compressed into three panels",
+     "films/swarm/99-ways/build/p57_long_beat.py (plate, figures, balloons: build/p29_one_fixed_lens.py, build/p07_two_panels.py; brush: build/brushkit.py; figure model: build/b1m2.py)",
+     ["99-ways-template:anrc-gold-key-1922", "99-ways-template:loc-blank-sheet-1934", "99-ways:handmade"],
+     ["page 29's HANDMADE brush plate of the office (page 07's plate geometry, the dab-chain brush of moins-dun-quart-de-seconde-pour-vivre), printed in all eight panels",
+      "top tier: three tall crops of the full plate for E0 (desk, memo, 4:09), E1+E2 (question at the window, answer under the clock at 4:10) and E3 (thanks; he heads for the cupboard)",
+      "below: five identical letterbox strips of one plate band (clock, agent's head, open cupboard with the ANRC 1922 key tagged SERVICE, the SERVICE door), numbered '1 of 5' ... '5 of 5' on pasted slips",
+      "between the five strips only: the minute hand 4:11-4:15, the pencil climbing to the chin (elbow 12->140 deg), the head sinking 0->9 deg, and a brushed thought balloon losing the errand word by word ('the key... the SERVICE door... at 4:15...' -> 'the key... the SERVICE...' -> 'the... the...?'), then the spoken forgetting line, then an empty thought",
+      "closing slip: '4:15. The key stays on its hook. The SERVICE door stays shut.'; brushed balloons with the four canon lines in the shared pen hand; hand-ruled borders"],
+     {"E0": "P1: at the desk, memo, 4:09", "E1": "P2: question balloon from the stranger at the window",
+      "E2": "P2: under the clock at 4:10, answer balloon", "E3": "P3: thanks balloon; he walks toward the cupboard",
+      "E4": "strip 1 of 5: the cupboard open, the key on its hook tagged SERVICE, the errand still in his thought",
+      "E5": "strips 1-5: the same pose held 4:11-4:15; the errand drains from the thought balloon; strip 4 the forgetting line; strip 5 silence, key on its hook, SERVICE door shut"},
+     "none: the four lines verbatim; added thought balloons carry the draining errand",
+     "the errand drains: strip after strip is added, the same pose, the minute hand advancing and the pencil rising while the thought balloon empties word by word, until the forgetting line and then an empty thought",
+     ["b01: top tier only", "b02: + strip 1 (full errand thought)", "b03: + strip 2", "b04: + strip 3 ('the... the...?')",
+      "b05: + strip 4 without its balloon", "b06: strip 4 with the forgetting line", "b07: + strip 5 (= the page)"],
+     {"five_near_identical_panels": "five equal 1980x333 strips of the same plate band, numbered 1-5 of 5",
+      "lines_verbatim": True, "outcome": "key on its hook, SERVICE door shut (picture and slip)"})
