@@ -1,0 +1,729 @@
+{
+ "film": "teuf-teuf",
+ "unit": "montage-editor",
+ "date": "2026-11-16",
+ "repair": 2,
+ "single_ledger": "exposure.json is the rendered frames' sheet; mechanism.json asserts run on it (verify_sheet.py); sim.py's sheet is in superseded/",
+ "revisions_md5_12": {
+  "swarm/teuf-teuf/exposure.json": "8472f539ab11",
+  "swarm/teuf-teuf/mechanism.json": "43574a583d30",
+  "swarm/teuf-teuf/animation.json": "9b1e0fd98df7",
+  "swarm/teuf-teuf/layout.json": "c72c9437762a",
+  "swarm/teuf-teuf/layout_wall.py": "47e76ccf7c23",
+  "swarm/teuf-teuf/score.json": "01374949ba32",
+  "swarm/teuf-teuf/score.md": "e4323951b152",
+  "swarm/teuf-teuf/score_from_render.py": "a045c934ac33",
+  "swarm/teuf-teuf/register.json": "0406bed0ff94",
+  "swarm/teuf-teuf/animator-build/motion.py": "48a2a719c8f1",
+  "swarm/teuf-teuf/animator-build/anim.py": "1fd5b180f7b4",
+  "swarm/teuf-teuf/verify_sheet.py": "1fd5026fe61d",
+  "sources/teuf-teuf/animator/animator_master_0-44s.mp4": "511d08b9da9c",
+  "sources/teuf-teuf/animator/frames_metrics.json": "c2eb376ec3df",
+  "sources/teuf-teuf/layout/frameA_lum.npy": "0d56b0f97bca",
+  "sources/teuf-teuf/layout/frameB_lum.npy": "51d76ee750a8",
+  "sources/teuf-teuf/sound/stem-room.wav": "199d07cc0b00",
+  "teuf-teuf.py": "9b38e67517b7",
+  "credits/teuf-teuf.json": "c64c4cfffbb9",
+  "notes/teuf-teuf.txt": "729bf94e0682",
+  "../assets/films/teuf-teuf.mp4": "4b8bb8292faf",
+  "../assets/films/teuf-teuf-nocaption.mp4": "04180633d93c"
+ },
+ "asserts_all_pass": true,
+ "declared_cuts_s": [
+  13.0,
+  16.2,
+  18.8,
+  25.0,
+  34.0
+ ],
+ "caption_cues": [
+  {
+   "text_fr": "« La pierre avance d'un pas, puis elle réfléchit. »",
+   "cause": "the 4th stick begins: the stone holds after its 3rd lurch",
+   "cause_t": 6.51,
+   "onset_scripted": 6.87,
+   "first_visible_frame_measured_s": 6.958,
+   "lag_scripted_s": 0.36,
+   "lag_measured_s": 0.448,
+   "ok": true,
+   "voice": "narrator"
+  },
+  {
+   "text_fr": "« Et moi ? » dit le rouleau qu'on laisse derrière.",
+   "cause": "log A stops behind the stone (tok)",
+   "cause_t": 17.438,
+   "onset_scripted": 17.778,
+   "first_visible_frame_measured_s": 17.833,
+   "lag_scripted_s": 0.34,
+   "lag_measured_s": 0.395,
+   "ok": true,
+   "voice": "the log (the film's only nonhuman line)"
+  },
+  {
+   "text_fr": "« La roue tourne sur place ; c'est tout le reste qui voyage. »",
+   "cause": "the cart passes the 3 m roller ghost",
+   "cause_t": 28.613,
+   "onset_scripted": 28.973,
+   "first_visible_frame_measured_s": 29.042,
+   "lag_scripted_s": 0.36,
+   "lag_measured_s": 0.429,
+   "ok": true,
+   "voice": "narrator"
+  },
+  {
+   "text_fr": "« Sans essieu, la roue n'est qu'un rouleau qui se croit quelqu'un. »",
+   "cause": "the axle pins are pulled",
+   "cause_t": 34.7,
+   "onset_scripted": 35.04,
+   "first_visible_frame_measured_s": 35.125,
+   "lag_scripted_s": 0.34,
+   "lag_measured_s": 0.425,
+   "ok": true,
+   "voice": "narrator"
+  }
+ ],
+ "shots": [
+  {
+   "shot": "0_wall_wakes",
+   "film_time_s": [
+    0.0,
+    4.0
+   ],
+   "frames": [
+    0,
+    95
+   ],
+   "camera": [
+    "A"
+   ],
+   "picture": "sources/teuf-teuf/animator/shot_0_wall_wakes.mp4 (via animator_master_0-44s.mp4)",
+   "sheet": "swarm/teuf-teuf/exposure.json frames 0-95 (rendered frames)",
+   "plates": "layout frameA_lum.npy",
+   "metrics": {
+    "pusher": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": null,
+     "pinned_frames": 0,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 92.8
+    },
+    "carrier": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": null,
+     "pinned_frames": 0,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 84.1
+    },
+    "max_stone_step_px_per_frame": 0.0,
+    "stone_front_m_at_end": 0.0
+   },
+   "captions": [],
+   "sound_events": [
+    "room bed (foraged, PDSounds church walking, low-passed)",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "scratch 1.20s"
+   ]
+  },
+  {
+   "shot": "1_drag",
+   "film_time_s": [
+    4.0,
+    13.0
+   ],
+   "frames": [
+    96,
+    311
+   ],
+   "camera": [
+    "A"
+   ],
+   "picture": "sources/teuf-teuf/animator/shot_1_drag.mp4 (via animator_master_0-44s.mp4)",
+   "sheet": "swarm/teuf-teuf/exposure.json frames 96-311 (rendered frames)",
+   "plates": "layout frameA_lum.npy",
+   "metrics": {
+    "pusher": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": 0.0,
+     "pinned_frames": 216,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 104.3
+    },
+    "carrier": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": null,
+     "pinned_frames": 0,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 82.4
+    },
+    "max_stone_step_px_per_frame": 5.045,
+    "stone_front_m_at_end": 1.2
+   },
+   "captions": [
+    "« La pierre avance d'un pas, puis elle réfléchit. »"
+   ],
+   "sound_events": [
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "drag stops at 1.2 m",
+    "scratch 0.80s",
+    "scratch 0.25s"
+   ]
+  },
+  {
+   "shot": "2_substitute_logs",
+   "film_time_s": [
+    13.0,
+    14.0
+   ],
+   "frames": [
+    312,
+    335
+   ],
+   "camera": [
+    "A"
+   ],
+   "picture": "sources/teuf-teuf/animator/shot_2_substitute_logs.mp4 (via animator_master_0-44s.mp4)",
+   "sheet": "swarm/teuf-teuf/exposure.json frames 312-335 (rendered frames)",
+   "plates": "layout frameA_lum.npy",
+   "metrics": {
+    "pusher": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": 0.0,
+     "pinned_frames": 24,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 133.5
+    },
+    "carrier": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": null,
+     "pinned_frames": 0,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 119.8
+    },
+    "roller_slip_px_per_frame": 0.0,
+    "max_stone_step_px_per_frame": 0.0,
+    "stone_front_m_at_end": 0.0
+   },
+   "captions": [],
+   "sound_events": [
+    "lever bites under the stone",
+    "log lands under the stone",
+    "log lands under the stone",
+    "log lands under the stone",
+    "stone settles onto the logs"
+   ]
+  },
+  {
+   "shot": "3a_rollers_wide",
+   "film_time_s": [
+    14.0,
+    16.2
+   ],
+   "frames": [
+    336,
+    388
+   ],
+   "camera": [
+    "A",
+    "P",
+    "P0.0197",
+    "P0.0741",
+    "P0.1562",
+    "P0.2593",
+    "P0.3762",
+    "P0.5000",
+    "P0.6238",
+    "P0.7407",
+    "P0.8438",
+    "P0.9259",
+    "P0.9803"
+   ],
+   "picture": "sources/teuf-teuf/animator/shot_3a_rollers_wide.mp4 (via animator_master_0-44s.mp4)",
+   "sheet": "swarm/teuf-teuf/exposure.json frames 336-388 (rendered frames)",
+   "plates": "layout frameA_lum.npy; push-in crops of master_lum_x2.2.npy (x1.28)",
+   "metrics": {
+    "pusher": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": 0.0,
+     "pinned_frames": 53,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 93.6
+    },
+    "carrier": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": 0.0,
+     "pinned_frames": 7,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 146.6
+    },
+    "roller_slip_px_per_frame": 0.0097,
+    "max_stone_step_px_per_frame": 3.471,
+    "stone_front_m_at_end": 1.045
+   },
+   "captions": [],
+   "sound_events": [
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier"
+   ]
+  },
+  {
+   "shot": "3b_rollers_closeup",
+   "film_time_s": [
+    16.2,
+    18.8
+   ],
+   "frames": [
+    389,
+    450
+   ],
+   "camera": [
+    "B"
+   ],
+   "picture": "sources/teuf-teuf/animator/shot_3b_rollers_closeup.mp4 (via animator_master_0-44s.mp4)",
+   "sheet": "swarm/teuf-teuf/exposure.json frames 389-450 (rendered frames)",
+   "plates": "layout frameB_lum.npy",
+   "metrics": {
+    "pusher": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": 0.0,
+     "pinned_frames": 62,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 90.5
+    },
+    "carrier": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": 0.0,
+     "pinned_frames": 62,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 87.8
+    },
+    "roller_slip_px_per_frame": 0.0092,
+    "max_stone_step_px_per_frame": 3.007,
+    "stone_front_m_at_end": 1.5
+   },
+   "captions": [
+    "« Et moi ? » dit le rouleau qu'on laisse derrière."
+   ],
+   "sound_events": [
+    "footstep pusher",
+    "footstep pusher",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "tok: log stops behind",
+    "tok rebound",
+    "stone stops on its logs"
+   ]
+  },
+  {
+   "shot": "3c_carrier_sets_log",
+   "film_time_s": [
+    18.8,
+    21.0
+   ],
+   "frames": [
+    451,
+    503
+   ],
+   "camera": [
+    "B",
+    "P"
+   ],
+   "picture": "sources/teuf-teuf/animator/shot_3c_carrier_sets_log.mp4 (via animator_master_0-44s.mp4)",
+   "sheet": "swarm/teuf-teuf/exposure.json frames 451-503 (rendered frames)",
+   "plates": "layout frameA_lum.npy; push-in crops of master_lum_x2.2.npy (x1.28)",
+   "metrics": {
+    "pusher": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": 0.0,
+     "pinned_frames": 53,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 90.7
+    },
+    "carrier": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": 0.0,
+     "pinned_frames": 19,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 122.1
+    },
+    "roller_slip_px_per_frame": 0.01,
+    "max_stone_step_px_per_frame": 3.279,
+    "stone_front_m_at_end": 1.958
+   },
+   "captions": [],
+   "sound_events": [
+    "footstep pusher",
+    "footstep pusher",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "log D set down in front",
+    "stone rides onto log D"
+   ]
+  },
+  {
+   "shot": "3d_rollers_on",
+   "film_time_s": [
+    21.0,
+    23.0
+   ],
+   "frames": [
+    504,
+    551
+   ],
+   "camera": [
+    "P"
+   ],
+   "picture": "sources/teuf-teuf/animator/shot_3d_rollers_on.mp4 (via animator_master_0-44s.mp4)",
+   "sheet": "swarm/teuf-teuf/exposure.json frames 504-551 (rendered frames)",
+   "plates": "layout frameA_lum.npy; push-in crops of master_lum_x2.2.npy (x1.28)",
+   "metrics": {
+    "pusher": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": 0.0,
+     "pinned_frames": 48,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 90.6
+    },
+    "carrier": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": null,
+     "pinned_frames": 0,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 79.4
+    },
+    "roller_slip_px_per_frame": 0.0101,
+    "max_stone_step_px_per_frame": 3.675,
+    "stone_front_m_at_end": 3.0
+   },
+   "captions": [],
+   "sound_events": [
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep carrier",
+    "footstep carrier",
+    "tok: log stops behind",
+    "tok rebound"
+   ]
+  },
+  {
+   "shot": "3e_hold_3m",
+   "film_time_s": [
+    23.0,
+    25.0
+   ],
+   "frames": [
+    552,
+    599
+   ],
+   "camera": [
+    "A",
+    "P",
+    "P0.0023",
+    "P0.0265",
+    "P0.0741",
+    "P0.1409",
+    "P0.2230",
+    "P0.3164",
+    "P0.4170",
+    "P0.5208",
+    "P0.6238",
+    "P0.7220",
+    "P0.8114",
+    "P0.8879",
+    "P0.9475",
+    "P0.9862"
+   ],
+   "picture": "sources/teuf-teuf/animator/shot_3e_hold_3m.mp4 (via animator_master_0-44s.mp4)",
+   "sheet": "swarm/teuf-teuf/exposure.json frames 552-599 (rendered frames)",
+   "plates": "layout frameA_lum.npy; push-in crops of master_lum_x2.2.npy (x1.28)",
+   "metrics": {
+    "pusher": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": 0.0,
+     "pinned_frames": 48,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 77.4
+    },
+    "carrier": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": null,
+     "pinned_frames": 0,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 66.9
+    },
+    "roller_slip_px_per_frame": 0.0,
+    "max_stone_step_px_per_frame": 0.0,
+    "stone_front_m_at_end": 3.0
+   },
+   "captions": [],
+   "sound_events": [
+    "stone stops on its logs",
+    "scratch 0.80s",
+    "scratch 0.25s"
+   ]
+  },
+  {
+   "shot": "4_wheel_axle",
+   "film_time_s": [
+    25.0,
+    34.0
+   ],
+   "frames": [
+    600,
+    815
+   ],
+   "camera": [
+    "A"
+   ],
+   "picture": "sources/teuf-teuf/animator/shot_4_wheel_axle.mp4 (via animator_master_0-44s.mp4)",
+   "sheet": "swarm/teuf-teuf/exposure.json frames 600-815 (rendered frames)",
+   "plates": "layout frameA_lum.npy",
+   "metrics": {
+    "pusher": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": 0.0,
+     "pinned_frames": 216,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 99.3
+    },
+    "carrier": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": null,
+     "pinned_frames": 0,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 81.8
+    },
+    "max_stone_step_px_per_frame": 5.65,
+    "stone_front_m_at_end": 8.0
+   },
+   "captions": [
+    "« La roue tourne sur place ; c'est tout le reste qui voyage. »"
+   ],
+   "sound_events": [
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "plank knock, one wheel turn",
+    "plank knock, one wheel turn",
+    "plank knock, one wheel turn",
+    "cart stops at 8 m",
+    "scratch 0.80s",
+    "scratch 0.25s"
+   ]
+  },
+  {
+   "shot": "5_counter_no_axle",
+   "film_time_s": [
+    34.0,
+    38.0
+   ],
+   "frames": [
+    816,
+    911
+   ],
+   "camera": [
+    "A"
+   ],
+   "picture": "sources/teuf-teuf/animator/shot_5_counter_no_axle.mp4 (via animator_master_0-44s.mp4)",
+   "sheet": "swarm/teuf-teuf/exposure.json frames 816-911 (rendered frames)",
+   "plates": "layout frameA_lum.npy",
+   "metrics": {
+    "pusher": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": 0.0,
+     "pinned_frames": 76,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 100.7
+    },
+    "carrier": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": null,
+     "pinned_frames": 0,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 110.5
+    },
+    "loose_wheel_slip_px_per_frame": 0.0082,
+    "max_stone_step_px_per_frame": 5.65,
+    "stone_front_m_at_end": 0.883
+   },
+   "captions": [
+    "« Sans essieu, la roue n'est qu'un rouleau qui se croit quelqu'un. »"
+   ],
+   "sound_events": [
+    "footstep pusher",
+    "footstep pusher",
+    "footstep pusher",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "pins pulled, forks drop",
+    "rear wheel falls out",
+    "platform's rear lands on the ground (after a 0.30 s fall)",
+    "plank end strikes the ground",
+    "platform grinds to a stop",
+    "tok: the loose wheel settles behind the pusher",
+    "tok rebound"
+   ]
+  },
+  {
+   "shot": "6_comparison",
+   "film_time_s": [
+    38.0,
+    44.0
+   ],
+   "frames": [
+    912,
+    1055
+   ],
+   "camera": [
+    "A"
+   ],
+   "picture": "sources/teuf-teuf/animator/shot_6_comparison.mp4 (via animator_master_0-44s.mp4)",
+   "sheet": "swarm/teuf-teuf/exposure.json frames 912-1055 (rendered frames)",
+   "plates": "layout frameA_lum.npy",
+   "metrics": {
+    "pusher": {
+     "max_planted_foot_slide_px": 0.014,
+     "max_hand_residual_px_while_pinned": null,
+     "pinned_frames": 0,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 140.6
+    },
+    "carrier": {
+     "max_planted_foot_slide_px": 0.0,
+     "max_hand_residual_px_while_pinned": null,
+     "pinned_frames": 0,
+     "max_foot_ik_residual_px": 0.0,
+     "max_knee_flex_deg": 140.6
+    },
+    "loose_wheel_slip_px_per_frame": 0.0,
+    "max_stone_step_px_per_frame": 0.0,
+    "stone_front_m_at_end": 0.883
+   },
+   "captions": [],
+   "sound_events": [
+    "loose wheel rocks once (tok)",
+    "rock back",
+    "scratch 1.00s"
+   ]
+  }
+ ]
+}

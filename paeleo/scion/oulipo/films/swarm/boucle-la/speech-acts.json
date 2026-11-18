@@ -1,0 +1,163 @@
+{
+ "slug": "boucle-la",
+ "unit": "U2 dialogue-writer",
+ "owner": "dialogue-writer",
+ "rule": "act_of(PanelArt, context): identical art, speaker and string; only the neighbouring occurrences and the knowledge state differ",
+ "hinge": {
+  "occurrence": 4,
+  "panel_id": "H",
+  "act": "reveal",
+  "change": "addressee unknown -> addressee = Odette (the accuser)"
+ },
+ "leverage_curve": [
+  "odette",
+  "odette",
+  "odette",
+  "gustave",
+  "gustave",
+  "gustave",
+  "gustave"
+ ],
+ "occurrences": [
+  {
+   "occurrence": 1,
+   "panel_id": "A",
+   "speaker": "odette",
+   "phase": "before",
+   "text": "ET ÇA ?! C'EST TOI QUI L'AS LAISSÉ, CE MOT ?",
+   "speech_act": "accuse",
+   "gloss": "She produces the evidence and charges him: the note is presumed a lover's note he left or received.",
+   "leverage_after": "odette",
+   "knowledge_state": "unknown",
+   "context": "the note is a secret of HIS"
+  },
+  {
+   "occurrence": 2,
+   "panel_id": "B",
+   "speaker": "gustave",
+   "phase": "before",
+   "text": "MOI ?! TU CROIS QUE J'AI QUE ÇA À FAIRE ?",
+   "speech_act": "deny",
+   "gloss": "Defensive denial: 'Me? You think I have time for that?' — a husband pleading busyness.",
+   "leverage_after": "odette",
+   "knowledge_state": "unknown",
+   "context": "he is the suspect, explaining himself"
+  },
+  {
+   "occurrence": 3,
+   "panel_id": "C",
+   "speaker": "odette",
+   "phase": "before",
+   "text": "ALORS DE QUI IL EST ?!",
+   "speech_act": "press",
+   "gloss": "She presses the interrogation: if not his, whose? She still controls the question.",
+   "leverage_after": "odette",
+   "knowledge_state": "unknown",
+   "context": "the author is unknown; she demands it"
+  },
+  {
+   "occurrence": 4,
+   "panel_id": "H",
+   "speaker": "gustave",
+   "phase": "hinge",
+   "text": "« À MA CHÈRE ODETTE... » TIENS. C'EST POUR TOI.",
+   "speech_act": "reveal",
+   "gloss": "He reads the address aloud and hands it back: the note was written TO her. The accuser is the addressee. The note's face turns to the reader on the bell.",
+   "leverage_after": "gustave",
+   "knowledge_state": "known",
+   "context": "addressee known: Odette. Whoever wrote it is HER correspondent"
+  },
+  {
+   "occurrence": 5,
+   "panel_id": "C",
+   "speaker": "odette",
+   "phase": "after",
+   "text": "ALORS DE QUI IL EST ?!",
+   "speech_act": "deflect",
+   "gloss": "Now a flustered feint: she pretends not to know who would write to her — the same question as cover, asked too loudly.",
+   "leverage_after": "gustave",
+   "knowledge_state": "known",
+   "context": "she is the suspect; the question is a dodge"
+  },
+  {
+   "occurrence": 6,
+   "panel_id": "B",
+   "speaker": "gustave",
+   "phase": "after",
+   "text": "MOI ?! TU CROIS QUE J'AI QUE ÇA À FAIRE ?",
+   "speech_act": "jab",
+   "gloss": "Sarcasm: 'Me — write YOU love notes? You think I've nothing better to do?' The defence becomes a dig that also implies someone else did.",
+   "leverage_after": "gustave",
+   "knowledge_state": "known",
+   "context": "he holds the evidence and the moral high ground"
+  },
+  {
+   "occurrence": 7,
+   "panel_id": "A",
+   "speaker": "odette",
+   "phase": "after",
+   "text": "ET ÇA ?! C'EST TOI QUI L'AS LAISSÉ, CE MOT ?",
+   "speech_act": "counter-accuse",
+   "gloss": "A lame counter-attack: 'So YOU planted it? You left it there to trap me?' Same words, now an accusation of entrapment from the defensive side.",
+   "leverage_after": "gustave",
+   "knowledge_state": "known",
+   "context": "she flails; leverage stays with him"
+  }
+ ],
+ "pairs": [
+  {
+   "panel_id": "A",
+   "occurrences": [
+    1,
+    7
+   ],
+   "text": "ET ÇA ?! C'EST TOI QUI L'AS LAISSÉ, CE MOT ?",
+   "speaker": "odette",
+   "act_before": "accuse",
+   "act_after": "counter-accuse",
+   "changed": true,
+   "leverage": [
+    "odette",
+    "gustave"
+   ]
+  },
+  {
+   "panel_id": "B",
+   "occurrences": [
+    2,
+    6
+   ],
+   "text": "MOI ?! TU CROIS QUE J'AI QUE ÇA À FAIRE ?",
+   "speaker": "gustave",
+   "act_before": "deny",
+   "act_after": "jab",
+   "changed": true,
+   "leverage": [
+    "odette",
+    "gustave"
+   ]
+  },
+  {
+   "panel_id": "C",
+   "occurrences": [
+    3,
+    5
+   ],
+   "text": "ALORS DE QUI IL EST ?!",
+   "speaker": "odette",
+   "act_before": "press",
+   "act_after": "deflect",
+   "changed": true,
+   "leverage": [
+    "odette",
+    "gustave"
+   ]
+  }
+ ],
+ "inert_control": {
+  "hinge": "IL FAIT FROID ICI.",
+  "effect": "structurally legal; act_of unchanged for every pair (accuse/deny/press repeat as accuse/deny/press); leverage stays with Odette",
+  "expected_fixture": "passes structure, fails the reader test"
+ },
+ "defining_comparison": "occurrence 2 vs 6 (B / B'): deny -> jab"
+}

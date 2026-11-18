@@ -1,0 +1,508 @@
+{
+ "projection": "screen = O + m (p - O - (X,Y)/z), m = z/(z-D), O=(400,270), picture 800x540 pillarboxed at x=80 in 960x540 (#1b1b1b bars)",
+ "planes": {
+  "P0": {
+   "depth_z": 6.6667,
+   "parallax_ratio": 0.15,
+   "depth_blur_sigma_px": {
+    "wide": 1.0,
+    "close": 1.1
+   }
+  },
+  "P1": {
+   "depth_z": 2.8571,
+   "parallax_ratio": 0.35,
+   "depth_blur_sigma_px": {
+    "wide": 0.5,
+    "close": 0.6
+   }
+  },
+  "P2": {
+   "depth_z": 1.0,
+   "parallax_ratio": 1.0,
+   "depth_blur_sigma_px": {
+    "wide": 0.0,
+    "close": 0.0
+   },
+   "contents": "water (W_flood_trunk + archive ripple in wides), banks (foraged surface in torn polygon), plank, liana cord, puppets, shoe, bag"
+  },
+  "P3": {
+   "depth_z": 0.6667,
+   "parallax_ratio": 1.5,
+   "depth_blur_sigma_px": {
+    "wide": 0.9,
+    "close": null
+   }
+  },
+  "P4": {
+   "depth_z": 0.5,
+   "parallax_ratio": 2.0,
+   "depth_blur_sigma_px": {
+    "wide": 1.5,
+    "close": null
+   }
+  }
+ },
+ "layout_wide": [
+  {
+   "plane": "P0",
+   "piece": "P0b_forest",
+   "wide_top_left": [
+    -40,
+    -120
+   ],
+   "wide_scale": 0.62,
+   "gain": 0.8,
+   "label": "P0 far forest wall (Sinharaja, left 78 %)"
+  },
+  {
+   "plane": "P0",
+   "piece": "P0_far",
+   "wide_top_left": [
+    330,
+    -190
+   ],
+   "wide_scale": 0.62,
+   "gain": 0.85,
+   "label": "P0 giant buttress trunk + wall (right)"
+  },
+  {
+   "plane": "P1",
+   "piece": "P1c_flood_trunk",
+   "wide_top_left": [
+    585,
+    -60
+   ],
+   "wide_scale": 0.66,
+   "gain": 1.0,
+   "label": "P1 fluted trunk standing in the flood (right)"
+  },
+  {
+   "plane": "P1",
+   "piece": "P1d_liana",
+   "wide_top_left": [
+    300,
+    -60
+   ],
+   "wide_scale": 0.42,
+   "gain": 0.75,
+   "label": "P1 hanging liana (Sinharaja)"
+  },
+  {
+   "plane": "P1",
+   "piece": "P3b_treefern_mass",
+   "wide_top_left": [
+    150,
+    262
+   ],
+   "wide_scale": 0.7,
+   "gain": 1.03,
+   "label": "P1 lit tree-fern mass on the far bank"
+  },
+  {
+   "plane": "P1",
+   "piece": "P1_ficus_roots",
+   "wide_top_left": [
+    -250,
+    -95
+   ],
+   "wide_scale": 0.44,
+   "gain": 1.04,
+   "label": "P1 Ficus buttress/root wall (left of centre)"
+  },
+  {
+   "plane": "P3",
+   "piece": "P3c_leaves",
+   "wide_top_left": [
+    560,
+    -330
+   ],
+   "wide_scale": 0.42,
+   "gain": 0.8,
+   "label": "P3 Colocasia heart leaves, top right"
+  },
+  {
+   "plane": "P3",
+   "piece": "P3d_fern_bw",
+   "wide_top_left": [
+    -200,
+    -330
+   ],
+   "wide_scale": 0.42,
+   "gain": 0.9,
+   "label": "P3 dark tree-fern fronds, top left"
+  },
+  {
+   "plane": "P4",
+   "piece": "P4_root_diag",
+   "wide_top_left": [
+    -300,
+    438
+   ],
+   "wide_scale": 0.66,
+   "gain": 0.92,
+   "flip": true,
+   "label": "P4 root diagonal, low left"
+  }
+ ],
+ "banks": {
+  "N": [
+   [
+    -60,
+    396
+   ],
+   [
+    40,
+    389
+   ],
+   [
+    120,
+    388
+   ],
+   [
+    172,
+    392
+   ],
+   [
+    200,
+    398
+   ],
+   [
+    226,
+    418
+   ],
+   [
+    236,
+    440
+   ],
+   [
+    214,
+    470
+   ],
+   [
+    230,
+    520
+   ],
+   [
+    210,
+    560
+   ],
+   [
+    -60,
+    560
+   ]
+  ],
+  "F": [
+   [
+    688,
+    384
+   ],
+   [
+    700,
+    391
+   ],
+   [
+    740,
+    380
+   ],
+   [
+    780,
+    376
+   ],
+   [
+    860,
+    380
+   ],
+   [
+    860,
+    560
+   ],
+   [
+    716,
+    560
+   ],
+   [
+    700,
+    500
+   ],
+   [
+    712,
+    450
+   ],
+   [
+    696,
+    420
+   ]
+  ],
+  "surface": "B_litter_ficus",
+  "scale": 0.5,
+  "xy_N": [
+   -300,
+   384
+  ],
+  "xy_F": [
+   560,
+   374
+  ],
+  "note": "foraged surface photograph clipped to a handmade torn polygon; two courses of the same plate (second mirrored) for depth; wet-mud fill 58 under gaps; edge darkening 35 % at the waterline"
+ },
+ "plank": {
+  "kind": "HANDMADE pale scored card; lit top edge L214, face 196 -> 150; Cardboard-546867 (CC0) fibre +/-4 %",
+  "p0": [
+   170,
+   392
+  ],
+  "p1": [
+   690,
+   384
+  ],
+  "thickness": 12
+ },
+ "liana_cord": {
+  "kind": "HANDMADE twisted-paper cord, two strands (L70 / L104 + 30 sheen), quadratic through (-40,40), hand or (410,118), (860,20)"
+ },
+ "water": {
+  "plate": "W_flood_trunk (y 80-100 % band of 'Flooded building and tree trunk...', CC BY-SA 4.0) at 0.5 x m, mirror-repeated, drifting R->L 6 px/s",
+  "reflection": "the composite above the line, mirrored, rippled per row (12 poses/s), 38 % mix",
+  "motion": "wides only: Shock Troops of Disaster (1938) ripple field, rows 120-240 of the 320x240 clip, x1.6, ping-pong of 60 frames, +/-0.9 modulation",
+  "level": "world-trace.json water_y(t)"
+ },
+ "cameras": {
+  "L-S1": {
+   "kind": "lateral glide R->L",
+   "function": "cam_glide(t)",
+   "t_range_local": [
+    0,
+    3.0
+   ],
+   "X_from": 30,
+   "X_to": -30,
+   "Y": 0,
+   "D": 0,
+   "ease": "smoothstep",
+   "travel_at_P2_px": 60,
+   "travel_px_by_plane": {
+    "P0": 9.0,
+    "P1": 21.0,
+    "P2": 60.0,
+    "P3": 90.0,
+    "P4": 120.0
+   }
+  },
+  "E-S1": {
+   "same_as": "L-S1",
+   "note": "byte-identical frames"
+  },
+  "L-S4": {
+   "kind": "push-in 8 % at P2 toward (300,380)",
+   "function": "cam_push(t, 5.5, (300,380))",
+   "t_range_local": [
+    12.5,
+    18.0
+   ],
+   "magnification_end_by_plane": {
+    "P0": 1.0112,
+    "P1": 1.0266,
+    "P2": 1.08,
+    "P3": 1.125,
+    "P4": 1.1739
+   }
+  },
+  "L-S5": {
+   "kind": "close (dolly-in reframing of the same world)",
+   "centre_world": [
+    205,
+    330
+   ],
+   "M_at_P2": 3.0,
+   "cam": [
+    -195.0,
+    60.0,
+    0.6667
+   ],
+   "why": "plank foot: B kneels at x 196, the shoe arrives at (214,410); B's head ~0.25 H once the puppet's head is 42 px at the wide scale",
+   "world_window": [
+    71.66666666666666,
+    240.0,
+    338.33333333333337,
+    420.0
+   ],
+   "magnification_by_plane": {
+    "P0": 1.1111,
+    "P1": 1.3043,
+    "P2": 3.0,
+    "P3": "behind camera: replaced by near dressing",
+    "P4": "behind camera: replaced by near dressing"
+   },
+   "near_dressing": [
+    {
+     "piece": "P3_treefern",
+     "screen_top_left": [
+      590,
+      -20
+     ],
+     "scale": 0.62,
+     "gain": 0.98,
+     "blur": "near",
+     "label": "near: lit tree-fern crown, right edge (as the reference's fern at right)"
+    },
+    {
+     "piece": "P3c_leaves",
+     "screen_top_left": [
+      -170,
+      -260
+     ],
+     "scale": 0.4,
+     "gain": 0.78,
+     "blur": "near",
+     "label": "near: heart leaf, top left (dark canopy)"
+    },
+    {
+     "piece": "P4_root_diag",
+     "screen_top_left": [
+      -330,
+      380
+     ],
+     "scale": 0.95,
+     "gain": 0.86,
+     "blur": "near_fg",
+     "flip": true,
+     "label": "near: root diagonal across the low left"
+    }
+   ]
+  },
+  "E-S4": {
+   "kind": "close (dolly-in reframing of the same world)",
+   "centre_world": [
+    205,
+    330
+   ],
+   "M_at_P2": 3.0,
+   "cam": [
+    -195.0,
+    60.0,
+    0.6667
+   ],
+   "why": "= L-S5 framing (alternate equivalence)",
+   "world_window": [
+    71.66666666666666,
+    240.0,
+    338.33333333333337,
+    420.0
+   ],
+   "magnification_by_plane": {
+    "P0": 1.1111,
+    "P1": 1.3043,
+    "P2": 3.0,
+    "P3": "behind camera: replaced by near dressing",
+    "P4": "behind camera: replaced by near dressing"
+   },
+   "near_dressing": [
+    {
+     "piece": "P3_treefern",
+     "screen_top_left": [
+      590,
+      -20
+     ],
+     "scale": 0.62,
+     "gain": 0.98,
+     "blur": "near",
+     "label": "near: lit tree-fern crown, right edge (as the reference's fern at right)"
+    },
+    {
+     "piece": "P3c_leaves",
+     "screen_top_left": [
+      -170,
+      -260
+     ],
+     "scale": 0.4,
+     "gain": 0.78,
+     "blur": "near",
+     "label": "near: heart leaf, top left (dark canopy)"
+    },
+    {
+     "piece": "P4_root_diag",
+     "screen_top_left": [
+      -330,
+      380
+     ],
+     "scale": 0.95,
+     "gain": 0.86,
+     "blur": "near_fg",
+     "flip": true,
+     "label": "near: root diagonal across the low left"
+    }
+   ]
+  },
+  "L-S6": {
+   "kind": "close (dolly-in reframing of the same world)",
+   "centre_world": [
+    140,
+    250
+   ],
+   "M_at_P2": 2.85,
+   "cam": [
+    -260.0,
+    -20.0,
+    0.6491
+   ],
+   "why": "two-shot B (x 120-196) and C (x 150) on the N bank; C head >= 0.22 H",
+   "world_window": [
+    -0.3508771929824377,
+    155.26315789473685,
+    280.35087719298247,
+    344.7368421052631
+   ],
+   "magnification_by_plane": {
+    "P0": 1.1079,
+    "P1": 1.294,
+    "P2": 2.85,
+    "P3": 38.0,
+    "P4": "behind camera: replaced by near dressing"
+   },
+   "near_dressing": [
+    {
+     "piece": "P3_treefern",
+     "screen_top_left": [
+      600,
+      10
+     ],
+     "scale": 0.6,
+     "gain": 0.95,
+     "blur": "near",
+     "label": "near fern right"
+    },
+    {
+     "piece": "P3d_fern_bw",
+     "screen_top_left": [
+      -330,
+      -260
+     ],
+     "scale": 0.62,
+     "gain": 0.85,
+     "blur": "near",
+     "label": "near dark fronds top left"
+    },
+    {
+     "piece": "P4_root_diag",
+     "screen_top_left": [
+      -260,
+      360
+     ],
+     "scale": 0.95,
+     "gain": 0.86,
+     "blur": "near_fg",
+     "flip": true,
+     "label": "near root diagonal low left"
+    }
+   ]
+  }
+ },
+ "max_plate_scale": 1.6,
+ "invariants": [
+  "near planes move more than far ones (ratios 0.15 < 0.35 < 1 < 1.5 < 2.0)",
+  "no plate drawn above 1.6x its downloaded resolution (asserted in place())",
+  "blur only per plane (BLUR table), none on P2",
+  "one monotone curve per plate (plates.py), lighting = uniform per-piece gain"
+ ]
+}

@@ -1,0 +1,31 @@
+{
+ "shot": "teuf-teuf TEST SHOT, rollers beat, film time 15.0-21.0 s (wide 15.0-16.2, oblique close-up x2.2 16.2-18.8, wide 18.8-21.0)",
+ "file": "films/swarm/teuf-teuf/test-shot.mp4",
+ "foraged": [
+  {"title": "File:Cueva de las manos - detalle.jpg", "author": "Suzko", "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Cueva_de_las_manos_-_detalle.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Cueva_de_las_manos_-_detalle.jpg/960px-Cueva_de_las_manos_-_detalle.jpg",
+   "local": "films/sources/teuf-teuf/hands_cueva.jpg (already present; reused)",
+   "licence_verified": "Commons extmetadata re-read 2026-11-16: LicenseShortName 'CC BY-SA 3.0', Artist 'Suzko', Credit 'Own work'",
+   "used_as": "the wall in both camera set-ups: real rock re-toned to the reference's cream wash; its real negative hand stencils (pale hands in red-ochre spray, printed as dark blown halos), positive red hand and grey guanaco paintings kept",
+   "transform": "PIL decode; Lab pigment separation; rock high-pass x0.30 low-passed; lift and remap through a sepia ramp sampled from the reference; cover-scaled to 1280x720 world and to x2.2 for the close-up"},
+  {"title": "File:Knocking on wood or door.ogg", "author": "stephan (via PDSounds)", "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Knocking_on_wood_or_door.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Knocking_on_wood_or_door.ogg",
+   "local": "films/sources/teuf-teuf/test-shot/knock.ogg (156 kB), knock.wav (ffmpeg decode)",
+   "licence_verified": "Commons extmetadata read 2026-11-16: LicenseShortName 'Public domain', Artist 'stephan', Credit pdsounds.org",
+   "used_as": "the 'tok' of the rear log stopping (16.87 s), its two small rebound knocks, and log D being set down (19.70 s): single knocks cut from the recording, slowed to ~0.78x/0.66x (lower pitch) and given a shorter decay"}
+ ],
+ "handmade": [
+  "cut-card puppets (pusher, carrier): ragged brush-tapered limb pieces, FK spine, analytic two-bone IK legs and arms, planted-foot gait, replacement head profiles (facing forward / looking back)",
+  "the boulder (irregular cut card with grey dry-brush streaks and white scratched accents)",
+  "four bark logs: irregular rotating outline with a resting facet on log A, bark ridges and knots fixed to the body, end face with scratched rings and radial crack, oblique length",
+  "rubbed charcoal bands, ground line, scratched ticks at 0 / 1.2 / 3 / 8 m, white scratched ghost of the stone at 1.2 m and drag grooves, faint ghost-animal contour, dot cluster",
+  "blown-pigment halos (procedural dots + haze)",
+  "caption type (Liberation Serif Italic)",
+  "sound synthesized with kit.Mix: room tone, bark crackle and low rumble whose level follows the logs' angular speed, the stone's settling thud, footsteps on each IK foot plant"
+ ],
+ "not_used": "No frames, sound or text from Jabely's Teuf-Teuf. The reference still was only measured (PIL statistics) and viewed, never copied. The Ljubljana wheel is not in this shot."
+}

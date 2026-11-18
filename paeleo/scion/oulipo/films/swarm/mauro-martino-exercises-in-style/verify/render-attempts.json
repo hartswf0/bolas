@@ -1,0 +1,430 @@
+{
+ "schema": "RenderAttempt = {engine, generator_rev, seed, settings, conditioning, output, observation}",
+ "generator_rev": {
+  "sha1": "a81c80d6f3e3b7906f40295c401333a2fef97fd5",
+  "of": {
+   "films/mauro-martino-exercises-in-style.py": "59501cc1571628537b38719a2cdd01fd582f0c35",
+   "films/swarm/mauro-martino-exercises-in-style/stage/stage.py": "f9b51fd401c17ad4f025324eb30a5c1b61191152",
+   "films/swarm/mauro-martino-exercises-in-style/rig/rig.py": "e5793a5c91f88ed9ab02930eec46200267d46c92"
+  },
+  "rule": "sha1 of the concatenated sha1s of the film script, stage.py and rig.py (sorted by path); a change starts a new experiment (P5)",
+  "caveat": "the film script is hashed as it stands when coverage.py runs; if the editor rewrites it, rerun coverage.py to repin"
+ },
+ "stage_rev": "stage-2",
+ "rig_rev": "rig-1",
+ "seeds": [
+  417,
+  418
+ ],
+ "conditioning_files_read": {
+  "plates": {
+   "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg": "bb5fd56ac6428b621ce0953c8aa0c21b04d88ba5",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/A_woman_shawl_rgba.png": "48cc1e4a1f456a8b23c2f692fcc87cdaf018d039",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/B_woman_walking_rgba.png": "540963a1d17ab84173a27a3038d553156220a7b2",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/C_man_overcoat_rgba.png": "3754bce039d5526c5d84d309a1c3037fa54fd5df",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/D_man_back_rgba.png": "93f73c6dad8f17f1bcfa49cbe7ac3bc2456ce93c",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/E_woman_white_rgba.png": "c0eac474fc4928e082e5ddae4e662db30823571f",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/F_woman_basket_rgba.png": "66aa54d4cd51d3a62959cc9ad931cba155adcb17",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/G_man_bowler_right_rgba.png": "308739d7543a115a18a4737e5325ef9dacd09ac7",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/H_man_far_rgba.png": "1e980580ddc642ad66656dde4482a9506e888328",
+   "films/sources/mauro-martino-exercises-in-style/plates/swatches/cape_officer.png": "13816fde88d2dc5b2f3237115855f5cc0d05e87e",
+   "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_black_shawl.png": "64638aab4d8643557587a5491bb1d29791b5f2ae",
+   "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_dark_long.png": "f86451b04a390c1bbc87c51fa71ebdb5667e59ea",
+   "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_light_overcoat.png": "4bb9bfbab89ebf5097de30df2200ebd6064afcaf",
+   "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_dark.png": "ac090a694157fdce279c7aa687303501c1401537",
+   "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_wilson.png": "bdc8cbd7337a47e35e61aa8785b54d5f82e2a423",
+   "films/sources/mauro-martino-exercises-in-style/test-shot/plates/bus_rect_rgba.png": "992172132ef372050d2f096e36556c6930e9789f",
+   "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_front.png": "7717c0648afa033565bb562af026714741427121",
+   "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_rear.png": "2b4dce2b13dbbb0699be4b50325c3311a51ebcbd"
+  },
+  "json": {
+   "films/sources/mauro-martino-exercises-in-style/test-shot/plates/plates.json": "a7046120759da235f92021acaa103f6b4854a4c0"
+  },
+  "method": "every file opened by a fresh-process render of all six samples (open/Image.open/Path.read_* traced)"
+ },
+ "attempts": [
+  {
+   "id": "baseline/0417",
+   "shot": "S1",
+   "engine": "kit.py procedural animatic",
+   "generator_rev": "a81c80d6f3e3b7906f40295c401333a2fef97fd5",
+   "manifest_sha1": "6bb9bc5f4c9d4a1b7f4ce3a164be3cfba801fd6f",
+   "seed": 417,
+   "settings": {
+    "fps": 24,
+    "size": [
+     960,
+     540
+    ],
+    "duration": 7.0,
+    "frames": 168,
+    "drawings": "on twos (12/s)",
+    "projection": "side elevation (film render)",
+    "treatment": "cut-paper",
+    "puppet_fill": "INK + carved lines"
+   },
+   "conditioning": {
+    "exposure_sheet_sha1": "dced21df1daf38947386a0070c6c74bd8a9f89d4",
+    "anchors_sha1": "9782ec45d8435a9174b60cccc1d9f6880a85e616",
+    "plates_sha1": {
+     "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg": "bb5fd56ac6428b621ce0953c8aa0c21b04d88ba5",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/A_woman_shawl_rgba.png": "48cc1e4a1f456a8b23c2f692fcc87cdaf018d039",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/B_woman_walking_rgba.png": "540963a1d17ab84173a27a3038d553156220a7b2",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/C_man_overcoat_rgba.png": "3754bce039d5526c5d84d309a1c3037fa54fd5df",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/D_man_back_rgba.png": "93f73c6dad8f17f1bcfa49cbe7ac3bc2456ce93c",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/E_woman_white_rgba.png": "c0eac474fc4928e082e5ddae4e662db30823571f",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/F_woman_basket_rgba.png": "66aa54d4cd51d3a62959cc9ad931cba155adcb17",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/G_man_bowler_right_rgba.png": "308739d7543a115a18a4737e5325ef9dacd09ac7",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/H_man_far_rgba.png": "1e980580ddc642ad66656dde4482a9506e888328",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/cape_officer.png": "13816fde88d2dc5b2f3237115855f5cc0d05e87e",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_black_shawl.png": "64638aab4d8643557587a5491bb1d29791b5f2ae",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_dark_long.png": "f86451b04a390c1bbc87c51fa71ebdb5667e59ea",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_light_overcoat.png": "4bb9bfbab89ebf5097de30df2200ebd6064afcaf",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_dark.png": "ac090a694157fdce279c7aa687303501c1401537",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_wilson.png": "bdc8cbd7337a47e35e61aa8785b54d5f82e2a423",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/bus_rect_rgba.png": "992172132ef372050d2f096e36556c6930e9789f",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_front.png": "7717c0648afa033565bb562af026714741427121",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_rear.png": "2b4dce2b13dbbb0699be4b50325c3311a51ebcbd"
+    }
+   },
+   "output": {
+    "film_seconds": [
+     4.0,
+     11.0
+    ],
+    "film_frames": [
+     96,
+     263
+    ],
+    "defining_beat_film_t": 5.2,
+    "replay_frame_sha1": {
+     "0": "45cdbfcb12927e0a6f268318aa4255bf0e3a7bad",
+     "29": "907138f782c39bceb518888a17cb400fae90e16a",
+     "132": "e198f3e88727d60a0243edb330f154c96d5ce672"
+    }
+   },
+   "observation": "see coverage.json samples['baseline/0417']"
+  },
+  {
+   "id": "baseline/0418",
+   "shot": "S2",
+   "engine": "kit.py procedural animatic",
+   "generator_rev": "a81c80d6f3e3b7906f40295c401333a2fef97fd5",
+   "manifest_sha1": "6bb9bc5f4c9d4a1b7f4ce3a164be3cfba801fd6f",
+   "seed": 418,
+   "settings": {
+    "fps": 24,
+    "size": [
+     960,
+     540
+    ],
+    "duration": 7.0,
+    "frames": 168,
+    "drawings": "on twos (12/s)",
+    "projection": "side elevation (film render)",
+    "treatment": "cut-paper",
+    "puppet_fill": "INK + carved lines"
+   },
+   "conditioning": {
+    "exposure_sheet_sha1": "dced21df1daf38947386a0070c6c74bd8a9f89d4",
+    "anchors_sha1": "9782ec45d8435a9174b60cccc1d9f6880a85e616",
+    "plates_sha1": {
+     "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg": "bb5fd56ac6428b621ce0953c8aa0c21b04d88ba5",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/A_woman_shawl_rgba.png": "48cc1e4a1f456a8b23c2f692fcc87cdaf018d039",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/B_woman_walking_rgba.png": "540963a1d17ab84173a27a3038d553156220a7b2",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/C_man_overcoat_rgba.png": "3754bce039d5526c5d84d309a1c3037fa54fd5df",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/D_man_back_rgba.png": "93f73c6dad8f17f1bcfa49cbe7ac3bc2456ce93c",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/E_woman_white_rgba.png": "c0eac474fc4928e082e5ddae4e662db30823571f",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/F_woman_basket_rgba.png": "66aa54d4cd51d3a62959cc9ad931cba155adcb17",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/G_man_bowler_right_rgba.png": "308739d7543a115a18a4737e5325ef9dacd09ac7",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/H_man_far_rgba.png": "1e980580ddc642ad66656dde4482a9506e888328",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/cape_officer.png": "13816fde88d2dc5b2f3237115855f5cc0d05e87e",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_black_shawl.png": "64638aab4d8643557587a5491bb1d29791b5f2ae",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_dark_long.png": "f86451b04a390c1bbc87c51fa71ebdb5667e59ea",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_light_overcoat.png": "4bb9bfbab89ebf5097de30df2200ebd6064afcaf",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_dark.png": "ac090a694157fdce279c7aa687303501c1401537",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_wilson.png": "bdc8cbd7337a47e35e61aa8785b54d5f82e2a423",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/bus_rect_rgba.png": "992172132ef372050d2f096e36556c6930e9789f",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_front.png": "7717c0648afa033565bb562af026714741427121",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_rear.png": "2b4dce2b13dbbb0699be4b50325c3311a51ebcbd"
+    }
+   },
+   "output": {
+    "film_seconds": [
+     11.0,
+     18.0
+    ],
+    "film_frames": [
+     264,
+     431
+    ],
+    "defining_beat_film_t": 12.2,
+    "replay_frame_sha1": {
+     "0": "4887a083e8d975f105ae60568c9eddc79c83bea6",
+     "29": "0b5422a7bd098ad9053faa629ddd92bc69cd8645",
+     "132": "abf1b5d457822389389a7afcbc94c17818cca8d7"
+    }
+   },
+   "observation": "see coverage.json samples['baseline/0418']"
+  },
+  {
+   "id": "d-treatment/0417",
+   "shot": "S4",
+   "engine": "kit.py procedural animatic",
+   "generator_rev": "a81c80d6f3e3b7906f40295c401333a2fef97fd5",
+   "manifest_sha1": "f3344d0ab786b0bd1e5815d51ba9cb3ca2b3e255",
+   "seed": 417,
+   "settings": {
+    "fps": 24,
+    "size": [
+     960,
+     540
+    ],
+    "duration": 7.0,
+    "frames": 168,
+    "drawings": "on twos (12/s)",
+    "projection": "side elevation (film render)",
+    "treatment": "photographic-plate",
+    "puppet_fill": "film photo_fill: Rol 1919 cloth swatches"
+   },
+   "conditioning": {
+    "exposure_sheet_sha1": "dced21df1daf38947386a0070c6c74bd8a9f89d4",
+    "anchors_sha1": "9782ec45d8435a9174b60cccc1d9f6880a85e616",
+    "plates_sha1": {
+     "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg": "bb5fd56ac6428b621ce0953c8aa0c21b04d88ba5",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/A_woman_shawl_rgba.png": "48cc1e4a1f456a8b23c2f692fcc87cdaf018d039",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/B_woman_walking_rgba.png": "540963a1d17ab84173a27a3038d553156220a7b2",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/C_man_overcoat_rgba.png": "3754bce039d5526c5d84d309a1c3037fa54fd5df",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/D_man_back_rgba.png": "93f73c6dad8f17f1bcfa49cbe7ac3bc2456ce93c",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/E_woman_white_rgba.png": "c0eac474fc4928e082e5ddae4e662db30823571f",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/F_woman_basket_rgba.png": "66aa54d4cd51d3a62959cc9ad931cba155adcb17",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/G_man_bowler_right_rgba.png": "308739d7543a115a18a4737e5325ef9dacd09ac7",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/H_man_far_rgba.png": "1e980580ddc642ad66656dde4482a9506e888328",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/cape_officer.png": "13816fde88d2dc5b2f3237115855f5cc0d05e87e",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_black_shawl.png": "64638aab4d8643557587a5491bb1d29791b5f2ae",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_dark_long.png": "f86451b04a390c1bbc87c51fa71ebdb5667e59ea",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_light_overcoat.png": "4bb9bfbab89ebf5097de30df2200ebd6064afcaf",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_dark.png": "ac090a694157fdce279c7aa687303501c1401537",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_wilson.png": "bdc8cbd7337a47e35e61aa8785b54d5f82e2a423",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/bus_rect_rgba.png": "992172132ef372050d2f096e36556c6930e9789f",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_front.png": "7717c0648afa033565bb562af026714741427121",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_rear.png": "2b4dce2b13dbbb0699be4b50325c3311a51ebcbd"
+    }
+   },
+   "output": {
+    "film_seconds": [
+     20.0,
+     27.0
+    ],
+    "film_frames": [
+     480,
+     647
+    ],
+    "defining_beat_film_t": 21.2,
+    "replay_frame_sha1": {
+     "0": "fc676544498ad8203ca96acb2feac14bb5f69254",
+     "29": "b9e61024fb81632af9d80df1951f111db6edb978",
+     "132": "33d5549a869767df4ea3be7ffbb626db83adcd52"
+    }
+   },
+   "observation": "see coverage.json samples['d-treatment/0417']"
+  },
+  {
+   "id": "d-treatment/0418",
+   "shot": "S5",
+   "engine": "kit.py procedural animatic",
+   "generator_rev": "a81c80d6f3e3b7906f40295c401333a2fef97fd5",
+   "manifest_sha1": "f3344d0ab786b0bd1e5815d51ba9cb3ca2b3e255",
+   "seed": 418,
+   "settings": {
+    "fps": 24,
+    "size": [
+     960,
+     540
+    ],
+    "duration": 7.0,
+    "frames": 168,
+    "drawings": "on twos (12/s)",
+    "projection": "side elevation (film render)",
+    "treatment": "photographic-plate",
+    "puppet_fill": "film photo_fill: Rol 1919 cloth swatches"
+   },
+   "conditioning": {
+    "exposure_sheet_sha1": "dced21df1daf38947386a0070c6c74bd8a9f89d4",
+    "anchors_sha1": "9782ec45d8435a9174b60cccc1d9f6880a85e616",
+    "plates_sha1": {
+     "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg": "bb5fd56ac6428b621ce0953c8aa0c21b04d88ba5",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/A_woman_shawl_rgba.png": "48cc1e4a1f456a8b23c2f692fcc87cdaf018d039",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/B_woman_walking_rgba.png": "540963a1d17ab84173a27a3038d553156220a7b2",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/C_man_overcoat_rgba.png": "3754bce039d5526c5d84d309a1c3037fa54fd5df",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/D_man_back_rgba.png": "93f73c6dad8f17f1bcfa49cbe7ac3bc2456ce93c",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/E_woman_white_rgba.png": "c0eac474fc4928e082e5ddae4e662db30823571f",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/F_woman_basket_rgba.png": "66aa54d4cd51d3a62959cc9ad931cba155adcb17",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/G_man_bowler_right_rgba.png": "308739d7543a115a18a4737e5325ef9dacd09ac7",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/H_man_far_rgba.png": "1e980580ddc642ad66656dde4482a9506e888328",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/cape_officer.png": "13816fde88d2dc5b2f3237115855f5cc0d05e87e",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_black_shawl.png": "64638aab4d8643557587a5491bb1d29791b5f2ae",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_dark_long.png": "f86451b04a390c1bbc87c51fa71ebdb5667e59ea",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_light_overcoat.png": "4bb9bfbab89ebf5097de30df2200ebd6064afcaf",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_dark.png": "ac090a694157fdce279c7aa687303501c1401537",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_wilson.png": "bdc8cbd7337a47e35e61aa8785b54d5f82e2a423",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/bus_rect_rgba.png": "992172132ef372050d2f096e36556c6930e9789f",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_front.png": "7717c0648afa033565bb562af026714741427121",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_rear.png": "2b4dce2b13dbbb0699be4b50325c3311a51ebcbd"
+    }
+   },
+   "output": {
+    "film_seconds": [
+     27.0,
+     34.0
+    ],
+    "film_frames": [
+     648,
+     815
+    ],
+    "defining_beat_film_t": 28.2,
+    "replay_frame_sha1": {
+     "0": "31869ea35f2a3a882a6fbcc54fd26fc8733c9f5f",
+     "29": "1cf8d628ff2217dd7f147c718de42d92fdd1d42d",
+     "132": "d18b35fcb8e2dc5ab92e14d28422a1a4c5a87367"
+    }
+   },
+   "observation": "see coverage.json samples['d-treatment/0418']"
+  },
+  {
+   "id": "d-camera/0417",
+   "shot": "S7",
+   "engine": "kit.py procedural animatic",
+   "generator_rev": "a81c80d6f3e3b7906f40295c401333a2fef97fd5",
+   "manifest_sha1": "6e7f609db52bb299d3eb2470a676b9cb665b50da",
+   "seed": 417,
+   "settings": {
+    "fps": 24,
+    "size": [
+     960,
+     540
+    ],
+    "duration": 7.0,
+    "frames": 168,
+    "drawings": "on twos (12/s)",
+    "projection": "plan (film render: stage.plan_stage + roof-light cell + rig.draw_plan)",
+    "treatment": "cut-paper",
+    "puppet_fill": "INK"
+   },
+   "conditioning": {
+    "exposure_sheet_sha1": "dced21df1daf38947386a0070c6c74bd8a9f89d4",
+    "anchors_sha1": "9782ec45d8435a9174b60cccc1d9f6880a85e616",
+    "plates_sha1": {
+     "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg": "bb5fd56ac6428b621ce0953c8aa0c21b04d88ba5",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/A_woman_shawl_rgba.png": "48cc1e4a1f456a8b23c2f692fcc87cdaf018d039",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/B_woman_walking_rgba.png": "540963a1d17ab84173a27a3038d553156220a7b2",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/C_man_overcoat_rgba.png": "3754bce039d5526c5d84d309a1c3037fa54fd5df",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/D_man_back_rgba.png": "93f73c6dad8f17f1bcfa49cbe7ac3bc2456ce93c",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/E_woman_white_rgba.png": "c0eac474fc4928e082e5ddae4e662db30823571f",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/F_woman_basket_rgba.png": "66aa54d4cd51d3a62959cc9ad931cba155adcb17",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/G_man_bowler_right_rgba.png": "308739d7543a115a18a4737e5325ef9dacd09ac7",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/H_man_far_rgba.png": "1e980580ddc642ad66656dde4482a9506e888328",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/cape_officer.png": "13816fde88d2dc5b2f3237115855f5cc0d05e87e",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_black_shawl.png": "64638aab4d8643557587a5491bb1d29791b5f2ae",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_dark_long.png": "f86451b04a390c1bbc87c51fa71ebdb5667e59ea",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_light_overcoat.png": "4bb9bfbab89ebf5097de30df2200ebd6064afcaf",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_dark.png": "ac090a694157fdce279c7aa687303501c1401537",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_wilson.png": "bdc8cbd7337a47e35e61aa8785b54d5f82e2a423",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/bus_rect_rgba.png": "992172132ef372050d2f096e36556c6930e9789f",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_front.png": "7717c0648afa033565bb562af026714741427121",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_rear.png": "2b4dce2b13dbbb0699be4b50325c3311a51ebcbd"
+    }
+   },
+   "output": {
+    "film_seconds": [
+     36.0,
+     43.0
+    ],
+    "film_frames": [
+     864,
+     1031
+    ],
+    "defining_beat_film_t": 37.2,
+    "replay_frame_sha1": {
+     "0": "c9e5a8e3ff6bf736d7d98c49ccae55aad550b943",
+     "29": "cec2391dee7e6e191aa783e6d3516828b0626f3c",
+     "132": "f86b9351adf96dbc68ffa3e51336480efd5e47ec"
+    }
+   },
+   "observation": "see coverage.json samples['d-camera/0417']"
+  },
+  {
+   "id": "d-camera/0418",
+   "shot": "S8",
+   "engine": "kit.py procedural animatic",
+   "generator_rev": "a81c80d6f3e3b7906f40295c401333a2fef97fd5",
+   "manifest_sha1": "6e7f609db52bb299d3eb2470a676b9cb665b50da",
+   "seed": 418,
+   "settings": {
+    "fps": 24,
+    "size": [
+     960,
+     540
+    ],
+    "duration": 7.0,
+    "frames": 168,
+    "drawings": "on twos (12/s)",
+    "projection": "plan (film render: stage.plan_stage + roof-light cell + rig.draw_plan)",
+    "treatment": "cut-paper",
+    "puppet_fill": "INK"
+   },
+   "conditioning": {
+    "exposure_sheet_sha1": "dced21df1daf38947386a0070c6c74bd8a9f89d4",
+    "anchors_sha1": "9782ec45d8435a9174b60cccc1d9f6880a85e616",
+    "plates_sha1": {
+     "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg": "bb5fd56ac6428b621ce0953c8aa0c21b04d88ba5",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/A_woman_shawl_rgba.png": "48cc1e4a1f456a8b23c2f692fcc87cdaf018d039",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/B_woman_walking_rgba.png": "540963a1d17ab84173a27a3038d553156220a7b2",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/C_man_overcoat_rgba.png": "3754bce039d5526c5d84d309a1c3037fa54fd5df",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/D_man_back_rgba.png": "93f73c6dad8f17f1bcfa49cbe7ac3bc2456ce93c",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/E_woman_white_rgba.png": "c0eac474fc4928e082e5ddae4e662db30823571f",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/F_woman_basket_rgba.png": "66aa54d4cd51d3a62959cc9ad931cba155adcb17",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/G_man_bowler_right_rgba.png": "308739d7543a115a18a4737e5325ef9dacd09ac7",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/H_man_far_rgba.png": "1e980580ddc642ad66656dde4482a9506e888328",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/cape_officer.png": "13816fde88d2dc5b2f3237115855f5cc0d05e87e",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_black_shawl.png": "64638aab4d8643557587a5491bb1d29791b5f2ae",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_dark_long.png": "f86451b04a390c1bbc87c51fa71ebdb5667e59ea",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_light_overcoat.png": "4bb9bfbab89ebf5097de30df2200ebd6064afcaf",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_dark.png": "ac090a694157fdce279c7aa687303501c1401537",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_wilson.png": "bdc8cbd7337a47e35e61aa8785b54d5f82e2a423",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/bus_rect_rgba.png": "992172132ef372050d2f096e36556c6930e9789f",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_front.png": "7717c0648afa033565bb562af026714741427121",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_rear.png": "2b4dce2b13dbbb0699be4b50325c3311a51ebcbd"
+    }
+   },
+   "output": {
+    "film_seconds": [
+     43.0,
+     50.0
+    ],
+    "film_frames": [
+     1032,
+     1199
+    ],
+    "defining_beat_film_t": 44.2,
+    "replay_frame_sha1": {
+     "0": "b8a631a63566970d195ee2944e1de7bbd1a51c7c",
+     "29": "24a58429ca793d96c130e9fa97712974376b4cba",
+     "132": "97ff147c851fe3dc9918c5727c801b0750ef180f"
+    }
+   },
+   "observation": "see coverage.json samples['d-camera/0418']"
+  }
+ ],
+ "grid": {
+  "shot": "S9",
+  "film_seconds": [
+   50.0,
+   58.0
+  ],
+  "cell": [
+   300,
+   169
+  ]
+ }
+}

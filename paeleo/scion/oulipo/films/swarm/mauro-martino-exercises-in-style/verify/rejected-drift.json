@@ -1,0 +1,249 @@
+{
+ "candidate": "Δ camera = overhead, projector variant 'project_drift' (verify/coverage.py)",
+ "defect": "the projector lays out runners from np.random.RandomState(seed) (one shared stream) and jitters every plan form, so the camera edit changes what the seed decides",
+ "observed": {
+  "seed": 417,
+  "runners_side": 7,
+  "runners_overhead_drift": 8,
+  "runners_overhead_accepted": 7
+ },
+ "harness_accepted": {
+  "projector": "film render, camera=overhead (accepted)",
+  "passed": true,
+  "checks": {
+   "P4_no_shared_rng": true,
+   "world_ids_preserved": true,
+   "world_xz_preserved": true,
+   "runner_count_equals_side": true,
+   "C4_protected_plan_masks_identical_across_seeds": true
+  },
+  "rng_violations": [],
+  "per_frame": [
+   {
+    "f": 0,
+    "seed": 417,
+    "runners_side": 7,
+    "runners_projected": 7,
+    "frame_sha1": "c9e5a8e3ff6bf736d7d98c49ccae55aad550b943"
+   },
+   {
+    "f": 0,
+    "seed": 418,
+    "runners_side": 8,
+    "runners_projected": 8,
+    "frame_sha1": "b8a631a63566970d195ee2944e1de7bbd1a51c7c"
+   },
+   {
+    "f": 24,
+    "seed": 417,
+    "runners_side": 7,
+    "runners_projected": 7,
+    "frame_sha1": "31bbf4a979a0f2d09ad01188f9fdaea9c783c4b4"
+   },
+   {
+    "f": 24,
+    "seed": 418,
+    "runners_side": 8,
+    "runners_projected": 8,
+    "frame_sha1": "1c6f57e258e2ccc1d3b028c5726a47293a8f44b7"
+   },
+   {
+    "f": 29,
+    "seed": 417,
+    "runners_side": 7,
+    "runners_projected": 7,
+    "frame_sha1": "cec2391dee7e6e191aa783e6d3516828b0626f3c"
+   },
+   {
+    "f": 29,
+    "seed": 418,
+    "runners_side": 8,
+    "runners_projected": 8,
+    "frame_sha1": "24a58429ca793d96c130e9fa97712974376b4cba"
+   },
+   {
+    "f": 32,
+    "seed": 417,
+    "runners_side": 7,
+    "runners_projected": 7,
+    "frame_sha1": "78b5c784e3cf63f871504c370f1b2f33af1fa069"
+   },
+   {
+    "f": 32,
+    "seed": 418,
+    "runners_side": 8,
+    "runners_projected": 8,
+    "frame_sha1": "6bde29557844d38c36b0fb4d8c996ac356e7d9a2"
+   },
+   {
+    "f": 60,
+    "seed": 417,
+    "runners_side": 7,
+    "runners_projected": 7,
+    "frame_sha1": "3316bcd85f94c0c72f8b388fd897e105f1a5e78b"
+   },
+   {
+    "f": 60,
+    "seed": 418,
+    "runners_side": 8,
+    "runners_projected": 8,
+    "frame_sha1": "3a826aabcfdeb90dd5978a59f3c648400e612fc2"
+   },
+   {
+    "f": 100,
+    "seed": 417,
+    "runners_side": 7,
+    "runners_projected": 7,
+    "frame_sha1": "e7affde4c6962e2feff91e9936b450621f0f92f8"
+   },
+   {
+    "f": 100,
+    "seed": 418,
+    "runners_side": 8,
+    "runners_projected": 8,
+    "frame_sha1": "b1f8ff5663af518a2619ff29cb9af08f7b9c6d10"
+   },
+   {
+    "f": 132,
+    "seed": 417,
+    "runners_side": 7,
+    "runners_projected": 7,
+    "frame_sha1": "f86b9351adf96dbc68ffa3e51336480efd5e47ec"
+   },
+   {
+    "f": 132,
+    "seed": 418,
+    "runners_side": 8,
+    "runners_projected": 8,
+    "frame_sha1": "97ff147c851fe3dc9918c5727c801b0750ef180f"
+   }
+  ]
+ },
+ "harness_rejected": {
+  "projector": "project_drift: RNG-coupled overhead projector (built on purpose)",
+  "passed": false,
+  "checks": {
+   "P4_no_shared_rng": false,
+   "world_ids_preserved": false,
+   "world_xz_preserved": false,
+   "runner_count_equals_side": false,
+   "C4_protected_plan_masks_identical_across_seeds": false
+  },
+  "rng_violations": [
+   "coverage.py:502 project_drift()"
+  ],
+  "per_frame": [
+   {
+    "f": 0,
+    "seed": 417,
+    "runners_side": 7,
+    "runners_projected": 8,
+    "frame_sha1": "4e16750d129216b2374b2609174d6ad116668aaa"
+   },
+   {
+    "f": 0,
+    "seed": 418,
+    "runners_side": 8,
+    "runners_projected": 9,
+    "frame_sha1": "568be883fe398686299e9635c2a8bce4ad89d595"
+   },
+   {
+    "f": 24,
+    "seed": 417,
+    "runners_side": 7,
+    "runners_projected": 8,
+    "frame_sha1": "24a68cad19c378624e1bffd3c39776d495b578c4"
+   },
+   {
+    "f": 24,
+    "seed": 418,
+    "runners_side": 8,
+    "runners_projected": 9,
+    "frame_sha1": "240dfeebdb54c13eb1cbfd5c9365cb51629ac640"
+   },
+   {
+    "f": 29,
+    "seed": 417,
+    "runners_side": 7,
+    "runners_projected": 8,
+    "frame_sha1": "64e1a05adb566072cc68d952f4095fb7d7f0c175"
+   },
+   {
+    "f": 29,
+    "seed": 418,
+    "runners_side": 8,
+    "runners_projected": 9,
+    "frame_sha1": "24cd919902026eb8dd01eb51fdce7b57a6d5fff5"
+   },
+   {
+    "f": 32,
+    "seed": 417,
+    "runners_side": 7,
+    "runners_projected": 8,
+    "frame_sha1": "92854e01c82461543c276eb1caadb4a1ccbf1290"
+   },
+   {
+    "f": 32,
+    "seed": 418,
+    "runners_side": 8,
+    "runners_projected": 9,
+    "frame_sha1": "55bf4e3c711f564e648f55461096904ce172f3fa"
+   },
+   {
+    "f": 60,
+    "seed": 417,
+    "runners_side": 7,
+    "runners_projected": 8,
+    "frame_sha1": "ebc606e3ea7f0bdda2833b34f2bf8e85eb5530d3"
+   },
+   {
+    "f": 60,
+    "seed": 418,
+    "runners_side": 8,
+    "runners_projected": 9,
+    "frame_sha1": "1877e31d2b2bb073cf8056d15995950089fe67b0"
+   },
+   {
+    "f": 100,
+    "seed": 417,
+    "runners_side": 7,
+    "runners_projected": 8,
+    "frame_sha1": "a2dd90c2598b3450daf902f4ad4c6a4905119536"
+   },
+   {
+    "f": 100,
+    "seed": 418,
+    "runners_side": 8,
+    "runners_projected": 9,
+    "frame_sha1": "7de4f5229b8ec2cedabbb0adf34795854c613dbf"
+   },
+   {
+    "f": 132,
+    "seed": 417,
+    "runners_side": 7,
+    "runners_projected": 8,
+    "frame_sha1": "ff0a61ae17791e9df16976fb92298f3deb5e27ff"
+   },
+   {
+    "f": 132,
+    "seed": 418,
+    "runners_side": 8,
+    "runners_projected": 9,
+    "frame_sha1": "9cb9d7cd7817966d3eb20a5926533356ec520af9"
+   }
+  ]
+ },
+ "broken": [
+  "P4_no_shared_rng",
+  "world_ids_preserved",
+  "world_xz_preserved",
+  "runner_count_equals_side",
+  "C4_protected_plan_masks_identical_across_seeds"
+ ],
+ "verdict": "REJECTED and quarantined (I8); the accepted overhead stays the film render (camera=overhead)",
+ "quarantine": "films/sources/mauro-martino-exercises-in-style/verify/quarantine",
+ "strip": [
+  "films/sources/mauro-martino-exercises-in-style/verify/rejected-drift-strip.jpg",
+  "films/swarm/mauro-martino-exercises-in-style/verify/rejected-drift-strip.jpg"
+ ]
+}

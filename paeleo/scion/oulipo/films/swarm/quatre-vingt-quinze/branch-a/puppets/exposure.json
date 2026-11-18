@@ -1,0 +1,8066 @@
+{
+ "unit": "puppet-cutter-animator (U2)",
+ "plan_revision": "r0",
+ "fps": 24,
+ "drawings_per_second": 12,
+ "on": "2s",
+ "frames_per_cell": 72,
+ "page_pose": "the last frame of every sheet (frames >= 72 also give it)",
+ "api": "puppets.layer(cell, frame) -> RGBA 900x600; no route argument anywhere",
+ "composite_order": "U1 ground -> U3 stencil -> this layer -> U1 lettering -> U1 border/tab",
+ "floor_contact_y": 568,
+ "library": {
+  "visitor": {
+   "heads": [
+    "v_down",
+    "v_level",
+    "v_turn",
+    "v_up",
+    "v_sky",
+    "v_surprise",
+    "v_shrug"
+   ],
+   "hands": [
+    "relaxed",
+    "pinch",
+    "fist",
+    "open"
+   ],
+   "count": 11
+  },
+  "man": {
+   "heads": [
+    "m_watch",
+    "m_effort",
+    "m_tilt"
+   ],
+   "hands": [
+    "grip",
+    "open",
+    "relaxed"
+   ],
+   "count": 6
+  }
+ },
+ "head_transition_costs": {
+  "v_down->v_level": 1,
+  "v_level->v_down": 1,
+  "v_level->v_turn": 1,
+  "v_turn->v_up": 1,
+  "v_up->v_turn": 2,
+  "v_turn->v_sky": 1,
+  "v_sky->v_up": 1,
+  "v_up->v_sky": 2,
+  "v_sky->v_turn": 1,
+  "v_turn->v_level": 1,
+  "v_down->v_turn": 3,
+  "v_down->v_up": 80,
+  "v_level->v_up": 60,
+  "v_level->v_surprise": 2,
+  "v_down->v_surprise": 2,
+  "v_surprise->v_level": 3,
+  "v_level->v_shrug": 2,
+  "v_down->v_shrug": 2,
+  "v_shrug->v_level": 3,
+  "m_watch->m_tilt": 1,
+  "m_tilt->m_effort": 1,
+  "m_effort->m_tilt": 1,
+  "m_tilt->m_watch": 1,
+  "m_watch->m_effort": 2,
+  "m_effort->m_watch": 2
+ },
+ "default_transition_cost": 30.0,
+ "min_hold_slots": {
+  "heads": 2,
+  "hands": "2 (G hands 1 = 2 frames, the hand-over-hand alternation)"
+ },
+ "cells": {
+  "A": {
+   "action": "2 x 6-drawing walk in from the left (stance foot pinned), stop, head replaced from looking down at the envelope to the window",
+   "frames": [
+    "A00",
+    "A00",
+    "A01",
+    "A01",
+    "A02",
+    "A02",
+    "A03",
+    "A03",
+    "A04",
+    "A04",
+    "A05",
+    "A05",
+    "A06",
+    "A06",
+    "A07",
+    "A07",
+    "A08",
+    "A08",
+    "A09",
+    "A09",
+    "A10",
+    "A10",
+    "A11",
+    "A11",
+    "A12",
+    "A12",
+    "A12",
+    "A12",
+    "A14",
+    "A14",
+    "A14",
+    "A14",
+    "A14",
+    "A14",
+    "A14",
+    "A14",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18",
+    "A18"
+   ],
+   "page_pose_drawing": "A18",
+   "distinct_drawings": 15,
+   "min_drawing_hold_frames": 2,
+   "holds_frames": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    4,
+    8,
+    36
+   ],
+   "events_s": {
+    "steps_s": [
+     0.0,
+     0.25,
+     0.5,
+     0.75
+    ],
+    "stop_s": 1.0
+   },
+   "schedule": [
+    {
+     "slot": 0,
+     "frames": [
+      0,
+      1
+     ],
+     "drawing": "A00",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 1,
+     "frames": [
+      2,
+      3
+     ],
+     "drawing": "A01",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 2,
+     "frames": [
+      4,
+      5
+     ],
+     "drawing": "A02",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 3,
+     "frames": [
+      6,
+      7
+     ],
+     "drawing": "A03",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 4,
+     "frames": [
+      8,
+      9
+     ],
+     "drawing": "A04",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 5,
+     "frames": [
+      10,
+      11
+     ],
+     "drawing": "A05",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 6,
+     "frames": [
+      12,
+      13
+     ],
+     "drawing": "A06",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 7,
+     "frames": [
+      14,
+      15
+     ],
+     "drawing": "A07",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 8,
+     "frames": [
+      16,
+      17
+     ],
+     "drawing": "A08",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 9,
+     "frames": [
+      18,
+      19
+     ],
+     "drawing": "A09",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 10,
+     "frames": [
+      20,
+      21
+     ],
+     "drawing": "A10",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 11,
+     "frames": [
+      22,
+      23
+     ],
+     "drawing": "A11",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 12,
+     "frames": [
+      24,
+      25
+     ],
+     "drawing": "A12",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 13,
+     "frames": [
+      26,
+      27
+     ],
+     "drawing": "A12",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 14,
+     "frames": [
+      28,
+      29
+     ],
+     "drawing": "A14",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 15,
+     "frames": [
+      30,
+      31
+     ],
+     "drawing": "A14",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 16,
+     "frames": [
+      32,
+      33
+     ],
+     "drawing": "A14",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 17,
+     "frames": [
+      34,
+      35
+     ],
+     "drawing": "A14",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 18,
+     "frames": [
+      36,
+      37
+     ],
+     "drawing": "A18",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 19,
+     "frames": [
+      38,
+      39
+     ],
+     "drawing": "A18",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 20,
+     "frames": [
+      40,
+      41
+     ],
+     "drawing": "A18",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 21,
+     "frames": [
+      42,
+      43
+     ],
+     "drawing": "A18",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 22,
+     "frames": [
+      44,
+      45
+     ],
+     "drawing": "A18",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 23,
+     "frames": [
+      46,
+      47
+     ],
+     "drawing": "A18",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 24,
+     "frames": [
+      48,
+      49
+     ],
+     "drawing": "A18",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 25,
+     "frames": [
+      50,
+      51
+     ],
+     "drawing": "A18",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 26,
+     "frames": [
+      52,
+      53
+     ],
+     "drawing": "A18",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 27,
+     "frames": [
+      54,
+      55
+     ],
+     "drawing": "A18",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 28,
+     "frames": [
+      56,
+      57
+     ],
+     "drawing": "A18",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 29,
+     "frames": [
+      58,
+      59
+     ],
+     "drawing": "A18",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 30,
+     "frames": [
+      60,
+      61
+     ],
+     "drawing": "A18",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 31,
+     "frames": [
+      62,
+      63
+     ],
+     "drawing": "A18",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 32,
+     "frames": [
+      64,
+      65
+     ],
+     "drawing": "A18",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 33,
+     "frames": [
+      66,
+      67
+     ],
+     "drawing": "A18",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 34,
+     "frames": [
+      68,
+      69
+     ],
+     "drawing": "A18",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 35,
+     "frames": [
+      70,
+      71
+     ],
+     "drawing": "A18",
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    }
+   ],
+   "decoder": {
+    "head_cost": 42.44865810560939,
+    "head_targets": [
+     -70.8,
+     -70.8,
+     -70.8,
+     -70.8,
+     -70.8,
+     -70.8,
+     -70.8,
+     -70.8,
+     -70.8,
+     -70.8,
+     -70.8,
+     -70.8,
+     -68.8,
+     -68.8,
+     -4.4,
+     -4.4,
+     -4.4,
+     -4.4,
+     -9.7,
+     -9.7,
+     -9.7,
+     -9.7,
+     -9.7,
+     -9.7,
+     -9.7,
+     -9.7,
+     -9.7,
+     -9.7,
+     -9.7,
+     -9.7,
+     -9.7,
+     -9.7,
+     -9.7,
+     -9.7,
+     -9.7,
+     -9.7
+    ]
+   },
+   "balloon_tail_to": [
+    298.2,
+    154.8
+   ],
+   "keep_clear_box": [
+    0,
+    118,
+    899,
+    571
+   ],
+   "dominant_figure_height_frac": 0.748,
+   "drawings_png": "films/sources/quatre-vingt-quinze/puppet-cutter-animator/drawings/A/<id>.png",
+   "states": {
+    "A00": {
+     "pose": {
+      "hip": 22,
+      "knee": -3,
+      "hip2": -18,
+      "knee2": -12,
+      "spine": 5,
+      "sh2": 14,
+      "el2": 12,
+      "neck": 2,
+      "sh": 26,
+      "el": 40,
+      "wr": -14
+     },
+     "root": [
+      28.6,
+      393.24
+     ],
+     "walk": 0,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "A01": {
+     "pose": {
+      "hip": 12,
+      "knee": -12,
+      "hip2": -8,
+      "knee2": -44,
+      "spine": 5,
+      "sh2": 7.0,
+      "el2": 12,
+      "neck": 2,
+      "sh": 26,
+      "el": 40,
+      "wr": -14
+     },
+     "root": [
+      71.6,
+      383.97
+     ],
+     "walk": 1,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "A02": {
+     "pose": {
+      "hip": 0,
+      "knee": -5,
+      "hip2": 10,
+      "knee2": -52,
+      "spine": 5,
+      "sh2": -4.2,
+      "el2": 12,
+      "neck": 2,
+      "sh": 26,
+      "el": 40,
+      "wr": -14
+     },
+     "root": [
+      97.81,
+      382.33
+     ],
+     "walk": 2,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "A03": {
+     "pose": {
+      "hip": -18,
+      "knee": -12,
+      "hip2": 22,
+      "knee2": -3,
+      "spine": 5,
+      "sh2": -14,
+      "el2": 12,
+      "neck": 2,
+      "sh": 26,
+      "el": 40,
+      "wr": -14
+     },
+     "root": [
+      97.81,
+      393.24
+     ],
+     "walk": 3,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "A04": {
+     "pose": {
+      "hip": -8,
+      "knee": -44,
+      "hip2": 12,
+      "knee2": -12,
+      "spine": 5,
+      "sh2": -7.0,
+      "el2": 12,
+      "neck": 2,
+      "sh": 26,
+      "el": 40,
+      "wr": -14
+     },
+     "root": [
+      140.81,
+      383.97
+     ],
+     "walk": 4,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "A05": {
+     "pose": {
+      "hip": 10,
+      "knee": -52,
+      "hip2": 0,
+      "knee2": -5,
+      "spine": 5,
+      "sh2": 4.2,
+      "el2": 12,
+      "neck": 2,
+      "sh": 26,
+      "el": 40,
+      "wr": -14
+     },
+     "root": [
+      167.01,
+      382.33
+     ],
+     "walk": 5,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "A06": {
+     "pose": {
+      "hip": 22,
+      "knee": -3,
+      "hip2": -18,
+      "knee2": -12,
+      "spine": 5,
+      "sh2": 14,
+      "el2": 12,
+      "neck": 2,
+      "sh": 26,
+      "el": 40,
+      "wr": -14
+     },
+     "root": [
+      167.01,
+      393.24
+     ],
+     "walk": 0,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "A07": {
+     "pose": {
+      "hip": 12,
+      "knee": -12,
+      "hip2": -8,
+      "knee2": -44,
+      "spine": 5,
+      "sh2": 7.0,
+      "el2": 12,
+      "neck": 2,
+      "sh": 26,
+      "el": 40,
+      "wr": -14
+     },
+     "root": [
+      210.02,
+      383.97
+     ],
+     "walk": 1,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "A08": {
+     "pose": {
+      "hip": 0,
+      "knee": -5,
+      "hip2": 10,
+      "knee2": -52,
+      "spine": 5,
+      "sh2": -4.2,
+      "el2": 12,
+      "neck": 2,
+      "sh": 26,
+      "el": 40,
+      "wr": -14
+     },
+     "root": [
+      236.22,
+      382.33
+     ],
+     "walk": 2,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "A09": {
+     "pose": {
+      "hip": -18,
+      "knee": -12,
+      "hip2": 22,
+      "knee2": -3,
+      "spine": 5,
+      "sh2": -14,
+      "el2": 12,
+      "neck": 2,
+      "sh": 26,
+      "el": 40,
+      "wr": -14
+     },
+     "root": [
+      236.22,
+      393.24
+     ],
+     "walk": 3,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "A10": {
+     "pose": {
+      "hip": -8,
+      "knee": -44,
+      "hip2": 12,
+      "knee2": -12,
+      "spine": 5,
+      "sh2": -7.0,
+      "el2": 12,
+      "neck": 2,
+      "sh": 26,
+      "el": 40,
+      "wr": -14
+     },
+     "root": [
+      279.22,
+      383.97
+     ],
+     "walk": 4,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "A11": {
+     "pose": {
+      "hip": 10,
+      "knee": -52,
+      "hip2": 0,
+      "knee2": -5,
+      "spine": 5,
+      "sh2": 4.2,
+      "el2": 12,
+      "neck": 2,
+      "sh": 26,
+      "el": 40,
+      "wr": -14
+     },
+     "root": [
+      305.43,
+      382.33
+     ],
+     "walk": 5,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "A12": {
+     "pose": {
+      "hip": 8,
+      "knee": -2,
+      "hip2": 22.95,
+      "knee2": -0.01,
+      "spine": 2,
+      "sh2": -6,
+      "el2": 10,
+      "neck": 0,
+      "sh": 26,
+      "el": 40,
+      "wr": -14
+     },
+     "root": [
+      250.0,
+      383.35
+     ],
+     "walk": null,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "A14": {
+     "pose": {
+      "hip": 8,
+      "knee": -2,
+      "hip2": 22.95,
+      "knee2": -0.01,
+      "spine": 2,
+      "sh2": -6,
+      "el2": 10,
+      "neck": 0,
+      "sh": 26,
+      "el": 40,
+      "wr": -14
+     },
+     "root": [
+      250.0,
+      383.35
+     ],
+     "walk": null,
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "A18": {
+     "pose": {
+      "hip": 8,
+      "knee": -2,
+      "hip2": 22.95,
+      "knee2": -0.01,
+      "spine": 4,
+      "sh2": -6,
+      "el2": 10,
+      "neck": 3,
+      "sh": 26,
+      "el": 40,
+      "wr": -14
+     },
+     "root": [
+      250.0,
+      383.35
+     ],
+     "walk": null,
+     "head": "v_level",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    }
+   }
+  },
+  "B": {
+   "action": "cord pulls at 1.15 and 2.35 s swing the bell; clapper on its own pin lags 0.08 s at 1.9x; strikes 1.4 and 2.6 s; motion arcs near strikes",
+   "frames": [
+    "B00",
+    "B00",
+    "B01",
+    "B01",
+    "B02",
+    "B02",
+    "B03",
+    "B03",
+    "B04",
+    "B04",
+    "B05",
+    "B05",
+    "B06",
+    "B06",
+    "B07",
+    "B07",
+    "B08",
+    "B08",
+    "B09",
+    "B09",
+    "B10",
+    "B10",
+    "B11",
+    "B11",
+    "B12",
+    "B12",
+    "B13",
+    "B13",
+    "B14",
+    "B14",
+    "B15",
+    "B15",
+    "B16",
+    "B16",
+    "B17",
+    "B17",
+    "B18",
+    "B18",
+    "B19",
+    "B19",
+    "B20",
+    "B20",
+    "B21",
+    "B21",
+    "B22",
+    "B22",
+    "B23",
+    "B23",
+    "B24",
+    "B24",
+    "B25",
+    "B25",
+    "B26",
+    "B26",
+    "B27",
+    "B27",
+    "B28",
+    "B28",
+    "B29",
+    "B29",
+    "B30",
+    "B30",
+    "B31",
+    "B31",
+    "B31",
+    "B31",
+    "B31",
+    "B31",
+    "B31",
+    "B31",
+    "B31",
+    "B31"
+   ],
+   "page_pose_drawing": "B31",
+   "distinct_drawings": 32,
+   "min_drawing_hold_frames": 2,
+   "holds_frames": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    10
+   ],
+   "events_s": {
+    "pulls_s": [
+     1.15,
+     2.35
+    ],
+    "strikes_s": [
+     1.4,
+     2.6
+    ]
+   },
+   "schedule": [
+    {
+     "slot": 0,
+     "frames": [
+      0,
+      1
+     ],
+     "drawing": "B00",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 1,
+     "frames": [
+      2,
+      3
+     ],
+     "drawing": "B01",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 2,
+     "frames": [
+      4,
+      5
+     ],
+     "drawing": "B02",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 3,
+     "frames": [
+      6,
+      7
+     ],
+     "drawing": "B03",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 4,
+     "frames": [
+      8,
+      9
+     ],
+     "drawing": "B04",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 5,
+     "frames": [
+      10,
+      11
+     ],
+     "drawing": "B05",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 6,
+     "frames": [
+      12,
+      13
+     ],
+     "drawing": "B06",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 7,
+     "frames": [
+      14,
+      15
+     ],
+     "drawing": "B07",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 8,
+     "frames": [
+      16,
+      17
+     ],
+     "drawing": "B08",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 9,
+     "frames": [
+      18,
+      19
+     ],
+     "drawing": "B09",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 10,
+     "frames": [
+      20,
+      21
+     ],
+     "drawing": "B10",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 11,
+     "frames": [
+      22,
+      23
+     ],
+     "drawing": "B11",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 12,
+     "frames": [
+      24,
+      25
+     ],
+     "drawing": "B12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 13,
+     "frames": [
+      26,
+      27
+     ],
+     "drawing": "B13",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 14,
+     "frames": [
+      28,
+      29
+     ],
+     "drawing": "B14",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 15,
+     "frames": [
+      30,
+      31
+     ],
+     "drawing": "B15",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 16,
+     "frames": [
+      32,
+      33
+     ],
+     "drawing": "B16",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 17,
+     "frames": [
+      34,
+      35
+     ],
+     "drawing": "B17",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 18,
+     "frames": [
+      36,
+      37
+     ],
+     "drawing": "B18",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 19,
+     "frames": [
+      38,
+      39
+     ],
+     "drawing": "B19",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 20,
+     "frames": [
+      40,
+      41
+     ],
+     "drawing": "B20",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 21,
+     "frames": [
+      42,
+      43
+     ],
+     "drawing": "B21",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 22,
+     "frames": [
+      44,
+      45
+     ],
+     "drawing": "B22",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 23,
+     "frames": [
+      46,
+      47
+     ],
+     "drawing": "B23",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 24,
+     "frames": [
+      48,
+      49
+     ],
+     "drawing": "B24",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 25,
+     "frames": [
+      50,
+      51
+     ],
+     "drawing": "B25",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 26,
+     "frames": [
+      52,
+      53
+     ],
+     "drawing": "B26",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 27,
+     "frames": [
+      54,
+      55
+     ],
+     "drawing": "B27",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 28,
+     "frames": [
+      56,
+      57
+     ],
+     "drawing": "B28",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 29,
+     "frames": [
+      58,
+      59
+     ],
+     "drawing": "B29",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 30,
+     "frames": [
+      60,
+      61
+     ],
+     "drawing": "B30",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 31,
+     "frames": [
+      62,
+      63
+     ],
+     "drawing": "B31",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 32,
+     "frames": [
+      64,
+      65
+     ],
+     "drawing": "B31",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 33,
+     "frames": [
+      66,
+      67
+     ],
+     "drawing": "B31",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 34,
+     "frames": [
+      68,
+      69
+     ],
+     "drawing": "B31",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 35,
+     "frames": [
+      70,
+      71
+     ],
+     "drawing": "B31",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    }
+   ],
+   "decoder": {},
+   "balloon_tail_to": null,
+   "keep_clear_box": [
+    0,
+    59,
+    793,
+    528
+   ],
+   "dominant_figure_height_frac": null,
+   "drawings_png": "films/sources/quatre-vingt-quinze/puppet-cutter-animator/drawings/B/<id>.png",
+   "states": {
+    "B00": {
+     "t": 0.0,
+     "th": 0.0,
+     "ph": 0.0,
+     "taut": false,
+     "arcs": false
+    },
+    "B01": {
+     "t": 0.0833,
+     "th": 0.0,
+     "ph": 0.0,
+     "taut": false,
+     "arcs": false
+    },
+    "B02": {
+     "t": 0.1667,
+     "th": 0.0,
+     "ph": 0.0,
+     "taut": false,
+     "arcs": false
+    },
+    "B03": {
+     "t": 0.25,
+     "th": 0.0,
+     "ph": 0.0,
+     "taut": false,
+     "arcs": false
+    },
+    "B04": {
+     "t": 0.3333,
+     "th": 0.0,
+     "ph": 0.0,
+     "taut": false,
+     "arcs": false
+    },
+    "B05": {
+     "t": 0.4167,
+     "th": 0.0,
+     "ph": 0.0,
+     "taut": false,
+     "arcs": false
+    },
+    "B06": {
+     "t": 0.5,
+     "th": 0.0,
+     "ph": 0.0,
+     "taut": false,
+     "arcs": false
+    },
+    "B07": {
+     "t": 0.5833,
+     "th": 0.0,
+     "ph": 0.0,
+     "taut": false,
+     "arcs": false
+    },
+    "B08": {
+     "t": 0.6667,
+     "th": 0.0,
+     "ph": 0.0,
+     "taut": false,
+     "arcs": false
+    },
+    "B09": {
+     "t": 0.75,
+     "th": 0.0,
+     "ph": 0.0,
+     "taut": false,
+     "arcs": false
+    },
+    "B10": {
+     "t": 0.8333,
+     "th": 0.0,
+     "ph": 0.0,
+     "taut": false,
+     "arcs": false
+    },
+    "B11": {
+     "t": 0.9167,
+     "th": 0.0,
+     "ph": 0.0,
+     "taut": false,
+     "arcs": false
+    },
+    "B12": {
+     "t": 1.0,
+     "th": 0.0,
+     "ph": 0.0,
+     "taut": false,
+     "arcs": false
+    },
+    "B13": {
+     "t": 1.0833,
+     "th": 0.0,
+     "ph": 0.0,
+     "taut": true,
+     "arcs": false
+    },
+    "B14": {
+     "t": 1.1667,
+     "th": 0.345,
+     "ph": 0.0,
+     "taut": true,
+     "arcs": true
+    },
+    "B15": {
+     "t": 1.25,
+     "th": 11.043,
+     "ph": 0.941,
+     "taut": true,
+     "arcs": true
+    },
+    "B16": {
+     "t": 1.3333,
+     "th": 19.551,
+     "ph": 22.256,
+     "taut": true,
+     "arcs": true
+    },
+    "B17": {
+     "t": 1.4167,
+     "th": 20.204,
+     "ph": 37.408,
+     "taut": false,
+     "arcs": true
+    },
+    "B18": {
+     "t": 1.5,
+     "th": 15.602,
+     "ph": 38.215,
+     "taut": false,
+     "arcs": true
+    },
+    "B19": {
+     "t": 1.5833,
+     "th": 7.446,
+     "ph": 29.125,
+     "taut": false,
+     "arcs": true
+    },
+    "B20": {
+     "t": 1.6667,
+     "th": -1.816,
+     "ph": 13.45,
+     "taut": false,
+     "arcs": false
+    },
+    "B21": {
+     "t": 1.75,
+     "th": -9.695,
+     "ph": -4.129,
+     "taut": false,
+     "arcs": false
+    },
+    "B22": {
+     "t": 1.8333,
+     "th": -14.304,
+     "ph": -18.909,
+     "taut": false,
+     "arcs": false
+    },
+    "B23": {
+     "t": 1.9167,
+     "th": -14.782,
+     "ph": -27.368,
+     "taut": false,
+     "arcs": false
+    },
+    "B24": {
+     "t": 2.0,
+     "th": -11.414,
+     "ph": -27.959,
+     "taut": false,
+     "arcs": false
+    },
+    "B25": {
+     "t": 2.0833,
+     "th": -5.447,
+     "ph": -21.308,
+     "taut": false,
+     "arcs": false
+    },
+    "B26": {
+     "t": 2.1667,
+     "th": 1.329,
+     "ph": -9.84,
+     "taut": false,
+     "arcs": false
+    },
+    "B27": {
+     "t": 2.25,
+     "th": 7.093,
+     "ph": 3.021,
+     "taut": false,
+     "arcs": false
+    },
+    "B28": {
+     "t": 2.3333,
+     "th": 10.465,
+     "ph": 13.834,
+     "taut": true,
+     "arcs": false
+    },
+    "B29": {
+     "t": 2.4167,
+     "th": 14.716,
+     "ph": 20.023,
+     "taut": true,
+     "arcs": true
+    },
+    "B30": {
+     "t": 2.5,
+     "th": 21.61,
+     "ph": 28.586,
+     "taut": true,
+     "arcs": true
+    },
+    "B31": {
+     "t": 2.5833,
+     "th": 19.458,
+     "ph": 41.106,
+     "taut": true,
+     "arcs": true
+    }
+   }
+  },
+  "C": {
+   "action": "arm raised by FK, three 4-drawing knocks with knuckles on the door face, then she leans in to listen, fist still raised",
+   "frames": [
+    "C00",
+    "C00",
+    "C00",
+    "C00",
+    "C02",
+    "C02",
+    "C03",
+    "C03",
+    "C04",
+    "C04",
+    "C05",
+    "C05",
+    "C06",
+    "C06",
+    "C07",
+    "C07",
+    "C08",
+    "C08",
+    "C09",
+    "C09",
+    "C10",
+    "C10",
+    "C11",
+    "C11",
+    "C12",
+    "C12",
+    "C13",
+    "C13",
+    "C14",
+    "C14",
+    "C15",
+    "C15",
+    "C16",
+    "C16",
+    "C17",
+    "C17",
+    "C18",
+    "C18",
+    "C18",
+    "C18",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20",
+    "C20"
+   ],
+   "page_pose_drawing": "C20",
+   "distinct_drawings": 19,
+   "min_drawing_hold_frames": 2,
+   "holds_frames": [
+    4,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    4,
+    32
+   ],
+   "events_s": {
+    "knocks_s": [
+     0.667,
+     1.0,
+     1.333
+    ]
+   },
+   "schedule": [
+    {
+     "slot": 0,
+     "frames": [
+      0,
+      1
+     ],
+     "drawing": "C00",
+     "head": "v_level",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 1,
+     "frames": [
+      2,
+      3
+     ],
+     "drawing": "C00",
+     "head": "v_level",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 2,
+     "frames": [
+      4,
+      5
+     ],
+     "drawing": "C02",
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 3,
+     "frames": [
+      6,
+      7
+     ],
+     "drawing": "C03",
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 4,
+     "frames": [
+      8,
+      9
+     ],
+     "drawing": "C04",
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 5,
+     "frames": [
+      10,
+      11
+     ],
+     "drawing": "C05",
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 6,
+     "frames": [
+      12,
+      13
+     ],
+     "drawing": "C06",
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 7,
+     "frames": [
+      14,
+      15
+     ],
+     "drawing": "C07",
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 8,
+     "frames": [
+      16,
+      17
+     ],
+     "drawing": "C08",
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 9,
+     "frames": [
+      18,
+      19
+     ],
+     "drawing": "C09",
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 10,
+     "frames": [
+      20,
+      21
+     ],
+     "drawing": "C10",
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 11,
+     "frames": [
+      22,
+      23
+     ],
+     "drawing": "C11",
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 12,
+     "frames": [
+      24,
+      25
+     ],
+     "drawing": "C12",
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 13,
+     "frames": [
+      26,
+      27
+     ],
+     "drawing": "C13",
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 14,
+     "frames": [
+      28,
+      29
+     ],
+     "drawing": "C14",
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 15,
+     "frames": [
+      30,
+      31
+     ],
+     "drawing": "C15",
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 16,
+     "frames": [
+      32,
+      33
+     ],
+     "drawing": "C16",
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 17,
+     "frames": [
+      34,
+      35
+     ],
+     "drawing": "C17",
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 18,
+     "frames": [
+      36,
+      37
+     ],
+     "drawing": "C18",
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 19,
+     "frames": [
+      38,
+      39
+     ],
+     "drawing": "C18",
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 20,
+     "frames": [
+      40,
+      41
+     ],
+     "drawing": "C20",
+     "head": "v_down",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 21,
+     "frames": [
+      42,
+      43
+     ],
+     "drawing": "C20",
+     "head": "v_down",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 22,
+     "frames": [
+      44,
+      45
+     ],
+     "drawing": "C20",
+     "head": "v_down",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 23,
+     "frames": [
+      46,
+      47
+     ],
+     "drawing": "C20",
+     "head": "v_down",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 24,
+     "frames": [
+      48,
+      49
+     ],
+     "drawing": "C20",
+     "head": "v_down",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 25,
+     "frames": [
+      50,
+      51
+     ],
+     "drawing": "C20",
+     "head": "v_down",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 26,
+     "frames": [
+      52,
+      53
+     ],
+     "drawing": "C20",
+     "head": "v_down",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 27,
+     "frames": [
+      54,
+      55
+     ],
+     "drawing": "C20",
+     "head": "v_down",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 28,
+     "frames": [
+      56,
+      57
+     ],
+     "drawing": "C20",
+     "head": "v_down",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 29,
+     "frames": [
+      58,
+      59
+     ],
+     "drawing": "C20",
+     "head": "v_down",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 30,
+     "frames": [
+      60,
+      61
+     ],
+     "drawing": "C20",
+     "head": "v_down",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 31,
+     "frames": [
+      62,
+      63
+     ],
+     "drawing": "C20",
+     "head": "v_down",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 32,
+     "frames": [
+      64,
+      65
+     ],
+     "drawing": "C20",
+     "head": "v_down",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 33,
+     "frames": [
+      66,
+      67
+     ],
+     "drawing": "C20",
+     "head": "v_down",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 34,
+     "frames": [
+      68,
+      69
+     ],
+     "drawing": "C20",
+     "head": "v_down",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 35,
+     "frames": [
+      70,
+      71
+     ],
+     "drawing": "C20",
+     "head": "v_down",
+     "hand": "fist",
+     "hand2": "relaxed"
+    }
+   ],
+   "decoder": {
+    "head_cost": 17.290676318502815,
+    "knock_contact_slots": [
+     8,
+     12,
+     16
+    ],
+    "knuckle_x_at_contact": [
+     559.0,
+     559.0,
+     559.0
+    ]
+   },
+   "balloon_tail_to": [
+    388.5,
+    160.1
+   ],
+   "keep_clear_box": [
+    0,
+    39,
+    899,
+    570
+   ],
+   "dominant_figure_height_frac": 0.743,
+   "drawings_png": "films/sources/quatre-vingt-quinze/puppet-cutter-animator/drawings/C/<id>.png",
+   "states": {
+    "C00": {
+     "pose": {
+      "spine": 6,
+      "neck": 0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -6,
+      "el2": 12,
+      "hip2": -2.91,
+      "knee2": -3.79,
+      "sh": 8,
+      "el": 10,
+      "wr": 0
+     },
+     "root": [
+      392.64,
+      382.7
+     ],
+     "head": "v_level",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    "C02": {
+     "pose": {
+      "spine": 6,
+      "neck": 0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -6,
+      "el2": 12,
+      "hip2": -2.91,
+      "knee2": -3.79,
+      "sh": -20.86,
+      "el": 88.58,
+      "wr": -20
+     },
+     "root": [
+      392.64,
+      382.7
+     ],
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    "C03": {
+     "pose": {
+      "spine": 6,
+      "neck": 0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -6,
+      "el2": 12,
+      "hip2": -2.91,
+      "knee2": -3.79,
+      "sh": -15.37,
+      "el": 100.8,
+      "wr": -20
+     },
+     "root": [
+      392.64,
+      382.7
+     ],
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    "C04": {
+     "pose": {
+      "spine": 6,
+      "neck": 0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -6,
+      "el2": 12,
+      "hip2": -2.91,
+      "knee2": -3.79,
+      "sh": 11.94,
+      "el": 109.52,
+      "wr": -20
+     },
+     "root": [
+      392.64,
+      382.7
+     ],
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    "C05": {
+     "pose": {
+      "spine": 6,
+      "neck": 0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -6,
+      "el2": 12,
+      "hip2": -2.91,
+      "knee2": -3.79,
+      "sh": 47.81,
+      "el": 92.36,
+      "wr": -20
+     },
+     "root": [
+      392.64,
+      382.7
+     ],
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    "C06": {
+     "pose": {
+      "spine": 6,
+      "neck": 0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -6,
+      "el2": 12,
+      "hip2": -2.91,
+      "knee2": -3.79,
+      "sh": 64.24,
+      "el": 76.27,
+      "wr": -20
+     },
+     "root": [
+      392.64,
+      382.7
+     ],
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    "C07": {
+     "pose": {
+      "spine": 6,
+      "neck": 0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -6,
+      "el2": 12,
+      "hip2": -2.91,
+      "knee2": -3.79,
+      "sh": 67.55,
+      "el": 63.57,
+      "wr": -20
+     },
+     "root": [
+      392.64,
+      382.7
+     ],
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    "C08": {
+     "pose": {
+      "spine": 6,
+      "neck": 0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -6,
+      "el2": 12,
+      "hip2": -2.91,
+      "knee2": -3.79,
+      "sh": 66.47,
+      "el": 50.89,
+      "wr": -20
+     },
+     "root": [
+      392.64,
+      382.7
+     ],
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    "C09": {
+     "pose": {
+      "spine": 6,
+      "neck": 0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -6,
+      "el2": 12,
+      "hip2": -2.91,
+      "knee2": -3.79,
+      "sh": 63.18,
+      "el": 68.99,
+      "wr": -20
+     },
+     "root": [
+      392.64,
+      382.7
+     ],
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    "C10": {
+     "pose": {
+      "spine": 6,
+      "neck": 0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -6,
+      "el2": 12,
+      "hip2": -2.91,
+      "knee2": -3.79,
+      "sh": 64.24,
+      "el": 76.27,
+      "wr": -20
+     },
+     "root": [
+      392.64,
+      382.7
+     ],
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    "C11": {
+     "pose": {
+      "spine": 6,
+      "neck": 0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -6,
+      "el2": 12,
+      "hip2": -2.91,
+      "knee2": -3.79,
+      "sh": 67.55,
+      "el": 63.57,
+      "wr": -20
+     },
+     "root": [
+      392.64,
+      382.7
+     ],
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    "C12": {
+     "pose": {
+      "spine": 6,
+      "neck": 0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -6,
+      "el2": 12,
+      "hip2": -2.91,
+      "knee2": -3.79,
+      "sh": 66.47,
+      "el": 50.89,
+      "wr": -20
+     },
+     "root": [
+      392.64,
+      382.7
+     ],
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    "C13": {
+     "pose": {
+      "spine": 6,
+      "neck": 0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -6,
+      "el2": 12,
+      "hip2": -2.91,
+      "knee2": -3.79,
+      "sh": 63.18,
+      "el": 68.99,
+      "wr": -20
+     },
+     "root": [
+      392.64,
+      382.7
+     ],
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    "C14": {
+     "pose": {
+      "spine": 6,
+      "neck": 0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -6,
+      "el2": 12,
+      "hip2": -2.91,
+      "knee2": -3.79,
+      "sh": 64.24,
+      "el": 76.27,
+      "wr": -20
+     },
+     "root": [
+      392.64,
+      382.7
+     ],
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    "C15": {
+     "pose": {
+      "spine": 6,
+      "neck": 0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -6,
+      "el2": 12,
+      "hip2": -2.91,
+      "knee2": -3.79,
+      "sh": 67.55,
+      "el": 63.57,
+      "wr": -20
+     },
+     "root": [
+      392.64,
+      382.7
+     ],
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    "C16": {
+     "pose": {
+      "spine": 6,
+      "neck": 0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -6,
+      "el2": 12,
+      "hip2": -2.91,
+      "knee2": -3.79,
+      "sh": 66.47,
+      "el": 50.89,
+      "wr": -20
+     },
+     "root": [
+      392.64,
+      382.7
+     ],
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    "C17": {
+     "pose": {
+      "spine": 6,
+      "neck": 0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -6,
+      "el2": 12,
+      "hip2": -2.91,
+      "knee2": -3.79,
+      "sh": 63.18,
+      "el": 68.99,
+      "wr": -20
+     },
+     "root": [
+      392.64,
+      382.7
+     ],
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    "C18": {
+     "pose": {
+      "spine": 6,
+      "neck": 0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -6,
+      "el2": 12,
+      "hip2": -2.91,
+      "knee2": -3.79,
+      "sh": 64.24,
+      "el": 76.27,
+      "wr": -20
+     },
+     "root": [
+      392.64,
+      382.7
+     ],
+     "head": "v_level",
+     "hand": "fist",
+     "hand2": "relaxed"
+    },
+    "C20": {
+     "pose": {
+      "spine": 9,
+      "neck": 4,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -6,
+      "el2": 12,
+      "hip2": -2.91,
+      "knee2": -3.79,
+      "sh": 64.24,
+      "el": 76.27,
+      "wr": -20
+     },
+     "root": [
+      392.64,
+      382.7
+     ],
+     "head": "v_down",
+     "hand": "fist",
+     "hand2": "relaxed"
+    }
+   }
+  },
+  "D": {
+   "action": "2-drawing tear, key drawn out of the envelope's mouth and raised to the face, surprise head (protected), the man's shadow slides into the window",
+   "frames": [
+    "D00",
+    "D00",
+    "D01",
+    "D01",
+    "D02",
+    "D02",
+    "D03",
+    "D03",
+    "D04",
+    "D04",
+    "D05",
+    "D05",
+    "D06",
+    "D06",
+    "D07",
+    "D07",
+    "D08",
+    "D08",
+    "D09",
+    "D09",
+    "D10",
+    "D10",
+    "D11",
+    "D11",
+    "D12",
+    "D12",
+    "D13",
+    "D13",
+    "D14",
+    "D14",
+    "D15",
+    "D15",
+    "D16",
+    "D16",
+    "D17",
+    "D17",
+    "D18",
+    "D18",
+    "D19",
+    "D19",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20",
+    "D20"
+   ],
+   "page_pose_drawing": "D20",
+   "distinct_drawings": 21,
+   "min_drawing_hold_frames": 2,
+   "holds_frames": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    32
+   ],
+   "events_s": {
+    "tear_s": [
+     0.3333333333333333,
+     0.5
+    ],
+    "key_out_s": 0.75,
+    "surprise_s": 1.1666666666666667
+   },
+   "schedule": [
+    {
+     "slot": 0,
+     "frames": [
+      0,
+      1
+     ],
+     "drawing": "D00",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 1,
+     "frames": [
+      2,
+      3
+     ],
+     "drawing": "D01",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 2,
+     "frames": [
+      4,
+      5
+     ],
+     "drawing": "D02",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 3,
+     "frames": [
+      6,
+      7
+     ],
+     "drawing": "D03",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 4,
+     "frames": [
+      8,
+      9
+     ],
+     "drawing": "D04",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 5,
+     "frames": [
+      10,
+      11
+     ],
+     "drawing": "D05",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 6,
+     "frames": [
+      12,
+      13
+     ],
+     "drawing": "D06",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 7,
+     "frames": [
+      14,
+      15
+     ],
+     "drawing": "D07",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 8,
+     "frames": [
+      16,
+      17
+     ],
+     "drawing": "D08",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 9,
+     "frames": [
+      18,
+      19
+     ],
+     "drawing": "D09",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 10,
+     "frames": [
+      20,
+      21
+     ],
+     "drawing": "D10",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 11,
+     "frames": [
+      22,
+      23
+     ],
+     "drawing": "D11",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 12,
+     "frames": [
+      24,
+      25
+     ],
+     "drawing": "D12",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 13,
+     "frames": [
+      26,
+      27
+     ],
+     "drawing": "D13",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 14,
+     "frames": [
+      28,
+      29
+     ],
+     "drawing": "D14",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 15,
+     "frames": [
+      30,
+      31
+     ],
+     "drawing": "D15",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 16,
+     "frames": [
+      32,
+      33
+     ],
+     "drawing": "D16",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 17,
+     "frames": [
+      34,
+      35
+     ],
+     "drawing": "D17",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 18,
+     "frames": [
+      36,
+      37
+     ],
+     "drawing": "D18",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 19,
+     "frames": [
+      38,
+      39
+     ],
+     "drawing": "D19",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 20,
+     "frames": [
+      40,
+      41
+     ],
+     "drawing": "D20",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 21,
+     "frames": [
+      42,
+      43
+     ],
+     "drawing": "D20",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 22,
+     "frames": [
+      44,
+      45
+     ],
+     "drawing": "D20",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 23,
+     "frames": [
+      46,
+      47
+     ],
+     "drawing": "D20",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 24,
+     "frames": [
+      48,
+      49
+     ],
+     "drawing": "D20",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 25,
+     "frames": [
+      50,
+      51
+     ],
+     "drawing": "D20",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 26,
+     "frames": [
+      52,
+      53
+     ],
+     "drawing": "D20",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 27,
+     "frames": [
+      54,
+      55
+     ],
+     "drawing": "D20",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 28,
+     "frames": [
+      56,
+      57
+     ],
+     "drawing": "D20",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 29,
+     "frames": [
+      58,
+      59
+     ],
+     "drawing": "D20",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 30,
+     "frames": [
+      60,
+      61
+     ],
+     "drawing": "D20",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 31,
+     "frames": [
+      62,
+      63
+     ],
+     "drawing": "D20",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 32,
+     "frames": [
+      64,
+      65
+     ],
+     "drawing": "D20",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 33,
+     "frames": [
+      66,
+      67
+     ],
+     "drawing": "D20",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 34,
+     "frames": [
+      68,
+      69
+     ],
+     "drawing": "D20",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    {
+     "slot": 35,
+     "frames": [
+      70,
+      71
+     ],
+     "drawing": "D20",
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    }
+   ],
+   "decoder": {
+    "head_cost": 46.15826130198883,
+    "head_targets": [
+     -61.0,
+     -61.0,
+     -61.0,
+     -61.0,
+     -61.6,
+     -62.1,
+     -62.6,
+     -63.1,
+     -63.2,
+     -63.2,
+     -64.5,
+     -32.8,
+     -31.5,
+     -25.0,
+     -12.2,
+     -4.7,
+     -0.4,
+     -0.4,
+     -0.4,
+     -0.4,
+     -0.4,
+     -0.4,
+     -0.4,
+     -0.4,
+     -0.4,
+     -0.4,
+     -0.4,
+     -0.4,
+     -0.4,
+     -0.4,
+     -0.4,
+     -0.4,
+     -0.4,
+     -0.4,
+     -0.4,
+     -0.4
+    ]
+   },
+   "balloon_tail_to": [
+    270.9,
+    208.1
+   ],
+   "keep_clear_box": [
+    0,
+    29,
+    899,
+    591
+   ],
+   "dominant_figure_height_frac": null,
+   "drawings_png": "films/sources/quatre-vingt-quinze/puppet-cutter-animator/drawings/D/<id>.png",
+   "states": {
+    "D00": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": 10,
+      "neck": 0,
+      "sh": 40,
+      "el": 70,
+      "wr": -30,
+      "sh2": 34,
+      "el2": 78,
+      "wr2": -20
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "sealed",
+     "key": "none",
+     "man_x": 905.0,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    "D01": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": 10.0,
+      "neck": 0.0,
+      "sh": 40.52,
+      "el": 70.52,
+      "wr": -30.0,
+      "sh2": 34.0,
+      "el2": 78.0,
+      "wr2": -20.0
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "sealed",
+     "key": "none",
+     "man_x": 905.0,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    "D02": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": 10.0,
+      "neck": 0.0,
+      "sh": 41.48,
+      "el": 71.48,
+      "wr": -30.0,
+      "sh2": 34.0,
+      "el2": 78.0,
+      "wr2": -20.0
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "sealed",
+     "key": "none",
+     "man_x": 905.0,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    "D03": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": 10.0,
+      "neck": 0.0,
+      "sh": 42.0,
+      "el": 72.0,
+      "wr": -30.0,
+      "sh2": 34.0,
+      "el2": 78.0,
+      "wr2": -20.0
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "sealed",
+     "key": "none",
+     "man_x": 905.0,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    "D04": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": 10.5,
+      "neck": 0.0,
+      "sh": 46.0,
+      "el": 68.0,
+      "wr": -38.0,
+      "sh2": 33.0,
+      "el2": 79.0,
+      "wr2": -20.0
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "torn1",
+     "key": "none",
+     "man_x": 905.0,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    "D05": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": 11.0,
+      "neck": 0.0,
+      "sh": 50.0,
+      "el": 64.0,
+      "wr": -46.0,
+      "sh2": 32.0,
+      "el2": 80.0,
+      "wr2": -20.0
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "torn1",
+     "key": "none",
+     "man_x": 905.0,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    "D06": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": 11.0,
+      "neck": 0.0,
+      "sh": 55.0,
+      "el": 59.0,
+      "wr": -51.0,
+      "sh2": 31.0,
+      "el2": 81.0,
+      "wr2": -20.0
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "torn2",
+     "key": "none",
+     "man_x": 905.0,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    "D07": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": 11.0,
+      "neck": 0.0,
+      "sh": 60.0,
+      "el": 54.0,
+      "wr": -56.0,
+      "sh2": 30.0,
+      "el2": 82.0,
+      "wr2": -20.0
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "torn2",
+     "key": "none",
+     "man_x": 905.0,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    "D08": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": 10.5,
+      "neck": 0.0,
+      "sh": 52.0,
+      "el": 64.0,
+      "wr": -45.0,
+      "sh2": 30.0,
+      "el2": 81.0,
+      "wr2": -20.0
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "torn2",
+     "key": "none",
+     "man_x": 905.0,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    "D09": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": 10.0,
+      "neck": 0.0,
+      "sh": 44.0,
+      "el": 74.0,
+      "wr": -34.0,
+      "sh2": 30.0,
+      "el2": 80.0,
+      "wr2": -20.0
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "torn2",
+     "key": "emerging",
+     "man_x": 905.0,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    "D10": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": 8.96,
+      "neck": 0.0,
+      "sh": 46.07,
+      "el": 79.7,
+      "wr": -30.37,
+      "sh2": 27.93,
+      "el2": 77.41,
+      "wr2": -17.41
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "torn2",
+     "key": "emerging",
+     "man_x": 905.0,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    "D11": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": 7.04,
+      "neck": 0.0,
+      "sh": 49.93,
+      "el": 90.3,
+      "wr": -23.63,
+      "sh2": 24.07,
+      "el2": 72.59,
+      "wr2": -12.59
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "torn2",
+     "key": "held",
+     "man_x": 900.44,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    "D12": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": 6.0,
+      "neck": 0.0,
+      "sh": 52.0,
+      "el": 96.0,
+      "wr": -20.0,
+      "sh2": 22.0,
+      "el2": 70.0,
+      "wr2": -10.0
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "torn2",
+     "key": "held",
+     "man_x": 888.05,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    "D13": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": 3.93,
+      "neck": -1.04,
+      "sh": 58.22,
+      "el": 89.78,
+      "wr": -16.37,
+      "sh2": 20.96,
+      "el2": 68.44,
+      "wr2": -8.96
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "torn2",
+     "key": "held",
+     "man_x": 869.79,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    "D14": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": 0.07,
+      "neck": -2.96,
+      "sh": 69.78,
+      "el": 78.22,
+      "wr": -9.63,
+      "sh2": 19.04,
+      "el2": 65.56,
+      "wr2": -7.04
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "torn2",
+     "key": "held",
+     "man_x": 847.62,
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    "D15": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": -2.0,
+      "neck": -4.0,
+      "sh": 76.0,
+      "el": 72.0,
+      "wr": -6.0,
+      "sh2": 18.0,
+      "el2": 64.0,
+      "wr2": -6.0
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "torn2",
+     "key": "held",
+     "man_x": 823.5,
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    "D16": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": -4,
+      "neck": -5,
+      "sh": 78,
+      "el": 72,
+      "wr": -6,
+      "sh2": 18,
+      "el2": 64,
+      "wr2": -6
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "torn2",
+     "key": "held",
+     "man_x": 799.38,
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    "D17": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": -4,
+      "neck": -5,
+      "sh": 78,
+      "el": 72,
+      "wr": -6,
+      "sh2": 18,
+      "el2": 64,
+      "wr2": -6
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "torn2",
+     "key": "held",
+     "man_x": 777.21,
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    "D18": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": -4,
+      "neck": -5,
+      "sh": 78,
+      "el": 72,
+      "wr": -6,
+      "sh2": 18,
+      "el2": 64,
+      "wr2": -6
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "torn2",
+     "key": "held",
+     "man_x": 758.95,
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    "D19": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": -4,
+      "neck": -5,
+      "sh": 78,
+      "el": 72,
+      "wr": -6,
+      "sh2": 18,
+      "el2": 64,
+      "wr2": -6
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "torn2",
+     "key": "held",
+     "man_x": 746.56,
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    },
+    "D20": {
+     "pose": {
+      "hip": 92,
+      "knee": -92.0,
+      "hip2": 84,
+      "knee2": -52.84,
+      "pelvis": 0,
+      "spine": -4,
+      "neck": -5,
+      "sh": 78,
+      "el": 72,
+      "wr": -6,
+      "sh2": 18,
+      "el2": 64,
+      "wr2": -6
+     },
+     "root": [
+      330,
+      475
+     ],
+     "env": "torn2",
+     "key": "held",
+     "man_x": 742.0,
+     "head": "v_surprise",
+     "hand": "pinch",
+     "hand2": "pinch"
+    }
+   }
+  },
+  "E": {
+   "action": "r1: held rest while the camera travels; anticipation dip at 0.25 s; 4-drawing lift to the overshoot+glint at 0.58 s, settle by 0.75 s; skyward head v_sky 0.50-1.67 s, redrawn in branch-a: nose straight up / slightly up-left past the key toward the bell's place, with a startle (spine draws back, neck thrown back, free shoulder hitches and hand flinches at 0.58 s), then v_up on the key (page pose); a breath through the dwell; the thread swings out",
+   "frames": [
+    "E00",
+    "E00",
+    "E00",
+    "E00",
+    "E00",
+    "E00",
+    "E03",
+    "E03",
+    "E04",
+    "E04",
+    "E05",
+    "E05",
+    "E06",
+    "E06",
+    "E07",
+    "E07",
+    "E08",
+    "E08",
+    "E09",
+    "E09",
+    "E10",
+    "E10",
+    "E11",
+    "E11",
+    "E12",
+    "E12",
+    "E13",
+    "E13",
+    "E14",
+    "E14",
+    "E15",
+    "E15",
+    "E16",
+    "E16",
+    "E17",
+    "E17",
+    "E18",
+    "E18",
+    "E19",
+    "E19",
+    "E20",
+    "E20",
+    "E21",
+    "E21",
+    "E22",
+    "E22",
+    "E23",
+    "E23",
+    "E24",
+    "E24",
+    "E25",
+    "E25",
+    "E26",
+    "E26",
+    "E27",
+    "E27",
+    "E28",
+    "E28",
+    "E29",
+    "E29",
+    "E30",
+    "E30",
+    "E31",
+    "E31",
+    "E31",
+    "E31",
+    "E31",
+    "E31",
+    "E31",
+    "E31",
+    "E31",
+    "E31"
+   ],
+   "page_pose_drawing": "E31",
+   "distinct_drawings": 30,
+   "min_drawing_hold_frames": 2,
+   "holds_frames": [
+    6,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    10
+   ],
+   "events_s": {
+    "lift_start_s": 0.25,
+    "head_up_s": 0.5,
+    "head_sky_until_s": 1.6666666666666667,
+    "key_top_click_s": 0.5833333333333334,
+    "glint_s": 0.5833333333333334
+   },
+   "schedule": [
+    {
+     "slot": 0,
+     "frames": [
+      0,
+      1
+     ],
+     "drawing": "E00",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 1,
+     "frames": [
+      2,
+      3
+     ],
+     "drawing": "E00",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 2,
+     "frames": [
+      4,
+      5
+     ],
+     "drawing": "E00",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 3,
+     "frames": [
+      6,
+      7
+     ],
+     "drawing": "E03",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 4,
+     "frames": [
+      8,
+      9
+     ],
+     "drawing": "E04",
+     "head": "v_turn",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 5,
+     "frames": [
+      10,
+      11
+     ],
+     "drawing": "E05",
+     "head": "v_turn",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 6,
+     "frames": [
+      12,
+      13
+     ],
+     "drawing": "E06",
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 7,
+     "frames": [
+      14,
+      15
+     ],
+     "drawing": "E07",
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 8,
+     "frames": [
+      16,
+      17
+     ],
+     "drawing": "E08",
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 9,
+     "frames": [
+      18,
+      19
+     ],
+     "drawing": "E09",
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 10,
+     "frames": [
+      20,
+      21
+     ],
+     "drawing": "E10",
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 11,
+     "frames": [
+      22,
+      23
+     ],
+     "drawing": "E11",
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 12,
+     "frames": [
+      24,
+      25
+     ],
+     "drawing": "E12",
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 13,
+     "frames": [
+      26,
+      27
+     ],
+     "drawing": "E13",
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 14,
+     "frames": [
+      28,
+      29
+     ],
+     "drawing": "E14",
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 15,
+     "frames": [
+      30,
+      31
+     ],
+     "drawing": "E15",
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 16,
+     "frames": [
+      32,
+      33
+     ],
+     "drawing": "E16",
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 17,
+     "frames": [
+      34,
+      35
+     ],
+     "drawing": "E17",
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 18,
+     "frames": [
+      36,
+      37
+     ],
+     "drawing": "E18",
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 19,
+     "frames": [
+      38,
+      39
+     ],
+     "drawing": "E19",
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 20,
+     "frames": [
+      40,
+      41
+     ],
+     "drawing": "E20",
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 21,
+     "frames": [
+      42,
+      43
+     ],
+     "drawing": "E21",
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 22,
+     "frames": [
+      44,
+      45
+     ],
+     "drawing": "E22",
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 23,
+     "frames": [
+      46,
+      47
+     ],
+     "drawing": "E23",
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 24,
+     "frames": [
+      48,
+      49
+     ],
+     "drawing": "E24",
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 25,
+     "frames": [
+      50,
+      51
+     ],
+     "drawing": "E25",
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 26,
+     "frames": [
+      52,
+      53
+     ],
+     "drawing": "E26",
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 27,
+     "frames": [
+      54,
+      55
+     ],
+     "drawing": "E27",
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 28,
+     "frames": [
+      56,
+      57
+     ],
+     "drawing": "E28",
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 29,
+     "frames": [
+      58,
+      59
+     ],
+     "drawing": "E29",
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 30,
+     "frames": [
+      60,
+      61
+     ],
+     "drawing": "E30",
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 31,
+     "frames": [
+      62,
+      63
+     ],
+     "drawing": "E31",
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 32,
+     "frames": [
+      64,
+      65
+     ],
+     "drawing": "E31",
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 33,
+     "frames": [
+      66,
+      67
+     ],
+     "drawing": "E31",
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 34,
+     "frames": [
+      68,
+      69
+     ],
+     "drawing": "E31",
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 35,
+     "frames": [
+      70,
+      71
+     ],
+     "drawing": "E31",
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    }
+   ],
+   "decoder": {
+    "head_cost": 221.82700087826413,
+    "head_targets": [
+     -71.5,
+     -71.5,
+     -71.5,
+     -74.9,
+     99.2,
+     110.4,
+     87.4,
+     72.2,
+     68.2,
+     72.2,
+     74.7,
+     73.7,
+     73.1,
+     73.3,
+     73.9,
+     74.7,
+     75.5,
+     75.8,
+     75.7,
+     75.3,
+     42.5,
+     65.9,
+     66.3,
+     66.1,
+     65.4,
+     64.7,
+     64.3,
+     64.2,
+     64.4,
+     64.6,
+     64.7,
+     64.7,
+     64.7,
+     64.7,
+     64.7,
+     64.7
+    ]
+   },
+   "balloon_tail_to": [
+    423.7,
+    157.1
+   ],
+   "keep_clear_box": [
+    0,
+    15,
+    899,
+    571
+   ],
+   "dominant_figure_height_frac": 0.735,
+   "drawings_png": "films/sources/quatre-vingt-quinze/puppet-cutter-animator/drawings/E/<id>.png",
+   "states": {
+    "E00": {
+     "pose": {
+      "sh": 14.0,
+      "el": 34,
+      "wr": -10,
+      "spine": -1.0,
+      "neck": 0,
+      "hip": 6.0,
+      "knee": -0.0,
+      "sh2": -6.0,
+      "el2": 14,
+      "pelvis": 0,
+      "hip2": -1.99,
+      "knee2": -6.35
+     },
+     "root": [
+      469.6,
+      382.96
+     ],
+     "lift": 1,
+     "thread": 0,
+     "glint": 0,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E03": {
+     "pose": {
+      "sh": 6.0,
+      "el": 46,
+      "wr": -16,
+      "spine": 4.0,
+      "neck": 2,
+      "hip": 10.8,
+      "knee": -10.4,
+      "sh2": -4.4,
+      "el2": 14,
+      "pelvis": 0,
+      "hip2": -0.03,
+      "knee2": -11.03
+     },
+     "root": [
+      470.54,
+      383.6
+     ],
+     "lift": 2,
+     "thread": 4,
+     "glint": 0,
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E04": {
+     "pose": {
+      "sh": 52.0,
+      "el": 46,
+      "wr": -8,
+      "spine": 0.0,
+      "neck": -2,
+      "hip": 6.6,
+      "knee": -1.3,
+      "sh2": -5.8,
+      "el2": 14,
+      "pelvis": 0,
+      "hip2": -2.08,
+      "knee2": -6.24
+     },
+     "root": [
+      469.71,
+      382.96
+     ],
+     "lift": 4,
+     "thread": -14,
+     "glint": 0,
+     "head": "v_turn",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E05": {
+     "pose": {
+      "sh": 96.0,
+      "el": 26,
+      "wr": 0,
+      "spine": -5.0,
+      "neck": -6,
+      "hip": 6.0,
+      "knee": -0.0,
+      "sh2": -6.0,
+      "el2": 14,
+      "pelvis": 0,
+      "hip2": -1.99,
+      "knee2": -6.35
+     },
+     "root": [
+      469.6,
+      382.96
+     ],
+     "lift": 6,
+     "thread": -24,
+     "glint": 0,
+     "head": "v_turn",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E06": {
+     "pose": {
+      "sh": 126.0,
+      "el": 10,
+      "wr": 6,
+      "spine": -3.0,
+      "neck": 12,
+      "hip": 6.0,
+      "knee": -0.0,
+      "sh2": 12.0,
+      "el2": 34,
+      "pelvis": 0,
+      "hip2": -1.99,
+      "knee2": -6.35
+     },
+     "root": [
+      469.6,
+      382.96
+     ],
+     "lift": 8,
+     "thread": -26,
+     "glint": 0,
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E07": {
+     "pose": {
+      "sh": 142.0,
+      "el": 2,
+      "wr": 10,
+      "spine": -2.0,
+      "neck": 24,
+      "hip": 6.0,
+      "knee": -0.0,
+      "sh2": 24.0,
+      "el2": 48,
+      "pelvis": 0,
+      "hip2": -1.99,
+      "knee2": -6.35
+     },
+     "root": [
+      469.6,
+      382.96
+     ],
+     "lift": 10,
+     "thread": -10,
+     "glint": 24,
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E08": {
+     "pose": {
+      "sh": 135.0,
+      "el": 6,
+      "wr": 7,
+      "spine": 0.0,
+      "neck": 25,
+      "hip": 6.0,
+      "knee": -0.0,
+      "sh2": 20.0,
+      "el2": 44,
+      "pelvis": 0,
+      "hip2": -1.99,
+      "knee2": -6.35
+     },
+     "root": [
+      469.6,
+      382.96
+     ],
+     "lift": 11,
+     "thread": 10,
+     "glint": 16,
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E09": {
+     "pose": {
+      "sh": 137.0,
+      "el": 4,
+      "wr": 8,
+      "spine": -2.0,
+      "neck": 24,
+      "hip": 6.0,
+      "knee": -0.0,
+      "sh2": 14.0,
+      "el2": 38,
+      "pelvis": 0,
+      "hip2": -1.99,
+      "knee2": -6.35
+     },
+     "root": [
+      469.6,
+      382.96
+     ],
+     "lift": 12,
+     "thread": 18,
+     "glint": 15,
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E10": {
+     "pose": {
+      "sh": 137.0,
+      "el": 4,
+      "wr": 8,
+      "spine": -3.0,
+      "neck": 23,
+      "hip": 6.0,
+      "knee": -0.0,
+      "sh2": 8.0,
+      "el2": 32,
+      "pelvis": 0,
+      "hip2": -1.99,
+      "knee2": -6.35
+     },
+     "root": [
+      469.6,
+      382.96
+     ],
+     "lift": 12,
+     "thread": 12.09,
+     "glint": 15,
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E11": {
+     "pose": {
+      "sh": 138.64,
+      "el": 4,
+      "wr": 8,
+      "spine": -2.24,
+      "neck": 23,
+      "hip": 6.0,
+      "knee": -0.0,
+      "sh2": 4.82,
+      "el2": 28,
+      "pelvis": 0,
+      "hip2": -1.99,
+      "knee2": -6.35
+     },
+     "root": [
+      469.6,
+      382.96
+     ],
+     "lift": 12,
+     "thread": 3.34,
+     "glint": 15,
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E12": {
+     "pose": {
+      "sh": 139.46,
+      "el": 4,
+      "wr": 8,
+      "spine": -1.85,
+      "neck": 23,
+      "hip": 6.0,
+      "knee": -0.0,
+      "sh2": 2.23,
+      "el2": 24,
+      "pelvis": 0,
+      "hip2": -1.99,
+      "knee2": -6.35
+     },
+     "root": [
+      469.6,
+      382.96
+     ],
+     "lift": 12,
+     "thread": -4.18,
+     "glint": 15,
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E13": {
+     "pose": {
+      "sh": 139.26,
+      "el": 4,
+      "wr": 8,
+      "spine": -1.94,
+      "neck": 23,
+      "hip": 6.0,
+      "knee": -0.0,
+      "sh2": 0.13,
+      "el2": 22,
+      "pelvis": 0,
+      "hip2": -1.99,
+      "knee2": -6.35
+     },
+     "root": [
+      469.6,
+      382.96
+     ],
+     "lift": 12,
+     "thread": -8.0,
+     "glint": 15,
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E14": {
+     "pose": {
+      "sh": 138.28,
+      "el": 4,
+      "wr": 8,
+      "spine": -2.4,
+      "neck": 23,
+      "hip": 6.0,
+      "knee": -0.0,
+      "sh2": -0.36,
+      "el2": 22,
+      "pelvis": 0,
+      "hip2": -1.99,
+      "knee2": -6.35
+     },
+     "root": [
+      469.6,
+      382.96
+     ],
+     "lift": 12,
+     "thread": -7.76,
+     "glint": 15,
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E15": {
+     "pose": {
+      "sh": 137.0,
+      "el": 4,
+      "wr": 8,
+      "spine": -3.0,
+      "neck": 23,
+      "hip": 6.0,
+      "knee": -0.0,
+      "sh2": -1.0,
+      "el2": 22,
+      "pelvis": 0,
+      "hip2": -1.99,
+      "knee2": -6.35
+     },
+     "root": [
+      469.6,
+      382.96
+     ],
+     "lift": 12,
+     "thread": -4.68,
+     "glint": 15,
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E16": {
+     "pose": {
+      "sh": 135.94,
+      "el": 4,
+      "wr": 8,
+      "spine": -3.5,
+      "neck": 23,
+      "hip": 6.43,
+      "knee": -0.92,
+      "sh2": -1.39,
+      "el2": 22,
+      "pelvis": 0,
+      "hip2": -2.07,
+      "knee2": -6.24
+     },
+     "root": [
+      469.68,
+      382.96
+     ],
+     "lift": 12,
+     "thread": -0.73,
+     "glint": 15,
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E17": {
+     "pose": {
+      "sh": 135.45,
+      "el": 4,
+      "wr": 8,
+      "spine": -3.72,
+      "neck": 23,
+      "hip": 6.62,
+      "knee": -1.35,
+      "sh2": -1.57,
+      "el2": 22,
+      "pelvis": 0,
+      "hip2": -2.08,
+      "knee2": -6.24
+     },
+     "root": [
+      469.72,
+      382.96
+     ],
+     "lift": 12,
+     "thread": 2.37,
+     "glint": 15,
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E18": {
+     "pose": {
+      "sh": 135.61,
+      "el": 4,
+      "wr": 8,
+      "spine": -3.65,
+      "neck": 23,
+      "hip": 6.56,
+      "knee": -1.2,
+      "sh2": -1.51,
+      "el2": 22,
+      "pelvis": 0,
+      "hip2": -2.08,
+      "knee2": -6.24
+     },
+     "root": [
+      469.7,
+      382.96
+     ],
+     "lift": 12,
+     "thread": 3.71,
+     "glint": 15,
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E19": {
+     "pose": {
+      "sh": 136.24,
+      "el": 4,
+      "wr": 8,
+      "spine": -3.36,
+      "neck": 23,
+      "hip": 6.3,
+      "knee": -0.66,
+      "sh2": -1.28,
+      "el2": 22,
+      "pelvis": 0,
+      "hip2": -2.05,
+      "knee2": -6.26
+     },
+     "root": [
+      469.66,
+      382.96
+     ],
+     "lift": 12,
+     "thread": 3.28,
+     "glint": 15,
+     "head": "v_sky",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E20": {
+     "pose": {
+      "sh": 137.0,
+      "el": 4,
+      "wr": 8,
+      "spine": -7.0,
+      "neck": 3,
+      "hip": 6.0,
+      "knee": -0.0,
+      "sh2": -4.0,
+      "el2": 17,
+      "pelvis": 0,
+      "hip2": -1.99,
+      "knee2": -6.35
+     },
+     "root": [
+      469.6,
+      382.96
+     ],
+     "lift": 12,
+     "thread": 1.75,
+     "glint": 15,
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E21": {
+     "pose": {
+      "sh": 137.58,
+      "el": 4,
+      "wr": 8,
+      "spine": -9.73,
+      "neck": -9,
+      "hip": 6.0,
+      "knee": -0.0,
+      "sh2": -5.71,
+      "el2": 14,
+      "pelvis": 0,
+      "hip2": -1.99,
+      "knee2": -6.35
+     },
+     "root": [
+      469.6,
+      382.96
+     ],
+     "lift": 12,
+     "thread": 0.0,
+     "glint": 15,
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E22": {
+     "pose": {
+      "sh": 137.8,
+      "el": 4,
+      "wr": 8,
+      "spine": -9.63,
+      "neck": -9,
+      "hip": 6.0,
+      "knee": -0.0,
+      "sh2": -5.6,
+      "el2": 14,
+      "pelvis": 0,
+      "hip2": -1.99,
+      "knee2": -6.35
+     },
+     "root": [
+      469.6,
+      382.96
+     ],
+     "lift": 12,
+     "thread": -1.26,
+     "glint": 15,
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E23": {
+     "pose": {
+      "sh": 137.67,
+      "el": 4,
+      "wr": 8,
+      "spine": -9.69,
+      "neck": -9,
+      "hip": 6.0,
+      "knee": -0.0,
+      "sh2": -5.66,
+      "el2": 14,
+      "pelvis": 0,
+      "hip2": -1.99,
+      "knee2": -6.35
+     },
+     "root": [
+      469.6,
+      382.96
+     ],
+     "lift": 12,
+     "thread": -1.69,
+     "glint": 15,
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E24": {
+     "pose": {
+      "sh": 137.34,
+      "el": 4,
+      "wr": 8,
+      "spine": -9.84,
+      "neck": -9,
+      "hip": 6.0,
+      "knee": -0.0,
+      "sh2": -5.83,
+      "el2": 14,
+      "pelvis": 0,
+      "hip2": -1.99,
+      "knee2": -6.35
+     },
+     "root": [
+      469.6,
+      382.96
+     ],
+     "lift": 12,
+     "thread": -1.37,
+     "glint": 15,
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E25": {
+     "pose": {
+      "sh": 137.0,
+      "el": 4,
+      "wr": 8,
+      "spine": -10.0,
+      "neck": -9,
+      "hip": 6.0,
+      "knee": -0.0,
+      "sh2": -6.0,
+      "el2": 14,
+      "pelvis": 0,
+      "hip2": -1.99,
+      "knee2": -6.35
+     },
+     "root": [
+      469.6,
+      382.96
+     ],
+     "lift": 12,
+     "thread": -0.63,
+     "glint": 15,
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E26": {
+     "pose": {
+      "sh": 136.8,
+      "el": 4,
+      "wr": 8,
+      "spine": -10.1,
+      "neck": -9,
+      "hip": 6.08,
+      "knee": -0.18,
+      "sh2": -6.08,
+      "el2": 14,
+      "pelvis": 0,
+      "hip2": -2.01,
+      "knee2": -6.32
+     },
+     "root": [
+      469.62,
+      382.96
+     ],
+     "lift": 12,
+     "thread": 0.14,
+     "glint": 15,
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E27": {
+     "pose": {
+      "sh": 136.76,
+      "el": 4,
+      "wr": 8,
+      "spine": -10.11,
+      "neck": -9,
+      "hip": 6.09,
+      "knee": -0.21,
+      "sh2": -6.09,
+      "el2": 14,
+      "pelvis": 0,
+      "hip2": -2.01,
+      "knee2": -6.32
+     },
+     "root": [
+      469.62,
+      382.96
+     ],
+     "lift": 12,
+     "thread": 0.63,
+     "glint": 15,
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E28": {
+     "pose": {
+      "sh": 136.85,
+      "el": 4,
+      "wr": 8,
+      "spine": -10.07,
+      "neck": -9,
+      "hip": 6.06,
+      "knee": -0.13,
+      "sh2": -6.06,
+      "el2": 14,
+      "pelvis": 0,
+      "hip2": -2.01,
+      "knee2": -6.33
+     },
+     "root": [
+      469.61,
+      382.96
+     ],
+     "lift": 12,
+     "thread": 0.75,
+     "glint": 15,
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E29": {
+     "pose": {
+      "sh": 136.95,
+      "el": 4,
+      "wr": 8,
+      "spine": -10.02,
+      "neck": -9,
+      "hip": 6.02,
+      "knee": -0.04,
+      "sh2": -6.02,
+      "el2": 14,
+      "pelvis": 0,
+      "hip2": -2.0,
+      "knee2": -6.34
+     },
+     "root": [
+      469.61,
+      382.96
+     ],
+     "lift": 12,
+     "thread": 0.56,
+     "glint": 15,
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E30": {
+     "pose": {
+      "sh": 137.0,
+      "el": 4,
+      "wr": 8,
+      "spine": -10.0,
+      "neck": -9,
+      "hip": 6.0,
+      "knee": -0.0,
+      "sh2": -6.0,
+      "el2": 14,
+      "pelvis": 0,
+      "hip2": -1.99,
+      "knee2": -6.35
+     },
+     "root": [
+      469.6,
+      382.96
+     ],
+     "lift": 12,
+     "thread": 0.21,
+     "glint": 15,
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "E31": {
+     "pose": {
+      "sh": 137.0,
+      "el": 4,
+      "wr": 8,
+      "spine": -10.0,
+      "neck": -9,
+      "hip": 6.0,
+      "knee": -0.0,
+      "sh2": -6.0,
+      "el2": 14,
+      "pelvis": 0,
+      "hip2": -1.99,
+      "knee2": -6.35
+     },
+     "root": [
+      469.6,
+      382.96
+     ],
+     "lift": 12,
+     "thread": 0.0,
+     "glint": 15,
+     "head": "v_up",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    }
+   }
+  },
+  "F": {
+   "action": "4-drawing set-down of the key on the bench, release, shrug head, replacement profile turns her, one dejected walk cycle out left",
+   "frames": [
+    "F00",
+    "F00",
+    "F01",
+    "F01",
+    "F02",
+    "F02",
+    "F03",
+    "F03",
+    "F04",
+    "F04",
+    "F05",
+    "F05",
+    "F06",
+    "F06",
+    "F07",
+    "F07",
+    "F07",
+    "F07",
+    "F09",
+    "F09",
+    "F10",
+    "F10",
+    "F11",
+    "F11",
+    "F12",
+    "F12",
+    "F13",
+    "F13",
+    "F14",
+    "F14",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15",
+    "F15"
+   ],
+   "page_pose_drawing": "F15",
+   "distinct_drawings": 15,
+   "min_drawing_hold_frames": 2,
+   "holds_frames": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    4,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    42
+   ],
+   "events_s": {
+    "key_on_wood_s": 0.3333333333333333,
+    "steps_s": [
+     0.75,
+     1.0
+    ]
+   },
+   "schedule": [
+    {
+     "slot": 0,
+     "frames": [
+      0,
+      1
+     ],
+     "drawing": "F00",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 1,
+     "frames": [
+      2,
+      3
+     ],
+     "drawing": "F01",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 2,
+     "frames": [
+      4,
+      5
+     ],
+     "drawing": "F02",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 3,
+     "frames": [
+      6,
+      7
+     ],
+     "drawing": "F03",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 4,
+     "frames": [
+      8,
+      9
+     ],
+     "drawing": "F04",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 5,
+     "frames": [
+      10,
+      11
+     ],
+     "drawing": "F05",
+     "head": "v_down",
+     "hand": "open",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 6,
+     "frames": [
+      12,
+      13
+     ],
+     "drawing": "F06",
+     "head": "v_shrug",
+     "hand": "open",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 7,
+     "frames": [
+      14,
+      15
+     ],
+     "drawing": "F07",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 8,
+     "frames": [
+      16,
+      17
+     ],
+     "drawing": "F07",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 9,
+     "frames": [
+      18,
+      19
+     ],
+     "drawing": "F09",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 10,
+     "frames": [
+      20,
+      21
+     ],
+     "drawing": "F10",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 11,
+     "frames": [
+      22,
+      23
+     ],
+     "drawing": "F11",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 12,
+     "frames": [
+      24,
+      25
+     ],
+     "drawing": "F12",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 13,
+     "frames": [
+      26,
+      27
+     ],
+     "drawing": "F13",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 14,
+     "frames": [
+      28,
+      29
+     ],
+     "drawing": "F14",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 15,
+     "frames": [
+      30,
+      31
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 16,
+     "frames": [
+      32,
+      33
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 17,
+     "frames": [
+      34,
+      35
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 18,
+     "frames": [
+      36,
+      37
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 19,
+     "frames": [
+      38,
+      39
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 20,
+     "frames": [
+      40,
+      41
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 21,
+     "frames": [
+      42,
+      43
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 22,
+     "frames": [
+      44,
+      45
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 23,
+     "frames": [
+      46,
+      47
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 24,
+     "frames": [
+      48,
+      49
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 25,
+     "frames": [
+      50,
+      51
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 26,
+     "frames": [
+      52,
+      53
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 27,
+     "frames": [
+      54,
+      55
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 28,
+     "frames": [
+      56,
+      57
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 29,
+     "frames": [
+      58,
+      59
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 30,
+     "frames": [
+      60,
+      61
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 31,
+     "frames": [
+      62,
+      63
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 32,
+     "frames": [
+      64,
+      65
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 33,
+     "frames": [
+      66,
+      67
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 34,
+     "frames": [
+      68,
+      69
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    {
+     "slot": 35,
+     "frames": [
+      70,
+      71
+     ],
+     "drawing": "F15",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    }
+   ],
+   "decoder": {
+    "head_cost": 14.875,
+    "key_rest_bow": [
+     542.84,
+     471
+    ]
+   },
+   "balloon_tail_to": [
+    323.3,
+    120.6
+   ],
+   "keep_clear_box": [
+    0,
+    119,
+    899,
+    571
+   ],
+   "dominant_figure_height_frac": 0.738,
+   "drawings_png": "films/sources/quatre-vingt-quinze/puppet-cutter-animator/drawings/F/<id>.png",
+   "states": {
+    "F00": {
+     "pose": {
+      "spine": 4,
+      "sh": 44,
+      "el": 24,
+      "wr": -10,
+      "neck": 0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -4,
+      "el2": 12,
+      "pelvis": 0,
+      "hip2": -2.91,
+      "knee2": -3.79
+     },
+     "root": [
+      388.59,
+      382.7
+     ],
+     "facing": 1,
+     "key": "held",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "F01": {
+     "pose": {
+      "spine": 8.0,
+      "sh": 48.0,
+      "el": 22.0,
+      "wr": -12.0,
+      "neck": -2.0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -4,
+      "el2": 12,
+      "pelvis": 0,
+      "hip2": -2.91,
+      "knee2": -3.79
+     },
+     "root": [
+      388.59,
+      382.7
+     ],
+     "facing": 1,
+     "key": "held",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "F02": {
+     "pose": {
+      "spine": 12.0,
+      "sh": 52.0,
+      "el": 20.0,
+      "wr": -14.0,
+      "neck": -4.0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -4,
+      "el2": 12,
+      "pelvis": 0,
+      "hip2": -2.91,
+      "knee2": -3.79
+     },
+     "root": [
+      388.59,
+      382.7
+     ],
+     "facing": 1,
+     "key": "held",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "F03": {
+     "pose": {
+      "spine": 18.0,
+      "sh": 55.0,
+      "el": 16.0,
+      "wr": -17.0,
+      "neck": -5.0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -4,
+      "el2": 12,
+      "pelvis": 0,
+      "hip2": -2.91,
+      "knee2": -3.79
+     },
+     "root": [
+      388.59,
+      382.7
+     ],
+     "facing": 1,
+     "key": "held",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "F04": {
+     "pose": {
+      "spine": 24.0,
+      "sh": 58.0,
+      "el": 12.0,
+      "wr": -20.0,
+      "neck": -6.0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -4,
+      "el2": 12,
+      "pelvis": 0,
+      "hip2": -2.91,
+      "knee2": -3.79
+     },
+     "root": [
+      388.59,
+      382.7
+     ],
+     "facing": 1,
+     "key": "held",
+     "head": "v_down",
+     "hand": "pinch",
+     "hand2": "relaxed"
+    },
+    "F05": {
+     "pose": {
+      "spine": 24.0,
+      "sh": 56.0,
+      "el": 14.0,
+      "wr": -20.0,
+      "neck": -6.0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -4,
+      "el2": 12,
+      "pelvis": 0,
+      "hip2": -2.91,
+      "knee2": -3.79
+     },
+     "root": [
+      388.59,
+      382.7
+     ],
+     "facing": 1,
+     "key": "bench",
+     "head": "v_down",
+     "hand": "open",
+     "hand2": "relaxed"
+    },
+    "F06": {
+     "pose": {
+      "spine": 15.0,
+      "sh": 35.0,
+      "el": 17.0,
+      "wr": -10.0,
+      "neck": -3.0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -4,
+      "el2": 12,
+      "pelvis": 0,
+      "hip2": -2.91,
+      "knee2": -3.79
+     },
+     "root": [
+      388.59,
+      382.7
+     ],
+     "facing": 1,
+     "key": "bench",
+     "head": "v_shrug",
+     "hand": "open",
+     "hand2": "relaxed"
+    },
+    "F07": {
+     "pose": {
+      "spine": 6,
+      "sh": 14,
+      "el": 20,
+      "wr": 0,
+      "neck": 0,
+      "hip": 6,
+      "knee": -2,
+      "sh2": -4,
+      "el2": 12,
+      "pelvis": 0,
+      "hip2": -2.91,
+      "knee2": -3.79
+     },
+     "root": [
+      388.59,
+      382.7
+     ],
+     "facing": 1,
+     "key": "bench",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    "F09": {
+     "pose": {
+      "hip": 15.84,
+      "knee": -2.4,
+      "hip2": -12.96,
+      "knee2": -9.6,
+      "spine": 8,
+      "neck": 2,
+      "sh": 16,
+      "el": 14,
+      "sh2": -12,
+      "el2": 12,
+      "pelvis": 0
+     },
+     "root": [
+      448.55,
+      387.77
+     ],
+     "facing": -1,
+     "key": "bench",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    "F10": {
+     "pose": {
+      "hip": 8.64,
+      "knee": -9.6,
+      "hip2": -5.76,
+      "knee2": -35.2,
+      "spine": 8,
+      "neck": 2,
+      "sh": 10.0,
+      "el": 14,
+      "sh2": -6.0,
+      "el2": 12,
+      "pelvis": 0
+     },
+     "root": [
+      416.08,
+      383.03
+     ],
+     "facing": -1,
+     "key": "bench",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    "F11": {
+     "pose": {
+      "hip": 0.0,
+      "knee": -4.0,
+      "hip2": 7.2,
+      "knee2": -41.6,
+      "spine": 8,
+      "neck": 2,
+      "sh": 0.4,
+      "el": 14,
+      "sh2": 3.6,
+      "el2": 12,
+      "pelvis": 0
+     },
+     "root": [
+      398.0,
+      382.21
+     ],
+     "facing": -1,
+     "key": "bench",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    "F12": {
+     "pose": {
+      "hip": -12.96,
+      "knee": -9.6,
+      "hip2": 15.84,
+      "knee2": -2.4,
+      "spine": 8,
+      "neck": 2,
+      "sh": -8,
+      "el": 14,
+      "sh2": 12,
+      "el2": 12,
+      "pelvis": 0
+     },
+     "root": [
+      398.0,
+      387.77
+     ],
+     "facing": -1,
+     "key": "bench",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    "F13": {
+     "pose": {
+      "hip": -5.76,
+      "knee": -35.2,
+      "hip2": 8.64,
+      "knee2": -9.6,
+      "spine": 8,
+      "neck": 2,
+      "sh": -2.0,
+      "el": 14,
+      "sh2": 6.0,
+      "el2": 12,
+      "pelvis": 0
+     },
+     "root": [
+      365.52,
+      383.03
+     ],
+     "facing": -1,
+     "key": "bench",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    "F14": {
+     "pose": {
+      "hip": 7.2,
+      "knee": -41.6,
+      "hip2": 0.0,
+      "knee2": -4.0,
+      "spine": 8,
+      "neck": 2,
+      "sh": 7.6,
+      "el": 14,
+      "sh2": -3.6,
+      "el2": 12,
+      "pelvis": 0
+     },
+     "root": [
+      347.44,
+      382.21
+     ],
+     "facing": -1,
+     "key": "bench",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    },
+    "F15": {
+     "pose": {
+      "hip": 15.84,
+      "knee": -2.4,
+      "hip2": -12.96,
+      "knee2": -9.6,
+      "spine": 8,
+      "neck": 2,
+      "sh": 16,
+      "el": 14,
+      "sh2": -12,
+      "el2": 12,
+      "pelvis": 0
+     },
+     "root": [
+      347.44,
+      387.77
+     ],
+     "facing": -1,
+     "key": "bench",
+     "head": "v_shrug",
+     "hand": "relaxed",
+     "hand2": "relaxed"
+    }
+   }
+  },
+  "G": {
+   "action": "4 hand-over-hand hauls (fast down-stroke, slower recovery), leaning into each pull; knots travel down the cord; the slack coils at his feet",
+   "frames": [
+    "G00",
+    "G00",
+    "G00",
+    "G00",
+    "G02",
+    "G02",
+    "G03",
+    "G03",
+    "G04",
+    "G04",
+    "G04",
+    "G04",
+    "G06",
+    "G06",
+    "G07",
+    "G07",
+    "G08",
+    "G08",
+    "G08",
+    "G08",
+    "G10",
+    "G10",
+    "G11",
+    "G11",
+    "G12",
+    "G12",
+    "G12",
+    "G12",
+    "G14",
+    "G14",
+    "G15",
+    "G15",
+    "G16",
+    "G16",
+    "G16",
+    "G16",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18",
+    "G18"
+   ],
+   "page_pose_drawing": "G18",
+   "distinct_drawings": 14,
+   "min_drawing_hold_frames": 2,
+   "holds_frames": [
+    4,
+    2,
+    2,
+    4,
+    2,
+    2,
+    4,
+    2,
+    2,
+    4,
+    2,
+    2,
+    4,
+    36
+   ],
+   "events_s": {
+    "downstrokes_s": [
+     0.167,
+     0.5,
+     0.833,
+     1.167
+    ]
+   },
+   "schedule": [
+    {
+     "slot": 0,
+     "frames": [
+      0,
+      1
+     ],
+     "drawing": "G00",
+     "head": "m_tilt",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 1,
+     "frames": [
+      2,
+      3
+     ],
+     "drawing": "G00",
+     "head": "m_tilt",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 2,
+     "frames": [
+      4,
+      5
+     ],
+     "drawing": "G02",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "open"
+    },
+    {
+     "slot": 3,
+     "frames": [
+      6,
+      7
+     ],
+     "drawing": "G03",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "open"
+    },
+    {
+     "slot": 4,
+     "frames": [
+      8,
+      9
+     ],
+     "drawing": "G04",
+     "head": "m_tilt",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 5,
+     "frames": [
+      10,
+      11
+     ],
+     "drawing": "G04",
+     "head": "m_tilt",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 6,
+     "frames": [
+      12,
+      13
+     ],
+     "drawing": "G06",
+     "head": "m_effort",
+     "hand": "open",
+     "hand2": "grip"
+    },
+    {
+     "slot": 7,
+     "frames": [
+      14,
+      15
+     ],
+     "drawing": "G07",
+     "head": "m_effort",
+     "hand": "open",
+     "hand2": "grip"
+    },
+    {
+     "slot": 8,
+     "frames": [
+      16,
+      17
+     ],
+     "drawing": "G08",
+     "head": "m_tilt",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 9,
+     "frames": [
+      18,
+      19
+     ],
+     "drawing": "G08",
+     "head": "m_tilt",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 10,
+     "frames": [
+      20,
+      21
+     ],
+     "drawing": "G10",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "open"
+    },
+    {
+     "slot": 11,
+     "frames": [
+      22,
+      23
+     ],
+     "drawing": "G11",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "open"
+    },
+    {
+     "slot": 12,
+     "frames": [
+      24,
+      25
+     ],
+     "drawing": "G12",
+     "head": "m_tilt",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 13,
+     "frames": [
+      26,
+      27
+     ],
+     "drawing": "G12",
+     "head": "m_tilt",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 14,
+     "frames": [
+      28,
+      29
+     ],
+     "drawing": "G14",
+     "head": "m_effort",
+     "hand": "open",
+     "hand2": "grip"
+    },
+    {
+     "slot": 15,
+     "frames": [
+      30,
+      31
+     ],
+     "drawing": "G15",
+     "head": "m_effort",
+     "hand": "open",
+     "hand2": "grip"
+    },
+    {
+     "slot": 16,
+     "frames": [
+      32,
+      33
+     ],
+     "drawing": "G16",
+     "head": "m_tilt",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 17,
+     "frames": [
+      34,
+      35
+     ],
+     "drawing": "G16",
+     "head": "m_tilt",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 18,
+     "frames": [
+      36,
+      37
+     ],
+     "drawing": "G18",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 19,
+     "frames": [
+      38,
+      39
+     ],
+     "drawing": "G18",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 20,
+     "frames": [
+      40,
+      41
+     ],
+     "drawing": "G18",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 21,
+     "frames": [
+      42,
+      43
+     ],
+     "drawing": "G18",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 22,
+     "frames": [
+      44,
+      45
+     ],
+     "drawing": "G18",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 23,
+     "frames": [
+      46,
+      47
+     ],
+     "drawing": "G18",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 24,
+     "frames": [
+      48,
+      49
+     ],
+     "drawing": "G18",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 25,
+     "frames": [
+      50,
+      51
+     ],
+     "drawing": "G18",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 26,
+     "frames": [
+      52,
+      53
+     ],
+     "drawing": "G18",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 27,
+     "frames": [
+      54,
+      55
+     ],
+     "drawing": "G18",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 28,
+     "frames": [
+      56,
+      57
+     ],
+     "drawing": "G18",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 29,
+     "frames": [
+      58,
+      59
+     ],
+     "drawing": "G18",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 30,
+     "frames": [
+      60,
+      61
+     ],
+     "drawing": "G18",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 31,
+     "frames": [
+      62,
+      63
+     ],
+     "drawing": "G18",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 32,
+     "frames": [
+      64,
+      65
+     ],
+     "drawing": "G18",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 33,
+     "frames": [
+      66,
+      67
+     ],
+     "drawing": "G18",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 34,
+     "frames": [
+      68,
+      69
+     ],
+     "drawing": "G18",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    {
+     "slot": 35,
+     "frames": [
+      70,
+      71
+     ],
+     "drawing": "G18",
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "grip"
+    }
+   ],
+   "decoder": {
+    "head_cost": 181.625,
+    "haul_pull_px_total": 376.0
+   },
+   "balloon_tail_to": null,
+   "keep_clear_box": [
+    0,
+    0,
+    899,
+    570
+   ],
+   "dominant_figure_height_frac": 0.72,
+   "drawings_png": "films/sources/quatre-vingt-quinze/puppet-cutter-animator/drawings/G/<id>.png",
+   "states": {
+    "G00": {
+     "pose": {
+      "hip": 8,
+      "knee": -6,
+      "pelvis": 0,
+      "spine": -3,
+      "neck": -2,
+      "hip2": -7.5,
+      "knee2": -0.01,
+      "sh": 92.45,
+      "el": 14.28,
+      "wr": -30,
+      "sh2": 64.58,
+      "el2": 0.41,
+      "wr2": -30
+     },
+     "root": [
+      387.85,
+      376.97
+     ],
+     "yF": 262,
+     "yB": 356,
+     "pulled": 0.0,
+     "effort": false,
+     "head": "m_tilt",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    "G02": {
+     "pose": {
+      "hip": 8,
+      "knee": -6,
+      "pelvis": 0,
+      "spine": -7,
+      "neck": -2,
+      "hip2": -7.5,
+      "knee2": -0.01,
+      "sh": 56.44,
+      "el": 44.3,
+      "wr": -30,
+      "sh2": 54.56,
+      "el2": 27.72,
+      "wr2": -30
+     },
+     "root": [
+      387.85,
+      376.97
+     ],
+     "yF": 329.68,
+     "yB": 356,
+     "pulled": 67.68,
+     "effort": true,
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "open"
+    },
+    "G03": {
+     "pose": {
+      "hip": 8,
+      "knee": -6,
+      "pelvis": 0,
+      "spine": -7,
+      "neck": -2,
+      "hip2": -7.5,
+      "knee2": -0.01,
+      "sh": 54.56,
+      "el": 27.72,
+      "wr": -30,
+      "sh2": 60.87,
+      "el2": 48.17,
+      "wr2": -30
+     },
+     "root": [
+      387.85,
+      376.97
+     ],
+     "yF": 356,
+     "yB": 313.7,
+     "pulled": 94.0,
+     "effort": true,
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "open"
+    },
+    "G04": {
+     "pose": {
+      "hip": 8,
+      "knee": -6,
+      "pelvis": 0,
+      "spine": -3,
+      "neck": -2,
+      "hip2": -7.5,
+      "knee2": -0.01,
+      "sh": 64.58,
+      "el": 0.41,
+      "wr": -30,
+      "sh2": 92.45,
+      "el2": 14.28,
+      "wr2": -30
+     },
+     "root": [
+      387.85,
+      376.97
+     ],
+     "yF": 356,
+     "yB": 262,
+     "pulled": 94.0,
+     "effort": false,
+     "head": "m_tilt",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    "G06": {
+     "pose": {
+      "hip": 8,
+      "knee": -6,
+      "pelvis": 0,
+      "spine": -7,
+      "neck": -2,
+      "hip2": -7.5,
+      "knee2": -0.01,
+      "sh": 54.56,
+      "el": 27.72,
+      "wr": -30,
+      "sh2": 56.44,
+      "el2": 44.3,
+      "wr2": -30
+     },
+     "root": [
+      387.85,
+      376.97
+     ],
+     "yF": 356,
+     "yB": 329.68,
+     "pulled": 161.68,
+     "effort": true,
+     "head": "m_effort",
+     "hand": "open",
+     "hand2": "grip"
+    },
+    "G07": {
+     "pose": {
+      "hip": 8,
+      "knee": -6,
+      "pelvis": 0,
+      "spine": -7,
+      "neck": -2,
+      "hip2": -7.5,
+      "knee2": -0.01,
+      "sh": 60.87,
+      "el": 48.17,
+      "wr": -30,
+      "sh2": 54.56,
+      "el2": 27.72,
+      "wr2": -30
+     },
+     "root": [
+      387.85,
+      376.97
+     ],
+     "yF": 313.7,
+     "yB": 356,
+     "pulled": 188.0,
+     "effort": true,
+     "head": "m_effort",
+     "hand": "open",
+     "hand2": "grip"
+    },
+    "G08": {
+     "pose": {
+      "hip": 8,
+      "knee": -6,
+      "pelvis": 0,
+      "spine": -3,
+      "neck": -2,
+      "hip2": -7.5,
+      "knee2": -0.01,
+      "sh": 92.45,
+      "el": 14.28,
+      "wr": -30,
+      "sh2": 64.58,
+      "el2": 0.41,
+      "wr2": -30
+     },
+     "root": [
+      387.85,
+      376.97
+     ],
+     "yF": 262,
+     "yB": 356,
+     "pulled": 188.0,
+     "effort": false,
+     "head": "m_tilt",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    "G10": {
+     "pose": {
+      "hip": 8,
+      "knee": -6,
+      "pelvis": 0,
+      "spine": -7,
+      "neck": -2,
+      "hip2": -7.5,
+      "knee2": -0.01,
+      "sh": 56.44,
+      "el": 44.3,
+      "wr": -30,
+      "sh2": 54.56,
+      "el2": 27.72,
+      "wr2": -30
+     },
+     "root": [
+      387.85,
+      376.97
+     ],
+     "yF": 329.68,
+     "yB": 356,
+     "pulled": 255.68,
+     "effort": true,
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "open"
+    },
+    "G11": {
+     "pose": {
+      "hip": 8,
+      "knee": -6,
+      "pelvis": 0,
+      "spine": -7,
+      "neck": -2,
+      "hip2": -7.5,
+      "knee2": -0.01,
+      "sh": 54.56,
+      "el": 27.72,
+      "wr": -30,
+      "sh2": 60.87,
+      "el2": 48.17,
+      "wr2": -30
+     },
+     "root": [
+      387.85,
+      376.97
+     ],
+     "yF": 356,
+     "yB": 313.7,
+     "pulled": 282.0,
+     "effort": true,
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "open"
+    },
+    "G12": {
+     "pose": {
+      "hip": 8,
+      "knee": -6,
+      "pelvis": 0,
+      "spine": -3,
+      "neck": -2,
+      "hip2": -7.5,
+      "knee2": -0.01,
+      "sh": 64.58,
+      "el": 0.41,
+      "wr": -30,
+      "sh2": 92.45,
+      "el2": 14.28,
+      "wr2": -30
+     },
+     "root": [
+      387.85,
+      376.97
+     ],
+     "yF": 356,
+     "yB": 262,
+     "pulled": 282.0,
+     "effort": false,
+     "head": "m_tilt",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    "G14": {
+     "pose": {
+      "hip": 8,
+      "knee": -6,
+      "pelvis": 0,
+      "spine": -7,
+      "neck": -2,
+      "hip2": -7.5,
+      "knee2": -0.01,
+      "sh": 54.56,
+      "el": 27.72,
+      "wr": -30,
+      "sh2": 56.44,
+      "el2": 44.3,
+      "wr2": -30
+     },
+     "root": [
+      387.85,
+      376.97
+     ],
+     "yF": 356,
+     "yB": 329.68,
+     "pulled": 349.68,
+     "effort": true,
+     "head": "m_effort",
+     "hand": "open",
+     "hand2": "grip"
+    },
+    "G15": {
+     "pose": {
+      "hip": 8,
+      "knee": -6,
+      "pelvis": 0,
+      "spine": -7,
+      "neck": -2,
+      "hip2": -7.5,
+      "knee2": -0.01,
+      "sh": 60.87,
+      "el": 48.17,
+      "wr": -30,
+      "sh2": 54.56,
+      "el2": 27.72,
+      "wr2": -30
+     },
+     "root": [
+      387.85,
+      376.97
+     ],
+     "yF": 313.7,
+     "yB": 356,
+     "pulled": 376.0,
+     "effort": true,
+     "head": "m_effort",
+     "hand": "open",
+     "hand2": "grip"
+    },
+    "G16": {
+     "pose": {
+      "hip": 8,
+      "knee": -6,
+      "pelvis": 0,
+      "spine": -3,
+      "neck": -2,
+      "hip2": -7.5,
+      "knee2": -0.01,
+      "sh": 92.45,
+      "el": 14.28,
+      "wr": -30,
+      "sh2": 64.58,
+      "el2": 0.41,
+      "wr2": -30
+     },
+     "root": [
+      387.85,
+      376.97
+     ],
+     "yF": 262,
+     "yB": 356,
+     "pulled": 376.0,
+     "effort": false,
+     "head": "m_tilt",
+     "hand": "grip",
+     "hand2": "grip"
+    },
+    "G18": {
+     "pose": {
+      "hip": 8,
+      "knee": -6,
+      "pelvis": 0,
+      "spine": -3,
+      "neck": -2,
+      "hip2": -7.5,
+      "knee2": -0.01,
+      "sh": 92.45,
+      "el": 14.28,
+      "wr": -30,
+      "sh2": 64.58,
+      "el2": 0.41,
+      "wr2": -30
+     },
+     "root": [
+      387.85,
+      376.97
+     ],
+     "yF": 262,
+     "yB": 356,
+     "pulled": 376.0,
+     "effort": false,
+     "head": "m_effort",
+     "hand": "grip",
+     "hand2": "grip"
+    }
+   }
+  },
+  "H": {
+   "action": "the door window's light goes out (lit, dim, dark)",
+   "frames": [
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H00",
+    "H10",
+    "H10",
+    "H10",
+    "H10",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12",
+    "H12"
+   ],
+   "page_pose_drawing": "H12",
+   "distinct_drawings": 3,
+   "min_drawing_hold_frames": 4,
+   "holds_frames": [
+    20,
+    4,
+    48
+   ],
+   "events_s": {
+    "light_out_s": 0.8333333333333334
+   },
+   "schedule": [
+    {
+     "slot": 0,
+     "frames": [
+      0,
+      1
+     ],
+     "drawing": "H00",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 1,
+     "frames": [
+      2,
+      3
+     ],
+     "drawing": "H00",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 2,
+     "frames": [
+      4,
+      5
+     ],
+     "drawing": "H00",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 3,
+     "frames": [
+      6,
+      7
+     ],
+     "drawing": "H00",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 4,
+     "frames": [
+      8,
+      9
+     ],
+     "drawing": "H00",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 5,
+     "frames": [
+      10,
+      11
+     ],
+     "drawing": "H00",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 6,
+     "frames": [
+      12,
+      13
+     ],
+     "drawing": "H00",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 7,
+     "frames": [
+      14,
+      15
+     ],
+     "drawing": "H00",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 8,
+     "frames": [
+      16,
+      17
+     ],
+     "drawing": "H00",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 9,
+     "frames": [
+      18,
+      19
+     ],
+     "drawing": "H00",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 10,
+     "frames": [
+      20,
+      21
+     ],
+     "drawing": "H10",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 11,
+     "frames": [
+      22,
+      23
+     ],
+     "drawing": "H10",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 12,
+     "frames": [
+      24,
+      25
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 13,
+     "frames": [
+      26,
+      27
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 14,
+     "frames": [
+      28,
+      29
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 15,
+     "frames": [
+      30,
+      31
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 16,
+     "frames": [
+      32,
+      33
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 17,
+     "frames": [
+      34,
+      35
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 18,
+     "frames": [
+      36,
+      37
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 19,
+     "frames": [
+      38,
+      39
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 20,
+     "frames": [
+      40,
+      41
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 21,
+     "frames": [
+      42,
+      43
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 22,
+     "frames": [
+      44,
+      45
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 23,
+     "frames": [
+      46,
+      47
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 24,
+     "frames": [
+      48,
+      49
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 25,
+     "frames": [
+      50,
+      51
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 26,
+     "frames": [
+      52,
+      53
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 27,
+     "frames": [
+      54,
+      55
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 28,
+     "frames": [
+      56,
+      57
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 29,
+     "frames": [
+      58,
+      59
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 30,
+     "frames": [
+      60,
+      61
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 31,
+     "frames": [
+      62,
+      63
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 32,
+     "frames": [
+      64,
+      65
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 33,
+     "frames": [
+      66,
+      67
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 34,
+     "frames": [
+      68,
+      69
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 35,
+     "frames": [
+      70,
+      71
+     ],
+     "drawing": "H12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    }
+   ],
+   "decoder": {},
+   "balloon_tail_to": null,
+   "keep_clear_box": [
+    689,
+    29,
+    840,
+    170
+   ],
+   "dominant_figure_height_frac": null,
+   "drawings_png": "films/sources/quatre-vingt-quinze/puppet-cutter-animator/drawings/H/<id>.png",
+   "states": {
+    "H00": {
+     "glass": "lit"
+    },
+    "H10": {
+     "glass": "dim"
+    },
+    "H12": {
+     "glass": "dark"
+    }
+   }
+  },
+  "I": {
+   "action": "thread tightens, the key slides bow-first under the shut door in 6 drawings and stops half under; the door never opens",
+   "frames": [
+    "I00",
+    "I00",
+    "I00",
+    "I00",
+    "I00",
+    "I00",
+    "I00",
+    "I00",
+    "I00",
+    "I00",
+    "I00",
+    "I00",
+    "I06",
+    "I06",
+    "I06",
+    "I06",
+    "I06",
+    "I06",
+    "I06",
+    "I06",
+    "I10",
+    "I10",
+    "I10",
+    "I10",
+    "I12",
+    "I12",
+    "I12",
+    "I12",
+    "I14",
+    "I14",
+    "I14",
+    "I14",
+    "I16",
+    "I16",
+    "I16",
+    "I16",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18",
+    "I18"
+   ],
+   "page_pose_drawing": "I18",
+   "distinct_drawings": 7,
+   "min_drawing_hold_frames": 4,
+   "holds_frames": [
+    12,
+    8,
+    4,
+    4,
+    4,
+    4,
+    36
+   ],
+   "events_s": {
+    "thread_taut_s": 0.5,
+    "scrape_s": [
+     0.6666666666666666,
+     1.6666666666666667
+    ]
+   },
+   "schedule": [
+    {
+     "slot": 0,
+     "frames": [
+      0,
+      1
+     ],
+     "drawing": "I00",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 1,
+     "frames": [
+      2,
+      3
+     ],
+     "drawing": "I00",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 2,
+     "frames": [
+      4,
+      5
+     ],
+     "drawing": "I00",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 3,
+     "frames": [
+      6,
+      7
+     ],
+     "drawing": "I00",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 4,
+     "frames": [
+      8,
+      9
+     ],
+     "drawing": "I00",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 5,
+     "frames": [
+      10,
+      11
+     ],
+     "drawing": "I00",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 6,
+     "frames": [
+      12,
+      13
+     ],
+     "drawing": "I06",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 7,
+     "frames": [
+      14,
+      15
+     ],
+     "drawing": "I06",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 8,
+     "frames": [
+      16,
+      17
+     ],
+     "drawing": "I06",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 9,
+     "frames": [
+      18,
+      19
+     ],
+     "drawing": "I06",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 10,
+     "frames": [
+      20,
+      21
+     ],
+     "drawing": "I10",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 11,
+     "frames": [
+      22,
+      23
+     ],
+     "drawing": "I10",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 12,
+     "frames": [
+      24,
+      25
+     ],
+     "drawing": "I12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 13,
+     "frames": [
+      26,
+      27
+     ],
+     "drawing": "I12",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 14,
+     "frames": [
+      28,
+      29
+     ],
+     "drawing": "I14",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 15,
+     "frames": [
+      30,
+      31
+     ],
+     "drawing": "I14",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 16,
+     "frames": [
+      32,
+      33
+     ],
+     "drawing": "I16",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 17,
+     "frames": [
+      34,
+      35
+     ],
+     "drawing": "I16",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 18,
+     "frames": [
+      36,
+      37
+     ],
+     "drawing": "I18",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 19,
+     "frames": [
+      38,
+      39
+     ],
+     "drawing": "I18",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 20,
+     "frames": [
+      40,
+      41
+     ],
+     "drawing": "I18",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 21,
+     "frames": [
+      42,
+      43
+     ],
+     "drawing": "I18",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 22,
+     "frames": [
+      44,
+      45
+     ],
+     "drawing": "I18",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 23,
+     "frames": [
+      46,
+      47
+     ],
+     "drawing": "I18",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 24,
+     "frames": [
+      48,
+      49
+     ],
+     "drawing": "I18",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 25,
+     "frames": [
+      50,
+      51
+     ],
+     "drawing": "I18",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 26,
+     "frames": [
+      52,
+      53
+     ],
+     "drawing": "I18",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 27,
+     "frames": [
+      54,
+      55
+     ],
+     "drawing": "I18",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 28,
+     "frames": [
+      56,
+      57
+     ],
+     "drawing": "I18",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 29,
+     "frames": [
+      58,
+      59
+     ],
+     "drawing": "I18",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 30,
+     "frames": [
+      60,
+      61
+     ],
+     "drawing": "I18",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 31,
+     "frames": [
+      62,
+      63
+     ],
+     "drawing": "I18",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 32,
+     "frames": [
+      64,
+      65
+     ],
+     "drawing": "I18",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 33,
+     "frames": [
+      66,
+      67
+     ],
+     "drawing": "I18",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 34,
+     "frames": [
+      68,
+      69
+     ],
+     "drawing": "I18",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    },
+    {
+     "slot": 35,
+     "frames": [
+      70,
+      71
+     ],
+     "drawing": "I18",
+     "head": null,
+     "hand": null,
+     "hand2": null
+    }
+   ],
+   "decoder": {},
+   "balloon_tail_to": [
+    636,
+    250
+   ],
+   "keep_clear_box": [
+    0,
+    29,
+    899,
+    578
+   ],
+   "dominant_figure_height_frac": null,
+   "drawings_png": "films/sources/quatre-vingt-quinze/puppet-cutter-animator/drawings/I/<id>.png",
+   "states": {
+    "I00": {
+     "bow_x": 206,
+     "taut": false
+    },
+    "I06": {
+     "bow_x": 206,
+     "taut": true
+    },
+    "I10": {
+     "bow_x": 224,
+     "taut": true
+    },
+    "I12": {
+     "bow_x": 252,
+     "taut": true
+    },
+    "I14": {
+     "bow_x": 288,
+     "taut": true
+    },
+    "I16": {
+     "bow_x": 322,
+     "taut": true
+    },
+    "I18": {
+     "bow_x": 350,
+     "taut": true
+    }
+   }
+  }
+ },
+ "key_cut_used": "films/sources/quatre-vingt-quinze/forage/key_cut.png",
+ "evidence": [
+  {
+   "id": "KEY",
+   "title": "File:Skeletonkey.png",
+   "author": "Blenheimears",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Skeletonkey.png",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/21/Skeletonkey.png",
+   "local_path": "films/sources/quatre-vingt-quinze/forage/key_cut.png (U3's density cut of forage/src/skeletonkey.png, sha256 cf2401f2..., the same file as films/sources/quatre-vingt-quinze/skeletonkey.png; this is what the film renders)",
+   "what_it_shows": "photograph of old skeleton keys; the left key, cut out by density with the bow hole open",
+   "verified_date_or_place": "Commons extmetadata LicenseShortName=CC0, re-read 2026-11-17 by the test shot (films/sources/quatre-vingt-quinze/test-shot/commons_meta.json); not re-fetched by U2",
+   "used_as": "the brass key paper piece: held in the wrist frame in D, E, F; lying on the bench in F; sliding under the door in I"
+  },
+  {
+   "id": "KEYS-CLINK",
+   "title": "File:Keys hitting tree 2 (Gravity Sound).wav",
+   "author": "Gravity Sound",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Keys_hitting_tree_2_(Gravity_Sound).wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Keys_hitting_tree_2_%28Gravity_Sound%29.wav",
+   "local_path": "films/sources/quatre-vingt-quinze/test-shot/keys.wav (E-test only; the film's cues read forage/wav/)",
+   "what_it_shows": "recording of keys striking wood",
+   "verified_date_or_place": "Commons extmetadata LicenseShortName=CC BY 4.0, Artist=Gravity Sound, re-read 2026-11-17 by the test shot (test-shot/commons_meta.json)",
+   "used_as": "E-test.mp4 only: one 0.31 s clink grain at the top of the lift (0.75 s); the film's E cue is U3's"
+  }
+ ],
+ "handmade": [
+  "visitor rig (cloche hat, coat, bob curl, big nose) and capped-man rig (railway cap with peak, hooked nose, moustache): FK pieces cut in code with fixed per-piece scissor wobble (puppets.py: VISITOR, MAN, V_BASE, M_BASE, V_COAT, M_JACKET)",
+  "replacement library: visitor 7 heads (r1 adds v_sky) + 4 hands = 11; man 3 heads + 3 hands = 6 (HEADS, HANDS, LIBRARY); hat band and eyes are slits cut through the paper",
+  "bell, bracket, lever and clapper (two-link pendulum), red bell cord, sealed and torn envelope with red seal, service doors with windows (A lit, C dark, D lit with the man's shadow, H lit->dim->dark, I dark), benches (D, F), red key thread, G's red cord with travelling knots and floor coil, key glint, floor contact lines",
+  "exposure sheets A-I (plan_A..plan_I) and the DP decoder (viterbi, decode_heads, decode_hands)"
+ ],
+ "absences": [
+  "none for the key or stencils: the render uses U3's forage/key_cut.png (see key_cut_used) and forage/stencil_A.png, stencil_H.png; the test shot's earlier key cut is not used",
+  "no foraged motion reference was used for rotoscoping; all motion is keyed FK"
+ ],
+ "outputs": {
+  "puppets_py": "films/swarm/quatre-vingt-quinze/puppets/puppets.py",
+  "exposure_json": "films/swarm/quatre-vingt-quinze/puppets/exposure.json",
+  "joint_errors_json": "films/swarm/quatre-vingt-quinze/puppets/joint-errors.json",
+  "e_test_mp4": "films/swarm/quatre-vingt-quinze/puppets/E-test.mp4",
+  "editor_media": "films/sources/quatre-vingt-quinze/puppet-cutter-animator/ (layer_<cell>_page.png, drawings/<cell>/<id>.png)",
+  "stills": "films/sources/quatre-vingt-quinze/puppets/ (E-test_fNN.png, model_sheet.png, contact_<cell>.png)"
+ }
+}

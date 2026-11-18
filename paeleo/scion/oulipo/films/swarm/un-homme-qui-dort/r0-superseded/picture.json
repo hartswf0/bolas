@@ -1,0 +1,4122 @@
+{
+ "unit": "U1 picture (FORAGE): camera team, quiet observational cut",
+ "owner": "U1 picture",
+ "base": "plan-r1",
+ "date": "2026-11-15",
+ "read_set": [
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/un-homme-qui-dort/plan.md",
+  "/home/user/bolas/paeleo/scion/oulipo/films/BRIEF-2.md",
+  "/home/user/bolas/paeleo/scion/oulipo/films/kit.py (read only, constants W,H,FPS = 960,540,24)",
+  "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/*.jpg (earlier downloads; 2017714055 and 2017862346 re-downloaded and byte-identical)",
+  "www.loc.gov item JSON (?fo=json) for 16 items",
+  "tile.loc.gov image files"
+ ],
+ "write_set": [
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/un-homme-qui-dort/picture.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/ (raw/, json/)",
+  "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/ (stills_full/, stills_safe/, stair_clip_{full,safe}/, BRANCH_stair_gaze_clip_{full,safe}/, *.mkv, prep_manifest.json)"
+ ],
+ "changed_fields": [
+  "P-* dates: Vachon Radford photos are 1940 Dec. (plan said 1941). Mydans stairwells are 1935 Sept., Resettlement Administration.",
+  "P-STAIR-EMPTY-2 (2017714055) is NOT seen from above: both 2017714055 and 2017714056 look UP the stairwell from below, and are near-identical neighbouring negatives (slight shift). camera_viewpoint for both = from below.",
+  "P-STAIR-MAN 2017811447 is the untitled frame; 2017811448 is the titled one (\"Powder plant employee going upstairs\"). Roles as in plan: 447 profile (main), 448 gaze (branch).",
+  "P-BUNK subject looks toward the lens (eyes open). Viewpoint is outside him (foot of bunk); the gaze is recorded, as with stair-gaze.",
+  "P-ROOM crop keeps one empty bed + part of chair, not two beds.",
+  "P-TEL = Russell Lee 2017735081 (1936, farm home near Dickens, Iowa), not a boardinghouse. Bubley reserve crop also prepared.",
+  "P-WAKE-2 found: 2017811449 (same bunk, same man, through the doorway); alternate 2017811427.",
+  "STAIR cuts are frame-quantised at 24 fps: empty1 frames 0-33, man 34-81 (t=1.4167-3.4167), empty2 82-143. E4 lands at p 13.4167, E6 at p 25.4167 (+0.0167 s vs plan)."
+ ],
+ "rules_followed": "User-Agent oulipo-film-research/1.0; downloads only from www.loc.gov and tile.loc.gov (Commons API attempted, rate-limited); decoded only with PIL (python3 -I) and ffmpeg; no filters, grain, vignette or tint; crops remove film rebate (edge numbers, sprocket notches) only; Lanczos resize; black box at true aspect. Downloads 4.0 MB (<=40 MB). No commit.",
+ "sources": [
+  {
+   "id": "P-BUNK",
+   "loc_id": "2017811426",
+   "title": "W.W. McDaniel, rigger at Hercules powder plant, in his bunkhouse in the rear of Mrs. Pritchard's boardinghouse. Radford, Virginia",
+   "author": "Vachon, John, 1914-1975",
+   "license": "Public domain (US government work, FSA/OWI). LoC rights_advisory: \"No known restrictions.\"",
+   "rights_advisory_verbatim": "No known restrictions. For information, see U.S. Farm Security Administration/Office of War Information Black & White Photographs https://www.loc.gov/rr/print/res/071_fsab.html",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017811426/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/fsa/8c18000/8c18400/8c18436v.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/raw/loc_2017811426.jpg",
+   "sha256": "2bd00ff84e45be9d4d4f056fac7d3cf44f8f9ef61d2440abb723480a7f0d1e6d",
+   "item_json_local": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/json/2017811426.json",
+   "created_published": [
+    "1940 Dec."
+   ],
+   "what_it_shows": "Man in bunk against a wooden headboard, eyes open, looking toward the lens; plank walls, coats on a peg above. Seen from the foot of the bunk.",
+   "verified_date_or_place": "1940 Dec., Radford, Virginia (LoC caption card)",
+   "used_as": "SH1 (p 1.5-6.0) and SH3 (p 8.5-12.0), identical framing",
+   "verified_on": "2026-11-15"
+  },
+  {
+   "id": "P-STAIR-MAN",
+   "loc_id": "2017811447",
+   "title": "[Untitled photo, possibly related to: Powder plant employee going upstairs. Mrs. Pritchard's boardinghouse. Radford, Virginia]",
+   "author": "Vachon, John, 1914-1975",
+   "license": "Public domain (US government work, FSA/OWI). LoC rights_advisory: \"No known restrictions.\"",
+   "rights_advisory_verbatim": "No known restrictions. For information, see U.S. Farm Security Administration/Office of War Information Black & White Photographs https://www.loc.gov/rr/print/res/071_fsab.html",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017811447/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/fsa/8c18000/8c18400/8c18457v.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/raw/loc_2017811447.jpg",
+   "sha256": "31c6f634777c9e6c30cc840f67eb7233897e8fe49ba06a092a94941e2c0d9aae",
+   "item_json_local": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/json/2017811447.json",
+   "created_published": [
+    "1940 Dec."
+   ],
+   "what_it_shows": "Man in cap and light knit pullover climbing a staircase, in profile, carrying coats; patterned wallpaper, white balusters.",
+   "verified_date_or_place": "1940 Dec., Radford, Virginia (title from possibly related negative 2017811448)",
+   "used_as": "STAIR clip segment 1.4-3.4 s (SH4 and SH6)",
+   "verified_on": "2026-11-15"
+  },
+  {
+   "id": "P-STAIR-GAZE",
+   "loc_id": "2017811448",
+   "title": "Powder plant employee going upstairs. Mrs. Pritchard's boardinghouse. Radford, Virginia",
+   "author": "Vachon, John, 1914-1975",
+   "license": "Public domain (US government work, FSA/OWI). LoC rights_advisory: \"No known restrictions.\"",
+   "rights_advisory_verbatim": "No known restrictions. For information, see U.S. Farm Security Administration/Office of War Information Black & White Photographs https://www.loc.gov/rr/print/res/071_fsab.html",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017811448/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/fsa/8c18000/8c18400/8c18458v.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/raw/loc_2017811448.jpg",
+   "sha256": "da68d33b465849e58b0a82f3386db14f3b30ab1639b51cdb273cb07eed9562fe",
+   "item_json_local": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/json/2017811448.json",
+   "created_published": [
+    "1940 Dec."
+   ],
+   "what_it_shows": "Same man on the stair, turned to look into the lens; bare bulb hanging.",
+   "verified_date_or_place": "1940 Dec., Radford, Virginia (LoC caption card)",
+   "used_as": "BRANCH stair-gaze only (not in main cut)",
+   "verified_on": "2026-11-15"
+  },
+  {
+   "id": "P-STAIR-EMPTY-1",
+   "loc_id": "2017714056",
+   "title": "[Untitled photo, possibly related to: Stairway in rooming house, Washington, D.C.]",
+   "author": "Mydans, Carl; United States. Resettlement Administration.",
+   "license": "Public domain (US government work, FSA/OWI). LoC rights_advisory: \"No known restrictions.\"",
+   "rights_advisory_verbatim": "No known restrictions. For information, see U.S. Farm Security Administration/Office of War Information Black & White Photographs https://www.loc.gov/rr/print/res/071_fsab.html",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017714056/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/fsa/8a00000/8a00200/8a00242v.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/raw/loc_2017714056.jpg",
+   "sha256": "584bae29cc7a7669ef35ee3e6a7097bc47b08b15da007503452993feac0a7961",
+   "item_json_local": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/json/2017714056.json",
+   "created_published": [
+    "[1935 Sept.]"
+   ],
+   "what_it_shows": "Empty stairwell, flights and banisters seen from below looking up toward a pale ceiling. No person.",
+   "verified_date_or_place": "[1935 Sept.], Washington, D.C. (title from possibly related negative)",
+   "used_as": "STAIR clip segment 0.0-1.4 s",
+   "verified_on": "2026-11-15"
+  },
+  {
+   "id": "P-STAIR-EMPTY-2",
+   "loc_id": "2017714055",
+   "title": "Stairway in rooming house, Washington, D.C.",
+   "author": "Mydans, Carl; United States. Resettlement Administration.",
+   "license": "Public domain (US government work, FSA/OWI). LoC rights_advisory: \"No known restrictions.\"",
+   "rights_advisory_verbatim": "No known restrictions. For information, see U.S. Farm Security Administration/Office of War Information Black & White Photographs https://www.loc.gov/rr/print/res/071_fsab.html",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017714055/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/fsa/8a00000/8a00200/8a00241v.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/raw/loc_2017714055.jpg",
+   "sha256": "c0b24dcf40e76dd3ec7eb134af88dcc2397b790e17bc5d58c0bd508df653ee7f",
+   "item_json_local": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/json/2017714055.json",
+   "created_published": [
+    "1935 Sept."
+   ],
+   "what_it_shows": "Empty stairwell, near-identical second negative of the same view from below looking up (slightly shifted framing). No person.",
+   "verified_date_or_place": "1935 Sept., Washington, D.C. (LoC caption card)",
+   "used_as": "STAIR clip segment 3.4-6.0 s",
+   "verified_on": "2026-11-15"
+  },
+  {
+   "id": "P-ROOM",
+   "loc_id": "2017811431",
+   "title": "Powder plant's construction worker in his bedroom at Mrs. Pritchard's boardinghouse. Radford, Virginia",
+   "author": "Vachon, John, 1914-1975",
+   "license": "Public domain (US government work, FSA/OWI). LoC rights_advisory: \"No known restrictions.\"",
+   "rights_advisory_verbatim": "No known restrictions. For information, see U.S. Farm Security Administration/Office of War Information Black & White Photographs https://www.loc.gov/rr/print/res/071_fsab.html",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017811431/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/fsa/8c18000/8c18400/8c18441v.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/raw/loc_2017811431.jpg",
+   "sha256": "bec59435740ac151a2dccf3f45cbf2ee3b124ad9cec233bc7b853ccded560799",
+   "item_json_local": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/json/2017811431.json",
+   "created_published": [
+    "1940 Dec."
+   ],
+   "what_it_shows": "Boardinghouse bedroom: two iron beds, chair with clothes and magazine, seated man at left. Crop keeps right bed, part of chair, wallpaper; man excluded.",
+   "verified_date_or_place": "1940 Dec., Radford, Virginia (LoC caption card)",
+   "used_as": "SH5 held room (crop); full frame = BRANCH held-body",
+   "verified_on": "2026-11-15"
+  },
+  {
+   "id": "P-HOUSE",
+   "loc_id": "2017811432",
+   "title": "Crowded boardinghouse with cars parked outside. Radford, Virginia",
+   "author": "Vachon, John, 1914-1975",
+   "license": "Public domain (US government work, FSA/OWI). LoC rights_advisory: \"No known restrictions.\"",
+   "rights_advisory_verbatim": "No known restrictions. For information, see U.S. Farm Security Administration/Office of War Information Black & White Photographs https://www.loc.gov/rr/print/res/071_fsab.html",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017811432/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/fsa/8c18000/8c18400/8c18442v.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/raw/loc_2017811432.jpg",
+   "sha256": "ffff22e900a214fb1392d0d9fbb067e9105386b7876f4c118e545ecddb01e7aa",
+   "item_json_local": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/json/2017811432.json",
+   "created_published": [
+    "1940 Dec."
+   ],
+   "what_it_shows": "Turreted frame boardinghouse at dusk/night with lit windows, bare trees, cars parked in front; seen from across the street. No identifiable P1.",
+   "verified_date_or_place": "1940 Dec., Radford, Virginia (LoC caption card)",
+   "used_as": "SH7 house from the street",
+   "verified_on": "2026-11-15"
+  },
+  {
+   "id": "P-TEL",
+   "loc_id": "2017735081",
+   "title": "Garments hanging near telephone in Rustan brothers' farm near Dickens, Iowa",
+   "author": "Lee, Russell, 1903-1986; United States. Resettlement Administration.",
+   "license": "Public domain (US government work, FSA/OWI). LoC rights_advisory: \"No known restrictions.\"",
+   "rights_advisory_verbatim": "No known restrictions. For information, see U.S. Farm Security Administration/Office of War Information Black & White Photographs https://www.loc.gov/rr/print/res/071_fsab.html",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017735081/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/fsa/8a21000/8a21300/8a21346v.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/raw/loc_2017735081.jpg",
+   "sha256": "0ba62b87c772365de6acd8ad8fdc6a085696bcc2a4658be413e1f04db04a798c",
+   "item_json_local": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/json/2017735081.json",
+   "created_published": [
+    "1936 Dec."
+   ],
+   "what_it_shows": "Magneto wall telephone with twin bells, crank, receiver on hook, directory card above, shelf with paper; coats and caps on a peg rail beside it. No one at it.",
+   "verified_date_or_place": "1936 Dec., Rustan brothers farm near Dickens, Iowa (LoC caption card). Not a boardinghouse: place is montage-constructed.",
+   "used_as": "SH2 telephone insert",
+   "verified_on": "2026-11-15"
+  },
+  {
+   "id": "P-TEL-ALT",
+   "loc_id": "2017735082",
+   "title": "[Untitled photo, possibly related to: Garments hanging near telephone in Rustan brothers' farm near Dickens, Iowa]",
+   "author": "Lee, Russell, 1903-1986; United States. Resettlement Administration.",
+   "license": "Public domain (US government work, FSA/OWI). LoC rights_advisory: \"No known restrictions.\"",
+   "rights_advisory_verbatim": "No known restrictions. For information, see U.S. Farm Security Administration/Office of War Information Black & White Photographs https://www.loc.gov/rr/print/res/071_fsab.html",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017735082/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/fsa/8a21000/8a21300/8a21347v.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/raw/loc_2017735082.jpg",
+   "sha256": "d1d16461526990d9f8cd7c734cf8cd64a48dec0ee6f4cc7699a10e7525e3eed2",
+   "item_json_local": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/json/2017735082.json",
+   "created_published": [
+    "[1936 Dec.]"
+   ],
+   "what_it_shows": "Second negative of the same wall telephone and coats, slightly different framing.",
+   "verified_date_or_place": "[1936 Dec.], near Dickens, Iowa (title from possibly related negative)",
+   "used_as": "not used; alternate for SH2",
+   "verified_on": "2026-11-15"
+  },
+  {
+   "id": "P-TEL-RESERVE",
+   "loc_id": "2017862346",
+   "title": "Washington, D.C. The telephone in a boardinghouse is always busy",
+   "author": "Bubley, Esther",
+   "license": "Public domain (US government work, FSA/OWI). LoC rights_advisory: \"No known restrictions.\"",
+   "rights_advisory_verbatim": "No known restrictions. For information, see U.S. Farm Security Administration/Office of War Information Black & White Photographs https://www.loc.gov/rr/print/res/071_fsab.html",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017862346/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/fsa/8d33000/8d33500/8d33589v.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/raw/loc_2017862346.jpg",
+   "sha256": "9ded0e489bf27b50b4e704f32efe8d884d26f1b8c3826a944242b30618ceb321",
+   "item_json_local": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/json/2017862346.json",
+   "created_published": [
+    "1943 Jan."
+   ],
+   "what_it_shows": "Wooden coin wall telephone box in a boardinghouse, a woman speaking into it at right. Crop keeps only the phone box.",
+   "verified_date_or_place": "1943 Jan., Washington, D.C. (LoC caption card)",
+   "used_as": "reserve for SH2 (crop prepared, woman excluded)",
+   "verified_on": "2026-11-15"
+  },
+  {
+   "id": "P-WAKE-2",
+   "loc_id": "2017811449",
+   "title": "[Untitled photo, possibly related to: W.W. McDaniel, rigger at Hercules powder plant, in his bunkhouse in the rear of Mrs. Pritchard's boardinghouse. Radford, Virginia]",
+   "author": "Vachon, John, 1914-1975",
+   "license": "Public domain (US government work, FSA/OWI). LoC rights_advisory: \"No known restrictions.\"",
+   "rights_advisory_verbatim": "No known restrictions. For information, see U.S. Farm Security Administration/Office of War Information Black & White Photographs https://www.loc.gov/rr/print/res/071_fsab.html",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017811449/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/fsa/8c18000/8c18400/8c18459v.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/raw/loc_2017811449.jpg",
+   "sha256": "9959c1987c0d91527286df61eceff54c39031ed86e62994c9c3b2c311b657159",
+   "item_json_local": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/json/2017811449.json",
+   "created_published": [
+    "1940 Dec."
+   ],
+   "what_it_shows": "Same bunk and same man seen through the open bunkhouse door, reclining, one knee raised, looking toward the lens. LoC note: jacket marked \"Killed.\"",
+   "verified_date_or_place": "1940 Dec., Radford, Virginia (title from related negative 2017811426)",
+   "used_as": "optional second bunk moment (not in plan-r1 shot list)",
+   "verified_on": "2026-11-15"
+  },
+  {
+   "id": "P-WAKE-2-ALT",
+   "loc_id": "2017811427",
+   "title": "[Untitled photo, possibly related to: W.W. McDaniel, rigger at Hercules powder plant, in his bunkhouse in the rear of Mrs. Pritchard's boardinghouse. Radford, Virginia]",
+   "author": "Vachon, John, 1914-1975",
+   "license": "Public domain (US government work, FSA/OWI). LoC rights_advisory: \"No known restrictions.\"",
+   "rights_advisory_verbatim": "No known restrictions. For information, see U.S. Farm Security Administration/Office of War Information Black & White Photographs https://www.loc.gov/rr/print/res/071_fsab.html",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017811427/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/fsa/8c18000/8c18400/8c18437v.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/raw/loc_2017811427.jpg",
+   "sha256": "0904a0fe3b2f1f05b2ca71d85f4b7583ddfde8cb09d2c926ac8c0887c6cf176c",
+   "item_json_local": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/json/2017811427.json",
+   "created_published": [
+    "1940 Dec."
+   ],
+   "what_it_shows": "Same man sitting up on the edge of the bunk among sheets, looking off-camera left; Rinso box on shelf.",
+   "verified_date_or_place": "1940 Dec., Radford, Virginia (title from related negative 2017811426)",
+   "used_as": "not prepared; alternate for P-WAKE-2",
+   "verified_on": "2026-11-15"
+  },
+  {
+   "id": "P-HOUSE-ALT",
+   "loc_id": "2017811433",
+   "title": "[Untitled photo, possibly related to: Crowded boardinghouse with cars parked outside. Radford, Virginia]",
+   "author": "Vachon, John, 1914-1975",
+   "license": "Public domain (US government work, FSA/OWI). LoC rights_advisory: \"No known restrictions.\"",
+   "rights_advisory_verbatim": "No known restrictions. For information, see U.S. Farm Security Administration/Office of War Information Black & White Photographs https://www.loc.gov/rr/print/res/071_fsab.html",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017811433/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/fsa/8c18000/8c18400/8c18443v.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/raw/loc_2017811433.jpg",
+   "sha256": "3e9d0ecbd59e430229f2b2c81d0f4ba3d7a19d7c0307700b2845d1a498272e8c",
+   "item_json_local": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture/json/2017811433.json",
+   "created_published": [
+    "1940 Dec."
+   ],
+   "what_it_shows": "Same street in full night: boardinghouse corner, parked cars, flash-lit.",
+   "verified_date_or_place": "1940 Dec., Radford, Virginia (title from related negative 2017811432)",
+   "used_as": "not used; alternate for SH7",
+   "verified_on": "2026-11-15"
+  }
+ ],
+ "performer": {
+  "subject_id": "P1",
+  "label": "the lodger",
+  "source_ids": [
+   "P-BUNK",
+   "P-STAIR-MAN"
+  ],
+  "same_person_verified": "unknown",
+  "evidence": "LoC links 2017811447<->2017811448 (same stair man, visually same: cap, knit pullover) and 2017811426<->2017811427/2017811449 (same bunk man). No LoC link between the bunk man (W.W. McDaniel) and the stair man (unnamed \"powder plant employee\"). Both wear a similar light knit pullover, but the stair man wears a cap and the faces cannot be matched with confidence. Identity is montage-constructed; the voice never names him."
+ },
+ "shots": [
+  {
+   "shot_id": "SH1a",
+   "source_id": "none",
+   "crop": null,
+   "camera_viewpoint": "n/a (black: declared darkness)",
+   "subject_in_frame": "no",
+   "subject_id": null,
+   "same_person_verified": "n/a",
+   "start": 0.0,
+   "end": 1.5,
+   "media": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stills_full/black.png"
+  },
+  {
+   "shot_id": "SH1",
+   "source_id": "P-BUNK",
+   "crop": [
+    32,
+    32,
+    744,
+    968
+   ],
+   "camera_viewpoint": "across the bunkhouse from the foot of the bunk, about chest height (subject looks toward the lens: an outside camera he regards, not his eyes)",
+   "subject_in_frame": "yes",
+   "subject_id": "P1",
+   "same_person_verified": "unknown (vs P-STAIR-MAN)",
+   "start": 1.5,
+   "end": 6.0,
+   "media": {
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stills_full/sh1_sh3_bunk.png",
+    "sha256": "587d0a7fbf557d814c68143c4515a267e2dec49d9139b75168eebcb8970ebe68",
+    "crop_box_src_px": [
+     32,
+     32,
+     744,
+     968
+    ],
+    "placed_at": [
+     274,
+     0,
+     685,
+     540
+    ],
+    "scale": 0.5769
+   },
+   "media_safe": {
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stills_safe/sh1_sh3_bunk.png",
+    "sha256": "35e4a857c66448254bc99bc3b2d7b773b210a482ec9500795079f798d9c6520c",
+    "crop_box_src_px": [
+     32,
+     32,
+     744,
+     968
+    ],
+    "placed_at": [
+     303,
+     14,
+     657,
+     480
+    ],
+    "scale": 0.4979
+   },
+   "optional_reframe_end_1_04": {
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stills_full/sh1_end_reframe104.png",
+    "sha256": "2fd1b011758b01ddd9c2aaa4f5d8341d2e07832340aeb685d9473c2946358868",
+    "crop_box_src_px": [
+     46,
+     50,
+     730,
+     950
+    ],
+    "placed_at": [
+     275,
+     0,
+     685,
+     540
+    ],
+    "scale": 0.6
+   },
+   "note": "If the 1.00->1.04 reframe is used, SH3 must use sh1_end_reframe104.png; otherwise SH3 uses sh1_sh3_bunk.png (same file as SH1)."
+  },
+  {
+   "shot_id": "SH2",
+   "source_id": "P-TEL",
+   "crop": [
+    22,
+    23,
+    700,
+    676
+   ],
+   "camera_viewpoint": "facing the wall from across the hall/room, chest height",
+   "subject_in_frame": "no",
+   "subject_id": null,
+   "same_person_verified": "n/a",
+   "start": 6.0,
+   "end": 8.5,
+   "media": {
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stills_full/sh2_tel.png",
+    "sha256": "0771fb3a05205005a1cc80ef8c5d918c970199b3e8cf713883e479caed17230b",
+    "crop_box_src_px": [
+     22,
+     23,
+     700,
+     676
+    ],
+    "placed_at": [
+     199,
+     0,
+     760,
+     540
+    ],
+    "scale": 0.827
+   },
+   "media_safe": {
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stills_safe/sh2_tel.png",
+    "sha256": "9e0dead9711d38a514c7b007041a28f8c7c5aa69ffd0a0e348b7970a8d3da438",
+    "crop_box_src_px": [
+     22,
+     23,
+     700,
+     676
+    ],
+    "placed_at": [
+     238,
+     14,
+     722,
+     480
+    ],
+    "scale": 0.7136
+   },
+   "reserve": {
+    "source_id": "P-TEL-RESERVE",
+    "media": {
+     "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stills_full/sh2_tel_reserve_bubley.png",
+     "sha256": "024725ba91cf022ccab0fe8566b9631512bf62d09ffe2b40041417338d648cbd",
+     "crop_box_src_px": [
+      102,
+      85,
+      440,
+      880
+     ],
+     "placed_at": [
+      365,
+      0,
+      595,
+      540
+     ],
+     "scale": 0.6792
+    },
+    "media_safe": {
+     "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stills_safe/sh2_tel_reserve_bubley.png",
+     "sha256": "e19899a149d8d6cb64159a0b78c098e756355ed370a576225a7f80f7fa5b3ad4",
+     "crop_box_src_px": [
+      102,
+      85,
+      440,
+      880
+     ],
+     "placed_at": [
+      381,
+      14,
+      579,
+      480
+     ],
+     "scale": 0.5862
+    },
+    "note": "woman cropped out; only the wooden phone box and part of the mouthpiece remain"
+   }
+  },
+  {
+   "shot_id": "SH3",
+   "source_id": "P-BUNK",
+   "crop": [
+    32,
+    32,
+    744,
+    968
+   ],
+   "camera_viewpoint": "across the bunkhouse from the foot of the bunk, about chest height (subject looks toward the lens: an outside camera he regards, not his eyes)",
+   "subject_in_frame": "yes",
+   "subject_id": "P1",
+   "same_person_verified": "unknown (vs P-STAIR-MAN)",
+   "start": 8.5,
+   "end": 12.0,
+   "media": {
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stills_full/sh1_sh3_bunk.png",
+    "sha256": "587d0a7fbf557d814c68143c4515a267e2dec49d9139b75168eebcb8970ebe68",
+    "crop_box_src_px": [
+     32,
+     32,
+     744,
+     968
+    ],
+    "placed_at": [
+     274,
+     0,
+     685,
+     540
+    ],
+    "scale": 0.5769
+   },
+   "media_safe": {
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stills_safe/sh1_sh3_bunk.png",
+    "sha256": "35e4a857c66448254bc99bc3b2d7b773b210a482ec9500795079f798d9c6520c",
+    "crop_box_src_px": [
+     32,
+     32,
+     744,
+     968
+    ],
+    "placed_at": [
+     303,
+     14,
+     657,
+     480
+    ],
+    "scale": 0.4979
+   },
+   "identical_to": "SH1 (same PNG file, same sha256)"
+  },
+  {
+   "shot_id": "SH4",
+   "source_id": "P-STAIR-EMPTY-1 | P-STAIR-MAN | P-STAIR-EMPTY-2",
+   "crop": {
+    "P-STAIR-EMPTY-1": [
+     30,
+     60,
+     985,
+     712
+    ],
+    "P-STAIR-MAN": [
+     44,
+     32,
+     746,
+     972
+    ],
+    "P-STAIR-EMPTY-2": [
+     42,
+     62,
+     948,
+     712
+    ]
+   },
+   "camera_viewpoint": "stairwell from below looking up (empty segments); beside and slightly below the flight, profile (man segment)",
+   "subject_in_frame": "no / yes (clip 1.4167-3.4167 s) / no",
+   "subject_id": "P1 in man segment only",
+   "same_person_verified": "unknown (vs P-BUNK)",
+   "place_id": "PL-STAIR, continuity constructed (Washington 1935 stairwell + Radford 1940 stair)",
+   "start": 12.0,
+   "end": 18.0,
+   "media": {
+    "frames_dir": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full",
+    "mkv": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full.mkv",
+    "mkv_sha256": "f0ba6829bc33d1eb5c7bcb093cfc1c1910ff51f1152ae8a6fc18b9d6de956566",
+    "frames_dir_safe": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe",
+    "mkv_safe": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe.mkv",
+    "mkv_safe_sha256": "6a6b0c16a944a81b36713b0fbb15f5ce0ece784f18b9e71eccf6cdb4c63bea5e"
+   }
+  },
+  {
+   "shot_id": "SH5",
+   "source_id": "P-ROOM",
+   "crop": [
+    486,
+    28,
+    978,
+    745
+   ],
+   "camera_viewpoint": "from the doorway side across the bedroom, standing height",
+   "subject_in_frame": "no",
+   "subject_id": null,
+   "same_person_verified": "n/a",
+   "start": 18.0,
+   "end": 24.0,
+   "media": {
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stills_full/sh5_room_empty.png",
+    "sha256": "c0b1998f302405ae8cab6bd3b79ccd8cf6794c0452ebb0d68a5225dabd4c0aa8",
+    "crop_box_src_px": [
+     486,
+     28,
+     978,
+     745
+    ],
+    "placed_at": [
+     294,
+     0,
+     665,
+     540
+    ],
+    "scale": 0.7531
+   },
+   "media_safe": {
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stills_safe/sh5_room_empty.png",
+    "sha256": "a6c299198deb8ddf2612b1feaff3d41669e9c6e690e778ade77f944a36c104c1",
+    "crop_box_src_px": [
+     486,
+     28,
+     978,
+     745
+    ],
+    "placed_at": [
+     320,
+     14,
+     640,
+     480
+    ],
+    "scale": 0.6499
+   },
+   "note": "Only ONE empty iron bed + part of the chair (seat, legs, magazine) can be kept: the second bed lies in front of the seated man and cannot be cropped free of him.",
+   "branch_held_body": {
+    "source_id": "P-ROOM full frame",
+    "media": {
+     "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stills_full/sh5_branch_held_body.png",
+     "sha256": "4b9a368125492f6a8aa47af2227f625870bc65d0c950a7b915d2f1d6dca8516c",
+     "crop_box_src_px": [
+      12,
+      28,
+      978,
+      745
+     ],
+     "placed_at": [
+      116,
+      0,
+      844,
+      540
+     ],
+     "scale": 0.7531
+    },
+    "media_safe": {
+     "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stills_safe/sh5_branch_held_body.png",
+     "sha256": "ad4da2f0b1aa2d51b348d29c2390f3566e209867b53d34123c3ce3fcc614e031",
+     "crop_box_src_px": [
+      12,
+      28,
+      978,
+      745
+     ],
+     "placed_at": [
+      166,
+      14,
+      794,
+      480
+     ],
+     "scale": 0.6499
+    },
+    "subject_in_frame": "yes (a different, unidentified lodger; P1-equivalent only by montage)"
+   }
+  },
+  {
+   "shot_id": "SH6",
+   "source_id": "same as SH4",
+   "crop": "same as SH4",
+   "camera_viewpoint": "stairwell from below looking up (empty segments); beside and slightly below the flight, profile (man segment)",
+   "subject_in_frame": "no / yes (clip 1.4167-3.4167 s) / no",
+   "subject_id": "P1 in man segment only",
+   "same_person_verified": "unknown (vs P-BUNK)",
+   "start": 24.0,
+   "end": 30.0,
+   "media": "identical to SH4: same frames_dir, same mkv, same sha256 list (stair_clip_frames)",
+   "identical_to": "SH4"
+  },
+  {
+   "shot_id": "SH7",
+   "source_id": "P-HOUSE",
+   "crop": [
+    40,
+    45,
+    955,
+    742
+   ],
+   "camera_viewpoint": "across the street, ground level",
+   "subject_in_frame": "no",
+   "subject_id": null,
+   "same_person_verified": "n/a",
+   "start": 30.0,
+   "end": 35.0,
+   "media": {
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stills_full/sh7_house.png",
+    "sha256": "d0a648864ab79a7b0d76a5d02609f706b4b6f6509f448d537293cdda52c12b86",
+    "crop_box_src_px": [
+     40,
+     45,
+     955,
+     742
+    ],
+    "placed_at": [
+     125,
+     0,
+     834,
+     540
+    ],
+    "scale": 0.7747
+   },
+   "media_safe": {
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stills_safe/sh7_house.png",
+    "sha256": "8fb03e46754e8fa39be8844d3e757116ac6e1b5fbd797f49cd5f161b14924cbe",
+    "crop_box_src_px": [
+     40,
+     45,
+     955,
+     742
+    ],
+    "placed_at": [
+     174,
+     14,
+     786,
+     480
+    ],
+    "scale": 0.6686
+   }
+  }
+ ],
+ "framing": {
+  "full": "crop fitted to 960x540, centred, black boxes",
+  "safe": "crop fitted to the box x0-960, y14-480 (below a 14-px score strip, above a 60-px caption band), black elsewhere",
+  "note": "editor picks one variant for all shots; both use identical crops"
+ },
+ "stair_clip": {
+  "fps": 24,
+  "frames": 144,
+  "duration": 6.0,
+  "segments": {
+   "P-STAIR-EMPTY-1": [
+    0,
+    33
+   ],
+   "P-STAIR-MAN": [
+    34,
+    81
+   ],
+   "P-STAIR-EMPTY-2": [
+    82,
+    143
+   ]
+  },
+  "used_by": [
+   "SH4 p12.0-18.0",
+   "SH6 p24.0-30.0"
+  ],
+  "same_file_proof": "SH4 and SH6 both reference the same frames_dir/mkv; frames are hard links to three stills; lossless mkv (libx264rgb qp0) decodes to pixel sha256 equal to every listed frame (verified 144/144 for full and safe).",
+  "frames_full": [
+   {
+    "k": 0,
+    "t": 0.0,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/000.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 1,
+    "t": 0.0417,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/001.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 2,
+    "t": 0.0833,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/002.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 3,
+    "t": 0.125,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/003.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 4,
+    "t": 0.1667,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/004.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 5,
+    "t": 0.2083,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/005.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 6,
+    "t": 0.25,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/006.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 7,
+    "t": 0.2917,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/007.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 8,
+    "t": 0.3333,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/008.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 9,
+    "t": 0.375,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/009.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 10,
+    "t": 0.4167,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/010.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 11,
+    "t": 0.4583,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/011.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 12,
+    "t": 0.5,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/012.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 13,
+    "t": 0.5417,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/013.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 14,
+    "t": 0.5833,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/014.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 15,
+    "t": 0.625,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/015.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 16,
+    "t": 0.6667,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/016.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 17,
+    "t": 0.7083,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/017.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 18,
+    "t": 0.75,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/018.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 19,
+    "t": 0.7917,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/019.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 20,
+    "t": 0.8333,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/020.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 21,
+    "t": 0.875,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/021.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 22,
+    "t": 0.9167,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/022.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 23,
+    "t": 0.9583,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/023.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 24,
+    "t": 1.0,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/024.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 25,
+    "t": 1.0417,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/025.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 26,
+    "t": 1.0833,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/026.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 27,
+    "t": 1.125,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/027.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 28,
+    "t": 1.1667,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/028.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 29,
+    "t": 1.2083,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/029.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 30,
+    "t": 1.25,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/030.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 31,
+    "t": 1.2917,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/031.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 32,
+    "t": 1.3333,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/032.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 33,
+    "t": 1.375,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/033.png",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b",
+    "pixel_sha256": "989f3aab7d2bc96c7bb595d5606ce10b4b4151bb12eaab51836cef98cee1787a"
+   },
+   {
+    "k": 34,
+    "t": 1.4167,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/034.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 35,
+    "t": 1.4583,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/035.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 36,
+    "t": 1.5,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/036.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 37,
+    "t": 1.5417,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/037.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 38,
+    "t": 1.5833,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/038.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 39,
+    "t": 1.625,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/039.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 40,
+    "t": 1.6667,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/040.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 41,
+    "t": 1.7083,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/041.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 42,
+    "t": 1.75,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/042.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 43,
+    "t": 1.7917,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/043.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 44,
+    "t": 1.8333,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/044.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 45,
+    "t": 1.875,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/045.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 46,
+    "t": 1.9167,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/046.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 47,
+    "t": 1.9583,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/047.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 48,
+    "t": 2.0,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/048.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 49,
+    "t": 2.0417,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/049.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 50,
+    "t": 2.0833,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/050.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 51,
+    "t": 2.125,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/051.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 52,
+    "t": 2.1667,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/052.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 53,
+    "t": 2.2083,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/053.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 54,
+    "t": 2.25,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/054.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 55,
+    "t": 2.2917,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/055.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 56,
+    "t": 2.3333,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/056.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 57,
+    "t": 2.375,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/057.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 58,
+    "t": 2.4167,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/058.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 59,
+    "t": 2.4583,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/059.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 60,
+    "t": 2.5,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/060.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 61,
+    "t": 2.5417,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/061.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 62,
+    "t": 2.5833,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/062.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 63,
+    "t": 2.625,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/063.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 64,
+    "t": 2.6667,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/064.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 65,
+    "t": 2.7083,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/065.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 66,
+    "t": 2.75,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/066.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 67,
+    "t": 2.7917,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/067.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 68,
+    "t": 2.8333,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/068.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 69,
+    "t": 2.875,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/069.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 70,
+    "t": 2.9167,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/070.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 71,
+    "t": 2.9583,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/071.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 72,
+    "t": 3.0,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/072.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 73,
+    "t": 3.0417,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/073.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 74,
+    "t": 3.0833,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/074.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 75,
+    "t": 3.125,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/075.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 76,
+    "t": 3.1667,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/076.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 77,
+    "t": 3.2083,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/077.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 78,
+    "t": 3.25,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/078.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 79,
+    "t": 3.2917,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/079.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 80,
+    "t": 3.3333,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/080.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 81,
+    "t": 3.375,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/081.png",
+    "sha256": "6487940ad10bdce95327bc56544bf23c1813919f3014e10f1e9fac02f9d4d6f9",
+    "pixel_sha256": "c8cdadeeca94eb34a10985d931c1a3001e1c49e0f22bac84771bff59c3f8b6f0"
+   },
+   {
+    "k": 82,
+    "t": 3.4167,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/082.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 83,
+    "t": 3.4583,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/083.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 84,
+    "t": 3.5,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/084.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 85,
+    "t": 3.5417,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/085.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 86,
+    "t": 3.5833,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/086.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 87,
+    "t": 3.625,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/087.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 88,
+    "t": 3.6667,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/088.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 89,
+    "t": 3.7083,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/089.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 90,
+    "t": 3.75,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/090.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 91,
+    "t": 3.7917,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/091.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 92,
+    "t": 3.8333,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/092.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 93,
+    "t": 3.875,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/093.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 94,
+    "t": 3.9167,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/094.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 95,
+    "t": 3.9583,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/095.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 96,
+    "t": 4.0,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/096.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 97,
+    "t": 4.0417,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/097.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 98,
+    "t": 4.0833,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/098.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 99,
+    "t": 4.125,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/099.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 100,
+    "t": 4.1667,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/100.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 101,
+    "t": 4.2083,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/101.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 102,
+    "t": 4.25,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/102.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 103,
+    "t": 4.2917,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/103.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 104,
+    "t": 4.3333,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/104.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 105,
+    "t": 4.375,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/105.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 106,
+    "t": 4.4167,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/106.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 107,
+    "t": 4.4583,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/107.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 108,
+    "t": 4.5,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/108.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 109,
+    "t": 4.5417,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/109.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 110,
+    "t": 4.5833,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/110.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 111,
+    "t": 4.625,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/111.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 112,
+    "t": 4.6667,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/112.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 113,
+    "t": 4.7083,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/113.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 114,
+    "t": 4.75,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/114.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 115,
+    "t": 4.7917,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/115.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 116,
+    "t": 4.8333,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/116.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 117,
+    "t": 4.875,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/117.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 118,
+    "t": 4.9167,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/118.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 119,
+    "t": 4.9583,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/119.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 120,
+    "t": 5.0,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/120.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 121,
+    "t": 5.0417,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/121.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 122,
+    "t": 5.0833,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/122.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 123,
+    "t": 5.125,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/123.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 124,
+    "t": 5.1667,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/124.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 125,
+    "t": 5.2083,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/125.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 126,
+    "t": 5.25,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/126.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 127,
+    "t": 5.2917,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/127.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 128,
+    "t": 5.3333,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/128.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 129,
+    "t": 5.375,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/129.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 130,
+    "t": 5.4167,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/130.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 131,
+    "t": 5.4583,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/131.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 132,
+    "t": 5.5,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/132.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 133,
+    "t": 5.5417,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/133.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 134,
+    "t": 5.5833,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/134.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 135,
+    "t": 5.625,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/135.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 136,
+    "t": 5.6667,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/136.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 137,
+    "t": 5.7083,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/137.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 138,
+    "t": 5.75,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/138.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 139,
+    "t": 5.7917,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/139.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 140,
+    "t": 5.8333,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/140.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 141,
+    "t": 5.875,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/141.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 142,
+    "t": 5.9167,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/142.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   },
+   {
+    "k": 143,
+    "t": 5.9583,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_full/143.png",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69",
+    "pixel_sha256": "3e11a397a5f258fe08fed406653f0edee3aff714dc74a829969ddd9364d9b12e"
+   }
+  ],
+  "frames_safe": [
+   {
+    "k": 0,
+    "t": 0.0,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/000.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 1,
+    "t": 0.0417,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/001.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 2,
+    "t": 0.0833,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/002.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 3,
+    "t": 0.125,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/003.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 4,
+    "t": 0.1667,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/004.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 5,
+    "t": 0.2083,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/005.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 6,
+    "t": 0.25,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/006.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 7,
+    "t": 0.2917,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/007.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 8,
+    "t": 0.3333,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/008.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 9,
+    "t": 0.375,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/009.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 10,
+    "t": 0.4167,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/010.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 11,
+    "t": 0.4583,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/011.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 12,
+    "t": 0.5,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/012.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 13,
+    "t": 0.5417,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/013.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 14,
+    "t": 0.5833,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/014.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 15,
+    "t": 0.625,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/015.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 16,
+    "t": 0.6667,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/016.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 17,
+    "t": 0.7083,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/017.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 18,
+    "t": 0.75,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/018.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 19,
+    "t": 0.7917,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/019.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 20,
+    "t": 0.8333,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/020.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 21,
+    "t": 0.875,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/021.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 22,
+    "t": 0.9167,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/022.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 23,
+    "t": 0.9583,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/023.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 24,
+    "t": 1.0,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/024.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 25,
+    "t": 1.0417,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/025.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 26,
+    "t": 1.0833,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/026.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 27,
+    "t": 1.125,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/027.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 28,
+    "t": 1.1667,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/028.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 29,
+    "t": 1.2083,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/029.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 30,
+    "t": 1.25,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/030.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 31,
+    "t": 1.2917,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/031.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 32,
+    "t": 1.3333,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/032.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 33,
+    "t": 1.375,
+    "segment": "stair_empty1",
+    "source_id": "P-STAIR-EMPTY-1",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/033.png",
+    "sha256": "d0b7bf5a8373f4a9dba1d02c17b40048b4585b08ad901386ac448f33d94ab2f2",
+    "pixel_sha256": "a3453dd89125bf0acd7841c41703d717d201715607d52e4589347351c36b86f1"
+   },
+   {
+    "k": 34,
+    "t": 1.4167,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/034.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 35,
+    "t": 1.4583,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/035.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 36,
+    "t": 1.5,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/036.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 37,
+    "t": 1.5417,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/037.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 38,
+    "t": 1.5833,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/038.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 39,
+    "t": 1.625,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/039.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 40,
+    "t": 1.6667,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/040.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 41,
+    "t": 1.7083,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/041.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 42,
+    "t": 1.75,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/042.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 43,
+    "t": 1.7917,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/043.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 44,
+    "t": 1.8333,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/044.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 45,
+    "t": 1.875,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/045.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 46,
+    "t": 1.9167,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/046.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 47,
+    "t": 1.9583,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/047.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 48,
+    "t": 2.0,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/048.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 49,
+    "t": 2.0417,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/049.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 50,
+    "t": 2.0833,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/050.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 51,
+    "t": 2.125,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/051.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 52,
+    "t": 2.1667,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/052.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 53,
+    "t": 2.2083,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/053.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 54,
+    "t": 2.25,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/054.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 55,
+    "t": 2.2917,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/055.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 56,
+    "t": 2.3333,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/056.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 57,
+    "t": 2.375,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/057.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 58,
+    "t": 2.4167,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/058.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 59,
+    "t": 2.4583,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/059.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 60,
+    "t": 2.5,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/060.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 61,
+    "t": 2.5417,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/061.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 62,
+    "t": 2.5833,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/062.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 63,
+    "t": 2.625,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/063.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 64,
+    "t": 2.6667,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/064.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 65,
+    "t": 2.7083,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/065.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 66,
+    "t": 2.75,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/066.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 67,
+    "t": 2.7917,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/067.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 68,
+    "t": 2.8333,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/068.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 69,
+    "t": 2.875,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/069.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 70,
+    "t": 2.9167,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/070.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 71,
+    "t": 2.9583,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/071.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 72,
+    "t": 3.0,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/072.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 73,
+    "t": 3.0417,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/073.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 74,
+    "t": 3.0833,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/074.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 75,
+    "t": 3.125,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/075.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 76,
+    "t": 3.1667,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/076.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 77,
+    "t": 3.2083,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/077.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 78,
+    "t": 3.25,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/078.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 79,
+    "t": 3.2917,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/079.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 80,
+    "t": 3.3333,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/080.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 81,
+    "t": 3.375,
+    "segment": "stair_man",
+    "source_id": "P-STAIR-MAN",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/081.png",
+    "sha256": "fb37b1d013cf08595ca5e93b7f9e45a59e2075f9b6db34a8f8656ed535ca4aec",
+    "pixel_sha256": "adfdfc965768925a551fd0d5d0ab1caf62208ace1c13ced4f5bee93d84ba86b0"
+   },
+   {
+    "k": 82,
+    "t": 3.4167,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/082.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 83,
+    "t": 3.4583,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/083.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 84,
+    "t": 3.5,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/084.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 85,
+    "t": 3.5417,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/085.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 86,
+    "t": 3.5833,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/086.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 87,
+    "t": 3.625,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/087.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 88,
+    "t": 3.6667,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/088.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 89,
+    "t": 3.7083,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/089.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 90,
+    "t": 3.75,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/090.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 91,
+    "t": 3.7917,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/091.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 92,
+    "t": 3.8333,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/092.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 93,
+    "t": 3.875,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/093.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 94,
+    "t": 3.9167,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/094.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 95,
+    "t": 3.9583,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/095.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 96,
+    "t": 4.0,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/096.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 97,
+    "t": 4.0417,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/097.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 98,
+    "t": 4.0833,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/098.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 99,
+    "t": 4.125,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/099.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 100,
+    "t": 4.1667,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/100.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 101,
+    "t": 4.2083,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/101.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 102,
+    "t": 4.25,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/102.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 103,
+    "t": 4.2917,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/103.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 104,
+    "t": 4.3333,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/104.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 105,
+    "t": 4.375,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/105.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 106,
+    "t": 4.4167,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/106.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 107,
+    "t": 4.4583,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/107.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 108,
+    "t": 4.5,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/108.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 109,
+    "t": 4.5417,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/109.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 110,
+    "t": 4.5833,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/110.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 111,
+    "t": 4.625,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/111.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 112,
+    "t": 4.6667,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/112.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 113,
+    "t": 4.7083,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/113.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 114,
+    "t": 4.75,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/114.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 115,
+    "t": 4.7917,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/115.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 116,
+    "t": 4.8333,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/116.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 117,
+    "t": 4.875,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/117.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 118,
+    "t": 4.9167,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/118.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 119,
+    "t": 4.9583,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/119.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 120,
+    "t": 5.0,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/120.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 121,
+    "t": 5.0417,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/121.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 122,
+    "t": 5.0833,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/122.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 123,
+    "t": 5.125,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/123.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 124,
+    "t": 5.1667,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/124.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 125,
+    "t": 5.2083,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/125.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 126,
+    "t": 5.25,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/126.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 127,
+    "t": 5.2917,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/127.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 128,
+    "t": 5.3333,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/128.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 129,
+    "t": 5.375,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/129.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 130,
+    "t": 5.4167,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/130.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 131,
+    "t": 5.4583,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/131.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 132,
+    "t": 5.5,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/132.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 133,
+    "t": 5.5417,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/133.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 134,
+    "t": 5.5833,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/134.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 135,
+    "t": 5.625,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/135.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 136,
+    "t": 5.6667,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/136.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 137,
+    "t": 5.7083,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/137.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 138,
+    "t": 5.75,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/138.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 139,
+    "t": 5.7917,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/139.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 140,
+    "t": 5.8333,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/140.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 141,
+    "t": 5.875,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/141.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 142,
+    "t": 5.9167,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/142.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   },
+   {
+    "k": 143,
+    "t": 5.9583,
+    "segment": "stair_empty2",
+    "source_id": "P-STAIR-EMPTY-2",
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/stair_clip_safe/143.png",
+    "sha256": "03653d51c2084e93e9c51c7cea94a4026171b837290b9dcad24ae81d5e8d0065",
+    "pixel_sha256": "cd39f81a7d39dbb21fd2cca53b032d05d3d613addd8029e9dcd72b7592feb962"
+   }
+  ]
+ },
+ "branch_stair_gaze": {
+  "label": "BRANCH stair-gaze: 2017811448 replaces 2017811447 in the man segment. Not in the main cut.",
+  "frames_dir": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/BRANCH_stair_gaze_clip_full",
+  "mkv": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/BRANCH_stair_gaze_clip_full.mkv",
+  "mkv_sha256": "8ad30dd353ac5303ca37b10444cd7f652fcae3e36b76b329b73ea45cd58fc49d",
+  "mkv_safe": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/BRANCH_stair_gaze_clip_safe.mkv",
+  "mkv_safe_sha256": "115fae2437a204d406d38e9afcba6de1ee25025843ec1649910bfd8f22bf92a0",
+  "camera_viewpoint": "beside the flight; subject turns to look into the lens (may collapse camera into addressee)",
+  "frames_full": [
+   {
+    "k": 0,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 1,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 2,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 3,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 4,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 5,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 6,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 7,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 8,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 9,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 10,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 11,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 12,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 13,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 14,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 15,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 16,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 17,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 18,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 19,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 20,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 21,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 22,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 23,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 24,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 25,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 26,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 27,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 28,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 29,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 30,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 31,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 32,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 33,
+    "segment": "stair_empty1",
+    "sha256": "8af767816aeb3f0694b8966f35ce1a1456badcf806d0e9a842fb10220188ed6b"
+   },
+   {
+    "k": 34,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 35,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 36,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 37,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 38,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 39,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 40,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 41,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 42,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 43,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 44,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 45,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 46,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 47,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 48,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 49,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 50,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 51,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 52,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 53,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 54,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 55,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 56,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 57,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 58,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 59,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 60,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 61,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 62,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 63,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 64,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 65,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 66,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 67,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 68,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 69,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 70,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 71,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 72,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 73,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 74,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 75,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 76,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 77,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 78,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 79,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 80,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 81,
+    "segment": "stair_gaze_BRANCH",
+    "sha256": "1733ff1f26fce723e1a17441633fa691e09f7f9c9c6ae9c12682a85e52ffb292"
+   },
+   {
+    "k": 82,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 83,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 84,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 85,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 86,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 87,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 88,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 89,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 90,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 91,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 92,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 93,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 94,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 95,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 96,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 97,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 98,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 99,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 100,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 101,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 102,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 103,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 104,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 105,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 106,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 107,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 108,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 109,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 110,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 111,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 112,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 113,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 114,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 115,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 116,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 117,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 118,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 119,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 120,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 121,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 122,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 123,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 124,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 125,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 126,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 127,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 128,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 129,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 130,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 131,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 132,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 133,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 134,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 135,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 136,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 137,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 138,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 139,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 140,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 141,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 142,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   },
+   {
+    "k": 143,
+    "segment": "stair_empty2",
+    "sha256": "546767164ad36d60ce58276ca4d92a2327daf145d0bf896593321ec7e33f7c69"
+   }
+  ]
+ },
+ "stills_manifest": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/picture-forage-camera-team-quiet-observational-cut/prep_manifest.json",
+ "searches": [
+  {
+   "where": "loc.gov/photos q=\"telephone boardinghouse\"",
+   "result": "5 hits; only 2017862346 (Bubley, woman at phone)"
+  },
+  {
+   "where": "loc.gov/photos q=\"pay telephone fsa\", \"telephone booth\", \"public telephone\", \"telephone wall\"",
+   "result": "no empty FSA/OWI wall phone; 2017851491 booths occupied"
+  },
+  {
+   "where": "loc.gov FSA/OWI collection q=telephone (206 hits, first 150 read)",
+   "result": "empty phones: 2017735081/082 (Lee, wall phone + coats) CHOSEN; 2017776722 man at phone; 2017784400 wall phone by window (farm, cluttered); 2017809962/964 desk candlestick phones"
+  },
+  {
+   "where": "loc.gov FSA/OWI q=\"telephone hall\", \"telephone hall rooming house\"",
+   "result": "0 / 503 error"
+  },
+  {
+   "where": "loc.gov FSA/OWI q=Pritchard, McDaniel, \"bunkhouse Radford\", \"Radford boardinghouse\"",
+   "result": "P-WAKE-2 found: 2017811449, 2017811427 (same bunk man); house alt 2017811433"
+  },
+  {
+   "where": "Commons API \"wall telephone hallway\", \"wall telephone 1940s black and white\"",
+   "result": "only PDFs/modern CC BY-SA facades; nothing usable"
+  },
+  {
+   "where": "Commons API intitle:\"wall telephone\" filetype:bitmap; \"waking up\" filetype:video",
+   "result": "HTTP rate-limited (\"too many requests\") on two attempts; not searched"
+  }
+ ],
+ "absences": [
+  "No empty wall telephone in a BOARDINGHOUSE hall found under an allowed licence; the chosen phone is a farm-home wall phone (Iowa 1936).",
+  "No PD/CC film of a man waking was checked: Commons search was rate-limited. A still second bunk moment (2017811449) exists instead.",
+  "No photograph shows two empty beds and the chair without the seated man (2017811431).",
+  "No stairwell from above: the two Mydans stairwell frames both look up.",
+  "No verified identity link between the bunk man and the stair man."
+ ],
+ "handmade": []
+}

@@ -1,0 +1,118 @@
+{
+ "n": 7,
+ "id": "two-panels",
+ "title": "Two panels",
+ "family": "reduction and expansion",
+ "medium": "brush-plate",
+ "canon_revision": "c1",
+ "rule": "The incident in two panels only: before the question, and at the cupboard.",
+ "declares": "E1-E3 and E4 compressed into two panels",
+ "declared_compression": "P1 holds E0 and E1 (the memo on the desk, the agent set off for the cupboard, the stranger at the window putting her question). P2 holds E4-E5 and carries E2-E3 as balloons in reading order: the answer (tail to the agent, clock at 4:10 on the wall), the thanks from the emptied window, then the forgetting line.",
+ "file": "assets/pages/99-ways/07-two-panels.jpg",
+ "master": "films/sources/99-ways/masters/07-two-panels.png",
+ "beats_dir": "films/sources/99-ways/beats/07",
+ "build": "films/swarm/99-ways/build/p07_two_panels.py (brush: build/brushkit.py; figures: build/b1m2.py)",
+ "sources": [
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "ONE HANDMADE brush plate of the office (window with TICKET OFFICE, clock at 4:10, desk and lamp, closed cupboard, SERVICE door with its card, black wainscot and floor), drawn once with the dab-chain brush method of moins-dun-quart-de-seconde-pour-vivre (copied into build/brushkit.py), re-inked with a strong pressure swing (dab width 0.5x-1.5x along each contour, tapered lifts) so every contour swells and thins like a loaded brush, and printed identically in both panels; plate ink sha256 a2b261037f7e77a12e22de2421bc85ab942cbdbf5f8272d1c58db6a6308024e4",
+  "figures: the b1m2 cut-paper figure model redrawn with the brush (white shirt and face, black waistcoat, trousers and hair, spectacles, pencil); the stranger with her cloche hat behind the window in P1 only",
+  "P2 overlay pasted over the plate: the cupboard opened (lit inside, shelves, leaf swung on the left jamb) and the ANRC 1922 key printed in ink on its hook with a paper SERVICE tag, in the right half of the open cupboard at his eye line",
+  "P2 agent re-posed (b1m2 FK: sh 5, el 140, wr 40, pencil 175 deg, head tilt 6): standing in the open doorway between the swung leaf and the cupboard interior, clear of the leaf, facing right at the key, pencil up to his chin",
+  "P2 balloon tails routed by explicit curves: the answer tail arcs over the thanks balloon and comes down in front of his face to his mouth; the thanks tail runs into the emptied window; the forgetting tail comes from the balloon above-right, over the key, to his mouth",
+  "the memo slip on the desk and the balloons: brushed contours, the four canon lines in the shared pen hand; folio by pen99.folio"
+ ],
+ "events": {
+  "E0": "P1: memo slip on the desk ('4:15 - open SERVICE door. Key in cupboard.'), the agent walking toward the cupboard",
+  "E1": "P1: the stranger at the ticket window, question balloon tailed to her",
+  "E2": "P2: answer balloon (first, top left) tailed to the agent's mouth; the clock reads 4:10",
+  "E3": "P2: thanks balloon (second, top centre) tailed into the emptied window",
+  "E4": "P2: cupboard open, key on its hook with its SERVICE tag",
+  "E5": "P2: facing the key, pencil to his chin, forgetting balloon (third, above right) tailed to his mouth; the key stays, the SERVICE door is closed"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "beat": "on the unchanged plate of panel 2 the cupboard overlay is laid open, then the three balloons are laid in reading order: answer, thanks, forgetting",
+ "beat_frames": [
+  "b01: P2 plate with the agent, cupboard closed, no balloons",
+  "b02: cupboard opened (overlay), key on its hook",
+  "b03: + answer balloon",
+  "b04: + thanks balloon",
+  "b05: + forgetting balloon (the finished page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 894488,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "panels": 2,
+  "plate_identical_in_both_panels": true,
+  "plate_sha256_as_laid_P1_P2": [
+   "a2b261037f7e77a12e22de2421bc85ab942cbdbf5f8272d1c58db6a6308024e4",
+   "a2b261037f7e77a12e22de2421bc85ab942cbdbf5f8272d1c58db6a6308024e4"
+  ],
+  "balloon_cap_px": 52,
+  "brush_thick_thin": {
+   "cupboard upper panel, left": {
+    "thin_px": 3.0,
+    "thick_px": 7.0,
+    "ratio": 2.33
+   },
+   "cupboard upper panel, right": {
+    "thin_px": 3.0,
+    "thick_px": 8.0,
+    "ratio": 2.67
+   },
+   "cupboard lower panel, left": {
+    "thin_px": 2.0,
+    "thick_px": 8.0,
+    "ratio": 4.0
+   },
+   "SERVICE door lower panel, left": {
+    "thin_px": 2.0,
+    "thick_px": 8.0,
+    "ratio": 4.0
+   },
+   "SERVICE door lower panel, right": {
+    "thin_px": 3.0,
+    "thick_px": 8.0,
+    "ratio": 2.67
+   }
+  },
+  "brush_min_ratio": 2.33,
+  "p2_geometry": {
+   "key_box": [
+    1388,
+    490,
+    1448,
+    710
+   ],
+   "forgetting_tail_px_on_arm": 0,
+   "forgetting_tail_px_on_pencil": 0,
+   "forgetting_tail_px_on_leaf": 0,
+   "answer_tail_px_on_forgetting_tail": 0,
+   "answer_tail_px_on_key": 0,
+   "answer_tip_to_mouth_px": 29.5,
+   "forgetting_tip_to_mouth_px": 35.9,
+   "agent_back_minus_leaf_edge_px": 16,
+   "eye_to_key": "eye at (1303,442), key ring at (1418,540): he faces right, head tilted 6 deg down, toward the key"
+  },
+  "check": "A reader counts two panels and still retells E0-E5 (maker's judgement from the full-size page; the reading order of the three P2 balloons is the riskiest point; blind reading pending)",
+  "evidence": "measured (panel count, plate hash) and perceptually judged (from frames) by the maker"
+ },
+ "weaknesses": [
+  "P2's answer balloon is spoken at the window in the story but tailed to the agent standing at the cupboard: a deliberate compression that a reader may find odd",
+  "two tails (answer from above, forgetting from the right) converge on his mouth; they never touch, but the answer tail is long",
+  "the stranger's face is a plain white mass under a black hat"
+ ]
+}

@@ -1,0 +1,866 @@
+{
+ "revision": "b1",
+ "unit": "cutout-surgeon",
+ "coords": "pivots are piece-local pixels (x right, y down) of the piece PNG; bbox_src is [x0,y0,x1,y1] in the named source raster; source raster -> original master given per source",
+ "sources": {
+  "rothstein": {
+   "loc": "2017776093",
+   "file": "films/sources/99-ways-template/test-shot/rothstein_master_s3.png",
+   "raster": "master 8b16710u.tif (13818x10504, 8-bit grey) rows 300..9600 and cols 480..13560, every 3rd row and column (fetched by HTTP multi-range in the test shot; parsed as data). raster(x,y) -> master(480+3x, 300+3y)",
+   "orientation_check": {
+    "pearson_vs_8b16710v": {
+     "as_is": 0.9907,
+     "flip_lr": -0.0265,
+     "flip_ud": 0.1319,
+     "rot180": -0.0633
+    },
+    "pass": true
+   },
+   "levels": {
+    "lo_hi_gamma": [
+     38.0,
+     205.0,
+     0.85
+    ],
+    "how": "lo = median of the dark beadboard (-> black), hi = 60th pct of the shirt front (-> paper white), gamma 0.85 lifts the mids toward high-key"
+   }
+  },
+  "clock": {
+   "loc": "2017776111",
+   "file": "films/sources/99-ways-template/cutout-surgeon/raw/clock_master_s4.png",
+   "raster": "master 8b16723u.tif (13084x16388) rows 800..9200, cols 3900..9400, every 4th; raster(x,y) -> master(3900+4x, 800+4y)",
+   "levels": {
+    "lo_hi_gamma": [
+     52.0,
+     194.0,
+     0.95
+    ],
+    "how": "lo = 10th pct of the dark case rim, hi = 80th pct of the dial"
+   }
+  },
+  "key": {
+   "loc": "2017679951",
+   "file": "films/sources/99-ways-template/test-shot/14940v.jpg",
+   "levels": {
+    "lo_hi_gamma": [
+     22,
+     212,
+     0.95
+    ]
+   }
+  },
+  "bubley_visitor": {
+   "loc": "2017861739",
+   "file": "films/sources/99-ways-template/loc/8d33109v.jpg",
+   "levels": {
+    "lo_hi_gamma": [
+     40.0,
+     217.0,
+     1.0
+    ]
+   }
+  },
+  "bubley82": {
+   "loc": "2017861713",
+   "file": "films/sources/99-ways-template/cutout-surgeon/raw/bubley82_head_master.png",
+   "raster": "master 8d33082u.tif (4617x4710) rows 1700..3300, cols 2100..3400 at full resolution",
+   "levels": {
+    "lo_hi_gamma": [
+     50.0,
+     169.0,
+     0.92
+    ]
+   }
+  }
+ },
+ "pieces": {
+  "rothstein.clerk.torso": {
+   "file": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.clerk.torso.png",
+   "source": "rothstein (LoC 2017776093)",
+   "bbox_src": [
+    2184,
+    1904,
+    3465,
+    2817
+   ],
+   "size": [
+    1281,
+    913
+   ],
+   "pivots_local": {
+    "collar": [
+     811.0,
+     221.0
+    ],
+    "shoulder": [
+     1206.0,
+     361.0
+    ],
+    "root_desk": [
+     816.0,
+     756.0
+    ],
+    "left_fist_on_desk": [
+     106.0,
+     826.0
+    ]
+   },
+   "levels": [
+    38.0,
+    205.0,
+    0.85
+   ],
+   "scale_to_page_nominal": {
+    "P1_P3_medium_wide": 0.19,
+    "P4_P5_P6": 0.25,
+    "P7_P8_medium_close": 0.33
+   },
+   "alpha_components": 1,
+   "note": "shirt hidden under the raised arm repaired (Telea low band + same-photo shirt grain, mask in cutouts/failures). Includes his left arm resting on the desk. Root sits on the desk line; translate the root for the sliding Gilliam walk.",
+   "parent": null,
+   "children": [
+    "rothstein.clerk.head",
+    "rothstein.clerk.pencil_arm"
+   ],
+   "file_with_margin": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.clerk.torso.margin.png",
+   "margin_px_local": 24,
+   "tone": {
+    "pct_L_gt_220": 74.7,
+    "pct_L_lt_40": 0.0,
+    "median": 246
+   }
+  },
+  "rothstein.clerk.head": {
+   "file": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.clerk.head.png",
+   "source": "rothstein (LoC 2017776093)",
+   "bbox_src": [
+    2779,
+    1533,
+    3194,
+    2141
+   ],
+   "size": [
+    415,
+    608
+   ],
+   "pivots_local": {
+    "collar": [
+     216.0,
+     592.0
+    ],
+    "chin": [
+     231.0,
+     512.0
+    ],
+    "eyes": [
+     221.0,
+     347.0
+    ],
+    "mouth": [
+     221.0,
+     452.0
+    ],
+    "pencil_tip_target_at_chin": [
+     266.0,
+     507.0
+    ]
+   },
+   "levels": [
+    38.0,
+    205.0,
+    0.85
+   ],
+   "scale_to_page_nominal": {
+    "P1_P3_medium_wide": 0.19,
+    "P4_P5_P6": 0.25,
+    "P7_P8_medium_close": 0.33
+   },
+   "alpha_components": 1,
+   "note": "hinged at the collar (pivot). The pencil strip across the temple/ear is repaired with same-photo skin grain (mask in cutouts/failures); the right ear is kept. Gaze is DOWN (reading) in the only Randolph frame; see bubley82.agent.head.",
+   "parent": "rothstein.clerk.torso",
+   "joint": "collar",
+   "file_with_margin": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.clerk.head.margin.png",
+   "margin_px_local": 24,
+   "tone": {
+    "pct_L_gt_220": 21.0,
+    "pct_L_lt_40": 8.8,
+    "median": 195
+   }
+  },
+  "rothstein.clerk.pencil_arm": {
+   "file": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.clerk.pencil_arm.png",
+   "source": "rothstein (LoC 2017776093)",
+   "bbox_src": [
+    3120,
+    1755,
+    3753,
+    2654
+   ],
+   "size": [
+    633,
+    899
+   ],
+   "pivots_local": {
+    "shoulder": [
+     270.0,
+     510.0
+    ],
+    "elbow": [
+     580.0,
+     830.0
+    ],
+    "fist": [
+     210.0,
+     355.0
+    ],
+    "pencil_tip": [
+     18.0,
+     17.0
+    ]
+   },
+   "levels": [
+    38.0,
+    205.0,
+    0.85
+   ],
+   "scale_to_page_nominal": {
+    "P1_P3_medium_wide": 0.19,
+    "P4_P5_P6": 0.25,
+    "P7_P8_medium_close": 0.33
+   },
+   "alpha_components": 1,
+   "note": "sleeve from the shoulder seam + forearm + fist + pencil, one piece; rotate about 'shoulder'. Pencil-to-chin pose: rotate about the shoulder so pencil_tip meets head.pencil_tip_target_at_chin (see qa.pencil_to_chin).",
+   "parent": "rothstein.clerk.torso",
+   "joint": "shoulder",
+   "file_with_margin": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.clerk.pencil_arm.margin.png",
+   "margin_px_local": 24,
+   "tone": {
+    "pct_L_gt_220": 14.4,
+    "pct_L_lt_40": 0.0,
+    "median": 201
+   }
+  },
+  "rothstein.clerk.forearm_pencil": {
+   "file": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.clerk.forearm_pencil.png",
+   "source": "rothstein (LoC 2017776093)",
+   "bbox_src": [
+    3123,
+    1755,
+    3753,
+    2654
+   ],
+   "size": [
+    630,
+    899
+   ],
+   "pivots_local": {
+    "elbow": [
+     577.0,
+     830.0
+    ],
+    "fist": [
+     207.0,
+     355.0
+    ],
+    "pencil_tip": [
+     15.0,
+     17.0
+    ]
+   },
+   "levels": [
+    38.0,
+    205.0,
+    0.85
+   ],
+   "scale_to_page_nominal": {
+    "P1_P3_medium_wide": 0.19,
+    "P4_P5_P6": 0.25,
+    "P7_P8_medium_close": 0.33
+   },
+   "alpha_components": 1,
+   "note": "optional 2-bone split of pencil_arm (child of pencil_arm at 'elbow'); use either pencil_arm alone or pencil_arm minus this",
+   "parent": "rothstein.clerk.pencil_arm",
+   "joint": "elbow",
+   "file_with_margin": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.clerk.forearm_pencil.margin.png",
+   "margin_px_local": 24,
+   "tone": {
+    "pct_L_gt_220": 13.4,
+    "pct_L_lt_40": 0.0,
+    "median": 201
+   }
+  },
+  "rothstein.ticket_racks": {
+   "file": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.ticket_racks.png",
+   "source": "rothstein (LoC 2017776093)",
+   "bbox_src": [
+    1642,
+    420,
+    2568,
+    1860
+   ],
+   "size": [
+    926,
+    1440
+   ],
+   "pivots_local": {
+    "base_center": [
+     478.0,
+     1470.0
+    ]
+   },
+   "levels": [
+    38.0,
+    205.0,
+    0.85
+   ],
+   "scale_to_page_nominal": {
+    "P1_P3_medium_wide": 0.19,
+    "P4_P5_P6": 0.25,
+    "P7_P8_medium_close": 0.33
+   },
+   "alpha_components": 1,
+   "note": "the slanted ticket-rack case with its pigeonholes of white ticket stock (clean whites + black frame)",
+   "file_with_margin": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.ticket_racks.margin.png",
+   "margin_px_local": 24,
+   "tone": {
+    "pct_L_gt_220": 0.1,
+    "pct_L_lt_40": 3.3,
+    "median": 114
+   }
+  },
+  "rothstein.window": {
+   "file": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.window.png",
+   "source": "rothstein (LoC 2017776093)",
+   "bbox_src": [
+    40,
+    760,
+    1480,
+    1960
+   ],
+   "size": [
+    1440,
+    1200
+   ],
+   "pivots_local": {
+    "glass_center": [
+     660.0,
+     590.0
+    ]
+   },
+   "levels": [
+    38.0,
+    205.0,
+    0.85
+   ],
+   "scale_to_page_nominal": {
+    "P1_P3_medium_wide": 0.19,
+    "P4_P5_P6": 0.25,
+    "P7_P8_medium_close": 0.33
+   },
+   "alpha_components": 1,
+   "note": "TICKET OFFICE glass, frame and counter shelf; the pendant lamp and its cord removed (same-photo grain fill) so the lamp swings",
+   "file_with_margin": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.window.margin.png",
+   "margin_px_local": 24,
+   "tone": {
+    "pct_L_gt_220": 0.2,
+    "pct_L_lt_40": 19.8,
+    "median": 74
+   }
+  },
+  "rothstein.lamp": {
+   "file": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.lamp.png",
+   "source": "rothstein (LoC 2017776093)",
+   "bbox_src": [
+    430,
+    46,
+    731,
+    1443
+   ],
+   "size": [
+    301,
+    1397
+   ],
+   "pivots_local": {
+    "cord_top": [
+     142.0,
+     14.0
+    ],
+    "shade_center": [
+     155.0,
+     1334.0
+    ]
+   },
+   "levels": [
+    38.0,
+    205.0,
+    0.85
+   ],
+   "scale_to_page_nominal": {
+    "P1_P3_medium_wide": 0.19,
+    "P4_P5_P6": 0.25,
+    "P7_P8_medium_close": 0.33
+   },
+   "alpha_components": 1,
+   "note": "pendant lamp with its twisted cord; pivot at cord_top for the 2-pose draught sway (S6)",
+   "file_with_margin": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.lamp.margin.png",
+   "margin_px_local": 24,
+   "tone": {
+    "pct_L_gt_220": 9.3,
+    "pct_L_lt_40": 2.3,
+    "median": 162
+   }
+  },
+  "rothstein.cupboard": {
+   "file": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.cupboard.png",
+   "source": "rothstein (LoC 2017776093)",
+   "bbox_src": [
+    3060,
+    690,
+    4290,
+    1915
+   ],
+   "size": [
+    1230,
+    1225
+   ],
+   "pivots_local": {
+    "left_leaf_jamb_top": [
+     110.0,
+     100.0
+    ],
+    "left_leaf_jamb_bottom": [
+     110.0,
+     1025.0
+    ]
+   },
+   "levels": [
+    38.0,
+    205.0,
+    0.85
+   ],
+   "scale_to_page_nominal": {
+    "P1_P3_medium_wide": 0.19,
+    "P4_P5_P6": 0.25,
+    "P7_P8_medium_close": 0.33
+   },
+   "alpha_components": 1,
+   "note": "closed cupboard (rectangular cut). NB the clerk's head overlaps its lower left in the photo: use plate rothstein.desk_empty for a clean one",
+   "file_with_margin": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.cupboard.margin.png",
+   "margin_px_local": 24,
+   "tone": {
+    "pct_L_gt_220": 10.1,
+    "pct_L_lt_40": 1.5,
+    "median": 120
+   }
+  },
+  "rothstein.cupboard_door": {
+   "file": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.cupboard_door.png",
+   "source": "rothstein (LoC 2017776093)",
+   "bbox_src": [
+    3170,
+    790,
+    3615,
+    1720
+   ],
+   "size": [
+    445,
+    930
+   ],
+   "pivots_local": {
+    "jamb_top": [
+     0.0,
+     0.0
+    ],
+    "jamb_bottom": [
+     0.0,
+     930.0
+    ],
+    "key_hook": [
+     160.0,
+     390.0
+    ]
+   },
+   "levels": [
+    38.0,
+    205.0,
+    0.85
+   ],
+   "scale_to_page_nominal": {
+    "P1_P3_medium_wide": 0.19,
+    "P4_P5_P6": 0.25,
+    "P7_P8_medium_close": 0.33
+   },
+   "alpha_components": 1,
+   "note": "left leaf of the cupboard, cut on its own edges; hinge (jamb) is its left edge. Open by scaleX 1.0->0.25 about the jamb.",
+   "joint": "jamb",
+   "children": [
+    "key"
+   ],
+   "file_with_margin": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.cupboard_door.margin.png",
+   "margin_px_local": 24,
+   "tone": {
+    "pct_L_gt_220": 15.4,
+    "pct_L_lt_40": 0.9,
+    "median": 159
+   }
+  },
+  "rothstein.service_door": {
+   "file": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.service_door.png",
+   "source": "rothstein (LoC 2017776093)",
+   "bbox_src": [
+    3830,
+    790,
+    4260,
+    1720
+   ],
+   "size": [
+    430,
+    930
+   ],
+   "pivots_local": {
+    "hinge_top": [
+     430.0,
+     0.0
+    ],
+    "hinge_bottom": [
+     430.0,
+     930.0
+    ]
+   },
+   "levels": [
+    38.0,
+    205.0,
+    0.85
+   ],
+   "scale_to_page_nominal": {
+    "P1_P3_medium_wide": 0.19,
+    "P4_P5_P6": 0.25,
+    "P7_P8_medium_close": 0.33
+   },
+   "alpha_components": 1,
+   "note": "the cupboard's right leaf used as the closed SERVICE door (it never opens; the page-cartoonist's sign-card goes on it). No room door is visible in the Randolph frame (absence logged). The right lamp's cord (x~4052) that hangs in front of the leaf is removed (same-photo wood grain). The right lamp's cord (x~4052) that hangs in front of the leaf is removed (same-photo wood grain). The right lamp's cord (x~4052) that hangs in front of the leaf is removed (same-photo wood grain).",
+   "file_with_margin": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.service_door.margin.png",
+   "margin_px_local": 24,
+   "tone": {
+    "pct_L_gt_220": 0.3,
+    "pct_L_lt_40": 1.0,
+    "median": 108
+   }
+  },
+  "clock.face": {
+   "file": "films/sources/99-ways-template/cutout-surgeon/pieces/clock.face.png",
+   "source": "clock (LoC 2017776111)",
+   "bbox_src": [
+    41,
+    32,
+    1290,
+    2072
+   ],
+   "size": [
+    1249,
+    2040
+   ],
+   "pivots_local": {
+    "hub": [
+     620.0,
+     641.0
+    ],
+    "hang_top": [
+     620.0,
+     -2.0
+    ]
+   },
+   "levels": [
+    52.0,
+    194.0,
+    0.95
+   ],
+   "scale_to_page_nominal": {
+    "P5_wall_clock": 0.22
+   },
+   "alpha_components": 1,
+   "note": "the whole schoolhouse clock (case, dial, pendulum box) with both hands removed and the dial repaired; the whip hanging behind it is excluded.",
+   "file_with_margin": "films/sources/99-ways-template/cutout-surgeon/pieces/clock.face.margin.png",
+   "margin_px_local": 36,
+   "tone": {
+    "pct_L_gt_220": 36.9,
+    "pct_L_lt_40": 30.3,
+    "median": 96
+   }
+  },
+  "clock.hour": {
+   "file": "films/sources/99-ways-template/cutout-surgeon/pieces/clock.hour.png",
+   "source": "clock (LoC 2017776111)",
+   "bbox_src": [
+    630,
+    340,
+    758,
+    701
+   ],
+   "size": [
+    128,
+    361
+   ],
+   "pivots_local": {
+    "hub": [
+     31.0,
+     333.0
+    ],
+    "tip": [
+     124.0,
+     8.0
+    ]
+   },
+   "levels": [
+    52.0,
+    194.0,
+    0.95
+   ],
+   "scale_to_page_nominal": {
+    "P5_wall_clock": 0.22
+   },
+   "alpha_components": 1,
+   "note": "hour hand, pivot 'hub'",
+   "angle_in_photo_deg_cw_from_12": 16.0,
+   "set_to_4_10_rotate_deg": 109.0,
+   "file_with_margin": "films/sources/99-ways-template/cutout-surgeon/pieces/clock.hour.margin.png",
+   "margin_px_local": 36,
+   "tone": {
+    "pct_L_gt_220": 19.6,
+    "pct_L_lt_40": 26.5,
+    "median": 144
+   }
+  },
+  "clock.minute": {
+   "file": "films/sources/99-ways-template/cutout-surgeon/pieces/clock.minute.png",
+   "source": "clock (LoC 2017776111)",
+   "bbox_src": [
+    630,
+    377,
+    959,
+    698
+   ],
+   "size": [
+    329,
+    321
+   ],
+   "pivots_local": {
+    "hub": [
+     31.0,
+     296.0
+    ],
+    "tip": [
+     319.0,
+     7.0
+    ]
+   },
+   "levels": [
+    52.0,
+    194.0,
+    0.95
+   ],
+   "scale_to_page_nominal": {
+    "P5_wall_clock": 0.22
+   },
+   "alpha_components": 1,
+   "note": "minute hand, pivot 'hub'",
+   "angle_in_photo_deg_cw_from_12": 45.0,
+   "set_to_4_10_rotate_deg": 15.0,
+   "S5_tick_from_4_09": 9.0,
+   "file_with_margin": "films/sources/99-ways-template/cutout-surgeon/pieces/clock.minute.margin.png",
+   "margin_px_local": 36,
+   "tone": {
+    "pct_L_gt_220": 20.6,
+    "pct_L_lt_40": 15.8,
+    "median": 186
+   }
+  },
+  "key": {
+   "file": "films/sources/99-ways-template/cutout-surgeon/pieces/key.png",
+   "source": "key (LoC 2017679951)",
+   "bbox_src": [
+    302,
+    122,
+    495,
+    845
+   ],
+   "size": [
+    193,
+    723
+   ],
+   "pivots_local": {
+    "ring_top": [
+     96.0,
+     10.0
+    ]
+   },
+   "levels": [
+    22,
+    212,
+    0.95
+   ],
+   "scale_to_page_nominal": {
+    "P7_P8": 0.2
+   },
+   "alpha_components": 1,
+   "note": "bow ring hole kept open (background); hangs from the door's key_hook by 'ring_top'",
+   "parent": "rothstein.cupboard_door",
+   "joint": "key_hook",
+   "file_with_margin": "films/sources/99-ways-template/cutout-surgeon/pieces/key.margin.png",
+   "margin_px_local": 40,
+   "tone": {
+    "pct_L_gt_220": 7.6,
+    "pct_L_lt_40": 32.5,
+    "median": 61
+   }
+  },
+  "bubley.visitor": {
+   "file": "films/sources/99-ways-template/cutout-surgeon/pieces/bubley.visitor.png",
+   "source": "bubley_visitor (LoC 2017861739)",
+   "bbox_src": [
+    514,
+    312,
+    717,
+    818
+   ],
+   "size": [
+    203,
+    506
+   ],
+   "pivots_local": {
+    "feet": [
+     111.0,
+     500.0
+    ],
+    "head": [
+     111.0,
+     -12.0
+    ]
+   },
+   "levels": [
+    40.0,
+    217.0,
+    1.0
+   ],
+   "scale_to_page_nominal": {
+    "P4_behind_glass": 0.9
+   },
+   "alpha_components": 1,
+   "note": "1024-px service JPEG (she is small and soft behind the glass layer, so the master is not needed)",
+   "file_with_margin": "films/sources/99-ways-template/cutout-surgeon/pieces/bubley.visitor.margin.png",
+   "margin_px_local": 9,
+   "tone": {
+    "pct_L_gt_220": 35.5,
+    "pct_L_lt_40": 1.3,
+    "median": 207
+   }
+  },
+  "bubley82.agent.head": {
+   "file": "films/sources/99-ways-template/cutout-surgeon/pieces/bubley82.agent.head.png",
+   "source": "bubley82 (LoC 2017861713)",
+   "bbox_src": [
+    307,
+    221,
+    886,
+    916
+   ],
+   "size": [
+    579,
+    695
+   ],
+   "pivots_local": {
+    "collar": [
+     263.0,
+     689.0
+    ],
+    "chin": [
+     233.0,
+     579.0
+    ],
+    "eyes": [
+     173.0,
+     269.0
+    ]
+   },
+   "levels": [
+    50.0,
+    169.0,
+    0.92
+   ],
+   "scale_to_page_nominal": {
+    "P8_medium_close": 0.36
+   },
+   "alpha_components": 1,
+   "note": "CANDIDATE replacement head (Gilliam substitution): a matched FSA ticket agent (glasses, white coat, dark tie) whose gaze is level and off to his right, i.e. away from the key. A different man from the Randolph agent: use only if the director accepts the swap.",
+   "file_with_margin": "films/sources/99-ways-template/cutout-surgeon/pieces/bubley82.agent.head.margin.png",
+   "margin_px_local": 22,
+   "tone": {
+    "pct_L_gt_220": 7.2,
+    "pct_L_lt_40": 0.2,
+    "median": 161
+   }
+  }
+ },
+ "plates": {
+  "rothstein.desk_empty": {
+   "file": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.desk_empty.png",
+   "source": "rothstein (LoC 2017776093)",
+   "bbox_src": [
+    0,
+    0,
+    4360,
+    3100
+   ],
+   "levels": [
+    38.0,
+    205.0,
+    0.85
+   ],
+   "how": "clerk mask + generous head polygon + left-arm polygon, dilated 21 px. Rows y<1935: same-row transplant from the right (cupboard base, counter edge). Rows 1935..2665: periodic tiling of the clean wainscot strip x1560-2120 in whole plank periods (143 px, autocorrelation, tile 429 px). Each counter-row run is tone-ramped to the photo on both sides of the hole on its row. Desk top: Telea low band + same-photo grain. 6 px seam blend.",
+   "repair_mask": "cutouts/failures/desk_empty_mask.png"
+  },
+  "rothstein.full_levelled": {
+   "file": "films/sources/99-ways-template/cutout-surgeon/pieces/rothstein.full_levelled.png",
+   "source": "rothstein (LoC 2017776093)",
+   "bbox_src": [
+    0,
+    0,
+    4360,
+    3100
+   ],
+   "levels": [
+    38.0,
+    205.0,
+    0.85
+   ],
+   "how": "the whole raster with its one levels curve (for any further crop)"
+  }
+ },
+ "qa": {
+  "fingers": {
+   "region_src": [
+    3220,
+    2010,
+    3460,
+    2230
+   ],
+   "deep_convexity_defects_gt8px": 2,
+   "note": "source shows the pencil fist with 3 curled fingers + thumb; notches between knuckles kept"
+  },
+  "pencil_to_chin": {
+   "rotate_about_shoulder_deg": -29.8,
+   "tip_radius_px": 553.7,
+   "chin_radius_px": 411.9,
+   "residual_px_after_rotation": 141.8,
+   "note": "positive = clockwise on screen (y down). Residual is radial: close it by sliding the arm piece along the shoulder->chin line (scapula shrug) or by the 2-bone split below."
+  },
+  "clock_hands": {
+   "photo_time_reads": "hour 16 deg, minute 45 deg (cw from XII)",
+   "hub": [
+    661,
+    673
+   ],
+   "target": "4:10 = hour 125 deg, minute 60 deg"
+  }
+ }
+}

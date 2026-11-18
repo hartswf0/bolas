@@ -1,0 +1,185 @@
+{
+ "f700_page": {
+  "ink_pct": 1.34,
+  "mid_pct": 2.35,
+  "paper_median": [
+   240,
+   226,
+   210
+  ],
+  "ink_median": [
+   58,
+   48,
+   39
+  ]
+ },
+ "f540": {
+  "ink_pct": 2.6,
+  "mid_pct": 3.11,
+  "paper_median": [
+   240,
+   226,
+   210
+  ],
+  "ink_median": [
+   53,
+   42,
+   34
+  ]
+ },
+ "reference_bang_webp": {
+  "ink_pct": 1.26,
+  "mid_pct": 2.89,
+  "paper_median": [
+   241,
+   228,
+   213
+  ],
+  "ink_median": [
+   69,
+   57,
+   46
+  ]
+ },
+ "paper_dE_vs_target_242_228_212": 0.7,
+ "panel_interior_median": [
+  242,
+  228,
+  212
+ ],
+ "page_median": [
+  241,
+  227,
+  211
+ ],
+ "panel_vs_page_dE": 0.16,
+ "letter_instances_compared": 1171,
+ "identical_letter_pairs": 0,
+ "file_main": {
+  "path": "assets/films/bang-bang.mp4",
+  "bytes": 2585096,
+  "ffprobe": {
+   "programs": [],
+   "streams": [
+    {
+     "width": 1280,
+     "height": 720,
+     "nb_frames": "720"
+    },
+    {
+     "nb_frames": "1293"
+    }
+   ],
+   "format": {
+    "duration": "30.000000"
+   }
+  }
+ },
+ "file_baseline": {
+  "path": "films/swarm/bang-bang/baseline_bb07-09.mp4",
+  "bytes": 641698,
+  "ffprobe": {
+   "programs": [],
+   "streams": [
+    {
+     "width": 1280,
+     "height": 720,
+     "nb_frames": "228"
+    },
+    {
+     "nb_frames": "411"
+    }
+   ],
+   "format": {
+    "duration": "9.500000"
+   }
+  }
+ },
+ "file_swap": {
+  "path": "films/swarm/bang-bang/swap_bb07-09.mp4",
+  "bytes": 696331,
+  "ffprobe": {
+   "programs": [],
+   "streams": [
+    {
+     "width": 1280,
+     "height": 720,
+     "nb_frames": "228"
+    },
+    {
+     "nb_frames": "411"
+    }
+   ],
+   "format": {
+    "duration": "9.500000"
+   }
+  }
+ },
+ "hang_legs_world_deg": {
+  "540": 3.64,
+  "542": 23.48,
+  "544": 29.38,
+  "546": 27.69,
+  "548": 22.58,
+  "550": 16.57,
+  "552": 11.04,
+  "554": 6.61,
+  "556": 3.42,
+  "558": 1.32,
+  "560": 0.1,
+  "562": -0.5,
+  "564": -0.74,
+  "566": -5.25
+ },
+ "hang_body_still_f540_564": true,
+ "leg_check_phi542_ge8_and_lt1_by564": true,
+ "magpie_pieces_in_panel2_f536_564": {
+  "536": [],
+  "538": [],
+  "540": [],
+  "542": [],
+  "544": [],
+  "546": [],
+  "548": [],
+  "550": [],
+  "552": [],
+  "554": [
+   "fly_body",
+   "fly_wingL",
+   "fly_wingR"
+  ],
+  "556": [
+   "fly_body",
+   "fly_wingL",
+   "fly_wingR"
+  ],
+  "558": [
+   "fly_body",
+   "fly_wingL",
+   "fly_wingR"
+  ],
+  "560": [
+   "fly_body",
+   "fly_wingL",
+   "fly_wingR"
+  ],
+  "562": [
+   "fly_body",
+   "fly_wingL",
+   "fly_wingR"
+  ],
+  "564": [
+   "fly_body",
+   "fly_wingL",
+   "fly_wingR"
+  ]
+ },
+ "magpie_absent_from_panel2_during_f540_552": true,
+ "impact_f605_wing_angle_rel_deg": 58.0,
+ "impact_snap_held_drawings": [
+  605,
+  606,
+  608,
+  610
+ ]
+}

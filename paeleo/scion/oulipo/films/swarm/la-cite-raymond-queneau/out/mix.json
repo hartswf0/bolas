@@ -1,0 +1,189 @@
+{
+ "target_lufs": -23.0,
+ "tolerance_lu": 0.5,
+ "true_peak_max_dbtp": -1.0,
+ "meter": "ffmpeg ebur128=peak=true",
+ "team_premix_gain_db": {
+  "A": 5.03,
+  "B": -0.09
+ },
+ "editions": {
+  "A": {
+   "recipe": "A voice+music+fx+amb",
+   "wav": "sources/la-cite-raymond-queneau/editor/mix-A.wav",
+   "unity_integrated_lufs": -23.0,
+   "unity_true_peak_dbtp": -2.1,
+   "edition_gain_db": 0.0,
+   "integrated_lufs_wav": -23.0,
+   "true_peak_dbtp_wav": -2.1,
+   "lra_lu": 5.8,
+   "samples": 1323000,
+   "pass": true,
+   "stems": {
+    "voice": {
+     "source": "sound-A voice.wav",
+     "team_gain_db": 5.03,
+     "editor_gain_db": 0.0,
+     "total_gain_db_from_unity": 5.03,
+     "stem_lufs_in_mix": -24.5,
+     "stem_true_peak_dbtp_in_mix": -13.8
+    },
+    "music": {
+     "source": "sound-A music.wav",
+     "team_gain_db": 5.03,
+     "editor_gain_db": 0.0,
+     "total_gain_db_from_unity": 5.03,
+     "stem_lufs_in_mix": -23.9,
+     "stem_true_peak_dbtp_in_mix": -8.8
+    },
+    "fx": {
+     "source": "sound-A fx.wav",
+     "team_gain_db": 5.03,
+     "editor_gain_db": 0.0,
+     "total_gain_db_from_unity": 5.03,
+     "stem_lufs_in_mix": -26.8,
+     "stem_true_peak_dbtp_in_mix": -4.3
+    },
+    "amb": {
+     "source": "sound-A amb.wav",
+     "team_gain_db": 5.03,
+     "editor_gain_db": 0.0,
+     "total_gain_db_from_unity": 5.03,
+     "stem_lufs_in_mix": -24.9,
+     "stem_true_peak_dbtp_in_mix": -4.6
+    }
+   },
+   "integrated_lufs_final_mp4": -23.0,
+   "true_peak_dbtp_final_mp4": -2.1
+  },
+  "B": {
+   "recipe": "B voice+music+fx+amb",
+   "wav": "sources/la-cite-raymond-queneau/editor/mix-B.wav",
+   "unity_integrated_lufs": -23.0,
+   "unity_true_peak_dbtp": -3.7,
+   "edition_gain_db": 0.0,
+   "integrated_lufs_wav": -23.0,
+   "true_peak_dbtp_wav": -3.7,
+   "lra_lu": 6.5,
+   "samples": 1323000,
+   "pass": true,
+   "stems": {
+    "voice": {
+     "source": "sound-B B-voice.wav",
+     "team_gain_db": -0.09,
+     "editor_gain_db": 0.0,
+     "total_gain_db_from_unity": -0.09,
+     "stem_lufs_in_mix": -17.4,
+     "stem_true_peak_dbtp_in_mix": -10.1
+    },
+    "music": {
+     "source": "sound-B B-music.wav",
+     "team_gain_db": -0.09,
+     "editor_gain_db": 0.0,
+     "total_gain_db_from_unity": -0.09,
+     "stem_lufs_in_mix": -25.7,
+     "stem_true_peak_dbtp_in_mix": -16.2
+    },
+    "fx": {
+     "source": "sound-B B-fx.wav",
+     "team_gain_db": -0.09,
+     "editor_gain_db": 0.0,
+     "total_gain_db_from_unity": -0.09,
+     "stem_lufs_in_mix": -26.5,
+     "stem_true_peak_dbtp_in_mix": -4.2
+    },
+    "amb": {
+     "source": "sound-B B-amb.wav",
+     "team_gain_db": -0.09,
+     "editor_gain_db": 0.0,
+     "total_gain_db_from_unity": -0.09,
+     "stem_lufs_in_mix": -33.5,
+     "stem_true_peak_dbtp_in_mix": -19.5
+    }
+   },
+   "integrated_lufs_final_mp4": -23.0,
+   "true_peak_dbtp_final_mp4": -3.6
+  },
+  "X": {
+   "recipe": "A music+fx+amb 0-30 s; A voice 0-16.0 s then B voice 16.0-30 s (hard switch on sample 705600)",
+   "wav": "sources/la-cite-raymond-queneau/editor/mix-X.wav",
+   "unity_integrated_lufs": -22.3,
+   "unity_true_peak_dbtp": -2.1,
+   "edition_gain_db": -0.7,
+   "integrated_lufs_wav": -23.0,
+   "true_peak_dbtp_wav": -2.8,
+   "lra_lu": 9.4,
+   "samples": 1323000,
+   "pass": true,
+   "stems": {
+    "music": {
+     "source": "sound-A music.wav",
+     "team_gain_db": 5.03,
+     "editor_gain_db": -0.7,
+     "total_gain_db_from_unity": 4.33,
+     "stem_lufs_in_mix": -24.6,
+     "stem_true_peak_dbtp_in_mix": -9.5
+    },
+    "fx": {
+     "source": "sound-A fx.wav",
+     "team_gain_db": 5.03,
+     "editor_gain_db": -0.7,
+     "total_gain_db_from_unity": 4.33,
+     "stem_lufs_in_mix": -27.5,
+     "stem_true_peak_dbtp_in_mix": -5.0
+    },
+    "amb": {
+     "source": "sound-A amb.wav",
+     "team_gain_db": 5.03,
+     "editor_gain_db": -0.7,
+     "total_gain_db_from_unity": 4.33,
+     "stem_lufs_in_mix": -25.6,
+     "stem_true_peak_dbtp_in_mix": -5.3
+    },
+    "voice": {
+     "source": "A voice.wav 0-16.0 s, B-voice.wav 16.0-30 s",
+     "team_gain_db": -0.09,
+     "editor_gain_db": -0.7,
+     "total_gain_db_from_unity": -0.79,
+     "stem_lufs_in_mix": -19.0,
+     "stem_true_peak_dbtp_in_mix": -10.8
+    }
+   },
+   "integrated_lufs_final_mp4": -23.1,
+   "true_peak_dbtp_final_mp4": -2.8
+  },
+  "C": {
+   "recipe": "branch C: A amb + B amb outside 16.0-26.0 s (30 ms ramps); inside, silence except A's room tone swelling from f492 (0.6 s up, 1.5 s down)",
+   "wav": "sources/la-cite-raymond-queneau/editor/mix-C.wav",
+   "unity_integrated_lufs": -23.7,
+   "unity_true_peak_dbtp": -4.5,
+   "edition_gain_db": 0.7,
+   "integrated_lufs_wav": -23.0,
+   "true_peak_dbtp_wav": -3.8,
+   "lra_lu": 13.2,
+   "samples": 1323000,
+   "pass": true,
+   "stems": {
+    "amb(A+B)": {
+     "source": "A amb + B amb, gated 16-26 s, A room-tone swell from f492",
+     "team_gain_db": 5.03,
+     "editor_gain_db": 0.7,
+     "total_gain_db_from_unity": 5.73,
+     "stem_lufs_in_mix": -23.0,
+     "stem_true_peak_dbtp_in_mix": -3.8
+    }
+   },
+   "branch": "out/branches/C",
+   "integrated_lufs_final_mp4": -23.0,
+   "true_peak_dbtp_final_mp4": -3.8
+  },
+  "silent": {
+   "recipe": "digital zero, 1,323,000 samples",
+   "wav": "sources/la-cite-raymond-queneau/editor/mix-silent.wav",
+   "edition_gain_db": null,
+   "peak": 0
+  }
+ },
+ "A_minus_B_lu": 0.0,
+ "A_minus_B_lu_final_mp4": 0.0
+}

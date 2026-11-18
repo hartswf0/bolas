@@ -1,0 +1,965 @@
+{
+ "id": "caids-strip-r1",
+ "revision": 1,
+ "frozen": true,
+ "frozen_by": "paper-engineer-writer, 2026-11-17",
+ "units": "u",
+ "W": 2400,
+ "H": 900,
+ "scale": "1 u = 0.1 mm (240 x 90 mm printed); A3 300 dpi: 1 u = 1.1811 px",
+ "px_per_u_300dpi": 1.1811023622047243,
+ "faces": {
+  "front": "ink (strip-art.png)",
+  "back": "blank paper, mirrored show-through"
+ },
+ "panels": {
+  "P1": {
+   "x": [
+    40,
+    1180
+   ],
+   "y": [
+    50,
+    850
+   ]
+  },
+  "P2": {
+   "x": [
+    1220,
+    2360
+   ],
+   "y": [
+    50,
+    850
+   ]
+  },
+  "gutter": [
+   1180,
+   1220
+  ]
+ },
+ "folds": [
+  {
+   "id": "A",
+   "x": 620,
+   "kind": "mountain",
+   "order": 1,
+   "mark": "dash-dot + small mountain glyph"
+  },
+  {
+   "id": "M",
+   "x": 1210,
+   "kind": "valley",
+   "order": 2,
+   "mark": "dashed + small V glyph",
+   "where": "gutter"
+  },
+  {
+   "id": "B",
+   "x": 1800,
+   "kind": "registration",
+   "note": "not a crease: B = 2M-A lands on A"
+  }
+ ],
+ "pleat": "one marked pleat: fold so that mark B lies on mark A (A mountain first, then M valley)",
+ "A": 620,
+ "M": 1210,
+ "B": 1800,
+ "D": 1180,
+ "tau_u": 5,
+ "tau_digital_u": 0,
+ "facets": [
+  {
+   "id": "F0",
+   "x": [
+    0,
+    620
+   ],
+   "map": "x",
+   "face": "up",
+   "layer": 1
+  },
+  {
+   "id": "F1",
+   "x": [
+    620,
+    1210
+   ],
+   "map": "2A - x",
+   "face": "down",
+   "layer": 2
+  },
+  {
+   "id": "F2",
+   "x": [
+    1210,
+    1800
+   ],
+   "map": "x - D",
+   "face": "up",
+   "layer": 3
+  },
+  {
+   "id": "F3",
+   "x": [
+    1800,
+    2400
+   ],
+   "map": "x - D",
+   "face": "up",
+   "layer": 3,
+   "note": "never leaves the table (z = 0)"
+  }
+ ],
+ "V": "V(x') = Sheet(x') for x' < A; Sheet(x' + D) for x' >= A; width (A-40)+(2360-B) = 1140 u",
+ "lightbox_stack": "for x' < A: layer1 Sheet(x') up, layer2 Sheet(2A - x') face down (reads mirrored), layer3 Sheet(x' + D) up",
+ "LINE_Y": [
+  112,
+  168,
+  224
+ ],
+ "cap_u": 36,
+ "fragment_gap_u": 12,
+ "balloons": {
+  "P1": [
+   80,
+   1140,
+   80,
+   276
+  ],
+  "P2": [
+   1260,
+   2320,
+   80,
+   276
+  ]
+ },
+ "floor_lines": {
+  "P1": [
+   [
+    50,
+    790
+   ],
+   [
+    1170,
+    794
+   ]
+  ],
+  "P2": [
+   [
+    1230,
+    790
+   ],
+   [
+    2350,
+    794
+   ]
+  ]
+ },
+ "marks": {
+  "top_y": 18,
+  "bottom_y": 882,
+  "at": [
+   620,
+   1210,
+   1800
+  ]
+ },
+ "text": {
+  "P1_miller": [
+   "THE KEY? I SWEAR, NOT",
+   "IN MY ENVELOPE!",
+   "ALL I CARRY IS PAPER."
+  ],
+  "P1_porter": "WHO BORROWED IT, THEN?",
+  "P2_porter": [
+   "HERE! SILLY ME - I HAD IT",
+   "IN THE COAT POCKET",
+   "ALL ALONG."
+  ],
+  "P2_boys": "OH? REALLY?",
+  "folded_miller": [
+   "THE KEY? I HAD IT",
+   "IN MY POCKET",
+   "ALL ALONG."
+  ],
+  "folded_boys": "OH? REALLY?",
+  "revision_note": "rev 1: porter-P1 'WHO TOOK IT, THEN?' -> 'WHO BORROWED IT, THEN?' (borrowed explicit in the open state; lies in A..M, hidden when folded). All other lines unchanged; folded line frozen."
+ },
+ "readings": {
+  "open": [
+   "P1 miller balloon lines 1-3",
+   "P1 porter 'WHO BORROWED IT, THEN?'",
+   "P2 porter balloon lines 1-3",
+   "P2 boys 'OH? REALLY?'"
+  ],
+  "folded": [
+   "folded balloon 'THE KEY? I HAD IT / IN MY POCKET / ALL ALONG.'",
+   "'OH? REALLY?'"
+  ]
+ },
+ "constraints": [
+  {
+   "id": "C1",
+   "kind": "equality",
+   "expr": "B = 2M - A",
+   "value": [
+    1800,
+    1800
+   ]
+  },
+  {
+   "id": "C2",
+   "kind": "equality",
+   "expr": "D = B - A",
+   "value": 1180
+  },
+  {
+   "id": "C3",
+   "kind": "inequality",
+   "expr": "2A - M > 0 (hidden facet stays on the sheet)",
+   "value": 30
+  },
+  {
+   "id": "C4",
+   "kind": "interval",
+   "expr": "P1.x0 <= A < P1.x1 and P2.x0 < B < P2.x1",
+   "value": [
+    [
+     40,
+     1180
+    ],
+    620,
+    [
+     1220,
+     2360
+    ],
+    1800
+   ]
+  },
+  {
+   "id": "C5",
+   "kind": "equality",
+   "expr": "folded panel width (A-P1.x0)+(P2.x1-B) = panel width",
+   "value": [
+    1140,
+    1140
+   ]
+  },
+  {
+   "id": "C6",
+   "kind": "contact",
+   "expr": "mark A coincides with mark B after the pleat (top and bottom margins)",
+   "value": [
+    620,
+    620
+   ]
+  },
+  {
+   "id": "C7",
+   "kind": "seam",
+   "expr": "frame top border y at x=A (P1) == at x=B (P2)",
+   "y": 50,
+   "tol": 5
+  },
+  {
+   "id": "C8",
+   "kind": "seam",
+   "expr": "frame bottom border",
+   "y": 850,
+   "tol": 5
+  },
+  {
+   "id": "C9",
+   "kind": "seam",
+   "expr": "balloon top border",
+   "y": 80,
+   "tol": 5
+  },
+  {
+   "id": "C10",
+   "kind": "seam",
+   "expr": "balloon bottom border",
+   "y": 276,
+   "tol": 5
+  },
+  {
+   "id": "C11",
+   "kind": "seam",
+   "expr": "floor line (both panels 790->794 across the same x-offset)",
+   "y": 792,
+   "tol": 5
+  },
+  {
+   "id": "C12",
+   "kind": "seam",
+   "expr": "miller cuff at x=A == porter wrist at x=B: same y-band, slope, width",
+   "y_band": [
+    440,
+    600
+   ],
+   "tol": 5
+  },
+  {
+   "id": "C13",
+   "kind": "baseline",
+   "expr": "each balloon line i: L and R fragments share LINE_Y[i] and cap height",
+   "LINE_Y": [
+    112,
+    168,
+    224
+   ],
+   "cap": 36
+  },
+  {
+   "id": "C14",
+   "kind": "clearance",
+   "expr": "L fragment ends <= f-12, R fragment starts >= f+12 (f = A or B)",
+   "gap": 12
+  },
+  {
+   "id": "C15",
+   "kind": "region",
+   "expr": "'OH? REALLY?' and the boys wholly in x >= B+12",
+   "xmin": 1812
+  },
+  {
+   "id": "C16",
+   "kind": "region",
+   "expr": "'WHO BORROWED IT, THEN?' and porter-P1 wholly in A+12..M-12 (open state only)",
+   "x": [
+    632,
+    1198
+   ]
+  },
+  {
+   "id": "C17",
+   "kind": "ink",
+   "expr": "folded view == V(x') pixel for pixel; no ink without a sheet source",
+   "tol_digital": 0
+  },
+  {
+   "id": "C18",
+   "kind": "ghost",
+   "expr": "light-box ghosts: F1 at 2A-x mirrored, F2 at x-D unmirrored, within 2 u",
+   "tol": 2
+  }
+ ],
+ "fragments": [
+  {
+   "id": "P1.miller.line1.L",
+   "panel": "P1",
+   "speaker": "miller",
+   "layer": "balloon",
+   "line": 1,
+   "side": "L",
+   "text": "THE KEY?",
+   "bbox": [
+    378.8,
+    112,
+    608,
+    148
+   ],
+   "facet": "F0",
+   "depth": 1,
+   "face": "up",
+   "folded": [
+    378.8,
+    608
+   ],
+   "state": "visible",
+   "mirrored": false
+  },
+  {
+   "id": "P1.miller.line1.R",
+   "panel": "P1",
+   "speaker": "miller",
+   "layer": "balloon",
+   "line": 1,
+   "side": "R",
+   "text": "I SWEAR, NOT",
+   "bbox": [
+    632,
+    112,
+    950.0,
+    148
+   ],
+   "facet": "F1",
+   "depth": 2,
+   "face": "down",
+   "folded": [
+    290.0,
+    608
+   ],
+   "state": "hidden (light-box ghost)",
+   "mirrored": true
+  },
+  {
+   "id": "P1.miller.line2.L",
+   "panel": "P1",
+   "speaker": "miller",
+   "layer": "balloon",
+   "line": 2,
+   "side": "L",
+   "text": "IN MY",
+   "bbox": [
+    477.2,
+    168,
+    608,
+    204
+   ],
+   "facet": "F0",
+   "depth": 1,
+   "face": "up",
+   "folded": [
+    477.2,
+    608
+   ],
+   "state": "visible",
+   "mirrored": false
+  },
+  {
+   "id": "P1.miller.line2.R",
+   "panel": "P1",
+   "speaker": "miller",
+   "layer": "balloon",
+   "line": 2,
+   "side": "R",
+   "text": "ENVELOPE!",
+   "bbox": [
+    632,
+    168,
+    894.8,
+    204
+   ],
+   "facet": "F1",
+   "depth": 2,
+   "face": "down",
+   "folded": [
+    345.2,
+    608
+   ],
+   "state": "hidden (light-box ghost)",
+   "mirrored": true
+  },
+  {
+   "id": "P1.miller.line3.L",
+   "panel": "P1",
+   "speaker": "miller",
+   "layer": "balloon",
+   "line": 3,
+   "side": "L",
+   "text": "ALL",
+   "bbox": [
+    521.6,
+    224,
+    608,
+    260
+   ],
+   "facet": "F0",
+   "depth": 1,
+   "face": "up",
+   "folded": [
+    521.6,
+    608
+   ],
+   "state": "visible",
+   "mirrored": false
+  },
+  {
+   "id": "P1.miller.line3.R",
+   "panel": "P1",
+   "speaker": "miller",
+   "layer": "balloon",
+   "line": 3,
+   "side": "R",
+   "text": "I CARRY IS PAPER.",
+   "bbox": [
+    632,
+    224,
+    1085.6,
+    260
+   ],
+   "facet": "F1",
+   "depth": 2,
+   "face": "down",
+   "folded": [
+    154.4,
+    608
+   ],
+   "state": "hidden (light-box ghost)",
+   "mirrored": true
+  },
+  {
+   "id": "P2.porter.line1.L",
+   "panel": "P2",
+   "speaker": "porter",
+   "layer": "balloon",
+   "line": 1,
+   "side": "L",
+   "text": "HERE! SILLY ME -",
+   "bbox": [
+    1351.2,
+    112,
+    1788,
+    148
+   ],
+   "facet": "F2",
+   "depth": 3,
+   "face": "up",
+   "folded": [
+    171.2,
+    608
+   ],
+   "state": "hidden (light-box ghost)",
+   "mirrored": false
+  },
+  {
+   "id": "P2.porter.line1.R",
+   "panel": "P2",
+   "speaker": "porter",
+   "layer": "balloon",
+   "line": 1,
+   "side": "R",
+   "text": "I HAD IT",
+   "bbox": [
+    1812,
+    112,
+    2016.0,
+    148
+   ],
+   "facet": "F3",
+   "depth": 3,
+   "face": "up",
+   "folded": [
+    632,
+    836.0
+   ],
+   "state": "visible",
+   "mirrored": false
+  },
+  {
+   "id": "P2.porter.line2.L",
+   "panel": "P2",
+   "speaker": "porter",
+   "layer": "balloon",
+   "line": 2,
+   "side": "L",
+   "text": "IN THE COAT",
+   "bbox": [
+    1484.4,
+    168,
+    1788,
+    204
+   ],
+   "facet": "F2",
+   "depth": 3,
+   "face": "up",
+   "folded": [
+    304.4,
+    608
+   ],
+   "state": "hidden (light-box ghost)",
+   "mirrored": false
+  },
+  {
+   "id": "P2.porter.line2.R",
+   "panel": "P2",
+   "speaker": "porter",
+   "layer": "balloon",
+   "line": 2,
+   "side": "R",
+   "text": "POCKET",
+   "bbox": [
+    1812,
+    168,
+    1992.0,
+    204
+   ],
+   "facet": "F3",
+   "depth": 3,
+   "face": "up",
+   "folded": [
+    632,
+    812.0
+   ],
+   "state": "visible",
+   "mirrored": false
+  },
+  {
+   "id": "P2.porter.line3.L",
+   "panel": "P2",
+   "speaker": "porter",
+   "layer": "balloon",
+   "line": 3,
+   "side": "L",
+   "text": "ALL",
+   "bbox": [
+    1701.6,
+    224,
+    1788,
+    260
+   ],
+   "facet": "F2",
+   "depth": 3,
+   "face": "up",
+   "folded": [
+    521.6,
+    608
+   ],
+   "state": "hidden (light-box ghost)",
+   "mirrored": false
+  },
+  {
+   "id": "P2.porter.line3.R",
+   "panel": "P2",
+   "speaker": "porter",
+   "layer": "balloon",
+   "line": 3,
+   "side": "R",
+   "text": "ALONG.",
+   "bbox": [
+    1812,
+    224,
+    1974.0,
+    260
+   ],
+   "facet": "F3",
+   "depth": 3,
+   "face": "up",
+   "folded": [
+    632,
+    794.0
+   ],
+   "state": "visible",
+   "mirrored": false
+  },
+  {
+   "id": "P1.porter.ask",
+   "panel": "P1",
+   "speaker": "porter-P1",
+   "layer": "balloon",
+   "line": null,
+   "side": "",
+   "text": "WHO BORROWED / IT, THEN?",
+   "bbox": [
+    856.3,
+    315.4,
+    1163.7,
+    518.6
+   ],
+   "facet": "F1",
+   "depth": 2,
+   "face": "down",
+   "folded": [
+    76.3,
+    383.7
+   ],
+   "state": "hidden (light-box ghost)",
+   "mirrored": true
+  },
+  {
+   "id": "P2.boys.say",
+   "panel": "P2",
+   "speaker": "boys",
+   "layer": "balloon",
+   "line": null,
+   "side": "",
+   "text": "OH? / REALLY?",
+   "bbox": [
+    2113.7,
+    373.4,
+    2316.3,
+    576.6
+   ],
+   "facet": "F3",
+   "depth": 3,
+   "face": "up",
+   "folded": [
+    933.6999999999998,
+    1136.3000000000002
+   ],
+   "state": "visible",
+   "mirrored": false
+  },
+  {
+   "id": "P1.miller.body",
+   "panel": "P1",
+   "speaker": "miller",
+   "layer": "figure",
+   "line": null,
+   "side": "",
+   "text": "miller body, sack, sleeve cut at A (cuff crosses x=A)",
+   "bbox": [
+    44,
+    300,
+    620,
+    846
+   ],
+   "facet": "F0",
+   "depth": 1,
+   "face": "up",
+   "folded": [
+    44,
+    620
+   ],
+   "state": "visible",
+   "mirrored": false
+  },
+  {
+   "id": "P1.miller.hand-open",
+   "panel": "P1",
+   "speaker": "miller",
+   "layer": "figure",
+   "line": null,
+   "side": "",
+   "text": "miller's empty open hand reaching past A (open state only)",
+   "bbox": [
+    620,
+    420,
+    760,
+    640
+   ],
+   "facet": "F1",
+   "depth": 2,
+   "face": "down",
+   "folded": [
+    480,
+    620
+   ],
+   "state": "hidden (light-box ghost)",
+   "mirrored": true
+  },
+  {
+   "id": "P1.porter",
+   "panel": "P1",
+   "speaker": "porter-P1",
+   "layer": "figure",
+   "line": null,
+   "side": "",
+   "text": "porter (Busch farmer, mirrored) listening, neck joint",
+   "bbox": [
+    800,
+    330,
+    1176,
+    846
+   ],
+   "facet": "F1",
+   "depth": 2,
+   "face": "down",
+   "folded": [
+    64,
+    440
+   ],
+   "state": "hidden (light-box ghost)",
+   "mirrored": true
+  },
+  {
+   "id": "P2.porter",
+   "panel": "P2",
+   "speaker": "porter",
+   "layer": "figure",
+   "line": null,
+   "side": "",
+   "text": "porter (Busch farmer) with pen-drawn striped forearm to the wrist at B",
+   "bbox": [
+    1232,
+    290,
+    1800,
+    846
+   ],
+   "facet": "F2",
+   "depth": 3,
+   "face": "up",
+   "folded": [
+    52,
+    620
+   ],
+   "state": "hidden (light-box ghost)",
+   "mirrored": false
+  },
+  {
+   "id": "P2.door",
+   "panel": "P2",
+   "speaker": "-",
+   "layer": "furniture",
+   "line": null,
+   "side": "",
+   "text": "closed service door, pen-drawn, behind the porter (common seed)",
+   "bbox": [
+    1236,
+    300,
+    1560,
+    790
+   ],
+   "facet": "F2",
+   "depth": 3,
+   "face": "up",
+   "folded": [
+    56,
+    380
+   ],
+   "state": "hidden (light-box ghost)",
+   "mirrored": false
+  },
+  {
+   "id": "P2.hand-key",
+   "panel": "P2",
+   "speaker": "porter/miller",
+   "layer": "figure",
+   "line": null,
+   "side": "",
+   "text": "hand + brass bit-key beyond B (reads as the miller's hand when folded)",
+   "bbox": [
+    1800,
+    420,
+    1960,
+    700
+   ],
+   "facet": "F3",
+   "depth": 3,
+   "face": "up",
+   "folded": [
+    620,
+    780
+   ],
+   "state": "visible",
+   "mirrored": false
+  },
+  {
+   "id": "P2.boys",
+   "panel": "P2",
+   "speaker": "boys",
+   "layer": "figure",
+   "line": null,
+   "side": "",
+   "text": "the two boys (Busch plate 001)",
+   "bbox": [
+    1880,
+    560,
+    2356,
+    846
+   ],
+   "facet": "F3",
+   "depth": 3,
+   "face": "up",
+   "folded": [
+    700,
+    1176
+   ],
+   "state": "visible",
+   "mirrored": false
+  }
+ ],
+ "evidence": {
+  "foraged": [
+   {
+    "id": "paper",
+    "title": "File:Vintage Paper Texture (9789792113).jpg",
+    "author": "James Puckett from Boulder, USA (via Flickr)",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Vintage_Paper_Texture_(9789792113).jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/82/Vintage_Paper_Texture_%289789792113%29.jpg",
+    "local_path": "films/sources/les-caids-de-la-gaudriole/paper-engineer/paper-orig.jpg (full original, sha1 3027bffe0f9b0a4870b743d8defebb1b0083facf = Commons sha1); films/sources/les-caids-de-la-gaudriole/paper.jpg (earlier 1280 px derivative)",
+    "what_it_shows": "a real scan of a creased, wrinkled sheet of old paper (yellowed); wrinkles, fibre and small stains",
+    "verified_date_or_place": "Commons API extmetadata re-read live 2026-11-17 (films/sources/les-caids-de-la-gaudriole/paper-engineer/extmeta.json)",
+    "used_as": "the paper of the A3 page and of the strip (front and back faces); luminance detail kept, low-frequency stain and yellow removed (grading only) -> paper L ~228, |R-B| ~7; also wrinkle relief maps for the tabletop shading"
+   },
+   {
+    "id": "wood",
+    "title": "File:Wood Texture Background.jpg",
+    "author": "Bango Textures (isorepublic.com)",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Wood_Texture_Background.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/7a/Wood_Texture_Background.jpg",
+    "local_path": "films/sources/les-caids-de-la-gaudriole/wood.jpg (1920 x 1281 derivative of the 8192 x 5464 original; Commons sha1 ac1d1e49c32578bd69060a7bb425f8f17a84589a is of the original)",
+    "what_it_shows": "a real photograph of wooden boards",
+    "verified_date_or_place": "Commons API extmetadata re-read live 2026-11-17 (films/sources/les-caids-de-la-gaudriole/paper-engineer/extmeta.json)",
+    "used_as": "the table in the film (greyed, darkened); not used on the page"
+   },
+   {
+    "id": "busch-082",
+    "title": "File:Max und Moritz (Busch) 082.png",
+    "author": "Wilhelm Busch (1832-1908)",
+    "license": "Public domain",
+    "license_url": "",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Max_und_Moritz_(Busch)_082.png",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Max_und_Moritz_%28Busch%29_082.png",
+    "local_path": "films/sources/les-caids-de-la-gaudriole/busch/mm_082.png (derivative; Commons original sha1 efd32f53de798b0a7c8298adf2601d7b9a5431de)",
+    "what_it_shows": "the miller with his sack (Max und Moritz, 7th prank), 1865 engraving",
+    "verified_date_or_place": "Commons API extmetadata re-read live 2026-11-17 (films/sources/les-caids-de-la-gaudriole/paper-engineer/extmeta.json); LicenseShortName 'Public domain', date 'before 1864'",
+    "used_as": "the miller (P1), cut out and re-hinged at the shoulder by U2"
+   },
+   {
+    "id": "busch-031",
+    "title": "File:Max und Moritz (Busch) 031.png",
+    "author": "Wilhelm Busch (1832-1908)",
+    "license": "Public domain",
+    "license_url": "",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Max_und_Moritz_(Busch)_031.png",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Max_und_Moritz_%28Busch%29_031.png",
+    "local_path": "films/sources/les-caids-de-la-gaudriole/busch/mm_031.png (derivative; Commons original sha1 d421618ad5e13ff2d2764264723c5863b5ac354a)",
+    "what_it_shows": "a farmer figure, 1865 engraving",
+    "verified_date_or_place": "Commons API extmetadata re-read live 2026-11-17 (films/sources/les-caids-de-la-gaudriole/paper-engineer/extmeta.json); LicenseShortName 'Public domain'",
+    "used_as": "the porter, P1 (mirrored) and P2"
+   },
+   {
+    "id": "busch-001",
+    "title": "File:Max und Moritz (Busch) 001.png",
+    "author": "Wilhelm Busch (1832-1908)",
+    "license": "Public domain",
+    "license_url": "",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Max_und_Moritz_(Busch)_001.png",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Max_und_Moritz_%28Busch%29_001.png",
+    "local_path": "films/sources/les-caids-de-la-gaudriole/busch/mm_001.png (derivative; Commons original sha1 fb219685aaf2198d4421854e7c3b2c79b8b41edc)",
+    "what_it_shows": "Max and Moritz, the two boys, 1865 engraving",
+    "verified_date_or_place": "Commons API extmetadata re-read live 2026-11-17 (films/sources/les-caids-de-la-gaudriole/paper-engineer/extmeta.json); LicenseShortName 'Public domain'",
+    "used_as": "the boys with 'OH? REALLY?' (P2, right of B)"
+   }
+  ],
+  "handmade": [
+   {
+    "id": "pen-alphabet",
+    "what": "single-stroke pen capitals; digits 2-9, = + / ( ) > < % * # \u00c9 \u00cf \u039b \u00b0 added by this unit",
+    "where": "films/swarm/les-caids-de-la-gaudriole/strip/pen.py"
+   },
+   {
+    "id": "lettering-layer",
+    "what": "balloons, rev-1 lettering, frames, floor lines and fold marks at the frozen positions (reference layer for U2)",
+    "where": "strip/lettering.py -> strip/lettering-layer.png, lettering-alpha.png"
+   },
+   {
+    "id": "geometry",
+    "what": "pure fold geometry (exact-arc curl bands, facet poses, occlusion DAG, top view, V, light-box stack)",
+    "where": "strip/fold.py"
+   },
+   {
+    "id": "fixture",
+    "what": "section-7 fixture and 100x seam crops",
+    "where": "strip/fixture.py -> fixture.json, seam-100x.png"
+   },
+   {
+    "id": "page",
+    "what": "A3 300 dpi page: strip at 100%, crop and fold marks, ruler, reference row, pleat section, seam insets, inventory, coordinates, assembly, routes, all pen-lettered",
+    "where": "strip/page.py -> assets/pages/les-caids-de-la-gaudriole.png/.pdf"
+   },
+   {
+    "id": "strip-art",
+    "what": "the strip art composed by U2 (Busch cutouts + pen furniture + lettering), adopted unchanged",
+    "where": "puppets/art-layers.png -> strip/strip-art.png"
+   }
+  ],
+  "absences": [
+   "Local paper.jpg, wood.jpg and busch/*.png are resized derivatives; their sha1 does not match Commons (the originals' sha1 are recorded). The page uses the full-resolution paper original, downloaded 2026-11-17, whose sha1 matches.",
+   "Commons API rate-limited the first request (HTTP 'too many requests'); one retry after 75 s succeeded. No other foraging was needed by this unit.",
+   "No other foraged items are used by this unit. Sound and the archive room tone belong to U3."
+  ]
+ },
+ "strip_art": {
+  "path": "strip/strip-art.png",
+  "sha256": "44b0d0c3e02adf6ed1e116f7a4b08262733a0a71ea15e4f9670bbf9d79fbd137",
+  "adopted_from": "puppets/art-layers.png"
+ }
+}

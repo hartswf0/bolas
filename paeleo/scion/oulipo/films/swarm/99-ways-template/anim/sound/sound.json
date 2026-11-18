@@ -1,0 +1,313 @@
+{
+ "rate": 44100,
+ "format": "mono 16-bit WAV",
+ "stems": {
+  "room_tone": {
+   "file": "anim/sound/room_tone.wav",
+   "seconds": 11.0,
+   "peak_dbfs": -30.3
+  },
+  "clock_tick": {
+   "file": "anim/sound/clock_tick.wav",
+   "seconds": 0.18,
+   "peak_dbfs": -14.0
+  },
+  "clock_tick_close": {
+   "file": "anim/sound/clock_tick_close.wav",
+   "seconds": 0.18,
+   "peak_dbfs": -8.0
+  },
+  "pencil_tap": {
+   "file": "anim/sound/pencil_tap.wav",
+   "seconds": 0.18,
+   "peak_dbfs": -20.0
+  },
+  "door_creak": {
+   "file": "anim/sound/door_creak.wav",
+   "seconds": 1.2,
+   "peak_dbfs": -10.0
+  },
+  "door_latch": {
+   "file": "anim/sound/door_latch.wav",
+   "seconds": 0.32,
+   "peak_dbfs": -12.0
+  },
+  "chair_scrape": {
+   "file": "anim/sound/chair_scrape.wav",
+   "seconds": 0.94,
+   "peak_dbfs": -10.0
+  },
+  "footstep_1": {
+   "file": "anim/sound/footstep_1.wav",
+   "seconds": 0.31,
+   "peak_dbfs": -12.0
+  },
+  "footstep_2": {
+   "file": "anim/sound/footstep_2.wav",
+   "seconds": 0.31,
+   "peak_dbfs": -12.0
+  },
+  "footstep_3": {
+   "file": "anim/sound/footstep_3.wav",
+   "seconds": 0.31,
+   "peak_dbfs": -12.0
+  },
+  "footstep_4": {
+   "file": "anim/sound/footstep_4.wav",
+   "seconds": 0.31,
+   "peak_dbfs": -12.0
+  },
+  "footstep_5": {
+   "file": "anim/sound/footstep_5.wav",
+   "seconds": 0.31,
+   "peak_dbfs": -12.0
+  },
+  "footstep_6": {
+   "file": "anim/sound/footstep_6.wav",
+   "seconds": 0.31,
+   "peak_dbfs": -12.0
+  },
+  "steps_receding": {
+   "file": "anim/sound/steps_receding.wav",
+   "seconds": 4.0,
+   "peak_dbfs": -16.3
+  },
+  "paper_tap": {
+   "file": "anim/sound/paper_tap.wav",
+   "seconds": 0.3,
+   "peak_dbfs": -16.0
+  },
+  "platform_distant": {
+   "file": "anim/sound/platform_distant.wav",
+   "seconds": 10.0,
+   "peak_dbfs": -18.6
+  },
+  "counter_bell": {
+   "file": "anim/sound/counter_bell.wav",
+   "seconds": 2.6,
+   "peak_dbfs": -9.0
+  },
+  "paper_handling": {
+   "file": "anim/sound/paper_handling.wav",
+   "seconds": 1.6,
+   "peak_dbfs": -22.0
+  }
+ },
+ "foraged": [
+  {
+   "title": "Panama by Air (Reel 4) (1914)",
+   "author": "via movingimagearchive.com",
+   "license": "Public domain (US, pre-1929)",
+   "license_url": "",
+   "source_url": "https://www.movingimagearchive.com/sources/panama-by-air-reel-4-1a07ad16?clip=d3c1f500-55a9-50c7-9ca4-11791246582d",
+   "file_url": "",
+   "local_path": "films/sources/99-ways-template/rig-animator/mia/d3c1f500.wav (decoded from the cineosis-lab clip cache)",
+   "clip_in_source_film_s": [
+    517.651,
+    530.597
+   ],
+   "id": "room_tone",
+   "what_it_shows": "the noise floor of a 1914 silent film print's sound transfer: steady hiss with faint crackle, no voice or music (spectrum and level checked: -48 dBFS median, no onsets)",
+   "used_as": "room tone bed under the whole film (S0-S12); 11 s seamless loop (1 s crossfade), band 60-7000 Hz, RMS -42 dBFS",
+   "verified_date_or_place": "title/year on movingimagearchive.com page; pre-1929 US film",
+   "in_out_s": [
+    0.5,
+    12.5
+   ]
+  },
+  {
+   "title": "File:Clock ticking.ogg",
+   "author": "natalie",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Clock_ticking.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/56/Clock_ticking.ogg",
+   "local_path": "films/sources/99-ways-template/rig-animator/commons/raw/Clock_ticking.ogg",
+   "id": "clock_tick",
+   "what_it_shows": "a mechanical clock ticking once a second, close-miked, quiet room",
+   "used_as": "clock_tick (tick at 3.07 s), clock_tick_close (tock at 4.08 s, louder, S5), pencil_tap (the same tick band-passed 1.5-9 kHz, quiet: the pencil tapped on the temple, S1)",
+   "verified_date_or_place": "Commons extmetadata read 2026-11-17",
+   "in_out_s": [
+    [
+     3.05,
+     3.23
+    ],
+    [
+     4.06,
+     4.24
+    ]
+   ]
+  },
+  {
+   "title": "File:Squeaky door.ogg",
+   "author": "leonmire",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Squeaky_door.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/15/Squeaky_door.ogg",
+   "local_path": "films/sources/99-ways-template/rig-animator/commons/raw/Squeaky_door.ogg",
+   "id": "door_creak",
+   "what_it_shows": "a squeaking hinge as a door is swung, then shut (the shut at 7.0 s is not used)",
+   "used_as": "door_creak (4.55-5.75 s): the cupboard door's swing on its jamb, S7 f42-f54",
+   "verified_date_or_place": "Commons extmetadata read 2026-11-17",
+   "in_out_s": [
+    4.55,
+    5.75
+   ]
+  },
+  {
+   "title": "File:Door handle creaking.ogg",
+   "author": "stephan",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Door_handle_creaking.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/74/Door_handle_creaking.ogg",
+   "local_path": "films/sources/99-ways-template/rig-animator/commons/raw/Door_handle_creaking.ogg",
+   "id": "door_latch",
+   "what_it_shows": "a door handle turned, its latch clicking and creaking",
+   "used_as": "door_latch (0.30-0.62 s): the cupboard latch gives, S7 f40",
+   "verified_date_or_place": "Commons extmetadata read 2026-11-17",
+   "in_out_s": [
+    0.3,
+    0.62
+   ]
+  },
+  {
+   "title": "File:Creaky wooden swivel chair.ogg",
+   "author": "chocoholic",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Creaky_wooden_swivel_chair.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/4d/Creaky_wooden_swivel_chair.ogg",
+   "local_path": "films/sources/99-ways-template/rig-animator/commons/raw/Creaky_wooden_swivel_chair.ogg",
+   "id": "chair_scrape",
+   "what_it_shows": "a wooden swivel chair creaking and shifting as someone moves in it",
+   "used_as": "chair_scrape (3.66-4.25 + 4.40-4.75 s): the clerk rises from his chair, S2 f22",
+   "verified_date_or_place": "Commons extmetadata read 2026-11-17",
+   "in_out_s": [
+    [
+     3.66,
+     4.25
+    ],
+    [
+     4.4,
+     4.75
+    ]
+   ]
+  },
+  {
+   "title": "File:Church people walking steps with reverb.ogg",
+   "author": "stephan",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Church_people_walking_steps_with_reverb.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Church_people_walking_steps_with_reverb.ogg",
+   "local_path": "films/sources/99-ways-template/rig-animator/commons/raw/Church_people_walking_steps_with_reverb.ogg",
+   "id": "footsteps",
+   "what_it_shows": "people walking on a hard floor in a reverberant church; individual heel strikes are audible over the hall",
+   "used_as": "footstep_1..6 (single strikes gated to 0.12 s + 30 ms decay, band 90-6000 Hz: the clerk's steps on the office boards, S2/S3/S4/S7) and steps_receding (6 strikes fading and darkening: the visitor leaving, S6)",
+   "verified_date_or_place": "Commons extmetadata read 2026-11-17",
+   "in_out_s": [
+    4.39,
+    7.09,
+    11.99,
+    14.1,
+    16.41,
+    17.33,
+    18.73,
+    19.51,
+    20.38,
+    26.15,
+    27.95,
+    28.93
+   ]
+  },
+  {
+   "title": "File:Dull thud.ogg",
+   "author": "gregoryweir",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Dull_thud.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Dull_thud.ogg",
+   "local_path": "films/sources/99-ways-template/rig-animator/commons/raw/Dull_thud.ogg",
+   "id": "paper_tap",
+   "what_it_shows": "a short dull thud of something soft landing",
+   "used_as": "paper_tap: band-passed 0.7-9 kHz and shortened so it reads as a card landing; every balloon land frame (S4 f40, S5 f56, S6 f16, S8 f84)",
+   "verified_date_or_place": "Commons extmetadata read 2026-11-17",
+   "in_out_s": [
+    0.0,
+    0.3
+   ]
+  },
+  {
+   "title": "File:Train sounds from Iowa - Glaneur de sons.ogg",
+   "author": "Glaneur de sons",
+   "license": "CC BY 3.0",
+   "license_url": "https://creativecommons.org/licenses/by/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Train_sounds_from_Iowa_-_Glaneur_de_sons.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/32/Train_sounds_from_Iowa_-_Glaneur_de_sons.ogg",
+   "local_path": "films/sources/99-ways-template/rig-animator/commons/raw/Train_sounds_from_Iowa_-_Glaneur_de_sons.ogg",
+   "id": "platform_distant",
+   "what_it_shows": "an old tourist train in Iowa: engine and wheels at a distance, outdoor air",
+   "used_as": "platform_distant (40-50 s, low-passed 1.4 kHz, RMS -34 dBFS): the platform beyond the ticket window, S6 and S11",
+   "verified_date_or_place": "Commons extmetadata read 2026-11-17",
+   "in_out_s": [
+    40.0,
+    50.0
+   ],
+   "attribution": "Glaneur de sons, CC BY 3.0 (credit required)"
+  }
+ ],
+ "synthesized_declared": [
+  {
+   "id": "counter_bell",
+   "made_with": "kit.Mix.bell (inharmonic struck-bell partials) at 2350 Hz + kit.Mix.click strike, 2.4 s decay",
+   "why": "no openly licensed desk/counter bell recording was found: Commons searches 'service bell', 'desk bell', 'reception bell', 'hotel bell', 'bell ding' (2026-11-17) gave only church bells, a bicycle bell and speech; the Moving Image Archive clip cache has no isolated bell",
+   "used_as": "the counter bell rung once by the visitor, S4 f14 (and S10/S11)"
+  },
+  {
+   "id": "paper_handling",
+   "made_with": "kit.Mix pink noise band-passed 0.9-7.5 kHz, three enveloped bursts",
+   "why": "no openly licensed paper-handling recording found in time (Commons 'sound effect paper' returned none; 'Gravity Sound paper' returned only PDFs)",
+   "used_as": "S0: the sheet laid down as the borders rule in (quiet)"
+  }
+ ],
+ "absences": [
+  {
+   "wanted": "Moving Image Archive clip foley (footsteps, door, bell, clock)",
+   "searched": "index.json: all 188 clips with audio; regex station|office|clock|door|train|railroad|footstep|walk|room|desk|bell|ticket|platform; auditioned by spectrum: Wreckless 1935, This Is My Railroad 1940, Dating: Do's and Don'ts 1949, Going Steady? 1951, Valley Town 1940 (2 clips), Space Ship Takeoff 1937, Panama by Air 1914",
+   "result": "all but Panama by Air carry narration, dialogue or score over the sound; only Panama by Air (silent film, transfer noise) is usable, as room tone"
+  },
+  {
+   "wanted": "footsteps on wooden boards",
+   "result": "no PD/CC footsteps-on-wood file reachable (Commons 'footsteps wooden floor', 'walking on wooden floor', 'Gravity Sound footsteps' empty or rate-limited); heel strikes cut from the PD church-walking recording instead"
+  },
+  {
+   "wanted": "chair drag on boards",
+   "result": "Drag chair (Gravity Sound, CC BY 4.0) download refused (HTTP 429 x4); PD Creaky wooden swivel chair used"
+  },
+  {
+   "wanted": "cupboard door close/latch",
+   "result": "Cupboarddoorclose.ogg (CC BY-SA 3.0) download refused (429); PD Door handle creaking used for the latch"
+  },
+  {
+   "wanted": "spiral-stair steps (Pasos en escalera de caracol, CC BY-SA 4.0)",
+   "result": "download refused (429); not needed"
+  },
+  {
+   "wanted": "room tone of an office",
+   "result": "Ambient classroom mono (PD) downloaded and rejected on listening analysis: continuous chatter onsets every ~0.25 s at -14 dBFS"
+  }
+ ],
+ "voice": "none: voice is balloons (no text-to-speech; no speech recording used)",
+ "cue_sheet": "per-shot cue frames are in anim/timing.json shots.<S>.sounds (cue names = stem names; 'footstep' = footstep_1..6 in rotation)",
+ "mix_guidance": {
+  "room_tone": "loop under everything at 0 dB (already -42 dBFS RMS)",
+  "footstep": "-6 dB in S2/S3, -9 dB in S4/S7",
+  "counter_bell": "0 dB, pan -0.3 (window side)",
+  "paper_tap": "0 dB on every balloon land frame",
+  "door_creak": "start at S7 f42, ends ~f71 (1.2 s)",
+  "platform_distant": "S6 from f24 at -6 dB, pan -0.5; S11 at 0 dB",
+  "S8": "silence after the tap except room tone; one clock_tick at f140"
+ }
+}

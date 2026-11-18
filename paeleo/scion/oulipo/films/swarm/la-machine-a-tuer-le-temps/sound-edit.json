@@ -1,0 +1,1973 @@
+{
+ "unit": "sound-editor (U4)",
+ "slug": "la-machine-a-tuer-le-temps",
+ "sound_id": "SE1",
+ "version": "v2",
+ "date": "2026-11-16",
+ "base_pool_hash": "7e50704ce76934d73e25d32ad82b9fdb6e9db4e7ae0cacb560fcea0f49745164",
+ "rate_hz": 44100,
+ "format": "wav PCM 16-bit stereo",
+ "fps": 24,
+ "builder": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/la-machine-a-tuer-le-temps/sound_build.py (deterministic, fixed seeds; uses films/kit.py Mix unedited)",
+ "cue_sheet_raw": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/la-machine-a-tuer-le-temps/sound-cues.json",
+ "timeline_used": {
+  "S0": [
+   0,
+   71
+  ],
+  "S1": [
+   72,
+   143
+  ],
+  "S2": [
+   144,
+   161
+  ],
+  "S3": [
+   162,
+   641
+  ],
+  "S4": [
+   642,
+   659
+  ],
+  "S5": [
+   660,
+   875
+  ],
+  "S6": [
+   876,
+   893
+  ],
+  "S7": [
+   894,
+   1457
+  ],
+  "S8": [
+   1458,
+   1475
+  ],
+  "S9": [
+   1476,
+   1499
+  ],
+  "S10": [
+   1500,
+   1607
+  ],
+  "total": 1608
+ },
+ "timeline_note": "Timeline is the animator's (notebook/events.json): S5 is 216 f, so S7 starts at film frame 894, not 870 as in edit-recipes.json cut_points.film_frame (stale). All T3/T4 cue frames are CUT-RELATIVE (frame 0 = first frame of the cut) and so survive any shift; the B1 latch is cut frame 114 = film frame 1008. T0/T2 are film-absolute on the 1608-f timeline; if the animator re-times S5, re-run sound_build.py (T2 re-cues itself from events.json).",
+ "tracks": [
+  {
+   "track": "T0",
+   "name": "room",
+   "version": "v1",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T0_room_v1.wav",
+   "place": "film frame 0 (full length, both exports)",
+   "contents": "foraged 1935 interior air (Wreckless) looped + kit Mix.room at -44 dB; dipped -12 dB under S3/S7; ends on one clock tick at film frame 1584; repair round 1: the room samples under cut B frames 0-479 are copied from cut A frames 0-479 (20 ms crossfades outside the window) and the A dip now rises under S4, so T0 is identical under both cut windows",
+   "meta": {
+    "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T0_room_v1.wav",
+    "seconds": 67.0,
+    "frames_24": 1608.0,
+    "rms_dbfs": -51.8,
+    "peak_dbfs": -10.3,
+    "sha256": "608d269c7b8d8d200d58e3c2fcfbbe7b413891967581973687824487981f6a96"
+   }
+  },
+  {
+   "track": "T1",
+   "name": "shared bed",
+   "version": "v1",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T1_bed_v1.wav",
+   "place": "cut-relative frame 0 of S3 AND of S7 in the screening-1 export (film frames 162 and 894)",
+   "contents": "concourse murmur (HANDMADE synthesis), distant trains (HANDMADE), wall-clock tick 1 Hz on whole cut seconds; 564 f + 18 f fall for S8",
+   "meta": {
+    "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T1_bed_v1.wav",
+    "seconds": 24.25,
+    "frames_24": 582.0,
+    "rms_dbfs": -25.9,
+    "peak_dbfs": -9.9,
+    "sha256": "8d7eaabedc4a9cace66435f9c74e10f41c4398905a52d304ffafe19bf2fc7f82"
+   },
+   "identity": "T1_bed_cutA-slot_v1.wav is sample-identical to T1_bed_v1.wav for cut frames 0-479 (checked with numpy array_equal) and then falls over S4"
+  },
+  {
+   "track": "T1-cutA-slot",
+   "name": "shared bed, cut A slot",
+   "version": "v1",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T1_bed_cutA-slot_v1.wav",
+   "place": "film frame 162",
+   "meta": {
+    "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T1_bed_cutA-slot_v1.wav",
+    "seconds": 20.75,
+    "frames_24": 498.0,
+    "rms_dbfs": -25.7,
+    "peak_dbfs": -9.9,
+    "sha256": "d8bb56f3a431a2ec0b6a0bfb61c2401887f35f2bc5aa3a07555a116e518fc7e3"
+   }
+  },
+  {
+   "track": "T1-preroll",
+   "name": "bed preroll",
+   "version": "v1",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T1_bed_preroll_v1.wav",
+   "place": "film frame 72 (S1 fade-in, S2 rise); its last 18 f also go under S6 (film 876)",
+   "meta": {
+    "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T1_bed_preroll_v1.wav",
+    "seconds": 3.75,
+    "frames_24": 90.0,
+    "rms_dbfs": -37.0,
+    "peak_dbfs": -16.2,
+    "sha256": "b79f39d00899a50b1ccfdb760588609c5c88d7a81f20277e5c93bf1bdd6bf28b"
+   }
+  },
+  {
+   "track": "T2",
+   "name": "notebook foley",
+   "version": "v1",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T2_foley_v1.wav",
+   "place": "film frame 0 (full length, both exports)",
+   "contents": "HANDMADE: cover flap, page turns, slip lift/slide/set-down/settle, red-pencil strike/write/line strokes, loose-sheet slide, tape press; one cue per event of notebook/events.json (push/pull have none)",
+   "meta": {
+    "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T2_foley_v1.wav",
+    "seconds": 67.0,
+    "frames_24": 1608.0,
+    "rms_dbfs": -39.4,
+    "peak_dbfs": -4.7,
+    "sha256": "90467902d2d0f4fcf95daeb451f8e6388eecb6531366c42b6f3e384677159d6d"
+   }
+  },
+  {
+   "track": "T3",
+   "name": "mix A (final film)",
+   "version": "v1",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T3_mixA_v1.wav",
+   "place": "film frame 162 (S3), 480 f + 18 f fall under S4",
+   "meta": {
+    "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T3_mixA_v1.wav",
+    "seconds": 20.75,
+    "frames_24": 498.0,
+    "rms_dbfs": -22.8,
+    "peak_dbfs": -6.3,
+    "sha256": "ace562880aae37ccb7ad12ff6265551dd1fa9cce1263e5f628bf36004064e11a"
+   }
+  },
+  {
+   "track": "T4",
+   "name": "mix B (final film, recipe B1)",
+   "version": "v1",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T4_mixB_v1.wav",
+   "place": "film frame 894 (S7), 564 f + 18 f",
+   "meta": {
+    "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T4_mixB_v1.wav",
+    "seconds": 24.25,
+    "frames_24": 582.0,
+    "rms_dbfs": -34.0,
+    "peak_dbfs": -7.5,
+    "sha256": "48fafeaa772d19b1e5706e5a048f8427fe85c0f2966b0cf290799d9537cb8ad4"
+   }
+  },
+  {
+   "track": "T4-B4",
+   "name": "mix B, branch B4-delayed-cue",
+   "version": "v1",
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T4_mixB_B4-delayed-cue_v1.wav",
+   "place": "as T4; picture B1; only the latch moves (+12 f into 04)",
+   "meta": {
+    "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T4_mixB_B4-delayed-cue_v1.wav",
+    "seconds": 24.25,
+    "frames_24": 582.0,
+    "rms_dbfs": -34.0,
+    "peak_dbfs": -8.1,
+    "sha256": "36e0612e1b69e93d2b5149471dc75451c0a552c14ca01f7c6b6eb0c5e8ca1399"
+   }
+  }
+ ],
+ "previews": {
+  "note": "convenience full-film mixes for the editor, not stems",
+  "files": {
+   "preview_final_v1.wav": {
+    "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/preview_final_v1.wav",
+    "seconds": 67.0,
+    "frames_24": 1608.0,
+    "rms_dbfs": -27.2,
+    "peak_dbfs": -4.7,
+    "sha256": "60e2a830b44d2429baaa6a6e85976423c7c76f967658c9dcd032a60ab2fcbed2"
+   },
+   "preview_screening1-sharedbed_v1.wav": {
+    "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/preview_screening1-sharedbed_v1.wav",
+    "seconds": 67.0,
+    "frames_24": 1608.0,
+    "rms_dbfs": -27.2,
+    "peak_dbfs": -4.7,
+    "sha256": "78e1b4e0143ab66df1adc68521b94c07bc0bf587bf587dd31c27ce18e5004a4e"
+   }
+  }
+ },
+ "offsets": {
+  "T1_in_cutA": 162,
+  "T1_in_cutB": 894,
+  "T1_identical_from_cut_frame_0": true,
+  "T3": 162,
+  "T4": 894,
+  "T0": 0,
+  "T2": 0,
+  "T1_preroll": 72
+ },
+ "cues": [
+  {
+   "track": "T0",
+   "t_frame": 0,
+   "t_s": 0.0,
+   "cue": "room tone in (foraged 1935 interior air, looped)",
+   "sync_dep": {
+    "segment": "S0",
+    "frames": [
+     0,
+     71
+    ]
+   }
+  },
+  {
+   "track": "T0",
+   "t_frame": 162,
+   "t_s": 6.75,
+   "cue": "room dips -12 dB under cut A",
+   "sync_dep": {
+    "segment": "S3"
+   }
+  },
+  {
+   "track": "T0",
+   "t_frame": 894,
+   "t_s": 37.25,
+   "cue": "room dips -12 dB under cut B",
+   "sync_dep": {
+    "segment": "S7"
+   }
+  },
+  {
+   "track": "T0",
+   "t_frame": 1584,
+   "t_s": 66.0,
+   "cue": "single clock tick; room tone ends with it",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 84,
+    "ev": "tape",
+    "note": "last held second of S10 (after the tape event)"
+   }
+  },
+  {
+   "track": "T1",
+   "t_frame": 0,
+   "t_s": 0.0,
+   "cue": "shared bed starts on cut frame 0 (same offset in A and B): murmur + distant trains + 1 Hz tick on whole seconds",
+   "sync_dep": {
+    "edit_id": "A1|B1",
+    "event": 0
+   },
+   "ticks_at_s": [
+    -3.0,
+    -2.0,
+    -1.0,
+    0.0,
+    1.0,
+    2.0,
+    "..."
+   ]
+  },
+  {
+   "track": "T1",
+   "t_frame": -90,
+   "t_s": -3.75,
+   "cue": "preroll: bed fades in faint under S1, rises under the S2 push",
+   "sync_dep": {
+    "segment": "S1-S2",
+    "frames": [
+     72,
+     161
+    ]
+   }
+  },
+  {
+   "track": "T1",
+   "t_frame": 480,
+   "t_s": 20.0,
+   "cue": "cut A slot: bed falls to room tone under S4 (18 f)",
+   "sync_dep": {
+    "edit_id": "A1",
+    "event": 7,
+    "at": "out"
+   }
+  },
+  {
+   "track": "T1",
+   "t_frame": 564,
+   "t_s": 23.5,
+   "cue": "cut B slot: bed falls to room tone under S8 (18 f)",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 7,
+    "at": "out"
+   }
+  },
+  {
+   "track": "T3",
+   "t_frame": 60,
+   "t_s": 2.5,
+   "cue": "mail-room bustle under 02 (parcels, paper), fades by 6 f into 03",
+   "sync_dep": {
+    "edit_id": "A1",
+    "event": 1
+   }
+  },
+  {
+   "track": "T3",
+   "t_frame": 192,
+   "t_s": 8.0,
+   "cue": "door latch on the 04 cut (on the frame)",
+   "sync_dep": {
+    "edit_id": "A1",
+    "event": 3
+   },
+   "offset_frames": 0
+  },
+  {
+   "track": "T3",
+   "t_frame": 366,
+   "t_s": 15.25,
+   "cue": "distant factory/rail whistle under 07 (foraged, Valley Town 1940), hall-reverbed",
+   "sync_dep": {
+    "edit_id": "A1",
+    "event": 6
+   }
+  },
+  {
+   "track": "T3",
+   "t_frame": 0,
+   "t_s": 0.0,
+   "cue": "bed at normal level, tick steady at 1 Hz, murmur warmed (low-pass 2.6 kHz)",
+   "sync_dep": {
+    "edit_id": "A1",
+    "event": 0
+   }
+  },
+  {
+   "track": "T4",
+   "t_frame": 0,
+   "t_s": 0.0,
+   "cue": "bed ducked -9 dB (murmur + trains); tick slowing: 3 ticks, intervals x1.28 each, weakening",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 0
+   },
+   "tick_times_s": [
+    0.0,
+    1.0,
+    2.28
+   ]
+  },
+  {
+   "track": "T4",
+   "t_frame": 60,
+   "t_s": 2.5,
+   "cue": "DECLARED SILENCE 2.5 s over the 05 stare (frames 60-119): no tick, no bed, air only at -62 dBFS",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 0
+   },
+   "duration_frames": 60,
+   "declared_silence": true
+  },
+  {
+   "track": "T4",
+   "t_frame": 114,
+   "t_s": 4.75,
+   "cue": "door latch pre-lapped 6 f before the 05->04 cut",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 1
+   },
+   "offset_frames": -6
+  },
+  {
+   "track": "T4",
+   "t_frame": 120,
+   "t_s": 5.0,
+   "cue": "bed returns ducked on 04 (no tick yet)",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 1
+   }
+  },
+  {
+   "track": "T4",
+   "t_frame": 154,
+   "t_s": 6.4167,
+   "cue": "close footsteps pre-lap the 04->02 cut by 14 f and arrive with her (5 steps, 0.46 s, rising)",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 2
+   },
+   "offset_frames": -14,
+   "last_step_s": 8.257
+  },
+  {
+   "track": "T4",
+   "t_frame": 259,
+   "t_s": 10.7917,
+   "cue": "the parcel set down hard on a counter, 5 f before 06",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 3
+   },
+   "offset_frames": -5
+  },
+  {
+   "track": "T4",
+   "t_frame": 262,
+   "t_s": 10.9167,
+   "cue": "a paper slip drawn across the counter, pre-lapping 06 by 2 f (parcel exchanged for paper)",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 3
+   },
+   "offset_frames": -2
+  },
+  {
+   "track": "T4",
+   "t_frame": 264,
+   "t_s": 11.0,
+   "cue": "tick returns hard on 06 (+3 dB first tick), 1 Hz",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 3
+   }
+  },
+  {
+   "track": "T4",
+   "t_frame": 336,
+   "t_s": 14.0,
+   "cue": "tick continues under 03 (someone is timing it)",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 4
+   }
+  },
+  {
+   "track": "T4",
+   "t_frame": 396,
+   "t_s": 16.5,
+   "cue": "tick alone on 01: bed muted, only the tick",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 5
+   },
+   "until_frame": 431
+  },
+  {
+   "track": "T4",
+   "t_frame": 420,
+   "t_s": 17.5,
+   "cue": "footsteps pre-lap 07 by 12 f, receding on stone, 0.52 s pace",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 6
+   },
+   "offset_frames": -12
+  },
+  {
+   "track": "T4",
+   "t_frame": 432,
+   "t_s": 18.0,
+   "cue": "tick stops; bed back ducked under 07",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 6
+   }
+  },
+  {
+   "track": "T4",
+   "t_frame": 492,
+   "t_s": 20.5,
+   "cue": "hall reverb tail (RT 3.6 s) of the last steps under 08, fading to nothing by frame 558; bed fades out too",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 7
+   },
+   "last_step_s": 20.62
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 0,
+   "t_s": 0.0,
+   "cue": "bed ducked -9 dB (murmur + trains); tick slowing: 3 ticks, intervals x1.28 each, weakening",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 0
+   },
+   "tick_times_s": [
+    0.0,
+    1.0,
+    2.28
+   ]
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 60,
+   "t_s": 2.5,
+   "cue": "DECLARED SILENCE 2.5 s over the 05 stare (frames 60-119): no tick, no bed, air only at -62 dBFS",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 0
+   },
+   "duration_frames": 60,
+   "declared_silence": true
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 132,
+   "t_s": 5.5,
+   "cue": "door latch delayed 12 f into 04 (branch B4)",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 1
+   },
+   "offset_frames": 12
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 120,
+   "t_s": 5.0,
+   "cue": "bed returns ducked on 04 (no tick yet)",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 1
+   }
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 154,
+   "t_s": 6.4167,
+   "cue": "close footsteps pre-lap the 04->02 cut by 14 f and arrive with her (5 steps, 0.46 s, rising)",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 2
+   },
+   "offset_frames": -14,
+   "last_step_s": 8.257
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 259,
+   "t_s": 10.7917,
+   "cue": "the parcel set down hard on a counter, 5 f before 06",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 3
+   },
+   "offset_frames": -5
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 262,
+   "t_s": 10.9167,
+   "cue": "a paper slip drawn across the counter, pre-lapping 06 by 2 f (parcel exchanged for paper)",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 3
+   },
+   "offset_frames": -2
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 264,
+   "t_s": 11.0,
+   "cue": "tick returns hard on 06 (+3 dB first tick), 1 Hz",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 3
+   }
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 336,
+   "t_s": 14.0,
+   "cue": "tick continues under 03 (someone is timing it)",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 4
+   }
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 396,
+   "t_s": 16.5,
+   "cue": "tick alone on 01: bed muted, only the tick",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 5
+   },
+   "until_frame": 431
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 420,
+   "t_s": 17.5,
+   "cue": "footsteps pre-lap 07 by 12 f, receding on stone, 0.52 s pace",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 6
+   },
+   "offset_frames": -12
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 432,
+   "t_s": 18.0,
+   "cue": "tick stops; bed back ducked under 07",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 6
+   }
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 492,
+   "t_s": 20.5,
+   "cue": "hall reverb tail (RT 3.6 s) of the last steps under 08, fading to nothing by frame 558; bed fades out too",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 7
+   },
+   "last_step_s": 20.62
+  },
+  {
+   "track": "T2",
+   "t_frame": 54,
+   "t_s": 2.25,
+   "cue": "cover flap around the coil, board lands",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 0,
+    "ev": "cover_flip",
+    "f": 54
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 660,
+   "t_s": 27.5,
+   "cue": "page turn: rustle + soft land",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 3,
+    "ev": "turn",
+    "f": 660
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 664,
+   "t_s": 27.6667,
+   "cue": "page turn: rustle + soft land",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 4,
+    "ev": "turn",
+    "f": 664
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 668,
+   "t_s": 27.8333,
+   "cue": "page turn: rustle + soft land",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 5,
+    "ev": "turn",
+    "f": 668
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 676,
+   "t_s": 28.1667,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 6,
+    "ev": "lift",
+    "f": 676
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 677,
+   "t_s": 28.2083,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 7,
+    "ev": "travel",
+    "f": 677
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 680,
+   "t_s": 28.3333,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 8,
+    "ev": "lift",
+    "f": 680
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 681,
+   "t_s": 28.375,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 9,
+    "ev": "travel",
+    "f": 681
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 688,
+   "t_s": 28.6667,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 10,
+    "ev": "setdown",
+    "f": 688
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 691,
+   "t_s": 28.7917,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 11,
+    "ev": "settle",
+    "f": 688
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 690,
+   "t_s": 28.75,
+   "cue": "page turn: rustle + soft land",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 12,
+    "ev": "turn",
+    "f": 690
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 692,
+   "t_s": 28.8333,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 13,
+    "ev": "setdown",
+    "f": 692
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 695,
+   "t_s": 28.9583,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 14,
+    "ev": "settle",
+    "f": 692
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 698,
+   "t_s": 29.0833,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 15,
+    "ev": "lift",
+    "f": 698
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 699,
+   "t_s": 29.125,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 16,
+    "ev": "travel",
+    "f": 699
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 702,
+   "t_s": 29.25,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 17,
+    "ev": "lift",
+    "f": 702
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 703,
+   "t_s": 29.2917,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 18,
+    "ev": "travel",
+    "f": 703
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 706,
+   "t_s": 29.4167,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 19,
+    "ev": "lift",
+    "f": 706
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 707,
+   "t_s": 29.4583,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 20,
+    "ev": "travel",
+    "f": 707
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 710,
+   "t_s": 29.5833,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 21,
+    "ev": "setdown",
+    "f": 710
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 713,
+   "t_s": 29.7083,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 22,
+    "ev": "settle",
+    "f": 710
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 714,
+   "t_s": 29.75,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 23,
+    "ev": "setdown",
+    "f": 714
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 717,
+   "t_s": 29.875,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 24,
+    "ev": "settle",
+    "f": 714
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 716,
+   "t_s": 29.8333,
+   "cue": "red pencil strike (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 25,
+    "ev": "strike",
+    "f": 716
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 718,
+   "t_s": 29.9167,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 26,
+    "ev": "setdown",
+    "f": 718
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 721,
+   "t_s": 30.0417,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 27,
+    "ev": "settle",
+    "f": 718
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 720,
+   "t_s": 30.0,
+   "cue": "red pencil write (2 strokes)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 28,
+    "ev": "write",
+    "f": 720
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 726,
+   "t_s": 30.25,
+   "cue": "page turn: rustle + soft land",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 29,
+    "ev": "turn",
+    "f": 726
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 734,
+   "t_s": 30.5833,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 30,
+    "ev": "lift",
+    "f": 734
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 735,
+   "t_s": 30.625,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 31,
+    "ev": "travel",
+    "f": 735
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 738,
+   "t_s": 30.75,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 32,
+    "ev": "lift",
+    "f": 738
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 739,
+   "t_s": 30.7917,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 33,
+    "ev": "travel",
+    "f": 739
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 742,
+   "t_s": 30.9167,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 34,
+    "ev": "lift",
+    "f": 742
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 743,
+   "t_s": 30.9583,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 35,
+    "ev": "travel",
+    "f": 743
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 746,
+   "t_s": 31.0833,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 36,
+    "ev": "setdown",
+    "f": 746
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 749,
+   "t_s": 31.2083,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 37,
+    "ev": "settle",
+    "f": 746
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 748,
+   "t_s": 31.1667,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 38,
+    "ev": "lift",
+    "f": 748
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 749,
+   "t_s": 31.2083,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 39,
+    "ev": "travel",
+    "f": 749
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 750,
+   "t_s": 31.25,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 40,
+    "ev": "setdown",
+    "f": 750
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 753,
+   "t_s": 31.375,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 41,
+    "ev": "settle",
+    "f": 750
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 754,
+   "t_s": 31.4167,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 42,
+    "ev": "setdown",
+    "f": 754
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 757,
+   "t_s": 31.5417,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 43,
+    "ev": "settle",
+    "f": 754
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 756,
+   "t_s": 31.5,
+   "cue": "red pencil strike (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 44,
+    "ev": "strike",
+    "f": 756
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 760,
+   "t_s": 31.6667,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 45,
+    "ev": "setdown",
+    "f": 760
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 763,
+   "t_s": 31.7917,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 46,
+    "ev": "settle",
+    "f": 760
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 760,
+   "t_s": 31.6667,
+   "cue": "red pencil write (3 strokes)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 47,
+    "ev": "write",
+    "f": 760
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 764,
+   "t_s": 31.8333,
+   "cue": "red pencil strike (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 48,
+    "ev": "strike",
+    "f": 764
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 768,
+   "t_s": 32.0,
+   "cue": "red pencil write (2 strokes)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 49,
+    "ev": "write",
+    "f": 768
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 772,
+   "t_s": 32.1667,
+   "cue": "page turn: rustle + soft land",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 50,
+    "ev": "turn",
+    "f": 772
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 780,
+   "t_s": 32.5,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 51,
+    "ev": "lift",
+    "f": 780
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 781,
+   "t_s": 32.5417,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 52,
+    "ev": "travel",
+    "f": 781
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 792,
+   "t_s": 33.0,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 53,
+    "ev": "setdown",
+    "f": 792
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 795,
+   "t_s": 33.125,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 54,
+    "ev": "settle",
+    "f": 792
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 794,
+   "t_s": 33.0833,
+   "cue": "red pencil strike (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 55,
+    "ev": "strike",
+    "f": 794
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 798,
+   "t_s": 33.25,
+   "cue": "red pencil write (3 strokes)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 56,
+    "ev": "write",
+    "f": 798
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 806,
+   "t_s": 33.5833,
+   "cue": "page turn: rustle + soft land",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 57,
+    "ev": "turn",
+    "f": 806
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 814,
+   "t_s": 33.9167,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 58,
+    "ev": "lift",
+    "f": 814
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 815,
+   "t_s": 33.9583,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 59,
+    "ev": "travel",
+    "f": 815
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 818,
+   "t_s": 34.0833,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 60,
+    "ev": "lift",
+    "f": 818
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 819,
+   "t_s": 34.125,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 61,
+    "ev": "travel",
+    "f": 819
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 826,
+   "t_s": 34.4167,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 62,
+    "ev": "setdown",
+    "f": 826
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 829,
+   "t_s": 34.5417,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 63,
+    "ev": "settle",
+    "f": 826
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 828,
+   "t_s": 34.5,
+   "cue": "red pencil strike (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 64,
+    "ev": "strike",
+    "f": 828
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 830,
+   "t_s": 34.5833,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 65,
+    "ev": "setdown",
+    "f": 830
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 833,
+   "t_s": 34.7083,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 66,
+    "ev": "settle",
+    "f": 830
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 832,
+   "t_s": 34.6667,
+   "cue": "red pencil write (2 strokes)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 67,
+    "ev": "write",
+    "f": 832
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 836,
+   "t_s": 34.8333,
+   "cue": "red pencil strike (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 68,
+    "ev": "strike",
+    "f": 836
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 840,
+   "t_s": 35.0,
+   "cue": "red pencil write (2 strokes)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 69,
+    "ev": "write",
+    "f": 840
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 844,
+   "t_s": 35.1667,
+   "cue": "red pencil strike (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 70,
+    "ev": "strike",
+    "f": 844
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 848,
+   "t_s": 35.3333,
+   "cue": "red pencil write (3 strokes)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 71,
+    "ev": "write",
+    "f": 848
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 850,
+   "t_s": 35.4167,
+   "cue": "typed tape laid and pressed down",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 72,
+    "ev": "tape",
+    "f": 850
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 1476,
+   "t_s": 61.5,
+   "cue": "loose sheet slides in over the spread, settles",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 75,
+    "ev": "slide",
+    "f": 1476
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 1512,
+   "t_s": 63.0,
+   "cue": "red pencil line (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 76,
+    "ev": "line",
+    "f": 1512
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 1518,
+   "t_s": 63.25,
+   "cue": "red pencil line (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 77,
+    "ev": "line",
+    "f": 1518
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 1524,
+   "t_s": 63.5,
+   "cue": "red pencil line (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 78,
+    "ev": "line",
+    "f": 1524
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 1530,
+   "t_s": 63.75,
+   "cue": "red pencil line (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 79,
+    "ev": "line",
+    "f": 1530
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 1536,
+   "t_s": 64.0,
+   "cue": "red pencil line (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 80,
+    "ev": "line",
+    "f": 1536
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 1542,
+   "t_s": 64.25,
+   "cue": "red pencil line (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 81,
+    "ev": "line",
+    "f": 1542
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 1548,
+   "t_s": 64.5,
+   "cue": "red pencil line (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 82,
+    "ev": "line",
+    "f": 1548
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 1554,
+   "t_s": 64.75,
+   "cue": "red pencil line (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 83,
+    "ev": "line",
+    "f": 1554
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 1566,
+   "t_s": 65.25,
+   "cue": "typed tape laid and pressed down",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 84,
+    "ev": "tape",
+    "f": 1566
+   }
+  }
+ ],
+ "sync_dep_key": {
+  "recipe": "{'edit_id': 'A1'|'B1', 'event': i} = index into edit-recipes.json edits[].events / cut_points",
+  "stream": "{'stream': 'notebook/events.json', 'index': i, 'ev', 'f'} = index into the animator's frame-indexed event stream",
+  "segment": "{'segment': 'S..'} = plan section 7 segment (no event)"
+ },
+ "mix_B_declared": {
+  "bed_duck_db": -9,
+  "declared_silence": {
+   "cut_frames": [
+    60,
+    119
+   ],
+   "seconds": 2.5,
+   "content": "no tick, no bed; pink air at -62 dBFS only (measured -62..-66 dB per frame)"
+  },
+  "latch": {
+   "B1": 114,
+   "offset": -6,
+   "B4": 132
+  },
+  "tick_returns_hard": 240,
+  "tick_alone_on_01": [
+   372,
+   407
+  ],
+  "footsteps_prelap": 396,
+  "reverb_tail_under_08": [
+   468,
+   557
+  ],
+  "measured_note": "per-frame RMS of T4 checked: frames 60-118 at -62..-67 dBFS, latch peak at frame 115 (-16 dB RMS), 01 window only the tick (two ticks, 372 and 396), digital zero from frame 559"
+ },
+ "evidence_foraged": [
+  {
+   "id": "mia-ef7bfc89",
+   "title": "Wreckless (1935), Jam Handy Organization, sponsor Chevrolet Motor Company (Prelinger Archives)",
+   "author": "The Jam Handy Organization (producer), for Chevrolet Motor Company; clip via movingimagearchive.com",
+   "license": "Public domain (Prelinger Archives; archive.org lists licenseurl creativecommons.org/licenses/publicdomain/ for identifier 'wreckless', re-read 2026-11-16 from archive.org/metadata/wreckless)",
+   "license_url": "http://creativecommons.org/licenses/publicdomain/",
+   "source_url": "https://www.movingimagearchive.com/sources/wreckless-a46a460b?clip=ef7bfc89-ff77-5425-ab77-508a21f7c9db",
+   "file_url": "",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound-editor/wreckless1935_roomtone_1.00-3.45s.wav (also wreckless1935_ef7bfc89_full.wav, wreckless1935_frame.jpg); cache /home/user/hartswf0/cineosis-lab/lab/clips/ef7bfc89-ff77-5425-ab77-508a21f7c9db.mp4",
+   "what_it_shows": "B&W interior (panelled room, a woman seated, two men standing) before anyone speaks; the soundtrack there is plain optical-track room air with two faint handling clicks, no music, no voice (spectrogram checked)",
+   "verified_date_or_place": "1935 per archive index; place unverified",
+   "used_as": "T0 room tone, looped",
+   "license_round_1": "Rights as listed by movingimagearchive.com (largely public domain); not independently verified",
+   "license_note": "repair round 2: reconciled with the credits; the archive.org PD mark was re-read on 2026-11-16 from archive.org/metadata (replaces \"not independently verified\")"
+  },
+  {
+   "id": "mia-a11ba534",
+   "title": "Valley Town (1940), dir. Willard Van Dyke (Prelinger Archives)",
+   "author": "Educational Film Institute of New York University and Documentary Film Producers, Inc. (dir. Willard Van Dyke; sponsor Alfred P. Sloan Foundation); clip via movingimagearchive.com",
+   "license": "Public domain (Prelinger Archives; archive.org lists licenseurl creativecommons.org/licenses/publicdomain/ for identifier 'ValleyTo1940', re-read 2026-11-16 from archive.org/metadata/ValleyTo1940). The film's score is by Marc Blitzstein; the excerpt used is the factory whistle only: in every 0.5 s window of the 3.7 s excerpt the spectral peaks stay at 116-122 / 172-176 Hz with no melodic line detected (measured, not auditioned on speakers).",
+   "license_url": "http://creativecommons.org/licenses/publicdomain/",
+   "source_url": "https://www.movingimagearchive.com/sources/valley-town-9978c98d?clip=a11ba534-ceca-5859-a69f-9d622f30c4e7",
+   "file_url": "",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound-editor/valleytown1940_whistle_a11ba534.wav (frame: valleytown1940_frame.jpg); cache /home/user/hartswf0/cineosis-lab/lab/clips/a11ba534-ceca-5859-a69f-9d622f30c4e7.mp4",
+   "what_it_shows": "B&W factory roofline with a steam whistle blowing; soundtrack is the steady low whistle (~119 Hz + 174 Hz) over hiss, no speech or score in this 3.7 s (spectrogram checked; the neighbouring Valley Town clip df82dd90 carries the score and was rejected)",
+   "verified_date_or_place": "1940 per archive index; place unverified (an industrial town)",
+   "used_as": "T3 mix A: distant whistle under 07",
+   "license_round_1": "Rights as listed by movingimagearchive.com (largely public domain); not independently verified",
+   "license_note": "repair round 2: reconciled with the credits; the archive.org PD mark was re-read on 2026-11-16 from archive.org/metadata (replaces \"not independently verified\")"
+  }
+ ],
+ "evaluated_rejected": [
+  {
+   "items": "Look to Lockheed for Leadership 1940 (d2ed8576, crowd at shift change), Formations 1936 (6eb03e7f), Straight Talk 1992 (93053686), Ask Me Don't Tell Me 1961 (36039e37, walking feet), Let Yourself Go 1940 (46874a7c, door), Dating Do's and Don'ts 1949 (a267fee7, door)",
+   "reason": "narration over all of the clip, or score + narration (harmonic stacks / syllabic modulation in spectrograms)"
+  },
+  {
+   "items": "ALASKAN EARTHQUAKE 1966 (adfad259, ticking clock); Man and Space 1961 (18c68920) and First Private Atom Power Plant Opens 1957 (842ae581, wall of clocks)",
+   "reason": "no isolable tick: narration or tonal music over the clock; quiet gap holds no periodic ticks"
+  },
+  {
+   "items": "Third Avenue El (14c8b94b)",
+   "reason": "steady broadband rumble usable as distant El, but no year and the 1955 Carson Davidson film's rights are unclear; not used"
+  },
+  {
+   "items": "Back-Room Boy 1942 (433148ea)",
+   "reason": "British feature; likely in copyright; not used"
+  },
+  {
+   "items": "This Is My Railroad 1940, Big Train 1950, 6 1/2 Magic Hours 1958 and other station/railroad hits",
+   "reason": "music or voice-over (also rejected by the test-shot unit)"
+  }
+ ],
+ "handmade": [
+  {
+   "item": "concourse murmur: 40 unintelligible noise \"voices\" (two moving formant bands, 3-6 Hz syllabic AM, talk/pause gating) + pink floor, 2.6 s synthetic hall",
+   "where": "sound_build.py murmur(); in T1/T3/T4"
+  },
+  {
+   "item": "distant trains: brown-noise rumble swells (two passes) with paired rail-joint clacks, 3.0 s hall",
+   "where": "trains(); T1/T3/T4"
+  },
+  {
+   "item": "wall-clock tick: pallet click + 1.18/1.04 kHz case resonance + secondary drop, tick/tock alternating",
+   "where": "tick_sig(); T0/T1/T3/T4"
+  },
+  {
+   "item": "door latch: bolt click, strike-plate clack, wood body 95 Hz, short room",
+   "where": "latch(); T3 at A cut 192, T4 at B cut 114 (B4: 132)"
+  },
+  {
+   "item": "footsteps on stone (kit Mix.step), 0.52 s pace, receding, 3.6 s hall tail",
+   "where": "T4 from cut frame 396"
+  },
+  {
+   "item": "mail-room bustle: parcel thuds, paper bursts, hall",
+   "where": "T3 under 02"
+  },
+  {
+   "item": "paper and red-pencil foley: band noise with stroke-length envelopes, graphite grain, crackle",
+   "where": "paper(), pencil(); T2, one cue per animator event"
+  }
+ ],
+ "absences": [
+  {
+   "searched": "Commons File:WWS TheStationTunnelOfTheTampereStation.ogg (Work With Sounds / Werstas, CC BY 4.0; licence read from extmetadata by the test-shot unit) for the station bed",
+   "result": "upload.wikimedia.org HTTP 429 on every attempt with backoff 60 s->8 min this session (log: sources/.../sound-editor/dl/fetch.log), after 8 failed attempts earlier today; not in the mix. If it arrives, decode with ffmpeg to sound-editor/dl/tampere_tunnel.wav and re-run sound_build.py: T1/T3/T4 then use it as the murmur automatically"
+  },
+  {
+   "searched": "Commons API search for \"railway station\", \"clock ticking\", \"door latch\", \"door close\", \"paper rustle\", \"pencil writing\", \"footsteps\" (filetype:audio)",
+   "result": "commons.wikimedia.org API itself returned HTTP 429; no search results obtained, so no Commons paper/pencil/tick/latch/footstep recordings"
+  },
+  {
+   "searched": "LoC www.loc.gov/audio for \"railroad station sound\", \"clock ticking\", \"footsteps\", \"street noise\"",
+   "result": "only oral-history interviews, songs and Jukebox music (not ambience; rights vary); nothing usable"
+  },
+  {
+   "searched": "movingimagearchive.com cache (235 clips with sound): station|railroad|train|crowd|clock|tick|door|office|footstep|hall|platform",
+   "result": "no clean station murmur, wall-clock tick, door latch or footsteps without narration/music; only the room air (Wreckless) and the whistle (Valley Town) were usable"
+  }
+ ],
+ "gaps": [
+  "station murmur, trains, tick, latch, footsteps and all paper/pencil foley are synthesised, not foraged (Commons rate-limited; archive cache lacks them clean)",
+  "stems were judged by spectrogram and per-frame level measurements only; no one has listened on speakers",
+  "B2-rev-adjacency and B3-glance-hold have no dedicated mix: B2 keeps the soundtrack fixed by definition (use T4 with picture B2); B3 would need the silence window re-timed",
+  "the two archive items carry the archive-listed rights only (not independently verified)"
+ ],
+ "new_downloads_mb": 0,
+ "repair_round_1": {
+  "sync_dep_end": "2 cues with sync_dep event \"end\" now name the last event (7) with at:\"out\"; validator passes unpatched",
+  "placement": "the film script trims mix A at cut frame 480 (6 f crossfade into the T1 fall under S4, which both exports carry) and mix B at 564; the shared bed fades over cut-B frames 552-563; pre-encode PCM of the two exports is bit-identical outside S3 and S7 (see assembly.md)"
+ },
+ "files_v2": [
+  {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T0_room_v2.wav",
+   "seconds": 67.0,
+   "frames_24": 1608.0,
+   "rms_dbfs": -52.6,
+   "peak_dbfs": -10.4,
+   "sha256": "34b003fa365e9018be74130c1169df09a3cb6ff80552108df44de887d503246f"
+  },
+  {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T1_bed_cutA-slot_v2.wav",
+   "seconds": 20.75,
+   "frames_24": 498.0,
+   "rms_dbfs": -26.5,
+   "peak_dbfs": -10.5,
+   "sha256": "e0b3555e4e44a32e3d022c3b633498bc56f93c7ec089c932ec38a22eff58fd26"
+  },
+  {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T1_bed_preroll_v2.wav",
+   "seconds": 3.75,
+   "frames_24": 90.0,
+   "rms_dbfs": -32.6,
+   "peak_dbfs": -13.2,
+   "sha256": "157ed0e71f6ff458f75f090bf35d9b69024da0652b102e4eb5f935c3f50ac1e7"
+  },
+  {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T1_bed_v2.wav",
+   "seconds": 24.25,
+   "frames_24": 582.0,
+   "rms_dbfs": -26.5,
+   "peak_dbfs": -10.5,
+   "sha256": "ff8a77d73fd165a60fddbf67b050ff799768e7158a5693ea5cf126d929edf289"
+  },
+  {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T2_foley_v2.wav",
+   "seconds": 67.0,
+   "frames_24": 1608.0,
+   "rms_dbfs": -39.1,
+   "peak_dbfs": -6.3,
+   "sha256": "7ea2973d6f78a308b4240d3203862eb65bff9dde4edb5e5868e6f4f322db48b5"
+  },
+  {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T3_mixA_v2.wav",
+   "seconds": 20.75,
+   "frames_24": 498.0,
+   "rms_dbfs": -22.8,
+   "peak_dbfs": -6.5,
+   "sha256": "7d44dab9b788ace03b55cc0a146ba49074465af5c49cc59b6646f6b99eeadc19"
+  },
+  {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T4_mixB_B4-delayed-cue_v2.wav",
+   "seconds": 24.25,
+   "frames_24": 582.0,
+   "rms_dbfs": -34.0,
+   "peak_dbfs": -7.0,
+   "sha256": "f3fa531c544a21cdb6b35cb9e0105dab63ea92e3caa6c85e6853f8a61312e5b6"
+  },
+  {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T4_mixB_v2.wav",
+   "seconds": 24.25,
+   "frames_24": 582.0,
+   "rms_dbfs": -34.0,
+   "peak_dbfs": -7.5,
+   "sha256": "506acc3fef30805210ef1a4ffcab6f72f320f1d5d1ac875b45e728918b528851"
+  },
+  {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/preview_final_v2.wav",
+   "seconds": 67.0,
+   "frames_24": 1608.0,
+   "rms_dbfs": -27.1,
+   "peak_dbfs": -6.4,
+   "sha256": "71acd1ac6a5ecffbe88b5a4163264a5cc3efeed1fb5abebb6d39273e9ceed9ea"
+  },
+  {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/preview_screening1-sharedbed_v2.wav",
+   "seconds": 67.0,
+   "frames_24": 1608.0,
+   "rms_dbfs": -27.8,
+   "peak_dbfs": -6.4,
+   "sha256": "9459918a08c0ced254480901cf8857b5ee1f539909c03064368b5835a60adeca"
+  }
+ ],
+ "sources_v2": {
+  "murmur": "handmade synthesis v2 (Commons file not obtained): event-built concourse -- talkers on a crowd swell, passing walkers, 2 PA fragments, trolley, case, steam; smooth filters",
+  "concourse_events": [
+   {
+    "what": "talker utterances",
+    "count": 123
+   },
+   {
+    "what": "walker (close)",
+    "t": 11.9,
+    "dur": 8.04
+   },
+   {
+    "what": "walker (close)",
+    "t": 19.18,
+    "dur": 8.24
+   },
+   {
+    "what": "walker",
+    "t": 15.21,
+    "dur": 7.86
+   },
+   {
+    "what": "walker",
+    "t": -3.0,
+    "dur": 8.15
+   },
+   {
+    "what": "walker",
+    "t": 8.62,
+    "dur": 8.64
+   },
+   {
+    "what": "walker",
+    "t": 23.07,
+    "dur": 5.67
+   },
+   {
+    "what": "walker",
+    "t": 6.65,
+    "dur": 8.63
+   },
+   {
+    "what": "walker",
+    "t": 13.6,
+    "dur": 6.95
+   },
+   {
+    "what": "walker",
+    "t": 18.63,
+    "dur": 8.22
+   },
+   {
+    "what": "PA fragment (unintelligible)",
+    "t": 6.3,
+    "dur": 2.6
+   },
+   {
+    "what": "PA fragment (unintelligible)",
+    "t": 18.7,
+    "dur": 2.2
+   },
+   {
+    "what": "baggage trolley",
+    "t": 10.02
+   },
+   {
+    "what": "case set down",
+    "t": 14.05
+   },
+   {
+    "what": "steam release, far",
+    "t": 21.8
+   }
+  ],
+  "previews": {
+   "screening1-sharedbed": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/preview_screening1-sharedbed_v2.wav",
+   "final": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/preview_final_v2.wav"
+  }
+ },
+ "bed_check": {
+  "test": "critic round 2: 250 ms RMS p90-p10 >= 6 dB; no line >20 dB over local median (+-215 Hz) for >3 s (nfft 8192, hop 2048)",
+  "results": {
+   "T1 shared bed under S3 (cut f 0-479)": {
+    "rms_p10_p90_db": 7.63,
+    "longest_line_s": 0.6,
+    "line_hz": 118.4326171875,
+    "pass_rms": true,
+    "pass_lines": true
+   },
+   "T1 shared bed under S7 (cut f 0-563)": {
+    "rms_p10_p90_db": 7.43,
+    "longest_line_s": 0.6,
+    "line_hz": 118.4326171875,
+    "pass_rms": true,
+    "pass_lines": true
+   },
+   "T3 mix A under S3": {
+    "rms_p10_p90_db": 8.78,
+    "longest_line_s": 0.65,
+    "line_hz": 118.4326171875,
+    "pass_rms": true,
+    "pass_lines": true
+   },
+   "T4 mix B under S7": {
+    "rms_p10_p90_db": 35.44,
+    "longest_line_s": 0.46,
+    "line_hz": 118.4326171875,
+    "pass_rms": true,
+    "pass_lines": true
+   }
+  }
+ },
+ "repair_round_2": {
+  "date": "2026-11-16",
+  "changes": [
+   "T1 concourse rebuilt from events in sound_crowd.py (talker utterances on a crowd swell, walkers, PA fragments, trolley, case, steam); the round-1 static murmur (fixed formant noise bands through kit.Mix.band brick-wall filters) is retired",
+   "every filter in sound_build.py now uses smooth Butterworth-magnitude shaping (sound_crowd.gentle) instead of the FFT brick wall; hall IRs are two-band noise with faster high decay",
+   "T0 room: the 60 Hz mains-hum sine of kit.Mix.room removed (plain air instead)",
+   "mix B: second decisive cue -- close footsteps pre-lap 02 by 14 f; parcel set down 5 f before 06; paper slip drawn across the counter 2 f before 06",
+   "mix B cue frames follow the re-timed B1 (02 96 f, 08 72 f): 06 at 264, 03 at 336, 01 at 396, 07 at 432, 08 at 492",
+   "T2: one more foley cue, the tape B : récit inventé laid on page 1 (S5 local 190)",
+   "licences of the two archive audio items reconciled with the credits (PD mark re-read)"
+  ],
+  "tampere": "Commons WWS TheStationTunnelOfTheTampereStation.ogg still HTTP 429 on 2026-11-16 14:17 (API and upload.wikimedia.org); not used"
+ }
+}

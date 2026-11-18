@@ -1,0 +1,84 @@
+{
+ "n": 21,
+ "id": "told-at-dusk",
+ "title": "Told at dusk",
+ "family": "time and order",
+ "medium": "rol-cutout",
+ "canon_revision": "c1",
+ "rule": "Framed at six in the evening: the agent at the still-closed door recalls the afternoon; the incident sits in panels inside a remembering frame.",
+ "declares": "adds an evening frame after E5",
+ "file": "assets/pages/99-ways/21-told-at-dusk.jpg",
+ "master": "films/sources/99-ways/masters/21-told-at-dusk.png",
+ "beats_dir": "films/sources/99-ways/beats/21",
+ "build": "films/swarm/99-ways/build/p21_told_at_dusk.py (rol-cutout kit: kit/build_page04.py; rest layers via kit/build_page01.py)",
+ "sources": [
+  "99-ways:rol-34852-sainte-catherine-1913",
+  "99-ways-template:rothstein-randolph-agent-1937",
+  "99-ways-template:rothstein-tavern-clock-1937",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "the evening frame: a dusk-blue card round the whole page; on it the 99-ways-template rest layers of P3 (Rothstein 1937 office, the agent before the cupboard whose leaf carries the SERVICE card) printed as a cold blue-grey toned press print with a white scissor margin, the hanging lamp lit (a warm glow laid round its bulb)",
+  "the office clock cut out from the 99-ways-template clock pieces (LoC tavern clock) with its own hour and minute hands re-set on the arbor to 6:00, pasted with a scissor margin",
+  "cover-page grammar of the rol-cutout kit: 'Six o'clock.' lettered letter by letter in the shared pen hand (jumping, ochre and cream on the dusk), caption slips; thought dots (cut-paper discs) from the evening print down onto the afternoon card",
+  "the afternoon: a warm butter card laid inside the frame, headed 'That afternoon'; six warm sepia prints of the 99-ways-template rest layers (P1, P4, P5, P6, P7, P8) with white scissor margins, caption slips in past tense, each red number set just above its slip at the end nearest its own print, and the clock time of each beat (4:08 ... 4:11)",
+  "the stranger: the Agence Rol 34852 woman cutout (as on page 04) set behind the ticket-window glass at 80 % (E1) and turning away (E3), the four lines in the shared cut-paper balloons, hers tailed to her",
+  "closing evening slip at the foot (cap 33, ending with its shadow above y = 2730, clear of the folio band): 'Six o'clock still. The key hangs on its hook; the SERVICE door stays shut; and what he came for, he cannot say.'",
+  "folio '21 / Told at dusk' (pen99.folio)"
+ ],
+ "events": {
+  "E0": "P1 (4:08): He had his memo: open the SERVICE door at 4:15. Up he got.",
+  "E1": "P4 (4:09): On his way, a lady at the window: | balloon: Pardon me — have you the right time?",
+  "E2": "P5 (4:10): He looked at the clock: | balloon: Ten past four, by the clock.",
+  "E3": "P6 (4:10): She thanked him and went. | balloon: Much obliged!",
+  "E4": "P7 (4:11): He opened the cupboard. There hung the key.",
+  "E5": "P8 (4:11): And there he stood. | balloon: Well, here I am... and what for?"
+ },
+ "evening_frame": "added after E5 (declared): 6 p.m., the agent before the still-closed SERVICE door, the clock at 6:00; he goes back over the afternoon and still cannot say what he came for (outcome unchanged)",
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "none (lines verbatim)",
+ "beat": "the evening frame first (six o'clock, the shut door, the remembering begins), then the afternoon prints are laid on one by one, 4:08 to 4:11, and the frame closes with the evening slip",
+ "beat_frames": [
+  "b01: the evening frame only: dusk print, clock at 6:00, 'Six o'clock.', the afternoon card still empty",
+  "b02: + afternoon print 1",
+  "b03: + afternoon print 2",
+  "b04: + afternoon print 3",
+  "b05: + afternoon print 4",
+  "b06: + afternoon print 5",
+  "b07: + afternoon print 6",
+  "b08: + the closing evening slip (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1056720,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "separation": "evening = dusk-blue frame, blue-toned print, clock at 6:00, present-tense slips; afternoon = butter card inside it, warm sepia prints, past-tense slips stamped 4:08-4:11",
+  "lines_verbatim": true,
+  "pending": "independent blind reading not run by the maker",
+  "folio_band_check": "master PNG rows y 2730-2850 differ from a bare LoC sheet + folio render by at most 1 level: only paper ground and the folio line",
+  "beat_frames": 8,
+  "evidence": "measured (size, pixel checks named in the repair) and judged from the full-size page by the repair maker; a fresh blind reading of the repair is pending"
+ },
+ "repairs": [
+  {
+   "date": "2026-11-17",
+   "by": "repair maker, batch 2",
+   "changed": [
+    "closing slip set at cap 33 from y 2572 so it and its shadow end above y = 2730",
+    "the six red numbers moved off the slips' inner ends: each sits above its slip at the end nearest its own print (5 and 6 now about 800 px apart)"
+   ],
+   "pass_test": "rows y 2740-2850 contain only paper ground and the folio line"
+  }
+ ]
+}

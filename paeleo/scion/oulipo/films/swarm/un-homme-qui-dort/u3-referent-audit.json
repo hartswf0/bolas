@@ -1,0 +1,191 @@
+{
+ "film": "un-homme-qui-dort",
+ "unit": "U3 referent checker",
+ "beats": "beats-r2",
+ "date": "2026-11-15",
+ "gate_command": "/usr/local/bin/python3 -I /home/user/bolas/paeleo/scion/oulipo/films/swarm/un-homme-qui-dort/u3-gate.py --selftest --json /home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u3-voice-writer-referent-checker-one-owner-one-ledger-/gate_report.json --sound /home/user/bolas/paeleo/scion/oulipo/films/swarm/un-homme-qui-dort/u2-sound-ledger.json",
+ "gate_stdout": [
+  "[gate] 103 checks, 0 failed -> PASS",
+  "[selftest] X1 'He hears it through the wall.' (person 3): REJECTED by ['P1/I1 second person, addressee you:A1']",
+  "[selftest] X1' same text with forged person=2/addressee=you:A1: REJECTED by ['P1/I1 second person, addressee you:A1']",
+  "[selftest] X2 c4.A onset moved to 18.8: REJECTED by ['I3 SIL-H has no caption', 'I6 only onsets differ, by 2.4 s', 'P3 onset = event - 1.2 +/- 0.05', 'P3 overlaps is computed, never declared', 'P4 clear of SIL-H with 0.1 s guard']",
+  "[selftest] X3 c2.B extended to end 8.7: REJECTED by ['I6 durations identical', 'P4 no straddle into a shot holding a different event']"
+ ],
+ "gate_exit": 0,
+ "picture_ledger": null,
+ "status": "PENDING U1 ledger (u1-picture-ledger.json not delivered at audit time, 23:45). Gate PASS on beats-r2 planned times; independent frame-diff measurements on U1's renders confirm E1 (frame 49 vs 48) and E3's head turn (9.29 vs 9.25) and return (10.46 vs 10.4) within +/-1 frame; S4 static. D and Bl need U1's S5/S7 figure-alpha coverage, not yet rendered: re-run `python3 -I u3_audit.py` once the ledger lands. No quarantine; no beats revision proposed.",
+ "measured_vs_planned": [],
+ "D": {
+  "check": "D (planned) c5.B after E6.exit >= 0.8 s",
+  "subject": "c5.B",
+  "pass": true,
+  "detail": "[29.7, 32.5] exit 31.5; PLANNED ONLY, needs U1 coverage"
+ },
+ "Bl": {
+  "check": "Bl (planned) c4.B inside [E4.on, E4.exit]",
+  "subject": "c4.B",
+  "pass": true,
+  "detail": "[21.7, 23.0] in [20.5,23.5]; PLANNED ONLY"
+ },
+ "counterexamples": [
+  {
+   "name": "X1 'He hears it through the wall.' (person 3)",
+   "rejected": true,
+   "expected_failure": "P1",
+   "failed_checks": [
+    "P1/I1 second person, addressee you:A1"
+   ],
+   "quarantined": [
+    "c2.A",
+    "c2.B"
+   ]
+  },
+  {
+   "name": "X1' same text with forged person=2/addressee=you:A1",
+   "rejected": true,
+   "expected_failure": "P1",
+   "failed_checks": [
+    "P1/I1 second person, addressee you:A1"
+   ],
+   "quarantined": [
+    "c2.A",
+    "c2.B"
+   ]
+  },
+  {
+   "name": "X2 c4.A onset moved to 18.8",
+   "rejected": true,
+   "expected_failure": "P4 clear of SIL-H",
+   "failed_checks": [
+    "I3 SIL-H has no caption",
+    "I6 only onsets differ, by 2.4 s",
+    "P3 onset = event - 1.2 +/- 0.05",
+    "P3 overlaps is computed, never declared",
+    "P4 clear of SIL-H with 0.1 s guard"
+   ],
+   "quarantined": [
+    "c4",
+    "c4.A",
+    "takeA"
+   ]
+  },
+  {
+   "name": "X3 c2.B extended to end 8.7",
+   "rejected": true,
+   "expected_failure": "P4 no straddle",
+   "failed_checks": [
+    "I6 durations identical",
+    "P4 no straddle into a shot holding a different event"
+   ],
+   "quarantined": [
+    "c2",
+    "c2.B"
+   ]
+  }
+ ],
+ "quarantine": [],
+ "proposed_beats_revision": null,
+ "failures": [],
+ "independent_partial_measurements": {
+  "method": "mean |frame[i]-frame[i-1]| on U1's rendered PNGs (decoded with PIL); onset = first local rise after the glide decay",
+  "shots_rendered_at_audit": [
+   "S1",
+   "S3",
+   "S4"
+  ],
+  "S3": {
+   "frames": 72,
+   "head_turn_onset_shot_frame": 19,
+   "head_turn_pass_t": 9.292,
+   "planned_turn_pass_t": 9.25,
+   "return_onset_pass_t": 10.458,
+   "planned_return": 10.4,
+   "within_pm1_frame": true,
+   "static_from_pass_t": 10.875,
+   "read": "ring 3 (U2 BELL at 9.0) -> head turn +0.25-0.29 s -> hold -> return; no reach. c3 binds E3 (ring onset 9.0): A 7.8 anticipates, B 10.2 lags and lands just after the return began, inside the changed state."
+  },
+  "S4": {
+   "frames": 180,
+   "max_diff": 0.0,
+   "read": "fully static (default branch, no HELD-breath); SIL-H carries no caption in either take"
+  },
+  "S1": {
+   "frames_rendered": "114+ of 132 (rendering)",
+   "E1_onset_shot_frame": 49,
+   "E1_onset_pass_t": 2.042,
+   "planned": 2.0,
+   "planned_frame": 48,
+   "within_pm1_frame": true,
+   "E1_settle_frame": 67,
+   "E1_settle_pass_t": 2.792,
+   "planned_off": 2.8,
+   "read": "frame-diff rises above the glide baseline (~0.97) at frame 49 (eased in), peaks 57-61, returns at 67: the head lift E1 lands 2.04-2.79 vs planned 2.0-2.8. c1.A (0.8-2.0) ends as the lift begins (anticipates); c1.B (3.2-4.4) starts 0.4 s after it settles (lags)."
+  },
+  "U2_bell_cues": [
+   [
+    "BELL-R1",
+    "E2",
+    6.0
+   ],
+   [
+    "BELL-R2",
+    "E2b",
+    7.6
+   ],
+   [
+    "BELL-R3",
+    "E3",
+    9.0
+   ]
+  ],
+  "U2_step_cues_first": [
+   [
+    "STEP-N1@20.8",
+    20.8
+   ],
+   [
+    "STEP-N1@28.8",
+    28.8
+   ],
+   [
+    "STEP-N2@21.35",
+    21.35
+   ],
+   [
+    "STEP-N2@29.35",
+    29.35
+   ],
+   [
+    "STEP-N3@21.9",
+    21.9
+   ],
+   [
+    "STEP-N3@29.9",
+    29.9
+   ],
+   [
+    "STEP-N4@22.45",
+    22.45
+   ],
+   [
+    "STEP-N4@30.45",
+    30.45
+   ],
+   [
+    "STEP-N5@23.0",
+    23.0
+   ],
+   [
+    "STEP-N5@31.0",
+    31.0
+   ]
+  ]
+ },
+ "cross_unit_flags": [
+  {
+   "to": "U1 / director",
+   "kind": "aesthetic (not a referent mismatch; no beats revision)",
+   "detail": "U1 S4 frame S4_0084 measures below60 0.136 / above220 0.569 against reference 0.416 / 0.326; plan \u00a79.6 needs each within +/-0.12. The pale wall dominates and the right side is mid-grey shadow, not the reference's deep mass. Measured in u3_caption_proof.json."
+  }
+ ]
+}

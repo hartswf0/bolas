@@ -1,0 +1,611 @@
+{
+ "unit": "puppet (U2)",
+ "plan": "plan-r1 / score-r1 (E-table in plan.md section 4; beatmap.json and plates.json were not present, so the r2/test-shot plates were used)",
+ "direction": "Direction 1 'Rizzuto Stoop', handrail perch staging kept (as the test-shot review asked)",
+ "produced": {
+  "module": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/puppet/puppet.py",
+  "module_api": {
+   "Rig(actor, era)": "loads the GrabCut pieces + rig.json; .world(pose) FK matrices, .render(pose, A_stage_to_canvas, size, lum, pieces_alpha) -> rgb, alpha, piece_alpha, landmarks (canvas), .bone_lengths(pose)",
+   "POSES / HOP_KEYS / HOP_ARRIVE": "pose library: rest, crouch, push, air, land, settle, hold, plus strike, recoil, cock, peck, look_up (additive head offsets)",
+   "track_climb(rig, treads, f0, frames)": "hop cycle, one tread per 8 frames, on twos (crouch f0, push f2, air f4, land f6); settle/hold on arrival; feet planted by ground_pose",
+   "head_score(f, e3, e4) / peck_score(f, f_peck)": "the strike: head world -22 deg about the neck pin over 2 frames (neck -15, head -7), recoil to +6 over 2 frames, on ones; peck_score = the single-strike counterexample (V3 at 4.6 s)",
+   "track_step_over(rig, x0, y_landing, x_sill, y_hall, scale)": "step over the sill: near foot lifts (hip +40, shank -70), then the far foot, then walks into the hall",
+   "tail_lag(track, rig)": "tail as a lagged child, 2 frames behind the body rotation",
+   "plant_both / ground_pose": "root motion consistent with contact: the soles are put on a ground(x) function",
+   "cast_shadow(alpha, ground_y, light, risers, riser_shift)": "hard cast shadow sheared by light direction, broken (stepped) at each riser line",
+   "contact_shadow(size, pts, rx, ry)": "occlusion under the soles",
+   "Watcher()": ".score(t, x0, x_stop): slide, stop at 3.5 s with a 0.4 s ease, head +14 deg on twos (>=12), held to 10.0, resumes at 11.0; .shadow(t, foot, A, size, height_stage, x0, x_stop, light): body+head silhouette projected onto the ground plane (long low-sun shadow via the light vector)",
+   "hinge_quad / hand_theta": "1959: hinge homography of the leaf quad, latch at 6.75, unseen-hand swing to 78 deg over E5 7.0-8.5",
+   "chain_theta / chain_links": "2009: hinged swing stopping at 25 deg on the chain with a damped bounce; 6-link catenary that goes taut at the stop (handmade chain geometry)",
+   "DoorFSM(strikes, t_close).trace(t_end) / slide_offset": "2059 #48 state table closed -> listening -> open | refuse with 7 sensor-dot states per frame and the self-slide offset",
+   "save_track / load_track": "tracks/<shot>.json per-frame root, rot, scale, joint angles"
+  },
+  "editor_usage": "import sys; sys.path.insert(0, '<puppet dir>'); import puppet as P; bird = P.Rig('rooster', era=1959); lay = bird.render(pose, A, (960, 540)). knockproof.py is a worked example of the full V1-B layer DAG: plate -> hall -> swung leaf -> cast shadow -> bird -> railing holdout -> jamb holdout (inside) -> vignette -> kit grain.",
+  "rig": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/puppet/rig.json",
+  "pieces": {
+   "rooster": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/puppet/pieces/rooster/ (piece_body, neck, head, tail, hip_L, shank_L, foot_L, hip_R, shank_R, foot_R; mask.png; failure_box_vs_final.png; failure_guard_restored.png; check.png)",
+   "watcher": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/puppet/pieces/watcher/ (piece_body, piece_head, mask, failure masks, check.png)",
+   "v1a_rail_holdout": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/puppet/pieces/v1a_rail_holdout.png (provisional, full-scan coords of ppmsca.70651; story-plates' matte supersedes it)"
+  },
+  "extraction_script": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/puppet/extract.py",
+  "tracks": {
+   "v1b": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/puppet/tracks/v1b.json (144 frames, clip 0 = local 5.0 s)",
+   "v1a-climb-demo": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/puppet/tracks/v1a-climb-demo.json (48 frames on provisional tread points)"
+  },
+  "knock_proof": {
+   "mp4": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/puppet/knock-proof.mp4",
+   "poster": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/puppet/knock-proof.webp",
+   "script": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/puppet/knockproof.py",
+   "ledger": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/puppet/knock-proof-ledger.json",
+   "sheet": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/puppet/stills/knock-proof-sheet.jpg",
+   "what": "V1-B alone, 6.0 s (local 5.0-11.0), 960x540, 24 fps, temporary knock sound (Knock on door.wav strike, +5/+8 semitones, so strike 2 is +3 above strike 1) over the 1941 room tone. Two hops up the handrail, the perch, a close insert (clip 0.67-1.75 s) on the beak meeting the leaf for both strikes (E3 f24, E4 f32), the latch, the unseen-hand swing, the black hall, the leap off the rail into the hall and the jamb swallowing the bird by f118."
+  },
+  "baseline": {
+   "mp4": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/puppet/baseline.mp4",
+   "what": "rigid sticker: one pose translated along the rail and into the doorway, no joints, no head strike, no insert, no cast/contact shadow, no holdout; the knock is sound only"
+  },
+  "tests": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/puppet/tests.json",
+  "v1a_occlusion_sheet": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/puppet/v1a-occlusion.png"
+ },
+ "review_fixes": {
+  "bird_larger": "bird 112 plate px on a 560 px wide shot B (~36% of frame height, measured from the stills) vs ~26% in test-shot.mp4; in the insert the bird is ~40-45%",
+  "strikes_readable": "close insert on beak and leaf for both strikes; strike on ones (2 frames down, 2 frames recoil) with the body pitching 8 deg into the blow; the head's cast shadow on the leaf closes to the beak tip on the contact frames (gap 0)",
+  "white_balance": "measured on the rendered frames: before the door opens >200 = 22-24%, <40 = 5-10%, R-B mean 0.0, corner/centre 0.44-0.49; after the door opens the black hall is the one big mass (<40 = 38-45%). Gap: the insert frames at E3/E4 have only ~6% <40 (the plan bar for the 1959 frame at E3 asks >=15%); the editor can hold shot B instead of the insert at 9.0 s for compare-1959.jpg, or accept the insert as the readability fix."
+ },
+ "tests_summary": {
+  "bone_lengths": {
+   "pass": true,
+   "ptp_stage_px": {
+    "neck": 0.0,
+    "head": 0.0,
+    "tail": 0.0,
+    "hip_L": 0.0,
+    "shank_L": 0.0,
+    "foot_L": 0.0,
+    "hip_R": 0.0,
+    "shank_R": 0.0,
+    "foot_R": 0.0
+   },
+   "pin_gap_max_px": 0.0,
+   "label": "measured from posed transforms, all 144 frames; constant by construction of the multiply order (structurally verified)"
+  },
+  "head_neck_attached": {
+   "frames_checked": 23,
+   "attached": 23,
+   "label": "measured (rendered alpha at the head pin)"
+  },
+  "beak_in_leaf_mask_E3_E4": {
+   "E3_f24": true,
+   "E4_f32": true,
+   "head_gap_px_on_contact": [
+    0.0,
+    0.0
+   ],
+   "beak_plate": [
+    [
+     1917.8,
+     248.1
+    ],
+    [
+     1917.8,
+     248.1
+    ]
+   ],
+   "label": "measured: beak tip (posed landmark) sampled in the leaf matte, iron excluded"
+  },
+  "E3_E4_frames_apart": 8,
+  "bird_px_past_jamb_E6_end": {
+   "frame": 120,
+   "px": 0,
+   "first_zero_frame": 118,
+   "label": "measured on the rendered composite (alpha*(1-jamb holdout) > 0.5)"
+  },
+  "no_popping_after_entry": {
+   "monotone_nonincreasing_from_f100": true,
+   "visible_px_f100_f143": [
+    10933,
+    9515,
+    3359,
+    1045,
+    213,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "label": "measured"
+  },
+  "v1a_railing_occlusion": {
+   "bird_px_overlapping_railing_matte": 40367,
+   "bird_px_visible_inside_railing": 0,
+   "frames_with_overlap": [
+    0,
+    2,
+    4,
+    6,
+    8,
+    10,
+    12,
+    14,
+    16,
+    18,
+    20,
+    22,
+    24,
+    26,
+    28,
+    30,
+    32,
+    34,
+    36,
+    38,
+    40,
+    42,
+    44,
+    46
+   ],
+   "pass": true,
+   "label": "measured on a provisional railing holdout (bright vertical bars, morphological open 1x81) cut by the puppet unit; story-plates' matte supersedes it"
+  },
+  "no_background_islands": {
+   "rooster": {
+    "components": 1,
+    "background_regions": 2
+   },
+   "watcher": {
+    "components": 1,
+    "background_regions": 1
+   },
+   "pass": true,
+   "label": "measured (8-connected components of the final masks)"
+  },
+  "door_fsm_2059": {
+   "pass": true,
+   "V3 score (peck 4.6, tok 6.00, tok 6.333)": {
+    "opened": true,
+    "events": [
+     [
+      4.6,
+      "closed->listening"
+     ],
+     [
+      5.125,
+      "listening->refuse(timeout)"
+     ],
+     [
+      5.583,
+      "refuse->closed"
+     ],
+     [
+      6.0,
+      "closed->listening"
+     ],
+     [
+      6.333,
+      "listening: 2nd strike in rhythm"
+     ],
+     [
+      6.833,
+      "listening->open"
+     ],
+     [
+      11.0,
+      "open->closed"
+     ]
+    ]
+   },
+   "one strike": {
+    "opened": false,
+    "events": [
+     [
+      6.0,
+      "closed->listening"
+     ],
+     [
+      6.5,
+      "listening->refuse(timeout)"
+     ],
+     [
+      6.958,
+      "refuse->closed"
+     ]
+    ]
+   },
+   "three strikes": {
+    "opened": false,
+    "events": [
+     [
+      6.0,
+      "closed->listening"
+     ],
+     [
+      6.333,
+      "listening: 2nd strike in rhythm"
+     ],
+     [
+      6.666,
+      "listening->refuse(third strike)"
+     ],
+     [
+      7.125,
+      "refuse->closed"
+     ]
+    ]
+   },
+   "two strikes 0.6 s apart": {
+    "opened": false,
+    "events": [
+     [
+      6.0,
+      "closed->listening"
+     ],
+     [
+      6.5,
+      "listening->refuse(timeout)"
+     ],
+     [
+      6.958,
+      "refuse->closed"
+     ]
+    ]
+   },
+   "two pecks at the tread (no contact)": {
+    "opened": false,
+    "events": []
+   },
+   "slide_starts_s": 7.0417,
+   "dots_at_6.0": [
+    1.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "dots_at_6.333": [
+    1.0,
+    1.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "dots_at_4.625": [
+    1.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "label": "structurally verified (state table run on the beat times)"
+  },
+  "chain_2009": {
+   "theta_deg_at": {
+    "7.0": 0.0,
+    "7.3": 8.58,
+    "7.6": 26.0,
+    "7.8": 25.09,
+    "8.5": 25.0,
+    "10.0": 25.0
+   },
+   "label": "measured: hinge swing stops at 25 deg on the chain with a damped bounce"
+  },
+  "watcher": {
+   "x_head_at": {
+    "0.0": [
+     0.0,
+     0.0
+    ],
+    "1.0": [
+     121.2,
+     0.0
+    ],
+    "3.0": [
+     363.6,
+     0.0
+    ],
+    "3.4": [
+     398.5,
+     0.0
+    ],
+    "3.5": [
+     400.0,
+     0
+    ],
+    "3.75": [
+     400.0,
+     14
+    ],
+    "6.0": [
+     400.0,
+     14
+    ],
+    "10.0": [
+     400.0,
+     14
+    ],
+    "11.5": [
+     460.6,
+     0
+    ]
+   },
+   "stopped_by_3.5": true,
+   "head_turn_deg_held": 14,
+   "pass": true,
+   "label": "measured from the score function"
+  }
+ },
+ "rig_summary": {
+  "rooster": {
+   "joints": {
+    "body": {
+     "parent": null,
+     "pivot": [
+      290,
+      470
+     ]
+    },
+    "neck": {
+     "parent": "body",
+     "pivot": [
+      415,
+      285
+     ]
+    },
+    "head": {
+     "parent": "neck",
+     "pivot": [
+      478,
+      150
+     ]
+    },
+    "tail": {
+     "parent": "body",
+     "pivot": [
+      200,
+      250
+     ],
+     "lag_frames": 2
+    },
+    "hip_L": {
+     "parent": "body",
+     "pivot": [
+      240,
+      470
+     ]
+    },
+    "shank_L": {
+     "parent": "hip_L",
+     "pivot": [
+      236,
+      535
+     ]
+    },
+    "foot_L": {
+     "parent": "shank_L",
+     "pivot": [
+      244,
+      606
+     ]
+    },
+    "hip_R": {
+     "parent": "body",
+     "pivot": [
+      318,
+      472
+     ]
+    },
+    "shank_R": {
+     "parent": "hip_R",
+     "pivot": [
+      312,
+      528
+     ]
+    },
+    "foot_R": {
+     "parent": "shank_R",
+     "pivot": [
+      342,
+      596
+     ]
+    }
+   },
+   "bones_px": {
+    "neck": 223.271,
+    "head": 148.977,
+    "tail": 237.697,
+    "hip_L": 50.0,
+    "shank_L": 65.123,
+    "foot_L": 71.449,
+    "hip_R": 28.071,
+    "shank_R": 56.321,
+    "foot_R": 74.324
+   },
+   "draw_order": [
+    "tail",
+    "hip_R",
+    "shank_R",
+    "foot_R",
+    "body",
+    "neck",
+    "head",
+    "hip_L",
+    "shank_L",
+    "foot_L"
+   ],
+   "beak_tip": [
+    538,
+    97
+   ],
+   "soles": {
+    "foot_L": [
+     232,
+     640
+    ],
+    "foot_R": [
+     390,
+     632
+    ]
+   },
+   "height_px": 608,
+   "failure_px": {
+    "box_vs_final": 93938,
+    "guard_restored": 0
+   },
+   "islands_removed": 2,
+   "seeds": {
+    "box": [
+     50,
+     28,
+     560,
+     652
+    ],
+    "fg_strokes": 7,
+    "bg_strokes": 6,
+    "band_px": 6
+   }
+  },
+  "watcher": {
+   "joints": {
+    "body": {
+     "parent": null,
+     "pivot": [
+      158,
+      760
+     ]
+    },
+    "head": {
+     "parent": "body",
+     "pivot": [
+      145,
+      168
+     ]
+    }
+   },
+   "bones_px": {
+    "head": 592.143
+   },
+   "height_px": 692,
+   "failure_px": {
+    "box_vs_final": 14948,
+    "guard_restored": 0
+   },
+   "islands_removed": 1,
+   "seeds": {
+    "box": [
+     40,
+     40,
+     230,
+     800
+    ],
+    "fg_strokes": 7,
+    "bg_strokes": 12,
+    "band_px": 6
+   }
+  },
+  "conventions": {
+   "angles": "degrees, y-up (positive = counter-clockwise on screen)",
+   "multiply_order": "world(child) = world(parent) @ T(pivot_child) @ R(angle_child) @ T(-pivot_child); world(root) = T(root_xy) @ R(root_angle) @ S(scale) @ T(-pivot_root)",
+   "pivot": "rig px of the pin in the piece's own (unposed) image; bone = |pivot_child - pivot_parent|"
+  }
+ },
+ "evidence": [
+  {
+   "id": "loc-stereo-1s08734",
+   "title": "[Portrait of a rooster], Animal studies from nature (stereograph)",
+   "author": "Schreiber & Sons (Library of Congress, Stereograph Cards)",
+   "license": "No known restrictions on publication (LoC rights, re-verified this session via loc.gov/pictures/item/2017651475/?fo=json); public domain (published 1870-1880)",
+   "license_url": "",
+   "source_url": "https://www.loc.gov/item/2017651475/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/stereo/1s00000/1s08000/1s08700/1s08734u.tif",
+   "local_path": "films/sources/a-morning-stroll/test-shot/1s08734u.tif; test-shot/roo_crop.png (left lens crop); puppet/pieces/rooster/",
+   "what_it_shows": "a white rooster with a dark tail in right-facing side profile on a studio ground, legs and toes visible",
+   "verified_date_or_place": "between 1870 and 1880 (LoC)",
+   "used_as": "the rooster puppet in every era: GrabCut-cut into 10 FK pieces (body, neck, head, tail, hip/shank/foot x2)"
+  },
+  {
+   "id": "loc-owi-2017861981",
+   "title": "Indianapolis, Indiana. Passengers waiting for a bus at the Greyhound bus station",
+   "author": "U.S. Farm Security Administration/Office of War Information (photographer not named in the LoC record: unverified)",
+   "license": "No known restrictions (LoC rights, re-verified this session via loc.gov/pictures/item/2017861981/?fo=json); US government work",
+   "license_url": "http://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017861981/",
+   "file_url": "",
+   "local_path": "films/sources/a-morning-stroll/2017861981.jpg; puppet/pieces/watcher/",
+   "what_it_shows": "passengers standing on a bus platform; the cut figure is a woman in a dark coat and hat",
+   "verified_date_or_place": "Indianapolis, Indiana, September 1943 (LoC)",
+   "used_as": "the watcher: silhouette only (body + head pieces), ever seen only as a cast shadow"
+  },
+  {
+   "id": "loc-ppmsca-70651",
+   "title": "[Detail of stoop showing staircases and decorative handrails]",
+   "author": "Angelo Rizzuto (Anthony Angel Collection, Library of Congress)",
+   "license": "No known restrictions on publication (verified by the test-shot unit from the loc.gov item JSON, item 2020636795; not re-fetched by this unit)",
+   "license_url": "https://www.loc.gov/rr/print/res/730_ange.html",
+   "source_url": "https://www.loc.gov/item/2020636795/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/ppmsca/70600/70651u.tif",
+   "local_path": "films/sources/a-morning-stroll/test-shot/70651u_full.png; test-shot/plate/{region,iron,leaf}.png",
+   "what_it_shows": "granite stoop, lace iron handrails, panelled door",
+   "verified_date_or_place": "July 1959 (LoC)",
+   "used_as": "the knock-proof plate (reused from the test shot) and the provisional V1-A railing holdout and tread points"
+  },
+  {
+   "id": "commons-knock-on-door",
+   "title": "File:Knock on door.wav",
+   "author": "Asud12 (Wikimedia Commons)",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Knock_on_door.wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/28/Knock_on_door.wav",
+   "local_path": "films/sources/a-morning-stroll/test-shot/knock_m.wav",
+   "what_it_shows": "knocks on a wooden door",
+   "verified_date_or_place": "unverified",
+   "used_as": "TEMPORARY knock in knock-proof.mp4 / baseline.mp4 only (licence from the test-shot ledger, not re-fetched); the sound unit owns the final cue"
+  },
+  {
+   "id": "mia-arteries-of-new-york-city-1941",
+   "title": "Arteries of New York City (1941)",
+   "author": "via movingimagearchive.com",
+   "license": "Rights as listed by movingimagearchive.com (largely public domain); not independently verified",
+   "license_url": "",
+   "source_url": "https://www.movingimagearchive.com/sources/arteries-of-new-york-city?clip=ee12b007-f491-5a16-b94a-70c7a5837e31",
+   "file_url": "",
+   "local_path": "films/sources/a-morning-stroll/test-shot/amb_ee12b007.wav",
+   "what_it_shows": "optical-track room tone",
+   "verified_date_or_place": "1941 (archive title)",
+   "used_as": "temporary room tone under knock-proof.mp4 / baseline.mp4 (reused from the test shot)"
+  }
+ ],
+ "handmade": [
+  "FK rigs and the pose library (rig.json, puppet.py POSES): every frame of the performance is posed by code, on twos with the strikes on ones",
+  "cast shadows (sheared by the light vector, broken at risers) and contact shadows, computed from the puppet alpha",
+  "door mechanisms: 1959 hinge homography + unseen-hand swing, 2009 chain stop + 6-link catenary geometry, 2059 #48 state table + sensor-dot states + self-slide curve",
+  "provisional V1-A railing holdout (pieces/v1a_rail_holdout.png) and tread contact points read off ppmsca.70651",
+  "lens vignette in knockproof.py; latch clicks and landing thud synthesized with kit.Mix (temporary)"
+ ],
+ "absences": [
+  {
+   "searched": "Commons colour photograph of a white hen/rooster in right-facing side profile (queries 'white chicken side view', 'white leghorn hen')",
+   "found": "File:ARS-White Leghorn hen.jpg (Stephen Ausmus, USDA ARS, Public domain per extmetadata) and File:White Korean native cock and hen.jpg (CC0)",
+   "result": "not downloaded: upload.wikimedia.org returned HTTP 429 on every attempt (with exponential backoff, then two delayed retries); nothing rigged",
+   "fallback": "the 1870s LoC rooster is used for 2009/2059 too, toned per era by Rig(era=2009|2059) (neutral daylight / cold grey-green); recorded here. A later unit can rig the ARS leghorn with extract.py once Commons allows the download."
+  },
+  {
+   "searched": "chicken cluck (Commons)",
+   "result": "not attempted again (the test shot recorded 429s); left to the sound unit"
+  }
+ ],
+ "gaps": [
+  "beatmap.json / plates.json were absent: V1-A, V2 and V3 tracks are not baked; the module gives the generators (track_climb, peck_score, track_step_over, Watcher, chain/slide/FSM) that need tread points, door quads and light vectors from plates.json. Only V1-B is a finished shot; v1a-climb-demo uses provisional tread points and the bird there is small (about 10% of frame height) because the demo camera is wide.",
+  "In V1-B the bird enters by a leap from the handrail perch into the hall (the approved test-shot staging), not by a step over a floor-level sill; track_step_over is provided for a landing staging.",
+  "The colour 2009/2059 bird is the toned 1870s rooster (Commons 429).",
+  "The watcher's shadow rig is built and scored but not composited into any rendered shot in this unit.",
+  "No independent critic has watched knock-proof.mp4; readability of the two strikes with sound off is perceptually judged by this builder only."
+ ]
+}

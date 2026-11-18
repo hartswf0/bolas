@@ -241,6 +241,21 @@ def main():
 
     images = {}
     for entry in entries:
+        film = PROJECT / "assets" / "films" / f"{entry['slug']}.mp4"
+        if film.is_file():
+            note = PROJECT / "films" / "notes" / f"{entry['slug']}.txt"
+            entry["film"] = {
+                "src": f"assets/films/{entry['slug']}.mp4",
+                "poster": f"assets/films/{entry['slug']}.webp",
+                "script": f"films/{entry['slug']}.py",
+                "note": note.read_text().strip() if note.is_file() else "",
+            }
+            page = PROJECT / "assets" / "pages" / f"{entry['slug']}.png"
+            if page.is_file():
+                entry["film"]["page"] = f"assets/pages/{entry['slug']}.png"
+            credits = PROJECT / "films" / "credits" / f"{entry['slug']}.json"
+            if credits.is_file():
+                entry["film"]["credits"] = json.loads(credits.read_text())
         for source in ([entry["image"]] if "image" in entry else []) + entry.get("gallery", []):
             if source[0] not in images:
                 images[source[0]] = image_path(source[0])
@@ -251,7 +266,10 @@ def main():
         (file_root / f"{entry['slug']}.poml").write_text(entry["poml"])
 
     catalogue = [
-        {key: entry[key] for key in ("id", "slug", "work", "title", "family", "byline", "line")}
+        {
+            **{key: entry[key] for key in ("id", "slug", "work", "title", "family", "byline", "line")},
+            "hasFilm": "film" in entry,
+        }
         for entry in entries
     ]
     shared_data = {

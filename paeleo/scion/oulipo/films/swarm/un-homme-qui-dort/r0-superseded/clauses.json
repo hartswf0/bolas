@@ -1,0 +1,658 @@
+{
+  "unit": "U3 voice and referents (HANDMADE): voice writer + referent checker, one owner",
+  "owner": "U3",
+  "base": "plan-r1",
+  "date": "2026-11-15",
+  "read_set": [
+    "films/swarm/un-homme-qui-dort/plan.md",
+    "prompts/un-homme-qui-dort.md",
+    "films/BRIEF-2.md",
+    "films/kit.py (read only)",
+    "films/swarm/un-homme-qui-dort/picture.json (read only, referent audit)"
+  ],
+  "write_set": [
+    "films/swarm/un-homme-qui-dort/clauses.json",
+    "takeA.srt",
+    "takeB.srt",
+    "captions-film.srt",
+    "baseline.srt",
+    "gate.py",
+    "referent-audit.json",
+    "films/sources/un-homme-qui-dort/voice/ledger-sheet.png",
+    "films/sources/un-homme-qui-dort/voice-and-referents-handmade-voice-writer-referent-checker-one-owner/"
+  ],
+  "changed_fields": [
+    "clauses (final wording: unchanged from plan section 5)",
+    "baseline clause over held shot: 'His room is empty.' replaces plan's 'He sits in the empty room.' because SH5 is cropped to exclude the seated man (picture.json), so the baseline still only duplicates what is visible"
+  ],
+  "picture_length": 35.0,
+  "caption_duration": 1.6,
+  "offsets": {
+    "A": -1.2,
+    "B": 1.4,
+    "tolerance": 0.1
+  },
+  "film_offsets": {
+    "A": 1.5,
+    "B": 38.0
+  },
+  "relation_thresholds": {
+    "anticipates": "d <= -0.5",
+    "overlaps": "|d| < 0.5",
+    "lags": "d >= +0.5"
+  },
+  "fixed_fixture": {
+    "clause_id": "C2",
+    "text": "You hear it through the wall."
+  },
+  "narrator": {
+    "narrator_id": "N1",
+    "embodied": false,
+    "on_track": "captions"
+  },
+  "addressees": {
+    "ADDR-1": {
+      "label": "you",
+      "candidates": [
+        "P1",
+        "V"
+      ],
+      "note": "ambiguous between the lodger and the viewer by design"
+    }
+  },
+  "addressee_shifts": [],
+  "performer": {
+    "subject_id": "P1",
+    "label": "the lodger",
+    "same_person_verified": "unknown"
+  },
+  "audience_position": {
+    "viewer_id": "V",
+    "seat": "in front of the screen"
+  },
+  "events": [
+    {
+      "event_id": "E1",
+      "onset": 1.5,
+      "subject_id": "P1",
+      "kind": "action",
+      "predicate": "wake",
+      "description": "Wakes: the bunk shot appears out of black, eyes open.",
+      "shot_id": "SH1"
+    },
+    {
+      "event_id": "E2",
+      "onset": 6.4,
+      "subject_id": "PLACE",
+      "kind": "sound_of_place",
+      "predicate": "ring",
+      "description": "Telephone ring onset (burst R1).",
+      "shot_id": "SH2"
+    },
+    {
+      "event_id": "E3",
+      "onset": 9.4,
+      "subject_id": "P1",
+      "kind": "action",
+      "predicate": "ignore_ring",
+      "description": "Second ring burst R2 while P1 lies unmoved; observed 8.5-12.0.",
+      "shot_id": "SH3",
+      "obs_start": 8.5,
+      "obs_end": 12.0
+    },
+    {
+      "event_id": "E4",
+      "onset": 13.4,
+      "subject_id": "P1",
+      "kind": "action",
+      "predicate": "take_stairs",
+      "description": "P1 appears on the stair in STAIR-1.",
+      "shot_id": "SH4"
+    },
+    {
+      "event_id": "E5",
+      "onset": 18.0,
+      "end": 24.0,
+      "subject_id": null,
+      "kind": "silence",
+      "predicate": null,
+      "description": "Held silence SIL-1. No event and no clause.",
+      "shot_id": "SH5"
+    },
+    {
+      "event_id": "E6",
+      "onset": 25.4,
+      "subject_id": "P1",
+      "kind": "action",
+      "predicate": "take_stairs",
+      "description": "P1 appears on the stair in STAIR-2 (identical clip).",
+      "shot_id": "SH6"
+    },
+    {
+      "event_id": "E7",
+      "onset": 30.0,
+      "subject_id": "P1",
+      "kind": "action",
+      "predicate": "be_outside",
+      "description": "Cut to the house from the street; P1 not visible.",
+      "shot_id": "SH7"
+    },
+    {
+      "event_id": "E8",
+      "onset": 32.0,
+      "subject_id": "PLACE",
+      "kind": "sound_of_place",
+      "predicate": "ring_unanswered",
+      "description": "Ring heard once more, faint, from inside the house (R4).",
+      "shot_id": "SH7"
+    }
+  ],
+  "silence_spans": [
+    {
+      "span_id": "SIL-1",
+      "start": 18.0,
+      "end": 24.0,
+      "heard": [
+        "S-ROOM"
+      ],
+      "clauses": []
+    }
+  ],
+  "diegetic_speech": {
+    "track_id": "DIEG-1",
+    "declared": "empty",
+    "cues": [],
+    "note": "No one speaks on screen; the telephone is not answered. No caption is anyone's quoted speech."
+  },
+  "clauses": [
+    {
+      "clause_id": "C1",
+      "text": "You open your eyes.",
+      "words": 4,
+      "addressee_id": "ADDR-1",
+      "person": 2,
+      "mood": "indicative",
+      "predicate": "open_eyes",
+      "event_id": "E1",
+      "narrator_id": "N1",
+      "takes": {
+        "A": {
+          "onset": 0.3,
+          "offset": 1.9,
+          "declared_relation": "anticipates",
+          "film_onset": 1.8,
+          "film_offset": 3.4
+        },
+        "B": {
+          "onset": 2.9,
+          "offset": 4.5,
+          "declared_relation": "lags",
+          "film_onset": 40.9,
+          "film_offset": 42.5
+        }
+      }
+    },
+    {
+      "clause_id": "C2",
+      "text": "You hear it through the wall.",
+      "words": 6,
+      "addressee_id": "ADDR-1",
+      "person": 2,
+      "mood": "indicative",
+      "predicate": "hear_through_wall",
+      "event_id": "E2",
+      "narrator_id": "N1",
+      "takes": {
+        "A": {
+          "onset": 5.2,
+          "offset": 6.8,
+          "declared_relation": "anticipates",
+          "film_onset": 6.7,
+          "film_offset": 8.3
+        },
+        "B": {
+          "onset": 7.8,
+          "offset": 9.4,
+          "declared_relation": "lags",
+          "film_onset": 45.8,
+          "film_offset": 47.4
+        }
+      }
+    },
+    {
+      "clause_id": "C3",
+      "text": "You let it ring.",
+      "words": 4,
+      "addressee_id": "ADDR-1",
+      "person": 2,
+      "mood": "indicative",
+      "predicate": "let_ring",
+      "event_id": "E3",
+      "narrator_id": "N1",
+      "takes": {
+        "A": {
+          "onset": 8.2,
+          "offset": 9.8,
+          "declared_relation": "anticipates",
+          "film_onset": 9.7,
+          "film_offset": 11.3
+        },
+        "B": {
+          "onset": 10.8,
+          "offset": 12.4,
+          "declared_relation": "lags",
+          "film_onset": 48.8,
+          "film_offset": 50.4
+        }
+      }
+    },
+    {
+      "clause_id": "C4",
+      "text": "You take the stairs.",
+      "words": 4,
+      "addressee_id": "ADDR-1",
+      "person": 2,
+      "mood": "indicative",
+      "predicate": "take_stairs",
+      "event_id": "E4",
+      "narrator_id": "N1",
+      "takes": {
+        "A": {
+          "onset": 12.2,
+          "offset": 13.8,
+          "declared_relation": "anticipates",
+          "film_onset": 13.7,
+          "film_offset": 15.3
+        },
+        "B": {
+          "onset": 14.8,
+          "offset": 16.4,
+          "declared_relation": "lags",
+          "film_onset": 52.8,
+          "film_offset": 54.4
+        }
+      }
+    },
+    {
+      "clause_id": "C5",
+      "text": "You take the stairs.",
+      "words": 4,
+      "addressee_id": "ADDR-1",
+      "person": 2,
+      "mood": "indicative",
+      "predicate": "take_stairs",
+      "event_id": "E6",
+      "narrator_id": "N1",
+      "takes": {
+        "A": {
+          "onset": 24.2,
+          "offset": 25.8,
+          "declared_relation": "anticipates",
+          "film_onset": 25.7,
+          "film_offset": 27.3
+        },
+        "B": {
+          "onset": 26.8,
+          "offset": 28.4,
+          "declared_relation": "lags",
+          "film_onset": 64.8,
+          "film_offset": 66.4
+        }
+      }
+    },
+    {
+      "clause_id": "C6",
+      "text": "You are outside.",
+      "words": 3,
+      "addressee_id": "ADDR-1",
+      "person": 2,
+      "mood": "indicative",
+      "predicate": "be_outside",
+      "event_id": "E7",
+      "narrator_id": "N1",
+      "takes": {
+        "A": {
+          "onset": 28.8,
+          "offset": 30.4,
+          "declared_relation": "anticipates",
+          "film_onset": 30.3,
+          "film_offset": 31.9
+        },
+        "B": {
+          "onset": 31.4,
+          "offset": 33.0,
+          "declared_relation": "lags",
+          "film_onset": 69.4,
+          "film_offset": 71.0
+        }
+      }
+    },
+    {
+      "clause_id": "C7",
+      "text": "You do not go back.",
+      "words": 5,
+      "addressee_id": "ADDR-1",
+      "person": 2,
+      "mood": "indicative",
+      "predicate": "not_return",
+      "event_id": "E8",
+      "narrator_id": "N1",
+      "takes": {
+        "A": {
+          "onset": 30.8,
+          "offset": 32.4,
+          "declared_relation": "anticipates",
+          "film_onset": 32.3,
+          "film_offset": 33.9
+        },
+        "B": {
+          "onset": 33.4,
+          "offset": 35.0,
+          "declared_relation": "lags",
+          "film_onset": 71.4,
+          "film_offset": 73.0
+        }
+      }
+    }
+  ],
+  "binds": [
+    {
+      "clause_id": "C1",
+      "event_id": "E1",
+      "take": "A",
+      "d": -1.2,
+      "declared_relation": "anticipates",
+      "relation_note": "declared only; gate.py computes the relation from d"
+    },
+    {
+      "clause_id": "C1",
+      "event_id": "E1",
+      "take": "B",
+      "d": 1.4,
+      "declared_relation": "lags",
+      "relation_note": "declared only; gate.py computes the relation from d"
+    },
+    {
+      "clause_id": "C2",
+      "event_id": "E2",
+      "take": "A",
+      "d": -1.2,
+      "declared_relation": "anticipates",
+      "relation_note": "declared only; gate.py computes the relation from d"
+    },
+    {
+      "clause_id": "C2",
+      "event_id": "E2",
+      "take": "B",
+      "d": 1.4,
+      "declared_relation": "lags",
+      "relation_note": "declared only; gate.py computes the relation from d"
+    },
+    {
+      "clause_id": "C3",
+      "event_id": "E3",
+      "take": "A",
+      "d": -1.2,
+      "declared_relation": "anticipates",
+      "relation_note": "declared only; gate.py computes the relation from d"
+    },
+    {
+      "clause_id": "C3",
+      "event_id": "E3",
+      "take": "B",
+      "d": 1.4,
+      "declared_relation": "lags",
+      "relation_note": "declared only; gate.py computes the relation from d"
+    },
+    {
+      "clause_id": "C4",
+      "event_id": "E4",
+      "take": "A",
+      "d": -1.2,
+      "declared_relation": "anticipates",
+      "relation_note": "declared only; gate.py computes the relation from d"
+    },
+    {
+      "clause_id": "C4",
+      "event_id": "E4",
+      "take": "B",
+      "d": 1.4,
+      "declared_relation": "lags",
+      "relation_note": "declared only; gate.py computes the relation from d"
+    },
+    {
+      "clause_id": "C5",
+      "event_id": "E6",
+      "take": "A",
+      "d": -1.2,
+      "declared_relation": "anticipates",
+      "relation_note": "declared only; gate.py computes the relation from d"
+    },
+    {
+      "clause_id": "C5",
+      "event_id": "E6",
+      "take": "B",
+      "d": 1.4,
+      "declared_relation": "lags",
+      "relation_note": "declared only; gate.py computes the relation from d"
+    },
+    {
+      "clause_id": "C6",
+      "event_id": "E7",
+      "take": "A",
+      "d": -1.2,
+      "declared_relation": "anticipates",
+      "relation_note": "declared only; gate.py computes the relation from d"
+    },
+    {
+      "clause_id": "C6",
+      "event_id": "E7",
+      "take": "B",
+      "d": 1.4,
+      "declared_relation": "lags",
+      "relation_note": "declared only; gate.py computes the relation from d"
+    },
+    {
+      "clause_id": "C7",
+      "event_id": "E8",
+      "take": "A",
+      "d": -1.2,
+      "declared_relation": "anticipates",
+      "relation_note": "declared only; gate.py computes the relation from d"
+    },
+    {
+      "clause_id": "C7",
+      "event_id": "E8",
+      "take": "B",
+      "d": 1.4,
+      "declared_relation": "lags",
+      "relation_note": "declared only; gate.py computes the relation from d"
+    }
+  ],
+  "baseline": {
+    "label": "BASELINE ONLY: comparison voice-over, not part of the film; gate.py must FAIL it",
+    "clauses": [
+      {
+        "clause_id": "BL1",
+        "text": "He opens his eyes.",
+        "addressee_id": null,
+        "person": 3,
+        "mood": "indicative",
+        "event_id": "E1",
+        "narrator_id": "N1",
+        "takes": {
+          "baseline": {
+            "onset": 1.5,
+            "offset": 3.1,
+            "declared_relation": "overlaps"
+          }
+        }
+      },
+      {
+        "clause_id": "BL2",
+        "text": "He hears it through the wall.",
+        "addressee_id": null,
+        "person": 3,
+        "mood": "indicative",
+        "event_id": "E2",
+        "narrator_id": "N1",
+        "takes": {
+          "baseline": {
+            "onset": 6.4,
+            "offset": 8.0,
+            "declared_relation": "overlaps"
+          }
+        }
+      },
+      {
+        "clause_id": "BL3",
+        "text": "He lets it ring.",
+        "addressee_id": null,
+        "person": 3,
+        "mood": "indicative",
+        "event_id": "E3",
+        "narrator_id": "N1",
+        "takes": {
+          "baseline": {
+            "onset": 9.4,
+            "offset": 11.0,
+            "declared_relation": "overlaps"
+          }
+        }
+      },
+      {
+        "clause_id": "BL4",
+        "text": "He takes the stairs.",
+        "addressee_id": null,
+        "person": 3,
+        "mood": "indicative",
+        "event_id": "E4",
+        "narrator_id": "N1",
+        "takes": {
+          "baseline": {
+            "onset": 13.4,
+            "offset": 15.0,
+            "declared_relation": "overlaps"
+          }
+        }
+      },
+      {
+        "clause_id": "BL5",
+        "text": "His room is empty.",
+        "addressee_id": null,
+        "person": 3,
+        "mood": "indicative",
+        "event_id": "E5",
+        "narrator_id": "N1",
+        "takes": {
+          "baseline": {
+            "onset": 20.0,
+            "offset": 21.6,
+            "declared_relation": "overlaps"
+          }
+        }
+      },
+      {
+        "clause_id": "BL6",
+        "text": "He takes the stairs.",
+        "addressee_id": null,
+        "person": 3,
+        "mood": "indicative",
+        "event_id": "E6",
+        "narrator_id": "N1",
+        "takes": {
+          "baseline": {
+            "onset": 25.4,
+            "offset": 27.0,
+            "declared_relation": "overlaps"
+          }
+        }
+      },
+      {
+        "clause_id": "BL7",
+        "text": "He is outside.",
+        "addressee_id": null,
+        "person": 3,
+        "mood": "indicative",
+        "event_id": "E7",
+        "narrator_id": "N1",
+        "takes": {
+          "baseline": {
+            "onset": 30.0,
+            "offset": 31.6,
+            "declared_relation": "overlaps"
+          }
+        }
+      },
+      {
+        "clause_id": "BL8",
+        "text": "He does not go back.",
+        "addressee_id": null,
+        "person": 3,
+        "mood": "indicative",
+        "event_id": "E8",
+        "narrator_id": "N1",
+        "takes": {
+          "baseline": {
+            "onset": 32.0,
+            "offset": 33.6,
+            "declared_relation": "overlaps"
+          }
+        }
+      }
+    ]
+  },
+  "srt_files": {
+    "A": "takeA.srt",
+    "B": "takeB.srt",
+    "film": "captions-film.srt",
+    "baseline": "baseline.srt"
+  },
+  "evidence": {
+    "foraged": [],
+    "foraged_note": "U3 forages nothing: the voice is handmade caption text. No recordings of speech are used (no openly licensed recording of these original clauses can exist).",
+    "absences": [
+      {
+        "searched_for": "none (text and code only, per plan budget)",
+        "result": "no searches run; no downloads"
+      }
+    ],
+    "handmade": [
+      {
+        "id": "H-CLAUSES",
+        "what": "seven original English second-person clauses (C1-C7)",
+        "where": "films/swarm/un-homme-qui-dort/clauses.json"
+      },
+      {
+        "id": "H-TAKE-A",
+        "what": "Take A caption timing (event -1.2 s, 1.6 s)",
+        "where": "films/swarm/un-homme-qui-dort/takeA.srt"
+      },
+      {
+        "id": "H-TAKE-B",
+        "what": "Take B caption timing (event +1.4 s, 1.6 s)",
+        "where": "films/swarm/un-homme-qui-dort/takeB.srt"
+      },
+      {
+        "id": "H-FILM-SRT",
+        "what": "film-timeline captions (A +1.5 s, B +38.0 s)",
+        "where": "films/swarm/un-homme-qui-dort/captions-film.srt"
+      },
+      {
+        "id": "H-BASELINE",
+        "what": "baseline third-person synchronised captions (baseline only)",
+        "where": "films/swarm/un-homme-qui-dort/baseline.srt"
+      },
+      {
+        "id": "H-GATE",
+        "what": "grammar/referent gate (plain Python)",
+        "where": "films/swarm/un-homme-qui-dort/gate.py"
+      },
+      {
+        "id": "H-SHEET",
+        "what": "clause/referent ledger sheet, typeset with kit fonts",
+        "where": "films/sources/un-homme-qui-dort/voice/ledger-sheet.png"
+      }
+    ]
+  }
+}

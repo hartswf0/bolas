@@ -1,0 +1,39 @@
+{
+ "panel": "V1_interior",
+ "page": "D2",
+ "bounds_page_px": [
+  150,
+  330,
+  2400,
+  1250
+ ],
+ "composite": "over, in order, starting from 00_bg (opaque)",
+ "layers": [
+  {
+   "order": 0,
+   "file": "00_bg.png",
+   "name": "bg"
+  },
+  {
+   "order": 1,
+   "file": "01_service_card.shadow.png",
+   "name": "service_card.shadow"
+  },
+  {
+   "order": 2,
+   "file": "02_service_card.png",
+   "name": "service_card"
+  },
+  {
+   "order": 3,
+   "file": "03_service_card.ink.png",
+   "name": "service_card.ink"
+  },
+  {
+   "order": 4,
+   "file": "04_border.png",
+   "name": "border"
+  }
+ ],
+ "note": "the room behind the glass; enters the panel only through 'interior_through_glass'"
+}

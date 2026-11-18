@@ -1,0 +1,684 @@
+{
+ "objects": [
+  {
+   "id": "RECEIPT",
+   "what": "receipt ticket 'REÇU N° 6 · une clé · porte de service · remise au banc', cream card with punched perforation stub, red circled number stamp; Courier 10 Pitch Bold typed letter by letter",
+   "size_px": [
+    600,
+    340
+   ],
+   "scale_note": "drawn at 2x (300x170 design px)",
+   "states": {
+    "plain": "films/sources/la-belle-hortense/print-sound/print/receipt_0_plain.png",
+    "struck": "films/sources/la-belle-hortense/print-sound/print/receipt_1_struck.png",
+    "underlined": "films/sources/la-belle-hortense/print-sound/print/receipt_2_underlined.png",
+    "rendu": "films/sources/la-belle-hortense/print-sound/print/receipt_3_rendu.png",
+    "underlined_only (for II.3 / III.6 if the strike is not yet shown)": "films/sources/la-belle-hortense/print-sound/print/receipt_2b_underlined_unstruck.png"
+   },
+   "type_on_frames": {
+    "strike_through (II.6, from 19.7 s, one hyphen per 0.085 s, matches sound cue type_strikethrough_7)": [
+     "films/sources/la-belle-hortense/print-sound/print/receipt_strike_01.png",
+     "films/sources/la-belle-hortense/print-sound/print/receipt_strike_02.png",
+     "films/sources/la-belle-hortense/print-sound/print/receipt_strike_03.png",
+     "films/sources/la-belle-hortense/print-sound/print/receipt_strike_04.png",
+     "films/sources/la-belle-hortense/print-sound/print/receipt_strike_05.png",
+     "films/sources/la-belle-hortense/print-sound/print/receipt_strike_06.png",
+     "films/sources/la-belle-hortense/print-sound/print/receipt_strike_07.png"
+    ],
+    "underline (III.6, from 28.7 s, one underscore per 0.07 s, matches sound cue type_underline_14)": [
+     "films/sources/la-belle-hortense/print-sound/print/receipt_underline_01.png",
+     "films/sources/la-belle-hortense/print-sound/print/receipt_underline_02.png",
+     "films/sources/la-belle-hortense/print-sound/print/receipt_underline_03.png",
+     "films/sources/la-belle-hortense/print-sound/print/receipt_underline_04.png",
+     "films/sources/la-belle-hortense/print-sound/print/receipt_underline_05.png",
+     "films/sources/la-belle-hortense/print-sound/print/receipt_underline_06.png",
+     "films/sources/la-belle-hortense/print-sound/print/receipt_underline_07.png",
+     "films/sources/la-belle-hortense/print-sound/print/receipt_underline_08.png",
+     "films/sources/la-belle-hortense/print-sound/print/receipt_underline_09.png",
+     "films/sources/la-belle-hortense/print-sound/print/receipt_underline_10.png",
+     "films/sources/la-belle-hortense/print-sound/print/receipt_underline_11.png",
+     "films/sources/la-belle-hortense/print-sound/print/receipt_underline_12.png",
+     "films/sources/la-belle-hortense/print-sound/print/receipt_underline_13.png",
+     "films/sources/la-belle-hortense/print-sound/print/receipt_underline_14.png"
+    ]
+   },
+   "slots": {
+    "I.5": "plain",
+    "II.3": "plain (line 'remise au banc' legible)",
+    "II.6": "strike type-on -> struck",
+    "III.6": "underline type-on -> underlined",
+    "IV.1": "underlined (its N° 6 matches the door plate)",
+    "V.2": "underlined",
+    "VI.4": "rendu (stamp lands 52.65 s with the thud)"
+   }
+  },
+  {
+   "id": "ENVELOPE",
+   "what": "handmade cut-paper envelope (U2 foraged none): manila front with typed address 'Chef de gare / Gare de Bourré, quai / porte de service' and a red typed PAR PORTEUR box; back with folded side/bottom flaps; separate top flap (outside and inside faces) for the hinged opening",
+   "size_px": [
+    440,
+    280
+   ],
+   "states": {
+    "front": "films/sources/la-belle-hortense/print-sound/print/envelope_front.png",
+    "back": "films/sources/la-belle-hortense/print-sound/print/envelope_back.png",
+    "pocket_inside": "films/sources/la-belle-hortense/print-sound/print/envelope_pocket_inside.png",
+    "flap_outside": "films/sources/la-belle-hortense/print-sound/print/envelope_flap_outside.png",
+    "flap_inside": "films/sources/la-belle-hortense/print-sound/print/envelope_flap_inside.png"
+   },
+   "rig": {
+    "flap_hinge": "top edge of flap png (y=0) pinned to top edge of envelope_back (y=0); open by scaling flap y from +1 (closed, outside face) through 0 to -1 (open, inside face, drawn upward)",
+    "pocket_inside": "composite under the flap when open; the key slides out from y~0"
+   },
+   "slots": {
+    "I.2": "front, carried at the visitor's forearm hand pivot",
+    "I.3": "back + flap hinge open + key slides out",
+    "I.5": "receipt slips from it"
+   },
+   "status": "superseded on screen in I.3 by the LoC 1861 envelope (ENVELOPE-LOC, LoC 2010652109); kept here as a built object, not shown"
+  },
+  {
+   "id": "PLATE6",
+   "what": "enamel door-number plate '6': cream enamel, black Courier 10 Pitch Bold numeral, red inner border, steel rim, two screws, two chipped corners",
+   "size_px": [
+    240,
+    300
+   ],
+   "states": {
+    "plate": "films/sources/la-belle-hortense/print-sound/print/enamel_plate_6.png"
+   },
+   "slots": {
+    "IV.1": "laid on the goods-shed door plate (Bourré 50866795131), matched to the receipt's N° 6",
+    "II.1/III.2/IV.4/V.5/VI.3": "stays on the door"
+   }
+  },
+  {
+   "id": "TITLE",
+   "what": "title-card type stacked like the cover's arrangement (not traced): 'Jacques' 50 px and 'Roubaud' 66 px in black #010201, 'La belle Hortense' 46 px in red #a50917, small line 'six modules · [6,1,5,2,4,3]' 18 px; transparent RGBA over the streaked ground",
+   "size_px": [
+    960,
+    540
+   ],
+   "states": {
+    "title": "films/sources/la-belle-hortense/print-sound/print/title_type.png"
+   },
+   "slots": {
+    "title 0.0-3.0": "composited over the 420 px pan exposure of Bourré 50866798791"
+   }
+  },
+  {
+   "id": "SLOT-TYPE",
+   "what": "caption and slot-line typesetting for all 36 slots: module numeral 44 px black #010201; FR caption 30 px red #a50917; EN gloss at 60% (18 px) in cream #e1e5b2 on a black #010201 band (legible over dark streak, per test-shot review); slot line 18 px black on a cream typed strip, active motif in red #e2011b caps. Full-frame 960x540 RGBA, lower-left block",
+   "size_px": [
+    960,
+    540
+   ],
+   "states": {
+    "I.1": {
+     "t": [
+      3.0,
+      4.5
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_I_1.png",
+     "numeral": "I.",
+     "caption_fr": "Une gare vide.",
+     "caption_en": "An empty station.",
+     "slot_line": "MANTEAU · cloche · clé · banc · reçu · porte",
+     "active_word": "MANTEAU"
+    },
+    "I.2": {
+     "t": [
+      4.5,
+      6.0
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_I_2.png",
+     "numeral": "I.",
+     "caption_fr": "Une cloche sonne.",
+     "caption_en": "A bell rings.",
+     "slot_line": "manteau · CLOCHE · clé · banc · reçu · porte",
+     "active_word": "CLOCHE"
+    },
+    "I.3": {
+     "t": [
+      6.0,
+      7.5
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_I_3.png",
+     "numeral": "I.",
+     "caption_fr": "Dans l'enveloppe, une clé de laiton.",
+     "caption_en": "In the envelope, a brass key.",
+     "slot_line": "manteau · cloche · CLÉ · banc · reçu · porte",
+     "active_word": "CLÉ"
+    },
+    "I.4": {
+     "t": [
+      7.5,
+      9.0
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_I_4.png",
+     "numeral": "I.",
+     "caption_fr": "Elle la laisse sur le banc.",
+     "caption_en": "She leaves it on the bench.",
+     "slot_line": "manteau · cloche · clé · BANC · reçu · porte",
+     "active_word": "BANC"
+    },
+    "I.5": {
+     "t": [
+      9.0,
+      10.5
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_I_5.png",
+     "numeral": "I.",
+     "caption_fr": "Un reçu tombe.",
+     "caption_en": "A receipt falls.",
+     "slot_line": "manteau · cloche · clé · banc · REÇU · porte",
+     "active_word": "REÇU"
+    },
+    "I.6": {
+     "t": [
+      10.5,
+      12.0
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_I_6.png",
+     "numeral": "I.",
+     "caption_fr": "La porte de service reste fermée.",
+     "caption_en": "The service door stays shut.",
+     "slot_line": "manteau · cloche · clé · banc · reçu · PORTE",
+     "active_word": "PORTE"
+    },
+    "II.1": {
+     "t": [
+      12.0,
+      13.5
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_II_1.png",
+     "numeral": "II.",
+     "caption_fr": "Fermée.",
+     "caption_en": "Locked.",
+     "slot_line": "PORTE · manteau · reçu · cloche · banc · clé",
+     "active_word": "PORTE"
+    },
+    "II.2": {
+     "t": [
+      13.5,
+      15.0
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_II_2.png",
+     "numeral": "II.",
+     "caption_fr": "Le contrôleur reprend son manteau.",
+     "caption_en": "The conductor takes back his coat.",
+     "slot_line": "porte · MANTEAU · reçu · cloche · banc · clé",
+     "active_word": "MANTEAU"
+    },
+    "II.3": {
+     "t": [
+      15.0,
+      16.5
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_II_3.png",
+     "numeral": "II.",
+     "caption_fr": "« remise au banc »",
+     "caption_en": "'left at the bench'",
+     "slot_line": "porte · manteau · REÇU · cloche · banc · clé",
+     "active_word": "REÇU"
+    },
+    "II.4": {
+     "t": [
+      16.5,
+      18.0
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_II_4.png",
+     "numeral": "II.",
+     "caption_fr": "Le train est annoncé.",
+     "caption_en": "The train is called.",
+     "slot_line": "porte · manteau · reçu · CLOCHE · banc · clé",
+     "active_word": "CLOCHE"
+    },
+    "II.5": {
+     "t": [
+      18.0,
+      19.5
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_II_5.png",
+     "numeral": "II.",
+     "caption_fr": "Le banc est vide.",
+     "caption_en": "The bench is empty.",
+     "slot_line": "porte · manteau · reçu · cloche · BANC · clé",
+     "active_word": "BANC"
+    },
+    "II.6": {
+     "t": [
+      19.5,
+      21.0
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_II_6.png",
+     "numeral": "II.",
+     "caption_fr": "Où est la clé ?",
+     "caption_en": "Where is the key?",
+     "slot_line": "porte · manteau · reçu · cloche · banc · CLÉ",
+     "active_word": "CLÉ"
+    },
+    "III.1": {
+     "t": [
+      21.0,
+      22.5
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_III_1.png",
+     "numeral": "III.",
+     "caption_fr": "Elle l'a reprise ?",
+     "caption_en": "Did she take it back?",
+     "slot_line": "CLÉ · porte · banc · manteau · cloche · reçu",
+     "active_word": "CLÉ"
+    },
+    "III.2": {
+     "t": [
+      22.5,
+      24.0
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_III_2.png",
+     "numeral": "III.",
+     "caption_fr": "Toujours fermée.",
+     "caption_en": "Still locked.",
+     "slot_line": "clé · PORTE · banc · manteau · cloche · reçu",
+     "active_word": "PORTE"
+    },
+    "III.3": {
+     "t": [
+      24.0,
+      25.5
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_III_3.png",
+     "numeral": "III.",
+     "caption_fr": "Rien sous le banc.",
+     "caption_en": "Nothing under the bench.",
+     "slot_line": "clé · porte · BANC · manteau · cloche · reçu",
+     "active_word": "BANC"
+    },
+    "III.4": {
+     "t": [
+      25.5,
+      27.0
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_III_4.png",
+     "numeral": "III.",
+     "caption_fr": "Au loin, quelqu'un traverse.",
+     "caption_en": "Far off, someone crosses.",
+     "slot_line": "clé · porte · banc · MANTEAU · cloche · reçu",
+     "active_word": "MANTEAU"
+    },
+    "III.5": {
+     "t": [
+      27.0,
+      28.5
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_III_5.png",
+     "numeral": "III.",
+     "caption_fr": "La cloche sonne seule.",
+     "caption_en": "The bell rings by itself.",
+     "slot_line": "clé · porte · banc · manteau · CLOCHE · reçu",
+     "active_word": "CLOCHE"
+    },
+    "III.6": {
+     "t": [
+      28.5,
+      30.0
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_III_6.png",
+     "numeral": "III.",
+     "caption_fr": "« remise au banc » : elle l'a laissée.",
+     "caption_en": "'left at the bench': she left it.",
+     "slot_line": "clé · porte · banc · manteau · cloche · REÇU",
+     "active_word": "REÇU"
+    },
+    "IV.1": {
+     "t": [
+      30.0,
+      31.5
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_IV_1.png",
+     "numeral": "IV.",
+     "caption_fr": "Reçu n° 6, porte n° 6.",
+     "caption_en": "Receipt no. 6, door no. 6.",
+     "slot_line": "REÇU · clé · cloche · porte · manteau · banc",
+     "active_word": "REÇU"
+    },
+    "IV.2": {
+     "t": [
+      31.5,
+      33.0
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_IV_2.png",
+     "numeral": "IV.",
+     "caption_fr": "Un voleur ?",
+     "caption_en": "A thief?",
+     "slot_line": "reçu · CLÉ · cloche · porte · manteau · banc",
+     "active_word": "CLÉ"
+    },
+    "IV.3": {
+     "t": [
+      33.0,
+      34.5
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_IV_3.png",
+     "numeral": "IV.",
+     "caption_fr": "Ou la cloche ?",
+     "caption_en": "Or the bell?",
+     "slot_line": "reçu · clé · CLOCHE · porte · manteau · banc",
+     "active_word": "CLOCHE"
+    },
+    "IV.4": {
+     "t": [
+      34.5,
+      36.0
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_IV_4.png",
+     "numeral": "IV.",
+     "caption_fr": "Aucun voleur n'a ouvert.",
+     "caption_en": "No thief has opened it.",
+     "slot_line": "reçu · clé · cloche · PORTE · manteau · banc",
+     "active_word": "PORTE"
+    },
+    "IV.5": {
+     "t": [
+      36.0,
+      37.5
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_IV_5.png",
+     "numeral": "IV.",
+     "caption_fr": "Quelque chose revient.",
+     "caption_en": "Something is coming back.",
+     "slot_line": "reçu · clé · cloche · porte · MANTEAU · banc",
+     "active_word": "MANTEAU"
+    },
+    "IV.6": {
+     "t": [
+      37.5,
+      39.0
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_IV_6.png",
+     "numeral": "IV.",
+     "caption_fr": "Qui a la clé ?",
+     "caption_en": "Who has the key?",
+     "slot_line": "reçu · clé · cloche · porte · manteau · BANC",
+     "active_word": "BANC"
+    },
+    "V.1": {
+     "t": [
+      39.0,
+      40.5
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_V_1.png",
+     "numeral": "V.",
+     "caption_fr": "Quelqu'un court vers le banc.",
+     "caption_en": "Someone is running to the bench.",
+     "slot_line": "BANC · reçu · manteau · clé · porte · cloche",
+     "active_word": "BANC"
+    },
+    "V.2": {
+     "t": [
+      40.5,
+      42.0
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_V_2.png",
+     "numeral": "V.",
+     "caption_fr": "Le reçu s'envole.",
+     "caption_en": "The receipt blows away.",
+     "slot_line": "banc · REÇU · manteau · clé · porte · cloche",
+     "active_word": "REÇU"
+    },
+    "V.3": {
+     "t": [
+      42.0,
+      43.5
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_V_3.png",
+     "numeral": "V.",
+     "caption_fr": "le manteau revient",
+     "caption_en": "the coat comes back",
+     "slot_line": "banc · reçu · MANTEAU · clé · porte · cloche",
+     "active_word": "MANTEAU"
+    },
+    "V.4": {
+     "t": [
+      43.5,
+      45.0
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_V_4.png",
+     "numeral": "V.",
+     "caption_fr": "La clé était dans le pli.",
+     "caption_en": "The key was in the fold.",
+     "slot_line": "banc · reçu · manteau · CLÉ · porte · cloche",
+     "active_word": "CLÉ"
+    },
+    "V.5": {
+     "t": [
+      45.0,
+      46.5
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_V_5.png",
+     "numeral": "V.",
+     "caption_fr": "La porte s'ouvre.",
+     "caption_en": "The door opens.",
+     "slot_line": "banc · reçu · manteau · clé · PORTE · cloche",
+     "active_word": "PORTE"
+    },
+    "V.6": {
+     "t": [
+      46.5,
+      48.0
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_V_6.png",
+     "numeral": "V.",
+     "caption_fr": "La cloche sonne : c'est ouvert.",
+     "caption_en": "The bell rings: it is open.",
+     "slot_line": "banc · reçu · manteau · clé · porte · CLOCHE",
+     "active_word": "CLOCHE"
+    },
+    "VI.1": {
+     "t": [
+      48.0,
+      49.5
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_VI_1.png",
+     "numeral": "VI.",
+     "caption_fr": "La cloche se tait.",
+     "caption_en": "The bell falls silent.",
+     "slot_line": "CLOCHE · banc · porte · reçu · clé · manteau",
+     "active_word": "CLOCHE"
+    },
+    "VI.2": {
+     "t": [
+      49.5,
+      51.0
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_VI_2.png",
+     "numeral": "VI.",
+     "caption_fr": "Elle l'avait posée sur le manteau.",
+     "caption_en": "She had laid it on the coat.",
+     "slot_line": "cloche · BANC · porte · reçu · clé · manteau",
+     "active_word": "BANC"
+    },
+    "VI.3": {
+     "t": [
+      51.0,
+      52.5
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_VI_3.png",
+     "numeral": "VI.",
+     "caption_fr": "La porte reste ouverte.",
+     "caption_en": "The door stays open.",
+     "slot_line": "cloche · banc · PORTE · reçu · clé · manteau",
+     "active_word": "PORTE"
+    },
+    "VI.4": {
+     "t": [
+      52.5,
+      54.0
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_VI_4.png",
+     "numeral": "VI.",
+     "caption_fr": "RENDU.",
+     "caption_en": "Returned.",
+     "slot_line": "cloche · banc · porte · REÇU · clé · manteau",
+     "active_word": "REÇU"
+    },
+    "VI.5": {
+     "t": [
+      54.0,
+      55.5
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_VI_5.png",
+     "numeral": "VI.",
+     "caption_fr": "La clé à son crochet.",
+     "caption_en": "The key on its hook.",
+     "slot_line": "cloche · banc · porte · reçu · CLÉ · manteau",
+     "active_word": "CLÉ"
+    },
+    "VI.6": {
+     "t": [
+      55.5,
+      57.0
+     ],
+     "file": "films/sources/la-belle-hortense/print-sound/print/slot_VI_6.png",
+     "numeral": "VI.",
+     "caption_fr": "Le manteau, sur le banc.",
+     "caption_en": "The coat, on the bench.",
+     "slot_line": "cloche · banc · porte · reçu · clé · MANTEAU",
+     "active_word": "MANTEAU"
+    }
+   },
+   "slot_line_only": {
+    "I.1": "films/sources/la-belle-hortense/print-sound/print/slotline_only_I_1.png",
+    "I.2": "films/sources/la-belle-hortense/print-sound/print/slotline_only_I_2.png",
+    "I.3": "films/sources/la-belle-hortense/print-sound/print/slotline_only_I_3.png",
+    "I.4": "films/sources/la-belle-hortense/print-sound/print/slotline_only_I_4.png",
+    "I.5": "films/sources/la-belle-hortense/print-sound/print/slotline_only_I_5.png",
+    "I.6": "films/sources/la-belle-hortense/print-sound/print/slotline_only_I_6.png",
+    "II.1": "films/sources/la-belle-hortense/print-sound/print/slotline_only_II_1.png",
+    "II.2": "films/sources/la-belle-hortense/print-sound/print/slotline_only_II_2.png",
+    "II.3": "films/sources/la-belle-hortense/print-sound/print/slotline_only_II_3.png",
+    "II.4": "films/sources/la-belle-hortense/print-sound/print/slotline_only_II_4.png",
+    "II.5": "films/sources/la-belle-hortense/print-sound/print/slotline_only_II_5.png",
+    "II.6": "films/sources/la-belle-hortense/print-sound/print/slotline_only_II_6.png",
+    "III.1": "films/sources/la-belle-hortense/print-sound/print/slotline_only_III_1.png",
+    "III.2": "films/sources/la-belle-hortense/print-sound/print/slotline_only_III_2.png",
+    "III.3": "films/sources/la-belle-hortense/print-sound/print/slotline_only_III_3.png",
+    "III.4": "films/sources/la-belle-hortense/print-sound/print/slotline_only_III_4.png",
+    "III.5": "films/sources/la-belle-hortense/print-sound/print/slotline_only_III_5.png",
+    "III.6": "films/sources/la-belle-hortense/print-sound/print/slotline_only_III_6.png",
+    "IV.1": "films/sources/la-belle-hortense/print-sound/print/slotline_only_IV_1.png",
+    "IV.2": "films/sources/la-belle-hortense/print-sound/print/slotline_only_IV_2.png",
+    "IV.3": "films/sources/la-belle-hortense/print-sound/print/slotline_only_IV_3.png",
+    "IV.4": "films/sources/la-belle-hortense/print-sound/print/slotline_only_IV_4.png",
+    "IV.5": "films/sources/la-belle-hortense/print-sound/print/slotline_only_IV_5.png",
+    "IV.6": "films/sources/la-belle-hortense/print-sound/print/slotline_only_IV_6.png",
+    "V.1": "films/sources/la-belle-hortense/print-sound/print/slotline_only_V_1.png",
+    "V.2": "films/sources/la-belle-hortense/print-sound/print/slotline_only_V_2.png",
+    "V.3": "films/sources/la-belle-hortense/print-sound/print/slotline_only_V_3.png",
+    "V.4": "films/sources/la-belle-hortense/print-sound/print/slotline_only_V_4.png",
+    "V.5": "films/sources/la-belle-hortense/print-sound/print/slotline_only_V_5.png",
+    "V.6": "films/sources/la-belle-hortense/print-sound/print/slotline_only_V_6.png",
+    "VI.1": "films/sources/la-belle-hortense/print-sound/print/slotline_only_VI_1.png",
+    "VI.2": "films/sources/la-belle-hortense/print-sound/print/slotline_only_VI_2.png",
+    "VI.3": "films/sources/la-belle-hortense/print-sound/print/slotline_only_VI_3.png",
+    "VI.4": "films/sources/la-belle-hortense/print-sound/print/slotline_only_VI_4.png",
+    "VI.5": "films/sources/la-belle-hortense/print-sound/print/slotline_only_VI_5.png",
+    "VI.6": "films/sources/la-belle-hortense/print-sound/print/slotline_only_VI_6.png"
+   },
+   "check": "the red-caps word in each file equals order_i[k] (taken from structure.json slot_line)"
+  },
+  {
+   "id": "REPLAY-TAG",
+   "what": "typed slip 'I·4' marking the replay of I.4 (key on the red coat)",
+   "size_px": [
+    120,
+    52
+   ],
+   "states": {
+    "tag": "films/sources/la-belle-hortense/print-sound/print/replay_tag_I4.png"
+   },
+   "slots": {
+    "IV.2": "top-left",
+    "VI.2": "top-left"
+   }
+  },
+  {
+   "id": "ENDCARD",
+   "what": "end-card motif x module matrix on cream card: six typed rows (modules I-VI) of the six motif words in slot order, braid strands drawn between each motif's positions in successive rows (coat strand red #e2011b, 3 px; others black, 1 px), then the line 'σ⁶ = id · ABCDEF', then credits in small Courier 10 Pitch Regular",
+   "size_px": [
+    960,
+    540
+   ],
+   "states": {
+    "rows_0": "films/sources/la-belle-hortense/print-sound/print/endcard_rows_0.png",
+    "rows_1": "films/sources/la-belle-hortense/print-sound/print/endcard_rows_1.png",
+    "rows_2": "films/sources/la-belle-hortense/print-sound/print/endcard_rows_2.png",
+    "rows_3": "films/sources/la-belle-hortense/print-sound/print/endcard_rows_3.png",
+    "rows_4": "films/sources/la-belle-hortense/print-sound/print/endcard_rows_4.png",
+    "rows_5": "films/sources/la-belle-hortense/print-sound/print/endcard_rows_5.png",
+    "rows_6": "films/sources/la-belle-hortense/print-sound/print/endcard_rows_6.png",
+    "sigma": "films/sources/la-belle-hortense/print-sound/print/endcard_sigma.png",
+    "credits": "films/sources/la-belle-hortense/print-sound/print/endcard_credits.png"
+   },
+   "timing": {
+    "rows_0": 57.0,
+    "rows_1": 57.5,
+    "rows_2": 58.0,
+    "rows_3": 58.5,
+    "rows_4": 59.0,
+    "rows_5": 59.5,
+    "rows_6": 60.0,
+    "sigma": 60.5,
+    "credits": 61.0
+   },
+   "note": "each state is shown from its time until the next; credits hold to 66.0 (sound silent 63-66). Row clicks in sound_cues.json at 57.5 ... 61.0."
+  },
+  {
+   "id": "HOOK",
+   "what": "VI.5: a bent-wire key hook (drawn stroke by stroke: shank, eye, curl), the key hung on it by its bow",
+   "made_by": "editor",
+   "script": "films/swarm/la-belle-hortense/editor/editor_beats.py hook_draw()",
+   "slots": [
+    "VI.5"
+   ],
+   "licence": "handmade for this film (CC BY-SA 4.0 with the film)"
+  },
+  {
+   "id": "KEY-OUTLINE",
+   "what": "II.6: red grease-pencil outline traced round the key's own cut mask, foreshortened on the empty seat (the key's absence)",
+   "made_by": "editor E3",
+   "script": "films/swarm/la-belle-hortense/editor/repair3_beats.py chalk_outline()",
+   "slots": [
+    "II.6"
+   ],
+   "licence": "handmade for this film (CC BY-SA 4.0 with the film)"
+  },
+  {
+   "id": "TYPEFACE",
+   "what": "Hortense Slab Bold / Regular: a monospaced slab-serif typewriter face drawn glyph by glyph as pen strokes and slab serifs, traced to TrueType outlines (all type in the film, sigma included)",
+   "made_by": "editor E3",
+   "script": "films/swarm/la-belle-hortense/editor/typeface.py",
+   "files": [
+    "films/sources/la-belle-hortense/editor/type/HortenseSlab-{Bold,Regular}.ttf",
+    "films/sources/la-belle-hortense/editor/type/specimen.png"
+   ],
+   "licence": "handmade for this film (CC BY-SA 4.0 with the film)",
+   "replaces": "Courier 10 Pitch (X Consortium/Bitstream licence) and the DejaVu Sans Mono sigma (Bitstream Vera licence): neither licence is in the allowed set"
+  }
+ ],
+ "unit": "U4 print-sound",
+ "font": {
+  "face": "Hortense Slab Bold / Regular (handmade, see object TYPEFACE)",
+  "files": "films/sources/la-belle-hortense/editor/type/HortenseSlab-{Bold,Regular}.ttf",
+  "licence": "handmade for the work; CC BY-SA 4.0 with the film"
+ },
+ "palette": {
+  "black": "#010201",
+  "title_red": "#a50917",
+  "red": "#e2011b",
+  "cream": "#e1e5b2",
+  "card": "#e8e4c4",
+  "manila": "#d6c48c"
+ },
+ "script": "films/swarm/la-belle-hortense/print-sound/print.py"
+}

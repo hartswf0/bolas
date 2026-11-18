@@ -1,0 +1,108 @@
+{
+ "n": 34,
+ "id": "thirty-two",
+ "title": "Thirty-two panels",
+ "family": "reduction and expansion",
+ "medium": "engraving-puppet",
+ "canon_revision": "c1",
+ "rule": "Every micro-action drawn: thirty-two small panels.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/34-thirty-two.jpg",
+ "master": "films/sources/99-ways/masters/34-thirty-two.png",
+ "beats_dir": "films/sources/99-ways/beats/34",
+ "build": "films/swarm/99-ways/build/p34_thirty_two.py (puppets and pen set: kit/build_page03.py)",
+ "sources": [
+  "99-ways:loc-harpers-1863-army-telegraph-operator",
+  "99-ways:loc-1867-dickens-tickets-steinway",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "a storyboard sheet of 32 equal boards (4 x 8, 480 x 308 px) ruled in the pen hand on the LoC 1934 sheet, each numbered 1-32 on a pasted slip at its lower right",
+  "the page-03 engraving puppets reused: AGENT = Harper's 1863 telegraph operator cut into pinned limbs (brass pins), STRANGER = the 1867 Steinway Hall woman; the engraved table and ticket window from the same plates",
+  "posed per micro-action: reading, head up, turning, two steps, stopping, turning to the voice, looking up at the clock, turning back, the answer gesture, turning toward the cupboard, two steps, hand to the knob, the door at 0 / 0.45 / 1.0 open, looking, pencil rising, pencil at the chin; one large close-up of the puppet with the pencil at his chin (panel 31)",
+  "HANDMADE pen set (build_page03): memo close-up, clock at 4:09 / 4:10 (close-up in panel 12) / 4:11, cupboard hinged on its left jamb, the key on its hook with its SERVICE tag (close-ups 26 and 31), SERVICE door with its card",
+  "the four canon lines verbatim in cut-paper pen-hand balloons (panels 7, 14, 16, 30)",
+  "each board softened 0.6 px (print softness, to hold the JPEG under 1.2 MB); sheet grain softened 1.6 px in the gutters"
+ ],
+ "panels": {
+  "1": "E0 the memo, close: '4:15 - open SERVICE door. Key in cupboard.'",
+  "2": "E0 he stands at the desk, reading it; the clock at 4:09",
+  "3": "E0 he lifts his head from the memo",
+  "4": "E0 he turns from the desk",
+  "5": "E0 first step across the office",
+  "6": "E0 second step; the closed cupboard ahead",
+  "7": "E1 a voice from the window: 'Pardon me — have you the right time?'",
+  "8": "E1 he stops mid-step and turns his head",
+  "9": "E1 the stranger at the TICKET OFFICE glass, waiting",
+  "10": "E1 he turns to face her",
+  "11": "E2 he looks up at the wall clock",
+  "12": "E2 the clock, close: 4:10",
+  "13": "E2 he turns back to the window",
+  "14": "E2 'Ten past four, by the clock.'",
+  "15": "E3 she nods",
+  "16": "E3 'Much obliged!'",
+  "17": "E3 she turns from the glass",
+  "18": "E3 she has stepped out of frame; he still faces the glass",
+  "19": "E3 the empty window",
+  "20": "E3 he turns back toward the cupboard",
+  "21": "E4 a step",
+  "22": "E4 another step; the cupboard and the SERVICE door",
+  "23": "E4 his hand to the knob",
+  "24": "E4 the door half open",
+  "25": "E4 the door wide open on its left jamb",
+  "26": "E4 the key, close: on its hook, tagged SERVICE",
+  "27": "E5 he looks at the key",
+  "28": "E5 the pencil rises",
+  "29": "E5 the pencil at his chin",
+  "30": "E5 'Well, here I am... and what for?'",
+  "31": "E5 the key, close, still on its hook",
+  "32": "E5 the SERVICE door shut beside him; the clock at 4:11"
+ },
+ "events": {
+  "E0": "panels 1-6",
+  "E1": "panels 7-10",
+  "E2": "panels 11-14",
+  "E3": "panels 15-20",
+  "E4": "panels 21-26",
+  "E5": "panels 27-32"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "none",
+ "beat": "the storyboard fills row by row: four new micro-action boards per frame until all thirty-two are numbered",
+ "beat_frames": [
+  "b01: rows 1-1 (panels 1-4)",
+  "b02: rows 1-2 (panels 1-8)",
+  "b03: rows 1-3 (panels 1-12)",
+  "b04: rows 1-4 (panels 1-16)",
+  "b05: rows 1-5 (panels 1-20)",
+  "b06: rows 1-6 (panels 1-24)",
+  "b07: rows 1-7 (panels 1-28)",
+  "b08: rows 1-8 (panels 1-32)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1153337,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "panels": 32,
+  "panel_numbers": "1-32, one per panel",
+  "check": "A reader counts thirty-two panels (measured: 32 ruled boxes of identical size in a 4 x 8 grid, each numbered; perceptually judged at full size: the numbers and the four balloons read at phone width)",
+  "evidence": "measured (grid, size, bytes) and perceptually judged (full-size page) by the maker"
+ },
+ "weaknesses": [
+  "the 1863 operator puppet has only one leg pose, so the 'steps' are carried by position and arm swing rather than a stride",
+  "panel 18 (she has gone) differs from panel 17 only by her absence at the frame edge",
+  "the woman's head sits behind the window plate in several boards and reads small",
+  "the panel 30 balloon covers the cupboard's top and the SERVICE card",
+  "boards are softened 0.6 px for file size"
+ ]
+}

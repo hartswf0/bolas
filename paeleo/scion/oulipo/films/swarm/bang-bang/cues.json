@@ -1,0 +1,848 @@
+{
+ "film": "bang-bang",
+ "unit": "writer and timing/sound (nonhuman account, cue sheet, stems)",
+ "date": "2026-11-16",
+ "fps": 24,
+ "frames": 720,
+ "conventions": {
+  "frames": "0-based film frames at 24 fps; frame f covers [f/24, (f+1)/24) s",
+  "write_start_frame": "first ink of the first letter",
+  "write_end_frame": "last letter complete",
+  "cps": "characters incl. spaces and punctuation * 24 / (write_end - write_start); target 11-14",
+  "one_hand": "a single pen writes serially; no two write-ons overlap (checked)",
+  "anchors": "write_start anchors: ink begins within +/-1 frame of the image event; S6 'Krach !' anchors on write completion (f605); the strike anchors on f528"
+ },
+ "witness": {
+  "id": "PIE",
+  "kind": "magpie",
+  "perceptual_limits": "only what is in the panel or its own field; no names, dates, numbers, physics terms; cannot read",
+  "attitude": "calm, approving, literal-minded",
+  "voice": "first person, one hand, one paper stock"
+ },
+ "struck_word": {
+  "word": "monter",
+  "slip": "S5",
+  "strike_frame": 528,
+  "correction": "s'arrêter",
+  "correction_frames": [
+   531,
+   547
+  ],
+  "placement": "s'arrêter is written above the struck word"
+ },
+ "changes_from_plan_lines": [
+  "S1b 'Le papier plie quand il veut. Le mien, quand je veux.' (52 chars) -> 'La mienne obéit.' (16): the original needs 3.7 s at 14 cps and would run through the 'pof' at f154. The comparison with the bird's own wing is kept.",
+  "S2 'Ensuite, un moulin à élastique.' -> 'Puis un moulin à élastique.' so it ends before the release at f254.",
+  "S2b 'Il le lâche, et le moulin monte tout seul. Lui reste en bas. C'est sage : il faut bien quelqu'un pour regarder.' (110 chars, about 8 s) -> 'Lui reste en bas. C'est sage.' (fits the release-to-snap window f254-f312).",
+  "S3 moved from the page turn (16.6 s) to f346-f389, beside sheet 1's third panel: after the turn there is no room to write S3, S4 and 'monter' by f527 at 14 cps or less. DEPENDENCY: s1p3 must show the glider at rest so the bird can see 'les grandes ailes'.",
+  "S4 'Il court face au vent. Bien.' -> 'Face au vent. Bien.' (the image already shows the running).",
+  "S5b 'Moi aussi, quand je veux me poser.' (34 chars, 2.4 s) -> 'Moi aussi, pour me poser.' (25): it must finish by f592 so 'Krach !' can complete at f605 with one hand.",
+  "S6 'Donc il se pose.' dropped before the impact: no room between S5b and 'Krach !'. Its inference ('he is landing') is carried by S5b ('pour me poser') and S6b/S6c.",
+  "S6b/S6c 'Un peu vite. Mais au bon endroit.' split in two slips so 'au bon endroit' is anchored on the magpie's own landing beside the wreck (f638)."
+ ],
+ "cues": [
+  {
+   "cue": "S1",
+   "kind": "slip",
+   "board_id": "BB-01",
+   "frame_range": [
+    24,
+    192
+   ],
+   "attempt_id": "A1",
+   "image_event": "push-in completes on panel 1: the man on the wall with a ribbed paper wing strapped to his arm",
+   "image_event_frame": 24,
+   "text": "Il s'est fait une aile en papier.",
+   "gloss_en_graphite": "He made himself a wing out of paper.",
+   "hand": "pen.hand (Hershey-derived, per-word slant/size/baseline drift, felt nib), warm ink (65,53,41) on torn cream slip, brass pin",
+   "line_of": null,
+   "paste_frame": 28,
+   "write_start_frame": 30,
+   "write_end_frame": 91,
+   "chars": 33,
+   "cps": 12.98,
+   "comment_anchor": null,
+   "fx": [
+    "paper flap f28 (paste)",
+    "magpie chatter onset f29"
+   ],
+   "contrast": "The image shows a paper shape tied to an arm. The slip adds the bird's surprise that a wing can be made at all ('s'est fait'): a wing is something it grows.",
+   "witness_gate": {
+    "lexicon": "pass",
+    "lexicon_failures": [],
+    "perception": "bird perched on the gatepost in panel 1, head toward him",
+    "precondition4_distinct": "pass"
+   },
+   "depends_on_outcome": false,
+   "cps_in_11_14": true
+  },
+  {
+   "cue": "S1b",
+   "kind": "slip",
+   "board_id": "BB-01",
+   "frame_range": [
+    24,
+    192
+   ],
+   "attempt_id": "A1",
+   "image_event": "third flap: the paper wing tip folds back on itself",
+   "image_event_frame": 108,
+   "text": "La mienne obéit.",
+   "gloss_en_graphite": "Mine does what I tell it.",
+   "hand": "pen.hand (Hershey-derived, per-word slant/size/baseline drift, felt nib), warm ink (65,53,41) on torn cream slip, brass pin",
+   "line_of": null,
+   "paste_frame": 105,
+   "write_start_frame": 107,
+   "write_end_frame": 135,
+   "chars": 16,
+   "cps": 13.71,
+   "comment_anchor": {
+    "kind": "write_start",
+    "frame": 108,
+    "measured_frame": 107,
+    "pass_pm1": true
+   },
+   "fx": [
+    "paper flap f105 (paste)",
+    "paper crease crinkle f108"
+   ],
+   "contrast": "The image shows the paper tip folding by itself. The slip compares it with the bird's own wing, which folds only when the bird wants: the failure is disobedience, not weakness.",
+   "witness_gate": {
+    "lexicon": "pass",
+    "lexicon_failures": [],
+    "perception": "bird's head at the 3rd held angle (f100), toward the wing",
+    "precondition4_distinct": "pass"
+   },
+   "depends_on_outcome": false,
+   "cps_in_11_14": true
+  },
+  {
+   "cue": "S1c",
+   "kind": "slip",
+   "board_id": "BB-01",
+   "frame_range": [
+    24,
+    192
+   ],
+   "attempt_id": "A1",
+   "image_event": "he sits down on the flowerbed",
+   "image_event_frame": 154,
+   "text": "pof.",
+   "gloss_en_graphite": "(flump)",
+   "hand": "pen.hand (Hershey-derived, per-word slant/size/baseline drift, felt nib), warm ink (65,53,41) on torn cream slip, brass pin",
+   "line_of": "S1b",
+   "paste_frame": null,
+   "write_start_frame": 154,
+   "write_end_frame": 161,
+   "chars": 4,
+   "cps": 13.71,
+   "comment_anchor": {
+    "kind": "write_start",
+    "frame": 154,
+    "measured_frame": 154,
+    "pass_pm1": true
+   },
+   "fx": [
+    "soft low thud 'pof' f154"
+   ],
+   "contrast": "Sound word: the bird hears the sit as soft and harmless (a 'pof', not a fall). Carried with S1b.",
+   "witness_gate": {
+    "lexicon": "pass",
+    "lexicon_failures": [],
+    "perception": "bird's head at 5th held angle (f150), on him",
+    "precondition4_distinct": "marker"
+   },
+   "depends_on_outcome": false,
+   "cps_in_11_14": true
+  },
+  {
+   "cue": "S2",
+   "kind": "slip",
+   "board_id": "BB-02/03",
+   "frame_range": [
+    192,
+    384
+   ],
+   "attempt_id": "A2",
+   "image_event": "he winds the two-rotor machine in steps (12 turns, tally in graphite)",
+   "image_event_frame": 192,
+   "text": "Puis un moulin à élastique.",
+   "gloss_en_graphite": "Then a rubber-band windmill.",
+   "hand": "pen.hand (Hershey-derived, per-word slant/size/baseline drift, felt nib), warm ink (65,53,41) on torn cream slip, brass pin",
+   "line_of": null,
+   "paste_frame": 200,
+   "write_start_frame": 203,
+   "write_end_frame": 250,
+   "chars": 27,
+   "cps": 13.79,
+   "comment_anchor": null,
+   "fx": [
+    "paper flap f200 (paste)",
+    "rubber creak per winding step f192-f250 (30 steps on 2s)"
+   ],
+   "contrast": "The image shows a winding machine. The slip names it as the bird sees it, a 'moulin', a thing that turns where it is, not a flier.",
+   "witness_gate": {
+    "lexicon": "pass",
+    "lexicon_failures": [],
+    "perception": "bird perched in panel 2 at left",
+    "precondition4_distinct": "pass"
+   },
+   "depends_on_outcome": false,
+   "cps_in_11_14": true
+  },
+  {
+   "cue": "S2b",
+   "kind": "slip",
+   "board_id": "BB-02/03",
+   "frame_range": [
+    192,
+    384
+   ],
+   "attempt_id": "A2",
+   "image_event": "release: the rotor rises out of his hands; he stays on the ground",
+   "image_event_frame": 254,
+   "text": "Lui reste en bas. C'est sage.",
+   "gloss_en_graphite": "He stays down below. Sensible.",
+   "hand": "pen.hand (Hershey-derived, per-word slant/size/baseline drift, felt nib), warm ink (65,53,41) on torn cream slip, brass pin",
+   "line_of": null,
+   "paste_frame": 252,
+   "write_start_frame": 255,
+   "write_end_frame": 306,
+   "chars": 29,
+   "cps": 13.65,
+   "comment_anchor": {
+    "kind": "write_start",
+    "frame": 254,
+    "measured_frame": 255,
+    "pass_pm1": true
+   },
+   "fx": [
+    "paper flap f252 (paste)",
+    "release whirr f254-f312",
+    "magpie chatter onset f264"
+   ],
+   "contrast": "The image shows only the machine rising and the man staying. The slip approves: staying down to watch first is what the bird calls wise.",
+   "witness_gate": {
+    "lexicon": "pass",
+    "lexicon_failures": [],
+    "perception": "bird looks up (head 35 deg) from f254",
+    "precondition4_distinct": "pass"
+   },
+   "depends_on_outcome": false,
+   "cps_in_11_14": true
+  },
+  {
+   "cue": "S2c",
+   "kind": "slip",
+   "board_id": "BB-02/03",
+   "frame_range": [
+    192,
+    384
+   ],
+   "attempt_id": "A2",
+   "image_event": "the rubber band snaps (pen squiggle whips)",
+   "image_event_frame": 312,
+   "text": "clac.",
+   "gloss_en_graphite": "(snap)",
+   "hand": "pen.hand (Hershey-derived, per-word slant/size/baseline drift, felt nib), warm ink (65,53,41) on torn cream slip, brass pin",
+   "line_of": "S2b",
+   "paste_frame": null,
+   "write_start_frame": 312,
+   "write_end_frame": 321,
+   "chars": 5,
+   "cps": 13.33,
+   "comment_anchor": {
+    "kind": "write_start",
+    "frame": 312,
+    "measured_frame": 312,
+    "pass_pm1": true
+   },
+   "fx": [
+    "band snap 'clac' f312",
+    "small thump f331 (machine drops on turf)"
+   ],
+   "contrast": "Sound word only: the bird hears the snap. Carried with S2b (no added claim).",
+   "witness_gate": {
+    "lexicon": "pass",
+    "lexicon_failures": [],
+    "perception": "bird head up 50 deg toward the rotor",
+    "precondition4_distinct": "marker"
+   },
+   "depends_on_outcome": false,
+   "cps_in_11_14": true
+  },
+  {
+   "cue": "S3",
+   "kind": "slip",
+   "board_id": "BB-04/05",
+   "frame_range": [
+    192,
+    384
+   ],
+   "attempt_id": "A3",
+   "image_event": "REQUIRES sheet-1 panel 3 to show the glider at rest (still key pose), visible in the pull-out f384-f396",
+   "image_event_frame": 346,
+   "text": "Enfin, les grandes ailes.",
+   "gloss_en_graphite": "At last, the big wings.",
+   "hand": "pen.hand (Hershey-derived, per-word slant/size/baseline drift, felt nib), warm ink (65,53,41) on torn cream slip, brass pin",
+   "line_of": null,
+   "paste_frame": 343,
+   "write_start_frame": 346,
+   "write_end_frame": 389,
+   "chars": 25,
+   "cps": 13.95,
+   "comment_anchor": null,
+   "fx": [
+    "paper flap f343 (paste)"
+   ],
+   "contrast": "The image shows a large frame of cloth and spars. 'grandes ailes' measures it the bird's way, by wings, and 'Enfin' says that, to a bird, this at last looks like the real thing.",
+   "witness_gate": {
+    "lexicon": "pass",
+    "lexicon_failures": [],
+    "perception": "DEPENDENCY: passes only if s1p3 holds the resting glider (board artist); fallback: drop S3, nothing else moves",
+    "precondition4_distinct": "pass"
+   },
+   "depends_on_outcome": false,
+   "cps_in_11_14": true
+  },
+  {
+   "cue": "S4",
+   "kind": "slip",
+   "board_id": "BB-07",
+   "frame_range": [
+    432,
+    504
+   ],
+   "attempt_id": "A3",
+   "image_event": "the run starts down the pen hill, right to left",
+   "image_event_frame": 432,
+   "text": "Face au vent. Bien.",
+   "gloss_en_graphite": "Into the wind. Good.",
+   "hand": "pen.hand (Hershey-derived, per-word slant/size/baseline drift, felt nib), warm ink (65,53,41) on torn cream slip, brass pin",
+   "line_of": null,
+   "paste_frame": 430,
+   "write_start_frame": 433,
+   "write_end_frame": 466,
+   "chars": 19,
+   "cps": 13.82,
+   "comment_anchor": {
+    "kind": "write_start",
+    "frame": 432,
+    "measured_frame": 433,
+    "pass_pm1": true
+   },
+   "fx": [
+    "paper flap f430 (paste)",
+    "footfalls on turf f432-f490",
+    "wind rising f432 -> cut f528"
+   ],
+   "contrast": "The image shows a man running downhill. The slip adds the bird's own take-off rule (into the wind) and approves it.",
+   "witness_gate": {
+    "lexicon": "pass",
+    "lexicon_failures": [],
+    "perception": "bird on the fence post in panel s2p1",
+    "precondition4_distinct": "pass"
+   },
+   "depends_on_outcome": false,
+   "cps_in_11_14": true
+  },
+  {
+   "cue": "S5",
+   "kind": "slip",
+   "board_id": "BB-08",
+   "frame_range": [
+    504,
+    576
+   ],
+   "attempt_id": "A3",
+   "image_event": "lift-off f490; nose starts to come up after f504",
+   "image_event_frame": 490,
+   "text": "Il lève le nez pour monter",
+   "gloss_en_graphite": "He lifts his nose to ~~climb~~ stop.",
+   "hand": "pen.hand (Hershey-derived, per-word slant/size/baseline drift, felt nib), warm ink (65,53,41) on torn cream slip, brass pin",
+   "line_of": null,
+   "paste_frame": 476,
+   "write_start_frame": 480,
+   "write_end_frame": 525,
+   "chars": 26,
+   "cps": 13.87,
+   "comment_anchor": null,
+   "fx": [
+    "paper flap f476 (paste)"
+   ],
+   "contrast": "Written as the man's intention ('to climb'), so the bird can correct it at the strike.",
+   "witness_gate": {
+    "lexicon": "pass",
+    "lexicon_failures": [],
+    "perception": "bird on the post in panel s2p2, watching the lift-off",
+    "precondition4_distinct": "pass"
+   },
+   "depends_on_outcome": true,
+   "cps_in_11_14": true
+  },
+  {
+   "cue": "S5-strike",
+   "kind": "slip",
+   "board_id": "BB-08",
+   "frame_range": [
+    504,
+    576
+   ],
+   "attempt_id": "A3",
+   "image_event": "nose crosses 15 deg above the horizon, forward advance dying (exposure: nose_15deg_frame 528)",
+   "image_event_frame": 528,
+   "text": "~~monter~~",
+   "gloss_en_graphite": "(climb, struck)",
+   "hand": "pen.hand (Hershey-derived, per-word slant/size/baseline drift, felt nib), warm ink (65,53,41) on torn cream slip, brass pin",
+   "line_of": "S5",
+   "paste_frame": null,
+   "write_start_frame": 528,
+   "write_end_frame": 530,
+   "chars": 6,
+   "cps": null,
+   "comment_anchor": {
+    "kind": "strike",
+    "frame": 528,
+    "measured_frame": 528,
+    "pass_pm1": true
+   },
+   "fx": [
+    "brass pin tick f528",
+    "wind cut f528"
+   ],
+   "contrast": "The strike is the bird changing its mind on the page: what looked like climbing is, to a flier, the start of stopping.",
+   "witness_gate": {
+    "lexicon": "pass",
+    "lexicon_failures": [],
+    "perception": "bird in panel 2 (on post, takes off ~f538)",
+    "precondition4_distinct": "pass"
+   },
+   "depends_on_outcome": true
+  },
+  {
+   "cue": "S5-corr",
+   "kind": "slip",
+   "board_id": "BB-08",
+   "frame_range": [
+    504,
+    576
+   ],
+   "attempt_id": "A3",
+   "image_event": "pitch reaches 35 deg, x-advance zero at f540; hang f540-f554 with legs still swinging",
+   "image_event_frame": 540,
+   "text": "s'arrêter",
+   "gloss_en_graphite": "stop",
+   "hand": "pen.hand (Hershey-derived, per-word slant/size/baseline drift, felt nib), warm ink (65,53,41) on torn cream slip, brass pin",
+   "line_of": "S5",
+   "paste_frame": null,
+   "write_start_frame": 531,
+   "write_end_frame": 547,
+   "chars": 9,
+   "cps": 13.5,
+   "comment_anchor": null,
+   "fx": [
+    "declared near-silence f540-f554 (air only)"
+   ],
+   "contrast": "The image shows nose up and forward motion ceasing. The slip gives the bird's reading: a raised nose is how you stop. It reads braking, not failure.",
+   "witness_gate": {
+    "lexicon": "pass",
+    "lexicon_failures": [],
+    "perception": "bird in panel 2",
+    "precondition4_distinct": "pass"
+   },
+   "depends_on_outcome": true,
+   "cps_in_11_14": true
+  },
+  {
+   "cue": "S5b",
+   "kind": "slip",
+   "board_id": "BB-08",
+   "frame_range": [
+    504,
+    576
+   ],
+   "attempt_id": "A3",
+   "image_event": "the magpie flies level past him and flares nose-up at f560 (the same gesture, done right)",
+   "image_event_frame": 548,
+   "text": "Moi aussi, pour me poser.",
+   "gloss_en_graphite": "Me too, to land.",
+   "hand": "pen.hand (Hershey-derived, per-word slant/size/baseline drift, felt nib), warm ink (65,53,41) on torn cream slip, brass pin",
+   "line_of": null,
+   "paste_frame": 547,
+   "write_start_frame": 549,
+   "write_end_frame": 592,
+   "chars": 25,
+   "cps": 13.95,
+   "comment_anchor": {
+    "kind": "write_start",
+    "frame": 548,
+    "measured_frame": 549,
+    "pass_pm1": true
+   },
+   "fx": [
+    "paste flap SUPPRESSED (paste f547 falls in the declared silence)",
+    "magpie wing whoosh f554-f562 (peak f557)",
+    "flare flutter f560-f568"
+   ],
+   "contrast": "The image shows two nose-up shapes. The slip says they are the same act and that its purpose is landing: the man is doing what birds do to come down.",
+   "witness_gate": {
+    "lexicon": "pass",
+    "lexicon_failures": [],
+    "perception": "the bird is the subject; flying through panel 2",
+    "precondition4_distinct": "pass"
+   },
+   "depends_on_outcome": true,
+   "cps_in_11_14": true
+  },
+  {
+   "cue": "S6",
+   "kind": "slip",
+   "board_id": "BB-09",
+   "frame_range": [
+    576,
+    660
+   ],
+   "attempt_id": "A3",
+   "image_event": "impact: glider shadow and glider touch the turf",
+   "image_event_frame": 605,
+   "text": "Krach !",
+   "gloss_en_graphite": "Crash!",
+   "hand": "pen.hand (Hershey-derived, per-word slant/size/baseline drift, felt nib), warm ink (65,53,41) on torn cream slip, brass pin",
+   "line_of": null,
+   "paste_frame": 589,
+   "write_start_frame": 593,
+   "write_end_frame": 605,
+   "chars": 7,
+   "cps": 14.0,
+   "comment_anchor": {
+    "kind": "write_complete",
+    "frame": 605,
+    "measured_frame": 605,
+    "pass_pm1": true
+   },
+   "fx": [
+    "paper flap f589 (paste)",
+    "thump + paper crumple peak f605"
+   ],
+   "contrast": "Sound word: on its own it paraphrases the image (gate 4 fails alone). It is carried by S6b/S6c, which turn the crash into a landing.",
+   "witness_gate": {
+    "lexicon": "pass",
+    "lexicon_failures": [],
+    "perception": "bird perched at the panel 2/3 edge after its landing f568-f580; NEEDS head turned to the wreck at f580-f605 (or bird visible at the edge of panel 3)",
+    "precondition4_distinct": "marker"
+   },
+   "depends_on_outcome": true,
+   "cps_in_11_14": true
+  },
+  {
+   "cue": "S6b",
+   "kind": "slip",
+   "board_id": "BB-09",
+   "frame_range": [
+    576,
+    660
+   ],
+   "attempt_id": "A3",
+   "image_event": "the wreck is held; legs whip and settle by f636",
+   "image_event_frame": 605,
+   "text": "Un peu vite.",
+   "gloss_en_graphite": "A bit fast.",
+   "hand": "pen.hand (Hershey-derived, per-word slant/size/baseline drift, felt nib), warm ink (65,53,41) on torn cream slip, brass pin",
+   "line_of": null,
+   "paste_frame": 615,
+   "write_start_frame": 617,
+   "write_end_frame": 638,
+   "chars": 12,
+   "cps": 13.71,
+   "comment_anchor": null,
+   "fx": [
+    "paper flap f615 (paste)",
+    "magpie chatter onset f614"
+   ],
+   "contrast": "The image shows a wreck. The slip grades it as a landing that was a bit fast, which is how a bird judges any landing.",
+   "witness_gate": {
+    "lexicon": "pass",
+    "lexicon_failures": [],
+    "perception": "bird re-enters panel 3 from f620",
+    "precondition4_distinct": "pass"
+   },
+   "depends_on_outcome": true,
+   "cps_in_11_14": true
+  },
+  {
+   "cue": "S6c",
+   "kind": "slip",
+   "board_id": "BB-09",
+   "frame_range": [
+    576,
+    660
+   ],
+   "attempt_id": "A3",
+   "image_event": "the magpie lands beside the wreck with a clean flare (two-hop settle, one peck)",
+   "image_event_frame": 638,
+   "text": "Mais au bon endroit.",
+   "gloss_en_graphite": "But in the right place.",
+   "hand": "pen.hand (Hershey-derived, per-word slant/size/baseline drift, felt nib), warm ink (65,53,41) on torn cream slip, brass pin",
+   "line_of": null,
+   "paste_frame": 636,
+   "write_start_frame": 639,
+   "write_end_frame": 674,
+   "chars": 20,
+   "cps": 13.71,
+   "comment_anchor": {
+    "kind": "write_start",
+    "frame": 638,
+    "measured_frame": 639,
+    "pass_pm1": true
+   },
+   "fx": [
+    "paper flap f636 (paste)",
+    "landing flutter f636"
+   ],
+   "contrast": "The image shows the bird landing next to the wreck. The slip says the place was right: the man came down where a bird would choose to.",
+   "witness_gate": {
+    "lexicon": "pass",
+    "lexicon_failures": [],
+    "perception": "bird in panel 3",
+    "precondition4_distinct": "pass"
+   },
+   "depends_on_outcome": true,
+   "cps_in_11_14": true
+  }
+ ],
+ "single_hand_overlaps": [],
+ "sound_only_cues": [
+  {
+   "cue": "C00",
+   "board_id": "BB-00",
+   "frame_range": [
+    0,
+    24
+   ],
+   "fx": [
+    "air fade-in f0-f24",
+    "sheet settle f6"
+   ]
+  },
+  {
+   "cue": "C06",
+   "board_id": "BB-06",
+   "frame_range": [
+    384,
+    432
+   ],
+   "fx": [
+    "page turn swoosh, flip edge peak f408 (exposure: turn f396-f418)",
+    "sheet lands f418"
+   ],
+   "note": "The task text puts the page turn at 16 s (f384). The exposure sheet has the pull-out f384-f394 and the turn f396-f418, so the sound follows the exposure."
+  },
+  {
+   "cue": "C08-silence",
+   "board_id": "BB-08",
+   "frame_range": [
+    540,
+    554
+   ],
+   "fx": [
+    "declared near-silence: air only"
+   ],
+   "note": "The magpie whoosh (task: f548-f560) is moved to start at f554 (peak f557) so the declared silence holds. The bird is seen approaching in silence and heard only as it passes. S5b's paste flap (f547) is suppressed for the same reason."
+  },
+  {
+   "cue": "C10",
+   "board_id": "BB-10",
+   "frame_range": [
+    660,
+    720
+   ],
+   "fx": [
+    "last chatter onset f682",
+    "air fades out over the last 2.5 s"
+   ],
+   "note": "S6c's write-on ends at f674, 14 frames into BB-10's pull-out; the full-sheet hold from about f684 shows every slip complete."
+  }
+ ],
+ "baseline_human_reporter": {
+  "render": "baseline_bb07-09.mp4 (editor), f432-f660, same picture, typed strip, no strike, no chatter",
+  "sound": "films/sources/bang-bang/sound/baseline_bb07-09_mix.wav (air + action FX, no pin tick, no chatter)",
+  "slips": [
+   {
+    "cue": "R7",
+    "board_id": "BB-07",
+    "text": "Course d'élan.",
+    "gloss_en": "Run-up.",
+    "paste_frame": 430,
+    "write_start_frame": 433,
+    "write_end_frame": 454,
+    "chars": 14,
+    "cps": 16.0,
+    "hand": "typed newspaper strip (typewriter face on newsprint strip), no correction",
+    "witness_gate": "n/a: human reporter (jargon 'décroche', 'appareil' allowed; that is the point of the baseline)"
+   },
+   {
+    "cue": "R8",
+    "board_id": "BB-08",
+    "text": "L'appareil se cabre.",
+    "gloss_en": "The machine rears up.",
+    "paste_frame": 476,
+    "write_start_frame": 480,
+    "write_end_frame": 514,
+    "chars": 20,
+    "cps": 14.12,
+    "hand": "typed newspaper strip (typewriter face on newsprint strip), no correction",
+    "witness_gate": "n/a: human reporter (jargon 'décroche', 'appareil' allowed; that is the point of the baseline)"
+   },
+   {
+    "cue": "R8b",
+    "board_id": "BB-08",
+    "text": "Il décroche.",
+    "gloss_en": "It stalls.",
+    "paste_frame": null,
+    "write_start_frame": 531,
+    "write_end_frame": 552,
+    "chars": 12,
+    "cps": 13.71,
+    "hand": "typed newspaper strip (typewriter face on newsprint strip), no correction",
+    "witness_gate": "n/a: human reporter (jargon 'décroche', 'appareil' allowed; that is the point of the baseline)"
+   },
+   {
+    "cue": "R9",
+    "board_id": "BB-09",
+    "text": "Il s'écrase.",
+    "gloss_en": "It crashes.",
+    "paste_frame": 581,
+    "write_start_frame": 584,
+    "write_end_frame": 605,
+    "chars": 12,
+    "cps": 13.71,
+    "hand": "typed newspaper strip (typewriter face on newsprint strip), no correction",
+    "witness_gate": "n/a: human reporter (jargon 'décroche', 'appareil' allowed; that is the point of the baseline)"
+   },
+   {
+    "cue": "R9b",
+    "board_id": "BB-09",
+    "text": "Échec.",
+    "gloss_en": "Failure.",
+    "paste_frame": null,
+    "write_start_frame": 617,
+    "write_end_frame": 627,
+    "chars": 6,
+    "cps": 14.4,
+    "hand": "typed newspaper strip (typewriter face on newsprint strip), no correction",
+    "witness_gate": "n/a: human reporter (jargon 'décroche', 'appareil' allowed; that is the point of the baseline)"
+   }
+  ],
+  "note": "'Course d'élan.' was added for BB-07 so every board has one strip; the three plan lines are kept verbatim."
+ },
+ "dependencies_for_board_and_editor": [
+  "S5 paste f476 / write f480-f525 (board.py currently pastes S5 at f474 with cps 14; same strike f528).",
+  "S5b paste f547 / write f549-f592 (board.py has f552, cps 12.5, with the longer text: replace it with 'Moi aussi, pour me poser.').",
+  "S3 needs the resting glider drawn in sheet-1 panel 3 (s1p3).",
+  "At f580-f605 the perched magpie must be visible at the panel 2/3 edge, or its head turned toward the wreck, so the 'Krach !' passes witness precondition 2."
+ ],
+ "evidence": [
+  {
+   "id": "SND-PICA-PD",
+   "title": "File:Pica pica.ogg",
+   "author": "Oona Räisänen (Mysid)",
+   "license": "Public domain (Commons extmetadata LicenseShortName 'Public domain', read 2026-11-16)",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Pica_pica.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Pica_pica.ogg",
+   "local_path": "films/sources/bang-bang/sound/raw/Pica_pica.ogg (sha256 5245782fc6ced8e7f6ce2c80bd5cf120ab0546f2289ba4adfffe7acde6dcc7ee); decoded: films/sources/bang-bang/writer-and-timing-sound-unit-nonhuman-account-cue-sheet-stems-/pica_pica_pd.wav",
+   "what_it_shows": "Sound, 26.5 s: a Eurasian magpie (Pica pica) in a backyard in southern Finland, two kinds of call (the rattling chatter and single 'chack' calls); a house sparrow faint in the background. Spectrogram checked: 6 chatter bursts at about 30 dB above the floor.",
+   "verified_date_or_place": "2008-05-25, southern Finland (Commons description)",
+   "used_as": "the magpie's chatter: bursts [(0.89, 1.57), (5.02, 5.56), (8.44, 8.99), (12.06, 12.71), (13.46, 14.14), (16.09, 16.79)] placed at f29, f264, f614, f682 (stem_magpie); high-passed at 900 Hz, edges faded"
+  },
+  {
+   "id": "MIA-AIR-A",
+   "title": "Blackwater National Wildlife Refuge (2005)",
+   "author": "via movingimagearchive.com (U.S. Fish and Wildlife Service)",
+   "license": "Public domain (US government work, U.S. Fish and Wildlife Service); rights as listed by movingimagearchive.com, not independently verified",
+   "license_url": "",
+   "source_url": "https://www.movingimagearchive.com/sources/blackwater-national-wildlife-refuge-1677118f?clip=9be990a5-12e4-54d0-803a-46ee2566f9c3",
+   "file_url": "",
+   "local_path": "films/sources/bang-bang/writer-and-timing-sound-unit-nonhuman-account-cue-sheet-stems-/air_A_9be990a5_0.10-2.50.wav (decoded from the local cache clip)",
+   "what_it_shows": "Sound: marsh air with faint small birds, clip 0.10-2.50 s (source film about 547.0-549.4 s), before the narration (same span as the researcher's MIA-AIR-A and the approved test shot).",
+   "verified_date_or_place": "2005 (archive title); place: Blackwater NWR, Maryland (title)",
+   "used_as": "air bed (stem_air), alternated with MIA-AIR-B"
+  },
+  {
+   "id": "MIA-AIR-B",
+   "title": "Bosque del Apache National Wildlife Refuge (2005)",
+   "author": "via movingimagearchive.com (U.S. Fish and Wildlife Service)",
+   "license": "Public domain (US government work, U.S. Fish and Wildlife Service); rights as listed by movingimagearchive.com, not independently verified",
+   "license_url": "",
+   "source_url": "https://www.movingimagearchive.com/sources/bosque-del-apache-national-wildlife-refuge-2c75717f?clip=3b4530d3-83e3-56e7-a9d7-fd17e8eaf94c",
+   "file_url": "",
+   "local_path": "films/sources/bang-bang/writer-and-timing-sound-unit-nonhuman-account-cue-sheet-stems-/air_B_3b4530d3_6.05-7.65.wav",
+   "what_it_shows": "Sound: a 1.6 s pause in the narration (clip 6.05-7.65 s, source film about 281.3-282.9 s): open air, faint birds. Spectrogram checked: no speech.",
+   "verified_date_or_place": "2005 (archive title); Bosque del Apache NWR, New Mexico (title)",
+   "used_as": "air bed (stem_air)"
+  }
+ ],
+ "absences": [
+  "File:Pica pica - Eurasian Magpie XC537413.mp3 (CC BY-SA 4.0, Benoît Van Hecke, France 2020; the researcher's pick): metadata read, but upload.wikimedia.org answered HTTP 429 with retry-after 600 s repeatedly; not downloaded. The PD recording above replaced it, so no CC BY-SA attribution is needed for sound.",
+  "Other Commons magpie calls seen in search (XC432921, XC475651, XC478076, XC551758, all CC BY-SA 4.0; W1CDR0001537 BD28, CC BY-SA 4.0): not needed; not downloaded.",
+  "Moving Image Archive cache: no magpie or corvid call; the refuge films are narrated and the bird clips are scored. Speech-free outdoor air exists only in 1.6-2.4 s spans (the researcher scanned every clip with sound).",
+  "No foraged paper, rubber, pin or impact recordings under an allowed licence were looked for beyond the cache. All FX are handmade synthesis, which the brief allows and the plan specifies."
+ ],
+ "handmade": [
+  {
+   "item": "slip paste flap",
+   "made": "numpy: band-passed noise flutter + a card slap + a 140 Hz pat",
+   "where": "stem_paper"
+  },
+  {
+   "item": "page turn",
+   "made": "numpy: a sheet swoosh peaking at the flip edge f408, crinkled edge, then the settle flap at f418",
+   "where": "stem_paper"
+  },
+  {
+   "item": "paper-wing rustle, crease crinkle",
+   "made": "numpy: band noise with sparse crackle impulses",
+   "where": "stem_action"
+  },
+  {
+   "item": "rubber creak per winding step",
+   "made": "numpy: stick-slip pulse train, pitch and level rising with tension over 30 steps on 2s",
+   "where": "stem_action"
+  },
+  {
+   "item": "release whirr, band snap 'clac', small thump, 'pof'",
+   "made": "numpy AM noise; noise crack + falling twang; kit.Mix.thud",
+   "where": "stem_action"
+  },
+  {
+   "item": "footfalls on turf",
+   "made": "numpy low noise + 85 Hz body, at leg-angle extremes read from exposure.json",
+   "where": "stem_action"
+  },
+  {
+   "item": "wind on the wing",
+   "made": "kit.Mix brown noise, band-limited, rising f432-f528, hard cut at f528",
+   "where": "stem_action"
+  },
+  {
+   "item": "brass pin tick (strike)",
+   "made": "numpy: a bright tick + 3.15/4.73 kHz ring decaying in 60 ms",
+   "where": "stem_pin"
+  },
+  {
+   "item": "magpie wing whoosh, flare and landing flutters",
+   "made": "numpy: band noise in a Hann window, amplitude-beaten at 12 beats/s (wings on 2s)",
+   "where": "stem_action"
+  },
+  {
+   "item": "impact thump + paper crumple at f605",
+   "made": "kit.Mix.thud 65 Hz + dense crackle burst, both peaks aligned on f605",
+   "where": "stem_action"
+  },
+  {
+   "item": "air bed",
+   "made": "assembled from MIA-AIR-A/B slices (alternated, some reversed), 0.35 s equal-power crossfades, fade in f0-f24, fade out over the last 2.5 s",
+   "where": "stem_air"
+  }
+ ]
+}

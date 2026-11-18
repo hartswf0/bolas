@@ -1,0 +1,413 @@
+{
+ "unit": "layout-wall",
+ "film": "teuf-teuf",
+ "direction": "1 La paroi",
+ "date": "2026-11-16",
+ "code": "films/swarm/teuf-teuf/layout_wall.py (plates); films/swarm/teuf-teuf/layout_sheet.py (measurements, comparison sheet, title preview)",
+ "geometry": {
+  "world": [
+   1280,
+   720
+  ],
+  "ground_y": 566.0,
+  "x0_px_for_0m": 330.0,
+  "px_per_m": 100.0,
+  "tau_to_pixel": "world x = 330 + 100 * metres; screen = (world - (ox, oy)) * scale for the camera",
+  "ticks_m": [
+   0.0,
+   1.2,
+   3.0,
+   8.0
+  ],
+  "ticks_world_x": [
+   330.0,
+   450.0,
+   630.0,
+   1130.0
+  ],
+  "ticks_world_y": [
+   572.0,
+   594.0
+  ],
+  "bands": {
+   "top": {
+    "edge_world_y": "70 + 18 sin(x/230+0.6) + 7 sin(x/71+2) + 3 sin(x/23) (+ ~1 px ragged noise)",
+    "edge_samples": {
+     "0": 86.5,
+     "320": 90.9,
+     "640": 60.0,
+     "960": 51.0,
+     "1279": 71.8
+    },
+    "frame_fraction_A": 0.096
+   },
+   "bottom": {
+    "edge_world_y": "614 + 10 sin(x/270+1.3) + 5 sin(x/47) + 2 sin(x/19+0.4)",
+    "edge_samples": {
+     "0": 624.4,
+     "320": 620.6,
+     "640": 614.2,
+     "960": 610.3,
+     "1279": 614.0
+    },
+    "frame_fraction_A": 0.149,
+    "caption_zone": "world y 640-705 (cream serif italic on charcoal, no box)"
+   }
+  },
+  "pale_field_world_y": "between band edges, ~70..614; figures at 30-40 % of 720 = 216-288 px tall standing on y 566",
+  "default_stone_outline": "test-shot make_stone(): 250 x ~156 px, rear at local x 0, bottom at local y 0 (layout_wall.stone_outline())",
+  "source_to_world": {
+   "source": "hands_cueva.jpg 960x720",
+   "scale": 1.3333333333333333,
+   "world_y = src_y * 4/3 - 150": true,
+   "world covers source rows": [
+    112.5,
+    652.5
+   ]
+  }
+ },
+ "master": {
+  "scale_px_per_world_px": 2.2,
+  "size": [
+   2816,
+   1584
+  ],
+  "file": "sources/teuf-teuf/layout/master_lum_x2.2.npy (float16 luminance 0..1)",
+  "note": "every camera is sampled from this one raster: frame B is an exact 1:1 crop, frame A an area-downsample, so both show the identical wall"
+ },
+ "cameras": {
+  "A": {
+   "scale": 1.0,
+   "ox": 0.0,
+   "oy": 0.0,
+   "w": 1280,
+   "h": 720,
+   "affine_world_to_screen": [
+    [
+     1.0,
+     0,
+     -0.0
+    ],
+    [
+     0,
+     1.0,
+     -0.0
+    ]
+   ],
+   "use": "fixed frame for shots 0,1,2,3a,3c,3d,3e,4,5,6"
+  },
+  "B": {
+   "scale": 2.2,
+   "ox": 0.0,
+   "oy": 322.3636363636364,
+   "w": 1280,
+   "h": 720,
+   "affine_world_to_screen": [
+    [
+     2.2,
+     0,
+     -0.0
+    ],
+    [
+     0,
+     2.2,
+     -709.2
+    ]
+   ],
+   "use": "shot 3b close-up (TEST SHOT), same tau as A",
+   "aim": "stone rear edge at rollers tau 2.2: world (230, 486)",
+   "clamp": "an exact centre on x 230 would need world x -61..521; the photograph starts at x 0, so ox is clamped to 0 (centre x 291). The rear edge sits at screen x 506, y 360; ground at screen y 538; ticks 0 m and 1.2 m visible at screen x 726, 990.",
+   "world_window": [
+    0.0,
+    322.3636363636364,
+    581.8181818181818,
+    649.6363636363636
+   ]
+  },
+  "A_960_preview": {
+   "scale": 0.75,
+   "ox": 0,
+   "oy": 0,
+   "w": 960,
+   "h": 540,
+   "note": "test-shot preview size; sample with layout_wall.to_cam(master, Cam(0.75,0,0,960,540))"
+  }
+ },
+ "compositing_contract": {
+  "space": "luminance 0..1 (frameX_lum.npy, no grain); composite puppets/stone/logs in luminance, then print with layout_wall.ramp() and add layout_wall.grain() once per frame (static seed per shot so grain does not shimmer, or a slow-changing seed)",
+  "ramp_L": [
+   0.0,
+   0.11999999731779099,
+   0.33000001311302185,
+   0.6800000071525574,
+   0.8700000047683716,
+   0.9399999976158142,
+   1.0
+  ],
+  "ramp_rgb": [
+   [
+    15.0,
+    17.0,
+    9.0
+   ],
+   [
+    43.0,
+    44.0,
+    31.0
+   ],
+   [
+    89.0,
+    90.0,
+    73.0
+   ],
+   [
+    179.0,
+    176.0,
+    152.0
+   ],
+   [
+    223.0,
+    217.0,
+    188.0
+   ],
+   [
+    239.0,
+    232.0,
+    202.0
+   ],
+   [
+    251.0,
+    243.0,
+    213.0
+   ]
+  ],
+  "ghosts": "ghost_{1.2,3.0,8.0}m_{A,B}_wash.png (alpha; lum = lum*(1-a) + 0.35*a) then _scratch.png (alpha; layout_wall.apply_scratch: dark lip 0.10 offset 1 world px, then white 0.99). Generator: layout_wall.ghost_strokes(poly, dx, dy, seed) for any outline.",
+  "title": "title_rub_A.png (alpha; lum = lum*(1-a) + 0.26*a, lay it in over ~0.25 s) then title_reveal/title_00..28.png (29 frames = 1.2 s write-on in stroke order; lum = lum*(1-a) + 0.99*a). Strokes in world coords: title_strokes.json; layout_wall.partial(strokes, frac) for other timings. Preview: sources/teuf-teuf/layout-wall/title_reveal_preview.mp4"
+ },
+ "transforms_on_the_photograph": [
+  "PIL decode -> float RGB -> Lab (cv2)",
+  "rock: low frequencies (Gauss sigma 45 src px, broad gain 0.55 around its median) + high-pass detail at gain 0.30 (kf-1: 0.85), the high-pass itself low-passed at sigma 3 src px -> smooth wash, not grit",
+  "lifted: median wash set to ramp level 0.875 -> measured pale median rgb (225,219,190)",
+  "red ochre density (a* above local mean) x3.0, ^0.6 -> printed as dark charcoal (to 0.09) = the real blown-spray halos; their unpainted interiors (the real negative hands) lifted +0.05 -> pale hands in dark halos (kf-1's dark-hand mapping inverted). The real positive red hand, spiral, zigzag and red figure print dark too.",
+  "grey guanacos: hysteresis on (less yellow + darker than local rock), components kept if area > 600 src px and mean darkness > 5 L*; pinholes filled; near-vertical leg strokes under bodies added; printed black 0.07 with the real paint mottle as grey dry-brush (to 0.27)",
+  "yellow ochre figures: -0.30 (pale grey ghosts)",
+  "warp source -> master by one affine (x 2.933, y offset -330 master px), bicubic"
+ ],
+ "handmade": [
+  {
+   "item": "rubbed charcoal bands",
+   "how": "130 hand-laid horizontal charcoal strokes per band (flat-stick profile, tapered ends, pressure vs a paper-tooth field so charcoal deposits only on the tooth), then finger-rubbed (72 % sideways smear), pressed darker rim along a soft wavy edge; tone normalised to the reference band means",
+   "where": "layout_wall.band_layer"
+  },
+  {
+   "item": "ground line",
+   "how": "pressed charcoal stroke at y 566 with +-1 px waver and broken pressure",
+   "where": "build_master"
+  },
+  {
+   "item": "scratched ticks 0 / 1.2 / 3 / 8 m",
+   "how": "white burin scratches on a small charcoal rub, faint",
+   "where": "build_master"
+  },
+  {
+   "item": "ghost-outline scratch generator + three stone ghosts",
+   "how": "re-traces any outline as 3 overlapping drifting hand strokes with gaps and overshoot, plus a 0.16 grey rub wash",
+   "where": "ghost_strokes / ghost_layer; PNGs in layout/"
+  },
+  {
+   "item": "engraved ghost bovid (upper middle)",
+   "how": "hand-placed spline contour, white scratch over a light rub",
+   "where": "ghost_animal_strokes"
+  },
+  {
+   "item": "dot cluster (upper right)",
+   "how": "110 irregular charcoal dabs",
+   "where": "dot_cluster"
+  },
+  {
+   "item": "title 'Teuf-teuf'",
+   "how": "hand-drawn single-stroke glyphs (T e u f - t), Catmull-Rom smoothed, scratched white through a finger-rubbed charcoal patch (sgraffito); stroke-order reveal",
+   "where": "GLYPHS, title_strokes, title_rub"
+  }
+ ],
+ "measurements": {
+  "method": "PIL RGB; lum = .299R+.587G+.114B; pale = Gauss(lum, 4 px) > 150 (same function on the reference)",
+  "reference_plan_s7": {
+   "pale_fraction": 0.54,
+   "pale_median_rgb": [
+    223,
+    217,
+    188
+   ],
+   "pale_median_lum": 209,
+   "frac_below_60": 0.17,
+   "top_band": [
+    99,
+    100,
+    82
+   ],
+   "bottom_band": [
+    120,
+    120,
+    100
+   ]
+  },
+  "reference_remeasured_here": {
+   "pale_fraction": 0.569,
+   "pale_median_rgb": [
+    221,
+    216,
+    187
+   ],
+   "pale_median_lum": 214,
+   "frac_below_60": 0.158,
+   "lum_percentiles_1_5_10_25_50_75_90_95_99": [
+    15.0,
+    23.0,
+    42.0,
+    89.0,
+    175.0,
+    218.0,
+    232.0,
+    236.0,
+    243.0
+   ]
+  },
+  "frame_A": {
+   "pale_fraction": 0.61,
+   "pale_median_rgb": [
+    225,
+    219,
+    190
+   ],
+   "pale_median_lum": 217,
+   "frac_below_60": 0.087,
+   "lum_percentiles_1_5_10_25_50_75_90_95_99": [
+    35.0,
+    51.0,
+    68.0,
+    97.0,
+    204.0,
+    219.0,
+    224.0,
+    226.0,
+    231.0
+   ],
+   "top_band_mean_rgb": [
+    98,
+    98,
+    80
+   ],
+   "bottom_band_mean_rgb": [
+    118,
+    117,
+    98
+   ],
+   "top_band_fraction": 0.096,
+   "bottom_band_fraction": 0.149
+  },
+  "frame_B": {
+   "pale_fraction": 0.765,
+   "pale_median_rgb": [
+    224,
+    218,
+    189
+   ],
+   "pale_median_lum": 216,
+   "frac_below_60": 0.102,
+   "lum_percentiles_1_5_10_25_50_75_90_95_99": [
+    33.0,
+    49.0,
+    58.0,
+    161.0,
+    214.0,
+    219.0,
+    222.0,
+    224.0,
+    229.0
+   ],
+   "top_band_mean_rgb": null,
+   "bottom_band_mean_rgb": [
+    149,
+    147,
+    125
+   ],
+   "top_band_fraction": 0.0,
+   "bottom_band_fraction": 0.091
+  },
+  "frame_A_with_title_and_ghosts": {
+   "pale_fraction": 0.608,
+   "pale_median_rgb": [
+    224,
+    218,
+    189
+   ],
+   "pale_median_lum": 216,
+   "frac_below_60": 0.085,
+   "lum_percentiles_1_5_10_25_50_75_90_95_99": [
+    35.0,
+    51.0,
+    69.0,
+    97.0,
+    196.0,
+    218.0,
+    224.0,
+    227.0,
+    231.0
+   ]
+  },
+  "reading": "Pale median rgb within 2-4 levels of the reference and the R>=G>B greenish-sepia order holds; median lum 217 vs 214 remeasured (plan quotes 209 by a different lum formula). Band means match (98,98,80 / 118,117,98 vs 99,100,82 / 120,120,100). Dark fraction is 8.7 % on the bare plate vs ~16-17 % on the reference: the reference's dark mass is its big animal silhouettes; ours comes from the stone (~4 % of frame), two puppets (~3-4 %) and logs/cart (~1 %), which should bring the composited frame to ~16 %; the animator should check this on a composited frame. Pale fraction 61 % vs 57 % for the same reason."
+ },
+ "outputs": {
+  "plates": [
+   "sources/teuf-teuf/layout/frameA.png",
+   "sources/teuf-teuf/layout/frameA_lum.npy",
+   "sources/teuf-teuf/layout/frameB.png",
+   "sources/teuf-teuf/layout/frameB_lum.npy",
+   "sources/teuf-teuf/layout/master_lum_x2.2.npy"
+  ],
+  "overlays": [
+   "sources/teuf-teuf/layout/ghost_{1.2,3.0,8.0}m_{A,B}_{wash,scratch}.png",
+   "sources/teuf-teuf/layout/title_alpha_A.png",
+   "sources/teuf-teuf/layout/title_rub_A.png",
+   "sources/teuf-teuf/layout/title_reveal/title_00..28.png",
+   "sources/teuf-teuf/layout/title_strokes.json"
+  ],
+  "previews": [
+   "sources/teuf-teuf/layout/frameA_with_ghosts.png",
+   "sources/teuf-teuf/layout/frameA_title.png",
+   "sources/teuf-teuf/layout-wall/title_reveal_preview.mp4",
+   "films/swarm/teuf-teuf/layout-vs-ref.jpg"
+  ],
+  "measurements": "sources/teuf-teuf/layout-wall/measurements.json"
+ },
+ "test_shot_fixes_addressed_here": [
+  "halos: now the photograph's own red-ochre spray density, printed dark and baked into the static plate, so they are a soft real airbrush blow that cannot shimmer (the animator's puppet halos should likewise use a fixed seed per drawing, not per frame)",
+  "cave animals and hand stencils stay readable after toning: guanacos re-segmented (no stray rock blobs), halos darker",
+  "charcoal bands rebuilt from hand-laid strokes on paper tooth then rubbed, replacing the blurred-noise sheen that read as brushed metal"
+ ],
+ "evidence": [
+  {
+   "id": "cueva-wall",
+   "title": "File:Cueva de las manos - detalle.jpg",
+   "author": "Suzko",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Cueva_de_las_manos_-_detalle.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Cueva_de_las_manos_-_detalle.jpg/960px-Cueva_de_las_manos_-_detalle.jpg",
+   "local_path": "films/sources/teuf-teuf/hands_cueva.jpg (960x720, already present, reused)",
+   "what_it_shows": "rock wall at Cueva de las Manos (Santa Cruz, Argentina): negative hand stencils in red-ochre spray, a positive red hand, red spiral and zigzag, grey guanaco paintings, yellow ochre figures",
+   "verified_date_or_place": "Commons extmetadata re-read 2026-11-16 via API: LicenseShortName 'CC BY-SA 3.0', Artist 'Suzko', Credit 'Own work', DateTimeOriginal 2005-01-07 14:19:20; place Cueva de las Manos, Rio Pinturas, Santa Cruz, Argentina (file title / description)",
+   "used_as": "the wall in frame A and frame B: re-toned, low-passed rock wash with its real stencils (pale hands in dark blown halos) and real guanaco silhouettes; CC BY-SA requires attribution and share-alike of the derived plates"
+  }
+ ],
+ "absences": [
+  "Full-resolution original (1280x960 per API) not fetched: upload.wikimedia.org returned 429 twice; it is only 1.33x the 960 px copy, so the close-up's softness would barely change. Frame B is therefore soft (2.9x source magnification); the low-passed wash hides this, but the guanaco edges and spray read soft at x2.2.",
+  "No new searches were needed: this unit uses only the already-foraged Cueva photograph; the Ljubljana wheel belongs to the animator."
+ ],
+ "notes_for_animator": [
+  "The real red spiral and red figure sit on the ground line around world x 260-540 (behind the drag/rollers action); they print dark, so keep the 3 px pale gap/halo separation (invariant 6) when puppets overlap them.",
+  "Frame B's top edge is world y 322: the stone top (~ y 360 on logs) is at screen y ~84; there is no top band in B.",
+  "Do not re-add grain per pixel per frame over the plate with a new seed each frame; use print_rgb(lum, seed) with one seed per shot."
+ ]
+}

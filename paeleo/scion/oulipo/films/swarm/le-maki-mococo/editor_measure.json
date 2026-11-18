@@ -1,0 +1,152 @@
+{
+ "6s": {
+  "skin_median": [
+   188.0,
+   142.0,
+   127.0
+  ],
+  "skin_dE76": 4.72,
+  "lip_median": [
+   145.0,
+   85.0,
+   84.0
+  ],
+  "lip_dE76": 6.14,
+  "lip_span_h": 0.569,
+  "lip_span_w": 0.417,
+  "lip_box_frac": [
+   0.033,
+   0.009,
+   0.449,
+   0.576
+  ],
+  "skin_max_x_frac": 0.411,
+  "skin_touches_top": true,
+  "skin_touches_bottom": true,
+  "skin_area_frac": 0.276,
+  "field_mean_right_half": [
+   254.34,
+   254.27,
+   254.2
+  ],
+  "luma_P5_P25_P50": [
+   95.755,
+   155.24,
+   255.0
+  ],
+  "frac_below80": 0.0145,
+  "dark_inside_cavity_frac": 0.744,
+  "pose": "LNT",
+  "jaw_deg": 1.59,
+  "field_mean_right_half_excl_layers": [
+   255.0,
+   255.0,
+   255.0
+  ],
+  "field_pixels": 161377,
+  "dark_frac_frame": 0.0145,
+  "dark_frac_mouth_region_left_half": 0.0141,
+  "face_area_frac_skin_lips_cavity": 0.409,
+  "dark_in_mouth_region_frac": 0.973,
+  "pass": {
+   "skin": true,
+   "lip": true,
+   "field": true,
+   "dark": true,
+   "skin_x": true,
+   "flesh_area": true,
+   "cut_top_bottom": true,
+   "lip_span": true
+  }
+ },
+ "46s": {
+  "skin_median": [
+   188.0,
+   142.0,
+   127.0
+  ],
+  "skin_dE76": 4.72,
+  "lip_median": [
+   146.0,
+   85.0,
+   85.0
+  ],
+  "lip_dE76": 5.49,
+  "lip_span_h": 0.548,
+  "lip_span_w": 0.406,
+  "lip_box_frac": [
+   0.042,
+   0.013,
+   0.447,
+   0.559
+  ],
+  "skin_max_x_frac": 0.412,
+  "skin_touches_top": true,
+  "skin_touches_bottom": true,
+  "skin_area_frac": 0.284,
+  "field_mean_right_half": [
+   231.21,
+   230.67,
+   229.8
+  ],
+  "luma_P5_P25_P50": [
+   81.24085000000001,
+   139.10899999999998,
+   242.59799999999998
+  ],
+  "frac_below80": 0.0489,
+  "dark_inside_cavity_frac": 0.105,
+  "pose": "rest",
+  "jaw_deg": 0.8,
+  "field_mean_right_half_excl_layers": [
+   252.15,
+   251.97,
+   251.84
+  ],
+  "field_pixels": 99648,
+  "dark_frac_frame": 0.0489,
+  "dark_frac_mouth_region_left_half": 0.0094,
+  "face_area_frac_skin_lips_cavity": 0.413,
+  "dark_in_mouth_region_frac": 0.17,
+  "pass": {
+   "skin": true,
+   "lip": true,
+   "field": true,
+   "dark": true,
+   "skin_x": true,
+   "flesh_area": true,
+   "cut_top_bottom": true,
+   "lip_span": true
+  }
+ },
+ "reference": {
+  "luma_P5_P25_P50": [
+   97.50999999999999,
+   166.60999999999999,
+   255.0
+  ],
+  "frac_below80": 0.0228
+ },
+ "reference_framing": {
+  "flesh_mass_frac": 0.386,
+  "skin_only_frac_upper_bound": 0.314,
+  "note": "maki.webp: non-white = skin + lips + cavity + teeth; skin-only by colour segmentation"
+ },
+ "acc3_hangs_alpha_diff_24_vs_46": 0,
+ "acc3_knot": [
+  850.0,
+  150.0
+ ],
+ "targets": {
+  "skin_dE76": "<12",
+  "lip_dE76": "<15",
+  "lip_span_h": ">=0.35",
+  "lip_span_w": ">=0.22",
+  "skin_max_x_frac": "<0.45",
+  "field": ">=250 every channel",
+  "flesh_area": "0.35-0.50 (E4 amended bar: skin + lips + cavity; reference 0.386)",
+  "skin_only_area": "reported, declared deviation: no 35% skin-only target (reference itself ~0.31)",
+  "dark_frac": "<=0.04, cavity only"
+ },
+ "framing_declaration": "E4: plan \u00a79 bar 7 said 'skin occupies 35-50%'. Measured on maki.webp, skin alone is at most ~31% and the whole flesh mass 38.6%, so the bar is amended (plan.md, editor amendment E4) to the flesh mass (skin + lips + cavity) 35-50%. Skin alone is reported as skin_area_frac and is BELOW 35% (declared deviation): with the skin confined to x < 45% and lips >= 35% of frame height, skin alone cannot reach 35%."
+}

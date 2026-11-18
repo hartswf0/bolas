@@ -1,0 +1,432 @@
+{
+ "unit": "notebook-animator",
+ "slug": "la-machine-a-tuer-le-temps",
+ "rig": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/la-machine-a-tuer-le-temps/notebook_rig.py",
+ "scripts": [
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/la-machine-a-tuer-le-temps/notebook_test_shot.py",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/la-machine-a-tuer-le-temps/notebook_compare.py"
+ ],
+ "test_shot": {
+  "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/notebook/test-shot.mp4",
+  "copy": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/notebook-animator/test-shot.mp4",
+  "frames": 474,
+  "seconds": 19.75,
+  "size_mb": 1.0,
+  "contents": "S5 re-shuffle (216 f) + S6 push into page 1 (18 f) + cut B opening: 05 src 0-59 at 0.5x (5.0 s), 04 src 0-47 (2.0 s), 02 src 24-95 (full 3.0 s)",
+  "ledger": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/notebook/test-shot-ledger.json",
+  "poster": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/notebook/test-shot.webp"
+ },
+ "stills": {
+  "S0": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/notebook/stills/S0.png",
+  "S1": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/notebook/stills/S1.png",
+  "S5-mid": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/notebook/stills/S5-mid.png",
+  "S5-end": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/notebook/stills/S5-end.png",
+  "S10": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/notebook/stills/S10.png"
+ },
+ "compare_sheet": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/notebook/compare.jpg",
+ "event_stream": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/notebook/events.json",
+ "timeline": {
+  "S0": [
+   0,
+   71
+  ],
+  "S1": [
+   72,
+   143
+  ],
+  "S2": [
+   144,
+   161
+  ],
+  "S3": [
+   162,
+   641
+  ],
+  "S4": [
+   642,
+   659
+  ],
+  "S5": [
+   660,
+   875
+  ],
+  "S6": [
+   876,
+   893
+  ],
+  "S7": [
+   894,
+   1457
+  ],
+  "S8": [
+   1458,
+   1475
+  ],
+  "S9": [
+   1476,
+   1499
+  ],
+  "S10": [
+   1500,
+   1607
+  ],
+  "total": 1608
+ },
+ "timeline_change": "S5 is 216 f (9.0 s), not 192: one print per page means 4 spreads, so the re-shuffle needs a riffle back from spread 4 and 4 page turns. Everything after S5 shifts +24 f; the film is 1608 f = 67.0 s (within 60-75 s). Rig constants S5_TURNS / S5_MOVES / S5_MARKS are data and can be re-timed.",
+ "choreography_change": "01 is parked on the table beside the notebook (left), not in the gutter: with a print filling each page there is no gutter room. Prints are carried in two table stacks (L: 01,03; R: 02,04,05,06) so only 4 page turns are needed; the hole-cycle order of the brief (05->1, 03->5, 02->3, 04->2, 06->4, 01->6) is kept as the set of slot changes, but the moves happen grouped by spread: 02->3, then 03->5 and 01->6, then 06->4, then 05->1 and 04->2. Red pencil strikes old ink number and writes the new one (8 f) on each moved slip; A struck and B written on page 1 at the end; 0.8 s hold.",
+ "layout_per_user_review": [
+  "one print per page, two pages per spread, broad cream margins, print in upper third (740x540 box on a 1000x1360 page)",
+  "page = slot; print, typed tape and ink number travel together on a slip of the same stock, which is not drawn while flush on a page (it reads as pasted directly); its edge and shadow show only while lifted or parked on the table",
+  "fine wire coil, 36 thin slanted loops through punched holes (denser than the brief's ~24, matched by eye to the reference)",
+  "warmer yellow-cream page (239,229,206)/(242,232,209)",
+  "red pencil numbers true red (200,20,30 core), 8 px stroke, same 58 px height as the ink numbers, grainy and broken",
+  "red page number in thin red ink in each outer top corner",
+  "02 woman with parcel projection gets its full 3 s",
+  "prints from the LoC master TIFFs (registrar downloads) via an integer-reduce pyramid; no service JPEGs"
+ ],
+ "measured": {
+  "push_end_psnr_db": {
+   "S2 end vs asset 01 f0": 48.7,
+   "S6 end vs asset 05 f0": 53.4
+  },
+  "pull_start_psnr_db_vs_asset08_f0": 47.3,
+  "note_pull": "pull-outs now start on the window of the last projected frame (08 src 47 in A, 95 in B, PULL_SRC); re-check after editors finalise recipes",
+  "colours": {
+   "S0": {
+    "frame": 30,
+    "cover": [
+     [
+      96,
+      13,
+      23
+     ],
+     [
+      5.1,
+      5.0,
+      5.0
+     ]
+    ]
+   },
+   "S1": {
+    "frame": 110,
+    "page_L": [
+     [
+      239,
+      229,
+      206
+     ],
+     [
+      2.3,
+      2.2,
+      2.1
+     ]
+    ],
+    "page_R": [
+     [
+      242,
+      232,
+      209
+     ],
+     [
+      2.2,
+      2.1,
+      2.0
+     ]
+    ],
+    "tape_band": [
+     227,
+     198,
+     150
+    ],
+    "red_pixels": 470,
+    "red_median": [
+     206,
+     71,
+     72
+    ],
+    "red_R_minus_G_median": 120
+   },
+   "S5-mid": {
+    "frame": 768
+   },
+   "S5-end": {
+    "frame": 875,
+    "page_L": [
+     [
+      239,
+      229,
+      206
+     ],
+     [
+      1.9,
+      1.9,
+      1.8
+     ]
+    ],
+    "page_R": [
+     [
+      242,
+      232,
+      209
+     ],
+     [
+      1.8,
+      1.8,
+      1.6
+     ]
+    ],
+    "tape_band": [
+     227,
+     198,
+     150
+    ],
+    "red_pixels": 874,
+    "red_median": [
+     209,
+     75,
+     76
+    ],
+    "red_R_minus_G_median": 130
+   },
+   "S10": {
+    "frame": 1607
+   },
+   "projection_05_f0": {
+    "p1": 20.7,
+    "p99": 223.0,
+    "median_R_minus_B": 6
+   },
+   "projection_02_f24": {
+    "p1": 21.7,
+    "p99": 218.3,
+    "median_R_minus_B": 9
+   },
+   "reference": {
+    "page_left": [
+     [
+      234,
+      226,
+      211
+     ],
+     [
+      10.6,
+      10.8,
+      11.5
+     ]
+    ],
+    "page_right": [
+     [
+      243,
+      233,
+      216
+     ],
+     [
+      18.0,
+      19.1,
+      19.6
+     ]
+    ],
+    "cover": [
+     [
+      98,
+      13,
+      23
+     ],
+     [
+      13.3,
+      20.2,
+      18.7
+     ]
+    ]
+   },
+   "targets": {
+    "page": "within 12 of (240,232,215) [#f0e8d7]",
+    "tape_band": "within 25 of (223,190,135) [#dfbe87]",
+    "red": "R-G >= 50",
+    "cover": "within 15 of (97,14,24) [#610e18]"
+   },
+   "translation_only_ncc_frame_740": {
+    "03": 1.0,
+    "04": 1.0,
+    "05": 0.10066,
+    "06": 1.0
+   }
+  },
+  "final_slots_check": "check_final_slots(): slot k holds B[k], 07 and 08 never move: True",
+  "translation_ncc_note": "NCC 1.0 for unoccluded moving prints at f740; 05 reads 0.10 there because the lifted 06 slip lies over it (occlusion, not geometry)"
+ },
+ "scion_application": {
+  "40": "rigid paper pieces, translation only, frame-indexed event stream (84 events: cover_flip, turn, lift, travel, setdown, settle, strike, write, push, pull, slide, line, tape); no wrong-ID swaps asserted",
+  "41": "lift shadow offset 2->22 px and blur 1.5->23.5 px with height over 4 f; damped spring at set-down (7 table px = ~2.5 out px overshoot, decays and snaps within 12 f = 6 drawings); loose sheet with leading-edge shadow and small settle; nothing moves at rest except the +-0.6 px table jitter per drawing (notebook layer only, ramped to 0 on pushes)",
+  "27": "pure function of frame index + data + fixed seeds; on twos for paper, ones for camera moves; deterministic re-render"
+ },
+ "foraged": [
+  {
+   "id": "01",
+   "title": "Chicago, Illinois. Conductors checking in at the dispatcher's office at the Union Station (1943) (1943)",
+   "author": "Jack Delano (1914-1997), photographer; U.S. Office of War Information",
+   "license": "No known restrictions on publication (LoC rights_advisory); US government work (FSA/OWI), public domain",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017844012/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d13000/8d13000/8d13022u.tif",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/registrar/masters/01u.tif (registrar download; reused, not re-downloaded) -> derived pyramid /home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/notebook-animator/work/01_pyr.png",
+   "what_it_shows": "two conductors at the dispatcher's office counter, wall clock behind",
+   "verified_date_or_place": "Union Station, Chicago, 1943 (LoC catalogue; rights re-verified by the registrar unit via loc.gov fo=json; rights_advisory read again by this unit for 2017844012 on 2026-11-16)",
+   "used_as": "print pasted on page 1 (cut A) -> page 6 after S5; pushed into / projected from the registrar frozen asset"
+  },
+  {
+   "id": "02",
+   "title": "Chicago, Illinois. The Union Station employs many women in the mail department to handle parcel post packages (1943) (1943)",
+   "author": "Jack Delano (1914-1997), photographer; U.S. Office of War Information",
+   "license": "No known restrictions on publication (LoC rights_advisory); US government work (FSA/OWI), public domain",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017844121/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d13000/8d13100/8d13131u.tif",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/registrar/masters/02u.tif (registrar download; reused, not re-downloaded) -> derived pyramid /home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/notebook-animator/work/02_pyr.png",
+   "what_it_shows": "mail-room woman carrying a parcel, glancing back",
+   "verified_date_or_place": "Union Station, Chicago, 1943 (LoC catalogue; rights re-verified by the registrar unit via loc.gov fo=json; rights_advisory read again by this unit for 2017844012 on 2026-11-16)",
+   "used_as": "print pasted on page 2 (cut A) -> page 3 after S5; pushed into / projected from the registrar frozen asset"
+  },
+  {
+   "id": "03",
+   "title": "Chicago, Illinois. Conductor checking his time in the telegraphers office at Union Station (1943) (1943)",
+   "author": "Jack Delano (1914-1997), photographer; U.S. Office of War Information",
+   "license": "No known restrictions on publication (LoC rights_advisory); US government work (FSA/OWI), public domain",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017844115/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d13000/8d13100/8d13125u.tif",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/registrar/masters/03u.tif (registrar download; reused, not re-downloaded) -> derived pyramid /home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/notebook-animator/work/03_pyr.png",
+   "what_it_shows": "conductor checking his watch in the telegraphers' office",
+   "verified_date_or_place": "Union Station, Chicago, 1943 (LoC catalogue; rights re-verified by the registrar unit via loc.gov fo=json; rights_advisory read again by this unit for 2017844012 on 2026-11-16)",
+   "used_as": "print pasted on page 3 (cut A) -> page 5 after S5; pushed into / projected from the registrar frozen asset"
+  },
+  {
+   "id": "04",
+   "title": "Chicago, Illinois. Soldier departing at the Union Station (1943) (1943)",
+   "author": "Jack Delano (1914-1997), photographer; U.S. Office of War Information",
+   "license": "No known restrictions on publication (LoC rights_advisory); US government work (FSA/OWI), public domain",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017843935/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d25000/8d25000/8d25003u.tif",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/registrar/masters/04u.tif (registrar download; reused, not re-downloaded) -> derived pyramid /home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/notebook-animator/work/04_pyr.png",
+   "what_it_shows": "soldier at a carriage door, a woman and a man in the foreground",
+   "verified_date_or_place": "Union Station, Chicago, 1943 (LoC catalogue; rights re-verified by the registrar unit via loc.gov fo=json; rights_advisory read again by this unit for 2017844012 on 2026-11-16)",
+   "used_as": "print pasted on page 4 (cut A) -> page 2 after S5; pushed into / projected from the registrar frozen asset"
+  },
+  {
+   "id": "05",
+   "title": "Chicago, Illinois. Red cap at the Union Station (1943) (1943)",
+   "author": "Jack Delano (1914-1997), photographer; U.S. Office of War Information",
+   "license": "No known restrictions on publication (LoC rights_advisory); US government work (FSA/OWI), public domain",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017843923/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/cph/3c30000/3c30000/3c30600/3c30642u.tif",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/registrar/masters/05u.tif (registrar download; reused, not re-downloaded) -> derived pyramid /home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/notebook-animator/work/05_pyr.png",
+   "what_it_shows": "red cap, head and shoulders, staring out of frame",
+   "verified_date_or_place": "Union Station, Chicago, 1943 (LoC catalogue; rights re-verified by the registrar unit via loc.gov fo=json; rights_advisory read again by this unit for 2017844012 on 2026-11-16)",
+   "used_as": "print pasted on page 5 (cut A) -> page 1 after S5; pushed into / projected from the registrar frozen asset"
+  },
+  {
+   "id": "06",
+   "title": "Chicago, Illinois. Soldier checking train reservation at the Union Station (1943) (1943)",
+   "author": "Jack Delano (1914-1997), photographer; U.S. Office of War Information",
+   "license": "No known restrictions on publication (LoC rights_advisory); US government work (FSA/OWI), public domain",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017843913/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d24000/8d24900/8d24980u.tif",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/registrar/masters/06u.tif (registrar download; reused, not re-downloaded) -> derived pyramid /home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/notebook-animator/work/06_pyr.png",
+   "what_it_shows": "soldier and clerk at a reservation counter, slips on the counter",
+   "verified_date_or_place": "Union Station, Chicago, 1943 (LoC catalogue; rights re-verified by the registrar unit via loc.gov fo=json; rights_advisory read again by this unit for 2017844012 on 2026-11-16)",
+   "used_as": "print pasted on page 6 (cut A) -> page 4 after S5; pushed into / projected from the registrar frozen asset"
+  },
+  {
+   "id": "07",
+   "title": "Chicago, Illinois. Soldier in the Union Station going back to camp after a weekend furlough in Chicago (1943) (1943)",
+   "author": "Jack Delano (1914-1997), photographer; U.S. Office of War Information",
+   "license": "No known restrictions on publication (LoC rights_advisory); US government work (FSA/OWI), public domain",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017843870/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d24000/8d24900/8d24937u.tif",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/registrar/masters/07u.tif (registrar download; reused, not re-downloaded) -> derived pyramid /home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/notebook-animator/work/07_pyr.png",
+   "what_it_shows": "file of soldiers leaving by the TRACK 2 doorway",
+   "verified_date_or_place": "Union Station, Chicago, 1943 (LoC catalogue; rights re-verified by the registrar unit via loc.gov fo=json; rights_advisory read again by this unit for 2017844012 on 2026-11-16)",
+   "used_as": "print pasted on page 7 (cut A) -> page 7 after S5; pushed into / projected from the registrar frozen asset"
+  },
+  {
+   "id": "08",
+   "title": "Chicago, Illinois. The main waiting room of Union Station at 1 a.m. (1943) (1943)",
+   "author": "Jack Delano (1914-1997), photographer; U.S. Office of War Information",
+   "license": "No known restrictions on publication (LoC rights_advisory); US government work (FSA/OWI), public domain",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017843779/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d24000/8d24800/8d24845u.tif",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/registrar/masters/08u.tif (registrar download; reused, not re-downloaded) -> derived pyramid /home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/notebook-animator/work/08_pyr.png",
+   "what_it_shows": "main waiting room at 1 a.m., benches, one figure",
+   "verified_date_or_place": "Union Station, Chicago, 1943 (LoC catalogue; rights re-verified by the registrar unit via loc.gov fo=json; rights_advisory read again by this unit for 2017844012 on 2026-11-16)",
+   "used_as": "print pasted on page 8 (cut A) -> page 8 after S5; pushed into / projected from the registrar frozen asset"
+  }
+ ],
+ "handmade": [
+  {
+   "item": "spiral notebook: cream pages with fibre noise, faint gutter, punched holes, fine wire coil; pale table",
+   "where": "notebook_rig.py page_face / coil_layer / table_base"
+  },
+  {
+   "item": "red pebbled cover #610e18 with two white labels lettered stroke by stroke in black felt-pen capitals (my single-stroke hand); 6-drawing cover flip",
+   "where": "cover_face, leaf_theta, turning_leaf"
+  },
+  {
+   "item": "typed tape captions in French, Courier 10 Pitch (Bitstream, freely redistributable system font), every character struck with its own density/baseline, yellowed band #dfbe87",
+   "where": "typed_tape, CAPS"
+  },
+  {
+   "item": "pen numbers, red-pencil strikes and re-numbers, red-ink page numbers, A/B, coda columns: stroke-by-stroke engine with pressure, per-instance jitter, pencil tooth grain",
+   "where": "G, word_strokes, render_strokes"
+  },
+  {
+   "item": "rigid page turns (perspective foreshortening; declared in ledger as frames where prints on the turning leaf are not pool-resolved)",
+   "where": "turning_leaf"
+  },
+  {
+   "item": "loose sheet with A/B columns, 8 red permutation lines drawn 6 f each, typed hash tape",
+   "where": "sheet_img, coda_frame"
+  },
+  {
+   "item": "test-shot sound: room tone, card hiss/taps, pencil scratches, page-turn flaps cued from the event stream; concourse murmur bed, ticks and pre-lapped latch synthesised with kit.Mix",
+   "where": "notebook_test_shot.py sound()"
+  }
+ ],
+ "editor_media": {
+  "dir": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/notebook-animator",
+  "files": [
+   "test-shot.mp4",
+   "aud/test-shot-sound.wav",
+   "frames/S0.png",
+   "frames/S1.png",
+   "frames/S5-mid.png",
+   "frames/S5-end.png",
+   "frames/S10.png",
+   "frames/strip.jpg",
+   "work/pyramid.json",
+   "work/<id>_pyr.png (gray master pyramids, required by the rig)"
+  ]
+ },
+ "absences": [
+  {
+   "searched": "Commons File:WWS TheStationTunnelOfTheTampereStation.ogg (Work With Sounds / Werstas, CC BY 4.0 read from extmetadata) as the station bed",
+   "result": "upload.wikimedia.org returned HTTP 429 on 8 attempts with backoff 20 s to 8 min (13:09 to 13:22); not used"
+  },
+  {
+   "searched": "movingimagearchive.com cache: forage.py \"station|depot|terminal|concourse|platform|railroad|railway|train\" clips with source sound",
+   "result": "hits are music, narration or silent (index audio kind: Big Train 1950 music, 6 1/2 Magic Hours 1958 speech, Coney Island at Night 1940 silent, Berlin Symphony no audio, Third Avenue El 3 s only); no usable station ambience without music or voice; not used"
+  }
+ ],
+ "known_gaps": [
+  "the station bed is still handmade (synthesised); the sound unit owns T1 and may still get the Commons file",
+  "page turns foreshorten the prints on the turning leaf (a physical turn, declared per frame in the ledger as \"turning\"); the validator should treat these frames like S9 and not as pool appearances",
+  "the parked slips on the table read as loose paper slips; at rest in the notebook they are invisible",
+  "the cover lettering is my own felt-pen hand; spacing around the I is a little uneven",
+  "the test shot was not watched by an independent critic; I checked it only from frame strips and stills (perceptual check by me)"
+ ],
+ "new_downloads_mb": 0
+}

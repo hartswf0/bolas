@@ -1,0 +1,647 @@
+{
+ "gate": "u3-gate.py",
+ "beats": "beats-r3",
+ "pass": true,
+ "n_checks": 105,
+ "failures": [],
+ "checks": [
+  {
+   "check": "P1/I1 second person, addressee you:A1",
+   "subject": "c1.A",
+   "pass": true,
+   "detail": "text='You lift your head.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+  },
+  {
+   "check": "P1/I1 second person, addressee you:A1",
+   "subject": "c1.A",
+   "pass": true,
+   "detail": "text='You lift your head.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+  },
+  {
+   "check": "P1/I1 second person, addressee you:A1",
+   "subject": "c1.B",
+   "pass": true,
+   "detail": "text='You lift your head.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+  },
+  {
+   "check": "P1/I1 second person, addressee you:A1",
+   "subject": "c1.B",
+   "pass": true,
+   "detail": "text='You lift your head.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+  },
+  {
+   "check": "P1/I1 second person, addressee you:A1",
+   "subject": "c2.A",
+   "pass": true,
+   "detail": "text='You hear it through the wall.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+  },
+  {
+   "check": "P1/I1 second person, addressee you:A1",
+   "subject": "c2.A",
+   "pass": true,
+   "detail": "text='You hear it through the wall.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+  },
+  {
+   "check": "P1/I1 second person, addressee you:A1",
+   "subject": "c2.B",
+   "pass": true,
+   "detail": "text='You hear it through the wall.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+  },
+  {
+   "check": "P1/I1 second person, addressee you:A1",
+   "subject": "c2.B",
+   "pass": true,
+   "detail": "text='You hear it through the wall.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+  },
+  {
+   "check": "P1/I1 second person, addressee you:A1",
+   "subject": "c3.A",
+   "pass": true,
+   "detail": "text='You do not answer.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+  },
+  {
+   "check": "P1/I1 second person, addressee you:A1",
+   "subject": "c3.A",
+   "pass": true,
+   "detail": "text='You do not answer.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+  },
+  {
+   "check": "P1/I1 second person, addressee you:A1",
+   "subject": "c3.B",
+   "pass": true,
+   "detail": "text='You do not answer.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+  },
+  {
+   "check": "P1/I1 second person, addressee you:A1",
+   "subject": "c3.B",
+   "pass": true,
+   "detail": "text='You do not answer.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+  },
+  {
+   "check": "P1/I1 second person, addressee you:A1",
+   "subject": "c4.A",
+   "pass": true,
+   "detail": "text='You take the stairs.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+  },
+  {
+   "check": "P1/I1 second person, addressee you:A1",
+   "subject": "c4.A",
+   "pass": true,
+   "detail": "text='You take the stairs.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+  },
+  {
+   "check": "P1/I1 second person, addressee you:A1",
+   "subject": "c4.B",
+   "pass": true,
+   "detail": "text='You take the stairs.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+  },
+  {
+   "check": "P1/I1 second person, addressee you:A1",
+   "subject": "c4.B",
+   "pass": true,
+   "detail": "text='You take the stairs.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+  },
+  {
+   "check": "P1/I1 second person, addressee you:A1",
+   "subject": "c5.A",
+   "pass": true,
+   "detail": "text='You take the same stairs again, one step after another.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+  },
+  {
+   "check": "P1/I1 second person, addressee you:A1",
+   "subject": "c5.A",
+   "pass": true,
+   "detail": "text='You take the same stairs again, one step after another.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+  },
+  {
+   "check": "P1/I1 second person, addressee you:A1",
+   "subject": "c5.B",
+   "pass": true,
+   "detail": "text='You take the same stairs again, one step after another.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+  },
+  {
+   "check": "P1/I1 second person, addressee you:A1",
+   "subject": "c5.B",
+   "pass": true,
+   "detail": "text='You take the same stairs again, one step after another.' declared_person=2 addressee=you:A1 lexical={'second': True, 'first': [], 'third': [], 'subject': 'you'}"
+  },
+  {
+   "check": "P2 bound event exists, shot not POV",
+   "subject": "c1",
+   "pass": true,
+   "detail": "event=E1 shot=S1"
+  },
+  {
+   "check": "P2 bound event exists, shot not POV",
+   "subject": "c2",
+   "pass": true,
+   "detail": "event=E2 shot=S2"
+  },
+  {
+   "check": "P2 bound event exists, shot not POV",
+   "subject": "c3",
+   "pass": true,
+   "detail": "event=E3 shot=S3"
+  },
+  {
+   "check": "P2 bound event exists, shot not POV",
+   "subject": "c4",
+   "pass": true,
+   "detail": "event=E4 shot=S5"
+  },
+  {
+   "check": "P2 bound event exists, shot not POV",
+   "subject": "c5",
+   "pass": true,
+   "detail": "event=E6 shot=S7"
+  },
+  {
+   "check": "P3 onset = event - 1.2 +/- 0.05",
+   "subject": "c1.A",
+   "pass": true,
+   "detail": "onset=0.800 want=0.800 event_t_on=2.000 (U1 measured) relation=anticipates"
+  },
+  {
+   "check": "P3 overlaps is computed, never declared",
+   "subject": "c1.A",
+   "pass": true,
+   "detail": "computed=False ledger=False"
+  },
+  {
+   "check": "P3 onset = event + 1.2 +/- 0.05",
+   "subject": "c1.B",
+   "pass": true,
+   "detail": "onset=3.200 want=3.200 event_t_on=2.000 (U1 measured) relation=lags"
+  },
+  {
+   "check": "P3 overlaps is computed, never declared",
+   "subject": "c1.B",
+   "pass": true,
+   "detail": "computed=False ledger=False"
+  },
+  {
+   "check": "P3 onset = event - 1.2 +/- 0.05",
+   "subject": "c2.A",
+   "pass": true,
+   "detail": "onset=4.800 want=4.800 event_t_on=6.000 (beats planned) relation=anticipates"
+  },
+  {
+   "check": "P3 overlaps is computed, never declared",
+   "subject": "c2.A",
+   "pass": true,
+   "detail": "computed=True ledger=True"
+  },
+  {
+   "check": "P3 onset = event + 1.2 +/- 0.05",
+   "subject": "c2.B",
+   "pass": true,
+   "detail": "onset=7.200 want=7.200 event_t_on=6.000 (beats planned) relation=lags"
+  },
+  {
+   "check": "P3 overlaps is computed, never declared",
+   "subject": "c2.B",
+   "pass": true,
+   "detail": "computed=False ledger=False"
+  },
+  {
+   "check": "P3 onset = event - 1.2 +/- 0.05",
+   "subject": "c3.A",
+   "pass": true,
+   "detail": "onset=7.800 want=7.800 event_t_on=9.000 (beats planned) relation=anticipates"
+  },
+  {
+   "check": "P3 overlaps is computed, never declared",
+   "subject": "c3.A",
+   "pass": true,
+   "detail": "computed=False ledger=False"
+  },
+  {
+   "check": "P3 onset = event + 1.2 +/- 0.05",
+   "subject": "c3.B",
+   "pass": true,
+   "detail": "onset=10.200 want=10.200 event_t_on=9.000 (beats planned) relation=lags"
+  },
+  {
+   "check": "P3 overlaps is computed, never declared",
+   "subject": "c3.B",
+   "pass": true,
+   "detail": "computed=False ledger=False"
+  },
+  {
+   "check": "P3 onset = event - 1.2 +/- 0.05",
+   "subject": "c4.A",
+   "pass": true,
+   "detail": "onset=19.300 want=19.300 event_t_on=20.500 (U1 measured) relation=anticipates"
+  },
+  {
+   "check": "P3 overlaps is computed, never declared",
+   "subject": "c4.A",
+   "pass": true,
+   "detail": "computed=True ledger=True"
+  },
+  {
+   "check": "P3 onset = event + 1.2 +/- 0.05",
+   "subject": "c4.B",
+   "pass": true,
+   "detail": "onset=21.700 want=21.700 event_t_on=20.500 (U1 measured) relation=lags"
+  },
+  {
+   "check": "P3 overlaps is computed, never declared",
+   "subject": "c4.B",
+   "pass": true,
+   "detail": "computed=True ledger=True"
+  },
+  {
+   "check": "P3 onset = event - 1.2 +/- 0.05",
+   "subject": "c5.A",
+   "pass": true,
+   "detail": "onset=27.300 want=27.300 event_t_on=28.500 (U1 measured) relation=anticipates"
+  },
+  {
+   "check": "P3 overlaps is computed, never declared",
+   "subject": "c5.A",
+   "pass": true,
+   "detail": "computed=True ledger=True"
+  },
+  {
+   "check": "P3 onset = event + 1.2 +/- 0.05",
+   "subject": "c5.B",
+   "pass": true,
+   "detail": "onset=29.700 want=29.700 event_t_on=28.500 (U1 measured) relation=lags"
+  },
+  {
+   "check": "P3 overlaps is computed, never declared",
+   "subject": "c5.B",
+   "pass": true,
+   "detail": "computed=True ledger=True"
+  },
+  {
+   "check": "P4 clear of SIL-H with 0.1 s guard",
+   "subject": "c1.A",
+   "pass": true,
+   "detail": "[0.800,2.000] vs SIL-H [11.5,19.0] guard 0.1"
+  },
+  {
+   "check": "P4 no straddle into a shot holding a different event",
+   "subject": "c1.A",
+   "pass": true,
+   "detail": "ok"
+  },
+  {
+   "check": "P4 clear of SIL-H with 0.1 s guard",
+   "subject": "c1.B",
+   "pass": true,
+   "detail": "[3.200,4.400] vs SIL-H [11.5,19.0] guard 0.1"
+  },
+  {
+   "check": "P4 no straddle into a shot holding a different event",
+   "subject": "c1.B",
+   "pass": true,
+   "detail": "ok"
+  },
+  {
+   "check": "P4 clear of SIL-H with 0.1 s guard",
+   "subject": "c2.A",
+   "pass": true,
+   "detail": "[4.800,6.050] vs SIL-H [11.5,19.0] guard 0.1"
+  },
+  {
+   "check": "P4 no straddle into a shot holding a different event",
+   "subject": "c2.A",
+   "pass": true,
+   "detail": "ok"
+  },
+  {
+   "check": "P4 clear of SIL-H with 0.1 s guard",
+   "subject": "c2.B",
+   "pass": true,
+   "detail": "[7.200,8.450] vs SIL-H [11.5,19.0] guard 0.1"
+  },
+  {
+   "check": "P4 no straddle into a shot holding a different event",
+   "subject": "c2.B",
+   "pass": true,
+   "detail": "ok"
+  },
+  {
+   "check": "P4 clear of SIL-H with 0.1 s guard",
+   "subject": "c3.A",
+   "pass": true,
+   "detail": "[7.800,9.000] vs SIL-H [11.5,19.0] guard 0.1"
+  },
+  {
+   "check": "P4 no straddle into a shot holding a different event",
+   "subject": "c3.A",
+   "pass": true,
+   "detail": "ok"
+  },
+  {
+   "check": "P4 clear of SIL-H with 0.1 s guard",
+   "subject": "c3.B",
+   "pass": true,
+   "detail": "[10.200,11.400] vs SIL-H [11.5,19.0] guard 0.1"
+  },
+  {
+   "check": "P4 no straddle into a shot holding a different event",
+   "subject": "c3.B",
+   "pass": true,
+   "detail": "ok"
+  },
+  {
+   "check": "P4 clear of SIL-H with 0.1 s guard",
+   "subject": "c4.A",
+   "pass": true,
+   "detail": "[19.300,20.600] vs SIL-H [11.5,19.0] guard 0.1"
+  },
+  {
+   "check": "P4 no straddle into a shot holding a different event",
+   "subject": "c4.A",
+   "pass": true,
+   "detail": "ok"
+  },
+  {
+   "check": "P4 clear of SIL-H with 0.1 s guard",
+   "subject": "c4.B",
+   "pass": true,
+   "detail": "[21.700,23.000] vs SIL-H [11.5,19.0] guard 0.1"
+  },
+  {
+   "check": "P4 no straddle into a shot holding a different event",
+   "subject": "c4.B",
+   "pass": true,
+   "detail": "ok"
+  },
+  {
+   "check": "P4 clear of SIL-H with 0.1 s guard",
+   "subject": "c5.A",
+   "pass": true,
+   "detail": "[27.300,30.100] vs SIL-H [11.5,19.0] guard 0.1"
+  },
+  {
+   "check": "P4 no straddle into a shot holding a different event",
+   "subject": "c5.A",
+   "pass": true,
+   "detail": "ok"
+  },
+  {
+   "check": "P4 clear of SIL-H with 0.1 s guard",
+   "subject": "c5.B",
+   "pass": true,
+   "detail": "[29.700,32.500] vs SIL-H [11.5,19.0] guard 0.1"
+  },
+  {
+   "check": "P4 no straddle into a shot holding a different event",
+   "subject": "c5.B",
+   "pass": true,
+   "detail": "ok"
+  },
+  {
+   "check": "I6 same clause count A/B/ledger",
+   "subject": "takes",
+   "pass": true,
+   "detail": "A=5 B=5 ledger=5"
+  },
+  {
+   "check": "P5 text identical in tracks A and B",
+   "subject": "c1",
+   "pass": true,
+   "detail": "A='You lift your head.' B='You lift your head.'"
+  },
+  {
+   "check": "I6 durations identical",
+   "subject": "c1",
+   "pass": true,
+   "detail": "A=1.200 B=1.200 ledger=1.2"
+  },
+  {
+   "check": "I6 only onsets differ, by 2.4 s",
+   "subject": "c1",
+   "pass": true,
+   "detail": "B.on-A.on=2.400"
+  },
+  {
+   "check": "I6 SRT matches ledger",
+   "subject": "c1.A",
+   "pass": true,
+   "detail": "srt=[0.800,2.000] ledger=[0.8, 2.0]"
+  },
+  {
+   "check": "I6 SRT matches ledger",
+   "subject": "c1.B",
+   "pass": true,
+   "detail": "srt=[3.200,4.400] ledger=[3.2, 4.4]"
+  },
+  {
+   "check": "P5 text identical in tracks A and B",
+   "subject": "c2",
+   "pass": true,
+   "detail": "A='You hear it through the wall.' B='You hear it through the wall.'"
+  },
+  {
+   "check": "I6 durations identical",
+   "subject": "c2",
+   "pass": true,
+   "detail": "A=1.250 B=1.250 ledger=1.25"
+  },
+  {
+   "check": "I6 only onsets differ, by 2.4 s",
+   "subject": "c2",
+   "pass": true,
+   "detail": "B.on-A.on=2.400"
+  },
+  {
+   "check": "I6 SRT matches ledger",
+   "subject": "c2.A",
+   "pass": true,
+   "detail": "srt=[4.800,6.050] ledger=[4.8, 6.05]"
+  },
+  {
+   "check": "I6 SRT matches ledger",
+   "subject": "c2.B",
+   "pass": true,
+   "detail": "srt=[7.200,8.450] ledger=[7.2, 8.45]"
+  },
+  {
+   "check": "P5 text identical in tracks A and B",
+   "subject": "c3",
+   "pass": true,
+   "detail": "A='You do not answer.' B='You do not answer.'"
+  },
+  {
+   "check": "I6 durations identical",
+   "subject": "c3",
+   "pass": true,
+   "detail": "A=1.200 B=1.200 ledger=1.2"
+  },
+  {
+   "check": "I6 only onsets differ, by 2.4 s",
+   "subject": "c3",
+   "pass": true,
+   "detail": "B.on-A.on=2.400"
+  },
+  {
+   "check": "I6 SRT matches ledger",
+   "subject": "c3.A",
+   "pass": true,
+   "detail": "srt=[7.800,9.000] ledger=[7.8, 9.0]"
+  },
+  {
+   "check": "I6 SRT matches ledger",
+   "subject": "c3.B",
+   "pass": true,
+   "detail": "srt=[10.200,11.400] ledger=[10.2, 11.4]"
+  },
+  {
+   "check": "P5 text identical in tracks A and B",
+   "subject": "c4",
+   "pass": true,
+   "detail": "A='You take the stairs.' B='You take the stairs.'"
+  },
+  {
+   "check": "I6 durations identical",
+   "subject": "c4",
+   "pass": true,
+   "detail": "A=1.300 B=1.300 ledger=1.3"
+  },
+  {
+   "check": "I6 only onsets differ, by 2.4 s",
+   "subject": "c4",
+   "pass": true,
+   "detail": "B.on-A.on=2.400"
+  },
+  {
+   "check": "I6 SRT matches ledger",
+   "subject": "c4.A",
+   "pass": true,
+   "detail": "srt=[19.300,20.600] ledger=[19.3, 20.6]"
+  },
+  {
+   "check": "I6 SRT matches ledger",
+   "subject": "c4.B",
+   "pass": true,
+   "detail": "srt=[21.700,23.000] ledger=[21.7, 23.0]"
+  },
+  {
+   "check": "P5 text identical in tracks A and B",
+   "subject": "c5",
+   "pass": true,
+   "detail": "A='You take the same stairs again, one step after another.' B='You take the same stairs again, one step after another.'"
+  },
+  {
+   "check": "I6 durations identical",
+   "subject": "c5",
+   "pass": true,
+   "detail": "A=2.800 B=2.800 ledger=2.8"
+  },
+  {
+   "check": "I6 only onsets differ, by 2.4 s",
+   "subject": "c5",
+   "pass": true,
+   "detail": "B.on-A.on=2.400"
+  },
+  {
+   "check": "I6 SRT matches ledger",
+   "subject": "c5.A",
+   "pass": true,
+   "detail": "srt=[27.300,30.100] ledger=[27.3, 30.1]"
+  },
+  {
+   "check": "I6 SRT matches ledger",
+   "subject": "c5.B",
+   "pass": true,
+   "detail": "srt=[29.700,32.500] ledger=[29.7, 32.5]"
+  },
+  {
+   "check": "I3 SIL-H has no caption",
+   "subject": "takeA",
+   "pass": true,
+   "detail": "captions in SIL-H: []"
+  },
+  {
+   "check": "I3 SIL-H has no caption",
+   "subject": "takeB",
+   "pass": true,
+   "detail": "captions in SIL-H: []"
+  },
+  {
+   "check": "I3 SIL-H room tone only (U2 measured)",
+   "subject": "SIL-H",
+   "pass": true,
+   "detail": "{\"t\": [11.5, 19.0], \"rms_floor_dbfs\": -41.96, \"median_50ms_dbfs\": -42.09, \"max_transient_over_floor_db_50ms\": 2.64, \"max_transient_over_floor_db_10ms\": 5.33, \"max_10ms_over_rms_floor_db\": 4.81, \"sample_peak_dbfs\": -29.68, \"non_room_stems_peak_in_SILH\": 0.0, \"nonzero\": true}"
+  },
+  {
+   "check": "I4 no POV, gaze off-lens, roles distinct",
+   "subject": "S1",
+   "pass": true,
+   "detail": "roles=['beside the bed at his head height, outside him, looking at his face (he looks down, not into lens)', 'N, off-screen, captions only', 'figure:F (Bubley sitter, LoC 2017862333)', 'spectator before the screen']"
+  },
+  {
+   "check": "I4 no POV, gaze off-lens, roles distinct",
+   "subject": "S2",
+   "pass": true,
+   "detail": "roles=['across the hall; nobody present', 'N, off-screen, captions only', 'none (nobody present; telephone only)', 'spectator before the screen']"
+  },
+  {
+   "check": "I4 no POV, gaze off-lens, roles distinct",
+   "subject": "S3",
+   "pass": true,
+   "detail": "roles=['across the room at seated head height, outside him; his eyes are turned off-lens', 'N, off-screen, captions only', 'figure:F (Bubley sitter, LoC 2017862340)', 'spectator before the screen']"
+  },
+  {
+   "check": "I4 no POV, gaze off-lens, roles distinct",
+   "subject": "S4",
+   "pass": true,
+   "detail": "roles=['as S3, closer', 'N, off-screen, captions only', 'figure:F (Bubley sitter, LoC 2017862340)', 'spectator before the screen']"
+  },
+  {
+   "check": "I4 no POV, gaze off-lens, roles distinct",
+   "subject": "S5",
+   "pass": true,
+   "detail": "roles=['below and beside the flight, outside him; he looks ahead up the stair, off-lens', 'N, off-screen, captions only', 'figure:F (Bubley sitter, cut from LoC 2017862340, on the Mydans stair LoC 2017714056) 20.5-23.5; none 19.0-20.5 and 23.5-24.5', 'spectator before the screen']"
+  },
+  {
+   "check": "I4 no POV, gaze off-lens, roles distinct",
+   "subject": "S6",
+   "pass": true,
+   "detail": "roles=['foot of the stairwell looking up, empty', 'N, off-screen, captions only', 'none (empty stairwell)', 'spectator before the screen']"
+  },
+  {
+   "check": "I4 no POV, gaze off-lens, roles distinct",
+   "subject": "S7",
+   "pass": true,
+   "detail": "roles=['as S5', 'N, off-screen, captions only', 'figure:F (same frames as S5) 28.5-31.5; none 27.0-28.5 and 31.5-35.0', 'spectator before the screen']"
+  },
+  {
+   "check": "D c5.B on >= 0.8 s of zero figure-alpha frames",
+   "subject": "c5.B",
+   "pass": true,
+   "detail": "zero-alpha frames 24 (1.000 s) of 67; first zero 756; missing 0"
+  },
+  {
+   "check": "Bl c4.B wholly inside figure-visible frames",
+   "subject": "c4.B",
+   "pass": true,
+   "detail": "31 frames, 0 without figure alpha: []"
+  },
+  {
+   "check": "A-baseline c4.A begins on an empty-stair frame",
+   "subject": "c4.A",
+   "pass": true,
+   "detail": "frame 463 coverage 0.0"
+  },
+  {
+   "check": "A-baseline c5.A begins on an empty-stair frame",
+   "subject": "c5.A",
+   "pass": true,
+   "detail": "frame 655 coverage 0.0"
+  }
+ ],
+ "picture_source": "editor-gate-picture.json",
+ "sound_source": "u2-sound-ledger.json",
+ "measured_events_used": [
+  "E1",
+  "E4",
+  "E6"
+ ],
+ "coverage_frames": 324
+}

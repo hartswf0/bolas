@@ -1,0 +1,70 @@
+{
+ "strip_art_sha256": "44b0d0c3e02adf6ed1e116f7a4b08262733a0a71ea15e4f9670bbf9d79fbd137",
+ "B_eq_2M_minus_A": true,
+ "two_A_minus_M": 30,
+ "compose_A_then_M": true,
+ "F0_map_err_u (X = u + D)": 3.4992808650713414e-10,
+ "F1_map_err_u (X = 2M - u)": 3.4992808650713414e-10,
+ "F2F3_z_max_u": 1.456043824718371e-13,
+ "layer_heights_u (F1, F0)": [
+  1.019,
+  2.037
+ ],
+ "settled_top_view_vs_V_max_abs_diff": 0,
+ "settled_top_view_cols_checked": 1218,
+ "settled_crease_cols_excluded_xprime": [
+  619,
+  620
+ ],
+ "settled_DAG": [
+  [
+   "F0",
+   "F1"
+  ],
+  [
+   "F0",
+   "F2"
+  ],
+  [
+   "F0",
+   "F3"
+  ],
+  [
+   "F1",
+   "F2"
+  ],
+  [
+   "F1",
+   "F3"
+  ]
+ ],
+ "ghost_map_mirrored_A..M": "layer2 column x' reads sheet u = 2A - x' (= 2M - X)",
+ "ghost_map_unmirrored_M..B": "layer3 column x' reads sheet u = x' + D",
+ "ghost_check_samples": [
+  {
+   "sheet_u": 700,
+   "xprime_mirrored": 540
+  },
+  {
+   "sheet_u": 900,
+   "xprime_mirrored": 340
+  },
+  {
+   "sheet_u": 1100,
+   "xprime_mirrored": 140
+  },
+  {
+   "sheet_u": 1300,
+   "xprime_unmirrored": 120
+  },
+  {
+   "sheet_u": 1500,
+   "xprime_unmirrored": 320
+  },
+  {
+   "sheet_u": 1700,
+   "xprime_unmirrored": 520
+  }
+ ],
+ "ghost_positions_exact": true
+}

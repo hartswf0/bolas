@@ -1,0 +1,37 @@
+{
+ "panel": "P6",
+ "bounds_page_px": [
+  1800,
+  1160,
+  2400,
+  2100
+ ],
+ "composite": "over, in order, starting from 00_bg (opaque)",
+ "layers": [
+  {
+   "order": 0,
+   "file": "00_bg.png",
+   "name": "bg"
+  },
+  {
+   "order": 1,
+   "file": "01_b_thanks.shadow.png",
+   "name": "b_thanks.shadow"
+  },
+  {
+   "order": 2,
+   "file": "02_b_thanks.paper.png",
+   "name": "b_thanks.paper"
+  },
+  {
+   "order": 3,
+   "file": "03_b_thanks.ink.png",
+   "name": "b_thanks.ink"
+  },
+  {
+   "order": 4,
+   "file": "04_border.png",
+   "name": "border"
+  }
+ ]
+}

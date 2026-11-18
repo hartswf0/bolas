@@ -1,0 +1,209 @@
+{
+ "slug": "99-ways-template",
+ "revision": "b1",
+ "frozen": true,
+ "owner": "page-cartoonist",
+ "participants": {
+  "CLERK": "the Randolph, Vermont station agent (Rothstein 1937)",
+  "VISITOR": "a woman on the platform, seen once as a soft shape through the ticket-window glass (Bubley 1943 figure)"
+ },
+ "objects": [
+  "DESK",
+  "MEMO",
+  "CHAIR",
+  "TICKET_WINDOW",
+  "CLOCK",
+  "CUPBOARD",
+  "CUPBOARD_DOOR",
+  "BRASS_KEY",
+  "SERVICE_DOOR",
+  "PENCIL",
+  "COUNTER_BELL"
+ ],
+ "places": [
+  "OFFICE_DESK",
+  "TICKET_WINDOW",
+  "CUPBOARD",
+  "PLATFORM (off-panel)"
+ ],
+ "fixture": {
+  "speakers": {
+   "What time is it?": "VISITOR (off-panel, platform, through the window)",
+   "Ten past four!": "CLERK",
+   "Thanks!": "VISITOR (off-panel, leaving)",
+   "Now... what did I come over here for?": "CLERK"
+  },
+  "destination": "CUPBOARD, for the BRASS_KEY",
+  "interruption": "E2",
+  "outcome": "goal not achieved; key remains on hook; SERVICE door stays closed"
+ },
+ "order": [
+  "E0",
+  "E1",
+  "E2",
+  "E3",
+  "E3b",
+  "E4",
+  "E5"
+ ],
+ "events": [
+  {
+   "id": "E0",
+   "verb": "reads memo",
+   "agent": "CLERK",
+   "objects": [
+    "MEMO",
+    "DESK",
+    "PENCIL"
+   ],
+   "place": "OFFICE_DESK",
+   "causes": [
+    "E1"
+   ],
+   "caused_by": [],
+   "fact": "The clerk, at his desk, has the memo '4:15 - open SERVICE door. Key in cupboard.' before him.",
+   "cue": "P1: handmade memo slip on the ledger, legible pencil lines; clerk seated, pencil at temple, eyes down.",
+   "interpretation": "He has a job to do at 4:15: fetch the key from the cupboard and open the service door.",
+   "panels": [
+    "P1"
+   ]
+  },
+  {
+   "id": "E1",
+   "verb": "leaves desk",
+   "agent": "CLERK",
+   "objects": [
+    "DESK",
+    "MEMO"
+   ],
+   "place": "OFFICE_DESK -> CUPBOARD",
+   "causes": [
+    "E4"
+   ],
+   "caused_by": [
+    "E0"
+   ],
+   "goal": "fetch BRASS_KEY from CUPBOARD",
+   "fact": "The clerk gets up and leaves the desk, heading across the office toward the cupboard and the SERVICE door.",
+   "cue": "P2: same view as P1, the desk left empty but for the memo, only his shoulder leaving the right edge; P3: he walks, standing (cut at the waist by the panel edge), past the closed double cupboard whose right leaf carries the SERVICE card; no desk in frame.",
+   "interpretation": "He is going for the key.",
+   "panels": [
+    "P2",
+    "P3"
+   ]
+  },
+  {
+   "id": "E2",
+   "verb": "asks the time",
+   "agent": "VISITOR",
+   "objects": [
+    "TICKET_WINDOW",
+    "COUNTER_BELL"
+   ],
+   "place": "PLATFORM (off-panel)",
+   "causes": [
+    "E3"
+   ],
+   "caused_by": [],
+   "interrupts": "E1",
+   "fact": "A visitor outside the ticket window asks 'What time is it?'. (Film only: the counter bell rings once before.)",
+   "cue": "P4: nobody is drawn behind the TICKET OFFICE glass; the balloon tail runs out of the panel's left edge through the window to the platform; the clerk's head, tipped up toward the voice, enters at the right edge.",
+   "interpretation": "Someone on the platform has stopped him on his way.",
+   "panels": [
+    "P4"
+   ]
+  },
+  {
+   "id": "E3",
+   "verb": "answers",
+   "agent": "CLERK",
+   "objects": [
+    "CLOCK"
+   ],
+   "place": "OFFICE",
+   "causes": [
+    "E3b"
+   ],
+   "caused_by": [
+    "E2"
+   ],
+   "fact": "The clerk answers 'Ten past four!'; the office clock reads 4:10.",
+   "cue": "P5: clock on the wall at 4:10 (its own hands re-set on the arbor); balloon tail to the clerk's mouth.",
+   "interpretation": "It is five minutes before the 4:15 job.",
+   "panels": [
+    "P5"
+   ]
+  },
+  {
+   "id": "E3b",
+   "verb": "thanks and leaves",
+   "agent": "VISITOR",
+   "objects": [
+    "TICKET_WINDOW"
+   ],
+   "place": "PLATFORM (off-panel)",
+   "causes": [],
+   "caused_by": [
+    "E3"
+   ],
+   "fact": "'Thanks!' comes from outside; the visitor is gone.",
+   "cue": "P6: the ticket window now empty (no figure behind the glass); balloon tail exits the panel's left edge.",
+   "interpretation": "She has left; the interruption is over.",
+   "panels": [
+    "P6"
+   ]
+  },
+  {
+   "id": "E4",
+   "verb": "opens cupboard",
+   "agent": "CLERK",
+   "objects": [
+    "CUPBOARD_DOOR",
+    "BRASS_KEY"
+   ],
+   "place": "CUPBOARD",
+   "causes": [
+    "E5"
+   ],
+   "caused_by": [
+    "E1"
+   ],
+   "fact": "The clerk reaches the cupboard; its door is open on its jamb and the brass key hangs on its hook inside the door, tagged SERVICE.",
+   "cue": "P7: door swung open on the left jamb; key and SERVICE tag on the hook on the door's inner face; clerk arriving at right; SERVICE card on the closed door beside it.",
+   "interpretation": "The goal is within reach.",
+   "panels": [
+    "P7"
+   ]
+  },
+  {
+   "id": "E5",
+   "verb": "forgets",
+   "agent": "CLERK",
+   "objects": [
+    "PENCIL",
+    "BRASS_KEY",
+    "SERVICE_DOOR"
+   ],
+   "place": "CUPBOARD",
+   "causes": [],
+   "caused_by": [
+    "E2",
+    "E3",
+    "E4"
+   ],
+   "outcome": "goal lost: key stays on its hook, SERVICE door stays closed",
+   "fact": "Before the open cupboard, pencil to chin, the clerk asks himself 'Now... what did I come over here for?'. The key stays on its hook; the service door stays closed.",
+   "cue": "P8: key on its hook on the open door at left, unmoved from P7; his eyes cast down at the shelves, away from it; pencil at his chin; SERVICE card on the still-closed door; balloon tail to his mouth.",
+   "interpretation": "The interruption made him forget the key.",
+   "panels": [
+    "P8"
+   ]
+  }
+ ],
+ "seed": "section-10 station incident as re-told by Direction 2: visitor, brass key, service door stays closed kept; bell is a sound cue only; envelope and bench dropped; key stays on its hook in the cupboard.",
+ "staging_notes": [
+  "r1 (editor): P5 and P8 show the clerk un-mirrored (facing right): in P5 he faces the clock, in P8 he faces away from the key on the door at his left; P4 and P3 show head and torso only (the pencil hand below the frame).",
+  "SERVICE door = the right-hand leaf of the Rothstein double cupboard, carrying the handmade SERVICE sign-card; the key cupboard is its left leaf. (plan.md section 5 placed the SERVICE door at P8's far left edge; it sits at P8's upper right instead, still visible and closed.)",
+  "P8 head keeps its photographed angle (eyes cast down to the shelves); no 2D roll of the head, per the test-shot note. No second photograph of this agent exists at LoC (searched); no replacement head was found that matches."
+ ]
+}

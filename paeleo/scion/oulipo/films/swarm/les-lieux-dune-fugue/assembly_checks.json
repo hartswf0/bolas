@@ -1,0 +1,146 @@
+{
+ "file": {
+  "duration_s": 57.0,
+  "size_mb": 1.282,
+  "streams": [
+   [
+    "video",
+    960,
+    720,
+    "24/1"
+   ],
+   [
+    "audio",
+    null,
+    null,
+    "0/0"
+   ]
+  ]
+ },
+ "silence": {
+  "window": [
+   44.0,
+   57.005
+  ],
+  "samples": 573520,
+  "all_zero": true,
+  "seconds": 13.005,
+  "nonzero_samples_after_44": 0,
+  "last_nonzero_before_44_s": 43.90124716553288,
+  "peak_dbfs": -8.94,
+  "pass_ge_6s": true
+ },
+ "audio_rms_db": {
+  "0-8": -29.0,
+  "8-19": -25.3,
+  "19-28": -30.6,
+  "28-31": -27.8,
+  "32-41": -25.2,
+  "41-44": -28.9
+ },
+ "tone_acceptance_5": {
+  "stone_within_18": true,
+  "stone_R_minus_B_ge_35": true,
+  "door_lum_le_35": true,
+  "p95_le_175": true,
+  "p5_ge_8": true,
+  "joint_le_30": true,
+  "pass": true
+ },
+ "I1_render": {
+  "stone_edges_A_in_B_within_1px": 0.847,
+  "stone_edges_B_in_A_within_1px": 0.792,
+  "p03_plate_27_9_vs_48_0_mean_abs_diff": 1.251,
+  "note": "mp4 (crf 28) frames; P03 diff measured on y 40-600 (slates differ, caption F3 gone by 27.9)"
+ },
+ "I5_render": {
+  "memory_mean_rgb": [
+   87.5,
+   96.7,
+   109.8
+  ],
+  "memory_B_ge_R": true,
+  "stone_R_minus_B": 66.2,
+  "pass": true
+ },
+ "beat_render": {
+  "door_region_mean_31_to_36": [
+   23.0,
+   22.3,
+   30.2,
+   51.7,
+   65.1,
+   69.1,
+   68.5,
+   67.0,
+   65.8,
+   65.2
+  ],
+  "distinct_door_drawings_31_to_36": 49,
+  "door_mean_43_9": 23.2,
+  "door_mean_29": 24.1
+ },
+ "captions_render": {
+  "0.5": 0,
+  "3.0": 895,
+  "7.5": 0,
+  "12.0": 1211,
+  "17.0": 0,
+  "23.0": 1144,
+  "27.5": 0,
+  "29.5": 718,
+  "33.0": 0,
+  "38.5": 676,
+  "42.0": 0,
+  "48.0": 0
+ },
+ "stage_tests": {
+  "I9_pass": true,
+  "I1": {
+   "piece_table_identical_A_B": true,
+   "n_pieces": 51,
+   "stone_edge_coincidence_within_1px_A_in_B": 0.869,
+   "stone_edge_coincidence_within_1px_B_in_A": 0.866,
+   "alpha_maps_identical": true,
+   "p03_same_plate_shots_3_and_5": true,
+   "note": "edge maps from a 3 px high-pass; the residue is the lamp-dependent shadow side of each 1-2 px gap"
+  },
+  "I5_pass": true,
+  "shot4": {
+   "hinge_x_drift_L_px": 0.0,
+   "hinge_height_range_L_px": 0.0,
+   "theta_max_L_deg": 60.9,
+   "distinct_leaf_drawings_L": 114,
+   "hinge_x_drift_R_px": 0.0,
+   "hinge_height_range_R_px": 0.0,
+   "theta_max_R_deg": 67.2,
+   "distinct_leaf_drawings_R": 117,
+   "right_leaf_lag_frames": 4,
+   "contact_frames_s": {
+    "L": [
+     43.5
+    ],
+    "R": [
+     43.5
+    ],
+    "planned_thud": 43.5
+   }
+  },
+  "shot1": {
+   "hinge_x_drift_L_px": 0.0,
+   "hinge_height_range_L_px": 0.0,
+   "theta_max_L_deg": 18.0,
+   "distinct_leaf_drawings_L": 14,
+   "hinge_x_drift_R_px": 0.0,
+   "hinge_height_range_R_px": 0.0,
+   "theta_max_R_deg": 0.0,
+   "distinct_leaf_drawings_R": 0,
+   "contact_frames_s": {
+    "L": [
+     7.0
+    ],
+    "planned_thud": 7.0
+   }
+  }
+ }
+}

@@ -1,0 +1,833 @@
+{
+ "slug": "quatre-vingt-quinze",
+ "revision": "r1",
+ "film_script_sha256": "82da473ad70ee2a9e0f9e7eebbe603be7da5b6f78886aa8d2af43f378a33360d",
+ "routes": {
+  "across": {
+   "performed": "ABCDEFGHI",
+   "declared": "ABCDEFGHI",
+   "matches_declared": true,
+   "steps": [
+    {
+     "edge": "A->B",
+     "legal": true
+    },
+    {
+     "edge": "B->C",
+     "legal": true
+    },
+    {
+     "edge": "C->D",
+     "legal": true
+    },
+    {
+     "edge": "D->E",
+     "legal": true
+    },
+    {
+     "edge": "E->F",
+     "legal": true
+    },
+    {
+     "edge": "F->G",
+     "legal": true
+    },
+    {
+     "edge": "G->H",
+     "legal": true
+    },
+    {
+     "edge": "H->I",
+     "legal": true
+    }
+   ],
+   "all_edges_legal": true,
+   "covers_all_nine_once": true,
+   "first": "A",
+   "last": "I"
+  },
+  "down": {
+   "performed": "ADGBEHCFI",
+   "declared": "ADGBEHCFI",
+   "matches_declared": true,
+   "steps": [
+    {
+     "edge": "A->D",
+     "legal": true
+    },
+    {
+     "edge": "D->G",
+     "legal": true
+    },
+    {
+     "edge": "G->B",
+     "legal": true
+    },
+    {
+     "edge": "B->E",
+     "legal": true
+    },
+    {
+     "edge": "E->H",
+     "legal": true
+    },
+    {
+     "edge": "H->C",
+     "legal": true
+    },
+    {
+     "edge": "C->F",
+     "legal": true
+    },
+    {
+     "edge": "F->I",
+     "legal": true
+    }
+   ],
+   "all_edges_legal": true,
+   "covers_all_nine_once": true,
+   "first": "A",
+   "last": "I"
+  }
+ },
+ "shared_final_I": true,
+ "E_predecessors": {
+  "across": "D",
+  "down": "B"
+ },
+ "E_predecessors_ok": true,
+ "E_position": {
+  "across": 5,
+  "down": 5
+ },
+ "beat_clock": {
+  "t_down_E": 44.0,
+  "beat": 44.5,
+  "ok": true
+ },
+ "E_occurrence_windows_s": {
+  "across": [
+   15.0,
+   18.0
+  ],
+  "down": [
+   44.0,
+   47.0
+  ]
+ },
+ "cell_identity_across_vs_down": {
+  "A": {
+   "frames_compared": 72,
+   "across_window_s": [
+    3.0,
+    6.0
+   ],
+   "down_window_s": [
+    32.0,
+    35.0
+   ],
+   "max_differing_px_full_cell_box": 0,
+   "max_differing_px_inside_border": 0,
+   "first_difference": null,
+   "identical": true
+  },
+  "B": {
+   "frames_compared": 72,
+   "across_window_s": [
+    6.0,
+    9.0
+   ],
+   "down_window_s": [
+    41.0,
+    44.0
+   ],
+   "max_differing_px_full_cell_box": 30,
+   "max_differing_px_inside_border": 0,
+   "first_difference": {
+    "frame": 2,
+    "pixels": 28,
+    "bbox_cell_px": [
+     0,
+     417,
+     5,
+     428
+    ],
+    "max_delta": 130
+   },
+   "identical": true
+  },
+  "C": {
+   "frames_compared": 72,
+   "across_window_s": [
+    9.0,
+    12.0
+   ],
+   "down_window_s": [
+    50.0,
+    53.0
+   ],
+   "max_differing_px_full_cell_box": 42,
+   "max_differing_px_inside_border": 0,
+   "first_difference": {
+    "frame": 2,
+    "pixels": 42,
+    "bbox_cell_px": [
+     0,
+     418,
+     6,
+     431
+    ],
+    "max_delta": 136
+   },
+   "identical": true
+  },
+  "D": {
+   "frames_compared": 72,
+   "across_window_s": [
+    12.0,
+    15.0
+   ],
+   "down_window_s": [
+    35.0,
+    38.0
+   ],
+   "max_differing_px_full_cell_box": 34,
+   "max_differing_px_inside_border": 0,
+   "first_difference": {
+    "frame": 2,
+    "pixels": 34,
+    "bbox_cell_px": [
+     697,
+     0,
+     708,
+     6
+    ],
+    "max_delta": 77
+   },
+   "identical": true
+  },
+  "E": {
+   "frames_compared": 72,
+   "across_window_s": [
+    15.0,
+    18.0
+   ],
+   "down_window_s": [
+    44.0,
+    47.0
+   ],
+   "max_differing_px_full_cell_box": 92,
+   "max_differing_px_inside_border": 0,
+   "first_difference": {
+    "frame": 2,
+    "pixels": 91,
+    "bbox_cell_px": [
+     0,
+     0,
+     707,
+     431
+    ],
+    "max_delta": 149
+   },
+   "identical": true
+  },
+  "F": {
+   "frames_compared": 72,
+   "across_window_s": [
+    18.0,
+    21.0
+   ],
+   "down_window_s": [
+    53.0,
+    56.0
+   ],
+   "max_differing_px_full_cell_box": 84,
+   "max_differing_px_inside_border": 0,
+   "first_difference": {
+    "frame": 2,
+    "pixels": 84,
+    "bbox_cell_px": [
+     0,
+     0,
+     708,
+     429
+    ],
+    "max_delta": 148
+   },
+   "identical": true
+  },
+  "G": {
+   "frames_compared": 72,
+   "across_window_s": [
+    21.0,
+    24.0
+   ],
+   "down_window_s": [
+    38.0,
+    41.0
+   ],
+   "max_differing_px_full_cell_box": 48,
+   "max_differing_px_inside_border": 0,
+   "first_difference": {
+    "frame": 2,
+    "pixels": 48,
+    "bbox_cell_px": [
+     696,
+     0,
+     708,
+     7
+    ],
+    "max_delta": 151
+   },
+   "identical": true
+  },
+  "H": {
+   "frames_compared": 72,
+   "across_window_s": [
+    24.0,
+    27.0
+   ],
+   "down_window_s": [
+    47.0,
+    50.0
+   ],
+   "max_differing_px_full_cell_box": 85,
+   "max_differing_px_inside_border": 0,
+   "first_difference": {
+    "frame": 2,
+    "pixels": 85,
+    "bbox_cell_px": [
+     0,
+     0,
+     708,
+     428
+    ],
+    "max_delta": 146
+   },
+   "identical": true
+  },
+  "I": {
+   "frames_compared": 72,
+   "across_window_s": [
+    27.0,
+    30.0
+   ],
+   "down_window_s": [
+    56.0,
+    59.0
+   ],
+   "max_differing_px_full_cell_box": 74,
+   "max_differing_px_inside_border": 0,
+   "first_difference": {
+    "frame": 2,
+    "pixels": 74,
+    "bbox_cell_px": [
+     0,
+     0,
+     707,
+     429
+    ],
+    "max_delta": 139
+   },
+   "identical": true
+  }
+ },
+ "cell_identity_all_ok": true,
+ "film_rest_vs_page": {
+  "A": {
+   "across": {
+    "t": 5.916666666666667,
+    "differing_px_inside_border": 0,
+    "differing_px_full_box": 0,
+    "bbox_full": null
+   },
+   "down": {
+    "t": 34.916666666666664,
+    "differing_px_inside_border": 0,
+    "differing_px_full_box": 0,
+    "bbox_full": null
+   }
+  },
+  "B": {
+   "across": {
+    "t": 8.916666666666666,
+    "differing_px_inside_border": 0,
+    "differing_px_full_box": 28,
+    "bbox_full": [
+     0,
+     417,
+     5,
+     428
+    ]
+   },
+   "down": {
+    "t": 43.916666666666664,
+    "differing_px_inside_border": 0,
+    "differing_px_full_box": 0,
+    "bbox_full": null
+   }
+  },
+  "C": {
+   "across": {
+    "t": 11.916666666666666,
+    "differing_px_inside_border": 0,
+    "differing_px_full_box": 42,
+    "bbox_full": [
+     0,
+     418,
+     6,
+     431
+    ]
+   },
+   "down": {
+    "t": 52.916666666666664,
+    "differing_px_inside_border": 0,
+    "differing_px_full_box": 0,
+    "bbox_full": null
+   }
+  },
+  "D": {
+   "across": {
+    "t": 14.916666666666666,
+    "differing_px_inside_border": 0,
+    "differing_px_full_box": 0,
+    "bbox_full": null
+   },
+   "down": {
+    "t": 37.916666666666664,
+    "differing_px_inside_border": 0,
+    "differing_px_full_box": 34,
+    "bbox_full": [
+     697,
+     0,
+     708,
+     6
+    ]
+   }
+  },
+  "E": {
+   "across": {
+    "t": 17.916666666666668,
+    "differing_px_inside_border": 0,
+    "differing_px_full_box": 46,
+    "bbox_full": [
+     0,
+     418,
+     6,
+     431
+    ]
+   },
+   "down": {
+    "t": 46.916666666666664,
+    "differing_px_inside_border": 0,
+    "differing_px_full_box": 46,
+    "bbox_full": [
+     696,
+     0,
+     707,
+     7
+    ]
+   }
+  },
+  "F": {
+   "across": {
+    "t": 20.916666666666668,
+    "differing_px_inside_border": 0,
+    "differing_px_full_box": 39,
+    "bbox_full": [
+     0,
+     417,
+     6,
+     429
+    ]
+   },
+   "down": {
+    "t": 55.916666666666664,
+    "differing_px_inside_border": 0,
+    "differing_px_full_box": 45,
+    "bbox_full": [
+     696,
+     0,
+     708,
+     7
+    ]
+   }
+  },
+  "G": {
+   "across": {
+    "t": 23.916666666666668,
+    "differing_px_inside_border": 0,
+    "differing_px_full_box": 0,
+    "bbox_full": null
+   },
+   "down": {
+    "t": 40.916666666666664,
+    "differing_px_inside_border": 0,
+    "differing_px_full_box": 48,
+    "bbox_full": [
+     696,
+     0,
+     708,
+     7
+    ]
+   }
+  },
+  "H": {
+   "across": {
+    "t": 26.916666666666668,
+    "differing_px_inside_border": 0,
+    "differing_px_full_box": 38,
+    "bbox_full": [
+     0,
+     417,
+     6,
+     428
+    ]
+   },
+   "down": {
+    "t": 49.916666666666664,
+    "differing_px_inside_border": 0,
+    "differing_px_full_box": 47,
+    "bbox_full": [
+     696,
+     0,
+     708,
+     7
+    ]
+   }
+  },
+  "I": {
+   "across": {
+    "t": 29.916666666666668,
+    "differing_px_inside_border": 0,
+    "differing_px_full_box": 27,
+    "bbox_full": [
+     0,
+     419,
+     5,
+     429
+    ]
+   },
+   "down": {
+    "t": 58.916666666666664,
+    "differing_px_inside_border": 0,
+    "differing_px_full_box": 45,
+    "bbox_full": [
+     695,
+     0,
+     707,
+     6
+    ]
+   }
+  }
+ },
+ "film_rest_vs_page_ok": true,
+ "end_hold_vs_page": [
+  {
+   "t": 62.5,
+   "page_px_differing": 0,
+   "camera": [
+    1680.0,
+    1200.0,
+    2496.0
+   ]
+  },
+  {
+   "t": 62.75,
+   "page_px_differing": 0,
+   "camera": [
+    1680.0,
+    1200.0,
+    2496.0
+   ]
+  },
+  {
+   "t": 63.0,
+   "page_px_differing": 0,
+   "camera": [
+    1680.0,
+    1200.0,
+    2496.0
+   ]
+  },
+  {
+   "t": 63.25,
+   "page_px_differing": 0,
+   "camera": [
+    1680.0,
+    1200.0,
+    2496.0
+   ]
+  },
+  {
+   "t": 63.5,
+   "page_px_differing": 0,
+   "camera": [
+    1680.0,
+    1200.0,
+    2496.0
+   ]
+  },
+  {
+   "t": 63.75,
+   "page_px_differing": 0,
+   "camera": [
+    1680.0,
+    1200.0,
+    2496.0
+   ]
+  }
+ ],
+ "end_hold_ok": true,
+ "end_frame_vs_page_scaled_identical_px": true,
+ "sound_one_cue_per_cell": true,
+ "bell_tail": {
+  "across_E_15_18_rms_dbfs": -240.0,
+  "down_E_44_45_rms_dbfs": -25.1,
+  "down_E_44.5_45.0_rms_dbfs": -30.0
+ },
+ "bell_tail_ok": true,
+ "joint_errors_summary": {
+  "A": {
+   "visitor:pelvis->chest.bone_err": 0.0,
+   "visitor:pelvis->chest.pin_sep": 0.0,
+   "visitor:chest->neck.bone_err": 0.0,
+   "visitor:chest->neck.pin_sep": 0.0,
+   "visitor:shoulder->elbow.bone_err": 0.0,
+   "visitor:shoulder->elbow.pin_sep": 0.0,
+   "visitor:elbow->wrist.bone_err": 0.0,
+   "visitor:elbow->wrist.pin_sep": 0.0,
+   "visitor:hip->knee.bone_err": 0.0,
+   "visitor:hip->knee.pin_sep": 0.0,
+   "visitor:knee->ankle.bone_err": 0.0,
+   "visitor:knee->ankle.pin_sep": 0.0,
+   "visitor:shoulder2->elbow2.bone_err": 0.0,
+   "visitor:shoulder2->elbow2.pin_sep": 0.0,
+   "visitor:elbow2->wrist2.bone_err": 0.0,
+   "visitor:elbow2->wrist2.pin_sep": 0.0,
+   "visitor:hip2->knee2.bone_err": 0.0,
+   "visitor:hip2->knee2.pin_sep": 0.0,
+   "visitor:knee2->ankle2.bone_err": 0.0,
+   "visitor:knee2->ankle2.pin_sep": 0.0,
+   "visitor:chest->shoulder.bone_err": 0.0,
+   "visitor:chest->shoulder.pin_sep": 0.0,
+   "visitor:chest->shoulder2.bone_err": 0.0,
+   "visitor:chest->shoulder2.pin_sep": 0.0,
+   "visitor:ankle_y_minus_contact.contact_px": [
+    -31.959,
+    0.003
+   ],
+   "visitor:ankle2_y_minus_contact.contact_px": [
+    -31.959,
+    0.003
+   ]
+  },
+  "B": {
+   "prop:bell->clapper.bone_err": 0.0,
+   "prop:bell->clapper.pin_sep": 0.0
+  },
+  "C": {
+   "visitor:pelvis->chest.bone_err": 0.0,
+   "visitor:pelvis->chest.pin_sep": 0.0,
+   "visitor:chest->neck.bone_err": 0.0,
+   "visitor:chest->neck.pin_sep": 0.0,
+   "visitor:shoulder->elbow.bone_err": 0.0,
+   "visitor:shoulder->elbow.pin_sep": 0.0,
+   "visitor:elbow->wrist.bone_err": 0.0,
+   "visitor:elbow->wrist.pin_sep": 0.0,
+   "visitor:hip->knee.bone_err": 0.0,
+   "visitor:hip->knee.pin_sep": 0.0,
+   "visitor:knee->ankle.bone_err": 0.0,
+   "visitor:knee->ankle.pin_sep": 0.0,
+   "visitor:shoulder2->elbow2.bone_err": 0.0,
+   "visitor:shoulder2->elbow2.pin_sep": 0.0,
+   "visitor:elbow2->wrist2.bone_err": 0.0,
+   "visitor:elbow2->wrist2.pin_sep": 0.0,
+   "visitor:hip2->knee2.bone_err": 0.0,
+   "visitor:hip2->knee2.pin_sep": 0.0,
+   "visitor:knee2->ankle2.bone_err": 0.0,
+   "visitor:knee2->ankle2.pin_sep": 0.0,
+   "visitor:chest->shoulder.bone_err": 0.0,
+   "visitor:chest->shoulder.pin_sep": 0.0,
+   "visitor:chest->shoulder2.bone_err": 0.0,
+   "visitor:chest->shoulder2.pin_sep": 0.0,
+   "visitor:ankle_y_minus_contact.contact_px": [
+    -0.003,
+    -0.003
+   ],
+   "visitor:ankle2_y_minus_contact.contact_px": [
+    -0.003,
+    -0.003
+   ]
+  },
+  "D": {
+   "visitor:pelvis->chest.bone_err": 0.0,
+   "visitor:pelvis->chest.pin_sep": 0.0,
+   "visitor:chest->neck.bone_err": 0.0,
+   "visitor:chest->neck.pin_sep": 0.0,
+   "visitor:shoulder->elbow.bone_err": 0.0,
+   "visitor:shoulder->elbow.pin_sep": 0.0,
+   "visitor:elbow->wrist.bone_err": 0.0,
+   "visitor:elbow->wrist.pin_sep": 0.0,
+   "visitor:hip->knee.bone_err": 0.0,
+   "visitor:hip->knee.pin_sep": 0.0,
+   "visitor:knee->ankle.bone_err": 0.0,
+   "visitor:knee->ankle.pin_sep": 0.0,
+   "visitor:shoulder2->elbow2.bone_err": 0.0,
+   "visitor:shoulder2->elbow2.pin_sep": 0.0,
+   "visitor:elbow2->wrist2.bone_err": 0.0,
+   "visitor:elbow2->wrist2.pin_sep": 0.0,
+   "visitor:hip2->knee2.bone_err": 0.0,
+   "visitor:hip2->knee2.pin_sep": 0.0,
+   "visitor:knee2->ankle2.bone_err": 0.0,
+   "visitor:knee2->ankle2.pin_sep": 0.0,
+   "visitor:chest->shoulder.bone_err": 0.0,
+   "visitor:chest->shoulder.pin_sep": 0.0,
+   "visitor:chest->shoulder2.bone_err": 0.0,
+   "visitor:chest->shoulder2.pin_sep": 0.0,
+   "man(window):pelvis->chest.bone_err": 0.0,
+   "man(window):pelvis->chest.pin_sep": 0.0,
+   "man(window):chest->neck.bone_err": 0.0,
+   "man(window):chest->neck.pin_sep": 0.0,
+   "man(window):shoulder->elbow.bone_err": 0.0,
+   "man(window):shoulder->elbow.pin_sep": 0.0,
+   "man(window):elbow->wrist.bone_err": 0.0,
+   "man(window):elbow->wrist.pin_sep": 0.0,
+   "man(window):hip->knee.bone_err": 0.0,
+   "man(window):hip->knee.pin_sep": 0.0,
+   "man(window):knee->ankle.bone_err": 0.0,
+   "man(window):knee->ankle.pin_sep": 0.0,
+   "man(window):shoulder2->elbow2.bone_err": 0.0,
+   "man(window):shoulder2->elbow2.pin_sep": 0.0,
+   "man(window):elbow2->wrist2.bone_err": 0.0,
+   "man(window):elbow2->wrist2.pin_sep": 0.0,
+   "man(window):hip2->knee2.bone_err": 0.0,
+   "man(window):hip2->knee2.pin_sep": 0.0,
+   "man(window):knee2->ankle2.bone_err": 0.0,
+   "man(window):knee2->ankle2.pin_sep": 0.0,
+   "man(window):chest->shoulder.bone_err": 0.0,
+   "man(window):chest->shoulder.pin_sep": 0.0,
+   "man(window):chest->shoulder2.bone_err": 0.0,
+   "man(window):chest->shoulder2.pin_sep": 0.0,
+   "prop:key@wrist.bone_err": 0.0,
+   "prop:key@wrist.pin_sep": 0.0,
+   "visitor:ankle_y_minus_contact.contact_px": [
+    -0.141,
+    -0.141
+   ],
+   "visitor:ankle2_y_minus_contact.contact_px": [
+    -0.0,
+    -0.0
+   ]
+  },
+  "E": {
+   "visitor:pelvis->chest.bone_err": 0.0,
+   "visitor:pelvis->chest.pin_sep": 0.0,
+   "visitor:chest->neck.bone_err": 0.0,
+   "visitor:chest->neck.pin_sep": 0.0,
+   "visitor:shoulder->elbow.bone_err": 0.0,
+   "visitor:shoulder->elbow.pin_sep": 0.0,
+   "visitor:elbow->wrist.bone_err": 0.0,
+   "visitor:elbow->wrist.pin_sep": 0.0,
+   "visitor:hip->knee.bone_err": 0.0,
+   "visitor:hip->knee.pin_sep": 0.0,
+   "visitor:knee->ankle.bone_err": 0.0,
+   "visitor:knee->ankle.pin_sep": 0.0,
+   "visitor:shoulder2->elbow2.bone_err": 0.0,
+   "visitor:shoulder2->elbow2.pin_sep": 0.0,
+   "visitor:elbow2->wrist2.bone_err": 0.0,
+   "visitor:elbow2->wrist2.pin_sep": 0.0,
+   "visitor:hip2->knee2.bone_err": 0.0,
+   "visitor:hip2->knee2.pin_sep": 0.0,
+   "visitor:knee2->ankle2.bone_err": 0.0,
+   "visitor:knee2->ankle2.pin_sep": 0.0,
+   "visitor:chest->shoulder.bone_err": 0.0,
+   "visitor:chest->shoulder.pin_sep": 0.0,
+   "visitor:chest->shoulder2.bone_err": 0.0,
+   "visitor:chest->shoulder2.pin_sep": 0.0,
+   "prop:key@wrist.bone_err": 0.0,
+   "prop:key@wrist.pin_sep": 0.0,
+   "visitor:ankle_y_minus_contact.contact_px": [
+    -0.005,
+    0.004
+   ],
+   "visitor:ankle2_y_minus_contact.contact_px": [
+    -0.005,
+    0.003
+   ]
+  },
+  "F": {
+   "visitor:pelvis->chest.bone_err": 0.0,
+   "visitor:pelvis->chest.pin_sep": 0.0,
+   "visitor:chest->neck.bone_err": 0.0,
+   "visitor:chest->neck.pin_sep": 0.0,
+   "visitor:shoulder->elbow.bone_err": 0.0,
+   "visitor:shoulder->elbow.pin_sep": 0.0,
+   "visitor:elbow->wrist.bone_err": 0.0,
+   "visitor:elbow->wrist.pin_sep": 0.0,
+   "visitor:hip->knee.bone_err": 0.0,
+   "visitor:hip->knee.pin_sep": 0.0,
+   "visitor:knee->ankle.bone_err": 0.0,
+   "visitor:knee->ankle.pin_sep": 0.0,
+   "visitor:shoulder2->elbow2.bone_err": 0.0,
+   "visitor:shoulder2->elbow2.pin_sep": 0.0,
+   "visitor:elbow2->wrist2.bone_err": 0.0,
+   "visitor:elbow2->wrist2.pin_sep": 0.0,
+   "visitor:hip2->knee2.bone_err": 0.0,
+   "visitor:hip2->knee2.pin_sep": 0.0,
+   "visitor:knee2->ankle2.bone_err": 0.0,
+   "visitor:knee2->ankle2.pin_sep": 0.0,
+   "visitor:chest->shoulder.bone_err": 0.0,
+   "visitor:chest->shoulder.pin_sep": 0.0,
+   "visitor:chest->shoulder2.bone_err": 0.0,
+   "visitor:chest->shoulder2.pin_sep": 0.0,
+   "prop:key@wrist.bone_err": 0.0,
+   "prop:key@wrist.pin_sep": 0.0,
+   "visitor:ankle_y_minus_contact.contact_px": [
+    -20.48,
+    0.001
+   ],
+   "visitor:ankle2_y_minus_contact.contact_px": [
+    -20.48,
+    0.001
+   ]
+  },
+  "G": {
+   "man:pelvis->chest.bone_err": 0.0,
+   "man:pelvis->chest.pin_sep": 0.0,
+   "man:chest->neck.bone_err": 0.0,
+   "man:chest->neck.pin_sep": 0.0,
+   "man:shoulder->elbow.bone_err": 0.0,
+   "man:shoulder->elbow.pin_sep": 0.0,
+   "man:elbow->wrist.bone_err": 0.0,
+   "man:elbow->wrist.pin_sep": 0.0,
+   "man:hip->knee.bone_err": 0.0,
+   "man:hip->knee.pin_sep": 0.0,
+   "man:knee->ankle.bone_err": 0.0,
+   "man:knee->ankle.pin_sep": 0.0,
+   "man:shoulder2->elbow2.bone_err": 0.0,
+   "man:shoulder2->elbow2.pin_sep": 0.0,
+   "man:elbow2->wrist2.bone_err": 0.0,
+   "man:elbow2->wrist2.pin_sep": 0.0,
+   "man:hip2->knee2.bone_err": 0.0,
+   "man:hip2->knee2.pin_sep": 0.0,
+   "man:knee2->ankle2.bone_err": 0.0,
+   "man:knee2->ankle2.pin_sep": 0.0,
+   "man:chest->shoulder.bone_err": 0.0,
+   "man:chest->shoulder.pin_sep": 0.0,
+   "man:chest->shoulder2.bone_err": 0.0,
+   "man:chest->shoulder2.pin_sep": 0.0,
+   "man:ankle_y_minus_contact.contact_px": [
+    0.002,
+    0.002
+   ],
+   "man:ankle2_y_minus_contact.contact_px": [
+    -0.589,
+    -0.589
+   ]
+  },
+  "H": {},
+  "I": {}
+ },
+ "ALL_OK": true
+}

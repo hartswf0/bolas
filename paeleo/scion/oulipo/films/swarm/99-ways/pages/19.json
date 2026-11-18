@@ -1,0 +1,95 @@
+{
+ "n": 19,
+ "id": "one-column",
+ "title": "One column",
+ "rule": "Ten or more wide, shallow panels stacked in a single column, read top to bottom like a storyboard.",
+ "medium": "engraving-puppet",
+ "family": "layout and page grammar",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/19-one-column.jpg",
+ "master": "films/sources/99-ways/masters/19-one-column.png",
+ "beats_dir": "films/sources/99-ways/beats/19",
+ "build": "films/swarm/99-ways/build/p19_one_column.py",
+ "sources": [
+  "99-ways:loc-harpers-1863-army-telegraph-operator",
+  "99-ways:loc-1867-dickens-tickets-steinway",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "ten storyboard boards, each a 1894 x 222 px strip of cream card, stacked in one column with 40 px gutters; board numbers 1-10 in graphite in the left gutter; a punched hole at each board's corner",
+  "AGENT and STRANGER as the engraving puppets of page 03 (films/swarm/99-ways/kit/build_page03.py: the 1863 telegraph operator cut at the joints and pinned with brass pins; the 1867 hatted woman cut along a drawn path; the operator's table from the same plate), printed as ink on cream card, re-posed per board; the woman is seen only head-and-shoulders THROUGH the ticket window (scale 0.42, laid into the opening and cut off at the sill, no pin), facing the agent in boards 4-6 and turned away in board 7",
+  "the ticket window drawn in the shared pen hand: a pale cool platform wash with the platform edge beyond the glass, frame, cross glazing bars and white glass glints drawn OVER her, a sill ledge and a counter front lettered TICKET OFFICE",
+  "set in the shared pen hand (HANDMADE): memo with the canon text, a large wall clock with all sixty minute ticks set to each board's time (4:08 in board 1, 4:09 in boards 2-5, 4:10 from board 6; at 4:10 the minute hand sits on the two-o'clock mark, at 4:09 one tick short), cupboard hinged on the left jamb with the key on its hook and SERVICE tag, SERVICE door lettered SERVICE, TICKET OFFICE on the window",
+  "the four canon lines as cut-paper balloons in the shared pen hand (penlib.balloon_piece); ten torn commentary slips pinned with brass pins (build_page03.slip)",
+  "hand-ruled borders (penlib.border_mask); folio '19 / One column' (pen99.folio)"
+ ],
+ "events": {
+  "board 1": "E0: 4:08. The memo on his desk.",
+  "board 2": "E0: 4:09. He rises.",
+  "board 3": "E0: He sets off for the cupboard.",
+  "board 4": "E1: On his way, a lady at the window.",
+  "board 5": "E2: He looks up at the clock.",
+  "board 6": "E2: 4:10. He tells her.",
+  "board 7": "E3: She thanks him and goes.",
+  "board 8": "E3: He walks on.",
+  "board 9": "E4: He opens the cupboard: the key.",
+  "board 10": "E5: The key stays. The door stays shut."
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "beat": "the boards are pinned down the single column one after another, so the story is read as a camera tilting down a storyboard",
+ "beat_frames": [
+  "b01: boards 1-2 pinned down the column (board 2: E0)",
+  "b02: boards 1-4 pinned down the column (board 4: E1)",
+  "b03: boards 1-6 pinned down the column (board 6: E2)",
+  "b04: boards 1-7 pinned down the column (board 7: E3)",
+  "b05: boards 1-9 pinned down the column (board 9: E4)",
+  "b06: boards 1-10 pinned down the column (board 10: E5)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1177355,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "panels": 10,
+  "columns": 1,
+  "panel_px": [
+   1894,
+   222
+  ],
+  "panel_aspect": 8.53,
+  "side_by_side_panels": 0,
+  "lines_verbatim": true,
+  "pending": "independent blind reading not run by the maker",
+  "beat_frames": 6,
+  "evidence": "measured (size, pixel checks named in the repair) and judged from the full-size page by the repair maker; a fresh blind reading of the repair is pending"
+ },
+ "weaknesses": [
+  "at 222 px board height the puppets are about 200 px tall: small at phone width, legible at full size",
+  "board 1 is still a close-up (memo, hand, clock at 4:08) with much empty card",
+  "one minute is a single tick on the dial: 4:09 and 4:10 are told apart only by whether the minute hand sits on the 2 mark or one tick short; legible at full size, not at phone width",
+  "the engraved window piece of the 1863 plate is no longer used; the window is pen-drawn so the glass can sit in front of her"
+ ],
+ "repairs": [
+  {
+   "date": "2026-11-17",
+   "by": "repair maker, batch 2",
+   "changed": [
+    "clock redrawn larger (r 56 px) with all sixty minute ticks, set per board: 4:08 in board 1 (clock now shown there), 4:09 in boards 2-5, 4:10 from board 6",
+    "the stranger is seen head-and-shoulders through a pen-drawn ticket window: platform wash behind her, her puppet laid into the opening and cut off at the sill (no pin on her), frame, cross glazing bars and white glints drawn over her; counter front lettered TICKET OFFICE",
+    "she faces the agent in boards 4-6 and is turned away in board 7",
+    "board 4 question balloon set in three lines to the right of the window, tail to the window's edge (off her head); board 6 answer balloon moved low so its tail passes under her face"
+   ],
+   "pass_test": "every board's clock agrees with its caption time, and her face is visible behind the glass in boards 4-7"
+  }
+ ]
+}

@@ -1,0 +1,98 @@
+{
+ "n": 13,
+ "id": "only-questions",
+ "title": "Only questions",
+ "family": "voice and language",
+ "medium": "shadow-puppet",
+ "canon_revision": "c1",
+ "rule": "Every caption and balloon is a question; even the answer and the thanks are offered as questions.",
+ "declares": "answer and thanks recast as questions (same content, same speakers)",
+ "file": "assets/pages/99-ways/13-only-questions.jpg",
+ "master": "films/sources/99-ways/masters/13-only-questions.png",
+ "beats_dir": "films/sources/99-ways/beats/13",
+ "build": "films/swarm/99-ways/build/p13_only_questions.py (figure model and set pieces: build/b1m2.py)",
+ "sources": [
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "HANDMADE black cut-paper shadow puppets (the b1m2 figure model: agent in profile with waistcoat, sleeve garter, spectacles and pencil cut through; the stranger as a bust with cloche hat) with their control rods: thin sticks from the chest and the working hand down past the bottom of each screen",
+  "eight warm, lantern-lit paper screens (amber hotspot to a red-brown rim over the fibre of the LoC 1934 sheet), distinct from page 05's grey slat light",
+  "cut set pieces: desk and lamp, ticket window with TICKET OFFICE in light through the header, clock at 4:10 with pendulum, cupboard (closed in P6, opened in P7-P8 on its left jamb), SERVICE door with its card",
+  "the ANRC 1922 key cutout (99-ways-template piece) used as a black shadow shape on a cut hook, with a paper SERVICE tag",
+  "the memo is a blank paper card on the desk (its words are carried by the P1 question, so no sentence on the page is a statement)",
+  "all captions and balloons in the shared pen hand: 13 texts, every sentence a question; folio by pen99.folio"
+ ],
+ "substitutions": {
+  "answer": "Ten past four, by the clock?",
+  "thanks": "Much obliged?",
+  "memo": "not lettered on the card; P1 asks: 'Doesn't his memo say 4:15, open the SERVICE door, and isn't the key in the cupboard?'"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock?",
+  "thanks": "Much obliged?",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "texts": [
+  "Doesn't his memo say 4:15, open the SERVICE door, and isn't the key in the cupboard?",
+  "So up he gets, and off he goes for the key, doesn't he?",
+  "Pardon me — have you the right time?",
+  "And who's that at the ticket window?",
+  "Ten past four, by the clock?",
+  "And where would he look, if not up at the clock?",
+  "Much obliged?",
+  "And now, isn't she gone?",
+  "And what's behind the cupboard door?",
+  "Isn't that the brass key, on its hook, tagged SERVICE, in plain view?",
+  "Well, here I am... and what for?",
+  "And the key, still on its hook?",
+  "And the SERVICE door, still closed?"
+ ],
+ "events": {
+  "E0": "P1 at the desk with the memo card (asked in the caption); P2 he walks toward the closed cupboard",
+  "E1": "P3 the stranger soft behind the TICKET OFFICE glass; question balloon",
+  "E2": "P4 he looks up at the clock (4:10); answer as a question",
+  "E3": "P5 she turns away behind the glass; thanks as a question",
+  "E4": "P6 his hand on the knob of the closed cupboard ('what's behind the cupboard door?'); P7 the cupboard open, the key on its hook, tag SERVICE",
+  "E5": "P8 pencil to his chin, the forgetting line; the key still on its hook, the SERVICE door closed (both asked in slips)"
+ },
+ "beat": "the P7 cupboard leaf swings open on the screen (0, 35, 70, 112 degrees) and the key's shadow comes into the light; then the forgetting balloon is laid in P8",
+ "beat_frames": [
+  "b01: P7 cupboard closed, P8 without balloon",
+  "b02: leaf 35 degrees",
+  "b03: leaf 70 degrees",
+  "b04: leaf open, key on its hook",
+  "b05: + forgetting balloon (the finished page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1001095,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "beat_frames": 5,
+  "panels": 8,
+  "texts": 13,
+  "sentences": 13,
+  "all_sentences_end_with_question_mark": true,
+  "non_sentence_lettering": [
+   "TICKET OFFICE (sign)",
+   "SERVICE (tag and door card)",
+   "folio title and number"
+  ],
+  "caption_cap_px": 40,
+  "balloon_cap_px": 48,
+  "check": "Every sentence on the page ends with a question mark. -> measured on the page's text list (13 texts, 13 sentences, all ending '?'); signs and folio are labels, not sentences",
+  "evidence": "measured (sentence check, size) and perceptually judged (from frames) by the maker; independent readers not yet run"
+ },
+ "weaknesses": [
+  "'Much obliged?' reads oddly by design; a reader may take it as sarcasm rather than thanks",
+  "the memo card is blank: the memo's content lives only in the P1 question",
+  "the stranger is a soft brown shadow behind the glass; her hat and coat read, her face does not",
+  "P7 is a close-up without the agent, so E4 is split across P6 (hand on knob) and P7 (open cupboard)"
+ ]
+}

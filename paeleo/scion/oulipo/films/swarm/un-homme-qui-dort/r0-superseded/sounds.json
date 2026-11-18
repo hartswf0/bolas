@@ -1,0 +1,354 @@
+{
+ "film": "un-homme-qui-dort",
+ "unit": "U2 SOUND (FORAGE): sound editor; distance, breath, withheld cues",
+ "revision": "plan-r1",
+ "date": "2026-11-15",
+ "licence_rule": "PD / CC0 / CC BY / CC BY-SA only, read from Commons extmetadata LicenseShortName/LicenseUrl on 2026-11-15",
+ "user_agent": "oulipo-film-research/1.0",
+ "download_total_mb": 11.28,
+ "rate": 44100,
+ "peak_normalisation": "-3 dBFS per source stem (sample peak, float, before 16-bit write); distance stems are scaled relative to R1 after that, not renormalised",
+ "sources": [
+  {
+   "id": "SRC-RING",
+   "title": "Model 500 Telephone British ring",
+   "author": "CianMcCann",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Model_500_Telephone_British_ring.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Model_500_Telephone_British_ring.ogg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/raw/ring_model500.ogg",
+   "sha256": "972058d149c865a88e9c59f068a20dc0a1b77c5877563bd301eb5f2a060aa4ee",
+   "what_it_shows": "A real Western Electric-type Model 500 rotary telephone's electromechanical bell ringer, British double-ring cadence (two ~0.35 s rings, 3.0 s period), 6 bursts in 24 s. Source is recorded hot (decoded float peaks ~1.97) and carries a DC offset and 50/120/150 Hz hum; the bell's own partials at ~1231, 3261 and 5900 Hz ring on between bursts.",
+   "verified_date_or_place": "Recorded 2012-06-07 (Commons DateTimeOriginal); place not stated: unverified",
+   "used_as": "S-RING: one double-ring burst (source 8.22-10.17 s) -> stems R1, R2, R3, R4",
+   "decoded_from": "original Ogg Vorbis (22.05 kHz stereo); Commons SHA-1 f1baddd95a56fd6c072bbfe6c72f8b0beaddd62d matches the download",
+   "commons_duration_s": 23.910748299319728
+  },
+  {
+   "id": "SRC-STEPS",
+   "title": "Wooden stairs (Gravity Sound)",
+   "author": "Gravity Sound",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Wooden_stairs_(Gravity_Sound).wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/2/21/Wooden_stairs_%28Gravity_Sound%29.wav/Wooden_stairs_%28Gravity_Sound%29.wav.mp3",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/raw/steps_wooden_gravity.wav.mp3",
+   "sha256": "7a1fcaef6782a057e1220864d0795e8db1bf5c67498a763e6db75fa94351c518",
+   "what_it_shows": "Footsteps on a wooden staircase, one walker, steady ~0.75-0.8 s step period with board creaks, 26 s.",
+   "verified_date_or_place": "unverified (no date or place on Commons)",
+   "used_as": "S-STEPS: 3.40 s excerpt (source 12.97-16.37 s), 5 footfalls, cued twice identically (STAIR-1 and STAIR-2)",
+   "decoded_from": "Commons MP3 transcode of the original 26 s WAV (original upload.wikimedia.org URL was rate-limited, HTTP 429); original: https://upload.wikimedia.org/wikipedia/commons/2/21/Wooden_stairs_%28Gravity_Sound%29.wav (SHA-1 0e26b62f944308707c79c5e2139c8a192788ac83, not downloaded)",
+   "commons_duration_s": 26
+  },
+  {
+   "id": "SRC-ROOM",
+   "title": "20121112 TU Delft Library, quiet study room - general ambience - SoundCloud - el mar",
+   "author": "el_mar",
+   "license": "CC BY 3.0",
+   "license_url": "https://creativecommons.org/licenses/by/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:20121112_TU_Delft_Library,_quiet_study_room_-_general_ambience_-_SoundCloud_-_el_mar.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/f/fb/20121112_TU_Delft_Library%2C_quiet_study_room_-_general_ambience_-_SoundCloud_-_el_mar.ogg/20121112_TU_Delft_Library%2C_quiet_study_room_-_general_ambience_-_SoundCloud_-_el_mar.ogg.mp3",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/raw/room_tudelft_study.ogg.mp3",
+   "sha256": "545765c37c376b754814816951da577f955e01b95f1e2c0396f2de2718ada74f",
+   "what_it_shows": "Interior room tone of a quiet library study room: steady ventilation, very faint keyboard/mouse clicks; the uploader notes occasional coughs (none in the chosen window by level analysis). Stereo (Zoom H2), 259 s.",
+   "verified_date_or_place": "Recorded 2012-11-12, TU Delft Library, Delft, Netherlands (Commons description and DateTimeOriginal)",
+   "used_as": "S-ROOM / S-ROOM-BED: one continuous 37.0 s excerpt (source 185.0-222.0 s), no loop, no seam; picture -0.5..36.5",
+   "decoded_from": "Commons MP3 transcode (6.6 MB) of the 15.3 MB original Ogg, to stay inside the 30 MB budget; original: https://upload.wikimedia.org/wikipedia/commons/f/fb/20121112_TU_Delft_Library%2C_quiet_study_room_-_general_ambience_-_SoundCloud_-_el_mar.ogg",
+   "commons_duration_s": 258.792
+  },
+  {
+   "id": "SRC-STREET",
+   "title": "Cebu City at night",
+   "author": "Lady01v",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Cebu_City_at_night.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/9/9d/Cebu_City_at_night.ogg/Cebu_City_at_night.ogg.mp3",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/raw/street_cebu_night.ogg.mp3",
+   "sha256": "f9f547a590a8b0b70d41b57308b5f5c68eb5e69c2ae3ff2b26b463b6fce0576b",
+   "what_it_shows": "Night street ambience at Fuente Osmena Circle, Cebu City: traffic wash and engines, 149 s. Distant voices may occur elsewhere in the file; the chosen 5 s window has no speech by a pitch-autocorrelation check (0 voiced frames) and level range 3.6 dB.",
+   "verified_date_or_place": "Recorded at night, Fuente Osmena Circle, Cebu City, Philippines; Commons DateTimeOriginal 2025-12-08",
+   "used_as": "S-STREET: 5.00 s excerpt (source 60.0-65.0 s), picture 30.0-35.0",
+   "decoded_from": "Commons MP3 transcode (original Ogg rate-limited, HTTP 429); original: https://upload.wikimedia.org/wikipedia/commons/9/9d/Cebu_City_at_night.ogg (SHA-1 78520b74bfd4f0763f92825492cd6f5384b4ce69, not downloaded)",
+   "commons_duration_s": 149.44
+  }
+ ],
+ "stems": [
+  {
+   "id": "S-RING-R1",
+   "source_id": "SRC-RING",
+   "title": "Model 500 Telephone British ring",
+   "author": "CianMcCann",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Model_500_Telephone_British_ring.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Model_500_Telephone_British_ring.ogg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/S-RING-R1.wav",
+   "sha256": "73f3cf2bb4ed36ade7a4673cb8371715ef00bde6efa0eef5ca2f7d7c7dc573fb",
+   "duration": 1.95,
+   "source_in_s": 8.22,
+   "source_out_s": 10.17,
+   "format": "WAV PCM 16-bit, 44.1 kHz, stereo",
+   "peak_dbfs": -3.0,
+   "rms_dbfs": -17.05,
+   "onset_s": [
+    6.4
+   ],
+   "gain": [
+    0.5
+   ],
+   "pan": [
+    0.35
+   ],
+   "use": "full level, peak -3 dBFS",
+   "filter": "high-pass 100 Hz x2 (DC/hum removal); fades 4 ms in / 350 ms sin out",
+   "foraged": true,
+   "synthesized": false
+  },
+  {
+   "id": "S-RING-R2",
+   "source_id": "SRC-RING",
+   "title": "Model 500 Telephone British ring",
+   "author": "CianMcCann",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Model_500_Telephone_British_ring.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Model_500_Telephone_British_ring.ogg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/S-RING-R2.wav",
+   "sha256": "f7aa540c2b621b637b662fb27346c0c5fb4c856658d06c93cf383d181cfe3d05",
+   "duration": 1.95,
+   "source_in_s": 8.22,
+   "source_out_s": 10.17,
+   "format": "WAV PCM 16-bit, 44.1 kHz, stereo",
+   "peak_dbfs": -23.11,
+   "rms_dbfs": -37.61,
+   "onset_s": [
+    9.4
+   ],
+   "gain": [
+    0.5
+   ],
+   "pan": [
+    -0.45
+   ],
+   "use": "R1 -12 dB, low-passed 2.5 kHz (2 x 2-pole, ~24 dB/oct): through the wall",
+   "filter": "as R1 + low-pass 2.5 kHz (2x 2-pole) and -12 dB re R1",
+   "foraged": true,
+   "synthesized": false
+  },
+  {
+   "id": "S-RING-R3",
+   "source_id": "SRC-RING",
+   "title": "Model 500 Telephone British ring",
+   "author": "CianMcCann",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Model_500_Telephone_British_ring.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Model_500_Telephone_British_ring.ogg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/S-RING-R3.wav",
+   "sha256": "ce80a6624ba1a4a8485aa362bb6a4084fb37585708472d6f7de30a960701289d",
+   "duration": 1.95,
+   "source_in_s": 8.22,
+   "source_out_s": 10.17,
+   "format": "WAV PCM 16-bit, 44.1 kHz, stereo",
+   "peak_dbfs": -21.0,
+   "rms_dbfs": -35.05,
+   "onset_s": [
+    12.4
+   ],
+   "gain": [
+    0.5
+   ],
+   "pan": [
+    -0.45
+   ],
+   "use": "R1 -18 dB, no filter: last ring, faint",
+   "filter": "as R1, -18 dB re R1",
+   "foraged": true,
+   "synthesized": false
+  },
+  {
+   "id": "S-RING-R4",
+   "source_id": "SRC-RING",
+   "title": "Model 500 Telephone British ring",
+   "author": "CianMcCann",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Model_500_Telephone_British_ring.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Model_500_Telephone_British_ring.ogg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/S-RING-R4.wav",
+   "sha256": "f2fb3b58e23c6a9bfdb541ca5b2897217b6ebd22cd57aebe65db41c39ef8f07e",
+   "duration": 1.95,
+   "source_in_s": 8.22,
+   "source_out_s": 10.17,
+   "format": "WAV PCM 16-bit, 44.1 kHz, stereo",
+   "peak_dbfs": -39.46,
+   "rms_dbfs": -52.85,
+   "onset_s": [
+    32.0
+   ],
+   "gain": [
+    0.5
+   ],
+   "pan": [
+    0.15
+   ],
+   "use": "R1 -24 dB, low-passed 1.5 kHz (~24 dB/oct): from inside the house, heard from the street",
+   "filter": "as R1 + low-pass 1.5 kHz (2x 2-pole) and -24 dB re R1",
+   "foraged": true,
+   "synthesized": false
+  },
+  {
+   "id": "S-STEPS",
+   "source_id": "SRC-STEPS",
+   "title": "Wooden stairs (Gravity Sound)",
+   "author": "Gravity Sound",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Wooden_stairs_(Gravity_Sound).wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/2/21/Wooden_stairs_%28Gravity_Sound%29.wav/Wooden_stairs_%28Gravity_Sound%29.wav.mp3",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/S-STEPS.wav",
+   "sha256": "8c5919558a45c29c299e7da486738cc895b528ab1546566b54a8a2c8e4695f48",
+   "duration": 3.4,
+   "source_in_s": 12.97,
+   "source_out_s": 16.37,
+   "format": "WAV PCM 16-bit, 44.1 kHz, stereo",
+   "peak_dbfs": -3.0,
+   "rms_dbfs": -32.37,
+   "onset_s": [
+    13.2,
+    25.2
+   ],
+   "gain": [
+    0.8,
+    0.8
+   ],
+   "pan": [
+    -0.15,
+    -0.15
+   ],
+   "use": "3.40 s, 5 footfalls on wooden stairs, peak -3 dBFS",
+   "filter": "fades 20 ms in / 120 ms sin out",
+   "foraged": true,
+   "synthesized": false
+  },
+  {
+   "id": "S-ROOM",
+   "source_id": "SRC-ROOM",
+   "title": "20121112 TU Delft Library, quiet study room - general ambience - SoundCloud - el mar",
+   "author": "el_mar",
+   "license": "CC BY 3.0",
+   "license_url": "https://creativecommons.org/licenses/by/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:20121112_TU_Delft_Library,_quiet_study_room_-_general_ambience_-_SoundCloud_-_el_mar.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/f/fb/20121112_TU_Delft_Library%2C_quiet_study_room_-_general_ambience_-_SoundCloud_-_el_mar.ogg/20121112_TU_Delft_Library%2C_quiet_study_room_-_general_ambience_-_SoundCloud_-_el_mar.ogg.mp3",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/S-ROOM.wav",
+   "sha256": "3d13a2319336aa54c7e946cae1324533d7b39cc2287ebbc7e4a05970418672fe",
+   "duration": 37.0,
+   "source_in_s": 185.0,
+   "source_out_s": 222.0,
+   "format": "WAV PCM 16-bit, 44.1 kHz, stereo",
+   "peak_dbfs": -3.0,
+   "rms_dbfs": -18.46,
+   "onset_s": [],
+   "gain": [],
+   "pan": [],
+   "use": "37.0 s continuous excerpt (no loop, no seam), flat, peak -3 dBFS (reference only, not cued: the cued version is S-ROOM-BED)",
+   "filter": "none",
+   "foraged": true,
+   "synthesized": false
+  },
+  {
+   "id": "S-ROOM-BED",
+   "source_id": "SRC-ROOM",
+   "title": "20121112 TU Delft Library, quiet study room - general ambience - SoundCloud - el mar",
+   "author": "el_mar",
+   "license": "CC BY 3.0",
+   "license_url": "https://creativecommons.org/licenses/by/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:20121112_TU_Delft_Library,_quiet_study_room_-_general_ambience_-_SoundCloud_-_el_mar.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/f/fb/20121112_TU_Delft_Library%2C_quiet_study_room_-_general_ambience_-_SoundCloud_-_el_mar.ogg/20121112_TU_Delft_Library%2C_quiet_study_room_-_general_ambience_-_SoundCloud_-_el_mar.ogg.mp3",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/S-ROOM-BED.wav",
+   "sha256": "0d3e8ebebe9386487997e2a483cbfc5c28ec4741d995f21a8bfd0b2295d42699",
+   "duration": 37.0,
+   "source_in_s": 185.0,
+   "source_out_s": 222.0,
+   "format": "WAV PCM 16-bit, 44.1 kHz, stereo",
+   "peak_dbfs": -3.0,
+   "rms_dbfs": -18.55,
+   "onset_s": [
+    -0.5
+   ],
+   "gain": [
+    0.12
+   ],
+   "pan": [
+    0.0
+   ],
+   "use": "S-ROOM with baked automation: 0.5 s sin fade-in (picture -0.5..0.0), +3.00 dB in SIL-1 (ramps 17.95-18.00 and 24.00-24.05), 0.5 s sin fade-out (picture 36.0..36.5)",
+   "filter": "+3.00 dB SIL-1 automation; 0.5 s sin fades",
+   "foraged": true,
+   "synthesized": false
+  },
+  {
+   "id": "S-STREET",
+   "source_id": "SRC-STREET",
+   "title": "Cebu City at night",
+   "author": "Lady01v",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Cebu_City_at_night.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/9/9d/Cebu_City_at_night.ogg/Cebu_City_at_night.ogg.mp3",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/S-STREET.wav",
+   "sha256": "9cd556f1676f1cd7741deda210bf0f3101b9d047331703397134d7d5413c9307",
+   "duration": 5.0,
+   "source_in_s": 60.0,
+   "source_out_s": 65.0,
+   "format": "WAV PCM 16-bit, 44.1 kHz, stereo",
+   "peak_dbfs": -3.0,
+   "rms_dbfs": -18.04,
+   "onset_s": [
+    30.0
+   ],
+   "gain": [
+    0.1
+   ],
+   "pan": [
+    0.0
+   ],
+   "use": "5.00 s night street (Fuente Osmena Circle, Cebu City), 30 ms in, 0.4 s sin out, peak -3 dBFS",
+   "filter": "fades 30 ms in / 400 ms sin out",
+   "foraged": true,
+   "synthesized": false
+  }
+ ],
+ "absences": [
+  {
+   "id": "S-BED",
+   "status": "ABSENT (optional; declared silence)",
+   "searched": "Commons audio: 'bed creak', 'bed squeak', 'mattress', 'creaking', 'creaky' (and 'bedding'), filetype:audio",
+   "found": "No openly licensed recording of a bed or bedding. Nearest: 'Creaky wooden swivel chair.ogg' (chocoholic, PDsounds, Public domain; https://commons.wikimedia.org/wiki/File:Creaky_wooden_swivel_chair.ogg), downloaded to /home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/raw/bed_chair_creak.ogg.mp3 for reference. It is a chair, so it is NOT used as a bed sound.",
+   "proposal": "Declared silence at picture 1.6: no S-BED cue. The wake is carried by S-ROOM alone. If the director insists on a creak, the chair recording may be cued only if credited and ledgered as 'wooden chair creak (not a bed)'; no kit synthesis is proposed."
+  },
+  {
+   "id": "S-STREET (strict night, no speech)",
+   "status": "FOUND with a caveat",
+   "searched": "'night street', 'street ambience', 'city night traffic', 'night traffic', 'night city', 'at night street', 'noche calle', 'urban ambience'",
+   "found": "Only one usable night street recording under an allowed licence (Cebu City at night, CC BY-SA 4.0). 'Karlova' Prague street files (PD) were rejected: daytime, with people. Speech absence in the chosen window is by a pitch-autocorrelation check, not by ear.",
+   "proposal": "Use the Cebu window 60.0-65.0 s. The editor should listen once; if a voice is heard, shift street_start in steps of 0.5 s among the zero-voiced windows (8.5-13.5, 9.0-14.0 ... listed in the build notes) and rebuild."
+  },
+  {
+   "id": "originals vs transcodes",
+   "status": "NOTE",
+   "searched": "upload.wikimedia.org originals for the steps WAV and street Ogg",
+   "found": "Originals returned HTTP 429 (Retry-After 600) repeatedly; Commons' own MP3 transcodes of the same files were fetched instead. The room tone transcode was chosen deliberately to stay inside the 30 MB budget.",
+   "proposal": "None needed; the licence attaches to the file page. Recorded in decoded_from."
+  }
+ ],
+ "credits_lines": [
+  "Model 500 Telephone British ring, by CianMcCann, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons: https://commons.wikimedia.org/wiki/File:Model_500_Telephone_British_ring.ogg",
+  "Wooden stairs (Gravity Sound), by Gravity Sound, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons: https://commons.wikimedia.org/wiki/File:Wooden_stairs_(Gravity_Sound).wav",
+  "20121112 TU Delft Library, quiet study room - general ambience - SoundCloud - el mar, by el_mar, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0), via Wikimedia Commons: https://commons.wikimedia.org/wiki/File:20121112_TU_Delft_Library,_quiet_study_room_-_general_ambience_-_SoundCloud_-_el_mar.ogg",
+  "Cebu City at night, by Lady01v, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons: https://commons.wikimedia.org/wiki/File:Cebu_City_at_night.ogg"
+ ],
+ "nothing_synthesized": "No sound in this unit is synthesized. Voice is captions only. No kit Mix synthesis (ring/step/room/murmur) is used or proposed."
+}

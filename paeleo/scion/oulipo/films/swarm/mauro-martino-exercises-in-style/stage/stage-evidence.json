@@ -1,0 +1,77 @@
+{
+ "foraged": [
+  {
+   "id": "F1-rol1916",
+   "title": "1-6-16, nouvel autobus Madeleine-Bastille : [photographie de presse] / [Agence Rol]",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:1-6-16,_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/ee/1-6-16%2C_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+   "commons_sha1": "7e34feb9f2f4c26c08ac4cb1a5fed3c13d23921d",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg",
+   "local_sha1": "bb5fd56ac6428b621ce0953c8aa0c21b04d88ba5",
+   "what_it_shows": "CGO motor bus on the Madeleine-Bastille line at Place de l'Opera, 1916; Grand Hotel facade at right; cobbled roadway",
+   "verified_date_or_place": "Commons extmetadata (LicenseShortName 'Public domain', License 'pd', DateTimeOriginal 1916, Credit BnF), read 2026-11-16 (test-shot unit; re-request from this unit was HTTP 429, earlier response copied to stage/rol-meta.json)",
+   "used_as": "side bus body (plate from films/sources/mauro-martino-exercises-in-style/test-shot/plates, cab front re-compressed x<270 by 0.75), rotating wheel pieces, CLAHE+threshold+tint print; photographic-plate facade (homography of the right-hand building) and cobble plate; photographic fill textures for the handmade platform outlines"
+  },
+  {
+   "id": "F2-bourse1933",
+   "title": "Greve des autobus - Place de la Bourse, le public attendant la reprise",
+   "author": "Peyriras (photographe, actif vers 1930) (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Gr%C3%A8ve_des_autobus_-_Place_de_la_Bourse,_le_public_attendant_la_reprise_-_btv1b90350369.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/22/Gr%C3%A8ve_des_autobus_-_Place_de_la_Bourse%2C_le_public_attendant_la_reprise_-_btv1b90350369.jpg",
+   "commons_sha1": "6bdbbb7760906432fe72d6a023e7042d7b8d4c41",
+   "local_path": "films/sources/mauro-martino-exercises-in-style/commons/bourse1933.jpg",
+   "local_sha1": "6410b220ff1f39cacf027edd912d2ec648167372",
+   "what_it_shows": "a crowd in overcoats and hats waiting for buses during the 1933 bus strike, Place de la Bourse, Paris",
+   "verified_date_or_place": "Commons extmetadata read 2026-11-17 by this unit: LicenseShortName 'Public domain', License 'pd', UsageTerms 'Public domain', Copyrighted False, DateTimeOriginal 1933, Credit BnF. Photographer's death date not given (anonymous-ish credit 'actif vers 1930'): PD basis is Commons'/Gallica's tag, not independently established",
+   "used_as": "GrabCut crowd mass (rect + dark-core scribbles + sure-BG bands, 5 iterations, islands <1500 px removed, failure mask exported) printed as a black mid-layer on the far pavement; in photographic-plate, its own greys; coat texture fill for placeholder puppets on the sheet only"
+  }
+ ],
+ "handmade": [
+  {
+   "item": "carved Haussmann facade",
+   "where": "stage.py _facade_blocks/_backdrop_cut",
+   "how": "unequal buildings (3-6 bays, own storey heights, mansard heights, horizontal or stippled ashlar gouges), hand-wobbled knife-cut windows with cross mullions, pediments, sills, irregular dormers and chimneys, continuous balconies with oval ironwork cuts; key + tint + dark-tint + shade blocks; shop band with lit arched shopfronts"
+  },
+  {
+   "item": "gouged roadway and pavement, kerbs, long cast-shadow slivers",
+   "where": "stage.py _street_blocks, bus_shadow, shadow_slivers"
+  },
+  {
+   "item": "rear platform floor, step, hangers, canopy with arched lit head, waist rail, stanchion, chain, bell cord + tassel",
+   "where": "stage.py _hardware, bus_front, bell_tassel"
+  },
+  {
+   "item": "carved-capital destination board MADELEINE – BASTILLE",
+   "where": "stage.py carve_text (chisel-stroke capitals defined in _LETTERS, no font), _hardware, _plan_bus"
+  },
+  {
+   "item": "overhead plan stage: zinc roofs with seam ribs, cornice edge and shadow, kerbs, gouged setts, pavement gouges, carved bus roof with hoop ribs, roof-edge destination board, platform boards, stanchion dot, chain; plan crowd discs",
+   "where": "stage.py _plan_backdrop, _plan_bus, plan_crowd"
+  }
+ ],
+ "absences": [
+  {
+   "searched": "fresh Commons extmetadata for F1 from this unit",
+   "result": "HTTP 429 (rate-limited); the 2026-11-16 response from the test-shot unit is reused"
+  },
+  {
+   "searched": "U1 plates (plates/bus_rect_rgba.png, facade/cobble plates, crowd cutouts)",
+   "result": "not present at build time; stage.py prefers them automatically when they land (bus plate, wheels, crowd_mask.png); facade/cobble/crowd prepared here"
+  }
+ ],
+ "media": [
+  "films/sources/mauro-martino-exercises-in-style/stage/bourse-meta.json",
+  "films/sources/mauro-martino-exercises-in-style/stage/crowd_failmask.png",
+  "films/sources/mauro-martino-exercises-in-style/stage/crowd_mask.png",
+  "films/sources/mauro-martino-exercises-in-style/stage/rol-meta.json",
+  "films/sources/mauro-martino-exercises-in-style/stage/sheet_side_cut_with_puppets.png",
+  "films/sources/mauro-martino-exercises-in-style/stage/stage_plan_0417_t1.20.png",
+  "films/sources/mauro-martino-exercises-in-style/stage/stage_side_cut_0417_t1.20.png",
+  "films/sources/mauro-martino-exercises-in-style/stage/stage_side_photo_0417_t1.20.png"
+ ]
+}

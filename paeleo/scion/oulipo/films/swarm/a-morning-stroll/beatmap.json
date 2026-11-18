@@ -1,0 +1,502 @@
+{
+ "revision": "score-r1",
+ "plan": "plan-r1",
+ "fps": 24,
+ "version_length_s": 15.0,
+ "events": [
+  {
+   "id": "E1",
+   "name": "walkin",
+   "local_s": [
+    0.0,
+    3.0
+   ],
+   "local_frame": [
+    0,
+    72
+   ],
+   "signature": "watcher shadow slides on; rooster hops up treads, one tread per 8 frames, on twos"
+  },
+  {
+   "id": "E2",
+   "name": "notice",
+   "local_s": 3.5,
+   "local_frame": 84,
+   "signature": "watcher stops; head piece rotates >=12 deg toward the stoop; held until 10.0"
+  },
+  {
+   "id": "E3",
+   "name": "strike1",
+   "local_s": 6.0,
+   "local_frame": 144,
+   "signature": "beak tip inside door-leaf mask; audio onset on contact frame; 2-frame recoil"
+  },
+  {
+   "id": "E4",
+   "name": "strike2",
+   "local_s": 6.32,
+   "local_frame": 152,
+   "signature": "same as E3, 8 frames later; +3 semitones above strike1"
+  },
+  {
+   "id": "E5",
+   "name": "open",
+   "local_s": [
+    7.0,
+    8.5
+   ],
+   "local_frame": [
+    168,
+    204
+   ],
+   "signature": "leaf moves by era mechanism (hand/chain/listen); interior dark mass appears"
+  },
+  {
+   "id": "E6",
+   "name": "enter",
+   "local_s": [
+    8.5,
+    10.0
+   ],
+   "local_frame": [
+    204,
+    240
+   ],
+   "signature": "bird crosses sill; jamb holdout occludes it to 0 px visible at 10.0"
+  },
+  {
+   "id": "E7",
+   "name": "goes_on",
+   "local_s": [
+    11.0,
+    15.0
+   ],
+   "local_frame": [
+    264,
+    360
+   ],
+   "signature": "wide: empty stoop; watcher shadow resumes and exits"
+  }
+ ],
+ "shots": [
+  {
+   "id": "A",
+   "local": [
+    0.0,
+    5.0
+   ],
+   "view": "wide, sidewalk level, 1.5% push"
+  },
+  {
+   "id": "B",
+   "local": [
+    5.0,
+    11.0
+   ],
+   "view": "close: landing and door (with optional beak insert 5.9-6.5)"
+  },
+  {
+   "id": "C",
+   "local": [
+    11.0,
+    15.0
+   ],
+   "view": "wide, same framing as A"
+  }
+ ],
+ "versions": {
+  "V1": {
+   "offset_s": 3.0,
+   "era": 1959,
+   "genre_tone": "deadpan",
+   "render_technique": "photo-cutout FK puppet over foraged plate (#29/#32/#45)",
+   "plate": "loc-ppmsca.70651",
+   "door_mechanism": "hand",
+   "events": {
+    "E1": {
+     "global_s": [
+      3.0,
+      6.0
+     ],
+     "global_frame": [
+      72,
+      144
+     ]
+    },
+    "E2": {
+     "global_s": 6.5,
+     "global_frame": 156
+    },
+    "E3": {
+     "global_s": 9.0,
+     "global_frame": 216
+    },
+    "E4": {
+     "global_s": 9.32,
+     "global_frame": 224
+    },
+    "E5": {
+     "global_s": [
+      10.0,
+      11.5
+     ],
+     "global_frame": [
+      240,
+      276
+     ]
+    },
+    "E6": {
+     "global_s": [
+      11.5,
+      13.0
+     ],
+     "global_frame": [
+      276,
+      312
+     ]
+    },
+    "E7": {
+     "global_s": [
+      14.0,
+      18.0
+     ],
+     "global_frame": [
+      336,
+      432
+     ]
+    }
+   },
+   "shots": {
+    "A": {
+     "global_s": [
+      3.0,
+      8.0
+     ],
+     "global_frame": [
+      72,
+      192
+     ]
+    },
+    "B": {
+     "global_s": [
+      8.0,
+      14.0
+     ],
+     "global_frame": [
+      192,
+      336
+     ]
+    },
+    "C": {
+     "global_s": [
+      14.0,
+      18.0
+     ],
+     "global_frame": [
+      336,
+      432
+     ]
+    }
+   }
+  },
+  "V2": {
+   "offset_s": 19.0,
+   "era": 2009,
+   "genre_tone": "deadpan",
+   "render_technique": "photo-cutout FK puppet over foraged plate (#29/#32/#45)",
+   "plate": "loc-highsm.56276",
+   "door_mechanism": "chain",
+   "events": {
+    "E1": {
+     "global_s": [
+      19.0,
+      22.0
+     ],
+     "global_frame": [
+      456,
+      528
+     ]
+    },
+    "E2": {
+     "global_s": 22.5,
+     "global_frame": 540
+    },
+    "E3": {
+     "global_s": 25.0,
+     "global_frame": 600
+    },
+    "E4": {
+     "global_s": 25.32,
+     "global_frame": 608
+    },
+    "E5": {
+     "global_s": [
+      26.0,
+      27.5
+     ],
+     "global_frame": [
+      624,
+      660
+     ]
+    },
+    "E6": {
+     "global_s": [
+      27.5,
+      29.0
+     ],
+     "global_frame": [
+      660,
+      696
+     ]
+    },
+    "E7": {
+     "global_s": [
+      30.0,
+      34.0
+     ],
+     "global_frame": [
+      720,
+      816
+     ]
+    }
+   },
+   "shots": {
+    "A": {
+     "global_s": [
+      19.0,
+      24.0
+     ],
+     "global_frame": [
+      456,
+      576
+     ]
+    },
+    "B": {
+     "global_s": [
+      24.0,
+      30.0
+     ],
+     "global_frame": [
+      576,
+      720
+     ]
+    },
+    "C": {
+     "global_s": [
+      30.0,
+      34.0
+     ],
+     "global_frame": [
+      720,
+      816
+     ]
+    }
+   }
+  },
+  "V3": {
+   "offset_s": 35.0,
+   "era": 2059,
+   "genre_tone": "deadpan",
+   "render_technique": "photo-cutout FK puppet over foraged plate (#29/#32/#45)",
+   "plate": "see plates.json 2059",
+   "door_mechanism": "listen",
+   "events": {
+    "E1": {
+     "global_s": [
+      35.0,
+      38.0
+     ],
+     "global_frame": [
+      840,
+      912
+     ]
+    },
+    "E2": {
+     "global_s": 38.5,
+     "global_frame": 924
+    },
+    "E3": {
+     "global_s": 41.0,
+     "global_frame": 984
+    },
+    "E4": {
+     "global_s": 41.32,
+     "global_frame": 992
+    },
+    "E5": {
+     "global_s": [
+      42.0,
+      43.5
+     ],
+     "global_frame": [
+      1008,
+      1044
+     ]
+    },
+    "E6": {
+     "global_s": [
+      43.5,
+      45.0
+     ],
+     "global_frame": [
+      1044,
+      1080
+     ]
+    },
+    "E7": {
+     "global_s": [
+      46.0,
+      50.0
+     ],
+     "global_frame": [
+      1104,
+      1200
+     ]
+    }
+   },
+   "shots": {
+    "A": {
+     "global_s": [
+      35.0,
+      40.0
+     ],
+     "global_frame": [
+      840,
+      960
+     ]
+    },
+    "B": {
+     "global_s": [
+      40.0,
+      46.0
+     ],
+     "global_frame": [
+      960,
+      1104
+     ]
+    },
+    "C": {
+     "global_s": [
+      46.0,
+      50.0
+     ],
+     "global_frame": [
+      1104,
+      1200
+     ]
+    }
+   },
+   "counterexample": {
+    "id": "X1",
+    "name": "single_peck_refused",
+    "local_s": 4.6,
+    "local_frame": 110,
+    "global_s": 39.6,
+    "global_frame": 950,
+    "span_local_s": [
+     4.6,
+     5.2
+    ],
+    "signature": "one strike on glass; one sensor dot lights then blinks off; door stays shut; added event, moves no protected event"
+   }
+  },
+  "D": {
+   "offset_s": 51.0,
+   "era": 1959,
+   "genre_tone": "deadpan",
+   "render_technique": "diagnostic: Reiniger silhouette theatre (black card on backlit paper), identical curves",
+   "plate": "loc-ppmsca.70651 (traced tread lines only)",
+   "door_mechanism": "hand",
+   "events": {
+    "E1": {
+     "global_s": [
+      51.0,
+      54.0
+     ],
+     "global_frame": [
+      1224,
+      1296
+     ]
+    },
+    "E2": {
+     "global_s": 54.5,
+     "global_frame": 1308
+    },
+    "E3": {
+     "global_s": 57.0,
+     "global_frame": 1368
+    },
+    "E4": {
+     "global_s": 57.32,
+     "global_frame": 1376
+    },
+    "E5": {
+     "global_s": [
+      58.0,
+      59.5
+     ],
+     "global_frame": [
+      1392,
+      1428
+     ]
+    },
+    "E6": {
+     "global_s": [
+      59.5,
+      61.0
+     ],
+     "global_frame": [
+      1428,
+      1464
+     ]
+    },
+    "E7": {
+     "global_s": [
+      62.0,
+      66.0
+     ],
+     "global_frame": [
+      1488,
+      1584
+     ]
+    }
+   },
+   "shots": {
+    "A": {
+     "global_s": [
+      51.0,
+      56.0
+     ],
+     "global_frame": [
+      1224,
+      1344
+     ]
+    },
+    "B": {
+     "global_s": [
+      56.0,
+      62.0
+     ],
+     "global_frame": [
+      1344,
+      1488
+     ]
+    },
+    "C": {
+     "global_s": [
+      62.0,
+      66.0
+     ],
+     "global_frame": [
+      1488,
+      1584
+     ]
+    }
+   }
+  }
+ },
+ "checks": {
+  "E4_minus_E3_frames": 8,
+  "note": "E4 at 6.32 s rounds to local frame 152 (6.333 s); 8 frames after E3 (144). Global frames = round((offset+local)*24)."
+ }
+}

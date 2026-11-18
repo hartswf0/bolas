@@ -1,0 +1,843 @@
+{
+ "fk_bone_length_error_px_max_by_joint": {
+  "pelvis->chest": 0.0,
+  "chest->neck": 0.0,
+  "shoulder->elbow": 0.0,
+  "elbow->wrist": 0.0,
+  "hip->knee": 0.0,
+  "knee->ankle": 0.0,
+  "shoulder2->elbow2": 0.0,
+  "elbow2->wrist2": 0.0,
+  "hip2->knee2": 0.0,
+  "knee2->ankle2": 0.0
+ },
+ "fk_planted_ankle_y_range_px_E": [
+  564.0,
+  564.0
+ ],
+ "fk_planted_ankle2_y_range_px_E": [
+  563.316,
+  564.0
+ ],
+ "key_attachment": "the key is pasted in the wrist frame at a constant offset (6, 22) px; it cannot drift by construction",
+ "pose_dp_E_heads": [
+  "v_level",
+  "v_level",
+  "v_level",
+  "v_level",
+  "v_level",
+  "v_turning",
+  "v_turning",
+  "v_turning",
+  "v_up",
+  "v_up",
+  "v_up",
+  "v_up"
+ ],
+ "pose_dp_cost": 8.444444444444445,
+ "pose_dp_targets_deg": [
+  0,
+  0,
+  0,
+  2,
+  8,
+  16,
+  24,
+  32,
+  40,
+  46,
+  46,
+  44
+ ],
+ "protected_pose_E_up_turned_at_top": true,
+ "min_hold_frames_at_24fps_interior": {
+  "B": 2,
+  "E": 2
+ },
+ "bell_strikes_film_t": [
+  42.4,
+  43.6
+ ],
+ "exposure_sheet": [
+  {
+   "film_t": 41.0,
+   "B": 0,
+   "E": null
+  },
+  {
+   "film_t": 41.0417,
+   "B": 0,
+   "E": null
+  },
+  {
+   "film_t": 41.0833,
+   "B": 1,
+   "E": null
+  },
+  {
+   "film_t": 41.125,
+   "B": 1,
+   "E": null
+  },
+  {
+   "film_t": 41.1667,
+   "B": 2,
+   "E": null
+  },
+  {
+   "film_t": 41.2083,
+   "B": 2,
+   "E": null
+  },
+  {
+   "film_t": 41.25,
+   "B": 3,
+   "E": null
+  },
+  {
+   "film_t": 41.2917,
+   "B": 3,
+   "E": null
+  },
+  {
+   "film_t": 41.3333,
+   "B": 4,
+   "E": null
+  },
+  {
+   "film_t": 41.375,
+   "B": 4,
+   "E": null
+  },
+  {
+   "film_t": 41.4167,
+   "B": 5,
+   "E": null
+  },
+  {
+   "film_t": 41.4583,
+   "B": 5,
+   "E": null
+  },
+  {
+   "film_t": 41.5,
+   "B": 6,
+   "E": null
+  },
+  {
+   "film_t": 41.5417,
+   "B": 6,
+   "E": null
+  },
+  {
+   "film_t": 41.5833,
+   "B": 7,
+   "E": null
+  },
+  {
+   "film_t": 41.625,
+   "B": 7,
+   "E": null
+  },
+  {
+   "film_t": 41.6667,
+   "B": 8,
+   "E": null
+  },
+  {
+   "film_t": 41.7083,
+   "B": 8,
+   "E": null
+  },
+  {
+   "film_t": 41.75,
+   "B": 9,
+   "E": null
+  },
+  {
+   "film_t": 41.7917,
+   "B": 9,
+   "E": null
+  },
+  {
+   "film_t": 41.8333,
+   "B": 10,
+   "E": null
+  },
+  {
+   "film_t": 41.875,
+   "B": 10,
+   "E": null
+  },
+  {
+   "film_t": 41.9167,
+   "B": 11,
+   "E": null
+  },
+  {
+   "film_t": 41.9583,
+   "B": 11,
+   "E": null
+  },
+  {
+   "film_t": 42.0,
+   "B": 12,
+   "E": null
+  },
+  {
+   "film_t": 42.0417,
+   "B": 12,
+   "E": null
+  },
+  {
+   "film_t": 42.0833,
+   "B": 13,
+   "E": null
+  },
+  {
+   "film_t": 42.125,
+   "B": 13,
+   "E": null
+  },
+  {
+   "film_t": 42.1667,
+   "B": 14,
+   "E": null
+  },
+  {
+   "film_t": 42.2083,
+   "B": 14,
+   "E": null
+  },
+  {
+   "film_t": 42.25,
+   "B": 15,
+   "E": null
+  },
+  {
+   "film_t": 42.2917,
+   "B": 15,
+   "E": null
+  },
+  {
+   "film_t": 42.3333,
+   "B": 16,
+   "E": null
+  },
+  {
+   "film_t": 42.375,
+   "B": 16,
+   "E": null
+  },
+  {
+   "film_t": 42.4167,
+   "B": 17,
+   "E": null
+  },
+  {
+   "film_t": 42.4583,
+   "B": 17,
+   "E": null
+  },
+  {
+   "film_t": 42.5,
+   "B": 18,
+   "E": null
+  },
+  {
+   "film_t": 42.5417,
+   "B": 18,
+   "E": null
+  },
+  {
+   "film_t": 42.5833,
+   "B": 19,
+   "E": null
+  },
+  {
+   "film_t": 42.625,
+   "B": 19,
+   "E": null
+  },
+  {
+   "film_t": 42.6667,
+   "B": 20,
+   "E": null
+  },
+  {
+   "film_t": 42.7083,
+   "B": 20,
+   "E": null
+  },
+  {
+   "film_t": 42.75,
+   "B": 21,
+   "E": null
+  },
+  {
+   "film_t": 42.7917,
+   "B": 21,
+   "E": null
+  },
+  {
+   "film_t": 42.8333,
+   "B": 22,
+   "E": null
+  },
+  {
+   "film_t": 42.875,
+   "B": 22,
+   "E": null
+  },
+  {
+   "film_t": 42.9167,
+   "B": 23,
+   "E": null
+  },
+  {
+   "film_t": 42.9583,
+   "B": 23,
+   "E": null
+  },
+  {
+   "film_t": 43.0,
+   "B": 24,
+   "E": null
+  },
+  {
+   "film_t": 43.0417,
+   "B": 24,
+   "E": null
+  },
+  {
+   "film_t": 43.0833,
+   "B": 25,
+   "E": null
+  },
+  {
+   "film_t": 43.125,
+   "B": 25,
+   "E": null
+  },
+  {
+   "film_t": 43.1667,
+   "B": 26,
+   "E": null
+  },
+  {
+   "film_t": 43.2083,
+   "B": 26,
+   "E": null
+  },
+  {
+   "film_t": 43.25,
+   "B": 27,
+   "E": null
+  },
+  {
+   "film_t": 43.2917,
+   "B": 27,
+   "E": null
+  },
+  {
+   "film_t": 43.3333,
+   "B": 28,
+   "E": null
+  },
+  {
+   "film_t": 43.375,
+   "B": 28,
+   "E": null
+  },
+  {
+   "film_t": 43.4167,
+   "B": 29,
+   "E": null
+  },
+  {
+   "film_t": 43.4583,
+   "B": 29,
+   "E": null
+  },
+  {
+   "film_t": 43.5,
+   "B": 30,
+   "E": null
+  },
+  {
+   "film_t": 43.5417,
+   "B": 30,
+   "E": null
+  },
+  {
+   "film_t": 43.5833,
+   "B": 31,
+   "E": null
+  },
+  {
+   "film_t": 43.625,
+   "B": 31,
+   "E": null
+  },
+  {
+   "film_t": 43.6667,
+   "B": 31,
+   "E": null
+  },
+  {
+   "film_t": 43.7083,
+   "B": 31,
+   "E": null
+  },
+  {
+   "film_t": 43.75,
+   "B": 31,
+   "E": null
+  },
+  {
+   "film_t": 43.7917,
+   "B": 31,
+   "E": null
+  },
+  {
+   "film_t": 43.8333,
+   "B": 31,
+   "E": null
+  },
+  {
+   "film_t": 43.875,
+   "B": 31,
+   "E": null
+  },
+  {
+   "film_t": 43.9167,
+   "B": 31,
+   "E": null
+  },
+  {
+   "film_t": 43.9583,
+   "B": 31,
+   "E": null
+  },
+  {
+   "film_t": 44.0,
+   "B": null,
+   "E": 1
+  },
+  {
+   "film_t": 44.0417,
+   "B": null,
+   "E": 1
+  },
+  {
+   "film_t": 44.0833,
+   "B": null,
+   "E": 2
+  },
+  {
+   "film_t": 44.125,
+   "B": null,
+   "E": 2
+  },
+  {
+   "film_t": 44.1667,
+   "B": null,
+   "E": 3
+  },
+  {
+   "film_t": 44.2083,
+   "B": null,
+   "E": 3
+  },
+  {
+   "film_t": 44.25,
+   "B": null,
+   "E": 4
+  },
+  {
+   "film_t": 44.2917,
+   "B": null,
+   "E": 4
+  },
+  {
+   "film_t": 44.3333,
+   "B": null,
+   "E": 5
+  },
+  {
+   "film_t": 44.375,
+   "B": null,
+   "E": 5
+  },
+  {
+   "film_t": 44.4167,
+   "B": null,
+   "E": 6
+  },
+  {
+   "film_t": 44.4583,
+   "B": null,
+   "E": 6
+  },
+  {
+   "film_t": 44.5,
+   "B": null,
+   "E": 7
+  },
+  {
+   "film_t": 44.5417,
+   "B": null,
+   "E": 7
+  },
+  {
+   "film_t": 44.5833,
+   "B": null,
+   "E": 8
+  },
+  {
+   "film_t": 44.625,
+   "B": null,
+   "E": 8
+  },
+  {
+   "film_t": 44.6667,
+   "B": null,
+   "E": 9
+  },
+  {
+   "film_t": 44.7083,
+   "B": null,
+   "E": 9
+  },
+  {
+   "film_t": 44.75,
+   "B": null,
+   "E": 10
+  },
+  {
+   "film_t": 44.7917,
+   "B": null,
+   "E": 10
+  },
+  {
+   "film_t": 44.8333,
+   "B": null,
+   "E": 11
+  },
+  {
+   "film_t": 44.875,
+   "B": null,
+   "E": 11
+  },
+  {
+   "film_t": 44.9167,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 44.9583,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.0,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.0417,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.0833,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.125,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.1667,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.2083,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.25,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.2917,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.3333,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.375,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.4167,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.4583,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.5,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.5417,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.5833,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.625,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.6667,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.7083,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.75,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.7917,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.8333,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.875,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.9167,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 45.9583,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.0,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.0417,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.0833,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.125,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.1667,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.2083,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.25,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.2917,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.3333,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.375,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.4167,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.4583,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.5,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.5417,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.5833,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.625,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.6667,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.7083,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.75,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.7917,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.8333,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.875,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.9167,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 46.9583,
+   "B": null,
+   "E": 12
+  },
+  {
+   "film_t": 47.0,
+   "B": null,
+   "E": null
+  },
+  {
+   "film_t": 47.0417,
+   "B": null,
+   "E": null
+  },
+  {
+   "film_t": 47.0833,
+   "B": null,
+   "E": null
+  },
+  {
+   "film_t": 47.125,
+   "B": null,
+   "E": null
+  },
+  {
+   "film_t": 47.1667,
+   "B": null,
+   "E": null
+  },
+  {
+   "film_t": 47.2083,
+   "B": null,
+   "E": null
+  },
+  {
+   "film_t": 47.25,
+   "B": null,
+   "E": null
+  },
+  {
+   "film_t": 47.2917,
+   "B": null,
+   "E": null
+  },
+  {
+   "film_t": 47.3333,
+   "B": null,
+   "E": null
+  },
+  {
+   "film_t": 47.375,
+   "B": null,
+   "E": null
+  },
+  {
+   "film_t": 47.4167,
+   "B": null,
+   "E": null
+  },
+  {
+   "film_t": 47.4583,
+   "B": null,
+   "E": null
+  }
+ ]
+}

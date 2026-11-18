@@ -1,0 +1,581 @@
+{
+ "unit": "sound",
+ "film": "a-morning-stroll",
+ "plan": "plan-r1",
+ "score": "score-r1",
+ "produced": {
+  "stems": {
+   "v1": "films/sources/a-morning-stroll/sound/stems/v1.wav",
+   "v2": "films/sources/a-morning-stroll/sound/stems/v2.wav",
+   "v3": "films/sources/a-morning-stroll/sound/stems/v3.wav",
+   "D": "reuse v1.wav unchanged",
+   "title_tail": "films/sources/a-morning-stroll/sound/stems/title_tail.wav (2.0 s, fades in from silence: 1941 optical air + El rumble)"
+  },
+  "format": "44.1 kHz, 16-bit stereo WAV, 15.000 s each (local time 0 = version start; place v1 at global 3.0, v2 at 19.0, v3 at 35.0, D=v1 at 51.0), peak <= -1 dBFS",
+  "cues": "films/sources/a-morning-stroll/sound/cue/ (toktok_<era>.wav, strike_<era>_1/2.wav, chime_2059.wav, denied_2059.wav) for the editor to re-place if a track moves",
+  "build": "python3 -I films/sources/a-morning-stroll/sound/build_sound.py (rebuilds stems + build_log.json), then make_sound_json.py",
+  "log": "films/sources/a-morning-stroll/sound/build_log.json"
+ },
+ "cue_sheet": {
+  "v1": [
+   {
+    "event": "bed",
+    "t_local": [
+     0.0,
+     15.0
+    ],
+    "gain": "rms per layer, -3 dB in shot B",
+    "file": "bed_1959"
+   },
+   {
+    "event": "E1/E2/E7 footsteps",
+    "t_local": [
+     [
+      0.15,
+      3.4
+     ],
+     [
+      11.0,
+      15.0
+     ]
+    ],
+    "gain": 0.17,
+    "file": "dating1949_a267fee7_footsteps.wav (4 real footfalls, re-sequenced)"
+   },
+   {
+    "event": "E1 hop landings",
+    "t_local": 0.0,
+    "gain": 1.0,
+    "file": "handmade claw ticks at frames 6+8k"
+   },
+   {
+    "event": "E3 strike1",
+    "t_local": 6.0,
+    "gain": 0.6,
+    "file": "strike_1959_1 (Knock_on_door.wav)"
+   },
+   {
+    "event": "E4 strike2 (+3 st)",
+    "t_local": 6.32,
+    "gain": 0.6,
+    "file": "strike_1959_2 (Knock_on_door.wav) resampled x1.1892"
+   },
+   {
+    "event": "latch",
+    "t_local": 6.95,
+    "gain": 0.25,
+    "file": ""
+   },
+   {
+    "event": "hinge creak E5",
+    "t_local": 7.05,
+    "gain": 0.18,
+    "file": ""
+   },
+   {
+    "event": "door bump at stop",
+    "t_local": 8.45,
+    "gain": 0.18,
+    "file": "handmade thud"
+   }
+  ],
+  "v2": [
+   {
+    "event": "bed",
+    "t_local": [
+     0.0,
+     15.0
+    ],
+    "gain": "rms per layer, -3 dB in shot B",
+    "file": "bed_2009"
+   },
+   {
+    "event": "E1/E2/E7 footsteps",
+    "t_local": [
+     [
+      0.15,
+      3.4
+     ],
+     [
+      11.0,
+      15.0
+     ]
+    ],
+    "gain": 0.17,
+    "file": "dating1949_a267fee7_footsteps.wav (4 real footfalls, re-sequenced)"
+   },
+   {
+    "event": "E1 hop landings",
+    "t_local": 0.0,
+    "gain": 1.0,
+    "file": "handmade claw ticks at frames 6+8k"
+   },
+   {
+    "event": "E3 strike1",
+    "t_local": 6.0,
+    "gain": 0.62,
+    "file": "strike_2009_1 (Knocking_on_wood_or_door.ogg)"
+   },
+   {
+    "event": "E4 strike2 (+3 st)",
+    "t_local": 6.32,
+    "gain": 0.62,
+    "file": "strike_2009_2 (Knocking_on_wood_or_door.ogg) resampled x1.1892"
+   },
+   {
+    "event": "latch",
+    "t_local": 6.95,
+    "gain": 0.25,
+    "file": ""
+   },
+   {
+    "event": "hinge creak (short)",
+    "t_local": 7.05,
+    "gain": 0.15,
+    "file": ""
+   },
+   {
+    "event": "chain snaps taut",
+    "t_local": 7.65,
+    "gain": 0.3,
+    "file": ""
+   }
+  ],
+  "v3": [
+   {
+    "event": "bed",
+    "t_local": [
+     0.0,
+     15.0
+    ],
+    "gain": "rms per layer, -3 dB in shot B",
+    "file": "bed_2059"
+   },
+   {
+    "event": "E1/E2/E7 footsteps",
+    "t_local": [
+     [
+      0.15,
+      3.4
+     ],
+     [
+      11.0,
+      15.0
+     ]
+    ],
+    "gain": 0.17,
+    "file": "dating1949_a267fee7_footsteps.wav (4 real footfalls, re-sequenced)"
+   },
+   {
+    "event": "E1 hop landings",
+    "t_local": 0.0,
+    "gain": 1.0,
+    "file": "handmade claw ticks at frames 6+8k"
+   },
+   {
+    "event": "X1 single peck (refused)",
+    "t_local": 4.6,
+    "gain": 0.55,
+    "file": "strike_2059_1"
+   },
+   {
+    "event": "X1 denied tone",
+    "t_local": 4.78,
+    "gain": 0.35,
+    "file": "handmade"
+   },
+   {
+    "event": "E3 strike1",
+    "t_local": 6.0,
+    "gain": 0.5,
+    "file": "strike_2059_1 (handmade)"
+   },
+   {
+    "event": "E4 strike2 (+3 st)",
+    "t_local": 6.32,
+    "gain": 0.5,
+    "file": "strike_2059_2 (handmade) resampled x1.1892"
+   },
+   {
+    "event": "chime (door voice)",
+    "t_local": 6.68,
+    "gain": 0.3,
+    "file": "handmade 880 Hz + 3 st"
+   },
+   {
+    "event": "slide open E5",
+    "t_local": 7.0,
+    "gain": 0.3,
+    "file": ""
+   },
+   {
+    "event": "slide shut",
+    "t_local": 10.2,
+    "gain": 0.22,
+    "file": ""
+   }
+  ]
+ },
+ "onset_and_pitch_tests": {
+  "v1": {
+   "era": 1959,
+   "onsets_found_5p7_6p6": [
+    6.0019,
+    6.3211
+   ],
+   "E3": {
+    "target": 6.0,
+    "onset": 6.0019,
+    "err_ms": 1.9,
+    "within_1_frame": true
+   },
+   "E4": {
+    "target": 6.32,
+    "frame152_s": 6.3333,
+    "onset": 6.3211,
+    "err_ms": 1.1,
+    "within_1_frame": true
+   },
+   "interval_semitones_estimated": 3.0,
+   "interval_semitones_logspec_stem_minus_bed": -3.6,
+   "interval_semitones_matched_filter_stem": [
+    3.0,
+    0.892
+   ],
+   "centroid_ratio": 1.188,
+   "target_ratio": 1.1892,
+   "peak_dbfs": -5.0,
+   "rms_dbfs": -32.2
+  },
+  "v2": {
+   "era": 2009,
+   "onsets_found_5p7_6p6": [
+    5.999,
+    6.3211
+   ],
+   "E3": {
+    "target": 6.0,
+    "onset": 5.999,
+    "err_ms": -1.0,
+    "within_1_frame": true
+   },
+   "E4": {
+    "target": 6.32,
+    "frame152_s": 6.3333,
+    "onset": 6.3211,
+    "err_ms": 1.1,
+    "within_1_frame": true
+   },
+   "interval_semitones_estimated": 3.0,
+   "interval_semitones_logspec_stem_minus_bed": 3.0,
+   "interval_semitones_matched_filter_stem": [
+    3.0,
+    0.986
+   ],
+   "centroid_ratio": 1.1888,
+   "target_ratio": 1.1892,
+   "peak_dbfs": -3.87,
+   "rms_dbfs": -33.4
+  },
+  "v3": {
+   "era": 2059,
+   "onsets_found_5p7_6p6": [
+    5.999,
+    6.3182
+   ],
+   "E3": {
+    "target": 6.0,
+    "onset": 5.999,
+    "err_ms": -1.0,
+    "within_1_frame": true
+   },
+   "E4": {
+    "target": 6.32,
+    "frame152_s": 6.3333,
+    "onset": 6.3182,
+    "err_ms": -1.8,
+    "within_1_frame": true
+   },
+   "interval_semitones_estimated": 3.0,
+   "interval_semitones_logspec_stem_minus_bed": 3.0,
+   "interval_semitones_matched_filter_stem": [
+    3.0,
+    0.962
+   ],
+   "centroid_ratio": 1.1502,
+   "target_ratio": 1.1892,
+   "peak_dbfs": -4.74,
+   "rms_dbfs": -32.1
+  }
+ },
+ "test_notes": [
+  "Onsets: energy-flux detection on the 1.5-16 kHz band (2009: 150-16 kHz, because the foraged hollow knock is mostly below 400 Hz) of the finished stem in 5.7-6.6 s; tolerance 1 frame = 41.7 ms; E4 is also checked against frame 152 (6.333 s).",
+  "Interval: 'interval_semitones_estimated' = log-frequency spectral shift between the two strike signals; 'interval_semitones_matched_filter_stem' = resampling ratio (in semitones, 0.1 st steps) that best maps the stem's strike-1 window onto its strike-2 window, with its normalised correlation. The log-spectrum-minus-bed figure is unreliable for very short broadband strikes and is kept only for the record.",
+  "centroid_ratio: spectral centroid of strike 2 / strike 1 (target 1.1892 for +3 st)."
+ ],
+ "evidence": [
+  {
+   "id": "mia-14c8b94b",
+   "title": "Third Avenue El (Carson Davidson; year not listed by the archive, c.1955 unverified)",
+   "author": "via movingimagearchive.com",
+   "license": "Public domain (Prelinger Archives item ThirdAve1950 on archive.org, metadata licenseurl http://creativecommons.org/licenses/publicdomain/, read via the archive.org metadata API in repair r2)",
+   "license_url": "http://creativecommons.org/licenses/publicdomain/",
+   "source_url": "https://www.movingimagearchive.com/sources/third-avenue-el?clip=14c8b94b-5000-5c5d-af14-f107d31f34ef",
+   "file_url": "",
+   "local_path": "sound/mia/thirdavenueel_14c8b94b_rumble.wav",
+   "source_time_s": [
+    55.322,
+    58.525
+   ],
+   "what_it_shows": "Manhattan elevated railway; a man descends steps seen from above. Sound: steady broadband El/street rumble, no music or speech in this 3.2 s window (harmonicity 0.30, 83% non-harmonic frames).",
+   "verified_date_or_place": "New York City (Third Avenue El, demolished 1955-56); date not listed by the archive",
+   "used_as": "1959 street bed (distant El/traffic rumble, band 60-2600 Hz, -36 dB RMS, granular loop); title tail",
+   "caution": "Independent maker film; its PD basis rests only on the Prelinger licenseurl (source-verified, but the weakest item). It sits at -36 dB in the 1959 bed and the title tail and can be dropped if a stricter rule is wanted (Formations already covers the rumble)."
+  },
+  {
+   "id": "mia-6eb03e7f",
+   "title": "Formations (1936), Jam Handy Organization for Chevrolet Motor Company (sponsor)",
+   "author": "via movingimagearchive.com",
+   "license": "Public domain (Prelinger Archives item Formatio1936 on archive.org, metadata licenseurl http://creativecommons.org/licenses/publicdomain/, read via the archive.org metadata API in repair r2)",
+   "license_url": "http://creativecommons.org/licenses/publicdomain/",
+   "source_url": "https://www.movingimagearchive.com/sources/formations-59719c02?clip=6eb03e7f-b5eb-5366-9aca-ffebedfae20e",
+   "file_url": "",
+   "local_path": "sound/mia/formations1936_6eb03e7f_rumble.wav",
+   "source_time_s": [
+    399.161,
+    400.661
+   ],
+   "what_it_shows": "Aerial view straight down on a street intersection with cars. Sound window between narration lines: 20-40 Hz traffic/engine rumble (centroid 165 Hz, no tonal lines).",
+   "verified_date_or_place": "1936 (archive listing); place unverified",
+   "used_as": "1959 bed sub-rumble (band 35-400 Hz, -38 dB RMS, granular loop); 2009 traffic wash (band 90-5000 Hz, -37 dB)"
+  },
+  {
+   "id": "mia-ee12b007",
+   "title": "Arteries of New York City (1941), Encyclopaedia Britannica Films",
+   "author": "via movingimagearchive.com",
+   "license": "Public domain (Prelinger Archives item Arteries1941 on archive.org, metadata licenseurl http://creativecommons.org/licenses/publicdomain/, read via the archive.org metadata API in repair r2)",
+   "license_url": "http://creativecommons.org/licenses/publicdomain/",
+   "source_url": "https://www.movingimagearchive.com/sources/arteries-of-new-york-city?clip=ee12b007-f491-5a16-b94a-70c7a5837e31",
+   "file_url": "",
+   "local_path": "sound/mia/arteries1941_ee12b007_air.wav",
+   "source_time_s": [
+    81.178,
+    82.778
+   ],
+   "what_it_shows": "Housing-project courtyard, New York. Sound: a 1.6 s pause in the optical track (room tone / film air, -40 dB) between narration.",
+   "verified_date_or_place": "New York City, 1941 (archive listing)",
+   "used_as": "1959 bed film air (-44 dB); title room-tone tail (also used in the test shot)"
+  },
+  {
+   "id": "mia-a267fee7",
+   "title": "Dating: Do's and Don'ts (1949), Coronet Instructional Films",
+   "author": "via movingimagearchive.com",
+   "license": "Public domain (Prelinger Archives item DatingDo1949 on archive.org, metadata licenseurl http://creativecommons.org/licenses/publicdomain/, read via the archive.org metadata API in repair r2)",
+   "license_url": "http://creativecommons.org/licenses/publicdomain/",
+   "source_url": "https://www.movingimagearchive.com/sources/dating-do-s-and-don-ts?clip=a267fee7-4232-5d06-bef6-10f5d773c07f",
+   "file_url": "",
+   "local_path": "sound/mia/dating1949_a267fee7_footsteps.wav",
+   "source_time_s": [
+    155.483,
+    158.883
+   ],
+   "what_it_shows": "A young man comes in through a panelled door and walks across a hall to a staircase. Sound window after the dialogue: his footsteps only (100% non-harmonic frames, no speech).",
+   "verified_date_or_place": "1949 (archive listing); studio set",
+   "door_handle_window_source_s": [
+    150.097,
+    150.285
+   ],
+   "used_as": "1959/2009 latch: the door-handle transient as he comes in (source 150.10-150.29 s, sound/mia/dating1949_a267fee7_doorhandle.wav); and the watcher's footsteps in v1/v2/v3: 4 single footfalls (source 155.715, 156.185, 156.673, 156.981 s) re-sequenced every 0.50-0.56 s; +1 st (2009), +2 st and brighter (2059)"
+  },
+  {
+   "id": "commons-Knock_on_door",
+   "title": "File:Knock on door.wav",
+   "author": "Asud12 (Wikimedia Commons)",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Knock_on_door.wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/28/Knock_on_door.wav",
+   "local_path": "sound/raw/Knock_on_door.wav",
+   "what_it_shows": "A simple knock pattern (three knuckle strikes on a wooden door, at 1.335, 1.540, 1.750 s)",
+   "verified_date_or_place": "unverified",
+   "used_as": "1959 'tok . tok': one isolated wood strike, band 350-9000 Hz, +5 st (beak size); strike 2 +3 st more. Also the fallback source for the 2009 knock if no hollow-door file."
+  },
+  {
+   "id": "commons-Knocking_on_wood_or_door",
+   "title": "File:Knocking on wood or door.ogg",
+   "author": "stephan (Wikimedia Commons)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File%3AKnocking_on_wood_or_door.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Knocking_on_wood_or_door.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "local_path": "sound/raw/Knocking_on_wood_or_door.ogg",
+   "what_it_shows": "Title  Knocking on Wood or Door \n  Artist  stephan \n  Original mp3 data  Length:0:06 minutes (126.57 KB) Format:MP3 Stereo 44kHz 160Kbps (CBR) \n  User tags  Door, knocking, Wood \n  Type  Single Subject, Natural \n  PDSounds record number  198 \n  Comment  Knock Knock Knock on Wood / Door. 3 versi",
+   "verified_date_or_place": "2007-04-26",
+   "used_as": "2009 'tok . tok' (repair r3): the loudest single knuckle strike on a door (source 4.640-4.849 s), band 120-7000 Hz, +2 st; strike 2 +3 st more. Hollow timbre: spectral peak 325 Hz, 79 % of energy below 400 Hz (1959 beak strike: peak 700 Hz, centroid 1581 Hz; 2059 glass: centroid 3458 Hz)"
+  }
+ ],
+ "dropped_evidence": [
+  {
+   "id": "mia-93053686",
+   "title": "Straight Talk (1992), U.S. Department of Education",
+   "author": "via movingimagearchive.com",
+   "license": "Public domain (US government work); Rights as listed by movingimagearchive.com (largely public domain); not independently verified",
+   "license_url": "",
+   "source_url": "https://www.movingimagearchive.com/sources/straight-talk-583ba802?clip=93053686-9523-5a3e-803d-130a49d2037f",
+   "file_url": "",
+   "local_path": "sound/mia/straighttalk1992_93053686_streetA.wav + streetB.wav",
+   "source_time_s": [
+    [
+     280.314,
+     281.264
+    ],
+    [
+     282.864,
+     283.814
+    ]
+   ],
+   "what_it_shows": "Teenagers crossing a busy US city street at a parking sign and traffic lights; cars pass. Sound: two speech-free windows of street wash between narration.",
+   "verified_date_or_place": "1992 (archive listing); US city street (Valencia St. sign visible), city unverified",
+   "used_as": "DROPPED in repair r2: not in any stem (no independent rights record found on archive.org or loc.gov); the 2009 bed uses Formations (1936) instead"
+  }
+ ],
+ "repair_r2_editor": {
+  "straight_talk_1992": "dropped from the 2009 bed (no independent rights record found on archive.org or loc.gov); see dropped_evidence; not in any stem",
+  "rights_verified": "Third Avenue El (ThirdAve1950), Formations (Formatio1936), Arteries of New York City (Arteries1941), Dating: Do's and Don'ts (DatingDo1949): Prelinger Archives items on archive.org, metadata licenseurl http://creativecommons.org/licenses/publicdomain/ (read via archive.org/metadata API)",
+  "pitch_method": "strike 2 is strike 1 resampled by exactly 2**(3/12)=1.1892, which shifts every partial by +3.00 st. The matched-filter estimate in the finished stem reads 3.0 st for all eras."
+ },
+ "repair_r3_editor": {
+  "hollow_knock": "2009 strike is now foraged: Commons File:Knocking on wood or door.ogg (stephan via PDSounds, Public domain, licence re-read from extmetadata). The handmade 1959-strike-plus-panel fallback is gone.",
+  "still_not_downloaded": "File:Shave and a haircut - Knocking on door.ogg (CC BY-SA 4.0) metadata read, file HTTP 429 again; GLASS BELL TAPPING, hen recordings, creak, clasp, slide, mall not retried (time budget).",
+  "test_changes": "2009 onset band 150-16000 Hz; matched-filter lag search widened to +-5.4 ms. Results: E3/E4 within 2 ms in all eras; interval 3.0 st (matched filter correlation 0.89 / 0.99 / 0.96)."
+ },
+ "handmade": [
+  {
+   "what": "'tok . tok' cue construction (all eras)",
+   "how": "one isolated foraged strike placed at E3 6.00 s; the same strike resampled by 2^(3/12)=1.1892 (+3 semitones) at E4 6.32 s; per-era timbre from the era's knock source",
+   "where": "sound/cue/toktok_1959.wav, toktok_2009.wav, toktok_2059.wav; single strikes strike_<era>_1.wav / _2.wav; code sound/build_sound.py (strike_for, toktok)"
+  },
+  {
+   "what": "2059 door voice: two-note chime at the knock interval",
+   "how": "kit.Mix-rendered sine+2nd+3rd partial bell tones, 880 Hz then 1046.5 Hz (+3 st), 0.32 s apart (the knock's own rhythm), decay 3.2/s",
+   "where": "sound/cue/chime_2059.wav; placed at local 6.68 s in v3"
+  },
+  {
+   "what": "2059 'denied' tone for the X1 refused single peck",
+   "how": "kit.Mix.note square tones, the same +3-st interval descending (523.3 Hz -> 440 Hz), 0.16 s each",
+   "where": "sound/cue/denied_2059.wav; placed at local 4.78 s in v3 after the single glass tap at 4.60"
+  },
+  {
+   "what": "2059 air-handling hum and wind bed",
+   "how": "kit.Mix.room (60 Hz mains), kit.Mix.drone 60/120/180 Hz, kit.Mix.wind",
+   "where": "inside sound/stems/v3.wav"
+  },
+  {
+   "what": "bird hop landings (E1)",
+   "how": "kit.Mix.click pairs (claw tick + soft body) at frames 6+8k (land pose of each 8-frame hop) for k=0..8",
+   "where": "inside v1/v2/v3 stems"
+  },
+  {
+   "what": "2009 passing-car swells",
+   "how": "pink noise band 70-1500 Hz under a sin^2 envelope at 0.6, 5.2, 9.8, 12.9 s",
+   "where": "inside sound/stems/v2.wav"
+  },
+  {
+   "what": "1959 door bump at the stop",
+   "how": "kit.Mix.thud 80 Hz",
+   "where": "v1 at 8.45 s"
+  },
+  {
+   "what": "fallback",
+   "how": "clucks: no Commons hen recording downloaded; no clucks in stems",
+   "where": "see sound/build_log.json"
+  },
+  {
+   "what": "fallback",
+   "how": "hinge creak: handmade stick-slip model (irregular friction impulses through wood-panel resonances), quiet",
+   "where": "see sound/build_log.json"
+  },
+  {
+   "what": "fallback",
+   "how": "hinge creak: handmade stick-slip model (irregular friction impulses through wood-panel resonances), quiet",
+   "where": "see sound/build_log.json"
+  },
+  {
+   "what": "fallback",
+   "how": "chain snap: handmade (6 metal link ticks, accelerating, then a taut clank)",
+   "where": "see sound/build_log.json"
+  },
+  {
+   "what": "fallback",
+   "how": "2059 glass tap: no Commons glass-tap file downloaded; handmade struck-glass partials",
+   "where": "see sound/build_log.json"
+  },
+  {
+   "what": "fallback",
+   "how": "2059 slide: handmade pneumatic whoosh",
+   "where": "see sound/build_log.json"
+  },
+  {
+   "what": "fallback",
+   "how": "2059 slide: handmade pneumatic whoosh",
+   "where": "see sound/build_log.json"
+  }
+ ],
+ "absences": [
+  {
+   "searched": "Moving Image Archive cache: 'street|sidewalk|neighborhood|city|traffic' (40 clips) plus a speech-free scan of all 405 sound clips",
+   "result": "no clip carries a clean 1950s street recording longer than 3.2 s; nearly every candidate is narration over music (e27fc433 According to Plan 1952 = narration over a music bed in all gaps; 3543b210 1938 = narration). The 1959 bed is therefore assembled from short speech-free windows of four films (El rumble, 1936 traffic rumble, 1941 optical air) by granular looping."
+  },
+  {
+   "searched": "Moving Image Archive: chicken/hen/rooster/knock/door sounds",
+   "result": "none with usable sound (door clips are dialogue: ef7bfc89 Wreckless 1935)"
+  },
+  {
+   "searched": "Commons: knock on glass / tapping glass",
+   "result": "only File:GLASS BELL TAPPING SOUND.wav (a glass light fixture, CC0); no window/door-glass knock found"
+  },
+  {
+   "searched": "Commons: door chain / chain rattle",
+   "result": "no chain-door recording; the metal door clasp stands in for the chain"
+  },
+  {
+   "searched": "Commons: contemporary street ambience",
+   "result": "search rate-limited (HTTP 429); 2009 bed uses Formations (1936) traffic plus handmade car swells (Straight Talk 1992 dropped in r2)"
+  },
+  {
+   "searched": "Commons downloads (licences read from extmetadata and allowed): File:GLASS BELL TAPPING SOUND.wav (CC0, Muldoonsamuel55), File:Chickens demanding food.ogg, File:Hens leaving coop.ogg, File:Hen announcing shes lain an egg.ogg (Public domain, alys), File:Shave and a haircut - Knocking on door.ogg (CC BY-SA 4.0), File:Door handle creaking.ogg, File:Rusty metal door clasp.ogg, File:Sliding door of veranda opening.ogg, File:Tram doors open and close hiss and beeping.ogg (Public domain), File:Shopping mall less crowded.ogg",
+   "result": "NOT DOWNLOADED: upload.wikimedia.org answered HTTP 429 with retry-after 600 s on every attempt for ~25 min (backed off, honoured retry-after). Stems use the fallbacks listed under handmade. To upgrade: run films/sources/a-morning-stroll/sound/fetch_queue.sh when Commons allows, then rebuild (build_sound.py picks the files up automatically)."
+  },
+  {
+   "searched": "chicken clucks (Commons PD hen recordings; archive cache)",
+   "result": "none obtained (Commons 429; archive has no farmyard sound). No clucks in the stems; no synthetic cluck was faked. Cue sheet slots exist and fill on rebuild."
+  }
+ ],
+ "era_variables": {
+  "V1": {
+   "era": 1959,
+   "genre_tone": "deadpan",
+   "render_technique": "photo-cutout FK puppet",
+   "knock": "wood"
+  },
+  "V2": {
+   "era": 2009,
+   "genre_tone": "deadpan",
+   "render_technique": "photo-cutout FK puppet",
+   "knock": "hollow painted door"
+  },
+  "V3": {
+   "era": 2059,
+   "genre_tone": "deadpan",
+   "render_technique": "photo-cutout FK puppet",
+   "knock": "glass"
+  },
+  "D": {
+   "era": 1959,
+   "genre_tone": "deadpan",
+   "render_technique": "silhouette theatre (diagnostic)",
+   "knock": "wood (v1 stem reused)"
+  }
+ },
+ "no_speech": "No TTS and no speech: every archive window was checked speech-free (autocorrelation harmonicity) and the Commons wash is band-limited below intelligibility."
+}

@@ -1,0 +1,349 @@
+{
+ "slug": "moins-dun-quart-de-seconde-pour-vivre",
+ "frozen": true,
+ "base_revision": "proposals/ (kf-1.png chosen: Direction 1 'Brush plate, written balloons')",
+ "common_seed_used": false,
+ "common_seed_reason": "The chosen direction tells another story (park bench at night, lamp cited as witness, envelope never opened); the station seed's opening of the envelope and brass key contradict it.",
+ "thesis": "One brush-ink plate of a long-snouted creature on a park bench at night, holding an unopened envelope, is repeated identically in eight panels; only hand-written balloons change. Strip A talks itself into waiting (silent third panel); strip B turns the same pose into an alibi that cites the picture as evidence, and its last balloon ('WHY WOULD I OPEN SOMEONE ELSE'S?') turns the same half-lidded sideways eye from patience into guilt.",
+ "defining_beat": "Strip B hinge, film 0:35.0-0:57.0: B1 'ME? I'VE BEEN ON THIS BENCH SINCE NINE.' / B2 'ASK THE LAMP.' (lamp uncovered) / B3 'AND LOOK - STILL SEALED.' (flap uncovered) written on in sequence, landing on B4 with a 10-frame pen hold before 'ELSE'S?'. Viewer can point to the lamp B2 cites, the sealed flap B3 cites, the words 'SOMEONE ELSE'S', the identical eye in all eight panels, and the empty black of A3.",
+ "baseline": "Reference strip assets/references/iteration-001.webp (Menu & Trondheim: four identical frog plates, wordless panel 3, short deflating last line) and chosen keyframe proposals/kf-1.png (same plate x8, same lines; weaknesses: loose framing, ear crossing tails, lamp hidden). Compared side by side at the same strip width.",
+ "aesthetic": "Brush and pen ink, pure black and white like a photocopied small-press strip. Two tones only: ink #121212-#151515 (ref sampled ~RGB 16-21; kf-1 0), paper #FAF9F8-#FFFFFF (ref ~250-255); mid-tone share <=12% and only on edges (ref 12%, kf-1 5%); no colour (R=G=B+-2), no gradients, blur, vignette or added grain. Flat graphic light: night is a black panel ground with white masses, a few white stars, broken white highlights on the lamp globe. Texture only from the brush (dab-chain wobble, tapered ends, fur dashes, wood flecks). Square 540 px panels, ~9 px brush border, 36 px gutter; framed tighter than kf-1 (head+torso ~70% of panel height, bench cropped by panel edges, lamp globe top-left, upper ~35% black left for balloons). Hand-lettered single-stroke capitals ~3.5-4 px stroke in white wobbly brush balloons with short tapered tails to the snout; header and labels in the same hand; no typeset fonts. Pacing: pen ~9 glyphs/s, >=2 s hold per balloon, A3 silence 4.4 s, 10-frame pen hold in B4, short eased 0.5-0.6 s camera moves, no fades between panels.",
+ "techniques": [
+  {
+   "id": 17,
+   "title": "South Park — Repeatable Graphic Grammar",
+   "why": "The proof is a restricted reusable grammar: one plate asset, one stage template (panel occurrence), dialogue on its own layer. Numeric invariant: sha256 of art-only raster equal for 8 page panels and 8 film holds, negative controls fail. Perceptual achievement: repetition reads as deadpan comic timing; speaker legible; lines revisable with zero redraw."
+  },
+  {
+   "id": 47,
+   "title": "Sound-to-Action — Viseme and Gesture Swarm",
+   "why": "Silence animates thought: A3 and the B4 pen hold are the engine; pen strokes replace visemes and drive the foraged scratch. Numeric invariant: every scratch onset within +-1 frame of a stroke onset; zero cues inside A3 (0:21.6-0:26.0) and the B4 pen hold. Perceptual achievement: you hear words being written and hear A3 as a decision, not a dropout; no flapping in silence."
+  },
+  {
+   "id": 38,
+   "title": "Dynamic Pose Selection — Drawing Library Swarm",
+   "why": "Eye/breath may move only before the plate is frozen: a <=5-drawing library decoded by DP with 3-frame minimum holds gives the S0 settle (look to envelope, blink, exhale) ending exactly on the canonical plate. Numeric invariant: each library drawing differs from canonical only inside its mask; final decoded state sha-equal to canonical; no hold <3 frames. Perceptual achievement: the creature visibly settles into the pose it will keep, alive not flickering, key pose not averaged away."
+  }
+ ],
+ "invariants": [
+  "I1 strict art identity: one raster plate-540.png, same bytes, crop (0,0,540,540), scale 1 and hand border in all 8 page panels and all 8 film panel holds; asserted in code.",
+  "I2 balloons on a separate RGBA plane; removing them restores the art-only raster exactly.",
+  "I3 reject graphic drift (pixel diff of the 8 art-only rasters all zero) before scoring any reading; quarantine and resume from last accepted plate on failure.",
+  "I4 page = film: 540x540 panel region of the last frame of each film hold equals the page panel pixel for pixel (measured before encoding).",
+  "I5 eye/breath substitutions only in prologue S0 before freeze; never inside a strip panel or hold.",
+  "I6 deterministic seeded render; kit grain off (paper(grain=False)), no vignette; balloon boil only while writing, then locked to the published balloon PNG."
+ ],
+ "acceptance": [
+  {
+   "id": "B1",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "The hard proof reads. On the page and in the film there are two four-panel strips over one plate of a figure on a bench holding an unopened envelope. A viewer reading strip A says the creature talks itself into not opening it and waiting (keeping hope); reading strip B says it is answering an unseen accuser with an alibi that uses the lamp and the sealed flap as evidence, and that at B4 they learn the envelope belongs to someone else so the same sideways eye now looks guilty. A3 has no balloon and is read as a beat where something happens (deciding/giving up the question), not as a missing balloon. The film walks A1->A4 then B1->B4 with B1, B2, B3 written on in sequence; the lamp is uncovered in B2 and the flap uncovered in B3."
+  },
+  {
+   "id": "B2",
+   "kind": "blocking",
+   "evidence": "measured",
+   "text": "The section 7 fixture passes and is saved as deliverables/equality-check.json from deliverables/equality_check.py: sha256 of the art-only raster equal across all 8 page panels and all 8 film panel holds (frames from film.frame(k) before encoding); strip A has 4 identical layer hashes with 3 non-empty distinct balloon strings plus a silence entry recorded as a DialogueBeat, strip B 4 identical layer hashes with 4 distinct strings; the negative controls (plate pasted 1 px off, mouth subtly redrawn) both FAIL strict mode; and the last frame of each film panel hold equals the page panel (art and lettering) pixel for pixel."
+  },
+  {
+   "id": "B3",
+   "kind": "blocking",
+   "evidence": "structurally verified",
+   "text": "Material is genuinely handmade and genuinely animated: the plate is a brush drawing built from a recorded stroke ledger and is seen being brushed on stroke by stroke in the prologue; every balloon outline is drawn before its letters and every letter is written stroke by stroke on ones in pen order (a viewer sees the pen line grow, not a fade or a reveal wipe); no typeset font appears in any panel, balloon, label or header; no photographic filter or added grain; every foraged sound (ambience, pen scratch) is credited in films/credits/moins-dun-quart-de-seconde-pour-vivre.json with a PD/CC0/CC BY/CC BY-SA licence read from source metadata or the MIA credit form, and anything synthesized is declared in the notes."
+  },
+  {
+   "id": "B4",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "Aesthetic holds side by side with the reference strip and kf-1 at the same strip width: hard black and white with black night panel grounds and white masses, a heavy pressure-varying brush contour with tapered ends, hand-lettered capitals inside white wobbly balloons with tails to the snout, square panels with heavy borders, no greys/colour/gradients/grain. The strip reads as the same family as the reference and at least equals kf-1, with no balloon tail crossed by the ear, the eye never covered, and framing at least as close as kf-1 (head and torso dominating the panel, balloons in the black above)."
+  },
+  {
+   "id": "B5",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "Sound carries the writing and the silence: the foraged pen scratch is heard only while a stroke is being written (onsets within +-1 frame of the stroke schedule, measured), with nothing during A3's 4.4 s hold (ambience only, no scratch, tap or music) and nothing during the B4 pen hold before 'ELSE'S?'; a viewer hears A3 as a held silence and the B4 pause as a hesitation before the confession."
+  },
+  {
+   "id": "V1",
+   "kind": "advisory",
+   "evidence": "perceptually judged",
+   "text": "The prologue settle (#38) reads as the creature looking to the envelope, blinking and breathing out into the pose it will hold, without flicker, and ends exactly on the canonical plate (sha equal)."
+  },
+  {
+   "id": "V2",
+   "kind": "advisory",
+   "evidence": "perceptually judged",
+   "text": "In the closing comparison the A and B balloon sets alternate over one row while a viewer sees the art stay perfectly still; only words change."
+  },
+  {
+   "id": "V3",
+   "kind": "advisory",
+   "evidence": "structurally verified",
+   "text": "At least one alternate four-beat arc per strip is kept as a named branch (branch-a/, branch-b/) with its DialogueBeat ledger, rendered on the same plate, not merged."
+  },
+  {
+   "id": "V4",
+   "kind": "advisory",
+   "evidence": "measured",
+   "text": "Film <= 75 s (target 66 s), <= 6 MB; page >= 2400 px long side (target 2480x1754); new downloads < 75 MB."
+  }
+ ],
+ "reader_questions": [
+  "What is the figure doing and holding, and does the drawing change at any point across the panels? How do you know?",
+  "In the top strip, what does the figure decide, and how does each balloon move it toward that decision?",
+  "What happens in the panel with no words, and what would be lost if a balloon were put there or the panel removed?",
+  "In the bottom strip, who is the figure talking to, and what is the figure trying to establish?",
+  "Which line in the bottom strip changes how you read the figure's eye, and what does the eye mean before and after it?",
+  "What do 'the lamp' and 'still sealed' refer to in the picture, and what role do they play in what is being said?",
+  "Comparing the two strips at the same size: what is identical, what is different, and what does each strip's last panel make you understand about the same expression?"
+ ],
+ "intended_reading": "The art never changes: the same creature, bench, lamp and unopened envelope, the same half-lidded eye sliding toward the envelope, in all eight panels (identical drawing). Strip A: the creature weighs opening the envelope (opening means knowing; not opening keeps hope), says nothing in panel 3 -- the silence is the moment it decides, a held beat, and filling or cutting it would lose the decision and the deflation -- and settles resignedly on waiting ('HOPE IT IS, THEN.'); the eye reads as patient, resigned. Strip B: the creature answers an unseen questioner (police, owner, accuser) with an alibi -- it has been on the bench since nine, the lamp is its witness, the envelope is still sealed -- so the picture's own lamp and flap become evidence. The last line, 'WHY WOULD I OPEN SOMEONE ELSE'S?', reveals the envelope is not its own (it took or is holding someone else's letter), so the same sideways look at the envelope now reads as guilt or temptation, and the alibi as protesting too much. Compared at the same size, only the words differ; each last balloon re-reads the same expression.",
+ "deliverables": [
+  "/home/user/bolas/paeleo/scion/oulipo/assets/pages/moins-dun-quart-de-seconde-pour-vivre.png",
+  "/home/user/bolas/paeleo/scion/oulipo/assets/films/moins-dun-quart-de-seconde-pour-vivre.mp4",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/moins-dun-quart-de-seconde-pour-vivre/deliverables/strip-A.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/moins-dun-quart-de-seconde-pour-vivre/deliverables/strip-B.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/moins-dun-quart-de-seconde-pour-vivre/deliverables/plate-canonical.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/moins-dun-quart-de-seconde-pour-vivre/deliverables/page-unlettered.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/moins-dun-quart-de-seconde-pour-vivre/deliverables/balloons/A1.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/moins-dun-quart-de-seconde-pour-vivre/deliverables/balloons/A2.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/moins-dun-quart-de-seconde-pour-vivre/deliverables/balloons/A4.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/moins-dun-quart-de-seconde-pour-vivre/deliverables/balloons/B1.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/moins-dun-quart-de-seconde-pour-vivre/deliverables/balloons/B2.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/moins-dun-quart-de-seconde-pour-vivre/deliverables/balloons/B3.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/moins-dun-quart-de-seconde-pour-vivre/deliverables/balloons/B4.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/moins-dun-quart-de-seconde-pour-vivre/deliverables/balloons/balloons.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/moins-dun-quart-de-seconde-pour-vivre/deliverables/equality_check.py",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/moins-dun-quart-de-seconde-pour-vivre/deliverables/equality-check.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/moins-dun-quart-de-seconde-pour-vivre/deliverables/reader-comparison.jpg",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/moins-dun-quart-de-seconde-pour-vivre/deliverables/reader-comparison.md",
+  "/home/user/bolas/paeleo/scion/oulipo/films/moins-dun-quart-de-seconde-pour-vivre.py",
+  "/home/user/bolas/paeleo/scion/oulipo/films/credits/moins-dun-quart-de-seconde-pour-vivre.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/notes/moins-dun-quart-de-seconde-pour-vivre.txt",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/moins-dun-quart-de-seconde-pour-vivre/assembly.md"
+ ],
+ "page_layout": {
+  "size": [
+   2480,
+   1754
+  ],
+  "header": "y 70-150, hand-lettered 'ONE PLATE, TWO STRIPS' left; small 'after Menu & Trondheim, 1991' right",
+  "strip_A": {
+   "label": "A — TO WAIT (y 220-275)",
+   "panels_y": [
+    290,
+    830
+   ],
+   "panels_x": [
+    106,
+    682,
+    1258,
+    1834
+   ],
+   "panel": 540,
+   "gutter": 36,
+   "lettering": {
+    "A1": [
+     "IF I OPEN IT,",
+     "I'LL KNOW."
+    ],
+    "A2": [
+     "IF I DON'T,",
+     "I CAN STILL",
+     "HOPE."
+    ],
+    "A3": null,
+    "A4": [
+     "HOPE IT IS,",
+     "THEN."
+    ]
+   }
+  },
+  "strip_B": {
+   "label": "B — THE ALIBI (y 920-975)",
+   "panels_y": [
+    990,
+    1530
+   ],
+   "panels_x": [
+    106,
+    682,
+    1258,
+    1834
+   ],
+   "panel": 540,
+   "gutter": 36,
+   "lettering": {
+    "B1": [
+     "ME? I'VE BEEN",
+     "ON THIS BENCH",
+     "SINCE NINE."
+    ],
+    "B2": [
+     "ASK THE LAMP."
+    ],
+    "B3": [
+     "AND LOOK -",
+     "STILL SEALED."
+    ],
+    "B4": [
+     "WHY WOULD I",
+     "OPEN SOMEONE",
+     "ELSE'S?"
+    ]
+   }
+  },
+  "footer": "y 1620-1690 small lettering: art layer identical in all eight panels + sha256 prefix",
+  "route": "A1->A2->A3->A4 then B1->B2->B3->B4",
+  "placement_rules": "balloons inside the plate's safe mask; never cover eye, snout tip or envelope flap; B2 leaves the lamp globe fully uncovered; A3 no balloon"
+ },
+ "shots": [
+  {
+   "id": "S0",
+   "t": [
+    0.0,
+    6.0
+   ],
+   "screen": "1:1 on A1: plate brushed on stroke by stroke from the stroke ledger (0-4.5 s), #38 settle look/blink/exhale (4.5-5.6) landing on canonical, hold",
+   "sound": "foraged scratch per stroke; ambience fades in"
+  },
+  {
+   "id": "S1",
+   "t": [
+    6.0,
+    9.0
+   ],
+   "screen": "pull back to full page; plate appears unchanged in the other 7 panels every 4 frames; header and strip labels written on",
+   "sound": "ambience; soft tap per panel"
+  },
+  {
+   "id": "S2",
+   "t": [
+    9.0,
+    10.0
+   ],
+   "screen": "eased push into A1 at 1:1",
+   "sound": "ambience"
+  },
+  {
+   "id": "A1",
+   "t": [
+    10.0,
+    15.0
+   ],
+   "screen": "outline 8 frames, then 'IF I OPEN IT, / I'LL KNOW.' written ~9 glyphs/s, hold",
+   "sound": "scratch per stroke"
+  },
+  {
+   "id": "A2",
+   "t": [
+    15.6,
+    21.0
+   ],
+   "screen": "'IF I DON'T, / I CAN STILL / HOPE.' written, hold",
+   "sound": "scratch"
+  },
+  {
+   "id": "A3",
+   "t": [
+    21.6,
+    26.0
+   ],
+   "screen": "no balloon; art and camera still",
+   "sound": "declared silence: ambience only"
+  },
+  {
+   "id": "A4",
+   "t": [
+    26.6,
+    31.0
+   ],
+   "screen": "'HOPE IT IS, / THEN.' written, 2.5 s hold",
+   "sound": "scratch; tap at full stop"
+  },
+  {
+   "id": "S3",
+   "t": [
+    31.0,
+    33.5
+   ],
+   "screen": "strip A whole",
+   "sound": "ambience"
+  },
+  {
+   "id": "S4",
+   "t": [
+    33.5,
+    35.0
+   ],
+   "screen": "travel down to B1 at 1:1",
+   "sound": "ambience"
+  },
+  {
+   "id": "B1",
+   "t": [
+    35.0,
+    40.5
+   ],
+   "screen": "'ME? I'VE BEEN / ON THIS BENCH / SINCE NINE.' written, hold",
+   "sound": "scratch"
+  },
+  {
+   "id": "B2",
+   "t": [
+    41.0,
+    44.5
+   ],
+   "screen": "'ASK THE LAMP.' written, 2 s hold, lamp uncovered, camera still",
+   "sound": "scratch"
+  },
+  {
+   "id": "B3",
+   "t": [
+    45.0,
+    49.5
+   ],
+   "screen": "'AND LOOK - / STILL SEALED.' written, hold, flap uncovered",
+   "sound": "scratch"
+  },
+  {
+   "id": "B4",
+   "t": [
+    50.0,
+    57.0
+   ],
+   "screen": "'WHY WOULD I / OPEN SOMEONE' written, 10-frame pen hold, 'ELSE'S?' written, 3 s hold",
+   "sound": "scratch; silence in pen hold; tap at '?'"
+  },
+  {
+   "id": "S5",
+   "t": [
+    57.0,
+    66.0
+   ],
+   "screen": "full page both strips same size; 61-64 s top row balloon plane alternates A/B every 18 frames over unchanged art; hold; cut to black last 6 frames",
+   "sound": "ambience fading out"
+  }
+ ],
+ "units": [
+  {
+   "role": "plate-artist",
+   "mode": "handmake",
+   "output": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/moins-dun-quart-de-seconde-pour-vivre/plate.json",
+   "media": "/home/user/bolas/paeleo/scion/oulipo/films/sources/moins-dun-quart-de-seconde-pour-vivre/plate/"
+  },
+  {
+   "role": "writer-letterer",
+   "mode": "handmake",
+   "output": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/moins-dun-quart-de-seconde-pour-vivre/balloons.json",
+   "media": "/home/user/bolas/paeleo/scion/oulipo/films/sources/moins-dun-quart-de-seconde-pour-vivre/letterer/"
+  },
+  {
+   "role": "sound",
+   "mode": "both",
+   "output": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/moins-dun-quart-de-seconde-pour-vivre/sound.json",
+   "media": "/home/user/bolas/paeleo/scion/oulipo/films/sources/moins-dun-quart-de-seconde-pour-vivre/sound/"
+  }
+ ]
+}

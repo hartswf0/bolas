@@ -1,0 +1,467 @@
+{
+ "slug": "99-ways-template",
+ "baseline_revision": "b1",
+ "written_by": "variant-builders",
+ "date": "2026-11-17",
+ "rule": "plan.md section 3: derive(b1, op) changes exactly one dimension; every event is shown / implied (with its cue) / omitted; outcome and speakers equal b1.",
+ "pinned_dimensions": [
+  "event graph b1 (ledger.json)",
+  "material set (same FORAGED pieces at b1: page-cartoonist pieces + Bubley visitor)",
+  "handmade lettering (page/glyphs.json strokes; variants/glyphs_extra.json adds '2','F' in the same pen for the labels only)",
+  "1934 LoC sheet ground, hand-ruled ~9 px borders, cut-paper balloons, 8 px scissor margins, one down-right paper shadow",
+  "objective tone (no subjective/interior voice)",
+  "tonal rule: one levels curve per source photograph, no filters",
+  "outcome: key stays on its hook, SERVICE door stays closed, goal forgotten",
+  "speakers of every retained line"
+ ],
+ "pages": {
+  "B": {
+   "page": "assets/pages/99-ways-template.png",
+   "changed_dimension": null,
+   "panels": [
+    "P1",
+    "P2",
+    "P3",
+    "P4",
+    "P5",
+    "P6",
+    "P7",
+    "P8"
+   ],
+   "route": [
+    "P1",
+    "P2",
+    "P3",
+    "P4",
+    "P5",
+    "P6",
+    "P7",
+    "P8"
+   ],
+   "events": {
+    "E0": {
+     "status": "shown",
+     "panels": [
+      "P1"
+     ],
+     "cue": "clerk seated, memo '4:15 - open SERVICE door. Key in cupboard.' legible on the desk"
+    },
+    "E1": {
+     "status": "shown",
+     "panels": [
+      "P2",
+      "P3"
+     ],
+     "cue": "P2 desk empty but for the memo, clerk rising out of the right edge; P3 clerk mid-step, SERVICE card on the closed door"
+    },
+    "E2": {
+     "status": "shown",
+     "panels": [
+      "P4"
+     ],
+     "cue": "soft visitor shape behind the TICKET OFFICE glass; 'What time is it?' tail exits the left edge through the window"
+    },
+    "E3": {
+     "status": "shown",
+     "panels": [
+      "P5"
+     ],
+     "cue": "clock at 4:10; 'Ten past four!' tail to the clerk's mouth"
+    },
+    "E3b": {
+     "status": "shown",
+     "panels": [
+      "P6"
+     ],
+     "cue": "empty window; 'Thanks!' tail exits the left edge (departure itself implied by that cue)"
+    },
+    "E4": {
+     "status": "shown",
+     "panels": [
+      "P7"
+     ],
+     "cue": "door open on its jamb, brass key on its hook with SERVICE tag"
+    },
+    "E5": {
+     "status": "shown",
+     "panels": [
+      "P8"
+     ],
+     "cue": "pencil to chin under 'Now... what did I come over here for?'; key unmoved on its hook; SERVICE card on the closed door"
+    }
+   },
+   "outcome": "goal not achieved; key on hook; SERVICE door closed",
+   "declared_losses": [],
+   "r1_changes": [
+    "P2 the desk is left empty (only his shoulder at the right edge); plate smear and head ghost repaired from the same photograph",
+    "P3 rebuilt: he walks, standing, past the closed double cupboard whose right leaf carries the SERVICE card; no desk in frame; no stray forearm",
+    "P4 nobody behind the glass; his pencil hand is out of frame; head up toward the voice",
+    "P5 un-mirrored: he faces the clock, head up",
+    "P8 un-mirrored: he faces away from the key, head tipped up 11 deg on the collar, pencil tip at the chin; line rewritten in the production's own words"
+   ]
+  },
+  "D1": {
+   "page": "assets/pages/99-ways-template-compressed.png",
+   "label": "Derivative 1 - Compressed (2 panels)",
+   "changed_dimension": "panel_count/time (8 -> 2)",
+   "panels": [
+    "C1",
+    "C2"
+   ],
+   "route": [
+    "C1",
+    "C2"
+   ],
+   "record": "films/swarm/99-ways-template/variants/d1_panels.json",
+   "events": {
+    "E0": {
+     "status": "shown",
+     "panels": [
+      "C1"
+     ],
+     "cue": "the same handmade memo slip, legible on the desk (bottom centre of C1)"
+    },
+    "E1": {
+     "status": "shown",
+     "panels": [
+      "C1"
+     ],
+     "cue": "clerk risen from his chair (P2's rising pose), behind the desk, his arm already out of C1's right edge: he is leaving"
+    },
+    "E2": {
+     "status": "shown",
+     "panels": [
+      "C1"
+     ],
+     "cue": "'What time is it?' read first (top-left), tail exits C1's left edge through the TICKET OFFICE window; no visitor is seen"
+    },
+    "E3": {
+     "status": "shown",
+     "panels": [
+      "C1"
+     ],
+     "cue": "'Ten past four!' stacked below/right of the question, tail to the clerk's mouth; the office clock on the wall reads 4:10"
+    },
+    "E3b": {
+     "status": "shown",
+     "panels": [
+      "C2"
+     ],
+     "cue": "small 'Thanks!' read first in C2 (top-left), tail exits C2's left edge; her leaving implied by that exit only"
+    },
+    "E4": {
+     "status": "implied",
+     "panels": [
+      "C2"
+     ],
+     "cue": "the arrival and the opening are not drawn as actions; C2 shows their result: door open on its jamb, key on its hook with SERVICE tag"
+    },
+    "E5": {
+     "status": "shown",
+     "panels": [
+      "C2"
+     ],
+     "cue": "pencil to chin under 'Now... what did I come over here for?'; key unmoved at his elbow; SERVICE card on the closed door"
+    }
+   },
+   "speakers_check": {
+    "What time is it?": "VISITOR (tail off-panel left, not to the clerk: the counterexample 'tail to his own mouth' is avoided)",
+    "Ten past four!": "CLERK",
+    "Thanks!": "VISITOR (off-panel left)",
+    "Now... what did I come over here for?": "CLERK"
+   },
+   "outcome": "unchanged: key on hook in C2, SERVICE door closed",
+   "declared_losses": [
+    "P3's walk past the closed SERVICE door is gone; the route from desk to cupboard is carried only by the cut between C1 and C2",
+    "the visitor is never seen (no soft figure behind glass): she exists only as two tails from the left edge",
+    "time between beats is carried by balloon reading order inside each panel: in C2 'Thanks!' is read before the forgetting line, so in the still the thanks seems to reach him at the cupboard (b1 puts E3b before E4); the film keeps the order by landing 'Thanks!' first, then the forgetting balloon",
+    "E4 is shown only as its result state (door already open)",
+    "C1 inherits the b1 office plate's inpainting smear at the desk edge left of the memo (plate defect noted by the test-shot review, owned by cutout-surgeon/page-cartoonist)"
+   ],
+   "r1_changes": [
+    "C2: the forgetting line in the production's own words; C2 laid on the repaired plates"
+   ]
+  },
+  "D2": {
+   "page": "assets/pages/99-ways-template-platform.png",
+   "label": "Derivative 2 - From the platform",
+   "changed_dimension": "viewpoint (outside the ticket window, the VISITOR's side)",
+   "panels": [
+    "V1",
+    "V2",
+    "V3",
+    "V4"
+   ],
+   "route": [
+    "V1",
+    "V2",
+    "V3",
+    "V4"
+   ],
+   "record": "films/swarm/99-ways-template/variants/d2_panels.json",
+   "events": {
+    "E0": {
+     "status": "omitted",
+     "panels": [],
+     "cue": "the memo lies on the desk in V2 but is only a few millimetres tall through the glass and cannot be read: the motive is not recoverable from this page"
+    },
+    "E1": {
+     "status": "implied",
+     "panels": [
+      "V2"
+     ],
+     "cue": "through the glass the desk is already empty when we first see it (E1 happened out of view)"
+    },
+    "E2": {
+     "status": "shown",
+     "panels": [
+      "V1"
+     ],
+     "cue": "r1: she stands at the TICKET OFFICE window under the RANDOLPH nameboard; 'What time is it?' with its tail to her (open) mouth"
+    },
+    "E3": {
+     "status": "shown",
+     "panels": [
+      "V3"
+     ],
+     "cue": "the clerk seen through the glass, clock at 4:10 beside him, 'Ten past four!' tail to his mouth through the glass"
+    },
+    "E3b": {
+     "status": "shown",
+     "panels": [
+      "V4"
+     ],
+     "cue": "r1: V1's camera again; her place at the window is empty, she is at the left edge pitched into a step, leaving, and 'Thanks!' has its tail to her mouth"
+    },
+    "E4": {
+     "status": "implied",
+     "panels": [
+      "V4"
+     ],
+     "cue": "far back through the glass the cupboard door stands open on its jamb; his arrival and the opening are not seen"
+    },
+    "E5": {
+     "status": "shown",
+     "panels": [
+      "V4"
+     ],
+     "cue": "far back: the clerk before the open cupboard, pencil at his temple (scratching his head: the Rothstein source pose), the key a small glint still on its hook, SERVICE card on the still-closed door. His line is NOT on this page: from the platform it is not heard, so the forgetting is carried by the gesture alone"
+    }
+   },
+   "speakers_check": {
+    "What time is it?": "VISITOR (tail to her mouth, V1)",
+    "Ten past four!": "CLERK (through the glass, V3)",
+    "Thanks!": "VISITOR (tail to her mouth, V4)",
+    "Now... what did I come over here for?": "omitted (inaudible from the platform)"
+   },
+   "outcome": "unchanged: key still on its hook (V4), SERVICE door closed with its card (V1, V4); nobody opens it. The counterexample 'visitor sees him take the key and open the door' is avoided.",
+   "declared_losses": [
+    "the memo and so the motive are unrecoverable (E0 omitted)",
+    "the forgetting line is unheard; E5 rests on the head-scratch gesture and the unmoved key",
+    "his walk, the opening of the cupboard and the departure are all out of view or implied",
+    "the clerk keeps his photographed head angle (eyes down) in V3 rather than a turned head: no second photograph of the agent exists and the test-shot notes forbid a 2D roll; the turn is a -6 deg hinge on the collar only",
+    "the visitor is only seen frontally (the only plate of her); in V4 she leaves by the left edge of a repeated camera rather than small and far along a platform: no open-licence wide platform plate of this station was found",
+    "deviation from plan.md section 5 (D2 V4 'the key cannot be seen'): the key is left as a small visible glint on its hook, because hiding it would leave the unchanged outcome unreadable from this page (B2 asks readers to see the same outcome); recorded here, not a change to the frozen bar",
+    "r1: the station front is a different FSA/OWI station (Bubley 1943) joined by collage to the Rothstein 1937 office; its shop neon and awning are covered by two HANDMADE cards (a TICKET OFFICE card hung inside the glass, a RANDOLPH nameboard over the awning) so that the front reads as the Randolph ticket window; V2/V3 show the TICKET OFFICE card large and cropped by the panel edge"
+   ],
+   "r1_changes": [
+    "editor r1: visitor lines moved to V1/V4 with tails to her mouth; neon covered by TICKET OFFICE card; RANDOLPH nameboard over the awning; V2 now carries no balloon (it shows E1 implied)"
+   ]
+  }
+ },
+ "through_glass_method": "V1-V4: an optical composite of real plates: the office interior (Rothstein pieces, laid as in b1) x transmission t + the Bubley window's own pixels (reflections, display plants) x (1-t), t falling down the pane (V1/V4 0.62->0.40 far back, V2 0.80->0.52, V3 0.84->0.62); the neon sign's tubes and card are the window's own pixels re-laid in front. No blur, grain or filter added.",
+ "tone_measured": {
+  "D1": {
+   "page": {
+    "pct_L_gt_220": 40.0,
+    "pct_L_gt_230": 37.4,
+    "pct_L_lt_40": 18.6,
+    "median": 171.0
+   },
+   "panels_only": {
+    "pct_L_gt_220": 19.9,
+    "pct_L_gt_230": 17.9,
+    "pct_L_lt_40": 24.1,
+    "median": 118.0
+   }
+  },
+  "D2": {
+   "page": {
+    "pct_L_gt_220": 35.3,
+    "pct_L_gt_230": 32.8,
+    "pct_L_lt_40": 13.6,
+    "median": 157.0
+   },
+   "panels_only": {
+    "pct_L_gt_220": 11.0,
+    "pct_L_gt_230": 9.1,
+    "pct_L_lt_40": 17.6,
+    "median": 112.0
+   }
+  },
+  "bar_supporting_measure": ">=35% page px L>220 and >=8% L<40: D1 and D2 both meet it"
+ },
+ "rest_identity": {
+  "D1": {
+   "C1": {
+    "rest_layers_vs_page_mean_abs": 0.005,
+    "max_abs": 1.0
+   },
+   "C2": {
+    "rest_layers_vs_page_mean_abs": 0.007,
+    "max_abs": 1.0
+   }
+  },
+  "D2": {
+   "V1": {
+    "rest_layers_vs_page_mean_abs": 0.038,
+    "max_abs": 1.0
+   },
+   "V2": {
+    "rest_layers_vs_page_mean_abs": 0.115,
+    "max_abs": 1.0
+   },
+   "V3": {
+    "rest_layers_vs_page_mean_abs": 0.12,
+    "max_abs": 1.0
+   },
+   "V4": {
+    "rest_layers_vs_page_mean_abs": 0.043,
+    "max_abs": 1.0
+   }
+  },
+  "note": "variants/rest/<D1|D2>/<panel>/layers.json recomposed vs page crop (mean abs, 0-255)"
+ },
+ "evidence": [
+  {
+   "id": "2017861739",
+   "title": "Cincinnati (vicinity), Ohio. The ticket agent at a small town station (1943 Sept.)",
+   "author": "Esther Bubley, U.S. Office of War Information",
+   "license": "No known restrictions on publication (FSA/OWI Black & White Photographs)",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017861739/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d33000/8d33100/8d33109u.tif",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/99-ways-template/variant-builders/loc/8d33109u.tif (decoded with PIL to 8d33109u.png, 4835x4987 8-bit grey)",
+   "what_it_shows": "a woman in a white apron standing beside a small-town station window under a scalloped awning (NISER ICE CREAM neon in the window, BUS STATION board and Greyhound TICKET OFFICE sign below, door at right)",
+   "verified_date_or_place": "2026-11-17: rights_advisory read from loc.gov item JSON (films/sources/99-ways-template/loc/2017861739.json); master URL taken from its resources list",
+   "used_as": "D2 V1-V4 station front plate (one levels curve 16/212/0.85); VISITOR re-cut by GrabCut from the master (pieces/bubley.visitor.hi.png) for V1 and V4; V4 uses the same plate with her lifted off and the hole filled from the same photograph"
+  },
+  {
+   "id": "2017776093",
+   "title": "Railroad station agent, Randolph, Vermont (1937)",
+   "author": "Arthur Rothstein, U.S. Farm Security Administration",
+   "license": "No known restrictions on publication (FSA/OWI)",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017776093/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8b16000/8b16700/8b16710u.tif (every 3rd row/col, reassembled by the test shot)",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/99-ways-template/page-cartoonist/pieces/ (office.plate, set.plate, cupboard.door, clerk.*)",
+   "what_it_shows": "the Randolph agent at his desk; ticket window, ticket-rack cabinet, cupboards, lamp",
+   "verified_date_or_place": "reused b1 pieces; rights re-read 2026-11-17 in films/sources/99-ways-template/loc/2017776093.json",
+   "used_as": "D1 C1/C2 (office plate, set plate, clerk pieces, door) and D2 interiors seen through the glass"
+  },
+  {
+   "id": "2017776111",
+   "title": "Clock and sign in tavern, Smuggler's Notch, Vermont (1937)",
+   "author": "Arthur Rothstein, U.S. Farm Security Administration",
+   "license": "No known restrictions on publication (FSA/OWI)",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017776111/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/fsa/8b16000/8b16700/8b16723v.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/99-ways-template/page-cartoonist/pieces/clock.*.png",
+   "what_it_shows": "a regulator wall clock",
+   "verified_date_or_place": "reused b1 piece (page-cartoonist evidence.json, 2026-11-17)",
+   "used_as": "office clock at 4:10 in D1 C1 and D2 V3"
+  },
+  {
+   "id": "2017679951",
+   "title": "Gold key to door of nurses memorial, Florence Nightingale school, Bordeaux (1922)",
+   "author": "American National Red Cross photograph collection",
+   "license": "No known restrictions on publication",
+   "license_url": "https://www.loc.gov/rr/print/res/717_anrc.html",
+   "source_url": "https://www.loc.gov/item/2017679951/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/anrc/14900/14940v.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/99-ways-template/page-cartoonist/pieces/key.png",
+   "what_it_shows": "a large ornamental door key",
+   "verified_date_or_place": "reused b1 piece (test-shot/2017679951.json read 2026-11-17)",
+   "used_as": "the brass SERVICE key on its hook, D1 C2 and D2 V4 (far back)"
+  },
+  {
+   "id": "musftpsets.200218222",
+   "title": "[Unidentified Production: Sketch no. 27, Blank Sheet of Paper] (1934)",
+   "author": "Nels Astner, Federal Theatre Project Collection, Library of Congress",
+   "license": "LoC knows of no copyright; treated as US Government work (rights assessment is the user's responsibility)",
+   "license_url": "",
+   "source_url": "https://www.loc.gov/item/musftpsets.200218222/",
+   "file_url": "(foraged earlier) films/sources/99-ways-template/loc/blank.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/99-ways-template/loc/blank.jpg",
+   "what_it_shows": "a blank 1934 sheet",
+   "verified_date_or_place": "reused b1 ground (page-cartoonist evidence.json)",
+   "used_as": "page ground of both derivative pages (penlib.sheet, same lift as b1)"
+  },
+  {
+   "id": "2017861708",
+   "title": "Cincinnati (vicinity), Ohio. A ticket agent at a small bus station (1943 Sept.)",
+   "author": "Esther Bubley, U.S. Office of War Information",
+   "license": "No known restrictions on publication (FSA/OWI)",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017861708/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d33000/8d33000/8d33077u.tif",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/99-ways-template/variant-builders/loc/8d33077u.tif",
+   "what_it_shows": "the same station front, a woman seated beside the window (a reflective pane, Greyhound TICKET OFFICE sign)",
+   "verified_date_or_place": "2026-11-17, rights_advisory read from loc/2017861708.json",
+   "used_as": "NOT USED (downloaded as a V4 candidate; rejected because the seated agent overlaps the window and the V1 camera repeat reads better)"
+  }
+ ],
+ "handmade": [
+  {
+   "what": "label strips 'Derivative 1 - Compressed (2 panels)' and 'Derivative 2 - From the platform': cut-paper strips with small caps in the page hand",
+   "where": "films/swarm/99-ways-template/variants/build_variants.py label_strip(); glyphs from page/glyphs.json + variants/glyphs_extra.json ('2','F', authored in the same stroke table format)"
+  },
+  {
+   "what": "balloons and lettering of C1, C2, V2, V3 (penlib balloon_piece / letter_lines from the glyph table)",
+   "where": "films/swarm/99-ways-template/variants/build_variants.py"
+  },
+  {
+   "what": "memo slip, SERVICE sign-card, hook and tag re-laid with b1's functions (build_page.memo_slip / sign_card / lay_door_key)",
+   "where": "page/build_page.py (imported, unedited)"
+  },
+  {
+   "what": "GrabCut visitor cutout from the Bubley master (hand-authored outline polygon as scribble seed, 1 connected component)",
+   "where": "films/swarm/99-ways-template/variants/cut_visitor.py -> /home/user/bolas/paeleo/scion/oulipo/films/sources/99-ways-template/variant-builders/pieces/bubley.visitor.hi.png (+ .json pivots, .check.jpg overlay)"
+  },
+  {
+   "what": "V4 clean plate: her hole filled from the same photograph (rail row-wise, boards/glass column-wise reflected)",
+   "where": "build_variants.py clean_plate(); hole mask /home/user/bolas/paeleo/scion/oulipo/films/sources/99-ways-template/variant-builders/pieces/bubley.front.clean_hole_mask.png"
+  },
+  {
+   "what": "through-glass composites (interior x t + window pixels x (1-t), neon re-laid in front)",
+   "where": "build_variants.py through_glass(); interiors kept as layered panels variants/rest/D2/V*_interior/"
+  },
+  {
+   "what": "hand-ruled tremored panel borders (penlib.border_mask)",
+   "where": "build_variants.py"
+  }
+ ],
+ "absences": [
+  "no open-licence wide platform/exterior plate of a railway ticket window was found among the FSA spares; Wolcott 2017802673 (Mount Whittier) is an interior view of the agent at his window, so it does not serve as an exterior and is not used",
+  "no rear or three-quarter view of the Bubley visitor exists; she is frontal in V1 and V4",
+  "no second photograph of the Rothstein agent (LoC searched by page-cartoonist); V3 keeps the photographed head",
+  "no sound foraged by this unit (pages only); the editor's S10/S11 sound uses the rig-animator's stems"
+ ],
+ "downloads_this_unit_MB": 47.9,
+ "for_editor": {
+  "pages": [
+   "assets/pages/99-ways-template-compressed.png",
+   "assets/pages/99-ways-template-platform.png"
+  ],
+  "rest_layers": "films/swarm/99-ways-template/variants/rest/ (D1/C1, D1/C2, D2/V1..V4, D2/V*_interior): over-composite in order; panel art at rest == page crop",
+  "panel_records": [
+   "films/swarm/99-ways-template/variants/d1_panels.json",
+   "films/swarm/99-ways-template/variants/d2_panels.json"
+  ],
+  "film_suggestions": {
+   "S10": "C1: question lands (tail off-left), clerk torso/head layers slide right out of frame on twos while 'Ten past four!' lands; cut C2: 'Thanks!' lands, then the forgetting balloon; the pencil-arm can reuse the b1 rig pose_chin (layers 'clerk.*' carry matrices and poses)",
+   "S11": "V1 bell + hold; V2 question lands; V3 'Ten past four!' then 'Thanks!'; V4 the visitor piece slides out left in 3-4 stepping poses (bob +-6 px, pitch about her hip), the far clerk's pencil scratches 2 poses (V4_interior layers), key still"
+  }
+ }
+}

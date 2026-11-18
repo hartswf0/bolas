@@ -1,0 +1,257 @@
+{
+ "n": 17,
+ "id": "ninety-nine-words",
+ "title": "Ninety-nine words",
+ "rule": "The page's text, folio and title excluded, totals exactly ninety-nine words, tallied in the margin.",
+ "medium": "photo-cutout",
+ "family": "formal / Oulipian rule",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/17-ninety-nine-words.jpg",
+ "master": "films/sources/99-ways/masters/17-ninety-nine-words.png",
+ "beats_dir": "films/sources/99-ways/beats/17",
+ "build": "films/swarm/99-ways/build/p17_ninety_nine_words.py",
+ "sources": [
+  "99-ways-template:rothstein-randolph-agent-1937",
+  "99-ways-template:rothstein-tavern-clock-1937",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "six photographic prints recomposed from the 99-ways-template rest layers P1, P4, P5, P6, P7, P8 (Rothstein 1937 office and agent cutouts, Rothstein clock at 4:10, ANRC key on its hook; the template's handmade memo, SERVICE card, hook and tag), the old b1 balloons and the memo's printed head left out",
+  "each print mounted album-fashion: white print border, one shadow, four black paper photo corners (handmade)",
+  "the four canon lines as fresh cut-paper balloons in the shared pen hand (penlib.balloon_piece), tails at the template's own targets",
+  "six pencilled captions in the shared pen hand, written to make the page's words come to exactly 99",
+  "the margin tally: 99 graphite ticks in gates of five, one bundle per print, two bundles beside each row, a rule between rows and a closing double rule; the tally uses no figures, so it adds no words",
+  "folio '17 / Ninety-nine words' (pen99.folio)"
+ ],
+ "word_count": {
+  "P1 E0": {
+   "in_picture": [
+    "4:15",
+    "open",
+    "SERVICE",
+    "door.",
+    "Key",
+    "in",
+    "cupboard."
+   ],
+   "balloon": [],
+   "caption": [
+    "Randolph",
+    "station,",
+    "one",
+    "September",
+    "afternoon.",
+    "The",
+    "agent",
+    "reads",
+    "his",
+    "memo,",
+    "rises,",
+    "and",
+    "sets",
+    "off",
+    "for",
+    "the",
+    "key."
+   ],
+   "total": 24
+  },
+  "P4 E1": {
+   "in_picture": [
+    "TICKET",
+    "OFFICE."
+   ],
+   "balloon": [
+    "Pardon",
+    "me",
+    "have",
+    "you",
+    "the",
+    "right",
+    "time?"
+   ],
+   "caption": [
+    "On",
+    "his",
+    "way",
+    "across,",
+    "a",
+    "lady",
+    "at",
+    "the",
+    "window",
+    "stops",
+    "him."
+   ],
+   "total": 20
+  },
+  "P5 E2": {
+   "in_picture": [],
+   "balloon": [
+    "Ten",
+    "past",
+    "four,",
+    "by",
+    "the",
+    "clock."
+   ],
+   "caption": [
+    "He",
+    "looks",
+    "up",
+    "at",
+    "the",
+    "wall",
+    "clock",
+    "and",
+    "answers."
+   ],
+   "total": 15
+  },
+  "P6 E3": {
+   "in_picture": [
+    "TICKET",
+    "OFFICE."
+   ],
+   "balloon": [
+    "Much",
+    "obliged!"
+   ],
+   "caption": [
+    "She",
+    "thanks",
+    "him",
+    "and",
+    "goes."
+   ],
+   "total": 9
+  },
+  "P7 E4": {
+   "in_picture": [
+    "SERVICE",
+    "SERVICE"
+   ],
+   "balloon": [],
+   "caption": [
+    "He",
+    "opens",
+    "the",
+    "cupboard.",
+    "There",
+    "hangs",
+    "the",
+    "brass",
+    "key,",
+    "tagged."
+   ],
+   "total": 12
+  },
+  "P8 E5": {
+   "in_picture": [
+    "SERVICE",
+    "SERVICE"
+   ],
+   "balloon": [
+    "Well,",
+    "here",
+    "I",
+    "am...",
+    "and",
+    "what",
+    "for?"
+   ],
+   "caption": [
+    "Pencil",
+    "at",
+    "his",
+    "chin,",
+    "he",
+    "stands",
+    "there.",
+    "The",
+    "key",
+    "stays."
+   ],
+   "total": 19
+  }
+ },
+ "counting_convention": "a word is any space-separated run containing a letter or digit ('4:15' counts once; the dashes in the memo and in the question are not words); every lettered word on the page outside the folio line is counted, including those standing in the photographs (TICKET OFFICE. on the glass, the SERVICE card and tag, the memo's pencil). The clock dial's numerals are part of the photographed clock and not counted.",
+ "events": {
+  "E0": "print P1: Randolph station, one September afternoon. The agent reads his memo, rises, and sets off for the key.",
+  "E1": "print P4: On his way across, a lady at the window stops him. | balloon: Pardon me — have you the right time?",
+  "E2": "print P5: He looks up at the wall clock and answers. | balloon: Ten past four, by the clock.",
+  "E3": "print P6: She thanks him and goes. | balloon: Much obliged!",
+  "E4": "print P7: He opens the cupboard. There hangs the brass key, tagged.",
+  "E5": "print P8: Pencil at his chin, he stands there. The key stays. | balloon: Well, here I am... and what for?"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "beat": "the captions are pencilled one by one under the prints and each caption's words are ticked off in the margin tally, which grows from the pictures' own 37 words to 99",
+ "beat_frames": [
+  "b01: the six prints with only their own words (signs, memo, balloons), tallied: 37 ticks",
+  "b02: + caption 1 (E0) pencilled and its words ticked off: 54 ticks",
+  "b03: + caption 2 (E1) pencilled and its words ticked off: 65 ticks",
+  "b04: + caption 3 (E2) pencilled and its words ticked off: 74 ticks",
+  "b05: + caption 4 (E3) pencilled and its words ticked off: 79 ticks",
+  "b06: + caption 5 (E4) pencilled and its words ticked off: 89 ticks",
+  "b07: + caption 6 (E5) pencilled and its words ticked off: 99 ticks"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 984854,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "words_total": 99,
+  "tally_ticks": 99,
+  "per_print": [
+   {
+    "print": "P1",
+    "event": "E0",
+    "words": 24
+   },
+   {
+    "print": "P4",
+    "event": "E1",
+    "words": 20
+   },
+   {
+    "print": "P5",
+    "event": "E2",
+    "words": 15
+   },
+   {
+    "print": "P6",
+    "event": "E3",
+    "words": 9
+   },
+   {
+    "print": "P7",
+    "event": "E4",
+    "words": 12
+   },
+   {
+    "print": "P8",
+    "event": "E5",
+    "words": 19
+   }
+  ],
+  "lines_verbatim": true,
+  "pending": "independent blind reading not run by the maker"
+ },
+ "weaknesses": [
+  "the word count depends on a stated convention ('4:15' counts as one word, dashes do not, the clock dial's numerals are not words); a reader using another convention may get 98-101",
+  "the SERVICE tags in prints 5 and 6 are legible only at full size; on a phone they are small",
+  "the prints are page 01's rest panels (same photographs); the stranger is still unseen in print E1 (the balloon tail exits through the window, as on page 01)",
+  "the tally bundles are matched to prints only by order (left print first, a dot, then right print), with no figures"
+ ]
+}

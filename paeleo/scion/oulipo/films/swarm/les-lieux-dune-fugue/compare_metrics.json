@@ -1,0 +1,221 @@
+{
+ "source": "final render assets/films/les-lieux-dune-fugue.mp4 (decoded with ffmpeg; captions burnt in where on screen)",
+ "reference_plan_sec6": {
+  "frame_mean": [
+   89,
+   78,
+   57
+  ],
+  "lum_p5": 19,
+  "lum_p50": 89,
+  "lum_p95": 149,
+  "stone_mean": [
+   122,
+   104,
+   69
+  ],
+  "stone_sd": 12,
+  "jamb_mean": [
+   127,
+   108,
+   72
+  ],
+  "door_mean": [
+   21,
+   19,
+   21
+  ],
+  "door_sd": 2,
+  "plinth_mean": [
+   148,
+   137,
+   121
+  ],
+  "balcony_mean": [
+   47,
+   39,
+   26
+  ],
+  "joint_row_min": 84,
+  "stone_row_median": 98
+ },
+ "reference_measured_same_regions": {
+  "frame_mean": [
+   89.4,
+   77.7,
+   57.0
+  ],
+  "lum_p5": 18.6,
+  "lum_p50": 96.5,
+  "lum_p95": 152.4,
+  "stone_mean": [
+   122.4,
+   103.8,
+   69.0
+  ],
+  "stone_sd": 12.2,
+  "stone_R_minus_B": 53.4,
+  "joint_row_min": 90.8,
+  "stone_row_median": 102.3,
+  "joint_darkness": 11.6,
+  "door_mean": [
+   21.2,
+   19.4,
+   21.4
+  ],
+  "door_lum": 20.2,
+  "door_sd": 1.8,
+  "plinth_mean": [
+   144.4,
+   132.4,
+   112.7
+  ],
+  "right_jamb_mean": [
+   132.9,
+   113.9,
+   78.4
+  ],
+  "balcony_mean": [
+   39.4,
+   32.2,
+   21.9
+  ]
+ },
+ "final_t3": {
+  "frame_mean": [
+   88.9,
+   75.3,
+   52.3
+  ],
+  "lum_p5": 19.4,
+  "lum_p50": 92.7,
+  "lum_p95": 130.5,
+  "stone_mean": [
+   121.9,
+   101.9,
+   65.5
+  ],
+  "stone_sd": 16.0,
+  "stone_R_minus_B": 56.4,
+  "joint_row_min": 91.6,
+  "stone_row_median": 97.7,
+  "joint_darkness": 6.1,
+  "door_mean": [
+   28.1,
+   23.5,
+   22.7
+  ],
+  "door_lum": 24.8,
+  "door_sd": 18.0,
+  "plinth_mean": [
+   124.1,
+   112.7,
+   94.0
+  ],
+  "right_jamb_mean": [
+   111.0,
+   94.1,
+   62.0
+  ],
+  "balcony_mean": [
+   53.5,
+   42.6,
+   26.6
+  ]
+ },
+ "final_t29_closed": {
+  "frame_mean": [
+   81.4,
+   64.4,
+   40.3
+  ],
+  "lum_p5": 19.4,
+  "lum_p50": 75.3,
+  "lum_p95": 116.2,
+  "stone_mean": [
+   116.4,
+   90.4,
+   51.2
+  ],
+  "stone_sd": 16.1,
+  "stone_R_minus_B": 65.2,
+  "joint_row_min": 69.3,
+  "stone_row_median": 89.0,
+  "joint_darkness": 19.7,
+  "door_mean": [
+   27.5,
+   23.0,
+   22.3
+  ],
+  "door_lum": 24.3,
+  "door_sd": 15.1,
+  "plinth_mean": [
+   124.4,
+   104.7,
+   76.6
+  ],
+  "right_jamb_mean": [
+   103.1,
+   80.6,
+   46.3
+  ],
+  "balcony_mean": [
+   45.4,
+   33.3,
+   18.1
+  ]
+ },
+ "final_t38_5_open": {
+  "frame_mean": [
+   82.2,
+   68.7,
+   48.9
+  ],
+  "lum_p5": 10.0,
+  "lum_p50": 79.3,
+  "lum_p95": 120.1,
+  "stone_mean": [
+   116.6,
+   90.6,
+   51.3
+  ],
+  "stone_sd": 16.0,
+  "stone_R_minus_B": 65.3,
+  "joint_row_min": 69.1,
+  "stone_row_median": 89.1,
+  "joint_darkness": 20.0,
+  "door_mean": [
+   66.6,
+   71.3,
+   78.8
+  ],
+  "door_lum": 70.8,
+  "door_sd": 38.7,
+  "plinth_mean": [
+   122.3,
+   102.9,
+   75.4
+  ],
+  "right_jamb_mean": [
+   97.9,
+   77.2,
+   45.3
+  ],
+  "balcony_mean": [
+   45.6,
+   33.4,
+   18.3
+  ]
+ },
+ "regions": "stone x .62-.98 y .28-.80; door x .16-.50 y .40-.95; plinth x .62-.98 y .88-.99; right jamb x .565-.605; balcony y 0-.06",
+ "note": "0:03 carries caption F1 over the plinth/door bottom; the door region y .40-.95 includes part of it",
+ "acceptance_5": {
+  "stone_within_18": true,
+  "stone_R_minus_B_ge_35": true,
+  "door_lum_le_35": true,
+  "p95_le_175": true,
+  "p5_ge_8": true,
+  "joint_le_30": true,
+  "pass": true
+ }
+}

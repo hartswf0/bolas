@@ -1,0 +1,32 @@
+{
+ "score": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/les-lieux-dune-fugue/voice_score.json",
+ "errors": [],
+ "counterexamples": [
+  {
+   "id": "CX-a",
+   "rejected": true,
+   "first_error": "F5: exact remembered_time '1952-01-12' without evidence"
+  },
+  {
+   "id": "CX-b",
+   "rejected": true,
+   "first_error": "F5: dislocated link asserted without evidence"
+  },
+  {
+   "id": "CX-c",
+   "rejected": true,
+   "first_error": "F5: dislocated memory lit with stage state 'B' (must be its own light)"
+  },
+  {
+   "id": "CX-d",
+   "rejected": true,
+   "first_error": "F3: inferred link to P03 not flagged INFÉRÉ on screen"
+  },
+  {
+   "id": "CX-e",
+   "rejected": true,
+   "first_error": "F1: caption [6.0, 9.0] outside its shot P01-A [0.0, 8.0]"
+  }
+ ],
+ "pass": true
+}

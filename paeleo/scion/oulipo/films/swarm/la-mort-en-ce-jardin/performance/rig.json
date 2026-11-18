@@ -1,0 +1,136 @@
+{
+ "scion": "#32 Forward Kinematics",
+ "units": "world px (wide-shot picture px at puppet scale s=1)",
+ "angle_convention": "absolute bone angles in degrees, screen coordinates (0 = +x, 90 = down); local = abs(child) - abs(parent)",
+ "joint_graph": {
+  "spine": {
+   "parent": "root",
+   "length": 92
+  },
+  "neck": {
+   "parent": "spine",
+   "length": 16
+  },
+  "head": {
+   "parent": "neck",
+   "length": 22
+  },
+  "upper_f": {
+   "parent": "spine",
+   "length": 44
+  },
+  "fore_f": {
+   "parent": "upper_f",
+   "length": 42
+  },
+  "hand_f": {
+   "parent": "fore_f",
+   "length": 14
+  },
+  "upper_n": {
+   "parent": "spine",
+   "length": 44
+  },
+  "fore_n": {
+   "parent": "upper_n",
+   "length": 42
+  },
+  "hand_n": {
+   "parent": "fore_n",
+   "length": 14
+  },
+  "thigh_f": {
+   "parent": "root",
+   "length": 58
+  },
+  "shin_f": {
+   "parent": "thigh_f",
+   "length": 56
+  },
+  "foot_f": {
+   "parent": "shin_f",
+   "length": 22
+  },
+  "thigh_n": {
+   "parent": "root",
+   "length": 58
+  },
+  "shin_n": {
+   "parent": "thigh_n",
+   "length": 56
+  },
+  "foot_n": {
+   "parent": "shin_n",
+   "length": 22
+  }
+ },
+ "order": [
+  "spine",
+  "neck",
+  "head",
+  "upper_f",
+  "fore_f",
+  "hand_f",
+  "upper_n",
+  "fore_n",
+  "hand_n",
+  "thigh_f",
+  "shin_f",
+  "foot_f",
+  "thigh_n",
+  "shin_n",
+  "foot_n"
+ ],
+ "hands": {
+  "L": "hand_f",
+  "R": "hand_n"
+ },
+ "prop_attachment": {
+  "bag": {
+   "bone_end": true,
+   "offset": [
+    0,
+    -4
+   ],
+   "note": "strap hangs from the hand-bone end"
+  },
+  "shoe": {
+   "bone_frac": 0.7,
+   "note": "heel in the palm, rotates with the hand bone"
+  },
+  "pencil": {
+   "bone_frac": 1.0
+  }
+ },
+ "head_card_scale": 1.22,
+ "pose_rate": 12,
+ "fps": 24,
+ "quantisation": "time floor to 1/12 s, angles rounded to whole degrees",
+ "invariants": [
+  "bone length |L - L0*s| < 0.5 px every frame",
+  "child pivot on parent end < 0.5 px (no head/neck detachment)",
+  "props drawn from the holder's hand bone only"
+ ],
+ "world": {
+  "N_ground": 392,
+  "F_ground": 384,
+  "plank": [
+   [
+    190.0,
+    392.0
+   ],
+   [
+    690.0,
+    384.0
+   ]
+  ],
+  "plank_capacity": 1,
+  "plank_deflection_max_px": 9.0,
+  "liana": "y(x) = 70 - 10q + 40 sin(pi q), q = (x+40)/900",
+  "water": "see water_y() in rig.py",
+  "water_offset_px": {
+   "L": 0.20824642234947532,
+   "E": 0.18514397936320393
+  }
+ }
+}

@@ -1,0 +1,103 @@
+{
+ "panel": "P3",
+ "bounds_page_px": [
+  1670,
+  150,
+  2400,
+  1090
+ ],
+ "composite": "over, in order, starting from 00_bg (opaque)",
+ "layers": [
+  {
+   "order": 0,
+   "file": "00_bg.png",
+   "name": "bg"
+  },
+  {
+   "order": 1,
+   "file": "01_service_card.shadow.png",
+   "name": "service_card.shadow"
+  },
+  {
+   "order": 2,
+   "file": "02_service_card.png",
+   "name": "service_card"
+  },
+  {
+   "order": 3,
+   "file": "03_service_card.ink.png",
+   "name": "service_card.ink"
+  },
+  {
+   "order": 4,
+   "file": "04_clerk.torso.shadow.png",
+   "name": "clerk.torso.shadow"
+  },
+  {
+   "order": 5,
+   "file": "05_clerk.torso.png",
+   "name": "clerk.torso",
+   "piece": "clerk.torso",
+   "pose": {
+    "arm": -52.0,
+    "pencil": 30.0,
+    "head": -3.0
+   },
+   "matrix": [
+    [
+     0.488806,
+     -0.034181,
+     10.862932
+    ],
+    [
+     0.034181,
+     0.488806,
+     531.906337
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 6,
+   "file": "06_clerk.head.shadow.png",
+   "name": "clerk.head.shadow"
+  },
+  {
+   "order": 7,
+   "file": "07_clerk.head.png",
+   "name": "clerk.head",
+   "piece": "clerk.head",
+   "pose": {
+    "arm": -52.0,
+    "pencil": 30.0,
+    "head": -3.0
+   },
+   "matrix": [
+    [
+     0.489925,
+     -0.008552,
+     335.512732
+    ],
+    [
+     0.008552,
+     0.489925,
+     380.030511
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 8,
+   "file": "08_border.png",
+   "name": "border"
+  }
+ ]
+}

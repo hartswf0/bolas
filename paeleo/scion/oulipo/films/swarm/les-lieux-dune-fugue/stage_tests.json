@@ -1,0 +1,93 @@
+{
+ "I9_shot4": {
+  "hinge_x_drift_L_px": 0.0,
+  "hinge_height_range_L_px": 0.0,
+  "theta_max_L_deg": 60.89,
+  "distinct_leaf_drawings_L": 82,
+  "hinge_x_drift_R_px": 0.0,
+  "hinge_height_range_R_px": 0.0,
+  "theta_max_R_deg": 67.19,
+  "distinct_leaf_drawings_R": 82,
+  "right_leaf_lag_frames": 4,
+  "contact_frames_s": {
+   "L": [
+    43.5
+   ],
+   "R": [
+    43.5
+   ],
+   "planned_thud": 43.5
+  }
+ },
+ "I9_shot1": {
+  "hinge_x_drift_L_px": 0.0,
+  "hinge_height_range_L_px": 0.0,
+  "theta_max_L_deg": 18.0,
+  "distinct_leaf_drawings_L": 14,
+  "hinge_x_drift_R_px": 0.0,
+  "hinge_height_range_R_px": 0.0,
+  "theta_max_R_deg": 0.0,
+  "distinct_leaf_drawings_R": 0,
+  "contact_frames_s": {
+   "L": [
+    7.0
+   ],
+   "planned_thud": 7.0
+  }
+ },
+ "I9_child_stud_slide_px_max": 0.0,
+ "I9_pass": true,
+ "I1": {
+  "piece_table_identical_A_B": true,
+  "n_pieces": 51,
+  "stone_edge_coincidence_within_1px_A_in_B": 0.905,
+  "stone_edge_coincidence_within_1px_B_in_A": 0.858,
+  "alpha_maps_identical": true,
+  "shadow_offset_example": {
+   "ashlar-R0-577": [
+    "B evening right raking",
+    -1.63,
+    0.24
+   ]
+  },
+  "p03_same_plate_shots_3_and_5": true,
+  "note": "edge maps from a 3 px high-pass; the residue is the lamp-dependent shadow side of each 1-2 px gap"
+ },
+ "I5": {
+  "memory_mean_rgb": [
+   88.4,
+   98.1,
+   110.0
+  ],
+  "memory_B_ge_R": true,
+  "stone_R_minus_B": 67.5,
+  "memory_light": "memory light (cold, upper left, its own direction; not a stage state)",
+  "stage_lamps": [
+   "A morning upper-left",
+   "B evening right raking"
+  ],
+  "pass": true
+ },
+ "I8": {
+  "imports_kit": false,
+  "kit_grain_or_vignette": "not applied: no kit.Ink, no vignette, no noise generator used for texture",
+  "random_noise_texture": false,
+  "textures_from": [
+   "DOOR-C",
+   "DOOR-S",
+   "BENCH",
+   "STOCK",
+   "JUNCTION-FB"
+  ],
+  "shadows": "lamp model only: offset = dz*(piece-lamp)/(lamp_z-z); blur = 0.6 + dz*lamp.size",
+  "optics": "plane focus sigma 0.55 px + veiling glare 3.5 % of a 45 px blur (lens scatter)"
+ },
+ "licence_recheck": {
+  "license": "CC BY-SA 4.0",
+  "author": "Polymagou",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "date": "2025-05-02 20:25:25",
+  "source_url": "https://commons.wikimedia.org/wiki/File:Rue_du_Soleil,_rue_de_Belleville,_Paris_20e.jpg",
+  "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Rue_du_Soleil%2C_rue_de_Belleville%2C_Paris_20e.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
+ }
+}

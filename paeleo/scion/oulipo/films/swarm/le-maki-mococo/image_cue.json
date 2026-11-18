@@ -1,0 +1,1891 @@
+{
+ "unit": "U3 image cue: gong -> binturong (archive forager + matte compositor + transformation dramaturg)",
+ "revision": "U3-r1 (2026-11-17)",
+ "scions": [
+  "#43 Collage Graph Rewriting (technique)",
+  "#29 GrabCut (method, for the cutout)"
+ ],
+ "rig": {
+  "module": "films/swarm/le-maki-mococo/gong_rig.py",
+  "api": [
+   "hang_layer(t, cues=None, labels=True) -> PIL RGBA 960x540",
+   "events(cues=None)",
+   "theta_gong(t)",
+   "theta_animal(t, cues)",
+   "wedge_state(k,t,cues)",
+   "trajectories(cues)",
+   "graph_trace(cues)"
+  ],
+  "timing": "assembly/pendulum/sway on twos (12 fps); fracture and first 2.6 s of sway on ones (24 fps)",
+  "render_cost": "~0.3-0.45 s per frame (2x region render, cached on twos)",
+  "determinism": "no randomness at render time; all seeds fixed"
+ },
+ "rewrite_rule": {
+  "name": "replace(HangingThing.gong -> HangingThing.binturong)",
+  "typed": {
+   "lhs": "HangingThing{identity: gong, layer: hypothesis, anchor: Cord#1.knot}",
+   "rhs": "HangingThing{identity: binturong, layer: cue, anchor: Cord#1.knot}"
+  },
+  "preconditions": [
+   "t >= release(Q_image) = 38.00 s (P4); the engraving is never drawn before it (hang_layer checks t >= t_image)",
+   "anchor unchanged: knot == (850,150) in every frame (asserted inside hang_layer)",
+   "'hangs' glyph box unchanged: the editor asserts mouth_rig.glyph_table() equality across 0:24 and 0:46"
+  ],
+  "graphic_bridge": [
+   "same cord and knot",
+   "the binturong's sway begins from the gong's residual pendulum angle at 38.0 s",
+   "the wedges fall in front of the animal they were hiding (occlusion reveal)"
+  ],
+  "sub_rules": {
+   "split": "gong -> 12 wedges, released 1 per 3 frames from 38.0 s, bottom wedge first (the animal's weight tears the card from below)",
+   "exit": "each wedge: ballistic fall (g=1500 px/s^2) with spin, removed once fully below frame",
+   "enter": "binturong card on the plane behind the wedges from 38.0 s; parts outside the disc show at once around the intact gong (the real thing pokes out round the guess), the rest as wedges leave"
+  },
+  "assembly": "S2 from 11.5 s: one wedge per 2 frames clockwise from the top (holed) wedge, each lifted for 2 frames then set down (tick)",
+  "honest_note": "The animal card (261 px tall, 180 px wide) is larger than the gong (166 px), so the reveal is partial occlusion, not total concealment."
+ },
+ "graph_trace": [
+  {
+   "t": 0.0,
+   "op": "enter",
+   "entity": "Cord#1{knot=(850,150)}",
+   "layer": "staging",
+   "note": "empty cord + knot from the first frame"
+  },
+  {
+   "t": 11.5,
+   "op": "enter",
+   "entity": "HangingThing#gong",
+   "layer": "hypothesis",
+   "rule": "assemble(12 wedges, 1 per 2 frames)",
+   "cites": "Reader A (fictional) @0:10, cites sound",
+   "anchor": [
+    850.0,
+    150.0
+   ]
+  },
+  {
+   "t": 12.4583,
+   "op": "state",
+   "entity": "HangingThing#gong",
+   "value": "assembled"
+  },
+  {
+   "t": 24.0,
+   "op": "swing",
+   "entity": "HangingThing#gong",
+   "value": "damped pendulum A=9.0 deg T=1.75s tau=4.2s",
+   "cites": "Reader B (fictional) @0:24 'It hangs and swings'",
+   "anchor": [
+    850.0,
+    150.0
+   ]
+  },
+  {
+   "t": 38.0,
+   "op": "enter",
+   "entity": "HangingThing#binturong",
+   "layer": "cue",
+   "rule": "replace(gong -> binturong)",
+   "preconditions": {
+    "t_ge_release_Q_image": true,
+    "anchor_equal": [
+     850.0,
+     150.0
+    ],
+    "hangs_glyph_box": "checked by editor"
+   },
+   "bridge": "same cord, same knot, sway starts from the gong's residual phase",
+   "anchor": [
+    850.0,
+    150.0
+   ]
+  },
+  {
+   "t": 38.0,
+   "op": "split",
+   "entity": "HangingThing#gong",
+   "value": "12 wedges, released 1 per 3 frames, bottom first"
+  },
+  {
+   "t": 39.375,
+   "op": "state",
+   "entity": "HangingThing#gong",
+   "value": "all wedges released"
+  },
+  {
+   "t": 40.1979,
+   "op": "exit",
+   "entity": "HangingThing#gong",
+   "value": "last wedge below frame"
+  },
+  {
+   "t": 38.5,
+   "op": "swing",
+   "entity": "HangingThing#binturong",
+   "value": "weight kick A=5.0 deg T=2.4s tau=3.0s, settles by ~48 s",
+   "anchor": [
+    850.0,
+    150.0
+   ]
+  }
+ ],
+ "pendulum": {
+  "gong": {
+   "start": 24.0,
+   "amplitude_deg": 9.0,
+   "period_s": 1.75,
+   "tau_s": 4.2,
+   "theta_at_31": -0.0,
+   "theta_at_38": -0.0
+  },
+  "binturong": {
+   "kick_t": 38.5,
+   "amplitude_deg": 5.0,
+   "period_s": 2.4,
+   "tau_s": 3.0,
+   "theta_at_46": 0.269,
+   "theta_at_52": -0.039
+  }
+ },
+ "wedge_trajectories": [
+  {
+   "wedge": 5,
+   "release_rank": 0,
+   "t_assembled": 11.9167,
+   "t_release": 38.0,
+   "t_exit": 38.6562,
+   "v0_local_px_s": [
+    9.4,
+    43.2
+   ],
+   "spin_deg_s": 151.5,
+   "gravity_px_s2": 1500.0,
+   "samples": [
+    {
+     "t": 38.0,
+     "cx": 862.2,
+     "cy": 287.6,
+     "angle": -0.0
+    },
+    {
+     "t": 38.125,
+     "cx": 863.4,
+     "cy": 304.8,
+     "angle": 18.9
+    },
+    {
+     "t": 38.25,
+     "cx": 864.5,
+     "cy": 345.3,
+     "angle": 37.9
+    },
+    {
+     "t": 38.375,
+     "cx": 865.7,
+     "cy": 409.3,
+     "angle": 56.8
+    },
+    {
+     "t": 38.5,
+     "cx": 866.9,
+     "cy": 496.7,
+     "angle": 75.8
+    },
+    {
+     "t": 38.625,
+     "cx": 868.0,
+     "cy": 607.6,
+     "angle": 94.7
+    }
+   ]
+  },
+  {
+   "wedge": 6,
+   "release_rank": 1,
+   "t_assembled": 12.0,
+   "t_release": 38.125,
+   "t_exit": 38.7812,
+   "v0_local_px_s": [
+    -28.3,
+    37.8
+   ],
+   "spin_deg_s": -123.1,
+   "gravity_px_s2": 1500.0,
+   "samples": [
+    {
+     "t": 38.125,
+     "cx": 835.8,
+     "cy": 287.3,
+     "angle": 0.1
+    },
+    {
+     "t": 38.25,
+     "cx": 832.3,
+     "cy": 303.7,
+     "angle": -15.3
+    },
+    {
+     "t": 38.375,
+     "cx": 828.7,
+     "cy": 343.6,
+     "angle": -30.7
+    },
+    {
+     "t": 38.5,
+     "cx": 825.2,
+     "cy": 406.9,
+     "angle": -46.1
+    },
+    {
+     "t": 38.625,
+     "cx": 821.6,
+     "cy": 493.6,
+     "angle": -61.4
+    },
+    {
+     "t": 38.75,
+     "cx": 818.1,
+     "cy": 603.8,
+     "angle": -76.8
+    }
+   ]
+  },
+  {
+   "wedge": 7,
+   "release_rank": 2,
+   "t_assembled": 12.0833,
+   "t_release": 38.25,
+   "t_exit": 38.9271,
+   "v0_local_px_s": [
+    -12.3,
+    26.5
+   ],
+   "spin_deg_s": -206.5,
+   "gravity_px_s2": 1500.0,
+   "samples": [
+    {
+     "t": 38.25,
+     "cx": 812.4,
+     "cy": 274.3,
+     "angle": 0.2
+    },
+    {
+     "t": 38.375,
+     "cx": 810.8,
+     "cy": 289.3,
+     "angle": -25.6
+    },
+    {
+     "t": 38.5,
+     "cx": 809.3,
+     "cy": 327.8,
+     "angle": -51.4
+    },
+    {
+     "t": 38.625,
+     "cx": 807.7,
+     "cy": 389.7,
+     "angle": -77.2
+    },
+    {
+     "t": 38.75,
+     "cx": 806.2,
+     "cy": 475.1,
+     "angle": -103.0
+    },
+    {
+     "t": 38.875,
+     "cx": 804.6,
+     "cy": 583.8,
+     "angle": -128.8
+    }
+   ]
+  },
+  {
+   "wedge": 4,
+   "release_rank": 3,
+   "t_assembled": 11.8333,
+   "t_release": 38.375,
+   "t_exit": 39.0521,
+   "v0_local_px_s": [
+    39.0,
+    25.9
+   ],
+   "spin_deg_s": 146.1,
+   "gravity_px_s2": 1500.0,
+   "samples": [
+    {
+     "t": 38.375,
+     "cx": 886.5,
+     "cy": 274.6,
+     "angle": 0.3
+    },
+    {
+     "t": 38.5,
+     "cx": 891.4,
+     "cy": 289.6,
+     "angle": 18.5
+    },
+    {
+     "t": 38.625,
+     "cx": 896.2,
+     "cy": 328.0,
+     "angle": 36.8
+    },
+    {
+     "t": 38.75,
+     "cx": 901.1,
+     "cy": 389.9,
+     "angle": 55.1
+    },
+    {
+     "t": 38.875,
+     "cx": 905.9,
+     "cy": 475.2,
+     "angle": 73.3
+    },
+    {
+     "t": 39.0,
+     "cx": 910.8,
+     "cy": 583.9,
+     "angle": 91.6
+    }
+   ]
+  },
+  {
+   "wedge": 8,
+   "release_rank": 4,
+   "t_assembled": 12.1667,
+   "t_release": 38.5,
+   "t_exit": 39.2187,
+   "v0_local_px_s": [
+    -35.1,
+    2.0
+   ],
+   "spin_deg_s": -147.3,
+   "gravity_px_s2": 1500.0,
+   "samples": [
+    {
+     "t": 38.5,
+     "cx": 797.0,
+     "cy": 249.7,
+     "angle": 0.3
+    },
+    {
+     "t": 38.625,
+     "cx": 792.6,
+     "cy": 261.6,
+     "angle": -18.1
+    },
+    {
+     "t": 38.75,
+     "cx": 788.2,
+     "cy": 297.0,
+     "angle": -36.5
+    },
+    {
+     "t": 38.875,
+     "cx": 783.8,
+     "cy": 355.8,
+     "angle": -55.0
+    },
+    {
+     "t": 39.0,
+     "cx": 779.5,
+     "cy": 438.1,
+     "angle": -73.4
+    },
+    {
+     "t": 39.125,
+     "cx": 775.1,
+     "cy": 543.8,
+     "angle": -91.8
+    }
+   ]
+  },
+  {
+   "wedge": 3,
+   "release_rank": 5,
+   "t_assembled": 11.75,
+   "t_release": 38.625,
+   "t_exit": 39.3437,
+   "v0_local_px_s": [
+    33.6,
+    6.4
+   ],
+   "spin_deg_s": 275.7,
+   "gravity_px_s2": 1500.0,
+   "samples": [
+    {
+     "t": 38.625,
+     "cx": 902.4,
+     "cy": 248.3,
+     "angle": 0.2
+    },
+    {
+     "t": 38.75,
+     "cx": 906.6,
+     "cy": 260.9,
+     "angle": 34.7
+    },
+    {
+     "t": 38.875,
+     "cx": 910.8,
+     "cy": 296.8,
+     "angle": 69.2
+    },
+    {
+     "t": 39.0,
+     "cx": 915.0,
+     "cy": 356.2,
+     "angle": 103.6
+    },
+    {
+     "t": 39.125,
+     "cx": 919.3,
+     "cy": 439.1,
+     "angle": 138.1
+    },
+    {
+     "t": 39.25,
+     "cx": 923.5,
+     "cy": 545.4,
+     "angle": 172.5
+    }
+   ]
+  },
+  {
+   "wedge": 9,
+   "release_rank": 6,
+   "t_assembled": 12.25,
+   "t_release": 38.75,
+   "t_exit": 39.5104,
+   "v0_local_px_s": [
+    -65.5,
+    -13.6
+   ],
+   "spin_deg_s": -189.3,
+   "gravity_px_s2": 1500.0,
+   "samples": [
+    {
+     "t": 38.75,
+     "cx": 796.8,
+     "cy": 220.2,
+     "angle": 0.1
+    },
+    {
+     "t": 38.875,
+     "cx": 788.6,
+     "cy": 230.2,
+     "angle": -23.5
+    },
+    {
+     "t": 39.0,
+     "cx": 780.4,
+     "cy": 263.6,
+     "angle": -47.2
+    },
+    {
+     "t": 39.125,
+     "cx": 772.2,
+     "cy": 320.5,
+     "angle": -70.9
+    },
+    {
+     "t": 39.25,
+     "cx": 764.1,
+     "cy": 400.8,
+     "angle": -94.5
+    },
+    {
+     "t": 39.375,
+     "cx": 755.9,
+     "cy": 504.5,
+     "angle": -118.2
+    },
+    {
+     "t": 39.5,
+     "cx": 747.7,
+     "cy": 631.7,
+     "angle": -141.9
+    }
+   ]
+  },
+  {
+   "wedge": 2,
+   "release_rank": 7,
+   "t_assembled": 11.6667,
+   "t_release": 38.875,
+   "t_exit": 39.625,
+   "v0_local_px_s": [
+    36.7,
+    2.4
+   ],
+   "spin_deg_s": 124.3,
+   "gravity_px_s2": 1500.0,
+   "samples": [
+    {
+     "t": 38.875,
+     "cx": 902.7,
+     "cy": 218.5,
+     "angle": 0.0
+    },
+    {
+     "t": 39.0,
+     "cx": 907.3,
+     "cy": 230.5,
+     "angle": 15.6
+    },
+    {
+     "t": 39.125,
+     "cx": 911.9,
+     "cy": 266.0,
+     "angle": 31.1
+    },
+    {
+     "t": 39.25,
+     "cx": 916.5,
+     "cy": 324.9,
+     "angle": 46.6
+    },
+    {
+     "t": 39.375,
+     "cx": 921.1,
+     "cy": 407.2,
+     "angle": 62.2
+    },
+    {
+     "t": 39.5,
+     "cx": 925.6,
+     "cy": 513.0,
+     "angle": 77.7
+    }
+   ]
+  },
+  {
+   "wedge": 10,
+   "release_rank": 8,
+   "t_assembled": 12.3333,
+   "t_release": 39.0,
+   "t_exit": 39.8125,
+   "v0_local_px_s": [
+    -48.7,
+    -67.7
+   ],
+   "spin_deg_s": -231.0,
+   "gravity_px_s2": 1500.0,
+   "samples": [
+    {
+     "t": 39.0,
+     "cx": 811.6,
+     "cy": 194.9,
+     "angle": -0.1
+    },
+    {
+     "t": 39.125,
+     "cx": 805.5,
+     "cy": 198.2,
+     "angle": -29.0
+    },
+    {
+     "t": 39.25,
+     "cx": 799.4,
+     "cy": 224.9,
+     "angle": -57.9
+    },
+    {
+     "t": 39.375,
+     "cx": 793.3,
+     "cy": 275.0,
+     "angle": -86.7
+    },
+    {
+     "t": 39.5,
+     "cx": 787.2,
+     "cy": 348.6,
+     "angle": -115.6
+    },
+    {
+     "t": 39.625,
+     "cx": 781.1,
+     "cy": 445.6,
+     "angle": -144.5
+    },
+    {
+     "t": 39.75,
+     "cx": 775.0,
+     "cy": 566.1,
+     "angle": -173.3
+    }
+   ]
+  },
+  {
+   "wedge": 1,
+   "release_rank": 9,
+   "t_assembled": 11.5833,
+   "t_release": 39.125,
+   "t_exit": 39.9375,
+   "v0_local_px_s": [
+    29.7,
+    -57.7
+   ],
+   "spin_deg_s": 113.5,
+   "gravity_px_s2": 1500.0,
+   "samples": [
+    {
+     "t": 39.125,
+     "cx": 888.3,
+     "cy": 194.4,
+     "angle": -0.2
+    },
+    {
+     "t": 39.25,
+     "cx": 892.0,
+     "cy": 198.8,
+     "angle": 14.0
+    },
+    {
+     "t": 39.375,
+     "cx": 895.7,
+     "cy": 226.8,
+     "angle": 28.2
+    },
+    {
+     "t": 39.5,
+     "cx": 899.4,
+     "cy": 278.1,
+     "angle": 42.4
+    },
+    {
+     "t": 39.625,
+     "cx": 903.1,
+     "cy": 352.9,
+     "angle": 56.6
+    },
+    {
+     "t": 39.75,
+     "cx": 906.8,
+     "cy": 451.2,
+     "angle": 70.8
+    },
+    {
+     "t": 39.875,
+     "cx": 910.5,
+     "cy": 572.9,
+     "angle": 84.9
+    }
+   ]
+  },
+  {
+   "wedge": 11,
+   "release_rank": 10,
+   "t_assembled": 12.4167,
+   "t_release": 39.25,
+   "t_exit": 40.0729,
+   "v0_local_px_s": [
+    -3.9,
+    -62.2
+   ],
+   "spin_deg_s": -255.1,
+   "gravity_px_s2": 1500.0,
+   "samples": [
+    {
+     "t": 39.25,
+     "cx": 836.1,
+     "cy": 181.0,
+     "angle": -0.2
+    },
+    {
+     "t": 39.375,
+     "cx": 835.5,
+     "cy": 184.9,
+     "angle": -32.1
+    },
+    {
+     "t": 39.5,
+     "cx": 835.0,
+     "cy": 212.3,
+     "angle": -64.0
+    },
+    {
+     "t": 39.625,
+     "cx": 834.5,
+     "cy": 263.1,
+     "angle": -95.9
+    },
+    {
+     "t": 39.75,
+     "cx": 834.0,
+     "cy": 337.4,
+     "angle": -127.8
+    },
+    {
+     "t": 39.875,
+     "cx": 833.4,
+     "cy": 435.1,
+     "angle": -159.6
+    },
+    {
+     "t": 40.0,
+     "cx": 832.9,
+     "cy": 556.2,
+     "angle": -191.5
+    }
+   ]
+  },
+  {
+   "wedge": 0,
+   "release_rank": 11,
+   "t_assembled": 11.5,
+   "t_release": 39.375,
+   "t_exit": 40.1979,
+   "v0_local_px_s": [
+    4.1,
+    -57.5
+   ],
+   "spin_deg_s": 227.4,
+   "gravity_px_s2": 1500.0,
+   "samples": [
+    {
+     "t": 39.375,
+     "cx": 863.5,
+     "cy": 181.0,
+     "angle": -0.2
+    },
+    {
+     "t": 39.5,
+     "cx": 864.0,
+     "cy": 185.6,
+     "angle": 28.2
+    },
+    {
+     "t": 39.625,
+     "cx": 864.5,
+     "cy": 213.5,
+     "angle": 56.6
+    },
+    {
+     "t": 39.75,
+     "cx": 865.0,
+     "cy": 264.9,
+     "angle": 85.1
+    },
+    {
+     "t": 39.875,
+     "cx": 865.5,
+     "cy": 339.8,
+     "angle": 113.5
+    },
+    {
+     "t": 40.0,
+     "cx": 865.9,
+     "cy": 438.1,
+     "angle": 141.9
+    },
+    {
+     "t": 40.125,
+     "cx": 866.4,
+     "cy": 559.8,
+     "angle": 170.3
+    }
+   ]
+  }
+ ],
+ "anchor": {
+  "knot": [
+   850.0,
+   150.0
+  ],
+  "asserted": "constant: hang_layer asserts KNOT == (850,150) on every render; cord, gong pivot, animal pivot and knot sprite all use this one constant",
+  "samples": [
+   {
+    "t": 0.0,
+    "knot_px": [
+     850.0,
+     150.0
+    ],
+    "knot_patch_alpha_mean": 0.222
+   },
+   {
+    "t": 12.6,
+    "knot_px": [
+     850.0,
+     150.0
+    ],
+    "knot_patch_alpha_mean": 0.58
+   },
+   {
+    "t": 24.0,
+    "knot_px": [
+     850.0,
+     150.0
+    ],
+    "knot_patch_alpha_mean": 0.58
+   },
+   {
+    "t": 24.45,
+    "knot_px": [
+     850.0,
+     150.0
+    ],
+    "knot_patch_alpha_mean": 0.576
+   },
+   {
+    "t": 31.0,
+    "knot_px": [
+     850.0,
+     150.0
+    ],
+    "knot_patch_alpha_mean": 0.58
+   },
+   {
+    "t": 37.95,
+    "knot_px": [
+     850.0,
+     150.0
+    ],
+    "knot_patch_alpha_mean": 0.58
+   },
+   {
+    "t": 38.0,
+    "knot_px": [
+     850.0,
+     150.0
+    ],
+    "knot_patch_alpha_mean": 0.969
+   },
+   {
+    "t": 38.5,
+    "knot_px": [
+     850.0,
+     150.0
+    ],
+    "knot_patch_alpha_mean": 0.969
+   },
+   {
+    "t": 39.5,
+    "knot_px": [
+     850.0,
+     150.0
+    ],
+    "knot_patch_alpha_mean": 0.719
+   },
+   {
+    "t": 40.0,
+    "knot_px": [
+     850.0,
+     150.0
+    ],
+    "knot_patch_alpha_mean": 0.718
+   },
+   {
+    "t": 44.0,
+    "knot_px": [
+     850.0,
+     150.0
+    ],
+    "knot_patch_alpha_mean": 0.719
+   },
+   {
+    "t": 46.0,
+    "knot_px": [
+     850.0,
+     150.0
+    ],
+    "knot_patch_alpha_mean": 0.719
+   },
+   {
+    "t": 52.0,
+    "knot_px": [
+     850.0,
+     150.0
+    ],
+    "knot_patch_alpha_mean": 0.719
+   },
+   {
+    "t": 59.9,
+    "knot_px": [
+     850.0,
+     150.0
+    ],
+    "knot_patch_alpha_mean": 0.718
+   }
+  ]
+ },
+ "events": [
+  {
+   "t": 11.5833,
+   "kind": "tick",
+   "gain": 0.16,
+   "pan": 0.55,
+   "synth": "kit click (bright=3200)",
+   "note": "wedge 0 pinned in place (S2 assembly)"
+  },
+  {
+   "t": 11.6667,
+   "kind": "tick",
+   "gain": 0.16,
+   "pan": 0.55,
+   "synth": "kit click (bright=3200)",
+   "note": "wedge 1 pinned in place (S2 assembly)"
+  },
+  {
+   "t": 11.75,
+   "kind": "tick",
+   "gain": 0.16,
+   "pan": 0.55,
+   "synth": "kit click (bright=3200)",
+   "note": "wedge 2 pinned in place (S2 assembly)"
+  },
+  {
+   "t": 11.8333,
+   "kind": "tick",
+   "gain": 0.16,
+   "pan": 0.55,
+   "synth": "kit click (bright=3200)",
+   "note": "wedge 3 pinned in place (S2 assembly)"
+  },
+  {
+   "t": 11.9167,
+   "kind": "tick",
+   "gain": 0.16,
+   "pan": 0.55,
+   "synth": "kit click (bright=3200)",
+   "note": "wedge 4 pinned in place (S2 assembly)"
+  },
+  {
+   "t": 12.0,
+   "kind": "tick",
+   "gain": 0.16,
+   "pan": 0.55,
+   "synth": "kit click (bright=3200)",
+   "note": "wedge 5 pinned in place (S2 assembly)"
+  },
+  {
+   "t": 12.0833,
+   "kind": "tick",
+   "gain": 0.16,
+   "pan": 0.55,
+   "synth": "kit click (bright=3200)",
+   "note": "wedge 6 pinned in place (S2 assembly)"
+  },
+  {
+   "t": 12.1667,
+   "kind": "tick",
+   "gain": 0.16,
+   "pan": 0.55,
+   "synth": "kit click (bright=3200)",
+   "note": "wedge 7 pinned in place (S2 assembly)"
+  },
+  {
+   "t": 12.25,
+   "kind": "tick",
+   "gain": 0.16,
+   "pan": 0.55,
+   "synth": "kit click (bright=3200)",
+   "note": "wedge 8 pinned in place (S2 assembly)"
+  },
+  {
+   "t": 12.3333,
+   "kind": "tick",
+   "gain": 0.16,
+   "pan": 0.55,
+   "synth": "kit click (bright=3200)",
+   "note": "wedge 9 pinned in place (S2 assembly)"
+  },
+  {
+   "t": 12.4167,
+   "kind": "tick",
+   "gain": 0.16,
+   "pan": 0.55,
+   "synth": "kit click (bright=3200)",
+   "note": "wedge 10 pinned in place (S2 assembly)"
+  },
+  {
+   "t": 12.5,
+   "kind": "tick",
+   "gain": 0.16,
+   "pan": 0.55,
+   "synth": "kit click (bright=3200)",
+   "note": "wedge 11 pinned in place (S2 assembly)"
+  },
+  {
+   "t": 24.4375,
+   "kind": "creak",
+   "gain": 0.1,
+   "pan": 0.55,
+   "synth": "kit band-passed noise 300-900 Hz, 0.35 s",
+   "note": "the cord creaks once at the first swing extreme (S4)"
+  },
+  {
+   "t": 38.0,
+   "kind": "tear",
+   "gain": 0.14,
+   "pan": 0.55,
+   "synth": "kit click + band noise 1.5-6 kHz, 0.06 s (paper tear)",
+   "note": "wedge 5 comes loose (S6)"
+  },
+  {
+   "t": 38.125,
+   "kind": "tear",
+   "gain": 0.14,
+   "pan": 0.55,
+   "synth": "kit click + band noise 1.5-6 kHz, 0.06 s (paper tear)",
+   "note": "wedge 6 comes loose (S6)"
+  },
+  {
+   "t": 38.25,
+   "kind": "tear",
+   "gain": 0.14,
+   "pan": 0.55,
+   "synth": "kit click + band noise 1.5-6 kHz, 0.06 s (paper tear)",
+   "note": "wedge 7 comes loose (S6)"
+  },
+  {
+   "t": 38.375,
+   "kind": "tear",
+   "gain": 0.14,
+   "pan": 0.55,
+   "synth": "kit click + band noise 1.5-6 kHz, 0.06 s (paper tear)",
+   "note": "wedge 4 comes loose (S6)"
+  },
+  {
+   "t": 38.5,
+   "kind": "tear",
+   "gain": 0.14,
+   "pan": 0.55,
+   "synth": "kit click + band noise 1.5-6 kHz, 0.06 s (paper tear)",
+   "note": "wedge 8 comes loose (S6)"
+  },
+  {
+   "t": 38.5,
+   "kind": "flop",
+   "gain": 0.18,
+   "pan": 0.55,
+   "synth": "kit thud freq=90 Hz, 0.2 s (card weight on the cord)",
+   "note": "the binturong's weight takes the cord"
+  },
+  {
+   "t": 38.625,
+   "kind": "tear",
+   "gain": 0.14,
+   "pan": 0.55,
+   "synth": "kit click + band noise 1.5-6 kHz, 0.06 s (paper tear)",
+   "note": "wedge 3 comes loose (S6)"
+  },
+  {
+   "t": 38.75,
+   "kind": "tear",
+   "gain": 0.14,
+   "pan": 0.55,
+   "synth": "kit click + band noise 1.5-6 kHz, 0.06 s (paper tear)",
+   "note": "wedge 9 comes loose (S6)"
+  },
+  {
+   "t": 38.7762,
+   "kind": "land",
+   "gain": 0.05,
+   "pan": 0.6,
+   "synth": "kit click (bright=1500), soft",
+   "note": "wedge 5 lands below frame (paper on paper)"
+  },
+  {
+   "t": 38.875,
+   "kind": "tear",
+   "gain": 0.14,
+   "pan": 0.55,
+   "synth": "kit click + band noise 1.5-6 kHz, 0.06 s (paper tear)",
+   "note": "wedge 2 comes loose (S6)"
+  },
+  {
+   "t": 38.9012,
+   "kind": "land",
+   "gain": 0.05,
+   "pan": 0.6,
+   "synth": "kit click (bright=1500), soft",
+   "note": "wedge 6 lands below frame (paper on paper)"
+  },
+  {
+   "t": 39.0,
+   "kind": "tear",
+   "gain": 0.14,
+   "pan": 0.55,
+   "synth": "kit click + band noise 1.5-6 kHz, 0.06 s (paper tear)",
+   "note": "wedge 10 comes loose (S6)"
+  },
+  {
+   "t": 39.0471,
+   "kind": "land",
+   "gain": 0.05,
+   "pan": 0.6,
+   "synth": "kit click (bright=1500), soft",
+   "note": "wedge 7 lands below frame (paper on paper)"
+  },
+  {
+   "t": 39.1,
+   "kind": "creak",
+   "gain": 0.07,
+   "pan": 0.55,
+   "synth": "kit band-passed noise 300-900 Hz, 0.3 s",
+   "note": "the cord creaks softly at the animal's first sway extreme"
+  },
+  {
+   "t": 39.125,
+   "kind": "tear",
+   "gain": 0.14,
+   "pan": 0.55,
+   "synth": "kit click + band noise 1.5-6 kHz, 0.06 s (paper tear)",
+   "note": "wedge 1 comes loose (S6)"
+  },
+  {
+   "t": 39.1721,
+   "kind": "land",
+   "gain": 0.05,
+   "pan": 0.6,
+   "synth": "kit click (bright=1500), soft",
+   "note": "wedge 4 lands below frame (paper on paper)"
+  },
+  {
+   "t": 39.25,
+   "kind": "tear",
+   "gain": 0.14,
+   "pan": 0.55,
+   "synth": "kit click + band noise 1.5-6 kHz, 0.06 s (paper tear)",
+   "note": "wedge 11 comes loose (S6)"
+  },
+  {
+   "t": 39.3387,
+   "kind": "land",
+   "gain": 0.05,
+   "pan": 0.6,
+   "synth": "kit click (bright=1500), soft",
+   "note": "wedge 8 lands below frame (paper on paper)"
+  },
+  {
+   "t": 39.375,
+   "kind": "tear",
+   "gain": 0.14,
+   "pan": 0.55,
+   "synth": "kit click + band noise 1.5-6 kHz, 0.06 s (paper tear)",
+   "note": "wedge 0 comes loose (S6)"
+  },
+  {
+   "t": 39.4637,
+   "kind": "land",
+   "gain": 0.05,
+   "pan": 0.6,
+   "synth": "kit click (bright=1500), soft",
+   "note": "wedge 3 lands below frame (paper on paper)"
+  },
+  {
+   "t": 39.6304,
+   "kind": "land",
+   "gain": 0.05,
+   "pan": 0.6,
+   "synth": "kit click (bright=1500), soft",
+   "note": "wedge 9 lands below frame (paper on paper)"
+  },
+  {
+   "t": 39.745,
+   "kind": "land",
+   "gain": 0.05,
+   "pan": 0.6,
+   "synth": "kit click (bright=1500), soft",
+   "note": "wedge 2 lands below frame (paper on paper)"
+  },
+  {
+   "t": 39.9325,
+   "kind": "land",
+   "gain": 0.05,
+   "pan": 0.6,
+   "synth": "kit click (bright=1500), soft",
+   "note": "wedge 10 lands below frame (paper on paper)"
+  },
+  {
+   "t": 40.0575,
+   "kind": "land",
+   "gain": 0.05,
+   "pan": 0.6,
+   "synth": "kit click (bright=1500), soft",
+   "note": "wedge 1 lands below frame (paper on paper)"
+  },
+  {
+   "t": 40.1929,
+   "kind": "land",
+   "gain": 0.05,
+   "pan": 0.6,
+   "synth": "kit click (bright=1500), soft",
+   "note": "wedge 11 lands below frame (paper on paper)"
+  },
+  {
+   "t": 40.3179,
+   "kind": "land",
+   "gain": 0.05,
+   "pan": 0.6,
+   "synth": "kit click (bright=1500), soft",
+   "note": "wedge 0 lands below frame (paper on paper)"
+  }
+ ],
+ "geometry": {
+  "gong_diameter_px": 166,
+  "gong_centre_at_rest": [
+   850,
+   234.0
+  ],
+  "binturong_card": {
+   "scale_film_px_per_source_px": 0.214,
+   "sprite_scale_2x": 0.428,
+   "rotation_ccw_deg": 24.0,
+   "mirrored": false,
+   "warped": false,
+   "tail_tip_source_px": [
+    620.0,
+    654.0
+   ],
+   "nose_source_px": [
+    222.0,
+    1128.0
+   ],
+   "anchor_sprite_px_2x": [
+    190.51786332379396,
+    150.7447722033694
+   ],
+   "sprite_size_2x": [
+    421,
+    583
+   ],
+   "card_height_film_px": 291.5,
+   "margin_film_px": 5,
+   "affine_source_crop_to_sprite_2x": [
+    [
+     0.3909974558710332,
+     0.17408328323644248,
+     -76.0
+    ],
+    [
+     -0.17408328323644248,
+     0.3909974558710332,
+     155.09111426531882
+    ]
+   ],
+   "crop_origin_source_px": [
+    47,
+    410
+   ],
+   "bbox_film_px_at_rest": "x 770-950, y ~90-351 (tail curl + branch rise ~60 px above the knot)"
+  },
+  "zones": "all inside x>=760 except falling wedges (can cross x 705-760, below y 300, 38.4-40.3 s, when no caption is shown)",
+  "labels": [
+   "'Reader A's picture (guess)' Inter Medium 13 px #6b625b centred under the gong, 12.5-38.0 s",
+   "'Brehm, 1895 / engraved by F. Specht' Inter 13/12 px right-aligned at x 836, y 52, from 39.6 s"
+  ]
+ },
+ "cutout": {
+  "method": "cv2.grabCut, GC_INIT_WITH_MASK, 8 iterations, on a Gaussian+bilateral smoothed copy (hatching -> tone), seeded by hand-placed scissor points; forced FG for the ear tuft and for the tail curl + branch stub strip",
+  "record": {
+   "source": "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-maki-mococo/r1/brehm265.jpg",
+   "crop_origin": [
+    47,
+    410
+   ],
+   "crop_size": [
+    1046,
+    1124
+   ],
+   "scissor_points_body": [
+    [
+     84,
+     928
+    ],
+    [
+     120,
+     948
+    ],
+    [
+     150,
+     975
+    ],
+    [
+     178,
+     1000
+    ],
+    [
+     205,
+     975
+    ],
+    [
+     250,
+     950
+    ],
+    [
+     300,
+     938
+    ],
+    [
+     345,
+     925
+    ],
+    [
+     375,
+     905
+    ],
+    [
+     402,
+     902
+    ],
+    [
+     414,
+     960
+    ],
+    [
+     420,
+     998
+    ],
+    [
+     462,
+     975
+    ],
+    [
+     505,
+     935
+    ],
+    [
+     547,
+     890
+    ],
+    [
+     580,
+     852
+    ],
+    [
+     620,
+     810
+    ],
+    [
+     700,
+     790
+    ],
+    [
+     780,
+     778
+    ],
+    [
+     850,
+     768
+    ],
+    [
+     878,
+     745
+    ],
+    [
+     880,
+     690
+    ],
+    [
+     885,
+     652
+    ],
+    [
+     912,
+     600
+    ],
+    [
+     913,
+     540
+    ],
+    [
+     945,
+     515
+    ],
+    [
+     1007,
+     510
+    ],
+    [
+     1048,
+     555
+    ],
+    [
+     1052,
+     660
+    ],
+    [
+     1056,
+     760
+    ],
+    [
+     1052,
+     822
+    ],
+    [
+     1020,
+     860
+    ],
+    [
+     1000,
+     900
+    ],
+    [
+     985,
+     940
+    ],
+    [
+     960,
+     1000
+    ],
+    [
+     933,
+     1060
+    ],
+    [
+     905,
+     1105
+    ],
+    [
+     893,
+     1180
+    ],
+    [
+     882,
+     1250
+    ],
+    [
+     850,
+     1275
+    ],
+    [
+     842,
+     1318
+    ],
+    [
+     800,
+     1322
+    ],
+    [
+     752,
+     1318
+    ],
+    [
+     748,
+     1285
+    ],
+    [
+     760,
+     1250
+    ],
+    [
+     765,
+     1200
+    ],
+    [
+     787,
+     1158
+    ],
+    [
+     760,
+     1165
+    ],
+    [
+     713,
+     1190
+    ],
+    [
+     690,
+     1215
+    ],
+    [
+     680,
+     1260
+    ],
+    [
+     640,
+     1310
+    ],
+    [
+     605,
+     1345
+    ],
+    [
+     602,
+     1385
+    ],
+    [
+     582,
+     1412
+    ],
+    [
+     520,
+     1418
+    ],
+    [
+     478,
+     1398
+    ],
+    [
+     468,
+     1350
+    ],
+    [
+     440,
+     1335
+    ],
+    [
+     405,
+     1328
+    ],
+    [
+     350,
+     1330
+    ],
+    [
+     336,
+     1385
+    ],
+    [
+     318,
+     1430
+    ],
+    [
+     285,
+     1452
+    ],
+    [
+     255,
+     1482
+    ],
+    [
+     213,
+     1497
+    ],
+    [
+     180,
+     1486
+    ],
+    [
+     172,
+     1448
+    ],
+    [
+     205,
+     1424
+    ],
+    [
+     243,
+     1392
+    ],
+    [
+     250,
+     1330
+    ],
+    [
+     268,
+     1262
+    ],
+    [
+     270,
+     1208
+    ],
+    [
+     258,
+     1180
+    ],
+    [
+     225,
+     1172
+    ],
+    [
+     212,
+     1130
+    ],
+    [
+     176,
+     1122
+    ],
+    [
+     172,
+     1080
+    ],
+    [
+     170,
+     1030
+    ],
+    [
+     140,
+     990
+    ],
+    [
+     100,
+     950
+    ]
+   ],
+   "scissor_points_curl_branch": [
+    [
+     612,
+     545
+    ],
+    [
+     626,
+     492
+    ],
+    [
+     672,
+     458
+    ],
+    [
+     740,
+     440
+    ],
+    [
+     835,
+     450
+    ],
+    [
+     905,
+     470
+    ],
+    [
+     945,
+     515
+    ],
+    [
+     913,
+     540
+    ],
+    [
+     912,
+     600
+    ],
+    [
+     885,
+     652
+    ],
+    [
+     840,
+     648
+    ],
+    [
+     780,
+     640
+    ],
+    [
+     700,
+     650
+    ],
+    [
+     660,
+     668
+    ],
+    [
+     624,
+     664
+    ],
+    [
+     605,
+     628
+    ]
+   ],
+   "scissor_points_ear_tuft": [
+    [
+     80,
+     926
+    ],
+    [
+     112,
+     922
+    ],
+    [
+     162,
+     952
+    ],
+    [
+     208,
+     968
+    ],
+    [
+     200,
+     1012
+    ],
+    [
+     165,
+     998
+    ],
+    [
+     120,
+     958
+    ]
+   ],
+   "grabcut": {
+    "iters": 8,
+    "init": "mask",
+    "feature": "gaussian 2.2 + bilateral",
+    "fgd": "inner dark hatching + erode71 + curl/branch"
+   },
+   "cleanup": [
+    "close 13",
+    "open 9",
+    "largest component",
+    "fill holes",
+    "gauss 3 threshold (scissor smoothing)"
+   ],
+   "matte_fraction": 0.3622450888999272,
+   "grabcut_raw_fraction": 0.36142685573919964
+  },
+  "hand_cleanup": "neck patch excluded by re-placing scissor points; ear tuft forced in; close 13 / open 9 / largest component / fill holes / blur-threshold (scissor smoothing, ~1 film px); one grass blade crossing the front-left leg left in (it is in front of the leg in the engraving)",
+  "files": [
+   "films/sources/le-maki-mococo/imagecue/binturong_src_crop.png",
+   "films/sources/le-maki-mococo/imagecue/binturong_src_matte.png",
+   "films/sources/le-maki-mococo/imagecue/grabcut_debug.png",
+   "films/sources/le-maki-mococo/imagecue/binturong_hang_rgba.png",
+   "films/sources/le-maki-mococo/imagecue/binturong_hang_matte.png",
+   "films/sources/le-maki-mococo/imagecue/binturong_hang_card.png",
+   "films/sources/le-maki-mococo/imagecue/binturong_hang.json"
+  ],
+  "rotation_choice": "nose-vertical (40 deg) made the card 216 px wide and pushed it past x=960; 24 deg CCW keeps head lowest-left (head-down, tilted) inside x 770-950 at 261 px tall (search logged in u3/)"
+ },
+ "foraged": [
+  {
+   "id": "F1-brehm265",
+   "title": "Brehm's Life of animals (Page 265) (6220164475).jpg — 'The Binturong', engraving signed Specht (Brehm's Life of Animals, English ed., Chicago 1895)",
+   "author": "Alfred Brehm (text); engraving by Friedrich Specht; scan: Biodiversity Heritage Library (Flickr), uploaded to Commons by Fæ",
+   "license": "Public domain (extmetadata License=pd; categories PD-scan|PD-old-70-1923; the Commons page also tags the BHL Flickr scan {{CC-BY-2.0}}, PD-scan, CC-PD-Mark)",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Brehm%27s_Life_of_animals_(Page_265)_(6220164475).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Brehm%27s_Life_of_animals_%28Page_265%29_%286220164475%29.jpg",
+   "original_size": [
+    2268,
+    3381
+   ],
+   "original_sha1": "5d1b7b29df25b56cd2514b85044a1a03edbbf9dd",
+   "local_path": "films/sources/le-maki-mococo/r1/brehm265.jpg (1280x1908 Commons thumbnail, reused from the proposals run; extmetadata saved at films/sources/le-maki-mococo/imagecue/brehm265_extmetadata.json)",
+   "what_it_shows": "Wood engraving: a binturong (Arctictis binturong) stepping out of tall grass under a tree, tail raised and curled round a branch stub; caption text below; signed 'Specht' lower right.",
+   "verified_date_or_place": "Commons API extmetadata read 2026-11-17 (LicenseShortName 'Public domain', Copyrighted False, AttributionRequired false); DateTimeOriginal 1895; Specht d. 1909",
+   "used_as": "image cue (S6-S8): GrabCut cutout of the animal with its tail curl and the branch stub it wraps, rotated 24 deg CCW and scaled 0.214 (no mirror, no warp), mounted on white card with a 5 px scissor margin, hung by the tail tip from the cord knot"
+  },
+  {
+   "id": "F2-book-paper-pages",
+   "title": "File:Book paper pages assorted.ogg ('Book, Paper, Pages, assorted', pdsounds.org)",
+   "author": "stephan (pdsounds.org)",
+   "license": "Public domain",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Book_paper_pages_assorted.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/79/Book_paper_pages_assorted.ogg",
+   "local_path": "not downloaded (upload.wikimedia.org HTTP 429 on 6 tries)",
+   "what_it_shows": "78 s recording of handling paper and books: flipping, crumpling, ripping (user tags)",
+   "verified_date_or_place": "Commons API extmetadata read 2026-11-17 (LicenseShortName 'Public domain'); recorded 2007-05-07",
+   "used_as": "NOT USED (download blocked); kit click + band noise used instead, declared"
+  }
+ ],
+ "handmade": [
+  {
+   "id": "H1-gong",
+   "what": "bronze-card gong, 166 px: hammered repoussé height field (~420 course-laid dimples + strays), domed boss, shoulder groove, turned rim lip; lit soft from upper left with specular facets; scissor-wobble outline; cut into 12 radial wedges with a 0.3 px kerf and the pale card core on every cut edge; cord hole in the top wedge",
+   "made_by": "films/swarm/le-maki-mococo/u3/make_gong.py (seed 1895)",
+   "files": [
+    "films/sources/le-maki-mococo/imagecue/gong_full.png",
+    "films/sources/le-maki-mococo/imagecue/wedges.json",
+    "films/sources/le-maki-mococo/imagecue/gong_sheet.png",
+    "films/sources/le-maki-mococo/imagecue/wedge_00.png",
+    "films/sources/le-maki-mococo/imagecue/wedge_01.png",
+    "films/sources/le-maki-mococo/imagecue/wedge_02.png",
+    "films/sources/le-maki-mococo/imagecue/wedge_03.png",
+    "films/sources/le-maki-mococo/imagecue/wedge_04.png",
+    "films/sources/le-maki-mococo/imagecue/wedge_05.png",
+    "films/sources/le-maki-mococo/imagecue/wedge_06.png",
+    "films/sources/le-maki-mococo/imagecue/wedge_07.png",
+    "films/sources/le-maki-mococo/imagecue/wedge_08.png",
+    "films/sources/le-maki-mococo/imagecue/wedge_09.png",
+    "films/sources/le-maki-mococo/imagecue/wedge_10.png",
+    "films/sources/le-maki-mococo/imagecue/wedge_11.png"
+   ]
+  },
+  {
+   "id": "H2-cord",
+   "what": "two-ply twisted cord (3.4 px, cylinder-lit, diagonal ply grooves, stray fibres) and a wrapped knot",
+   "made_by": "u3/make_gong.py",
+   "files": [
+    "films/sources/le-maki-mococo/imagecue/cord_tile.png",
+    "films/sources/le-maki-mococo/imagecue/knot.png"
+   ]
+  },
+  {
+   "id": "H3-card",
+   "what": "white card mount for the engraving: 5 px scissor-wobble margin with lit cut edge and soft cast shadow",
+   "made_by": "u3/prep_hang.py"
+  },
+  {
+   "id": "H4-labels",
+   "what": "two small labels in Inter (OFL system font)",
+   "made_by": "gong_rig.py"
+  }
+ ],
+ "declared_synth": [
+  "all events() sounds are kit-synthesised (click / band-passed noise / low thud), paper or cord only, unless the editor uses F2 grains; never a metallic ring (invariant 7)"
+ ],
+ "absences": [
+  {
+   "searched": "Commons audio: 'paper tearing', 'tearing paper', 'paper tear sound', 'paper rip' (filetype:audio)",
+   "found": "no dedicated CC0/PD paper-tear file; only 'Book paper pages assorted.ogg' (PD, pdsounds) and unrelated speech/podcasts"
+  },
+  {
+   "searched": "Moving Image Archive cache for gong / bell / hanging animal",
+   "found": "not re-searched by U3: the director's plan records only a 1947 belfry for gong|bell|chime; the image cue is a printed engraving by design"
+  }
+ ],
+ "contact_strip": "films/sources/le-maki-mococo/imagecue/contact_37.9-40.0.png",
+ "editor_media": {
+  "dir": "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-",
+  "files": [
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_37.500.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_37.750.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_38.000.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_38.250.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_38.500.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_38.750.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_39.000.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_39.250.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_39.500.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_39.750.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_40.000.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_40.250.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_40.500.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_40.750.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_41.000.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_41.250.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_41.500.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_41.750.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_42.000.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_42.250.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_42.500.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_42.750.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_43.000.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_43.250.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_43.500.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/frames/hang_43.750.png",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/hang_S2_assembly_11.0-13.5.mp4",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/hang_S4_swing_23.5-27.0.mp4",
+   "films/sources/le-maki-mococo/u3-image-cue-gong-to-binturong-archive-forager-matte-compositor-transformation-dramaturg-/hang_S6_fracture_37.5-44.0.mp4"
+  ]
+ },
+ "credits_entries": [
+  {
+   "title": "'The Binturong', engraving by Friedrich Specht, in Brehm's Life of Animals (Chicago, 1895), p. 265",
+   "author": "Alfred Brehm; engraver Friedrich Specht; scan Biodiversity Heritage Library",
+   "license": "Public domain",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Brehm%27s_Life_of_animals_(Page_265)_(6220164475).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Brehm%27s_Life_of_animals_%28Page_265%29_%286220164475%29.jpg",
+   "used_as": "image cue: the animal cut out (GrabCut), hung by its tail from the cord"
+  }
+ ],
+ "checks": {
+  "engraving_absent_before_cue": true,
+  "no_ring": true,
+  "bbox_at_37.95": [
+   766,
+   0,
+   936,
+   353
+  ]
+ }
+}

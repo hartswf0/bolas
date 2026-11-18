@@ -1,0 +1,398 @@
+{
+  "unit": "U3 testimony (HANDMADE)",
+  "film": "recits-dellis-island",
+  "plan_revision": "plan-r1",
+  "generated": "2026-11-15",
+  "invariants_observed": [
+    "I1 speaker+interval+context+use on every line",
+    "I2 'fictional witness · staged' in every caption label and on every sheet",
+    "I8 the real halt is never named in either account (checked by script: no 'Bourr' in any fr/en line)"
+  ],
+  "agreed_facts": [
+    "a visitor (a woman) came off the last train",
+    "she carried a sealed envelope",
+    "she opened it and left a brass key on the bench",
+    "the service door stayed shut",
+    "she walked away"
+  ],
+  "disagreement": {
+    "detail": "order of the bell relative to the key",
+    "A": "bell first, then the key",
+    "B": "key first; the bell rang as the train pulled out",
+    "status": "UNRESOLVED"
+  },
+  "segments": [
+    {
+      "id": "segA",
+      "seg": "A",
+      "speaker": {
+        "name": "Marthe V.",
+        "letter": "A",
+        "status": "fictional witness",
+        "role": "authored character, not a real person"
+      },
+      "consent": {
+        "state": "authored-fiction",
+        "use_scope": "this film, public",
+        "recorded": "2026-11-15 by SCION U3 (author of the text)"
+      },
+      "interval": {
+        "in_tc": "00:14.0",
+        "out_tc": "00:28.0",
+        "in_s": 14.0,
+        "out_s": 28.0,
+        "clock": "verbatim interval of the (staged) statement session; segment clock, not film time"
+      },
+      "context": {
+        "prompt_fr": "« Racontez-nous le dernier train. Qu'avez-vous vu sur le quai ? »",
+        "prompt_en": "\"Tell us about the last train. What did you see on the platform?\"",
+        "setting": "staged statement, written for this film; same prompt put to both witnesses"
+      },
+      "language": {
+        "original": "fr",
+        "original_form": "written original",
+        "captions": "en (translation)"
+      },
+      "transcript_status": {
+        "state": "verbatim",
+        "revision": 1,
+        "en": "translated@rev1"
+      },
+      "colour_rgb": [
+        40,
+        82,
+        120
+      ],
+      "recalls": {
+        "bell_key_order": "bell → key"
+      },
+      "lines": [
+        {
+          "id": "A1",
+          "interval": {
+            "in_tc": "00:14.0",
+            "out_tc": "00:18.0",
+            "in_s": 14.0,
+            "out_s": 18.0
+          },
+          "fr": "Le dernier train, c'était celui de 18 h 40. Une femme en est descendue, une enveloppe cachetée à la main.",
+          "en": "The last train was the 18:40. A woman got off it holding a sealed envelope.",
+          "transcript_status": {
+            "fr": "verbatim",
+            "en": "translated",
+            "revision": 1
+          },
+          "caption_label": "A · MARTHE V. — fictional witness · staged · seg A 00:14.0–00:18.0",
+          "film_time": {
+            "in_s": 30.0,
+            "out_s": 32.5,
+            "shot": "A statement sheet (handmade), line A1 highlighted"
+          },
+          "sheet_png": "films/sources/recits-dellis-island/testimony/sheet_A1.png",
+          "sheet_sha256": "20dd31afe6130a6596547e10379954cc440b6968c876e6c95a1e5633b2c2065c"
+        },
+        {
+          "id": "A2",
+          "interval": {
+            "in_tc": "00:18.0",
+            "out_tc": "00:22.5",
+            "in_s": 18.0,
+            "out_s": 22.5
+          },
+          "fr": "La cloche a sonné d'abord. Ensuite elle a ouvert l'enveloppe et posé la clé en laiton sur le banc.",
+          "en": "The bell rang first. Then she opened the envelope and put the brass key on the bench.",
+          "transcript_status": {
+            "fr": "verbatim",
+            "en": "translated",
+            "revision": 1
+          },
+          "caption_label": "A · MARTHE V. — fictional witness · staged · seg A 00:18.0–00:22.5",
+          "film_time": {
+            "in_s": 32.5,
+            "out_s": 36.0,
+            "shot": "Beat A: T1 platform crop; S1 bell 33.6 s, S2 key 35.4 s"
+          },
+          "sheet_png": "films/sources/recits-dellis-island/testimony/sheet_A2.png",
+          "sheet_sha256": "82d9dac8cc1ad44e03de85559474b64328cb8bf5f7414eeef520e83419a08dc7"
+        },
+        {
+          "id": "A3",
+          "interval": {
+            "in_tc": "00:22.5",
+            "out_tc": "00:26.0",
+            "in_s": 22.5,
+            "out_s": 26.0
+          },
+          "fr": "Elle est partie à pied. La porte de service est restée fermée ; personne n'est venu ouvrir.",
+          "en": "She walked away. The service door stayed shut; nobody came to open it.",
+          "transcript_status": {
+            "fr": "verbatim",
+            "en": "translated",
+            "revision": 1
+          },
+          "caption_label": "A · MARTHE V. — fictional witness · staged · seg A 00:22.5–00:26.0",
+          "film_time": {
+            "in_s": 36.0,
+            "out_s": 38.5,
+            "shot": "Beat A (continued): T1 platform crop, same tag"
+          },
+          "sheet_png": "films/sources/recits-dellis-island/testimony/sheet_A3.png",
+          "sheet_sha256": "9a3edcc252d69beef147f38b13da6dc8305c4ab7ae81776804e4c760f4865693"
+        },
+        {
+          "id": "A4",
+          "interval": {
+            "in_tc": "00:26.0",
+            "out_tc": "00:28.0",
+            "in_s": 26.0,
+            "out_s": 28.0
+          },
+          "fr": "Un vieux train. Le dernier qui s'est arrêté là.",
+          "en": "An old train. The last one that stopped there.",
+          "transcript_status": {
+            "fr": "verbatim",
+            "en": "translated",
+            "revision": 1
+          },
+          "caption_label": "A · MARTHE V. — fictional witness · staged · seg A 00:26.0–00:28.0",
+          "film_time": {
+            "in_s": 38.5,
+            "out_s": 41.0,
+            "shot": "T7 Vincennes 1896 insert (another station, illustrates, does not prove)"
+          },
+          "sheet_png": "films/sources/recits-dellis-island/testimony/sheet_A4.png",
+          "sheet_sha256": "266c91e9b092838f3d2bdbfa13a42f6b7400e0e4cd67ba6ae8de02f13560be73"
+        }
+      ]
+    },
+    {
+      "id": "segB",
+      "seg": "B",
+      "speaker": {
+        "name": "Paul R.",
+        "letter": "B",
+        "status": "fictional witness",
+        "role": "authored character, not a real person"
+      },
+      "consent": {
+        "state": "authored-fiction",
+        "use_scope": "this film, public",
+        "recorded": "2026-11-15 by SCION U3 (author of the text)"
+      },
+      "interval": {
+        "in_tc": "01:02.0",
+        "out_tc": "01:13.0",
+        "in_s": 62.0,
+        "out_s": 73.0,
+        "clock": "verbatim interval of the (staged) statement session; segment clock, not film time"
+      },
+      "context": {
+        "prompt_fr": "« Racontez-nous le dernier train. Qu'avez-vous vu sur le quai ? »",
+        "prompt_en": "\"Tell us about the last train. What did you see on the platform?\"",
+        "setting": "staged statement, written for this film; same prompt put to both witnesses"
+      },
+      "language": {
+        "original": "fr",
+        "original_form": "written original",
+        "captions": "en (translation)"
+      },
+      "transcript_status": {
+        "state": "verbatim",
+        "revision": 1,
+        "en": "translated@rev1"
+      },
+      "colour_rgb": [
+        140,
+        92,
+        28
+      ],
+      "recalls": {
+        "bell_key_order": "key → bell"
+      },
+      "lines": [
+        {
+          "id": "B1",
+          "interval": {
+            "in_tc": "01:02.0",
+            "out_tc": "01:04.5",
+            "in_s": 62.0,
+            "out_s": 64.5
+          },
+          "fr": "Elle est descendue du dernier train avec une enveloppe cachetée, et elle l'a ouverte sur le banc.",
+          "en": "She stepped off the last train with a sealed envelope, and opened it on the bench.",
+          "transcript_status": {
+            "fr": "verbatim",
+            "en": "translated",
+            "revision": 1
+          },
+          "caption_label": "B · PAUL R. — fictional witness · staged · seg B 01:02.0–01:04.5",
+          "film_time": {
+            "in_s": 41.0,
+            "out_s": 43.5,
+            "shot": "B statement sheet (handmade), line B1 highlighted"
+          },
+          "sheet_png": "films/sources/recits-dellis-island/testimony/sheet_B1.png",
+          "sheet_sha256": "49f9122834010e0664429f670c417ab07ec2376d4f8b1ec5da7767a53bd326d8"
+        },
+        {
+          "id": "B2",
+          "interval": {
+            "in_tc": "01:04.5",
+            "out_tc": "01:07.0",
+            "in_s": 64.5,
+            "out_s": 67.0
+          },
+          "fr": "Elle a posé la clé en laiton sur le banc d'abord.",
+          "en": "She set the brass key down on the bench first.",
+          "transcript_status": {
+            "fr": "verbatim",
+            "en": "translated",
+            "revision": 1
+          },
+          "caption_label": "B · PAUL R. — fictional witness · staged · seg B 01:04.5–01:07.0",
+          "film_time": {
+            "in_s": 43.5,
+            "out_s": 46.0,
+            "shot": "Beat B: same T1 crop and tag; S2 key 44.6 s"
+          },
+          "sheet_png": "films/sources/recits-dellis-island/testimony/sheet_B2.png",
+          "sheet_sha256": "055b2ccee694521f994b115480ade4ef2851fa5b75c20b1f5837e2702e154975"
+        },
+        {
+          "id": "B3",
+          "interval": {
+            "in_tc": "01:07.0",
+            "out_tc": "01:10.5",
+            "in_s": 67.0,
+            "out_s": 70.5
+          },
+          "fr": "La cloche n'a sonné qu'au moment où le train repartait.",
+          "en": "The bell only rang as the train pulled out.",
+          "transcript_status": {
+            "fr": "verbatim",
+            "en": "translated",
+            "revision": 1
+          },
+          "caption_label": "B · PAUL R. — fictional witness · staged · seg B 01:07.0–01:10.5",
+          "film_time": {
+            "in_s": 46.0,
+            "out_s": 48.2,
+            "shot": "Beat B (continued): S1 bell 47.6 s (same sample as 33.6 s)"
+          },
+          "sheet_png": "films/sources/recits-dellis-island/testimony/sheet_B3.png",
+          "sheet_sha256": "c165761caf92ea32abe648978bf55c34875b2fd590e88d00785ec54e7ea39cc1"
+        },
+        {
+          "id": "B4",
+          "interval": {
+            "in_tc": "01:10.5",
+            "out_tc": "01:13.0",
+            "in_s": 70.5,
+            "out_s": 73.0
+          },
+          "fr": "La porte de service est restée fermée. Elle s'en est allée.",
+          "en": "The service door stayed shut. She went away.",
+          "transcript_status": {
+            "fr": "verbatim",
+            "en": "translated",
+            "revision": 1
+          },
+          "caption_label": "B · PAUL R. — fictional witness · staged · seg B 01:10.5–01:13.0",
+          "film_time": {
+            "in_s": 48.2,
+            "out_s": 49.5,
+            "shot": "Beat B (end): same T1 crop"
+          },
+          "sheet_png": "films/sources/recits-dellis-island/testimony/sheet_B4.png",
+          "sheet_sha256": "c57598ae52efd372131c96f344493b8bf3f09773110214fea2ac93a74070330b"
+        }
+      ]
+    }
+  ],
+  "matches": [],
+  "matches_note": "No Match record links any trace to any testimony interval; claims of the form 'image proves memory' are blocked.",
+  "caption_files": {
+    "srt": "films/swarm/recits-dellis-island/captions.srt"
+  },
+  "claims_file": "films/swarm/recits-dellis-island/claims.json",
+  "handmade": [
+    {
+      "id": "H-sheet-A1",
+      "what": "typeset testimony record form (header, 6 fields, prompt, FR text block with interval markers, highlighted line, FICTIONAL · STAGED stamp), 960x540 PNG, PIL + kit fonts (Instrument Sans/Serif, IBM Plex Mono; OFL)",
+      "local_path": "films/sources/recits-dellis-island/testimony/sheet_A1.png",
+      "sha256": "20dd31afe6130a6596547e10379954cc440b6968c876e6c95a1e5633b2c2065c",
+      "made_by": "SCION U3, 2026-11-15",
+      "used_as": "Movement II statement-sheet shot (A1 at 30.0–32.5 s, B1 at 41.0–43.5 s); other lines available for alternates / order-BA"
+    },
+    {
+      "id": "H-sheet-A2",
+      "what": "typeset testimony record form (header, 6 fields, prompt, FR text block with interval markers, highlighted line, FICTIONAL · STAGED stamp), 960x540 PNG, PIL + kit fonts (Instrument Sans/Serif, IBM Plex Mono; OFL)",
+      "local_path": "films/sources/recits-dellis-island/testimony/sheet_A2.png",
+      "sha256": "82d9dac8cc1ad44e03de85559474b64328cb8bf5f7414eeef520e83419a08dc7",
+      "made_by": "SCION U3, 2026-11-15",
+      "used_as": "Movement II statement-sheet shot (A1 at 30.0–32.5 s, B1 at 41.0–43.5 s); other lines available for alternates / order-BA"
+    },
+    {
+      "id": "H-sheet-A3",
+      "what": "typeset testimony record form (header, 6 fields, prompt, FR text block with interval markers, highlighted line, FICTIONAL · STAGED stamp), 960x540 PNG, PIL + kit fonts (Instrument Sans/Serif, IBM Plex Mono; OFL)",
+      "local_path": "films/sources/recits-dellis-island/testimony/sheet_A3.png",
+      "sha256": "9a3edcc252d69beef147f38b13da6dc8305c4ab7ae81776804e4c760f4865693",
+      "made_by": "SCION U3, 2026-11-15",
+      "used_as": "Movement II statement-sheet shot (A1 at 30.0–32.5 s, B1 at 41.0–43.5 s); other lines available for alternates / order-BA"
+    },
+    {
+      "id": "H-sheet-A4",
+      "what": "typeset testimony record form (header, 6 fields, prompt, FR text block with interval markers, highlighted line, FICTIONAL · STAGED stamp), 960x540 PNG, PIL + kit fonts (Instrument Sans/Serif, IBM Plex Mono; OFL)",
+      "local_path": "films/sources/recits-dellis-island/testimony/sheet_A4.png",
+      "sha256": "266c91e9b092838f3d2bdbfa13a42f6b7400e0e4cd67ba6ae8de02f13560be73",
+      "made_by": "SCION U3, 2026-11-15",
+      "used_as": "Movement II statement-sheet shot (A1 at 30.0–32.5 s, B1 at 41.0–43.5 s); other lines available for alternates / order-BA"
+    },
+    {
+      "id": "H-sheet-B1",
+      "what": "typeset testimony record form (header, 6 fields, prompt, FR text block with interval markers, highlighted line, FICTIONAL · STAGED stamp), 960x540 PNG, PIL + kit fonts (Instrument Sans/Serif, IBM Plex Mono; OFL)",
+      "local_path": "films/sources/recits-dellis-island/testimony/sheet_B1.png",
+      "sha256": "49f9122834010e0664429f670c417ab07ec2376d4f8b1ec5da7767a53bd326d8",
+      "made_by": "SCION U3, 2026-11-15",
+      "used_as": "Movement II statement-sheet shot (A1 at 30.0–32.5 s, B1 at 41.0–43.5 s); other lines available for alternates / order-BA"
+    },
+    {
+      "id": "H-sheet-B2",
+      "what": "typeset testimony record form (header, 6 fields, prompt, FR text block with interval markers, highlighted line, FICTIONAL · STAGED stamp), 960x540 PNG, PIL + kit fonts (Instrument Sans/Serif, IBM Plex Mono; OFL)",
+      "local_path": "films/sources/recits-dellis-island/testimony/sheet_B2.png",
+      "sha256": "055b2ccee694521f994b115480ade4ef2851fa5b75c20b1f5837e2702e154975",
+      "made_by": "SCION U3, 2026-11-15",
+      "used_as": "Movement II statement-sheet shot (A1 at 30.0–32.5 s, B1 at 41.0–43.5 s); other lines available for alternates / order-BA"
+    },
+    {
+      "id": "H-sheet-B3",
+      "what": "typeset testimony record form (header, 6 fields, prompt, FR text block with interval markers, highlighted line, FICTIONAL · STAGED stamp), 960x540 PNG, PIL + kit fonts (Instrument Sans/Serif, IBM Plex Mono; OFL)",
+      "local_path": "films/sources/recits-dellis-island/testimony/sheet_B3.png",
+      "sha256": "c165761caf92ea32abe648978bf55c34875b2fd590e88d00785ec54e7ea39cc1",
+      "made_by": "SCION U3, 2026-11-15",
+      "used_as": "Movement II statement-sheet shot (A1 at 30.0–32.5 s, B1 at 41.0–43.5 s); other lines available for alternates / order-BA"
+    },
+    {
+      "id": "H-sheet-B4",
+      "what": "typeset testimony record form (header, 6 fields, prompt, FR text block with interval markers, highlighted line, FICTIONAL · STAGED stamp), 960x540 PNG, PIL + kit fonts (Instrument Sans/Serif, IBM Plex Mono; OFL)",
+      "local_path": "films/sources/recits-dellis-island/testimony/sheet_B4.png",
+      "sha256": "c57598ae52efd372131c96f344493b8bf3f09773110214fea2ac93a74070330b",
+      "made_by": "SCION U3, 2026-11-15",
+      "used_as": "Movement II statement-sheet shot (A1 at 30.0–32.5 s, B1 at 41.0–43.5 s); other lines available for alternates / order-BA"
+    },
+    {
+      "id": "H-text",
+      "what": "the two fictional accounts (FR original + EN translation), written for this film",
+      "local_path": "films/swarm/recits-dellis-island/testimony.json",
+      "made_by": "SCION U3"
+    }
+  ],
+  "foraged": [],
+  "foraged_note": "U3 foraged nothing; all testimony material is handmade. Traces cited in claims.json are owned by U1 (traces.json).",
+  "absences": [
+    {
+      "searched": "openly licensed recordings of real speech to voice the accounts",
+      "result": "not searched beyond scope: the accounts are authored fiction, so no real person's recorded voice may carry them; no TTS exists. Voice is captions only, by design."
+    }
+  ]
+}

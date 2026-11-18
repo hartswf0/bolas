@@ -1,0 +1,1233 @@
+{
+ "film": "bang-bang",
+ "unit": "board artist and puppet cutter (SCION #29 GrabCut, #2 Reiniger, #41 Secondary Dynamics)",
+ "direction": "Direction 2, Planche gravée",
+ "scripts": {
+  "cut": "films/swarm/bang-bang/board-build/cut.py",
+  "board_rig_exposure_render": "films/swarm/bang-bang/board-build/board.py",
+  "this_file": "films/swarm/bang-bang/board-build/rigjson.py"
+ },
+ "outputs": {
+  "exposure": "films/swarm/bang-bang/exposure.json",
+  "test_mp4": "films/swarm/bang-bang/bb08_test.mp4",
+  "contact_sheet": "films/swarm/bang-bang/bb08_sheet.jpg",
+  "pieces_dir": "films/sources/bang-bang/board/",
+  "editor_media": "films/sources/bang-bang/board-artist-and-puppet-cutter-cutout-rig-exposure-sheet-bb-08-test-shot-/"
+ },
+ "coordinates": {
+  "page_px": [
+   2200,
+   1800
+  ],
+  "panels": {
+   "x": 253,
+   "w": 715,
+   "h": 493,
+   "ys": [
+    108,
+    646,
+    1184
+   ],
+   "aspect": 1.45
+  },
+  "commentary_column_x0": 1010,
+  "ground_line_v": 430,
+  "angles": "deg, + = clockwise on screen (= nose-up for the left-facing glider; legs + = feet forward/left)",
+  "time": "24 fps, drawings on 2s"
+ },
+ "pieces": {
+  "glider": {
+   "file": "board/glider.png",
+   "mask": "board/glider_mask.png",
+   "source": "LIL-START",
+   "render_scale": 0.4,
+   "size_at_scale": [
+    370,
+    130
+   ],
+   "pins_at_scale": {
+    "hip": [
+     153.6,
+     103.12
+    ],
+    "nose": [
+     8.0,
+     47.75
+    ],
+    "tail": [
+     272.0,
+     10.43
+    ],
+    "wing_root_R": [
+     248.0,
+     114.75
+    ]
+   },
+   "pins_source_px": {
+    "hip": [
+     384,
+     257
+    ],
+    "nose": [
+     20,
+     119
+    ],
+    "tail": [
+     680,
+     26
+    ],
+    "wing_root_R": [
+     620,
+     286
+    ]
+   },
+   "offset_in_source": [
+    20,
+    14
+   ],
+   "components": 1,
+   "interior_holes_px": 0,
+   "note": "glider frame, both wings, tail and the pilot's torso and arms (one piece: he is strapped in)"
+  },
+  "legs": {
+   "file": "board/legs.png",
+   "mask": "board/legs_mask.png",
+   "source": "LIL-START",
+   "render_scale": 0.4,
+   "size_at_scale": [
+    33,
+    42
+   ],
+   "pins_at_scale": {
+    "hip": [
+     21.33,
+     5.94
+    ]
+   },
+   "pins_source_px": {
+    "hip": [
+     53,
+     15
+    ]
+   },
+   "offset_in_source": [
+    351,
+    256
+   ],
+   "components": 1,
+   "interior_holes_px": 0,
+   "note": "legs below the waist; r=15 px blank-card joint cap hidden under the body"
+  },
+  "glider_core": {
+   "file": "board/glider_core.png",
+   "mask": "board/glider_core_mask.png",
+   "source": "LIL-START",
+   "render_scale": 0.4,
+   "size_at_scale": [
+    282,
+    112
+   ],
+   "pins_at_scale": {
+    "hip": [
+     153.82,
+     102.8
+    ],
+    "wing_root_R": [
+     248.35,
+     114.4
+    ],
+    "nose": [
+     8.01,
+     47.6
+    ]
+   },
+   "pins_source_px": {
+    "hip": [
+     384,
+     257
+    ],
+    "wing_root_R": [
+     620,
+     286
+    ],
+    "nose": [
+     20,
+     119
+    ]
+   },
+   "offset_in_source": [
+    20,
+    14
+   ],
+   "components": 1,
+   "interior_holes_px": 0,
+   "note": "glider without its right (aft) lower wing panel; used from impact on so the wing can droop"
+  },
+  "glider_wingR": {
+   "file": "board/glider_wingR.png",
+   "mask": "board/glider_wingR_mask.png",
+   "source": "LIL-START",
+   "render_scale": 0.4,
+   "size_at_scale": [
+    122,
+    45
+   ],
+   "pins_at_scale": {
+    "root": [
+     0.0,
+     29.87
+    ]
+   },
+   "pins_source_px": {
+    "root": [
+     0,
+     75
+    ]
+   },
+   "offset_in_source": [
+    640,
+    225
+   ],
+   "components": 1,
+   "interior_holes_px": 0,
+   "note": "outer half of the right lower wing on a pin at its mid-spar (droop at impact)"
+  },
+  "pilot_torso": {
+   "file": "board/pilot_torso.png",
+   "mask": "board/pilot_torso_mask.png",
+   "source": "LIL-START",
+   "render_scale": 0.62,
+   "size_at_scale": [
+    42,
+    73
+   ],
+   "pins_at_scale": {
+    "hip": [
+     14.21,
+     69.26
+    ],
+    "shoulder_R": [
+     8.03,
+     29.32
+    ],
+    "hand_L": [
+     26.56,
+     54.28
+    ]
+   },
+   "pins_source_px": {
+    "hip": [
+     23,
+     111
+    ],
+    "shoulder_R": [
+     13,
+     47
+    ],
+    "hand_L": [
+     43,
+     87
+    ]
+   },
+   "offset_in_source": [
+    381,
+    160
+   ],
+   "components": 1,
+   "interior_holes_px": 0,
+   "note": "the pilot alone: head and torso, spars erased and contour re-inked; legs pin at the hip"
+  },
+  "pilot_arm": {
+   "file": "board/pilot_arm.png",
+   "mask": "board/pilot_arm_mask.png",
+   "source": "LIL-START",
+   "render_scale": 0.62,
+   "size_at_scale": [
+    33,
+    22
+   ],
+   "pins_at_scale": {
+    "shoulder": [
+     26.77,
+     4.89
+    ],
+    "hand": [
+     3.11,
+     14.06
+    ]
+   },
+   "pins_source_px": {
+    "shoulder": [
+     43,
+     8
+    ],
+    "hand": [
+     5,
+     23
+    ]
+   },
+   "offset_in_source": [
+    351,
+    199
+   ],
+   "components": 1,
+   "interior_holes_px": 0,
+   "note": "pilot's right arm on the shoulder pin (flaps the paper wing)"
+  },
+  "heli_top": {
+   "file": "board/heli_top.png",
+   "mask": "board/heli_top_mask.png",
+   "source": "PENAUD-PLATE",
+   "render_scale": 0.62,
+   "size_at_scale": [
+    119,
+    12
+   ],
+   "pins_at_scale": {
+    "hub": [
+     60.12,
+     3.6
+    ]
+   },
+   "pins_source_px": {
+    "hub": [
+     97,
+     6
+    ]
+   },
+   "offset_in_source": [
+    125,
+    89
+   ],
+   "components": 1,
+   "interior_holes_px": 0,
+   "note": "top rotor (two feather-ribbed blades) on the hub pin"
+  },
+  "heli_shaft": {
+   "file": "board/heli_shaft.png",
+   "mask": "board/heli_shaft_mask.png",
+   "source": "PENAUD-PLATE",
+   "render_scale": 0.62,
+   "size_at_scale": [
+    11,
+    74
+   ],
+   "pins_at_scale": {
+    "top_hub": [
+     5.5,
+     -1.85
+    ],
+    "bottom_hub": [
+     5.5,
+     78.93
+    ],
+    "grip": [
+     5.5,
+     38.23
+    ]
+   },
+   "pins_source_px": {
+    "top_hub": [
+     9,
+     -3
+    ],
+    "bottom_hub": [
+     9,
+     128
+    ],
+    "grip": [
+     9,
+     62
+    ]
+   },
+   "offset_in_source": [
+    213,
+    98
+   ],
+   "components": 1,
+   "interior_holes_px": 0,
+   "note": "frame and the twisted rubber skein; the band snap is drawn as a pen squiggle from here"
+  },
+  "heli_bottom": {
+   "file": "board/heli_bottom.png",
+   "mask": "board/heli_bottom_mask.png",
+   "source": "PENAUD-PLATE",
+   "render_scale": 0.62,
+   "size_at_scale": [
+    123,
+    12
+   ],
+   "pins_at_scale": {
+    "hub": [
+     61.81,
+     4.8
+    ]
+   },
+   "pins_source_px": {
+    "hub": [
+     100,
+     8
+    ]
+   },
+   "offset_in_source": [
+    122,
+    218
+   ],
+   "components": 1,
+   "interior_holes_px": 0,
+   "note": "bottom rotor (counter-turning) on the lower hub pin"
+  },
+  "pie_body": {
+   "file": "board/pie_body.png",
+   "mask": "board/pie_body_mask.png",
+   "source": "AUDUBON-MAGPIE",
+   "render_scale": 0.32,
+   "size_at_scale": [
+    87,
+    44
+   ],
+   "pins_at_scale": {
+    "neck": [
+     78.4,
+     27.62
+    ],
+    "feet": [
+     58.32,
+     42.07
+    ],
+    "tail_tip": [
+     -0.64,
+     8.35
+    ]
+   },
+   "pins_source_px": {
+    "neck": [
+     246,
+     86
+    ],
+    "feet": [
+     183,
+     131
+    ],
+    "tail_tip": [
+     -2,
+     26
+    ]
+   },
+   "offset_in_source": [
+    22,
+    339
+   ],
+   "components": 1,
+   "interior_holes_px": 0,
+   "note": "the commentator (fig. 2, female): body, half-open wings and long tail; branch removed"
+  },
+  "pie_head": {
+   "file": "board/pie_head.png",
+   "mask": "board/pie_head_mask.png",
+   "source": "AUDUBON-MAGPIE",
+   "render_scale": 0.32,
+   "size_at_scale": [
+    28,
+    18
+   ],
+   "pins_at_scale": {
+    "neck": [
+     2.93,
+     2.95
+    ],
+    "beak": [
+     28.98,
+     15.05
+    ],
+    "eye": [
+     19.21,
+     11.78
+    ]
+   },
+   "pins_source_px": {
+    "neck": [
+     9,
+     9
+    ],
+    "beak": [
+     89,
+     46
+    ],
+    "eye": [
+     59,
+     36
+    ]
+   },
+   "offset_in_source": [
+    259,
+    416
+   ],
+   "components": 1,
+   "interior_holes_px": 0,
+   "note": "head on the neck pin (held angles, bird-like jerks)"
+  },
+  "fly_body": {
+   "file": "board/fly_body.png",
+   "mask": "board/fly_body_mask.png",
+   "source": "AUDUBON-MAGPIE",
+   "render_scale": 0.36,
+   "size_at_scale": [
+    83,
+    93
+   ],
+   "pins_at_scale": {
+    "shoulder_L": [
+     31.62,
+     59.25
+    ],
+    "shoulder_R": [
+     48.15,
+     71.46
+    ],
+    "beak": [
+     -0.72,
+     89.41
+    ],
+    "tail_tip": [
+     81.2,
+     0.72
+    ],
+    "centre": [
+     38.09,
+     67.15
+    ]
+   },
+   "pins_source_px": {
+    "shoulder_L": [
+     88,
+     165
+    ],
+    "shoulder_R": [
+     134,
+     199
+    ],
+    "beak": [
+     -2,
+     249
+    ],
+    "tail_tip": [
+     226,
+     2
+    ],
+    "centre": [
+     106,
+     187
+    ]
+   },
+   "offset_in_source": [
+    104,
+    13
+   ],
+   "components": 1,
+   "interior_holes_px": 0,
+   "note": "flying magpie (fig. 1, male) body, head and fanned tail; wings cut off at the shoulders"
+  },
+  "fly_wingL": {
+   "file": "board/fly_wingL.png",
+   "mask": "board/fly_wingL_mask.png",
+   "source": "AUDUBON-MAGPIE",
+   "render_scale": 0.36,
+   "size_at_scale": [
+    38,
+    46
+   ],
+   "pins_at_scale": {
+    "shoulder": [
+     35.13,
+     29.24
+    ]
+   },
+   "pins_source_px": {
+    "shoulder": [
+     98,
+     82
+    ]
+   },
+   "offset_in_source": [
+    94,
+    96
+   ],
+   "components": 1,
+   "interior_holes_px": 0,
+   "note": "near spread wing on the left shoulder pin (flap = rotation + foreshortening)"
+  },
+  "fly_wingR": {
+   "file": "board/fly_wingR.png",
+   "mask": "board/fly_wingR_mask.png",
+   "source": "AUDUBON-MAGPIE",
+   "render_scale": 0.36,
+   "size_at_scale": [
+    39,
+    31
+   ],
+   "pins_at_scale": {
+    "shoulder": [
+     2.55,
+     4.38
+    ]
+   },
+   "pins_source_px": {
+    "shoulder": [
+     7,
+     12
+    ]
+   },
+   "offset_in_source": [
+    231,
+    200
+   ],
+   "components": 1,
+   "interior_holes_px": 0,
+   "note": "far spread wing on the right shoulder pin"
+  },
+  "pilot_legs": {
+   "file": "board/legs.png",
+   "mask": "board/legs_mask.png",
+   "source": "LIL-START",
+   "render_scale": 0.62,
+   "size_at_scale": [
+    51,
+    66
+   ],
+   "pins_at_scale": {
+    "hip": [
+     32.96,
+     9.34
+    ]
+   },
+   "pins_source_px": {
+    "hip": [
+     53,
+     15
+    ]
+   },
+   "offset_in_source": [
+    351,
+    256
+   ],
+   "components": 1,
+   "interior_holes_px": 0,
+   "note": "the same cut legs piece (board/legs.png) at the pilot's scale"
+  },
+  "paper_wing_root": {
+   "file": "board/paper_wing_root.png",
+   "mask": null,
+   "source": "HANDMADE",
+   "render_scale": 1.0,
+   "size_at_scale": [
+    108,
+    62
+   ],
+   "pins_at_scale": {
+    "pin": [
+     8.0,
+     11.0
+    ],
+    "tip_pin": [
+     99.0,
+     10.0
+    ]
+   },
+   "pins_source_px": null,
+   "offset_in_source": null,
+   "components": 1,
+   "interior_holes_px": null,
+   "note": "HANDMADE: cream stock cut with a scalpel-polygon, pen spar and ribs; pinned at the pilot's hand"
+  },
+  "paper_wing_tip": {
+   "file": "board/paper_wing_tip.png",
+   "mask": null,
+   "source": "HANDMADE",
+   "render_scale": 1.0,
+   "size_at_scale": [
+    94,
+    56
+   ],
+   "pins_at_scale": {
+    "pin": [
+     8.0,
+     11.0
+    ],
+    "tip_pin": [
+     85.0,
+     10.0
+    ]
+   },
+   "pins_source_px": null,
+   "offset_in_source": null,
+   "components": 1,
+   "interior_holes_px": null,
+   "note": "HANDMADE: scalloped tip segment on a crease pin; lags and folds (#41)"
+  }
+ },
+ "joints": [
+  {
+   "child": "legs",
+   "parent": "glider",
+   "pin_on_parent": "hip",
+   "pin_on_child": "hip",
+   "pivot_parent_space": [
+    153.6,
+    103.12
+   ],
+   "pivot_child_space": [
+    21.33,
+    5.94
+   ],
+   "limits_deg_rel": [
+    -85,
+    45
+   ],
+   "brass_split_pin": true
+  },
+  {
+   "child": "glider_wingR",
+   "parent": "glider_core",
+   "pin_on_parent": "wing_root_R",
+   "pin_on_child": "root",
+   "pivot_parent_space": [
+    248.35,
+    114.4
+   ],
+   "pivot_child_space": [
+    0.0,
+    29.87
+   ],
+   "limits_deg_rel": [
+    -3,
+    62
+   ],
+   "brass_split_pin": true
+  },
+  {
+   "child": "pilot_legs",
+   "parent": "pilot_torso",
+   "pin_on_parent": "hip",
+   "pin_on_child": "hip",
+   "pivot_parent_space": [
+    14.21,
+    69.26
+   ],
+   "pivot_child_space": [
+    32.96,
+    9.34
+   ],
+   "limits_deg_rel": [
+    -90,
+    45
+   ],
+   "brass_split_pin": true
+  },
+  {
+   "child": "pilot_arm",
+   "parent": "pilot_torso",
+   "pin_on_parent": "shoulder_R",
+   "pin_on_child": "shoulder",
+   "pivot_parent_space": [
+    8.03,
+    29.32
+   ],
+   "pivot_child_space": [
+    26.77,
+    4.89
+   ],
+   "limits_deg_rel": [
+    -45,
+    75
+   ],
+   "brass_split_pin": true
+  },
+  {
+   "child": "paper_wing_root",
+   "parent": "pilot_arm",
+   "pin_on_parent": "hand",
+   "pin_on_child": "pin",
+   "pivot_parent_space": [
+    3.11,
+    14.06
+   ],
+   "pivot_child_space": [
+    8.0,
+    11.0
+   ],
+   "limits_deg_rel": [
+    -200,
+    200
+   ],
+   "brass_split_pin": true
+  },
+  {
+   "child": "paper_wing_tip",
+   "parent": "paper_wing_root",
+   "pin_on_parent": "tip_pin",
+   "pin_on_child": "pin",
+   "pivot_parent_space": [
+    99.0,
+    10.0
+   ],
+   "pivot_child_space": [
+    8.0,
+    11.0
+   ],
+   "limits_deg_rel": [
+    -20,
+    165
+   ],
+   "brass_split_pin": true
+  },
+  {
+   "child": "heli_top",
+   "parent": "heli_shaft",
+   "pin_on_parent": "top_hub",
+   "pin_on_child": "hub",
+   "pivot_parent_space": [
+    5.5,
+    -1.85
+   ],
+   "pivot_child_space": [
+    60.12,
+    3.6
+   ],
+   "limits_deg_rel": [
+    -1,
+    1
+   ],
+   "brass_split_pin": true
+  },
+  {
+   "child": "heli_bottom",
+   "parent": "heli_shaft",
+   "pin_on_parent": "bottom_hub",
+   "pin_on_child": "hub",
+   "pivot_parent_space": [
+    5.5,
+    78.93
+   ],
+   "pivot_child_space": [
+    61.81,
+    4.8
+   ],
+   "limits_deg_rel": [
+    -1,
+    1
+   ],
+   "brass_split_pin": true
+  },
+  {
+   "child": "pie_head",
+   "parent": "pie_body",
+   "pin_on_parent": "neck",
+   "pin_on_child": "neck",
+   "pivot_parent_space": [
+    78.4,
+    27.62
+   ],
+   "pivot_child_space": [
+    2.93,
+    2.95
+   ],
+   "limits_deg_rel": [
+    -40,
+    55
+   ],
+   "brass_split_pin": true
+  },
+  {
+   "child": "fly_wingL",
+   "parent": "fly_body",
+   "pin_on_parent": "shoulder_L",
+   "pin_on_child": "shoulder",
+   "pivot_parent_space": [
+    31.62,
+    59.25
+   ],
+   "pivot_child_space": [
+    35.13,
+    29.24
+   ],
+   "limits_deg_rel": [
+    -75,
+    45
+   ],
+   "brass_split_pin": true
+  },
+  {
+   "child": "fly_wingR",
+   "parent": "fly_body",
+   "pin_on_parent": "shoulder_R",
+   "pin_on_child": "shoulder",
+   "pivot_parent_space": [
+    48.15,
+    71.46
+   ],
+   "pivot_child_space": [
+    2.55,
+    4.38
+   ],
+   "limits_deg_rel": [
+    -45,
+    75
+   ],
+   "brass_split_pin": true
+  }
+ ],
+ "dynamics": {
+  "integrator": "semi-implicit (symplectic) Euler, 240 Hz (10 substeps per film frame), sampled per frame, held on 2s",
+  "hip_legs": {
+   "model": "pendulum on the hip pin driven by the body's acceleration: phi'' = [-(g - a_y) sin phi + a_x cos phi]/L - c (phi' - theta')",
+   "g_px_s2": 588.6,
+   "L_px": 18,
+   "c": 4.2,
+   "c_during_hang_f540_564": 8.6,
+   "kick_at_f540_rad_s": 6.0,
+   "c_after_impact": 9.0,
+   "panel_cut_f576": "no acceleration across a cut between panels (repair 2)",
+   "joint_stop": [
+    -85,
+    45
+   ],
+   "run_drive": "f432-490 legs driven to +-28 deg on 4-frame alternation"
+  },
+  "paper_wing_tip": {
+   "model": "angular spring-damper relative to the root, inertial drive = -0.9 x arm angular acceleration; crease rest 0 -> 150 deg at f106 (3rd flap)",
+   "k": 420,
+   "zeta": 0.18
+  },
+  "band_snap": {
+   "model": "whip amplitude spring-damper, impulse 900 px/s at f312",
+   "k": 700,
+   "zeta": 0.15
+  },
+  "wing_root_droop": {
+   "model": "repair 2: the spar snaps at f605: the outer wing whips to 58 deg, held 3 drawings f605-610, then a spring-damper onto the broken root at 40 deg; joint stop -3..62 (the intact-spar stop is gone)",
+   "k": 700,
+   "zeta": 0.45
+  },
+  "a1_legs": {
+   "model": "spring to sit pose -80 deg at f150 (25 deg tuck during the hop)",
+   "k": 500,
+   "zeta": 0.3
+  }
+ },
+ "tests": {
+  "pivot_drift_max_px": 3e-05,
+  "pivot_drift_pass": true,
+  "angle_limit_violations": [],
+  "angle_limits_pass": true,
+  "joint_stop_hits": {
+   "legs": 1,
+   "glider_wingR": 0,
+   "paper_wing_tip": 4,
+   "pilot_legs": 1
+  },
+  "legs_decay_after_rest_f540": {
+   "rest_frame": 559,
+   "frames": 19,
+   "pass": true,
+   "phi_f540": 3.64,
+   "phi_f542": 23.48,
+   "peak_abs_deg_f540_564": 29.38,
+   "phi_f564": -0.74,
+   "trace_on_2s": {
+    "536": 1.28,
+    "538": 2.44,
+    "540": 3.64,
+    "542": 23.48,
+    "544": 29.38,
+    "546": 27.69,
+    "548": 22.58,
+    "550": 16.57,
+    "552": 11.04,
+    "554": 6.61,
+    "556": 3.42,
+    "558": 1.32,
+    "560": 0.1,
+    "562": -0.5,
+    "564": -0.74,
+    "566": -5.25
+   }
+  },
+  "legs_decay_after_impact_f605": {
+   "rest_frame": 623,
+   "frames": 18,
+   "pass": true
+  },
+  "wing_droop_decay_f605": {
+   "rest_frame": 616,
+   "frames": 11,
+   "pass": true,
+   "snap_hold": "58 deg held f605-610 (3 drawings)",
+   "bounces": 1
+  },
+  "paper_tip_decay_after_sit_f154": {
+   "rest_frame": 175,
+   "frames": 21,
+   "pass": true
+  },
+  "band_whip_decay_f312": {
+   "rest_frame": 332,
+   "frames": 20,
+   "pass": true
+  },
+  "first_failure_frame": {
+   "frame": 533,
+   "pitch_deg": 21.7,
+   "x_advance_px_per_frame_page": 0.391,
+   "x_advance_px_per_frame_screen_at_zoom": 0.37,
+   "in_window_f520_545": true
+  },
+  "strike_vs_nose_15deg": {
+   "nose_15deg_frame": 529,
+   "strike_frame": 528,
+   "pass": true
+  },
+  "hang_f540_564_still": {
+   "x_range_px": 0.0,
+   "y_range_px": 0.0,
+   "pass": true
+  }
+ },
+ "tests_note": "measured from the rig and exposure (board.py tests()). pivot drift: child pin vs parent pin in panel px for every joint of every drawing. Repair 2: legs decay measured on the ON-SCREEN run: the body is at rest f540-564 (hang lengthened, slide starts f565); the legs are kicked (6 rad/s) as the body stops dead and must read |phi| >= 8 deg at f542 and < 1 deg by f564. first_failure_frame: first frame with pitch >= 15 deg and x-advance < 0.5 px/frame.",
+ "aesthetic_measurements": {
+  "wide_f700": {
+   "ink_pct": 0.62,
+   "midtone_pct": 0.74,
+   "paper_median": [
+    243,
+    229,
+    212
+   ],
+   "ink_median": [
+    71,
+    60,
+    52
+   ]
+  },
+  "bb08_f540": {
+   "ink_pct": 3.05,
+   "midtone_pct": 3.66,
+   "paper_median_incl_panel": [
+    229,
+    217,
+    203
+   ],
+   "ink_median": [
+    70,
+    60,
+    51
+   ]
+  },
+  "note": "PIL, luminance <120 ink, 120-200 midtone. Wide f700 ink is below the 3 % target because the slip column is still empty here (slips for BB-07/09 come from the writer unit's cues)"
+ },
+ "sources": [
+  {
+   "id": "LIL-START",
+   "title": "File:PSM V46 D647 Lilienthal flying apparatus the start.jpg (Popular Science Monthly vol. 46, 1894-95)",
+   "author": "Unknown author",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:PSM_V46_D647_Lilienthal_flying_apparatus_the_start.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/PSM_V46_D647_Lilienthal_flying_apparatus_the_start.jpg/960px-PSM_V46_D647_Lilienthal_flying_apparatus_the_start.jpg",
+   "local_path": "films/sources/bang-bang/lilienthal_start.jpg",
+   "sha256_16": "e38d8a7d10d5d453",
+   "what_it_shows": "wood engraving: a man standing in a bird-winged hang glider with a kite tail, at the start of a run",
+   "verified_date_or_place": "1894-95 (Commons DateTimeOriginal); licence re-read from Commons extmetadata LicenseShortName on 2026-11-16",
+   "used_as": "glider, glider_core, glider_wingR, legs; pilot_torso, pilot_arm (the pilot alone for A1/A2, spars erased and re-inked)"
+  },
+  {
+   "id": "PENAUD-PLATE",
+   "title": "File:Pénaud's flying models.jpg (plate 3, Balloons (Aeronautical machines), fig. 1 Pénaud's Hélicoptère)",
+   "author": "Unknown author",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:P%C3%A9naud%27s_flying_models.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/9f/P%C3%A9naud%27s_flying_models.jpg",
+   "local_path": "films/sources/bang-bang/penaud_models.jpg",
+   "sha256_16": "da2e9effa825d044",
+   "what_it_shows": "engraved plate of three Pénaud models: hélicoptère (two rotors on a shaft with a twisted rubber skein), planophore, mechanical bird",
+   "verified_date_or_place": "1875 (Commons DateTimeOriginal); licence re-read from Commons extmetadata on 2026-11-16",
+   "used_as": "heli_top, heli_shaft, heli_bottom (A2, BB-02/03)"
+  },
+  {
+   "id": "AUDUBON-MAGPIE",
+   "title": "Common magpie (1. Male 2. Female), coloured lithograph by J. T. Bowen after J. J. Audubon (Birds of America, octavo edition)",
+   "author": "John James Audubon (drawn from nature); lith. J. T. Bowen, Philadelphia",
+   "license": "Public domain (published Philadelphia 1840-1844; artist d. 1851)",
+   "license_url": "",
+   "source_url": "https://www.loc.gov/pictures/item/2022643758/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/cph/3a30000/3a32000/3a32800/3a32885r.jpg",
+   "local_path": "films/sources/bang-bang/board/src/common_magpie_r.jpg",
+   "sha256_16": "2d64ddee0615fac9",
+   "what_it_shows": "two magpies (Pica, black-and-white with long tail): fig. 1 male in flight seen from above, wings and tail spread; fig. 2 female alighting across a branch, wings half open",
+   "verified_date_or_place": "LoC caption card: 'Col. lithograph by Bowen after Audubon, p. 99. RB Div.'; LoC rights field reads 'Rights status not evaluated' - the public-domain status rests on the 1840s publication date and the artist's death in 1851 (flag for the reviewer). Plate imprint 'Drawn from Nature by J.J. Audubon F.R.S.F.L.S.' / 'Lith. Printed & Col. by J.T. Bowen Philad.' visible in the scan",
+   "used_as": "fly_body, fly_wingL, fly_wingR (the flying magpie, re-pinned at the shoulders); pie_body, pie_head (the perched commentator, branch removed). Replaces the earlier pied-crow stand-in (CROW)"
+  }
+ ],
+ "searched_and_rejected_or_absent": [
+  "Commons 'Twee eksters op een tak, RP-P-2002-661.jpg' (Rijksmuseum print, CC0 per extmetadata, 1875-1939): two magpies, licence fine, but every download from upload.wikimedia.org returned HTTP 429 (retry-after 600 s) during this unit; not used",
+  "Commons 'Penny Magazine 1837 155 Wing of the Magpie.jpg' (PD per extmetadata, 1837 woodcut of a spread magpie wing): wanted for the flying wing; download blocked by the same 429; not used",
+  "LoC 'Die Elster und die Eule' [1846] (No known restrictions): a magpie, but costumed (bonnet, shawl) in a fable scene; rejected as off-character",
+  "Commons searches 'Pica pica Brehms Tierleben', 'Elster Holzstich', 'magpie engraving', 'Bewick magpie' found only whole-book PDFs/DjVu, no single-plate magpie wood engraving in line; a true line-engraved (not lithograph) magpie was not obtained",
+  "Higher-resolution Audubon scan (LoC larger TIFF) is marked 'only available at the Library of Congress'; the 385x640 JPEG was used (adequate: the bird is ~90-110 px on screen)",
+  "CROW (Corvus scapulatus, Brehms Tierleben, PD) from the test shot is retired: it is a pied crow, not a magpie"
+ ],
+ "repairs": [
+  {
+   "piece": "legs",
+   "what": "joint cap (r=15 px blank card) added above the waist cut so the hip wedge never opens"
+  },
+  {
+   "piece": "pilot_torso/pilot_arm",
+   "what": "four spar lines crossing the figure (Hough-detected: [(300, 190, 480, 291), (330, 266, 427, 246), (320, 274, 499, 256), (322, 273, 395, 221)]) erased in a 5 px band; the figure's own contour re-inked across the band by an 11 px closing thinned to pen width (checked visually in pilot_repair_map.png)",
+   "erased_px": 857,
+   "reinked_px": 124
+  },
+  {
+   "piece": "heli_top/heli_bottom",
+   "what": "hub bar re-inked by hand (68 px pen line, source px) joining the two blades of each rotor across the shaft gap"
+  },
+  {
+   "piece": "fly_wingL/fly_wingR",
+   "what": "the plate's single flying pose was cut into body + two wings and re-pinned at the shoulders (Reiniger replacement practice), so the flap cycle is articulated, not a slide"
+  },
+  {
+   "piece": "pie_body/pie_head",
+   "what": "the branch the female perches across (a 23 px band from (163,330) to (276,500)) was inpainted (cv2.INPAINT_TELEA, r=10) and the bird's outline re-inked across the band; she is re-pinned on a pen fence post",
+   "band_px": 5592
+  }
+ ],
+ "mask_stats": [
+  {
+   "source": "LIL-START",
+   "fail_mask": "board/lil_fail_mask.png",
+   "ink_rejected_px": 2913,
+   "note": "rejected ink is the engraved ground hatching under the feet (BG scribbles)"
+  },
+  {
+   "piece": "glider",
+   "components": 1,
+   "area_px": 54992
+  },
+  {
+   "piece": "legs",
+   "components": 1,
+   "area_px": 5123
+  },
+  {
+   "piece": "glider_core",
+   "components": 1,
+   "area_px": 44490
+  },
+  {
+   "piece": "glider_wingR",
+   "components": 1,
+   "area_px": 10501
+  },
+  {
+   "piece": "pilot_torso",
+   "components": 1,
+   "area_px": 4529
+  },
+  {
+   "piece": "pilot_arm",
+   "components": 1,
+   "area_px": 984
+  },
+  {
+   "source": "PENAUD-PLATE",
+   "fail_mask": "board/penaud_fail_mask.png",
+   "ink_rejected_px": 247
+  },
+  {
+   "piece": "heli_top",
+   "components": 1,
+   "area_px": 2255
+  },
+  {
+   "piece": "heli_shaft",
+   "components": 1,
+   "area_px": 1885
+  },
+  {
+   "piece": "heli_bottom",
+   "components": 1,
+   "area_px": 2370
+  },
+  {
+   "piece": "fly_body",
+   "components": 1,
+   "area_px": 22118
+  },
+  {
+   "piece": "fly_wingL",
+   "components": 1,
+   "area_px": 7394
+  },
+  {
+   "piece": "fly_wingR",
+   "components": 1,
+   "area_px": 5613
+  },
+  {
+   "piece": "pie_body",
+   "components": 1,
+   "area_px": 15729
+  },
+  {
+   "piece": "pie_head",
+   "components": 1,
+   "area_px": 2385
+  }
+ ],
+ "failure_masks": [
+  "board/lil_fail_mask.png",
+  "board/penaud_fail_mask.png",
+  "board/audubon_fly_fail_mask.png",
+  "board/audubon_fem_fail_mask.png",
+  "board/pilot_repair_map.png"
+ ],
+ "handmade": [
+  {
+   "item": "storyboard sheets planche 1 and 2",
+   "where": "board/sheet1.png, board/sheet2.png (board.py build_sheet)",
+   "what": "2200x1800 cream sheet (242,228,212), duskier left margin, mirrored show-through of the facing page's hand and panels, three stacked 1.45:1 pen panels at x=253, w=715 with duskier interiors (228,216,202), a punched hole top-left of each, graphite board headers and page number"
+  },
+  {
+   "item": "paper wing (A1)",
+   "where": "board/paper_wing_root.png, board/paper_wing_tip.png",
+   "what": "two cut pieces of the same cream stock with pen spar and ribs; root on the pilot's hand, tip on a crease pin"
+  },
+  {
+   "item": "pen set: wall, flowerbed, gatepost (s1p1), turf and post (s1p2), hill and fence (s2p1), turf and fence post (s2p2), turf and flowerbed (s2p3)",
+   "where": "board/set_s*.png (ink-only RGBA, panel-local)",
+   "what": "jittered felt-pen strokes in warm ink (52,42,34)"
+  },
+  {
+   "item": "brass split pins",
+   "where": "board.py brass_pin()",
+   "what": "rim (70,56,38), head (176,138,62), highlight; on the glider hip and on each slip"
+  },
+  {
+   "item": "torn slip paper and the bird's hand",
+   "where": "board.py torn_slip(), hand2()",
+   "what": "torn cream strips; a per-letter Hershey-derived French hand: per-letter size, tilt, baseline offset, nib pressure, per-word slant, line drift, felt nib, written on letter by letter at 12-14 chars/s"
+  },
+  {
+   "item": "annotations",
+   "where": "board.py annotations()",
+   "what": "inked part labels A (wing) and B (raised nose), graphite dashed horizon through the hip pin and 35 deg arc"
+  }
+ ],
+ "known_gaps": [
+  "the perched magpie (pie_body) is cut from a 385x640 lithograph and printed in two values; it reads as a black-and-white long-tailed bird at film size but its repaired belly (branch removed) is simplified",
+  "BB-08 is the only rendered board; BB-00..BB-10 exist in exposure.json as poses (the editor renders them); slips for boards other than BB-08 are the writer unit's",
+  "the band snap is a dynamics channel (amplitude per frame in exposure.json a2.band_whip_px); the squiggle itself is to be drawn by the editor from that value",
+  "rotor turning is foreshortening (scale_x = |cos phase|) of a flat cut piece, as a paper puppet would be"
+ ]
+}

@@ -1,0 +1,232 @@
+{
+ "panel": "V3_interior",
+ "page": "D2",
+ "bounds_page_px": [
+  1305,
+  1320,
+  2400,
+  2160
+ ],
+ "composite": "over, in order, starting from 00_bg (opaque)",
+ "layers": [
+  {
+   "order": 0,
+   "file": "00_bg.png",
+   "name": "bg"
+  },
+  {
+   "order": 1,
+   "file": "01_clock.case.shadow.png",
+   "name": "clock.case.shadow"
+  },
+  {
+   "order": 2,
+   "file": "02_clock.case.png",
+   "name": "clock.case",
+   "piece": "clock.case",
+   "matrix": [
+    [
+     0.434,
+     0.0,
+     133.424
+    ],
+    [
+     0.0,
+     0.434,
+     421.104
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 3,
+   "file": "03_clock.hour.png",
+   "name": "clock.hour",
+   "piece": "clock.hour",
+   "set_to_deg": 125.0,
+   "matrix": [
+    [
+     -0.167427,
+     -0.400405,
+     232.365049
+    ],
+    [
+     0.400405,
+     -0.167427,
+     496.660418
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 4,
+   "file": "04_clock.minute.png",
+   "name": "clock.minute",
+   "piece": "clock.minute",
+   "set_to_deg": 60,
+   "matrix": [
+    [
+     0.426409,
+     -0.080818,
+     202.182736
+    ],
+    [
+     0.080818,
+     0.426409,
+     459.150477
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 5,
+   "file": "05_clerk.torso.shadow.png",
+   "name": "clerk.torso.shadow"
+  },
+  {
+   "order": 6,
+   "file": "06_clerk.torso.png",
+   "name": "clerk.torso",
+   "piece": "clerk.torso",
+   "pose": {
+    "arm": -34.0,
+    "pencil": 24.0,
+    "head": -6.0
+   },
+   "matrix": [
+    [
+     0.62,
+     0.0,
+     17.98
+    ],
+    [
+     0.0,
+     0.62,
+     572.26
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 7,
+   "file": "07_clerk.head.shadow.png",
+   "name": "clerk.head.shadow"
+  },
+  {
+   "order": 8,
+   "file": "08_clerk.head.png",
+   "name": "clerk.head",
+   "piece": "clerk.head",
+   "pose": {
+    "arm": -34.0,
+    "pencil": 24.0,
+    "head": -6.0
+   },
+   "matrix": [
+    [
+     0.616604,
+     0.064808,
+     397.004155
+    ],
+    [
+     -0.064808,
+     0.616604,
+     360.628148
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 9,
+   "file": "09_clerk.forearm.shadow.png",
+   "name": "clerk.forearm.shadow"
+  },
+  {
+   "order": 10,
+   "file": "10_clerk.forearm.png",
+   "name": "clerk.forearm",
+   "piece": "clerk.forearm",
+   "pose": {
+    "arm": -34.0,
+    "pencil": 24.0,
+    "head": -6.0
+   },
+   "matrix": [
+    [
+     0.514003,
+     0.3467,
+     494.270598
+    ],
+    [
+     -0.3467,
+     0.514003,
+     872.867152
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 11,
+   "file": "11_clerk.pencil.shadow.png",
+   "name": "clerk.pencil.shadow"
+  },
+  {
+   "order": 12,
+   "file": "12_clerk.pencil.png",
+   "name": "clerk.pencil",
+   "piece": "clerk.pencil",
+   "pose": {
+    "arm": -34.0,
+    "pencil": 24.0,
+    "head": -6.0
+   },
+   "matrix": [
+    [
+     0.610581,
+     0.107662,
+     451.008492
+    ],
+    [
+     -0.107662,
+     0.610581,
+     727.313281
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 13,
+   "file": "13_border.png",
+   "name": "border"
+  }
+ ],
+ "note": "the room behind the glass; enters the panel only through 'interior_through_glass'"
+}

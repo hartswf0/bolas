@@ -1,0 +1,45 @@
+{
+ "frame": 96,
+ "t": 4.0,
+ "method": "regions from the model geometry: sky = rows 4-40, x 10-250 (open sky above the far blocks); facade = near-block facade polygon, cream pixels (luma>140, max-min<40); roof = near-block quarter-cylinder band, luma 40-150",
+ "sky_median": [
+  243.0,
+  235.0,
+  241.0
+ ],
+ "facade_cream_median": [
+  182.0,
+  185.0,
+  170.0
+ ],
+ "roof_median": [
+  93.0,
+  105.0,
+  109.0
+ ],
+ "roof_luma": 101.9,
+ "luma_p2_p50_p98": [
+  62.3,
+  120.8,
+  238.1
+ ],
+ "mean_saturation": 20.7,
+ "reference": {
+  "luma_p2_p50_p98": [
+   51.4,
+   133.8,
+   239.7
+  ],
+  "mean_saturation": 19.6
+ },
+ "tests": {
+  "sky_within_12_of_(240,230,240)": true,
+  "facade_R_minus_B_le_20": true,
+  "facade_within_25_of_(175,178,163)": true,
+  "roof_B_ge_R": true,
+  "roof_luma_75_130": true,
+  "luma_p50_115_170": true,
+  "mean_sat_le_30": true
+ },
+ "passed": true
+}

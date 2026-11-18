@@ -1,0 +1,270 @@
+{
+ "panel": "V4_interior",
+ "page": "D2",
+ "bounds_page_px": [
+  150,
+  2230,
+  2400,
+  3150
+ ],
+ "composite": "over, in order, starting from 00_bg (opaque)",
+ "layers": [
+  {
+   "order": 0,
+   "file": "00_bg.png",
+   "name": "bg"
+  },
+  {
+   "order": 1,
+   "file": "01_service_card.shadow.png",
+   "name": "service_card.shadow"
+  },
+  {
+   "order": 2,
+   "file": "02_service_card.png",
+   "name": "service_card"
+  },
+  {
+   "order": 3,
+   "file": "03_service_card.ink.png",
+   "name": "service_card.ink"
+  },
+  {
+   "order": 4,
+   "file": "04_cupboard.door.shadow.png",
+   "name": "cupboard.door.shadow"
+  },
+  {
+   "order": 5,
+   "file": "05_cupboard.door.png",
+   "name": "cupboard.door",
+   "piece": "cupboard.door",
+   "jamb_top_px": [
+    1110.3,
+    428.7
+   ],
+   "jamb_bottom_px": [
+    1110.3,
+    761.0999999999999
+   ],
+   "swing_scaleX": 0.34,
+   "matrix": [
+    [
+     0.289551,
+     0.0,
+     1049.916016
+    ],
+    [
+     0.10049,
+     0.33,
+     412.079987
+    ],
+    [
+     0.000169,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 6,
+   "file": "06_hook.paper.shadow.png",
+   "name": "hook.paper.shadow"
+  },
+  {
+   "order": 7,
+   "file": "07_hook.paper.png",
+   "name": "hook.paper"
+  },
+  {
+   "order": 8,
+   "file": "08_hook.png",
+   "name": "hook"
+  },
+  {
+   "order": 9,
+   "file": "09_tag.shadow.png",
+   "name": "tag.shadow"
+  },
+  {
+   "order": 10,
+   "file": "10_tag.png",
+   "name": "tag"
+  },
+  {
+   "order": 11,
+   "file": "11_tag.ink.png",
+   "name": "tag.ink"
+  },
+  {
+   "order": 12,
+   "file": "12_key.shadow.png",
+   "name": "key.shadow"
+  },
+  {
+   "order": 13,
+   "file": "13_key.png",
+   "name": "key",
+   "piece": "key",
+   "hook_px": [
+    1082.7483993512526,
+    560.1433357274102
+   ],
+   "matrix": [
+    [
+     0.113121,
+     -0.002962,
+     1072.028543
+    ],
+    [
+     0.002962,
+     0.113121,
+     561.843837
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 14,
+   "file": "14_clerk.torso.shadow.png",
+   "name": "clerk.torso.shadow"
+  },
+  {
+   "order": 15,
+   "file": "15_clerk.torso.png",
+   "name": "clerk.torso",
+   "piece": "clerk.torso",
+   "pose": {
+    "arm": 0.0,
+    "pencil": 0.0,
+    "head": 0.0
+   },
+   "matrix": [
+    [
+     -0.2775,
+     0.0,
+     1532.085
+    ],
+    [
+     0.0,
+     0.2775,
+     533.715
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 16,
+   "file": "16_clerk.head.shadow.png",
+   "name": "clerk.head.shadow"
+  },
+  {
+   "order": 17,
+   "file": "17_clerk.head.png",
+   "name": "clerk.head",
+   "piece": "clerk.head",
+   "pose": {
+    "arm": 0.0,
+    "pencil": 0.0,
+    "head": 0.0
+   },
+   "matrix": [
+    [
+     -0.2775,
+     0.0,
+     1346.715
+    ],
+    [
+     0.0,
+     0.2775,
+     431.595
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 18,
+   "file": "18_clerk.forearm.shadow.png",
+   "name": "clerk.forearm.shadow"
+  },
+  {
+   "order": 19,
+   "file": "19_clerk.forearm.png",
+   "name": "clerk.forearm",
+   "piece": "clerk.forearm",
+   "pose": {
+    "arm": 0.0,
+    "pencil": 0.0,
+    "head": 0.0
+   },
+   "matrix": [
+    [
+     -0.2775,
+     0.0,
+     1241.265
+    ],
+    [
+     0.0,
+     0.2775,
+     548.145
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 20,
+   "file": "20_clerk.pencil.shadow.png",
+   "name": "clerk.pencil.shadow"
+  },
+  {
+   "order": 21,
+   "file": "21_clerk.pencil.png",
+   "name": "clerk.pencil",
+   "piece": "clerk.pencil",
+   "pose": {
+    "arm": 0.0,
+    "pencil": 0.0,
+    "head": 0.0
+   },
+   "matrix": [
+    [
+     -0.2775,
+     0.0,
+     1252.365
+    ],
+    [
+     0.0,
+     0.2775,
+     484.875
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "order": 22,
+   "file": "22_border.png",
+   "name": "border"
+  }
+ ],
+ "note": "the room behind the glass; enters the panel only through 'interior_through_glass'"
+}

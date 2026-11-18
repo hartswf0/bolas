@@ -1,0 +1,141 @@
+{
+ "slug": "99-ways-template",
+ "baseline_revision": "b1",
+ "direction": "2 Photo-Fumetti Cutout (proposals/kf-2.png)",
+ "frozen": true,
+ "thesis": "A 1937 FSA railway agent, cut out of his own Rothstein photograph with scissors, leaves his desk for the service key, answers a stranger's 'What time is it?' through the ticket window, and stands at the open cupboard with the brass key in plain view, having forgotten it. Madden's Template grammar (8 panels, 3/3/2, white gutters, objective eye-level view, four lines in the same speech roles) is kept; the reader sees what the clerk cannot (memo, clock, key), and hinged cut-paper articulation (head on collar, door on jamb, pencil-arm on shoulder) performs the joke. Bland would be: a slideshow of grey FSA photos with stock-font balloons, pans and dissolves instead of hinged poses, a cupboard that does not visibly hold the key, a camera that drifts instead of performing the reading order, derivatives that are mere re-crops.",
+ "defining_beat": "E5, forgetting, film 0:36-0:46 (page P6 -> P8): the empty TICKET OFFICE window says 'Thanks!' with its tail exiting the panel; cut to the cupboard, door open on its jamb, brass SERVICE key on its hook at the clerk's elbow; his head tilts up in 3 hinged steps, pencil-arm rises to chin in 4 poses, 'What the hell was I looking for, anyway?' drops in as paper with one bounce; 2 s hold, key unmoved. A viewer can point to: the key on its hook inside the open door, the head tilted away from it, pencil at chin, and the empty window in the previous panel.",
+ "baseline": "(a) Madden's Template page assets/references/madden1.webp for page grammar and tonal design (57% pure white, ~18% solid black); (b) chosen keyframe films/swarm/99-ways-template/proposals/kf-2.png for material and E5 staging (must be met or beaten: at least as clear, higher-key, with the key now visible); (c) the current site film (clean vector line restyle) which must be beaten on material reality and articulated motion.",
+ "aesthetic": "Medium: photo-comic page; real 1937-43 FSA/OWI B&W photographs cut as paper pieces with 6-10 px white scissor margins on the real 1934 LoC Federal Theatre Project sheet, hand-ruled ~9 px black borders, cut-paper balloons. Tonal range: high-key B&W pushed past kf-2 (27% L>230, 9% L<40, median 147) toward Madden (57% white ~252, 17-19% black ~12): target >=35% page pixels L>220 and >=8% L<40, reached by choosing plates/crops with clean whites (shirt, glass, racks, paper) and real blacks (tie, frames, cupboard interior) and one levels curve per source photo; no threshold/posterize/halftone/comic filters. Palette (PIL-sampled): page ground warm off-white ~(234-242,232-240,227-235) lifted from raw sheet (213,197,163); balloon fill ~(248,246,240); ink ~(18,17,16); photographs neutral grey; no colour beyond the sheet's faint cream. Light: even FSA interior window/flash light, hard on the white shirt; each piece casts one consistent soft paper shadow down-right (~6 px offset, ~4 px blur, 35%). Texture: native photographic grain from rescanned masters plus the sheet's fibre; no added noise or vignette. Framing/scale: Madden's objective eye-level framing, P1-P3 medium-wide, P5/P8 medium close (waist up), window panels narrow verticals, pieces keep photographic scale within a panel. Type: handmade single-stroke mixed-case comics lettering (~70 px caps on a 3300 px page), slightly irregular baseline, oval balloons with tapered wedge tails; no stock typeface in balloons. Pacing: ~5 s per panel, animation on twos (12 poses/s) with holds at action ends, balloons drop over 4 frames with one bounce then 1.5 s read hold, defining beat ends on a 2 s hold.",
+ "techniques": [
+  {
+   "id": 1,
+   "title": "Terry Gilliam - Comic Cutout Metamorphosis",
+   "why": "Governing method: real photographs moved as hinged paper fragments; the gag is moving the smallest necessary piece (head toward the voice, arm to the chin), sliding no-legs stepping walk, balloons as impact objects with paper-tap sound, held frames. Numeric invariant: balloon land and action-end frames logged in anim/timing.json match the shot list within 1 frame. Perceptual: paper boundaries look intentional, each beat reads at phone size, the forgetting reads as a gag not a glitch. Shots S2,S3,S4,S7,S8 + every balloon."
+  },
+  {
+   "id": 29,
+   "title": "GrabCut - Cutout Extraction Swarm",
+   "why": "Makes every piece from the FSA plates (clerk torso, head, pencil-arm/hand, cupboard door, ticket racks, window, lamp, visitor, clock, key, inpainted empty-desk plate) with box/scribble seeds, graph cut and alpha cleanup, kept as usable RGBA layers with source-coordinate transforms. Numeric invariant: one connected alpha component per piece (no background islands), fingers retained on the pencil hand. Perceptual: source-edge fidelity at normal size; scissor margin reads as a deliberate cut, not a halo; failure masks exported. All panels."
+  },
+  {
+   "id": 32,
+   "title": "Forward Kinematics - Hierarchical Body Logic",
+   "why": "Rig: torso->collar->head, torso->shoulder->pencil-arm->hand+pencil, cupboard->jamb->door->hook->key with local/parent transforms and pivot offsets. Numeric invariant: pivot-distance drift <=1.5 px at page scale, no head/neck detachment, jamb edge fixed during the swing, key keeps constant offset to its hook. Perceptual: the head turns toward the voice and the arm rises with weight (anticipation, overlap, hold) as performed action. Shots S1,S2,S4,S5,S7,S8."
+  }
+ ],
+ "acceptance": [
+  {
+   "id": "B1",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "HARD PROOF PAGE: assets/pages/99-ways-template.png is one page, >=2400 px long side (planned 2550x3300), 8 panels in 3/3/2 on the 1934 sheet, showing in reading order: clerk at desk with legible memo (E0), desk left empty (E1), crossing past the closed SERVICE door (E1), 'What time is it?' with tail out through the ticket window to the off-panel platform (E2), clerk answering 'Ten past four!' with the clock at 4:10 (E3), empty window with 'Thanks!' tail exiting the panel (E3b), cupboard door open with the brass key on its hook (E4), pencil to chin under 'What the hell was I looking for, anyway?' with the key still visible and unmoved (E5). Every balloon tail points at its true speaker (clerk's mouth) or at the off-panel source (window/edge). A viewer at phone-width can find each of these without the ledger."
+  },
+  {
+   "id": "B2",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "SECTION 7 FIXTURE: two blind readers, before seeing the ledger, retell the baseline incident in the frozen order (leaves desk -> question from outside/platform -> answers the time -> thanks -> reaches cupboard -> forgets why) and correctly state speaker identity (a visitor outside asks and thanks; the clerk answers and asks himself), destination (the cupboard / the key), interruption (the time question) and outcome (he forgets; the key stays; nothing is unlocked). Shown the two derivative pages, they name what each changes (D1: compressed to two panels; D2: seen from the platform/visitor's side) and identify both as the same incident with the same outcome. Any reader disagreement on a fact fails this condition."
+  },
+  {
+   "id": "B3",
+   "kind": "blocking",
+   "evidence": "structurally verified",
+   "text": "MATERIAL IS REAL: every photographic pixel on page and film traces through cutouts/manifest.json to a recorded LoC/Moving Image Archive/Commons item with a permitted licence in films/credits/99-ways-template.json (PD, PD-USGov, no known restrictions, CC0, CC BY, CC BY-SA); memo, sign-card, borders, balloons and lettering are handmade for this work (lettering drawn from page/glyphs.json strokes, no stock typeface in balloons); no filter fakes the look (no posterize, threshold, halftone, synthetic grain, vignette). Side by side with the sources, a viewer sees the same photographs, cut and re-levelled, not restyled."
+  },
+  {
+   "id": "B4",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "GENUINELY ANIMATED AND PERFORMING THE PAGE: in assets/films/99-ways-template.mp4 (<=75 s, real playback, purposeful foley or declared silence) the camera visits P1..P8 in route R0 order, and at least S2 (rise), S4 (head swing on collar), S7 (door swings on jamb in >=5 foreshortened poses) and S8 (head tilt + pencil-arm rise + hold) are animated pose by pose on twos with articulated pieces, so a viewer sees a head turn, a door swing and an arm rise as actions with anticipation and holds, not pans, slides of whole panels or dissolves. Each panel's motion resolves to its page art: rest frames match the page crop (mean abs difference <=4/255 after rescale; measured), and the FK invariants in anim/fk_test.json pass (pivot drift <=1.5 px page scale, key offset constant; measured). The film also shows the full-page hold, both derivative pages and the ledger."
+  },
+  {
+   "id": "B5",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "DEFINING BEAT LANDS: watched at normal speed, P6->P8 (film ~0:29-0:46) reads as a gag: the empty window with 'Thanks!' then the clerk at the open cupboard with the brass key in plain view at his elbow, head tilting away from it, pencil reaching the chin, balloon landing with one bounce, a held beat in which the key does not move. A viewer can point to the key and to the fact that he is not looking at it. It is at least as clear as kf-2's E5 panel and adds the visible key."
+  },
+  {
+   "id": "B6",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "AESTHETIC SIDE BY SIDE: placed beside madden1.webp and kf-2.png at the same height, the page reads first as a high-key black-and-white comic page (white paper and gutters dominating, solid blacks in borders, tie, frames and cupboard interior, crisp mixed-case hand lettering in clean balloons), not as a grey photo album; plates from Rothstein, Bubley and Wolcott sit in one tonal family; scissor margins and paper shadows are consistent; it is higher-key than kf-2. Supporting measurement only: >=35% of page pixels L>220 and >=8% L<40 (measured)."
+  },
+  {
+   "id": "A1",
+   "kind": "advisory",
+   "evidence": "structurally verified",
+   "text": "GrabCut quality: each piece's alpha has one connected component (unless declared multi-part), fingers retained on the pencil hand, halos hidden by the scissor margin; failure masks exported in cutouts/failures/."
+  },
+  {
+   "id": "A2",
+   "kind": "advisory",
+   "evidence": "perceptually judged",
+   "text": "Lettering consistency: the same handmade hand across page, derivatives and film; balloon reading order inside each panel matches speech order; no letter collides with a balloon edge."
+  },
+  {
+   "id": "A3",
+   "kind": "advisory",
+   "evidence": "measured",
+   "text": "Budgets: new downloads <75 MB for the work; film <=6 MB; film duration 65-75 s."
+  },
+  {
+   "id": "A4",
+   "kind": "advisory",
+   "evidence": "structurally verified",
+   "text": "Reusable baseline: ledger.json (event IDs, participants, objects, causal links, fact/cue/interpretation, panel IDs), panels.json and the baseline package let another swarm rebuild or derive from b1 without reading this plan; coverage.json marks every event per page as shown / implied (with cue) / omitted."
+  }
+ ],
+ "reader_questions": [
+  "Retell, in order, everything that happens on the main page.",
+  "Who says each line of dialogue, and where is each speaker when they say it?",
+  "Where is the man going when he is interrupted, and why is he going there?",
+  "What interrupts him?",
+  "How does it end? Is anything left undone, and what?",
+  "Does anything happen that no panel shows directly? What in the pictures tells you so?",
+  "Look at the two other pages. For each, what is different from the main page, and is it the same incident?"
+ ],
+ "intended_reading": "Main page: a railway station agent sitting at his office desk reads a memo (4:15, open the SERVICE door, key in cupboard). He gets up and leaves the desk, walking past the closed service door toward the cupboard. A woman outside on the platform, seen only as a shape beyond the ticket-office glass, asks 'What time is it?'. He turns, looks at the office clock and answers 'Ten past four!'. She says 'Thanks!' from outside and leaves (out of frame: the window is empty and her balloon's tail runs out of the panel). He reaches the cupboard and opens its door; the brass service key hangs on its hook inside. He stands there, pencil to chin, looking up at the shelves: 'What the hell was I looking for, anyway?'. The key stays on its hook and the service door stays closed: the interruption made him forget the key. Speakers: visitor (question, thanks; off-panel through the window), clerk (answer; final self-question). Destination: cupboard/key. Interruption: the time question. Outcome: goal forgotten, key untouched. Derivative 1 tells the same incident in two panels (time compressed; the exchange stacked in one panel). Derivative 2 tells it from the platform, from the visitor's side of the window: his leaving the desk happens out of her view, and she only glimpses him at the cupboard as she walks off; same outcome.",
+ "deliverables": [
+  "/home/user/bolas/paeleo/scion/oulipo/assets/pages/99-ways-template.png",
+  "/home/user/bolas/paeleo/scion/oulipo/assets/films/99-ways-template.mp4",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways-template/ledger.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways-template/panels.json",
+  "/home/user/bolas/paeleo/scion/oulipo/assets/pages/99-ways-template-compressed.png",
+  "/home/user/bolas/paeleo/scion/oulipo/assets/pages/99-ways-template-platform.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways-template/coverage.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways-template/baseline-b1/README.md",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways-template/baseline-b1/manifest.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways-template/status.md",
+  "/home/user/bolas/paeleo/scion/oulipo/films/99-ways-template.py",
+  "/home/user/bolas/paeleo/scion/oulipo/films/credits/99-ways-template.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/notes/99-ways-template.txt"
+ ],
+ "units": [
+  {
+   "role": "cutout-surgeon",
+   "mode": "both",
+   "output": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways-template/cutouts/manifest.json",
+   "task": "Read plan.md, swarms.json #29 GrabCut and #1 Gilliam in full, BRIEF-2.md. Re-verify LoC rights JSON for 2017776093 (Rothstein), 2017861739/2017861708 (Bubley), 2017802673/2017802742 (Wolcott), musftpsets.200218222 (1934 sheet). Fetch a higher-resolution Rothstein: master 8b16710u.tif (https://tile.loc.gov/storage-services/master/pnp/fsa/8b16000/8b16700/8b16710u.tif, uncompressed 8-bit grey 13818x10504, one row per strip, IFD at offset 8, 145 MB: do NOT download whole) via HTTP multi-range requests (server returns multipart/byteranges) fetching every 3rd row in batches of ~200 ranges (~48 MB), parse the multipart response as data in Python (-I), subsample columns by 3, reassemble ~4606x3501, verify orientation against 8b16710v.jpg; fall back to v.jpg if it fails and record why. Forage a clock photograph (clock face whose hands can be cut out and set to 4:10) and a key photograph: Moving Image Archive stills/clips first (forage.py 'clock|key|keys'), then Commons PD/CC0/CC BY or LoC no-known-restrictions. GrabCut (box + scribble seeds, alpha cleanup) RGBA pieces with pivots in piece coordinates: rothstein.clerk.torso, .head (collar pivot), .pencil_arm (shoulder pivot) incl. hand/pencil, .cupboard_door (jamb edge), .ticket_racks, .window, .lamp (cord pivot), .service_door, .desk_empty (cv2.inpaint + same-photo patch where the clerk sat), bubley.visitor, clock.face/.hour/.minute, key. Per-plate levels (black/white point) to unify toward high-key. Write cutouts/manifest.json (piece id, source item, source bbox, pivot, scale, levels, file), cutouts/contact.jpg, cutouts/failures/ (failure masks), cutouts/credits-draft.json. Media in films/sources/99-ways-template/cutout-surgeon/. Keep new downloads <60 MB. Do not judge your own pieces as passing the bar; just report what you inspected."
+  },
+  {
+   "role": "page-cartoonist",
+   "mode": "handmake",
+   "output": "/home/user/bolas/paeleo/scion/oulipo/assets/pages/99-ways-template.png",
+   "task": "Writer + cartoonist + letterer; owns canonical beats. Read plan.md (sections 3, 5, 7), swarms.json #1 and #32 in full. Write ledger.json (frozen b1 event graph E0,E1,E2,E3,E3b,E4,E5 with participants, objects, places, causes, fact/cue/interpretation, panel ids) and panels.json (panel bounds px, viewpoint, speech with speaker and tail target, balloon boxes, visible evidence, film in/out). Build page/build_page.py producing the 2550x3300 page on the 1934 sheet (interior only, levels lifted toward ~(240,236,226)), 150 px margins, 60/70 px white gutters, hand-ruled tremored ~9 px borders, panels P1-P8 per plan.md section 5 composed from cutouts/manifest.json pieces (use cut-outs from 8b16710v.jpg as stand-ins until the manifest exists, then swap), the handmade memo slip ('4:15 - open SERVICE door. Key in cupboard.') typeset as a railway form and the SERVICE sign-card, cut-paper balloons with 6-10 px scissor margin and paper shadow, and HANDMADE single-stroke mixed-case lettering from a glyph-stroke table page/glyphs.json you author (no stock font in balloons). Push tone high-key by plate choice, crop and one levels curve per plate only. Export each panel's rest layers to page/rest/P1..P8 (layer stack with piece ids and transforms) so the animator's rest poses equal the page. Media in films/sources/99-ways-template/page-cartoonist/."
+  },
+  {
+   "role": "rig-animator",
+   "mode": "both",
+   "output": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways-template/anim/timing.json",
+   "task": "Mechanics builder + sound editor. Read plan.md sections 6 and 8 and swarms.json #1 Gilliam and #32 Forward Kinematics in full. From cutouts/manifest.json and page/rest/, build anim/rig.json (typed joint graph per panel: torso->collar->head; torso->shoulder->pencil_arm->hand+pencil; cupboard->jamb->door->hook->key; lamp cord; clock hands; balloons as dropped paper objects). Animate S0-S8 frame by frame on twos at 24 fps (12 poses/s) per the shot list: borders ruling in, head dip, rise with anticipation and head overlap, Gilliam stepping walk with bob, head swing in 3 steps, clock minute hand step, lamp sway, door swing in >=5 foreshortened poses about the fixed jamb, head tilt 3 steps + pencil-arm 4 poses + hold + 2 scratches, balloon drops over 4 frames with one bounce. Every action ends exactly on the page rest pose. Write anim/timing.json (pose keys, land and hold frames per shot), anim/fk_test.json (measured pivot drift <=1.5 px page scale, key offset constant), anim/strips/S4.png, S7.png, S8.png (full-rate strips), and render per-shot frame sequences or a frame-callable module anim/panels.py the editor can import. Sound: forage room tone and foley (footsteps on boards, chair scrape, counter bell, clock tick, door creak/latch, paper tap, distant platform) from Moving Image Archive clip sound first (forage.py with --media clip, audition by listening to waveform/spectrum and title), then Commons PD/CC0/CC BY/BY-SA audio; synthesize with kit.Mix only what is missing and declare it; write anim/sound/*.wav and anim/sound/sound.json (source, licence, in/out, used_as). Media in films/sources/99-ways-template/rig-animator/."
+  },
+  {
+   "role": "variant-builders",
+   "mode": "both",
+   "output": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/99-ways-template/coverage.json",
+   "task": "Two variant builders under one owner, each changing exactly one dimension against b1. Read plan.md sections 3 and 5 and swarms.json #1 in full; read ledger.json and panels.json (do not edit them). D1 'Compressed' -> assets/pages/99-ways-template-compressed.png: panel_count 8->2 (C1 empty desk + memo, clerk leaving, 'What time is it?' tail from off-panel left, 'Ten past four!' below; C2 open cupboard, key on hook, pencil to chin, small 'Thanks!' from off-panel left then the forgetting balloon), labelled header 'Derivative 1 - Compressed (2 panels)'. D2 'From the platform' -> assets/pages/99-ways-template-platform.png: viewpoint = the visitor's, outside the ticket window, 4 panels (V1 platform/window exterior from Wolcott 2017802673 or Bubley 2017861708/739, visitor at window; V2 through glass, desk already empty, 'What time is it?' from her; V3 clerk's head turned: 'Ten past four!', 'Thanks!'; V4 she walks off small, far back through the glass a glimpse of open cupboard and clerk scratching head), labelled 'Derivative 2 - From the platform'. Same pieces, same handmade lettering (page/glyphs.json), same sheet ground, same tonal rules; outcome unchanged (key stays, door closed). Write coverage.json: per page (B, D1, D2) each event shown / implied (with cue) / omitted, the changed dimension, and declared losses (D2 cannot show the memo, so motive is not recoverable there). Build scripts and panel records in variants/. Media in films/sources/99-ways-template/variant-builders/."
+  }
+ ],
+ "editor_task": "Read plan.md, plan.json (frozen bar), swarms.json #1, #29, #32 in full, kit.py (do not edit). Write films/99-ways-template.py rendering assets/films/99-ways-template.mp4 (960x540, 24 fps, ~71 s, <=6 MB) with kit.Film by pasting the page art (assets/pages/99-ways-template.png and the per-panel rest layers) and the per-frame animation from anim/ (rig-animator), performing shot list S0-S12 exactly: camera walks route R0 P1->P8 with each panel's animation resolving to the page art, full-page hold and reading-order lift, derivative pages D1 and D2 walked in order, ledger card E0-E5 x B/D1/D2. Mix the foley stems from anim/sound/ with mix.add (synth only where declared). Assert rest frames match page crops (mean abs diff <=4/255) and timing.json land frames. Produce every deliverable: ledger.json/panels.json/coverage.json check-in, baseline-b1/ (README.md + manifest.json linking ledger, panels, pieces, glyphs and their revision), status.md (current preview, decisive review, remaining failure), films/credits/99-ways-template.json (every LoC/MIA/Commons item with title, author, license, license_url, source_url, file_url, used_as; MIA items per the shared rule), films/notes/99-ways-template.txt (60-110 words, foraged vs handmade). Do not change the bar; propose changes in amendments.md."
+}

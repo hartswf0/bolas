@@ -1,0 +1,405 @@
+{
+ "master_revision": "90f1417b48de31c0113ca2ec2e874d1bf3f9d2ec",
+ "master": {
+  "path": "out/master.mp4",
+  "frames": 720,
+  "dimensions": "960x464",
+  "timebase": "1/24",
+  "streams": [
+   {
+    "index": 0,
+    "codec_name": "h264",
+    "codec_type": "video",
+    "width": 960,
+    "height": 464,
+    "r_frame_rate": "24/1",
+    "time_base": "1/12288",
+    "nb_frames": "720"
+   }
+  ],
+  "framemd5_recomputed_equals_stored": true
+ },
+ "editions": {
+  "A": {
+   "frames": 720,
+   "match": 720,
+   "of": 720,
+   "pass": true,
+   "path": "out/edition-A.mp4",
+   "dimensions": "960x464",
+   "timebase": "1/24",
+   "subtitle_streams": [],
+   "written_edition_sidecar": "out/edition-A.written-fiction.vtt",
+   "streams": [
+    {
+     "index": 0,
+     "codec_name": "h264",
+     "codec_type": "video",
+     "width": 960,
+     "height": 464,
+     "r_frame_rate": "24/1",
+     "time_base": "1/12288",
+     "nb_frames": "720"
+    },
+    {
+     "index": 1,
+     "codec_name": "aac",
+     "codec_type": "audio",
+     "r_frame_rate": "0/0",
+     "time_base": "1/44100",
+     "nb_frames": "1293"
+    }
+   ],
+   "bytes": 5937432,
+   "audio": {
+    "integrated_lufs_aac": -23.0,
+    "true_peak_dbtp_aac": -2.1,
+    "lra_lu": 5.8,
+    "pass": true
+   }
+  },
+  "B": {
+   "frames": 720,
+   "match": 720,
+   "of": 720,
+   "pass": true,
+   "path": "out/edition-B.mp4",
+   "dimensions": "960x464",
+   "timebase": "1/24",
+   "subtitle_streams": [
+    {
+     "index": 2,
+     "codec_name": "mov_text",
+     "disposition": {
+      "default": 1
+     },
+     "tags": {
+      "language": "fre",
+      "handler_name": "transcript of recorded speech only"
+     }
+    }
+   ],
+   "written_edition_sidecar": "out/edition-B.written-fiction.vtt",
+   "streams": [
+    {
+     "index": 0,
+     "codec_name": "h264",
+     "codec_type": "video",
+     "width": 960,
+     "height": 464,
+     "r_frame_rate": "24/1",
+     "time_base": "1/12288",
+     "nb_frames": "720"
+    },
+    {
+     "index": 1,
+     "codec_name": "aac",
+     "codec_type": "audio",
+     "r_frame_rate": "0/0",
+     "time_base": "1/44100",
+     "nb_frames": "1293"
+    },
+    {
+     "index": 2,
+     "codec_name": "mov_text",
+     "codec_type": "subtitle",
+     "r_frame_rate": "0/0",
+     "time_base": "1/1000000",
+     "nb_frames": "3"
+    }
+   ],
+   "bytes": 5928732,
+   "audio": {
+    "integrated_lufs_aac": -23.0,
+    "true_peak_dbtp_aac": -3.6,
+    "lra_lu": 6.5,
+    "pass": true
+   }
+  },
+  "X": {
+   "frames": 720,
+   "match": 720,
+   "of": 720,
+   "pass": true,
+   "path": "out/edition-X.mp4",
+   "dimensions": "960x464",
+   "timebase": "1/24",
+   "subtitle_streams": [
+    {
+     "index": 2,
+     "codec_name": "mov_text",
+     "disposition": {
+      "default": 1
+     },
+     "tags": {
+      "language": "fre",
+      "handler_name": "transcript of recorded speech only"
+     }
+    }
+   ],
+   "written_edition_sidecar": "out/edition-X.written-fiction.vtt",
+   "streams": [
+    {
+     "index": 0,
+     "codec_name": "h264",
+     "codec_type": "video",
+     "width": 960,
+     "height": 464,
+     "r_frame_rate": "24/1",
+     "time_base": "1/12288",
+     "nb_frames": "720"
+    },
+    {
+     "index": 1,
+     "codec_name": "aac",
+     "codec_type": "audio",
+     "r_frame_rate": "0/0",
+     "time_base": "1/44100",
+     "nb_frames": "1293"
+    },
+    {
+     "index": 2,
+     "codec_name": "mov_text",
+     "codec_type": "subtitle",
+     "r_frame_rate": "0/0",
+     "time_base": "1/1000000",
+     "nb_frames": "3"
+    }
+   ],
+   "bytes": 5943280,
+   "audio": {
+    "integrated_lufs_aac": -23.1,
+    "true_peak_dbtp_aac": -2.8,
+    "lra_lu": 9.5,
+    "pass": true
+   }
+  },
+  "C": {
+   "frames": 720,
+   "match": 720,
+   "of": 720,
+   "pass": true,
+   "path": "out/edition-C.mp4",
+   "dimensions": "960x464",
+   "timebase": "1/24",
+   "subtitle_streams": [],
+   "written_edition_sidecar": null,
+   "streams": [
+    {
+     "index": 0,
+     "codec_name": "h264",
+     "codec_type": "video",
+     "width": 960,
+     "height": 464,
+     "r_frame_rate": "24/1",
+     "time_base": "1/12288",
+     "nb_frames": "720"
+    },
+    {
+     "index": 1,
+     "codec_name": "aac",
+     "codec_type": "audio",
+     "r_frame_rate": "0/0",
+     "time_base": "1/44100",
+     "nb_frames": "1293"
+    }
+   ],
+   "bytes": 5780040,
+   "audio": {
+    "integrated_lufs_aac": -23.0,
+    "true_peak_dbtp_aac": -3.8,
+    "lra_lu": 13.2,
+    "pass": true
+   }
+  },
+  "silent": {
+   "frames": 720,
+   "match": 720,
+   "of": 720,
+   "pass": true,
+   "path": "out/control-silent.mp4",
+   "dimensions": "960x464",
+   "timebase": "1/24",
+   "subtitle_streams": [],
+   "written_edition_sidecar": null,
+   "streams": [
+    {
+     "index": 0,
+     "codec_name": "h264",
+     "codec_type": "video",
+     "width": 960,
+     "height": 464,
+     "r_frame_rate": "24/1",
+     "time_base": "1/12288",
+     "nb_frames": "720"
+    },
+    {
+     "index": 1,
+     "codec_name": "aac",
+     "codec_type": "audio",
+     "r_frame_rate": "0/0",
+     "time_base": "1/44100",
+     "nb_frames": "1293"
+    }
+   ],
+   "bytes": 5334453,
+   "audio": {
+    "decoded_samples_per_channel": 1323008,
+    "max_abs_sample": 0,
+    "digital_zero": true
+   }
+  }
+ },
+ "negative_controls": {
+  "one_frame_shift": {
+   "frames": 720,
+   "match": 0,
+   "of": 720,
+   "pass": false,
+   "what": "B muxed with the video delayed one frame (-itsoffset 1/24, stream copy)",
+   "md5_only_matches": 720,
+   "expected": "FAIL",
+   "result": "FAIL",
+   "control_ok": true,
+   "deleted": true
+  },
+  "frame0_dropped": {
+   "frames": 719,
+   "match": 0,
+   "of": 720,
+   "pass": false,
+   "what": "B with frame 0 dropped (re-encoded)",
+   "md5_only_matches": 0,
+   "expected": "FAIL",
+   "result": "FAIL",
+   "control_ok": true,
+   "deleted": true
+  },
+  "burned_caption": {
+   "frames": 720,
+   "match": 0,
+   "of": 720,
+   "pass": false,
+   "frames_384_623_hash_equal": 0,
+   "what": "B with a caption and a red REC mark burned into frames 384-623 (re-encoded)",
+   "md5_only_matches": 0,
+   "expected": "FAIL",
+   "result": "FAIL",
+   "control_ok": true,
+   "deleted": true
+  }
+ },
+ "required_editions_720_of_720": true,
+ "all_editions_720_of_720": true,
+ "negative_controls_all_fail": true,
+ "comparison": "each decoded frame's (pts, duration, size, md5) from ffmpeg -f framemd5 must equal the master's, in order, 720/720",
+ "screening": {
+  "S-A-B": {
+   "path": "out/screening-S-A-B.mp4",
+   "order": [
+    "silent",
+    "A",
+    "B"
+   ],
+   "captions": null,
+   "segments_720_of_720": [
+    720,
+    720,
+    720
+   ],
+   "frames": 2160,
+   "bytes": 17197631,
+   "note": "90 s blind sequence: silent control, then two unlabelled passes; md5 per frame equal to the master in each segment"
+  },
+  "S-B-A": {
+   "path": "out/screening-S-B-A.mp4",
+   "order": [
+    "silent",
+    "B",
+    "A"
+   ],
+   "captions": null,
+   "segments_720_of_720": [
+    720,
+    720,
+    720
+   ],
+   "frames": 2160,
+   "bytes": 17197631,
+   "note": "90 s blind sequence: silent control, then two unlabelled passes; md5 per frame equal to the master in each segment"
+  }
+ },
+ "reels": {
+  "AB": {
+   "path": "assets/films/la-cite-raymond-queneau.mp4",
+   "order": "AB",
+   "duration_s": 75.0,
+   "bytes": 4125981,
+   "picture_region_frames_compared": 720,
+   "psnr_db_min": 78.38,
+   "psnr_db_mean": 98.93,
+   "psnr_db_p5": 99.0,
+   "frames_below_45db": 0,
+   "pass_psnr_ge_45": true,
+   "pass1_lufs_tp": [
+    -24.0,
+    -3.4
+   ],
+   "pass2_lufs_tp": [
+    -24.0,
+    -2.5
+   ],
+   "pass_lu_difference": 0.0,
+   "sha1_before_encoding": {
+    "order": "AB",
+    "frames_pass1": 720,
+    "frames_pass2": 720,
+    "pass1_eq_pass2": 720,
+    "pass1_eq_decoded_master": 720,
+    "of": 720,
+    "pass": true,
+    "loudness_kit_lufs_after_master_gain": {
+     "A": -24.01246511668826,
+     "B": -24.012464979055895,
+     "master_gain_db": -1.012199867101744
+    }
+   }
+  },
+  "BA": {
+   "path": "films/swarm/la-cite-raymond-queneau/out/reel-BA.mp4",
+   "order": "BA",
+   "duration_s": 75.0,
+   "bytes": 4134510,
+   "picture_region_frames_compared": 720,
+   "psnr_db_min": 78.38,
+   "psnr_db_mean": 98.93,
+   "psnr_db_p5": 99.0,
+   "frames_below_45db": 0,
+   "pass_psnr_ge_45": true,
+   "pass1_lufs_tp": [
+    -24.0,
+    -4.9
+   ],
+   "pass2_lufs_tp": [
+    -24.0,
+    -3.7
+   ],
+   "pass_lu_difference": 0.0,
+   "sha1_before_encoding": {
+    "order": "BA",
+    "frames_pass1": 720,
+    "frames_pass2": 720,
+    "pass1_eq_pass2": 720,
+    "pass1_eq_decoded_master": 720,
+    "of": 720,
+    "pass": true,
+    "loudness_kit_lufs_after_master_gain": {
+     "A": -24.01246511668826,
+     "B": -24.012464979055895,
+     "master_gain_db": -1.012199867101744
+    }
+   }
+  }
+ },
+ "reel_note": "presentation derivative, not the fixture: pass pictures sha1-identical before encoding; after lossy encoding compared by PSNR on rows 0-463"
+}

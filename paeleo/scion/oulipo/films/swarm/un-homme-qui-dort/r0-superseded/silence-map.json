@@ -1,0 +1,453 @@
+{
+ "film": "un-homme-qui-dort",
+ "picture_seconds": 35.0,
+ "rate": 44100,
+ "measured_on": "2026-11-15",
+ "method": "Each stem group (S-ROOM-BED, S-RING R1-R4, S-STEPS x2, S-STREET) rendered alone through kit.Mix(35.0) with the exact cue list and add_stereo helper below (before master); RMS over each span of L+R samples. '-inf' = every sample in the span is exactly 0.0.",
+ "silence_spans": [
+  {
+   "id": "SIL-1",
+   "start": 18.0,
+   "end": 24.0,
+   "heard": [
+    "S-ROOM"
+   ],
+   "clauses": [],
+   "room_gain_offset_db": 3.0,
+   "room_automation": "baked into S-ROOM-BED: x1.4125 between picture 17.95-18.00 (ramp up) and 24.00-24.05 (ramp down)",
+   "measured": {
+    "S_ROOM_rms_dbfs": -34.59,
+    "S_ROOM_rms_outside_SIL1_dbfs": [
+     -37.58,
+     -37.57
+    ],
+    "S_RING_rms": "-inf (0.0 exactly; max |sample| 0.0)",
+    "S_STEPS_rms": "-inf (0.0 exactly; max |sample| 0.0)",
+    "S_STREET_rms": "-inf (0.0 exactly)",
+    "mix_rms_dbfs": -34.59
+   },
+   "guard": "nearest non-room sound: S-STEPS Q05 ends 16.60 (1.40 s before); S-STEPS Q06 starts 25.20 (1.20 s after). Ring stems end 14.35.",
+   "ok": true
+  }
+ ],
+ "spans": [
+  {
+   "id": "SH1",
+   "start": 0.0,
+   "end": 6.0,
+   "stems_declared": [
+    "S-ROOM"
+   ],
+   "stems_sounding_measured": [
+    "S-ROOM"
+   ],
+   "captions": "per take (U3)",
+   "rms_dbfs_per_stem": {
+    "S-ROOM-BED": -37.58,
+    "S-RING": "-inf (exact digital zero)",
+    "S-STEPS": "-inf (exact digital zero)",
+    "S-STREET": "-inf (exact digital zero)"
+   },
+   "max_abs_sample_per_stem": {
+    "S-ROOM-BED": 0.05380310664358351,
+    "S-RING": 0.0,
+    "S-STEPS": 0.0,
+    "S-STREET": 0.0
+   },
+   "rms_dbfs_mix": -37.58,
+   "ok": true
+  },
+  {
+   "id": "SH2",
+   "start": 6.0,
+   "end": 8.5,
+   "stems_declared": [
+    "S-ROOM",
+    "S-RING"
+   ],
+   "stems_sounding_measured": [
+    "S-RING",
+    "S-ROOM"
+   ],
+   "captions": "per take (U3)",
+   "rms_dbfs_per_stem": {
+    "S-ROOM-BED": -37.6,
+    "S-RING": -25.62,
+    "S-STEPS": "-inf (exact digital zero)",
+    "S-STREET": "-inf (exact digital zero)"
+   },
+   "max_abs_sample_per_stem": {
+    "S-ROOM-BED": 0.05249403528235663,
+    "S-RING": 0.34805408807271476,
+    "S-STEPS": 0.0,
+    "S-STREET": 0.0
+   },
+   "rms_dbfs_mix": -25.35,
+   "ok": true
+  },
+  {
+   "id": "SH3",
+   "start": 8.5,
+   "end": 12.0,
+   "stems_declared": [
+    "S-ROOM",
+    "S-RING"
+   ],
+   "stems_sounding_measured": [
+    "S-RING",
+    "S-ROOM"
+   ],
+   "captions": "per take (U3)",
+   "rms_dbfs_per_stem": {
+    "S-ROOM-BED": -37.61,
+    "S-RING": -48.05,
+    "S-STEPS": "-inf (exact digital zero)",
+    "S-STREET": "-inf (exact digital zero)"
+   },
+   "max_abs_sample_per_stem": {
+    "S-ROOM-BED": 0.0722140619086793,
+    "S-RING": 0.034669607289341466,
+    "S-STEPS": 0.0,
+    "S-STREET": 0.0
+   },
+   "rms_dbfs_mix": -37.23,
+   "ok": true
+  },
+  {
+   "id": "SH4a",
+   "start": 12.0,
+   "end": 14.4,
+   "stems_declared": [
+    "S-ROOM",
+    "S-RING",
+    "S-STEPS"
+   ],
+   "stems_sounding_measured": [
+    "S-RING",
+    "S-ROOM",
+    "S-STEPS"
+   ],
+   "captions": "per take (U3)",
+   "rms_dbfs_per_stem": {
+    "S-ROOM-BED": -37.89,
+    "S-RING": -43.84,
+    "S-STEPS": -40.6,
+    "S-STREET": "-inf (exact digital zero)"
+   },
+   "max_abs_sample_per_stem": {
+    "S-ROOM-BED": 0.05759148665695802,
+    "S-RING": 0.04455581737922625,
+    "S-STEPS": 0.32558550601421643,
+    "S-STREET": 0.0
+   },
+   "rms_dbfs_mix": -35.38,
+   "ok": true
+  },
+  {
+   "id": "SH4b",
+   "start": 14.4,
+   "end": 18.0,
+   "stems_declared": [
+    "S-ROOM",
+    "S-STEPS"
+   ],
+   "stems_sounding_measured": [
+    "S-ROOM",
+    "S-STEPS"
+   ],
+   "captions": "per take (U3)",
+   "rms_dbfs_per_stem": {
+    "S-ROOM-BED": -37.6,
+    "S-RING": "-inf (exact digital zero)",
+    "S-STEPS": -36.13,
+    "S-STREET": "-inf (exact digital zero)"
+   },
+   "max_abs_sample_per_stem": {
+    "S-ROOM-BED": 0.057924081028188516,
+    "S-RING": 0.0,
+    "S-STEPS": 0.5662711002486122,
+    "S-STREET": 0.0
+   },
+   "rms_dbfs_mix": -33.8,
+   "ok": true
+  },
+  {
+   "id": "SIL-1",
+   "start": 18.0,
+   "end": 24.0,
+   "stems_declared": [
+    "S-ROOM"
+   ],
+   "stems_sounding_measured": [
+    "S-ROOM"
+   ],
+   "captions": "none (SilenceSpan: no AddressClause may intersect)",
+   "rms_dbfs_per_stem": {
+    "S-ROOM-BED": -34.59,
+    "S-RING": "-inf (exact digital zero)",
+    "S-STEPS": "-inf (exact digital zero)",
+    "S-STREET": "-inf (exact digital zero)"
+   },
+   "max_abs_sample_per_stem": {
+    "S-ROOM-BED": 0.08494066503729181,
+    "S-RING": 0.0,
+    "S-STEPS": 0.0,
+    "S-STREET": 0.0
+   },
+   "rms_dbfs_mix": -34.59,
+   "ok": true
+  },
+  {
+   "id": "SH6",
+   "start": 24.0,
+   "end": 30.0,
+   "stems_declared": [
+    "S-ROOM",
+    "S-STEPS"
+   ],
+   "stems_sounding_measured": [
+    "S-ROOM",
+    "S-STEPS"
+   ],
+   "captions": "per take (U3)",
+   "rms_dbfs_per_stem": {
+    "S-ROOM-BED": -37.57,
+    "S-RING": "-inf (exact digital zero)",
+    "S-STEPS": -37.42,
+    "S-STREET": "-inf (exact digital zero)"
+   },
+   "max_abs_sample_per_stem": {
+    "S-ROOM-BED": 0.05528624860672035,
+    "S-RING": 0.0,
+    "S-STEPS": 0.5662711002486122,
+    "S-STREET": 0.0
+   },
+   "rms_dbfs_mix": -34.48,
+   "ok": true
+  },
+  {
+   "id": "SH7a",
+   "start": 30.0,
+   "end": 32.0,
+   "stems_declared": [
+    "S-ROOM",
+    "S-STREET"
+   ],
+   "stems_sounding_measured": [
+    "S-ROOM",
+    "S-STREET"
+   ],
+   "captions": "per take (U3)",
+   "rms_dbfs_per_stem": {
+    "S-ROOM-BED": -37.59,
+    "S-RING": "-inf (exact digital zero)",
+    "S-STEPS": "-inf (exact digital zero)",
+    "S-STREET": -37.98
+   },
+   "max_abs_sample_per_stem": {
+    "S-ROOM-BED": 0.07299719174711461,
+    "S-RING": 0.0,
+    "S-STEPS": 0.0,
+    "S-STREET": 0.07078388753107652
+   },
+   "rms_dbfs_mix": -34.65,
+   "ok": true
+  },
+  {
+   "id": "SH7b",
+   "start": 32.0,
+   "end": 35.0,
+   "stems_declared": [
+    "S-ROOM",
+    "S-STREET",
+    "S-RING"
+   ],
+   "stems_sounding_measured": [
+    "S-RING",
+    "S-ROOM",
+    "S-STREET"
+   ],
+   "captions": "per take (U3)",
+   "rms_dbfs_per_stem": {
+    "S-ROOM-BED": -37.23,
+    "S-RING": -61.39,
+    "S-STEPS": "-inf (exact digital zero)",
+    "S-STREET": -38.08
+   },
+   "max_abs_sample_per_stem": {
+    "S-ROOM-BED": 0.06087621248120214,
+    "S-RING": 0.00528234716229284,
+    "S-STEPS": 0.0,
+    "S-STREET": 0.0572379449688407
+   },
+   "rms_dbfs_mix": -34.52,
+   "ok": true
+  }
+ ],
+ "outside_picture": {
+  "card_A": "film 1.0-1.5: S-ROOM-BED fade-in (picture -0.5..0.0)",
+  "card_B": "film 36.5-38.0: Pass A S-ROOM-BED tail (fades out film 37.5-38.0) crossfades with Pass B S-ROOM-BED fade-in (film 37.5-38.0); no other stem",
+  "end_card": "film 73.0-74.0: Pass B S-ROOM-BED continues; kit master fades the last 50 ms"
+ },
+ "checks": {
+  "ring_stops_by_14_4": true,
+  "last_ring_R3_end": 14.35,
+  "steps_identical_stem": true,
+  "steps_spans": [
+   [
+    13.2,
+    16.6
+   ],
+   [
+    25.2,
+    28.6
+   ]
+  ],
+  "mix_peak_before_master": 0.5841,
+  "master_note": "kit master scales by 0.89 only (peak < 1, no boost since peak > 0.25)"
+ },
+ "ring_audibility": {
+  "Q02": {
+   "stem": "S-RING-R1",
+   "burst_rms_dbfs": -24.54,
+   "bed_rms_dbfs": -37.58,
+   "band_1k_1k5_ring_minus_bed_db": 26.26,
+   "critical_band_1150_1320_ring_minus_bed_db": 33.81,
+   "critical_band_3050_3480_ring_minus_bed_db": 36.8
+  },
+  "Q03": {
+   "stem": "S-RING-R2",
+   "burst_rms_dbfs": -45.51,
+   "bed_rms_dbfs": -37.78,
+   "band_1k_1k5_ring_minus_bed_db": 9.57,
+   "critical_band_1150_1320_ring_minus_bed_db": 16.28,
+   "critical_band_3050_3480_ring_minus_bed_db": 9.49
+  },
+  "Q04": {
+   "stem": "S-RING-R3",
+   "burst_rms_dbfs": -42.94,
+   "bed_rms_dbfs": -35.73,
+   "band_1k_1k5_ring_minus_bed_db": -2.37,
+   "critical_band_1150_1320_ring_minus_bed_db": 5.1,
+   "critical_band_3050_3480_ring_minus_bed_db": 7.2
+  },
+  "Q08": {
+   "stem": "S-RING-R4",
+   "burst_rms_dbfs": -59.52,
+   "bed_rms_dbfs": -34.44,
+   "band_1k_1k5_ring_minus_bed_db": -8.77,
+   "critical_band_1150_1320_ring_minus_bed_db": -1.53,
+   "critical_band_3050_3480_ring_minus_bed_db": -19.96
+  }
+ },
+ "ring_audibility_note": "Critical-band (1150-1320 Hz, the bell's 1231 Hz partial) ring-minus-bed level during each burst. R1 +34, R2 +16, R3 +7 dB: heard. R4 (-24 dB, LP 1.5 kHz) is about -1.5 dB under the street + room bed: at the masking edge, a withheld cue as planned. If the director needs R4 certainly heard, set Q08 gain to 1.0 (+6 dB; measured +4.5 dB in band; effective distance then -18 dB re R1) rather than raising the street-side stems. Not a perceptual test: no one has listened.",
+ "cue_list": [
+  {
+   "id": "Q01",
+   "stem": "S-ROOM-BED",
+   "wav": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/S-ROOM-BED.wav",
+   "picture_onset": -0.5,
+   "picture_end": 36.5,
+   "film_onset_pass_A": 1.0,
+   "film_onset_pass_B": 37.5,
+   "gain": 0.12,
+   "gain_db": -18.42,
+   "pan": 0.0,
+   "why": "room tone throughout; 0.5 s fade-in under the end of the card; +3 dB in SIL-1 is baked into the stem"
+  },
+  {
+   "id": "Q02",
+   "stem": "S-RING-R1",
+   "wav": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/S-RING-R1.wav",
+   "picture_onset": 6.4,
+   "picture_end": 8.35,
+   "film_onset_pass_A": 7.9,
+   "film_onset_pass_B": 44.4,
+   "gain": 0.5,
+   "gain_db": -6.02,
+   "pan": 0.35,
+   "why": "E2: ring onset, full level, on the hall telephone insert"
+  },
+  {
+   "id": "Q03",
+   "stem": "S-RING-R2",
+   "wav": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/S-RING-R2.wav",
+   "picture_onset": 9.4,
+   "picture_end": 11.35,
+   "film_onset_pass_A": 10.9,
+   "film_onset_pass_B": 47.4,
+   "gain": 0.5,
+   "gain_db": -6.02,
+   "pan": -0.45,
+   "why": "E3: second ring heard through the wall over the unmoved bunk"
+  },
+  {
+   "id": "Q04",
+   "stem": "S-RING-R3",
+   "wav": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/S-RING-R3.wav",
+   "picture_onset": 12.4,
+   "picture_end": 14.35,
+   "film_onset_pass_A": 13.9,
+   "film_onset_pass_B": 50.4,
+   "gain": 0.5,
+   "gain_db": -6.02,
+   "pan": -0.45,
+   "why": "last ring, faint; ends 14.35 (< 14.4)"
+  },
+  {
+   "id": "Q05",
+   "stem": "S-STEPS",
+   "wav": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/S-STEPS.wav",
+   "picture_onset": 13.2,
+   "picture_end": 16.6,
+   "film_onset_pass_A": 14.7,
+   "film_onset_pass_B": 51.2,
+   "gain": 0.8,
+   "gain_db": -1.94,
+   "pan": -0.15,
+   "why": "E4 STAIR-1 footsteps 13.2-16.6"
+  },
+  {
+   "id": "Q06",
+   "stem": "S-STEPS",
+   "wav": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/S-STEPS.wav",
+   "picture_onset": 25.2,
+   "picture_end": 28.6,
+   "film_onset_pass_A": 26.7,
+   "film_onset_pass_B": 63.2,
+   "gain": 0.8,
+   "gain_db": -1.94,
+   "pan": -0.15,
+   "why": "E6 STAIR-2: the identical stem, 25.2-28.6"
+  },
+  {
+   "id": "Q07",
+   "stem": "S-STREET",
+   "wav": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/S-STREET.wav",
+   "picture_onset": 30.0,
+   "picture_end": 35.0,
+   "film_onset_pass_A": 31.5,
+   "film_onset_pass_B": 68.0,
+   "gain": 0.1,
+   "gain_db": -20.0,
+   "pan": 0.0,
+   "why": "E7 outside: night street 30.0-35.0"
+  },
+  {
+   "id": "Q08",
+   "stem": "S-RING-R4",
+   "wav": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound/S-RING-R4.wav",
+   "picture_onset": 32.0,
+   "picture_end": 33.95,
+   "film_onset_pass_A": 33.5,
+   "film_onset_pass_B": 70.0,
+   "gain": 0.5,
+   "gain_db": -6.02,
+   "pan": 0.15,
+   "why": "E8 withheld cue: the ring once more from inside the house, unanswered"
+  }
+ ],
+ "mix_add_helper": "import wave, numpy as np\ndef load_stem(path):\n    with wave.open(path) as w:\n        return np.frombuffer(w.readframes(w.getnframes()), \"<i2\").reshape(-1, 2) / 32767.0\ndef add_stereo(mix, wav, at, gain, pan):\n    gl = gain * 0.70710678 * min(1.0, 1.0 - pan)\n    gr = gain * 0.70710678 * min(1.0, 1.0 + pan)\n    if at < 0:                     # S-ROOM-BED starts 0.5 s before picture 0\n        wav = wav[int(round(-at * mix.rate)):]; at = 0.0\n    mix.add(wav[:, 0], at, gl, -1.0)   # mix.add(sig, at, gain, pan): pan -1 -> L only (x1.414)\n    mix.add(wav[:, 1], at, gr, +1.0)   # pan +1 -> R only; gain*0.7071*1.414 = unity\n# film time = picture time + 1.5 (Pass A) and + 38.0 (Pass B); same cues, same stems in both passes.\n# for P in (1.5, 38.0):\n#     for c in CUES: add_stereo(mix, STEM[c[\"stem\"]], P + c[\"onset\"], c[\"gain\"], c[\"pan\"])",
+ "preview": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound-forage-sound-editor-distance-breath-withheld-cues/preview_picture35_mix.wav",
+ "envelope_image": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/sound-forage-sound-editor-distance-breath-withheld-cues/mix35_envelopes.png"
+}

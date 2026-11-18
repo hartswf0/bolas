@@ -1,0 +1,31 @@
+{
+  "film": "un-homme-qui-dort",
+  "revision": "aesthetic-r2",
+  "reference": "assets/references/sommeil.webp (catalogue/cinema.json image; credit QAGOMA / Dovidis). Used for study and comparison only; never copied, traced or composited.",
+  "measured_by": "director, PIL/numpy on the 1000x704 reference (2026-11-15)",
+  "size": [1000, 704],
+  "aspect": 1.42,
+  "neutrality": {"mean_rgb": [128.0, 128.0, 128.0], "mean_chroma": 0.005, "max_chroma": 1, "note": "pure neutral greyscale, no tone or tint"},
+  "luma_percentiles": {"p1": 27, "p5": 30, "p25": 41, "p50": 94, "p75": 238, "p95": 246, "p99": 246},
+  "bimodality": {"frac_below_60": 0.416, "frac_above_220": 0.326, "frac_60_220": 0.257},
+  "hist8": [0.082, 0.34, 0.081, 0.053, 0.037, 0.043, 0.041, 0.322],
+  "palette_quantized": [
+    ["#2c2c2c", 0.171], ["#efefef", 0.161], ["#f5f5f5", 0.152], ["#252525", 0.124],
+    ["#1e1e1e", 0.111], ["#444444", 0.104], ["#828282", 0.104], ["#d6d6d6", 0.074]
+  ],
+  "anchors": {"black": "#1e1e1e (L 30; blacks are lifted, never 0)", "white": "#f5f5f5 (L 245; highlights clip softly, never 255)", "mid": "#828282 (rare)"},
+  "spatial": {
+    "column_mean_L_by_tenths": [226, 218, 191, 177, 118, 87, 62, 67, 57, 70],
+    "row_mean_L_by_tenths": [187, 174, 139, 121, 122, 117, 113, 105, 95, 102],
+    "read": "bright pale wall fills the left ~40%; a deep shadow mass fills the right ~50%; the head sits on the boundary"
+  },
+  "texture": {"highpass_std_white_wall": 0.86, "highpass_std_shadow": 1.78, "highpass_std_midtone": 3.47, "read": "fine silver-gelatin grain, visible only in midtones; flat highlights almost clean"},
+  "framing": "close-up: one head and shoulders, head height about 0.48 of frame height, slumped against a wall/door-jamb edge; shallow space; a doubled back-turned figure (mirror) occupies the dark side",
+  "light": "hard single key from frame left/front (window or flash), fast falloff to the right, cast shadow of the head on the wall",
+  "targets_for_film_frames": {
+    "neutral": "mean chroma <= 1.5 on every frame (8-bit)",
+    "p1_L": [20, 40], "p99_L": [236, 250],
+    "frac_below_60_and_above_220": "each within +/-0.12 of the reference on the S3/S4 frames; combined (below60+above220) >= 0.55 on S3/S4",
+    "grain": "no added grain: highpass std on a flat wall patch of a film frame must not exceed the same patch of the graded source plate (resampled to film scale) by more than 0.5"
+  }
+}

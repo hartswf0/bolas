@@ -1,0 +1,1466 @@
+{
+ "film": "exercices-de-style",
+ "unit": "U1 incident-editor + constraint verifier (writers merged)",
+ "ledger": "incident/ledger.json",
+ "rev": "910a7b36c16021d78f308a66d4f84ce71d6bdad1d1b9ddc37da43e235e6f52c9",
+ "merge_note": "The incident editor, the constraint verifier and the four writers (rev, sense, notice, key) are merged under one owner (U1), as plan.md §9 records: the captions are short and coupled to the timing. Operator independence is checked instead by verify.py's one-operator signature: each variant differs from the baseline only in its declared mutable dimensions.",
+ "timing_policy": {
+  "typed_cps": 14.0,
+  "fps": 24,
+  "rule": "Typed captions (S0 title, S2 log text, S5 key) type at 14 chars/s and are held after typing. Register lines (S1), card lines (S3) and notice fields (S4) are set whole on their event and persist to the end of their shot, so every line is readable; the reason is recorded per variant (reveal_note)."
+ },
+ "timing_revision": {
+  "what": "S0-S5c start keep plan §7 exactly (S5a 46.0-49.333, S5b 49.333-51.5, S5c from 51.5); S5c is lengthened at its END to 61.75, S5d 61.75-63.75, S6 63.75-69.75. Film total 69.75 s (plan 66.0; limit 75).",
+  "why": "Repair 2: the bar's S5 numbers stand as written (key still before 54.0 s, pair 11.0 vs 54.0 s). S5a-S5b texts were shortened to fit 5.5 s at 14 chars/s with holds; « Une main m'a sortie. » types over the first second of S5c. S5c runs past 58.0 s only so the visitor actually exits and key.6-key.8 type at 14 chars/s with holds.",
+  "consequences": [
+   "beat-5 pair still: S1 at 11.0 s vs S5c at 54.0 s (as in the bar)",
+   "key lands 52.75 s, still from 53.167 s, before 54.0 s",
+   "S6 bell stroke at 63.75, declared silence from 66.75"
+  ]
+ },
+ "schedule": [
+  {
+   "shot": "S0",
+   "t0": 0.0,
+   "t1": 3.0,
+   "plan_window": [
+    0,
+    3
+   ],
+   "changed": false
+  },
+  {
+   "shot": "S1",
+   "t0": 3.0,
+   "t1": 13.0,
+   "plan_window": [
+    3,
+    13
+   ],
+   "changed": false
+  },
+  {
+   "shot": "S2",
+   "t0": 13.0,
+   "t1": 24.0,
+   "plan_window": [
+    13,
+    24
+   ],
+   "changed": false
+  },
+  {
+   "shot": "S3",
+   "t0": 24.0,
+   "t1": 36.0,
+   "plan_window": [
+    24,
+    36
+   ],
+   "changed": false
+  },
+  {
+   "shot": "S4",
+   "t0": 36.0,
+   "t1": 46.0,
+   "plan_window": [
+    36,
+    46
+   ],
+   "changed": false
+  },
+  {
+   "shot": "S5a",
+   "t0": 46.0,
+   "t1": 49.333,
+   "plan_window": [
+    46,
+    49
+   ],
+   "changed": true
+  },
+  {
+   "shot": "S5b",
+   "t0": 49.333,
+   "t1": 51.5,
+   "plan_window": [
+    49,
+    51.5
+   ],
+   "changed": true
+  },
+  {
+   "shot": "S5c",
+   "t0": 51.5,
+   "t1": 61.75,
+   "plan_window": [
+    51.5,
+    58
+   ],
+   "changed": true
+  },
+  {
+   "shot": "S5d",
+   "t0": 61.75,
+   "t1": 63.75,
+   "plan_window": [
+    58,
+    60
+   ],
+   "changed": true
+  },
+  {
+   "shot": "S6",
+   "t0": 63.75,
+   "t1": 69.75,
+   "plan_window": [
+    60,
+    66
+   ],
+   "changed": true
+  }
+ ],
+ "page_text": {
+  "S0": {
+   "ghost": "Gare",
+   "title": {
+    "text": "Une gare, six faits",
+    "reveal": "letter by letter",
+    "cps": 14.0,
+    "t_in": 0.3,
+    "t_type_end": 1.657,
+    "t_out": 3.0,
+    "colour_by_word": [
+     "#d6280a",
+     "#191304",
+     "#d6280a",
+     "#191304"
+    ]
+   },
+   "band": "d'après Raymond Queneau · cinq manières",
+   "strip": "six empty cells"
+  },
+  "S6": {
+   "ghost": "Matrice",
+   "title": "Matrice",
+   "band": "même incident · cinq règles",
+   "matrix_source": "incident/coverage.json (matrix)",
+   "ticks": "type in cell by cell from S6+0.4 s, 0.08 s per cell",
+   "bell_stroke_t": 63.75,
+   "declared_silence_from": 66.75
+  }
+ },
+ "variants": {
+  "baseline": {
+   "variant_id": "baseline",
+   "shot": "S1",
+   "window": [
+    3.0,
+    13.0
+   ],
+   "title": "Le registre",
+   "ghost": "Gare",
+   "band": {
+    "name": "Le registre",
+    "label": "EXERCICE 1 · SANS OPÉRATEUR",
+    "clock": "18:00 → 18:07, steps at each beat"
+   },
+   "base_rev": "910a7b36c16021d78f308a66d4f84ce71d6bdad1d1b9ddc37da43e235e6f52c9",
+   "operator": {
+    "id": "O_none",
+    "input_domain": "Incident@910a7b36c16021d78f308a66d4f84ce71d6bdad1d1b9ddc37da43e235e6f52c9",
+    "protected": [
+     "E1",
+     "E2",
+     "E3",
+     "E4",
+     "E5",
+     "E6",
+     "F7",
+     "edges"
+    ],
+    "mutable": [],
+    "accept": [
+     "order == [E1..E6]",
+     "every event asserted",
+     "ends E6 + F7"
+    ]
+   },
+   "format": "prose",
+   "voice": "third",
+   "claims": [
+    {
+     "id": "baseline.1",
+     "text": "18:00 Un visiteur arrive à la gare vide, une enveloppe cachetée à la main.",
+     "events": [
+      "E1"
+     ],
+     "kind": "assert",
+     "style": "roman, warm black #191304, top-right register; lines accumulate",
+     "reveal": "set",
+     "cps": null,
+     "t_in": 3.2,
+     "t_type_end": 3.2,
+     "t_out": 13.0
+    },
+    {
+     "id": "baseline.2",
+     "text": "18:02 La cloche de la gare sonne.",
+     "events": [
+      "E2"
+     ],
+     "kind": "assert",
+     "style": "roman, warm black #191304, top-right register; lines accumulate",
+     "reveal": "set",
+     "cps": null,
+     "t_in": 4.8,
+     "t_type_end": 4.8,
+     "t_out": 13.0
+    },
+    {
+     "id": "baseline.3",
+     "text": "18:04 Il ouvre l'enveloppe.",
+     "events": [
+      "E3"
+     ],
+     "kind": "assert",
+     "style": "roman, warm black #191304, top-right register; lines accumulate",
+     "reveal": "set",
+     "cps": null,
+     "t_in": 6.4,
+     "t_type_end": 6.4,
+     "t_out": 13.0
+    },
+    {
+     "id": "baseline.4",
+     "text": "18:05 Il y trouve une clé de laiton.",
+     "events": [
+      "E4"
+     ],
+     "kind": "assert",
+     "style": "roman, warm black #191304, top-right register; lines accumulate",
+     "reveal": "set",
+     "cps": null,
+     "t_in": 8.0,
+     "t_type_end": 8.0,
+     "t_out": 13.0
+    },
+    {
+     "id": "baseline.5",
+     "text": "18:06 Le visiteur laisse la clé sur le banc.",
+     "events": [
+      "E5"
+     ],
+     "kind": "assert",
+     "style": "roman, warm black #191304, top-right register; lines accumulate",
+     "reveal": "set",
+     "cps": null,
+     "t_in": 9.6,
+     "t_type_end": 9.6,
+     "t_out": 13.0
+    },
+    {
+     "id": "baseline.6",
+     "text": "18:07 Il s'en va.",
+     "events": [
+      "E6"
+     ],
+     "kind": "assert",
+     "style": "roman, warm black #191304, top-right register; lines accumulate",
+     "reveal": "set",
+     "cps": null,
+     "t_in": 11.2,
+     "t_type_end": 11.2,
+     "t_out": 13.0
+    },
+    {
+     "id": "baseline.7",
+     "text": "La porte de service reste fermée.",
+     "events": [
+      "F7"
+     ],
+     "kind": "assert",
+     "style": "roman, same register line as 18:07 (continues it)",
+     "reveal": "set",
+     "cps": null,
+     "t_in": 11.2,
+     "t_type_end": 11.2,
+     "t_out": 13.0
+    }
+   ],
+   "omissions": [],
+   "timing": [
+    {
+     "event": "E1",
+     "t_in": 3.2,
+     "t_out": 4.8,
+     "tableau": "eye-level medium-wide puppet pose"
+    },
+    {
+     "event": "E2",
+     "t_in": 4.8,
+     "t_out": 6.4,
+     "tableau": "eye-level medium-wide puppet pose"
+    },
+    {
+     "event": "E3",
+     "t_in": 6.4,
+     "t_out": 8.0,
+     "tableau": "eye-level medium-wide puppet pose"
+    },
+    {
+     "event": "E4",
+     "t_in": 8.0,
+     "t_out": 9.6,
+     "tableau": "eye-level medium-wide puppet pose"
+    },
+    {
+     "event": "E5",
+     "t_in": 9.6,
+     "t_out": 11.2,
+     "tableau": "eye-level medium-wide puppet pose"
+    },
+    {
+     "event": "E6",
+     "t_in": 11.2,
+     "t_out": 12.8,
+     "tableau": "eye-level medium-wide puppet pose"
+    }
+   ],
+   "sound": [
+    {
+     "event": "E1",
+     "cue": "arriving steps",
+     "t": 3.2
+    },
+    {
+     "event": "E2",
+     "cue": "bell",
+     "t": 4.9
+    },
+    {
+     "event": "E3",
+     "cue": "paper tear",
+     "t": 6.6
+    },
+    {
+     "event": "E5",
+     "cue": "key on wood (placed, no settle)",
+     "t": 10.2
+    },
+    {
+     "event": "E6",
+     "cue": "receding steps",
+     "t": 11.3
+    }
+   ],
+   "reveal_note": "Register lines are SET whole (a printed register, not typing): at 1.6 s per beat a 75-char line cannot be typed at 14 chars/s, so lines accumulate and stay until 13.0 s (line 1 is on screen 9.8 s).",
+   "beat5_pair_frame_s": 11.0
+  },
+  "rev": {
+   "variant_id": "rev",
+   "shot": "S2",
+   "window": [
+    13.0,
+    24.0
+   ],
+   "title": "Journal à rebours",
+   "ghost": "Rebours",
+   "band": {
+    "name": "Journal à rebours",
+    "label": "EXERCICE 2 · ORDRE INVERSÉ",
+    "clock": "counts BACK 18:07 → 18:00 with the log"
+   },
+   "base_rev": "910a7b36c16021d78f308a66d4f84ce71d6bdad1d1b9ddc37da43e235e6f52c9",
+   "operator": {
+    "id": "O_rev",
+    "input_domain": "Incident@910a7b36c16021d78f308a66d4f84ce71d6bdad1d1b9ddc37da43e235e6f52c9",
+    "protected": [
+     "E1",
+     "E2",
+     "E3",
+     "E4",
+     "E5",
+     "E6",
+     "F7",
+     "edges"
+    ],
+    "mutable": [
+     "order",
+     "sound-order"
+    ],
+    "accept": [
+     "presentation order == [E6,E5,E4,E3,E2,E1]",
+     "displayed timestamps strictly decrease",
+     "arrows == ledger edges, each drawn from cause line UP to effect line; E2→E3 dotted 'incertain'",
+     "each tableau plays forward in time",
+     "sound events in reverse order, each forward"
+    ]
+   },
+   "format": "prose",
+   "voice": "third",
+   "claims": [
+    {
+     "id": "rev.0",
+     "text": "porte de service : fermée, de 18:07 à 18:00",
+     "events": [
+      "F7"
+     ],
+     "kind": "assert",
+     "style": "rubric under the title, warm black small caps, printed (set)",
+     "role": "rubric",
+     "reveal": "set",
+     "cps": null,
+     "t_in": 13.0,
+     "t_type_end": 13.0,
+     "t_out": 24.0
+    },
+    {
+     "id": "rev.1",
+     "text": "18:07 · il s'en va.",
+     "events": [
+      "E6"
+     ],
+     "kind": "assert",
+     "role": "log",
+     "stamp": "18:07",
+     "line_index": 0,
+     "style": "log line: timestamp SET at t_in, text after '· ' typed; lines persist to 24.0",
+     "reveal": "type",
+     "cps": 14.0,
+     "t_in": 13.2,
+     "t_type_end": 13.986,
+     "t_out": 24.0,
+     "note": "the 'HH:MM · ' stamp is printed at t_in; only the text after it is typed"
+    },
+    {
+     "id": "rev.2",
+     "text": "18:06 · laisse la clé.",
+     "events": [
+      "E5"
+     ],
+     "kind": "assert",
+     "role": "log",
+     "stamp": "18:06",
+     "line_index": 1,
+     "style": "log line: timestamp SET at t_in, text after '· ' typed; lines persist to 24.0",
+     "reveal": "type",
+     "cps": 14.0,
+     "t_in": 14.6,
+     "t_type_end": 15.6,
+     "t_out": 24.0,
+     "note": "the 'HH:MM · ' stamp is printed at t_in; only the text after it is typed"
+    },
+    {
+     "id": "rev.3",
+     "text": "18:05 · trouve une clé.",
+     "events": [
+      "E4"
+     ],
+     "kind": "assert",
+     "role": "log",
+     "stamp": "18:05",
+     "line_index": 2,
+     "style": "log line: timestamp SET at t_in, text after '· ' typed; lines persist to 24.0",
+     "reveal": "type",
+     "cps": 14.0,
+     "t_in": 16.0,
+     "t_type_end": 17.071,
+     "t_out": 24.0,
+     "note": "the 'HH:MM · ' stamp is printed at t_in; only the text after it is typed"
+    },
+    {
+     "id": "rev.4",
+     "text": "18:04 · ouvre l'enveloppe.",
+     "events": [
+      "E3"
+     ],
+     "kind": "assert",
+     "role": "log",
+     "stamp": "18:04",
+     "line_index": 3,
+     "style": "log line: timestamp SET at t_in, text after '· ' typed; lines persist to 24.0",
+     "reveal": "type",
+     "cps": 14.0,
+     "t_in": 17.4,
+     "t_type_end": 18.686,
+     "t_out": 24.0,
+     "note": "the 'HH:MM · ' stamp is printed at t_in; only the text after it is typed"
+    },
+    {
+     "id": "rev.5",
+     "text": "18:02 · la cloche sonne.",
+     "events": [
+      "E2"
+     ],
+     "kind": "assert",
+     "role": "log",
+     "stamp": "18:02",
+     "line_index": 4,
+     "style": "log line: timestamp SET at t_in, text after '· ' typed; lines persist to 24.0",
+     "reveal": "type",
+     "cps": 14.0,
+     "t_in": 18.8,
+     "t_type_end": 19.943,
+     "t_out": 24.0,
+     "note": "the 'HH:MM · ' stamp is printed at t_in; only the text after it is typed"
+    },
+    {
+     "id": "rev.6",
+     "text": "18:00 · un visiteur arrive.",
+     "events": [
+      "E1"
+     ],
+     "kind": "assert",
+     "role": "log",
+     "stamp": "18:00",
+     "line_index": 5,
+     "style": "log line: timestamp SET at t_in, text after '· ' typed; lines persist to 24.0",
+     "reveal": "type",
+     "cps": 14.0,
+     "t_in": 20.2,
+     "t_type_end": 21.557,
+     "t_out": 24.0,
+     "note": "the 'HH:MM · ' stamp is printed at t_in; only the text after it is typed"
+    }
+   ],
+   "omissions": [],
+   "timing": [
+    {
+     "event": "E6",
+     "t_in": 13.2,
+     "t_out": 14.4,
+     "tableau": "held puppet pose of this beat, plays FORWARD 1.2 s"
+    },
+    {
+     "event": "E5",
+     "t_in": 14.6,
+     "t_out": 15.8,
+     "tableau": "held puppet pose of this beat, plays FORWARD 1.2 s"
+    },
+    {
+     "event": "E4",
+     "t_in": 16.0,
+     "t_out": 17.2,
+     "tableau": "held puppet pose of this beat, plays FORWARD 1.2 s"
+    },
+    {
+     "event": "E3",
+     "t_in": 17.4,
+     "t_out": 18.6,
+     "tableau": "held puppet pose of this beat, plays FORWARD 1.2 s"
+    },
+    {
+     "event": "E2",
+     "t_in": 18.8,
+     "t_out": 20.0,
+     "tableau": "held puppet pose of this beat, plays FORWARD 1.2 s"
+    },
+    {
+     "event": "E1",
+     "t_in": 20.2,
+     "t_out": 21.4,
+     "tableau": "held puppet pose of this beat, plays FORWARD 1.2 s"
+    }
+   ],
+   "arrows": [
+    {
+     "from": "E1",
+     "to": "E3",
+     "type": "enable",
+     "style": "solid",
+     "label": "",
+     "y_from": 300,
+     "y_to": 240,
+     "direction": "up",
+     "t_in": 21.6,
+     "t_drawn": 21.933,
+     "t_out": 24.0,
+     "draw": "hand-ruled red #d6280a, 8 frames, pen scratch on draw"
+    },
+    {
+     "from": "E3",
+     "to": "E4",
+     "type": "enable",
+     "style": "solid",
+     "label": "",
+     "y_from": 240,
+     "y_to": 210,
+     "direction": "up",
+     "t_in": 21.73,
+     "t_drawn": 22.063,
+     "t_out": 24.0,
+     "draw": "hand-ruled red #d6280a, 8 frames, pen scratch on draw"
+    },
+    {
+     "from": "E4",
+     "to": "E5",
+     "type": "enable",
+     "style": "solid",
+     "label": "",
+     "y_from": 210,
+     "y_to": 180,
+     "direction": "up",
+     "t_in": 21.86,
+     "t_drawn": 22.193,
+     "t_out": 24.0,
+     "draw": "hand-ruled red #d6280a, 8 frames, pen scratch on draw"
+    },
+    {
+     "from": "E5",
+     "to": "E6",
+     "type": "precede",
+     "style": "solid",
+     "label": "",
+     "y_from": 180,
+     "y_to": 150,
+     "direction": "up",
+     "t_in": 21.99,
+     "t_drawn": 22.323,
+     "t_out": 24.0,
+     "draw": "hand-ruled red #d6280a, 8 frames, pen scratch on draw"
+    },
+    {
+     "from": "E2",
+     "to": "E3",
+     "type": "cue",
+     "style": "dotted",
+     "label": "incertain",
+     "y_from": 270,
+     "y_to": 240,
+     "direction": "up",
+     "t_in": 22.12,
+     "t_drawn": 22.453,
+     "t_out": 24.0,
+     "draw": "hand-ruled red #d6280a, 8 frames, pen scratch on draw"
+    }
+   ],
+   "log_line_y": {
+    "E6": 150,
+    "E5": 180,
+    "E4": 210,
+    "E3": 240,
+    "E2": 270,
+    "E1": 300
+   },
+   "sound": [
+    {
+     "event": "E6",
+     "cue": "receding steps",
+     "t": 13.2
+    },
+    {
+     "event": "E5",
+     "cue": "key on wood",
+     "t": 14.7
+    },
+    {
+     "event": "E3",
+     "cue": "paper tear",
+     "t": 17.5
+    },
+    {
+     "event": "E2",
+     "cue": "bell",
+     "t": 19.0
+    },
+    {
+     "event": "E1",
+     "cue": "arriving steps",
+     "t": 20.2
+    }
+   ]
+  },
+  "sense": {
+   "variant_id": "sense",
+   "shot": "S3",
+   "window": [
+    24.0,
+    36.0
+   ],
+   "title": "Inventaire des sens",
+   "ghost": "Sens",
+   "band": {
+    "name": "Inventaire des sens",
+    "label": "EXERCICE 3 · ACCÈS : LE GUICHET",
+    "clock": "18:00 → 18:07"
+   },
+   "base_rev": "910a7b36c16021d78f308a66d4f84ce71d6bdad1d1b9ddc37da43e235e6f52c9",
+   "observer": "clerk behind GUICHET 3 (added by the operator, not an actor)",
+   "operator": {
+    "id": "O_sense",
+    "input_domain": "Incident@910a7b36c16021d78f308a66d4f84ce71d6bdad1d1b9ddc37da43e235e6f52c9",
+    "protected": [
+     "E1",
+     "E2",
+     "E3",
+     "E6",
+     "F7"
+    ],
+    "protected_note": "E1, E2, E3, E6 and F7 as perceived; E4/E5 may be reduced to percepts",
+    "mutable": [
+     "access"
+    ],
+    "accept": [
+     "every event is a percept (sound, shadow, glint) or a declared omission (reason 'no access')",
+     "the object identity of E4/E5 is never named ('clé' absent); the red NON PERÇU line cites E4 and E5",
+     "no cause asserted (no causal connective)"
+    ]
+   },
+   "format": "prose",
+   "voice": "third",
+   "claims": [
+    {
+     "id": "sense.1",
+     "text": "pas sur la pierre · une ombre à chapeau",
+     "events": [
+      "E1"
+     ],
+     "kind": "percept",
+     "sense": "heard+shadow",
+     "role": "card",
+     "style": "typed inventory card line, warm black mono; appears when the sense event fires; persists to 36.0",
+     "reveal": "set",
+     "cps": null,
+     "t_in": 24.6,
+     "t_type_end": 24.6,
+     "t_out": 36.0
+    },
+    {
+     "id": "sense.2",
+     "text": "la cloche — trois coups · l'ombre lève la tête",
+     "events": [
+      "E2"
+     ],
+     "kind": "percept",
+     "sense": "heard+shadow",
+     "role": "card",
+     "style": "typed inventory card line, warm black mono; appears when the sense event fires; persists to 36.0",
+     "reveal": "set",
+     "cps": null,
+     "t_in": 26.5,
+     "t_type_end": 26.5,
+     "t_out": 36.0
+    },
+    {
+     "id": "sense.3",
+     "text": "papier déchiré",
+     "events": [
+      "E3"
+     ],
+     "kind": "percept",
+     "sense": "heard+shadow",
+     "role": "card",
+     "style": "typed inventory card line, warm black mono; appears when the sense event fires; persists to 36.0",
+     "reveal": "set",
+     "cps": null,
+     "t_in": 28.3,
+     "t_type_end": 28.3,
+     "t_out": 36.0
+    },
+    {
+     "id": "sense.4",
+     "text": "un éclat, bref",
+     "events": [
+      "E4"
+     ],
+     "kind": "percept",
+     "sense": "glint",
+     "role": "card",
+     "style": "typed inventory card line, warm black mono; appears when the sense event fires; persists to 36.0",
+     "reveal": "set",
+     "cps": null,
+     "t_in": 29.7,
+     "t_type_end": 29.7,
+     "t_out": 36.0
+    },
+    {
+     "id": "sense.5",
+     "text": "métal sur bois",
+     "events": [
+      "E5"
+     ],
+     "kind": "percept",
+     "sense": "heard",
+     "role": "card",
+     "style": "typed inventory card line, warm black mono; appears when the sense event fires; persists to 36.0",
+     "reveal": "set",
+     "cps": null,
+     "t_in": 30.9,
+     "t_type_end": 30.9,
+     "t_out": 36.0
+    },
+    {
+     "id": "sense.6",
+     "text": "les pas s'éloignent · la porte de service : aucun bruit",
+     "events": [
+      "E6",
+      "F7"
+     ],
+     "kind": "percept",
+     "sense": "heard",
+     "role": "card",
+     "style": "typed inventory card line, warm black mono; appears when the sense event fires; persists to 36.0",
+     "reveal": "set",
+     "cps": null,
+     "t_in": 32.1,
+     "t_type_end": 32.1,
+     "t_out": 36.0
+    },
+    {
+     "id": "sense.7",
+     "text": "NON PERÇU : ce qu'il y avait dans l'enveloppe ; ce qu'il a laissé sur le banc.",
+     "events": [
+      "E4",
+      "E5"
+     ],
+     "kind": "omit",
+     "role": "declaration",
+     "style": "red #d6280a, set whole like a stamp at 33.0, held to 36.0 (>= 2 s legible)",
+     "reveal": "set",
+     "cps": null,
+     "t_in": 33.0,
+     "t_type_end": 33.0,
+     "t_out": 36.0
+    }
+   ],
+   "omissions": [
+    {
+     "event": "E4",
+     "aspect": "object identity: what was inside the envelope",
+     "reason": "no access",
+     "detail": "frosted glass: only a brief glint is seen; the key shape is never sharp"
+    },
+    {
+     "event": "E5",
+     "aspect": "object identity: what was left on the bench",
+     "reason": "no access",
+     "detail": "only 'métal sur bois' is heard"
+    }
+   ],
+   "timing": [
+    {
+     "event": "E1",
+     "t_in": 24.2,
+     "t_out": 25.4,
+     "tableau": "silhouette behind frosted pane"
+    },
+    {
+     "event": "E2",
+     "t_in": 26.4,
+     "t_out": 27.6,
+     "tableau": "silhouette behind frosted pane; E2 head-up starts within 2 frames of bell onset"
+    },
+    {
+     "event": "E3",
+     "t_in": 28.2,
+     "t_out": 29.4,
+     "tableau": "silhouette behind frosted pane"
+    },
+    {
+     "event": "E4",
+     "t_in": 29.6,
+     "t_out": 30.8,
+     "tableau": "silhouette behind frosted pane"
+    },
+    {
+     "event": "E5",
+     "t_in": 30.8,
+     "t_out": 32.0,
+     "tableau": "silhouette behind frosted pane"
+    },
+    {
+     "event": "E6",
+     "t_in": 32.0,
+     "t_out": 33.2,
+     "tableau": "silhouette behind frosted pane"
+    }
+   ],
+   "sound": [
+    {
+     "event": "E1",
+     "cue": "steps, through glass",
+     "t": 24.2
+    },
+    {
+     "event": "E2",
+     "cue": "bell, low-passed through glass",
+     "t": 26.4
+    },
+    {
+     "event": "E3",
+     "cue": "paper tear, through glass",
+     "t": 28.2
+    },
+    {
+     "event": "E5",
+     "cue": "metal on wood, through glass",
+     "t": 30.8
+    },
+    {
+     "event": "E6",
+     "cue": "receding steps",
+     "t": 32.0
+    }
+   ],
+   "reveal_note": "Card lines are SET whole when the sense event fires (a typewriter line in one carriage stroke): the six lines plus NON PERÇU are 267 chars, 19 s at 14 chars/s, in a 12 s window, and each line must coincide with its event. Lines persist to 36.0, so the shortest dwell is 3.0 s (NON PERÇU).",
+   "interpretation": "plan.md §3.2 asks that 'clé' appear in the NON PERÇU line, but §7's exact line does not name it, and naming it would break the clerk's access. verify.py therefore checks the stronger form: 'clé' appears nowhere in this variant, and the NON PERÇU line is linked to E4 and E5 as an omission."
+  },
+  "notice": {
+   "variant_id": "notice",
+   "shot": "S4",
+   "window": [
+    36.0,
+    46.0
+   ],
+   "title": "Avis",
+   "ghost": "Avis",
+   "band": {
+    "name": "Avis",
+    "label": "EXERCICE 4 · FORMAT FIXE",
+    "clock": "18:00 → 18:07 row by row"
+   },
+   "base_rev": "910a7b36c16021d78f308a66d4f84ce71d6bdad1d1b9ddc37da43e235e6f52c9",
+   "operator": {
+    "id": "O_notice",
+    "input_domain": "Incident@910a7b36c16021d78f308a66d4f84ce71d6bdad1d1b9ddc37da43e235e6f52c9",
+    "protected": [
+     "E1",
+     "E2",
+     "E3",
+     "E4",
+     "E5",
+     "E6",
+     "F7"
+    ],
+    "mutable": [
+     "format"
+    ],
+    "accept": [
+     "every row matches N° | HEURE | LIEU | OBJET | ACTION | ÉTAT (six fields)",
+     "no free sentence outside the grid except the one stamp (heading and grid footnote are part of the form)",
+     "empty grid visible >= 1 s before the first field fills",
+     "no verbs of feeling"
+    ]
+   },
+   "format": "grid",
+   "voice": "none",
+   "claims": [
+    {
+     "id": "notice.0",
+     "text": "AVIS — OBJET TROUVÉ",
+     "events": [],
+     "kind": "form",
+     "role": "heading",
+     "style": "printed notice heading",
+     "reveal": "set",
+     "cps": null,
+     "t_in": 36.2,
+     "t_type_end": 36.2,
+     "t_out": 46.0
+    },
+    {
+     "id": "notice.h",
+     "text": "N° | HEURE | LIEU | OBJET | ACTION | ÉTAT",
+     "events": [],
+     "kind": "form",
+     "role": "grid_header",
+     "style": "printed grid header; the full grid of 6 EMPTY rows is shown 36.2-37.9 before any field fills (>= 1.5 s after the 36.33 page-turn wipe ends)",
+     "reveal": "set",
+     "cps": null,
+     "t_in": 36.2,
+     "t_type_end": 36.2,
+     "t_out": 46.0
+    },
+    {
+     "id": "notice.1",
+     "text": "1 | 18:00 | gare, entrée | enveloppe cachetée | arrivée | —",
+     "events": [
+      "E1"
+     ],
+     "kind": "assert",
+     "role": "row",
+     "style": "mono, fields fill box by box left to right, 0.15 s per field, typewriter click per field",
+     "field_times": [
+      37.9,
+      38.05,
+      38.2,
+      38.35,
+      38.5,
+      38.65
+     ],
+     "reveal": "field",
+     "cps": null,
+     "t_in": 37.9,
+     "t_type_end": 38.65,
+     "t_out": 46.0
+    },
+    {
+     "id": "notice.2",
+     "text": "2 | 18:02 | gare | cloche | non entendue | consignée",
+     "events": [
+      "E2"
+     ],
+     "kind": "assert",
+     "role": "row",
+     "style": "mono, fields fill box by box left to right, 0.15 s per field, typewriter click per field",
+     "field_times": [
+      38.9,
+      39.05,
+      39.2,
+      39.35,
+      39.5,
+      39.65
+     ],
+     "reveal": "field",
+     "cps": null,
+     "t_in": 38.9,
+     "t_type_end": 39.65,
+     "t_out": 46.0
+    },
+    {
+     "id": "notice.3",
+     "text": "3 | 18:04 | banc, quai | enveloppe | ouverte | déchirée",
+     "events": [
+      "E3"
+     ],
+     "kind": "assert",
+     "role": "row",
+     "style": "mono, fields fill box by box left to right, 0.15 s per field, typewriter click per field",
+     "field_times": [
+      39.9,
+      40.05,
+      40.2,
+      40.35,
+      40.5,
+      40.65
+     ],
+     "reveal": "field",
+     "cps": null,
+     "t_in": 39.9,
+     "t_type_end": 40.65,
+     "t_out": 46.0
+    },
+    {
+     "id": "notice.4",
+     "text": "4 | 18:05 | banc, quai | clé laiton | trouvée | en main",
+     "events": [
+      "E4"
+     ],
+     "kind": "assert",
+     "role": "row",
+     "style": "mono, fields fill box by box left to right, 0.15 s per field, typewriter click per field",
+     "field_times": [
+      40.9,
+      41.05,
+      41.2,
+      41.35,
+      41.5,
+      41.65
+     ],
+     "reveal": "field",
+     "cps": null,
+     "t_in": 40.9,
+     "t_type_end": 41.65,
+     "t_out": 46.0
+    },
+    {
+     "id": "notice.5",
+     "text": "5 | 18:06 | banc, quai | clé laiton | déposée | —",
+     "events": [
+      "E5"
+     ],
+     "kind": "assert",
+     "role": "row",
+     "style": "mono, fields fill box by box left to right, 0.15 s per field, typewriter click per field",
+     "field_times": [
+      41.9,
+      42.05,
+      42.2,
+      42.35,
+      42.5,
+      42.65
+     ],
+     "reveal": "field",
+     "cps": null,
+     "t_in": 41.9,
+     "t_type_end": 42.65,
+     "t_out": 46.0
+    },
+    {
+     "id": "notice.6",
+     "text": "6 | 18:07 | sortie | — | départ | porte de service : FERMÉE",
+     "events": [
+      "E6",
+      "F7"
+     ],
+     "kind": "assert",
+     "role": "row",
+     "style": "mono, fields fill box by box left to right, 0.15 s per field, typewriter click per field",
+     "field_times": [
+      42.9,
+      43.05,
+      43.2,
+      43.35,
+      43.5,
+      43.65
+     ],
+     "reveal": "field",
+     "cps": null,
+     "t_in": 42.9,
+     "t_type_end": 43.65,
+     "t_out": 46.0
+    },
+    {
+     "id": "notice.n",
+     "text": "cloche : consignée, non entendue",
+     "events": [
+      "E2"
+     ],
+     "kind": "assert",
+     "role": "footnote",
+     "style": "grid footnote (inside the grid frame), mono small",
+     "reveal": "set",
+     "cps": null,
+     "t_in": 43.6,
+     "t_type_end": 43.6,
+     "t_out": 46.0
+    },
+    {
+     "id": "notice.s",
+     "text": "SUITE DONNÉE : NÉANT",
+     "events": [],
+     "kind": "form",
+     "role": "stamp",
+     "style": "red rubber stamp #d6280a, lands 44.0 with 2-frame squash, kit thud",
+     "reveal": "set",
+     "cps": null,
+     "t_in": 44.0,
+     "t_type_end": 44.0,
+     "t_out": 46.0
+    }
+   ],
+   "omissions": [],
+   "timing": [
+    {
+     "event": "E1",
+     "t_in": 37.9,
+     "t_out": 38.9,
+     "tableau": "row fill"
+    },
+    {
+     "event": "E2",
+     "t_in": 38.9,
+     "t_out": 39.9,
+     "tableau": "row fill"
+    },
+    {
+     "event": "E3",
+     "t_in": 39.9,
+     "t_out": 40.9,
+     "tableau": "row fill"
+    },
+    {
+     "event": "E4",
+     "t_in": 40.9,
+     "t_out": 41.9,
+     "tableau": "row fill"
+    },
+    {
+     "event": "E5",
+     "t_in": 41.9,
+     "t_out": 42.9,
+     "tableau": "row fill"
+    },
+    {
+     "event": "E6",
+     "t_in": 42.9,
+     "t_out": 43.9,
+     "tableau": "row fill"
+    }
+   ],
+   "key_drop": {
+    "t": 42.45,
+    "with_row": "notice.5",
+    "note": "foraged key cutout drops 40 px under a drawn paper clip and settles (#41)"
+   },
+   "sound": [],
+   "sound_absent": {
+    "reason": "a notice records, it does not hear: the bell is 'consignée, non entendue' (footnote). Only non-diegetic typewriter clicks and the stamp thud are heard.",
+    "declared_by": "notice.n"
+   }
+  },
+  "key": {
+   "variant_id": "key",
+   "shot": "S5a-S5d",
+   "window": [
+    46.0,
+    63.75
+   ],
+   "title": "Narré par la clé",
+   "ghost": "Je",
+   "band": {
+    "name": "Narré par la clé",
+    "label": "EXERCICE 5 · VOIX : LA CLÉ",
+    "clock": "18:00 → 18:07"
+   },
+   "base_rev": "910a7b36c16021d78f308a66d4f84ce71d6bdad1d1b9ddc37da43e235e6f52c9",
+   "operator": {
+    "id": "O_object",
+    "input_domain": "Incident@910a7b36c16021d78f308a66d4f84ce71d6bdad1d1b9ddc37da43e235e6f52c9",
+    "protected": [
+     "E1",
+     "E2",
+     "E3",
+     "E4",
+     "E5",
+     "E6",
+     "F7"
+    ],
+    "protected_note": "E3-E6 and F7 as the key perceives them; E1-E2 as darkness and muffled sound",
+    "mutable": [
+     "voice",
+     "access"
+    ],
+    "accept": [
+     "spoken by the key: each sub-shot's caption block has a first-person marker (je/j'/me/m'/moi) and no caption names the key in the third person",
+     "no claim outside the key's access: before E3 nothing is 'seen'",
+     "the last event is E6 and F7 is affirmed; no event after 18:07"
+    ]
+   },
+   "format": "prose",
+   "voice": "first",
+   "claims": [
+    {
+     "id": "key.1",
+     "text": "Je ne voyais rien.",
+     "events": [
+      "E1"
+     ],
+     "kind": "percept",
+     "sense": "dark; steps heard through paper",
+     "style": "cream italic on envelope-interior brown",
+     "role": "caption",
+     "reveal": "type",
+     "cps": 14.0,
+     "t_in": 46.1,
+     "t_type_end": 47.386,
+     "t_out": 49.333
+    },
+    {
+     "id": "key.2",
+     "text": "Une cloche, au loin.",
+     "events": [
+      "E2"
+     ],
+     "kind": "percept",
+     "sense": "heard, muffled",
+     "style": "cream italic",
+     "role": "caption",
+     "reveal": "type",
+     "cps": 14.0,
+     "t_in": 47.486,
+     "t_type_end": 48.915,
+     "t_out": 49.333
+    },
+    {
+     "id": "key.3",
+     "text": "Déchirure, et je vois.",
+     "events": [
+      "E3"
+     ],
+     "kind": "percept",
+     "sense": "heard + light",
+     "style": "cream italic, then warm black as the light opens",
+     "role": "caption",
+     "reveal": "type",
+     "cps": 14.0,
+     "t_in": 49.433,
+     "t_type_end": 51.004,
+     "t_out": 51.5
+    },
+    {
+     "id": "key.4",
+     "text": "Une main m'a sortie.",
+     "events": [
+      "E4"
+     ],
+     "kind": "assert",
+     "sense": "felt + seen",
+     "style": "warm black italic, upper right",
+     "role": "caption",
+     "reveal": "type",
+     "cps": 14.0,
+     "t_in": 51.5,
+     "t_type_end": 52.929,
+     "t_out": 63.75
+    },
+    {
+     "id": "key.5",
+     "text": "On m'a posée sur le banc.",
+     "events": [
+      "E5"
+     ],
+     "kind": "assert",
+     "sense": "felt + seen",
+     "style": "black italic, upper right",
+     "role": "caption",
+     "reveal": "type",
+     "cps": 14.0,
+     "t_in": 52.95,
+     "t_type_end": 54.736,
+     "t_out": 63.75
+    },
+    {
+     "id": "key.6",
+     "text": "Sa main était tiède,",
+     "events": [
+      "E5"
+     ],
+     "kind": "percept",
+     "sense": "felt (new detail)",
+     "style": "black italic",
+     "role": "caption",
+     "reveal": "type",
+     "cps": 14.0,
+     "t_in": 54.936,
+     "t_type_end": 56.365,
+     "t_out": 63.75
+    },
+    {
+     "id": "key.7",
+     "text": "puis il n'y eut que son manteau.",
+     "events": [
+      "E6"
+     ],
+     "kind": "percept",
+     "sense": "seen from below, receding",
+     "style": "black italic",
+     "role": "caption",
+     "reveal": "type",
+     "cps": 14.0,
+     "t_in": 56.615,
+     "t_type_end": 58.901,
+     "t_out": 63.75
+    },
+    {
+     "id": "key.8",
+     "text": "La porte de service n'a pas bougé.",
+     "events": [
+      "F7"
+     ],
+     "kind": "assert",
+     "sense": "seen",
+     "style": "red #d6280a italic",
+     "role": "caption",
+     "reveal": "type",
+     "cps": 14.0,
+     "t_in": 59.201,
+     "t_type_end": 61.63,
+     "t_out": 63.75
+    }
+   ],
+   "omissions": [],
+   "timing": [
+    {
+     "event": "E1",
+     "t_in": 46.0,
+     "t_out": 47.486,
+     "tableau": "darkness inside the envelope, lamp-through-paper brown"
+    },
+    {
+     "event": "E2",
+     "t_in": 47.386,
+     "t_out": 49.333,
+     "tableau": "darkness; muffled bell onset 0.1 s before key.2"
+    },
+    {
+     "event": "E3",
+     "t_in": 49.333,
+     "t_out": 51.1,
+     "tableau": "straight-ahead tear, edge re-cut every 2 frames"
+    },
+    {
+     "event": "E4",
+     "t_in": 51.1,
+     "t_out": 52.75,
+     "tableau": "the Rol hand slides the key out and lowers it"
+    },
+    {
+     "event": "E5",
+     "t_in": 52.75,
+     "t_out": 56.615,
+     "tableau": "key lands at 52.75 s (frame 30 of S5c), 6°→0° over 10 frames, one 3 px bounce, clink on the landing frame; still before 54.0 s"
+    },
+    {
+     "event": "E6",
+     "t_in": 54.936,
+     "t_out": 61.75,
+     "tableau": "visitor walks away to frame left, >= 2 full steps on twos, scale -3 %/step, 6 px bob; EXITS frame before key.8 finishes"
+    }
+   ],
+   "sound": [
+    {
+     "event": "E1",
+     "cue": "steps, muffled through paper",
+     "t": 46.2
+    },
+    {
+     "event": "E2",
+     "cue": "bell, heavily low-passed",
+     "t": 47.386
+    },
+    {
+     "event": "E3",
+     "cue": "paper tear (unmuffles)",
+     "t": 49.333
+    },
+    {
+     "event": "E5",
+     "cue": "clink on the landing frame",
+     "t": 52.75
+    },
+    {
+     "event": "E6",
+     "cue": "receding steps on foot contacts, gain and low-pass falling",
+     "t": 52.95
+    }
+   ],
+   "test_shot": {
+    "window": [
+     51.5,
+     61.75
+    ],
+    "landing_s": 52.75,
+    "beat5_pair_frame_s": 54.0,
+    "settle_done_by_s": 54.0,
+    "bar_note": "repair 2: the bar's numbers are kept as written (S5c starts 51.5 s, key still before 54.0 s, pair 11.0 vs 54.0 s); the earlier re-anchor to 58.667 s is withdrawn. S5c ends later than 58.0 s (the visitor's exit and key.7-key.8 typing)."
+   },
+   "interpretation": "§3.2 asks 'every caption in the key's first person'. Lines key.6-key.8 are the key speaking but carry no grammatical first person (« Sa main était tiède, » …). verify.py checks first person per utterance block (S5a, S5b, S5c each contain je/me/m') plus: no third-person naming of the key, no access outside the key's."
+  }
+ },
+ "evidence": [],
+ "handmade": [
+  {
+   "id": "H-ledger",
+   "what": "the incident itself: six events, one state fact, five typed edges, roles",
+   "where": "incident/ledger.json"
+  },
+  {
+   "id": "H-texts",
+   "what": "all French caption, log, card, notice and matrix texts (writers merged, U1)",
+   "where": "incident/anthology.json"
+  },
+  {
+   "id": "H-verify",
+   "what": "the constraint verifier and its counterexample fixtures",
+   "where": "incident/verify.py; films/sources/exercices-de-style/incident/*.json"
+  }
+ ],
+ "absences": [
+  {
+   "searched": "none: U1 is a text/data unit and foraged nothing",
+   "note": "no media prepared under sources/exercices-de-style/incident-editor/ (none needed); sources/exercices-de-style/incident/ holds only the counterexample fixtures"
+  }
+ ]
+}

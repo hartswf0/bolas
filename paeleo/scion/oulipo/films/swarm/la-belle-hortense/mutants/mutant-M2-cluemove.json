@@ -1,0 +1,1562 @@
+{
+ "title": "MUTANT M2: clue K1 moved out of I.4 (key-on-coat first seen at IV.2)",
+ "revision": "S2",
+ "base": "plan.md P1",
+ "owner": "U1 structure (combinatorial editor + mystery designer + verifier)",
+ "sigma": [
+  6,
+  1,
+  5,
+  2,
+  4,
+  3
+ ],
+ "start_order": "ABCDEF",
+ "timing": {
+  "title": [
+   0.0,
+   3.0
+  ],
+  "module_len": 9.0,
+  "slot_len": 1.5,
+  "slot_start_formula": "3.0 + 9(i-1) + 1.5(k-1)",
+  "end_card": [
+   57.0,
+   66.0
+  ],
+  "duration": 66.0,
+  "reader_stop": 39.0,
+  "fair_play_deadline": 21.0,
+  "reveal_time": 43.2
+ },
+ "motifs": {
+  "A": {
+   "fr": "manteau",
+   "en": "coat",
+   "signature": "Coat panel GrabCut-cut from LoC 2017844115 (Delano, FSA/OWI, PD), folds kept, stencil-dyed red #e2011b (multiply, tone shows through). Same cut contour and dye in every appearance.",
+   "permitted_functions": [
+    "background",
+    "action",
+    "absence",
+    "evidence"
+   ]
+  },
+  "B": {
+   "fr": "cloche",
+   "en": "bell",
+   "signature": "Station bell cutout on a pinned yoke, clapper as child pendulum; sound = the foraged Fridingen station-bell strike (CC BY-SA 4.0). Bell strikes sound only in cloche slots (plus title 0.4 s and end card 57.2 s).",
+   "permitted_functions": [
+    "action",
+    "evidence",
+    "false-lead",
+    "closure"
+   ]
+  },
+  "C": {
+   "fr": "clé",
+   "en": "key",
+   "signature": "Skeletonkey.png (Commons, CC0), left key, dyed brass ~#c9a23a.",
+   "permitted_functions": [
+    "action",
+    "absence",
+    "false-lead",
+    "evidence",
+    "closure"
+   ]
+  },
+  "D": {
+   "fr": "banc",
+   "en": "bench",
+   "signature": "Park-bench cutout (Highsmith, LoC, PD) on the bench plane (parallax 0.8).",
+   "permitted_functions": [
+    "action",
+    "absence",
+    "evidence",
+    "background",
+    "closure"
+   ]
+  },
+  "E": {
+   "fr": "reçu",
+   "en": "receipt",
+   "signature": "HANDMADE typeset ticket 'REÇU N° 6 · une clé · porte de service · remise au banc', red number stamp; states: plain, struck-through, underlined, RENDU.",
+   "permitted_functions": [
+    "action",
+    "evidence",
+    "closure"
+   ]
+  },
+  "F": {
+   "fr": "porte",
+   "en": "door",
+   "signature": "Shut goods-shed door of Bourré plate 50866795131 (Daniel Jolivet, CC BY 2.0), brick quoins dyed red/white; HANDMADE enamel '6' plate from IV.1 on.",
+   "permitted_functions": [
+    "background",
+    "action",
+    "evidence",
+    "closure"
+   ]
+  }
+ },
+ "functions": [
+  "background",
+  "action",
+  "absence",
+  "false-lead",
+  "evidence",
+  "closure"
+ ],
+ "film_level_sound": [
+  {
+   "t": 0.4,
+   "kind": "bell_strike",
+   "desc": "title: one distant strike"
+  },
+  {
+   "t": 57.2,
+   "kind": "bell_strike",
+   "desc": "end card: final strike"
+  },
+  {
+   "t": 63.0,
+   "kind": "silence",
+   "desc": "declared silence 63-66"
+  }
+ ],
+ "modules": [
+  {
+   "module": "I",
+   "index": 1,
+   "order": "ABCDEF",
+   "start": 3.0,
+   "end": 12.0,
+   "streak": 0.0,
+   "technique": "multiplane stage, still camera; Reiniger rigs (visitor walk, bell pendulum, envelope flap); stencil dye",
+   "knowledge_in": [],
+   "knowledge_out": [
+    "K-seed: a visitor left a brass key for 'porte de service' at the bench",
+    "K-coat: a red coat lay on the bench and the key was laid on it (shown, not said)",
+    "K-door: the service door is shut"
+   ],
+   "appearances": [
+    {
+     "id": "I.1",
+     "slot": 1,
+     "motif": "A",
+     "motif_fr": "manteau",
+     "start": 3.0,
+     "end": 4.5,
+     "function": "background",
+     "on_screen": "Wide, still camera, no streak: station house plate; bench downstage right with a dark red coat folded on it (3 hinged pieces of the same coat panel). Nobody looks at it; uncaptioned as an object.",
+     "caption_fr": "Une gare vide.",
+     "caption_en": "An empty station.",
+     "slot_line": "MANTEAU · cloche · clé · banc · reçu · porte",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 3.0
+      },
+      {
+       "t": 3.0,
+       "kind": "ambience",
+       "desc": "kit.wind, low"
+      }
+     ]
+    },
+    {
+     "id": "I.2",
+     "slot": 2,
+     "motif": "B",
+     "motif_fr": "cloche",
+     "start": 4.5,
+     "end": 6.0,
+     "function": "action",
+     "on_screen": "Bell on its wall bracket swings (FK pendulum). The visitor enters left walking (articulated cutout), sealed envelope in hand.",
+     "caption_fr": "Une cloche sonne.",
+     "caption_en": "A bell rings.",
+     "slot_line": "manteau · CLOCHE · clé · banc · reçu · porte",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 4.5
+      },
+      {
+       "t": 4.6,
+       "kind": "bell_strike",
+       "desc": "Fridingen strike at 4.6 s"
+      },
+      {
+       "t": 4.8,
+       "kind": "steps",
+       "desc": "gravel steps (foraged)"
+      }
+     ]
+    },
+    {
+     "id": "I.3",
+     "slot": 3,
+     "motif": "C",
+     "motif_fr": "clé",
+     "start": 6.0,
+     "end": 7.5,
+     "function": "action",
+     "on_screen": "Medium close on her hands: the envelope flap hinges open and the brass key slides out, frame by frame.",
+     "caption_fr": "Dans l'enveloppe, une clé de laiton.",
+     "caption_en": "In the envelope, a brass key.",
+     "slot_line": "manteau · cloche · CLÉ · banc · reçu · porte",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 6.0
+      },
+      {
+       "t": 6.2,
+       "kind": "paper",
+       "desc": "paper tear"
+      }
+     ]
+    },
+    {
+     "id": "I.4",
+     "slot": 4,
+     "motif": "D",
+     "motif_fr": "banc",
+     "start": 7.5,
+     "end": 9.0,
+     "function": "action",
+     "on_screen": "Wide again. She lays the key on the bench, ON THE RED COAT; contact shadow; she straightens. (Clue K1; frame 8.25 s is the critic's pointing frame.)",
+     "caption_fr": "Elle la laisse sur le banc.",
+     "caption_en": "She leaves it on the bench.",
+     "slot_line": "manteau · cloche · clé · BANC · reçu · porte",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 7.5
+      },
+      {
+       "t": 8.25,
+       "kind": "tap",
+       "desc": "soft key-on-cloth tap"
+      }
+     ]
+    },
+    {
+     "id": "I.5",
+     "slot": 5,
+     "motif": "E",
+     "motif_fr": "reçu",
+     "start": 9.0,
+     "end": 10.5,
+     "function": "action",
+     "on_screen": "A small ticket slips from the envelope and flutters to the gravel (drift + rotation).",
+     "caption_fr": "Un reçu tombe.",
+     "caption_en": "A receipt falls.",
+     "slot_line": "manteau · cloche · clé · banc · REÇU · porte",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 9.0
+      },
+      {
+       "t": 9.2,
+       "kind": "paper",
+       "desc": "paper flutter"
+      }
+     ]
+    },
+    {
+     "id": "I.6",
+     "slot": 6,
+     "motif": "F",
+     "motif_fr": "porte",
+     "start": 10.5,
+     "end": 12.0,
+     "function": "background",
+     "on_screen": "She walks off right. Slow push on the goods-shed door: shut.",
+     "caption_fr": "La porte de service reste fermée.",
+     "caption_en": "The service door stays shut.",
+     "slot_line": "manteau · cloche · clé · banc · reçu · PORTE",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 10.5
+      },
+      {
+       "t": 10.5,
+       "kind": "steps",
+       "desc": "receding steps, then wind"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "module": "II",
+   "index": 2,
+   "order": "FAEBDC",
+   "start": 12.0,
+   "end": 21.0,
+   "streak": 0.25,
+   "technique": "multiplane, slow pan with sub-frame integration; coat swap as holdout behind bench plane",
+   "knowledge_in": [
+    "K-seed: a visitor left a brass key for 'porte de service' at the bench",
+    "K-coat: a red coat lay on the bench and the key was laid on it (shown, not said)",
+    "K-door: the service door is shut"
+   ],
+   "knowledge_out": [
+    "K-seed",
+    "K-coat",
+    "K-door",
+    "K-took: the conductor took the coat from the bench and put it on (glint in the fold)",
+    "K-missing: the bench is empty and the key is missing",
+    "S inferable: K-coat + K-took"
+   ],
+   "appearances": [
+    {
+     "id": "II.1",
+     "slot": 1,
+     "motif": "F",
+     "motif_fr": "porte",
+     "start": 12.0,
+     "end": 13.5,
+     "function": "action",
+     "on_screen": "Tight on the door: the conductor's cut hand tries the handle. Locked. Small pan begins (streak 0.15).",
+     "caption_fr": "Fermée.",
+     "caption_en": "Locked.",
+     "slot_line": "PORTE · manteau · reçu · cloche · banc · clé",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 12.0
+      },
+      {
+       "t": 12.2,
+       "kind": "rattle",
+       "desc": "door handle rattle (foraged)"
+      }
+     ]
+    },
+    {
+     "id": "II.2",
+     "slot": 2,
+     "motif": "A",
+     "motif_fr": "manteau",
+     "start": 13.5,
+     "end": 15.0,
+     "function": "action",
+     "on_screen": "At the bench the red coat is lifted out of frame; for 6 frames a brass glint shows in its fold. Holdout cut behind the bench plane to the conductor already wearing it. (Clue K2.)",
+     "caption_fr": "Il reprend son manteau.",
+     "caption_en": "He takes back his coat.",
+     "slot_line": "porte · MANTEAU · reçu · cloche · banc · clé",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 13.5
+      },
+      {
+       "t": 13.7,
+       "kind": "cloth",
+       "desc": "cloth rustle (filtered noise)"
+      }
+     ]
+    },
+    {
+     "id": "II.3",
+     "slot": 3,
+     "motif": "E",
+     "motif_fr": "reçu",
+     "start": 15.0,
+     "end": 16.5,
+     "function": "evidence",
+     "on_screen": "He picks up the ticket. Insert: the line 'remise au banc' is legible.",
+     "caption_fr": "« remise au banc »",
+     "caption_en": "'left at the bench'",
+     "slot_line": "porte · manteau · REÇU · cloche · banc · clé",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 15.0
+      },
+      {
+       "t": 15.2,
+       "kind": "paper",
+       "desc": "paper handling"
+      }
+     ]
+    },
+    {
+     "id": "II.4",
+     "slot": 4,
+     "motif": "B",
+     "motif_fr": "cloche",
+     "start": 16.5,
+     "end": 18.0,
+     "function": "action",
+     "on_screen": "The bell swings: a train is due. He hurries off left; the camera pans; first streaks (0.4).",
+     "caption_fr": "Le train est annoncé.",
+     "caption_en": "The train is called.",
+     "slot_line": "porte · manteau · reçu · CLOCHE · banc · clé",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 16.5
+      },
+      {
+       "t": 16.6,
+       "kind": "bell_strike",
+       "desc": "Fridingen strike at 16.6 s"
+      },
+      {
+       "t": 16.8,
+       "kind": "steps",
+       "desc": "hurried steps"
+      }
+     ]
+    },
+    {
+     "id": "II.5",
+     "slot": 5,
+     "motif": "D",
+     "motif_fr": "banc",
+     "start": 18.0,
+     "end": 19.5,
+     "function": "absence",
+     "on_screen": "The empty bench, held. No coat, no key.",
+     "caption_fr": "Le banc est vide.",
+     "caption_en": "The bench is empty.",
+     "slot_line": "porte · manteau · reçu · cloche · BANC · clé",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 18.0
+      },
+      {
+       "t": 18.0,
+       "kind": "ambience",
+       "desc": "wind only"
+      }
+     ]
+    },
+    {
+     "id": "II.6",
+     "slot": 6,
+     "motif": "C",
+     "motif_fr": "clé",
+     "start": 19.5,
+     "end": 21.0,
+     "function": "absence",
+     "on_screen": "The key is absent: on the receipt, 'une clé' is struck through in red, typed over.",
+     "caption_fr": "Où est la clé ?",
+     "caption_en": "Where is the key?",
+     "slot_line": "porte · manteau · reçu · cloche · banc · CLÉ",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 19.5
+      },
+      {
+       "t": 19.7,
+       "kind": "typewriter",
+       "desc": "strike-through clicks"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "module": "III",
+   "index": 3,
+   "order": "CFDABE",
+   "start": 21.0,
+   "end": 30.0,
+   "streak": 0.3,
+   "technique": "multiplane depth (far-plane red figure at 1/5 scale); gravel plane under bench",
+   "knowledge_in": [
+    "K-seed",
+    "K-coat",
+    "K-door",
+    "K-took: the conductor took the coat from the bench and put it on (glint in the fold)",
+    "K-missing: the bench is empty and the key is missing",
+    "S inferable: K-coat + K-took"
+   ],
+   "knowledge_out": [
+    "K-seed",
+    "K-coat",
+    "K-door",
+    "K-took",
+    "K-missing",
+    "S inferable",
+    "ALT-1 refuted: raised at III.1, the receipt says she left it at the bench",
+    "K-not-fallen: nothing under the bench",
+    "K-no-ringer: the bell rings by itself",
+    "K-far: a red figure crossed the far meadow"
+   ],
+   "appearances": [
+    {
+     "id": "III.1",
+     "slot": 1,
+     "motif": "C",
+     "motif_fr": "clé",
+     "start": 21.0,
+     "end": 22.5,
+     "function": "false-lead",
+     "on_screen": "The visitor's cut hand, closed and turning. (Raises ALT-1.)",
+     "caption_fr": "Elle l'a reprise ?",
+     "caption_en": "Did she take it back?",
+     "slot_line": "CLÉ · porte · banc · manteau · cloche · reçu",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 21.0
+      }
+     ]
+    },
+    {
+     "id": "III.2",
+     "slot": 2,
+     "motif": "F",
+     "motif_fr": "porte",
+     "start": 22.5,
+     "end": 24.0,
+     "function": "evidence",
+     "on_screen": "The door: still locked; a rattle. Nobody has used a key on it.",
+     "caption_fr": "Toujours fermée.",
+     "caption_en": "Still locked.",
+     "slot_line": "clé · PORTE · banc · manteau · cloche · reçu",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 22.5
+      },
+      {
+       "t": 22.7,
+       "kind": "rattle",
+       "desc": "door handle rattle"
+      }
+     ]
+    },
+    {
+     "id": "III.3",
+     "slot": 3,
+     "motif": "D",
+     "motif_fr": "banc",
+     "start": 24.0,
+     "end": 25.5,
+     "function": "evidence",
+     "on_screen": "Low under the bench: gravel and nothing (gravel plane slides under the bench plane). It did not fall.",
+     "caption_fr": "Rien sous le banc.",
+     "caption_en": "Nothing under the bench.",
+     "slot_line": "clé · porte · BANC · manteau · cloche · reçu",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 24.0
+      },
+      {
+       "t": 24.0,
+       "kind": "ambience",
+       "desc": "wind"
+      }
+     ]
+    },
+    {
+     "id": "III.4",
+     "slot": 4,
+     "motif": "A",
+     "motif_fr": "manteau",
+     "start": 25.5,
+     "end": 27.0,
+     "function": "background",
+     "on_screen": "Wide, far plane: a small red figure crosses the far end of the meadow (conductor in the coat, 1/5 scale). Same cut, same dye. Caption does not name the coat.",
+     "caption_fr": "Au loin, quelqu'un traverse.",
+     "caption_en": "Far off, someone crosses.",
+     "slot_line": "clé · porte · banc · MANTEAU · cloche · reçu",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 25.5
+      },
+      {
+       "t": 25.5,
+       "kind": "steps",
+       "desc": "faint steps"
+      }
+     ]
+    },
+    {
+     "id": "III.5",
+     "slot": 5,
+     "motif": "B",
+     "motif_fr": "cloche",
+     "start": 27.0,
+     "end": 28.5,
+     "function": "evidence",
+     "on_screen": "The bell swings with no one near it: there is no bell-ringer.",
+     "caption_fr": "La cloche sonne seule.",
+     "caption_en": "The bell rings by itself.",
+     "slot_line": "clé · porte · banc · manteau · CLOCHE · reçu",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 27.0
+      },
+      {
+       "t": 27.1,
+       "kind": "bell_strike",
+       "desc": "Fridingen strike at 27.1 s"
+      }
+     ]
+    },
+    {
+     "id": "III.6",
+     "slot": 6,
+     "motif": "E",
+     "motif_fr": "reçu",
+     "start": 28.5,
+     "end": 30.0,
+     "function": "evidence",
+     "on_screen": "The receipt again: 'remise au banc' underlined in red. She left it; she did not take it back.",
+     "caption_fr": "« remise au banc » : elle l'a laissée.",
+     "caption_en": "'left at the bench': she left it.",
+     "slot_line": "clé · porte · banc · manteau · cloche · REÇU",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 28.5
+      },
+      {
+       "t": 28.7,
+       "kind": "typewriter",
+       "desc": "underline strike"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "module": "IV",
+   "index": 4,
+   "order": "ECBFAD",
+   "start": 30.0,
+   "end": 39.0,
+   "streak": 0.4,
+   "technique": "replay of I.4 pixels in a typed frame; near-plane blur from real sub-frame integration",
+   "knowledge_in": [
+    "K-seed",
+    "K-coat",
+    "K-door",
+    "K-took",
+    "K-missing",
+    "S inferable",
+    "ALT-1 refuted: raised at III.1, the receipt says she left it at the bench",
+    "K-not-fallen: nothing under the bench",
+    "K-no-ringer: the bell rings by itself",
+    "K-far: a red figure crossed the far meadow"
+   ],
+   "knowledge_out": [
+    "K-seed",
+    "K-coat",
+    "K-door",
+    "K-took",
+    "K-missing",
+    "S inferable",
+    "ALT-1 refuted",
+    "K-not-fallen",
+    "K-no-ringer",
+    "K-far",
+    "K-door6: the key belongs to door no. 6",
+    "K-replay: I.4 re-seen: the key lay on the coat",
+    "ALT-2 refuted: raised at IV.2, door no. 6 is still locked",
+    "ALT-3 refuted: raised at IV.3, nothing under the bench, no ringer",
+    "READER STOP 39.0: leading explanation expected = S"
+   ],
+   "appearances": [
+    {
+     "id": "IV.1",
+     "slot": 1,
+     "motif": "E",
+     "motif_fr": "reçu",
+     "start": 30.0,
+     "end": 31.5,
+     "function": "evidence",
+     "on_screen": "The ticket's 'N° 6' matches the handmade enamel '6' on the shed door.",
+     "caption_fr": "Reçu n° 6, porte n° 6.",
+     "caption_en": "Receipt no. 6, door no. 6.",
+     "slot_line": "REÇU · clé · cloche · porte · manteau · banc",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 30.0
+      }
+     ]
+    },
+    {
+     "id": "IV.2",
+     "slot": 2,
+     "motif": "C",
+     "motif_fr": "clé",
+     "start": 31.5,
+     "end": 33.0,
+     "function": "false-lead",
+     "on_screen": "Typed frame 'I·4' replays the exact pixels of I.4: the key on the red coat (equivalent view). Caption raises ALT-2.",
+     "caption_fr": "Un voleur ?",
+     "caption_en": "A thief?",
+     "slot_line": "reçu · CLÉ · cloche · porte · manteau · banc",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 31.5
+      },
+      {
+       "t": 31.8,
+       "kind": "bell_reversed",
+       "desc": "short reversed bell swell from the same recording (no strike onset)"
+      }
+     ]
+    },
+    {
+     "id": "IV.3",
+     "slot": 3,
+     "motif": "B",
+     "motif_fr": "cloche",
+     "start": 33.0,
+     "end": 34.5,
+     "function": "false-lead",
+     "on_screen": "The bell's rope; the bell swings. Caption raises ALT-3.",
+     "caption_fr": "Ou la cloche ?",
+     "caption_en": "Or the bell?",
+     "slot_line": "reçu · clé · CLOCHE · porte · manteau · banc",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 33.0
+      },
+      {
+       "t": 33.1,
+       "kind": "bell_strike",
+       "desc": "Fridingen strike at 33.1 s"
+      }
+     ]
+    },
+    {
+     "id": "IV.4",
+     "slot": 4,
+     "motif": "F",
+     "motif_fr": "porte",
+     "start": 34.5,
+     "end": 36.0,
+     "function": "evidence",
+     "on_screen": "Close on the keyhole: dark, locked. No thief has opened it.",
+     "caption_fr": "Aucun voleur n'a ouvert.",
+     "caption_en": "No thief has opened it.",
+     "slot_line": "reçu · clé · cloche · PORTE · manteau · banc",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 34.5
+      },
+      {
+       "t": 34.7,
+       "kind": "rattle",
+       "desc": "door handle rattle"
+      }
+     ]
+    },
+    {
+     "id": "IV.5",
+     "slot": 5,
+     "motif": "A",
+     "motif_fr": "manteau",
+     "start": 36.0,
+     "end": 37.5,
+     "function": "action",
+     "on_screen": "A red blur sweeps across the near plane (coat sleeve, streak 0.6), coming back toward us.",
+     "caption_fr": "Quelque chose revient.",
+     "caption_en": "Something is coming back.",
+     "slot_line": "reçu · clé · cloche · porte · MANTEAU · banc",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 36.0
+      },
+      {
+       "t": 36.2,
+       "kind": "whoosh",
+       "desc": "pan whoosh (filtered noise)"
+      }
+     ]
+    },
+    {
+     "id": "IV.6",
+     "slot": 6,
+     "motif": "D",
+     "motif_fr": "banc",
+     "start": 37.5,
+     "end": 39.0,
+     "function": "absence",
+     "on_screen": "The empty bench. Caption holds. FRESH READER STOPS AT 39.0 s.",
+     "caption_fr": "Qui a la clé ?",
+     "caption_en": "Who has the key?",
+     "slot_line": "reçu · clé · cloche · porte · manteau · BANC",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 37.5
+      },
+      {
+       "t": 37.8,
+       "kind": "silence",
+       "desc": "declared silence 37.8-39.0 after the click"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "module": "V",
+   "index": 5,
+   "order": "DEACFB",
+   "start": 39.0,
+   "end": 48.0,
+   "streak": 1.0,
+   "technique": "full pan exposure (sub-frame integration, 36-72 sub-frames); Reiniger run cycle with knees; parabolic key fall",
+   "knowledge_in": [
+    "K-seed",
+    "K-coat",
+    "K-door",
+    "K-took",
+    "K-missing",
+    "S inferable",
+    "ALT-1 refuted",
+    "K-not-fallen",
+    "K-no-ringer",
+    "K-far",
+    "K-door6: the key belongs to door no. 6",
+    "K-replay: I.4 re-seen: the key lay on the coat",
+    "ALT-2 refuted: raised at IV.2, door no. 6 is still locked",
+    "ALT-3 refuted: raised at IV.3, nothing under the bench, no ringer",
+    "READER STOP 39.0: leading explanation expected = S"
+   ],
+   "knowledge_out": [
+    "K-seed",
+    "K-coat",
+    "K-door",
+    "K-took",
+    "K-missing",
+    "S inferable",
+    "ALT-1 refuted",
+    "K-not-fallen",
+    "K-no-ringer",
+    "K-far",
+    "K-door6",
+    "K-replay",
+    "ALT-2 refuted",
+    "ALT-3 refuted",
+    "READER STOP 39.0",
+    "S confirmed: the key falls from the coat's fold (reveal)",
+    "K-open: door no. 6 opened with the key"
+   ],
+   "appearances": [
+    {
+     "id": "V.1",
+     "slot": 1,
+     "motif": "D",
+     "motif_fr": "banc",
+     "start": 39.0,
+     "end": 40.5,
+     "function": "action",
+     "on_screen": "The bench; the camera starts a fast pan right; streaks build to full strength.",
+     "caption_fr": "Quelqu'un court vers le banc.",
+     "caption_en": "Someone is running to the bench.",
+     "slot_line": "BANC · reçu · manteau · clé · porte · cloche",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 39.0
+      },
+      {
+       "t": 39.0,
+       "kind": "steps",
+       "desc": "running steps begin far off"
+      }
+     ]
+    },
+    {
+     "id": "V.2",
+     "slot": 2,
+     "motif": "E",
+     "motif_fr": "reçu",
+     "start": 40.5,
+     "end": 42.0,
+     "function": "action",
+     "on_screen": "The ticket lifts off the gravel in the runner's wind and flutters through the streak.",
+     "caption_fr": "Le reçu s'envole.",
+     "caption_en": "The receipt blows away.",
+     "slot_line": "banc · REÇU · manteau · clé · porte · cloche",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 40.5
+      },
+      {
+       "t": 40.7,
+       "kind": "paper",
+       "desc": "paper flutter"
+      }
+     ]
+    },
+    {
+     "id": "V.3",
+     "slot": 3,
+     "motif": "A",
+     "motif_fr": "manteau",
+     "start": 42.0,
+     "end": 43.5,
+     "function": "evidence",
+     "on_screen": "TEST SHOT. The conductor runs back in the red coat, cropped tight (coat >= 55% of frame height, head at/above top edge): jointed legs with knees and a real stride, forward lean, arms swinging; ground and shed smeared by sub-frame pan integration. At ~43.2 s the key slips from the coat's fold and falls, turning. Type: 'V.' black / 'le manteau revient' red / slot line with MANTEAU red. (Reveal R1.)",
+     "caption_fr": "le manteau revient",
+     "caption_en": "the coat comes back",
+     "slot_line": "banc · reçu · MANTEAU · clé · porte · cloche",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 42.0
+      },
+      {
+       "t": 42.0,
+       "kind": "steps",
+       "desc": "steps at stride rate (Concrete Steps 2 grains)"
+      },
+      {
+       "t": 42.0,
+       "kind": "whoosh",
+       "desc": "pan whoosh"
+      }
+     ]
+    },
+    {
+     "id": "V.4",
+     "slot": 4,
+     "motif": "C",
+     "motif_fr": "clé",
+     "start": 43.5,
+     "end": 45.0,
+     "function": "evidence",
+     "on_screen": "The key lands brass-on-green, bounces once, lies still; his hand takes it. (Reveal R2.)",
+     "caption_fr": "La clé était dans le pli.",
+     "caption_en": "The key was in the fold.",
+     "slot_line": "banc · reçu · manteau · CLÉ · porte · cloche",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 43.5
+      },
+      {
+       "t": 43.6,
+       "kind": "tink",
+       "desc": "key tink (foraged)"
+      }
+     ]
+    },
+    {
+     "id": "V.5",
+     "slot": 5,
+     "motif": "F",
+     "motif_fr": "porte",
+     "start": 45.0,
+     "end": 46.5,
+     "function": "action",
+     "on_screen": "Key in the lock: the door leaf swings open on its hinge (horizontal foreshortening), dark inside.",
+     "caption_fr": "La porte s'ouvre.",
+     "caption_en": "The door opens.",
+     "slot_line": "banc · reçu · manteau · clé · PORTE · cloche",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 45.0
+      },
+      {
+       "t": 45.1,
+       "kind": "latch",
+       "desc": "latch (lock-3-open, CC0)"
+      },
+      {
+       "t": 45.6,
+       "kind": "hinge",
+       "desc": "squeaky hinge (PD)"
+      }
+     ]
+    },
+    {
+     "id": "V.6",
+     "slot": 6,
+     "motif": "B",
+     "motif_fr": "cloche",
+     "start": 46.5,
+     "end": 48.0,
+     "function": "action",
+     "on_screen": "The bell rings as the door opens: a full strike.",
+     "caption_fr": "La cloche sonne : c'est ouvert.",
+     "caption_en": "The bell rings: it is open.",
+     "slot_line": "banc · reçu · manteau · clé · porte · CLOCHE",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 46.5
+      },
+      {
+       "t": 46.6,
+       "kind": "bell_strike",
+       "desc": "Fridingen strike at 46.6 s"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "module": "VI",
+   "index": 6,
+   "order": "BDFECA",
+   "start": 48.0,
+   "end": 57.0,
+   "streak": 0.2,
+   "technique": "streak decays to 0; damped bell; replay of I.4; still camera",
+   "knowledge_in": [
+    "K-seed",
+    "K-coat",
+    "K-door",
+    "K-took",
+    "K-missing",
+    "S inferable",
+    "ALT-1 refuted",
+    "K-not-fallen",
+    "K-no-ringer",
+    "K-far",
+    "K-door6",
+    "K-replay",
+    "ALT-2 refuted",
+    "ALT-3 refuted",
+    "READER STOP 39.0",
+    "S confirmed: the key falls from the coat's fold (reveal)",
+    "K-open: door no. 6 opened with the key"
+   ],
+   "knowledge_out": [
+    "K-seed",
+    "K-coat",
+    "K-door",
+    "K-took",
+    "K-missing",
+    "S inferable",
+    "ALT-1 refuted",
+    "K-not-fallen",
+    "K-no-ringer",
+    "K-far",
+    "K-door6",
+    "K-replay",
+    "ALT-2 refuted",
+    "ALT-3 refuted",
+    "READER STOP 39.0",
+    "S confirmed",
+    "K-open",
+    "K-closed: key returned, receipt stamped RENDU, coat back on the bench"
+   ],
+   "appearances": [
+    {
+     "id": "VI.1",
+     "slot": 1,
+     "motif": "B",
+     "motif_fr": "cloche",
+     "start": 48.0,
+     "end": 49.5,
+     "function": "closure",
+     "on_screen": "The bell settles: damped pendulum to rest. Streak decays to 0.",
+     "caption_fr": "La cloche se tait.",
+     "caption_en": "The bell falls silent.",
+     "slot_line": "CLOCHE · banc · porte · reçu · clé · manteau",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 48.0
+      },
+      {
+       "t": 48.0,
+       "kind": "bell_tail",
+       "desc": "ring-out tail of the 46.6 s strike continues through the slot (no new onset)"
+      }
+     ]
+    },
+    {
+     "id": "VI.2",
+     "slot": 2,
+     "motif": "D",
+     "motif_fr": "banc",
+     "start": 49.5,
+     "end": 51.0,
+     "function": "evidence",
+     "on_screen": "Typed frame 'I·4' replays the key laid on the red coat (equivalent view of I.4).",
+     "caption_fr": "Elle l'avait posée sur le manteau.",
+     "caption_en": "She had laid it on the coat.",
+     "slot_line": "cloche · BANC · porte · reçu · clé · manteau",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 49.5
+      }
+     ]
+    },
+    {
+     "id": "VI.3",
+     "slot": 3,
+     "motif": "F",
+     "motif_fr": "porte",
+     "start": 51.0,
+     "end": 52.5,
+     "function": "closure",
+     "on_screen": "The door stands open.",
+     "caption_fr": "La porte reste ouverte.",
+     "caption_en": "The door stays open.",
+     "slot_line": "cloche · banc · PORTE · reçu · clé · manteau",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 51.0
+      },
+      {
+       "t": 51.0,
+       "kind": "ambience",
+       "desc": "room tone"
+      }
+     ]
+    },
+    {
+     "id": "VI.4",
+     "slot": 4,
+     "motif": "E",
+     "motif_fr": "reçu",
+     "start": 52.5,
+     "end": 54.0,
+     "function": "closure",
+     "on_screen": "A red stamp 'RENDU' thumps onto the ticket.",
+     "caption_fr": "RENDU.",
+     "caption_en": "Returned.",
+     "slot_line": "cloche · banc · porte · REÇU · clé · manteau",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 52.5
+      },
+      {
+       "t": 52.65,
+       "kind": "thud",
+       "desc": "stamp thud (kit.thud)"
+      }
+     ]
+    },
+    {
+     "id": "VI.5",
+     "slot": 5,
+     "motif": "C",
+     "motif_fr": "clé",
+     "start": 54.0,
+     "end": 55.5,
+     "function": "closure",
+     "on_screen": "The key hangs on its hook (slight pendulum).",
+     "caption_fr": "La clé à son crochet.",
+     "caption_en": "The key on its hook.",
+     "slot_line": "cloche · banc · porte · reçu · CLÉ · manteau",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 54.0
+      },
+      {
+       "t": 54.2,
+       "kind": "tink",
+       "desc": "soft tink"
+      }
+     ]
+    },
+    {
+     "id": "VI.6",
+     "slot": 6,
+     "motif": "A",
+     "motif_fr": "manteau",
+     "start": 55.5,
+     "end": 57.0,
+     "function": "background",
+     "on_screen": "The coat lies folded on the bench again: background, as in I.1.",
+     "caption_fr": "Le manteau, sur le banc.",
+     "caption_en": "The coat, on the bench.",
+     "slot_line": "cloche · banc · porte · reçu · clé · MANTEAU",
+     "sound": [
+      {
+       "kind": "click",
+       "src": "kit.click (synthesised)",
+       "gain": 0.5,
+       "t": 55.5
+      },
+      {
+       "t": 55.5,
+       "kind": "ambience",
+       "desc": "wind"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "claim": {
+  "id": "S",
+  "text": "The conductor carried the key away in the fold of his coat.",
+  "inferable_at_declared": 13.5,
+  "background_to_evidence_motif": "A",
+  "link_fact": "key_on_coat"
+ },
+ "rules": [
+  {
+   "id": "R-fair",
+   "concludes": "S",
+   "requires": [
+    "key_on_coat",
+    "coat_taken_by_conductor"
+   ],
+   "gloss": "the key lay on the coat; the conductor took the coat; so the key went with him"
+  },
+  {
+   "id": "R-reveal",
+   "concludes": "S",
+   "requires": [
+    "key_falls_from_coat"
+   ],
+   "gloss": "seeing the key fall from the worn coat"
+  },
+  {
+   "id": "R-alt1-out",
+   "concludes": "not ALT-1",
+   "requires": [
+    "visitor_left_key"
+   ]
+  },
+  {
+   "id": "R-alt2-out",
+   "concludes": "not ALT-2",
+   "requires": [
+    "door_still_locked",
+    "coat_taken_by_conductor"
+   ]
+  },
+  {
+   "id": "R-alt3-out",
+   "concludes": "not ALT-3",
+   "requires": [
+    "not_fallen",
+    "no_ringer"
+   ]
+  }
+ ],
+ "clues": [
+  {
+   "id": "K0",
+   "at": "I.1",
+   "t": 3.0,
+   "establishes": [
+    "coat_on_bench"
+   ],
+   "edge": "supports",
+   "claim": "S",
+   "note": "the coat is present on the bench as background, uncaptioned"
+  },
+  {
+   "id": "K2",
+   "at": "II.2",
+   "t": 13.5,
+   "establishes": [
+    "coat_taken_by_conductor",
+    "glint_in_fold"
+   ],
+   "edge": "supports",
+   "claim": "S",
+   "note": "the coat is lifted with a brass glint in its fold; the conductor wears it"
+  },
+  {
+   "id": "K3",
+   "at": "II.5",
+   "t": 18.0,
+   "establishes": [
+    "bench_empty"
+   ],
+   "edge": "supports",
+   "claim": "S",
+   "note": "the bench is empty right after the coat left"
+  },
+  {
+   "id": "K4",
+   "at": "II.3",
+   "t": 15.0,
+   "establishes": [
+    "visitor_left_key"
+   ],
+   "edge": "refutes",
+   "claim": "ALT-1"
+  },
+  {
+   "id": "K5",
+   "at": "III.3",
+   "t": 24.0,
+   "establishes": [
+    "not_fallen"
+   ],
+   "edge": "refutes",
+   "claim": "ALT-3"
+  },
+  {
+   "id": "K6",
+   "at": "III.4",
+   "t": 25.5,
+   "establishes": [
+    "conductor_in_coat_far"
+   ],
+   "edge": "corroborates",
+   "claim": "S",
+   "note": "quiet colour-only clue: the red coat is moving with someone"
+  },
+  {
+   "id": "K7",
+   "at": "III.5",
+   "t": 27.0,
+   "establishes": [
+    "no_ringer"
+   ],
+   "edge": "refutes",
+   "claim": "ALT-3"
+  },
+  {
+   "id": "K8",
+   "at": "III.6",
+   "t": 28.5,
+   "establishes": [
+    "visitor_left_key"
+   ],
+   "edge": "refutes",
+   "claim": "ALT-1"
+  },
+  {
+   "id": "K9",
+   "at": "III.2",
+   "t": 22.5,
+   "establishes": [
+    "door_still_locked"
+   ],
+   "edge": "refutes",
+   "claim": "ALT-2"
+  },
+  {
+   "id": "K10",
+   "at": "IV.2",
+   "t": 31.5,
+   "establishes": [
+    "key_on_coat"
+   ],
+   "edge": "corroborates",
+   "claim": "S",
+   "equivalent_view_of": "I.4",
+   "note": "replay of the I.4 pixels"
+  },
+  {
+   "id": "K11",
+   "at": "IV.4",
+   "t": 34.5,
+   "establishes": [
+    "door_still_locked"
+   ],
+   "edge": "refutes",
+   "claim": "ALT-2"
+  },
+  {
+   "id": "R1",
+   "at": "V.3",
+   "t": 42.0,
+   "establishes": [
+    "key_falls_from_coat"
+   ],
+   "edge": "reveal",
+   "claim": "S",
+   "reveal": true
+  },
+  {
+   "id": "R2",
+   "at": "V.4",
+   "t": 43.5,
+   "establishes": [
+    "key_falls_from_coat"
+   ],
+   "edge": "reveal",
+   "claim": "S",
+   "reveal": true
+  }
+ ],
+ "alternatives": [
+  {
+   "id": "ALT-1",
+   "text": "The visitor took the key back.",
+   "raised_at": "III.1",
+   "raised_t": 21.0,
+   "refuted_by": [
+    "K4",
+    "K8"
+   ],
+   "why": "the receipt reads 'remise au banc' (left at the bench): II.3 shows it, III.6 underlines it"
+  },
+  {
+   "id": "ALT-2",
+   "text": "A thief took the key.",
+   "raised_at": "IV.2",
+   "raised_t": 31.5,
+   "refuted_by": [
+    "K9",
+    "K11",
+    "K2"
+   ],
+   "why": "a thief takes a key to open a door, and door no. 6 is still locked (III.2, IV.4); the key had already left with the coat (II.2)"
+  },
+  {
+   "id": "ALT-3",
+   "text": "The bell: its ringing shook the key off the bench, or a bell-ringer took it.",
+   "raised_at": "IV.3",
+   "raised_t": 33.0,
+   "refuted_by": [
+    "K5",
+    "K7"
+   ],
+   "why": "nothing lies under the bench (III.3) and the bell rings with nobody near it (III.5)"
+  }
+ ],
+ "pointing_frames": {
+  "coat_on_bench": 3.75,
+  "key_on_coat": 8.25,
+  "reveal": 43.3
+ },
+ "slot_sample_times": "t = 3.75 + 9(i-1) + 1.5(k-1): the red-caps word in the slot line must equal order_i[k]",
+ "type_conventions": {
+  "face": "Courier 10 Pitch Bold (/usr/share/fonts/X11/Type1/c0583bt_.pfb)",
+  "numeral": "module numeral, black #010201, 44 px, lower left",
+  "caption_fr": "red slab #a50917 / #e2011b, 30 px",
+  "caption_en": "English gloss at 60% size; per test-shot review it must be legible: set it in cream #e1e5b2 on a black #010201 band (or black on a cream band), never black directly on dark streak",
+  "slot_line": "18 px black; active motif in CAPS and red; the exact string is in each appearance's slot_line"
+ },
+ "notes_for_units": [
+  "Coat identity (signature A): if U3 replaces the walking conductor with another PD figure for a real run (test-shot review), the bench coat in I.1, II.2, VI.6 and the far/near coat in III.4, IV.5 must be cut from the SAME coat panel with the same dye, or the C3 identity of background and evidence breaks. Record the new source id in rig.json and update motifs.A.signature here.",
+  "Coat folds must survive the dye (multiply over the monochrome print) so the I.1 folded coat and the V.3 worn coat read as the same cloth.",
+  "VI.1 bell cue is the ring-out tail of the 46.6 s strike (no new onset), consistent with acceptance bar 7 (onsets only at 0.4, 4.6, 16.6, 27.1, 33.1, 46.6, 57.2). If U4 prefers a fresh strike at 48.1, add it to acceptance 7 too.",
+  "IV.2 uses a reversed bell swell from the same recording: it must have no strike onset (verify S1b only checks declared cue kinds; U4 should confirm by onset detection).",
+  "Captions are now set for all 36 slots; plan §6 left some blank. The editor may drop a caption (set caption_fr to an empty string) but must not add the word 'manteau' before 13.5 s (verify C7).",
+  "Any edit that moves a clue (clues[].at / t) or changes a caption that carries a clue: re-run verify.py; a C4 FLAG lists every module to re-open."
+ ],
+ "evidence": {
+  "foraged": [],
+  "foraged_note": "This unit downloaded nothing. Motif signatures name items foraged and licence-checked by U2 (LoC 2017844115 PD; Bourré 50866795131/50866798791/50866891867 CC BY 2.0 Daniel Jolivet; Skeletonkey.png CC0; Fridingen bell CC BY-SA 4.0; Highsmith bench PD); their records live in ledger.json / test-shot-ledger.json.",
+  "absences": [],
+  "handmade": [
+   {
+    "id": "STRUCT",
+    "what": "canonical structure: six orders, 36 appearances, captions, cues, clue graph, alternatives",
+    "where": "films/swarm/la-belle-hortense/structure.json (generated by structure_build.py)"
+   },
+   {
+    "id": "VERIFY",
+    "what": "verifier reading only the JSON",
+    "where": "films/swarm/la-belle-hortense/verify.py, log verify.txt"
+   },
+   {
+    "id": "BASELINE",
+    "what": "story-order counter-cut, rejected by verify.py",
+    "where": "films/swarm/la-belle-hortense/baseline.json"
+   },
+   {
+    "id": "MUTANTS",
+    "what": "M1 module V order swap; M2 clue move (I.4 key-on-coat removed)",
+    "where": "films/swarm/la-belle-hortense/mutants/"
+   },
+   {
+    "id": "BOARD",
+    "what": "motif x module matrix with braid strands and clue timeline, Courier 10 Pitch, for the editor and end card reference",
+    "where": "films/sources/la-belle-hortense/structure-combinatorial-editor-mystery-designer-verifier-/structure-board.png"
+   },
+   {
+    "id": "SAMPLES",
+    "what": "36-row slot table (id, start, end, sample t, motif, slot line, captions, function)",
+    "where": "films/sources/la-belle-hortense/structure-combinatorial-editor-mystery-designer-verifier-/slots.csv"
+   }
+  ]
+ }
+}

@@ -1,0 +1,53 @@
+{
+ "name": "silver box (HANDMADE), shared geometry for present (U2) and shadow play (U3)",
+ "units": "box width w (all lengths are fractions of w)",
+ "w": 1.0,
+ "depth": 0.62,
+ "body_h": 0.3,
+ "lid_h": 0.08,
+ "hinge": "back top edge (y = depth, z = body_h); lid opens toward the back, 0 deg closed, 105 deg = 100% open",
+ "lid_states_deg": {
+  "closed": 0,
+  "33": 35,
+  "66": 70,
+  "100": 105
+ },
+ "wall": 0.03,
+ "velvet_z": 0.246,
+ "slot": {
+  "cx": 0.5,
+  "cy": 0.45,
+  "len": 0.18,
+  "wid": 0.025,
+  "note": "cx in units of w across the inner floor; cy as fraction of inner depth measured from the front wall; slot long axis parallel to the front"
+ },
+ "ring_hollow": {
+  "cx": 0.5,
+  "cy": 0.45,
+  "rx": 0.16,
+  "ry": 0.2,
+  "note": "pressed elliptical hollow around the slot (fractions of inner width/depth)"
+ },
+ "ring_for_shadow_play": {
+  "outer_d": 0.11,
+  "band": 0.018,
+  "stone_d": 0.035,
+  "stands_in": "slot, upright, half sunk"
+ },
+ "front_pattern": "guilloche: engine-turned rose r*f + 0.18 sin(14a + 30r) blended with wave band, f = 38 cycles per w on the front face; bevelled border 0.02w",
+ "key_dir_world": [
+  0.5,
+  -0.62,
+  0.8
+ ],
+ "key_note": "V0's real key is a flash high camera-RIGHT and front (his head shadow falls left on the wall); x right, y away from camera, z up",
+ "states": [
+  "closed",
+  "lid33",
+  "lid66",
+  "lid100_empty_slot",
+  "receipt_in_slot",
+  "closed_after_receipt"
+ ],
+ "match_test": "slot centre on screen in present insert vs shadow-play box, normalised by box width, differs < 0.05"
+}

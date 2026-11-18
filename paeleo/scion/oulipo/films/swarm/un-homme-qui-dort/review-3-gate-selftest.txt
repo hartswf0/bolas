@@ -1,0 +1,5 @@
+[gate] 102 checks, 0 failed -> PASS
+[selftest] X1 'He hears it through the wall.' (person 3): REJECTED by ['P1/I1 second person, addressee you:A1']
+[selftest] X1' same text with forged person=2/addressee=you:A1: REJECTED by ['P1/I1 second person, addressee you:A1']
+[selftest] X2 c4.A onset moved to 18.8: REJECTED by ['I3 SIL-H has no caption', 'I6 only onsets differ, by 2.4 s', 'P3 onset = event - 1.2 +/- 0.05', 'P3 overlaps is computed, never declared', 'P4 clear of SIL-H with 0.1 s guard']
+[selftest] X3 c2.B extended to end 8.7: REJECTED by ['I6 durations identical', 'P4 no straddle into a shot holding a different event']

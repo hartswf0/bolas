@@ -1,0 +1,594 @@
+{
+ "unit": "U4 harmonic trees to granule (camera unit C: Sh4 + Sh5 falling pellets)",
+ "plan_revision": "plan.md r3",
+ "date": "2026-11-16",
+ "scions_applied": {
+  "6 Whitney Harmonic Motion Orchestra": "oscillator bank, common period, measured alignment, phase visualizer, locked vs detuned A/B, sparse->dense->release",
+  "7 Foldes Drawn Metamorphosis": "one continuous per-frame transformation per tree, shape identity kept: whole -> beads at fixed pitch -> cut -> the cut pieces are the pellets -> orbits -> fall; no dissolves",
+  "44 Multiplane": "planes: blue practicals 0.3x, back trees 0.5x (scale 0.5, defocus sigma 3.2, gain 0.62), front trees 1.0x in 2 sub-depths; lateral camera glide 30 px smoothstep over the shot",
+  "8 Sutherland constraint / 29 GrabCut": "not re-applied here: vocabulary is read from U2's constraint-derived geometry.json; the heap is U2's GrabCut cutout"
+ },
+ "deliverables": {
+  "sh4": {
+   "t": "27.60-35.00 s",
+   "frames": "663-839 (global f, t=f/24; 177 frames)",
+   "png": "films/sources/le-chant-du-styrene/harmonic-trees-to-granule-camera-unit-c-sh4-sh5-falling-pellets-/sh4/f%04d.png",
+   "mp4_lossless": "films/sources/le-chant-du-styrene/harmonic-trees-to-granule-camera-unit-c-sh4-sh5-falling-pellets-/sh4.mp4 (libx264rgb crf 0)",
+   "preview": "films/sources/le-chant-du-styrene/harmonic-trees-to-granule-camera-unit-c-sh4-sh5-falling-pellets-/sh4_preview.mp4",
+   "format": "960x408 picture band only, no captions/letterbox/grain (editor applies the shared grain via kit.py)"
+  },
+  "sh5_pellet_layer": {
+   "t": "35.00-38.00 s",
+   "frames": "840-911",
+   "png_rgba": "films/sources/le-chant-du-styrene/harmonic-trees-to-granule-camera-unit-c-sh4-sh5-falling-pellets-/sh5_pellets_rgba/f%04d.png (straight alpha)",
+   "mov_rgba": "films/sources/le-chant-du-styrene/harmonic-trees-to-granule-camera-unit-c-sh4-sh5-falling-pellets-/sh5_pellets_rgba.mov (qtrle, alpha)",
+   "preview_over_heap": "films/sources/le-chant-du-styrene/harmonic-trees-to-granule-camera-unit-c-sh4-sh5-falling-pellets-/sh5_preview/f%04d.png, films/sources/le-chant-du-styrene/harmonic-trees-to-granule-camera-unit-c-sh4-sh5-falling-pellets-/sh5_preview_over_heap.mp4",
+   "drops": "films/sources/le-chant-du-styrene/harmonic-trees-to-granule-camera-unit-c-sh4-sh5-falling-pellets-/sh5_drops.json",
+   "last_motion_t": 36.375,
+   "motion_ends_by_36_5": true,
+   "landing": "34 pellets (the 34 with the latest release in Sh4, keeping their own cut shapes and dyes) fall from above the band from 35.00-35.62 s, land on the heap surface measured from cutout/sh5/heap_rgba_960x408.png alpha (>128, closed 9 px, blurred 6 px) +2..9 px, one bounce (restitution 0.25), 0.15 s slide, then rest. Composite: heap*(1-a)+rgb*a with the heap at offset (0,0) of the same 960x408 band."
+  },
+  "stills": [
+   "films/sources/le-chant-du-styrene/harmonic-trees-to-granule-camera-unit-c-sh4-sh5-falling-pellets-/stills/sh4_32.00s_f0768.png",
+   "films/sources/le-chant-du-styrene/harmonic-trees-to-granule-camera-unit-c-sh4-sh5-falling-pellets-/stills/sh4_33.58s_f0806_alignment.png"
+  ],
+  "phase_visualizer": "films/swarm/le-chant-du-styrene/harmonic-phase-visualizer.png",
+  "ab_locked_vs_detuned": "films/swarm/le-chant-du-styrene/harmonic-ab-locked-vs-detuned.png",
+  "compare_still_32s": "films/swarm/le-chant-du-styrene/harmonic-compare-32.0s.jpg",
+  "build_scripts": "films/swarm/le-chant-du-styrene/harmonic-build/ (trees.py model+renderer, render.py sh4/sh5/measure/ab/phase, compare.py, stats.py, worms.py, preview.py)"
+ },
+ "formulas": {
+  "time_base": "tau = t - 27.60 s; P = 33.60 - 27.60 = 6.0 s; Omega = 2*pi/P = 1.047198 rad/s; omega_i = n_i * Omega with integer n_i in {1,2,3}",
+  "branch_swing": "theta_ik(t) = A_k * env(t) * sin(k * omega_i * tau), A_k = 7 deg / sqrt(k), env = smoothstep(tau/1.2 s); level k of tree i swings at k*omega_i",
+  "forward_kinematics": "trunk segment above node k rotates by Phi_k = sum_{j<=k} 0.3*theta_ij; side branches/twigs/discs at node k rotate by Phi_k + theta_ik about the posed node",
+  "beading": "radius r(s) * [(1-beta) + beta*(0.10 + 1.18*((1+cos(2*pi*(s-s0)/p))/2)^0.8)], fixed pitch p = 13 px (6.5 px back plane), beta = smoothstep over 1.35 s from 31.00 + stagger_i; at beta=1 the necks are 0.10 r and the strand is cut there",
+  "pellet": "pellet j = the strand samples with |s - s_j| <= p/2 around bead centre s_j, with their own radii (the literal piece of the tree), necks closed by sqrt taper; moved rigidly",
+  "orbit": "d_j(t) = R_j * e(t) * [cos(m_j*omega_i*tau + psi_j) - cos psi_j, sin(m_j*omega_i*tau + psi_j) - sin psi_j]; m_j in {+-1,+-2,+-3} (p .45/.35/.20), psi_j ~ U(0,2pi), R_j lognormal(median 22 px, sigma .45) clipped 7..55 px; e = smoothstep((t - t_cut)/0.35 s). d_j = 0 at tau = 0 and tau = P exactly (integer m_j*n_i)",
+  "spacing_jitter": "home_j = strand point + e*(jit_t*tangent + jit_n*normal), jit_t ~ N(0, 0.28 p), jit_n ~ N(0, 2.2 px); spin = spin_j*e*sin(m_j*omega_i*tau), spin_j ~ N(0,70 deg)",
+  "release_fall": "after 33.60 + delay_j (delay_j = U^1.3 * 0.78 s) add (vx_j*tf, 0.5*g*tf^2), g = 1400 px/s^2 front, 700 back; the orbit formula keeps running so pellets fly out again as they fall",
+  "light": "thickness th = max over stamped spheres 2*sqrt(r^2-d^2); optical depth od = w_i*(th + 4*cov)/10; emission E = 1.02*L*exp(-a*od)*(0.10 + 0.90*nr^1.1) + dyed opal scatter + rim specular from grad(cov*nr), light from upper left; L = (1.0, 0.86, 0.60); amber dye a = (0.10, 0.50, 2.00), crimson dye a = (0.11, 0.95, 1.00); background seen through: bg*(1 - cov + cov*T*(1-opal)*0.85)",
+  "grade": "identical to U2 render.py: halation 0.22*blur5 + 0.10*blur16 of pixels with lum > 0.45; roll-off knee 0.66, k + 0.15*tanh((lum-k)/0.15) (max lum ~207). No grain here."
+ },
+ "frequencies": {
+  "front_n_i": [
+   2,
+   3,
+   2,
+   1,
+   3,
+   2
+  ],
+  "back_n_i": [
+   1,
+   2,
+   1,
+   2,
+   1
+  ],
+  "base_hz": 0.16667,
+  "max_level_freq_hz": 3.0
+ },
+ "trees": [
+  {
+   "plane": "front",
+   "index": 0,
+   "base_x": 78.0,
+   "n_i": 2,
+   "omega_i_rad_s": 2.0944,
+   "levels": 6,
+   "level_freqs_hz": [
+    0.3333,
+    0.6667,
+    1.0,
+    1.3333,
+    1.6667,
+    2.0
+   ],
+   "dye": "red",
+   "w_dye": 2.3,
+   "opal": 0.15,
+   "scale": 1.0,
+   "beading_start": 31.0,
+   "cut_t": 32.35,
+   "pellets": 113,
+   "detune_eps_for_B": 0.05
+  },
+  {
+   "plane": "front",
+   "index": 1,
+   "base_x": 238.0,
+   "n_i": 3,
+   "omega_i_rad_s": 3.14159,
+   "levels": 6,
+   "level_freqs_hz": [
+    0.5,
+    1.0,
+    1.5,
+    2.0,
+    2.5,
+    3.0
+   ],
+   "dye": "amber",
+   "w_dye": 0.4,
+   "opal": 0.05,
+   "scale": 1.0,
+   "beading_start": 31.3,
+   "cut_t": 32.65,
+   "pellets": 128,
+   "detune_eps_for_B": -0.051
+  },
+  {
+   "plane": "front",
+   "index": 2,
+   "base_x": 400.0,
+   "n_i": 2,
+   "omega_i_rad_s": 2.0944,
+   "levels": 6,
+   "level_freqs_hz": [
+    0.3333,
+    0.6667,
+    1.0,
+    1.3333,
+    1.6667,
+    2.0
+   ],
+   "dye": "amber",
+   "w_dye": 1.3,
+   "opal": 0.4,
+   "scale": 1.0,
+   "beading_start": 31.12,
+   "cut_t": 32.47,
+   "pellets": 100,
+   "detune_eps_for_B": 0.044
+  },
+  {
+   "plane": "front",
+   "index": 3,
+   "base_x": 560.0,
+   "n_i": 1,
+   "omega_i_rad_s": 1.0472,
+   "levels": 6,
+   "level_freqs_hz": [
+    0.1667,
+    0.3333,
+    0.5,
+    0.6667,
+    0.8333,
+    1.0
+   ],
+   "dye": "amber",
+   "w_dye": 0.85,
+   "opal": 0.1,
+   "scale": 1.0,
+   "beading_start": 31.42,
+   "cut_t": 32.77,
+   "pellets": 96,
+   "detune_eps_for_B": -0.0691
+  },
+  {
+   "plane": "front",
+   "index": 4,
+   "base_x": 716.0,
+   "n_i": 3,
+   "omega_i_rad_s": 3.14159,
+   "levels": 6,
+   "level_freqs_hz": [
+    0.5,
+    1.0,
+    1.5,
+    2.0,
+    2.5,
+    3.0
+   ],
+   "dye": "red",
+   "w_dye": 2.6,
+   "opal": 0.1,
+   "scale": 1.0,
+   "beading_start": 31.2,
+   "cut_t": 32.55,
+   "pellets": 114,
+   "detune_eps_for_B": 0.0483
+  },
+  {
+   "plane": "front",
+   "index": 5,
+   "base_x": 878.0,
+   "n_i": 2,
+   "omega_i_rad_s": 2.0944,
+   "levels": 6,
+   "level_freqs_hz": [
+    0.3333,
+    0.6667,
+    1.0,
+    1.3333,
+    1.6667,
+    2.0
+   ],
+   "dye": "amber",
+   "w_dye": 0.42,
+   "opal": 0.05,
+   "scale": 1.0,
+   "beading_start": 31.34,
+   "cut_t": 32.69,
+   "pellets": 102,
+   "detune_eps_for_B": 0.0647
+  },
+  {
+   "plane": "back",
+   "index": 10,
+   "base_x": 150.0,
+   "n_i": 1,
+   "omega_i_rad_s": 1.0472,
+   "levels": 6,
+   "level_freqs_hz": [
+    0.1667,
+    0.3333,
+    0.5,
+    0.6667,
+    0.8333,
+    1.0
+   ],
+   "dye": "red",
+   "w_dye": 2.0,
+   "opal": 0.2,
+   "scale": 0.5,
+   "beading_start": 31.5,
+   "cut_t": 32.85,
+   "pellets": 103,
+   "detune_eps_for_B": 0.0726
+  },
+  {
+   "plane": "back",
+   "index": 11,
+   "base_x": 330.0,
+   "n_i": 2,
+   "omega_i_rad_s": 2.0944,
+   "levels": 6,
+   "level_freqs_hz": [
+    0.3333,
+    0.6667,
+    1.0,
+    1.3333,
+    1.6667,
+    2.0
+   ],
+   "dye": "amber",
+   "w_dye": 0.4,
+   "opal": 0.1,
+   "scale": 0.5,
+   "beading_start": 31.62,
+   "cut_t": 32.97,
+   "pellets": 96,
+   "detune_eps_for_B": -0.0325
+  },
+  {
+   "plane": "back",
+   "index": 12,
+   "base_x": 500.0,
+   "n_i": 1,
+   "omega_i_rad_s": 1.0472,
+   "levels": 5,
+   "level_freqs_hz": [
+    0.1667,
+    0.3333,
+    0.5,
+    0.6667,
+    0.8333
+   ],
+   "dye": "red",
+   "w_dye": 2.4,
+   "opal": 0.1,
+   "scale": 0.5,
+   "beading_start": 31.55,
+   "cut_t": 32.9,
+   "pellets": 105,
+   "detune_eps_for_B": 0.0418
+  },
+  {
+   "plane": "back",
+   "index": 13,
+   "base_x": 650.0,
+   "n_i": 2,
+   "omega_i_rad_s": 2.0944,
+   "levels": 6,
+   "level_freqs_hz": [
+    0.3333,
+    0.6667,
+    1.0,
+    1.3333,
+    1.6667,
+    2.0
+   ],
+   "dye": "amber",
+   "w_dye": 0.5,
+   "opal": 0.1,
+   "scale": 0.5,
+   "beading_start": 31.7,
+   "cut_t": 33.05,
+   "pellets": 109,
+   "detune_eps_for_B": -0.0752
+  },
+  {
+   "plane": "back",
+   "index": 14,
+   "base_x": 820.0,
+   "n_i": 1,
+   "omega_i_rad_s": 1.0472,
+   "levels": 6,
+   "level_freqs_hz": [
+    0.1667,
+    0.3333,
+    0.5,
+    0.6667,
+    0.8333,
+    1.0
+   ],
+   "dye": "red",
+   "w_dye": 2.2,
+   "opal": 0.2,
+   "scale": 0.5,
+   "beading_start": 31.58,
+   "cut_t": 32.93,
+   "pellets": 103,
+   "detune_eps_for_B": 0.038
+  }
+ ],
+ "alignment": {
+  "designed_t": 33.6,
+  "measured": {
+   "locked": {
+    "at_33_60": {
+     "max_abs_theta_deg": 0.0,
+     "rms_pellet_disp_px": 0.0
+    },
+    "best_alignment_t": 33.6,
+    "best_max_theta_deg": 0.0,
+    "best_rms_disp_px": 0.0,
+    "at_32_60": {
+     "max_abs_theta_deg": 6.062,
+     "rms_pellet_disp_px": 22.8
+    },
+    "max_wrapped_phase_rad_at_33_60": 1.0658141036401503e-14
+   },
+   "detuned": {
+    "at_33_60": {
+     "max_abs_theta_deg": 5.741095,
+     "rms_pellet_disp_px": 32.128934
+    },
+    "best_alignment_t": 33.3083,
+    "best_max_theta_deg": 6.98682,
+    "best_rms_disp_px": 23.1911,
+    "at_32_60": {
+     "max_abs_theta_deg": 7.0,
+     "rms_pellet_disp_px": 23.34
+    }
+   },
+   "frames": {
+    "806": {
+     "t": 33.583333333333336,
+     "max_theta_deg": 0.8831,
+     "rms_disp_px": 2.043
+    },
+    "807": {
+     "t": 33.625,
+     "max_theta_deg": 1.2974,
+     "rms_disp_px": 3.062
+    }
+   }
+  },
+  "note": "33.60 s = frame 806.4: no frame lands exactly on it; frame 806 (33.583 s) is the closest (max |theta| 0.88 deg, rms orbit displacement 2.0 px), frame 807 (33.625) 1.30 deg / 3.1 px. Measured on the continuous model: max |theta| = 0 and rms pellet displacement = 0 at 33.600 s; wrapped phase error 1e-14 rad. The branch angles alone also pass through zero at 30.60 s (half period, sin(k n pi) = 0) with mixed velocities, visible as a dip in the visualizer; the full reunion (angles and pellet orbits, which need cos too) happens only at 33.60."
+ },
+ "ab_choice": {
+  "chosen": "A locked (integer n_i, m_j)",
+  "reason": "With locked ratios the pellet cloud contracts and reassembles into the dotted outline of every tree at 33.60 s (rms displacement 0 px), so the viewer sees that the grains are pieces of the tree just before they fall: the shape match the proof needs, landing on U1's chord. With detune (n_i(1+eps_i), |eps| 3-8%) the best moment is 33.31 s with max |theta| 6.99 deg and rms displacement 23 px: the cloud never reunites and reads as random confetti, so the release has nothing to release from."
+ },
+ "no_worms_check": {
+  "measure": "pairs of pellets adjacent on the same strand whose orbit displacements differ by < 4 px (travelling together), and the CV of their gap",
+  "results": {
+   "32.90": {
+    "adjacent_pairs": 491,
+    "fraction_travelling_together": 0.033,
+    "gap_mean_px": 42.2,
+    "gap_cv": 0.648
+   },
+   "33.20": {
+    "adjacent_pairs": 491,
+    "fraction_travelling_together": 0.01,
+    "gap_mean_px": 45.5,
+    "gap_cv": 0.589
+   },
+   "33.45": {
+    "adjacent_pairs": 491,
+    "fraction_travelling_together": 0.059,
+    "gap_mean_px": 24.9,
+    "gap_cv": 0.578
+   },
+   "33.60": {
+    "adjacent_pairs": 491,
+    "fraction_travelling_together": 1.0,
+    "gap_mean_px": 13.6,
+    "gap_cv": 0.353
+   },
+   "34.00": {
+    "adjacent_pairs": 491,
+    "fraction_travelling_together": 0.022,
+    "gap_mean_px": 45.8,
+    "gap_cv": 0.581
+   }
+  },
+  "reading": "1-6% of adjacent pairs travel together during the orbits (no chains); at 33.60 all are home by design (the reunion), with the gap CV at 0.35 from the spacing jitter, so the outline is dotted and irregular rather than an even bead chain"
+ },
+ "band_stats_compare_32s": {
+  "reference styreneA.webp (band rows 144-375; NOT copied, comparison only)": {
+   "frac_lum_lt_20": 0.543,
+   "lum_median": 12.5,
+   "lum_p95": 163.0,
+   "lum_p99": 196.8,
+   "lum_max": 242.0,
+   "lit_frac": 0.427,
+   "lit_median_sat": 0.91,
+   "hue_clusters_of_lit": {
+    "red": 0.356,
+    "orange": 0.096,
+    "amber": 0.262,
+    "blue": 0.259
+   },
+   "warm_share_of_lit": 0.714
+  },
+  "baseline proposals/kf-3.png (round-2 keyframe, picture band)": {
+   "frac_lum_lt_20": 0.748,
+   "lum_median": 2.1,
+   "lum_p95": 137.5,
+   "lum_p99": 204.3,
+   "lum_max": 238.9,
+   "lit_frac": 0.216,
+   "lit_median_sat": 0.905,
+   "hue_clusters_of_lit": {
+    "red": 0.386,
+    "orange": 0.139,
+    "amber": 0.348,
+    "blue": 0.113
+   },
+   "warm_share_of_lit": 0.873
+  },
+  "U4 Sh4 build, t = 32.00 s (frame 768): beading, before the cut": {
+   "frac_lum_lt_20": 0.732,
+   "lum_median": 1.2,
+   "lum_p95": 158.2,
+   "lum_p99": 191.4,
+   "lum_max": 204.3,
+   "lit_frac": 0.246,
+   "lit_median_sat": 0.887,
+   "hue_clusters_of_lit": {
+    "red": 0.312,
+    "orange": 0.145,
+    "amber": 0.351,
+    "blue": 0.191
+   },
+   "warm_share_of_lit": 0.808
+  },
+  "U4 Sh4 t=32.0": {
+   "frac_lum_lt_20": 0.732,
+   "lum_median": 1.2,
+   "lum_p95": 158.2,
+   "lum_p99": 191.4,
+   "lum_max": 204.3,
+   "lit_frac": 0.246,
+   "lit_median_sat": 0.887,
+   "hue_clusters_of_lit": {
+    "red": 0.312,
+    "orange": 0.145,
+    "amber": 0.351,
+    "blue": 0.191
+   },
+   "warm_share_of_lit": 0.808
+  },
+  "U4 Sh4 t=33.583": {
+   "frac_lum_lt_20": 0.769,
+   "lum_median": 0.9,
+   "lum_p95": 124.0,
+   "lum_p99": 183.0,
+   "lum_max": 203.1,
+   "lit_frac": 0.209,
+   "lit_median_sat": 0.911,
+   "hue_clusters_of_lit": {
+    "red": 0.284,
+    "orange": 0.17,
+    "amber": 0.317,
+    "blue": 0.228
+   },
+   "warm_share_of_lit": 0.771
+  },
+  "U4 Sh4 t=34.25": {
+   "frac_lum_lt_20": 0.827,
+   "lum_median": 0.9,
+   "lum_p95": 97.5,
+   "lum_p99": 175.1,
+   "lum_max": 202.7,
+   "lit_frac": 0.155,
+   "lit_median_sat": 0.911,
+   "hue_clusters_of_lit": {
+    "red": 0.244,
+    "orange": 0.184,
+    "amber": 0.271,
+    "blue": 0.301
+   },
+   "warm_share_of_lit": 0.698
+  }
+ },
+ "aesthetic_reading": "measured at 32.00 s: lum<20 0.73 (bar >= 0.65), p99 191 (user note asks 166-196; bar <= 210), lit median sat 0.89 (bar >= 0.70), red .31 / orange .15 / amber .35 / blue .19 of lit pixels (warm 0.81, blue practical present). The reference band is brighter overall (lum<20 0.54) because its trees are denser and thicker. Perceptually judged by the builder only (not an independent critic): the rods read as lit-through moulded plastic with dark grazing edges, bright cores and rim catches, not as constant-width neon outlines; kf-3's worms and even rods are gone.",
+ "evidence": [
+  {
+   "id": "F-heap (used, not downloaded by U4)",
+   "title": "Granuls orange.jpg",
+   "author": "Lobkovs",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Granuls_orange.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Granuls_orange.jpg",
+   "local_path": "films/sources/le-chant-du-styrene/cutout/sh5/heap_rgba_960x408.png (U2's GrabCut cutout)",
+   "what_it_shows": "a heap of orange plastic granules",
+   "verified_date_or_place": "licence read from Commons extmetadata by U2 on 2026-11-16 (cutouts.json F-heap); not re-fetched by U4",
+   "used_as": "read only: the alpha gives the landing surface for the Sh5 pellets and the preview composite; credit stays with U2's entry"
+  },
+  {
+   "id": "F-runner geometry (used, not downloaded by U4)",
+   "title": "Spritzguss teile.jpg",
+   "author": "Gmhofmann",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Spritzguss_teile.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Spritzguss_teile.jpg",
+   "local_path": "films/swarm/le-chant-du-styrene/geometry.json (measurements only; no pixels used)",
+   "what_it_shows": "a moulded runner with four arms and rings",
+   "verified_date_or_place": "licence read from Commons extmetadata by U2/U3 on 2026-11-16; not re-fetched by U4",
+   "used_as": "measurement only: the four arm angles (181/297/9/105 deg -> trunk kink 12 deg, side arms -116/+72 deg halved to -58/+36 deg), the four arm widths (width classes 1.00/0.97/0.67/0.57), disc radius/arm length 0.33 and bore ratio 0.15 shape the handmade trees"
+  }
+ ],
+ "handmade": [
+  {
+   "id": "H-trees",
+   "what": "6 front + 5 back translucent runner trees, thickness-field models with moulding noise (radius +-7%, rim +-3.5%), gates necked to 0.55 r before discs, dished discs with bores, V crowns, twig forks",
+   "where": "harmonic-build/trees.py"
+  },
+  {
+   "id": "H-bank",
+   "what": "Whitney oscillator bank, 65 oscillators (tree, level), common period 6.0 s",
+   "where": "trees.py Tree.theta/pose"
+  },
+  {
+   "id": "H-metamorphosis",
+   "what": "per-frame bead -> cut -> pellet -> orbit -> reunion -> fall, 653 front pellets + 516 back",
+   "where": "trees.py render_tree"
+  },
+  {
+   "id": "H-practicals",
+   "what": "two defocused blue practical lights, disc at (792,96) r~58 and bar centred (250,128), 0.3x parallax; placed differently from the reference and from U2's Sh1",
+   "where": "trees.py practicals"
+  },
+  {
+   "id": "H-sh5-pellets",
+   "what": "34 handmade pellets (Sh4's last-released pieces) falling onto the real heap, RGBA layer",
+   "where": "render.py sh5"
+  }
+ ],
+ "declared_choices": [
+  "Side-branch angles are the measured runner inter-arm angles halved (a declared stylisation toward a tree), alternating per node so the tree is not mirror-symmetric.",
+  "Colour is a handmade dye/thickness model (amber or crimson dye per tree), not a substitution of foraged pixels; no foraged image appears in Sh4.",
+  "The warm backlight under the plastic is a lighting choice; it is the same model as U2's gel ramp and U3's Beer-Lambert melt."
+ ],
+ "absences": [
+  "Moving Image Archive cache searched 'plastic|pellet|granul|grain|hopper|pour' (clips): only slow-motion waves, an hourglass, rain off a gutter, a market; no plastic granule footage or pellet sound, so nothing taken. Sound remains U1's (granular rain stem, chord at 33.60).",
+  "No new downloads by this unit (0 MB)."
+ ],
+ "gaps": [
+  "No independent critic has viewed Sh4; all perceptual statements are the builder's.",
+  "The alignment instant 33.600 s falls between frames 806 and 807; frame 806 shows the reunion 2 px rms short of exact.",
+  "Back-plane trees are dim (gain 0.62, blur 3.2) and read as a witness layer more than as a second depth plane like the reference's.",
+  "Fewer lit pixels than the reference (lum<20 0.73 vs 0.54): the reference trees are denser and thicker; within the plan's bar.",
+  "By 34.75 s most pellets have fallen out; the last ~0.2 s before the 35.00 cut is almost empty black with the blue practicals and a few last grains (intended as the release; the editor can trim).",
+  "Sh5 pellets are small against the heap granules (they match Sh4 scale, ~10-14 px); they have no contact shadow.",
+  "Sh5 RGBA has straight alpha of emitted colour; no light transmission of the heap through the pellets is modelled."
+ ],
+ "no_material_from_the_1958_film": true
+}

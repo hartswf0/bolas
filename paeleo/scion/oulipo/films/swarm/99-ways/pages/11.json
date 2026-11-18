@@ -1,0 +1,67 @@
+{
+ "n": 11,
+ "id": "station-cat",
+ "title": "The station cat",
+ "family": "point of view",
+ "medium": "busch-fold",
+ "canon_revision": "c1",
+ "rule": "Told by the station cat on the counter, whose attention keeps drifting to the clock pendulum; the human events sit at the edge of its interest.",
+ "declares": "adds a cat; human lines heard, not focused on",
+ "file": "assets/pages/99-ways/11-station-cat.jpg",
+ "master": "films/sources/99-ways/masters/11-station-cat.png",
+ "beats_dir": "films/sources/99-ways/beats/11",
+ "build": "films/swarm/99-ways/build/p11_station_cat.py",
+ "sources": [
+  "les-caids-de-la-gaudriole:busch-mm-016",
+  "les-caids-de-la-gaudriole:busch-mm-031",
+  "les-caids-de-la-gaudriole:vintage-paper",
+  "les-caids-de-la-gaudriole:wood-table",
+  "99-ways:busch-helene-munzel",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "a picture sheet on the les-caids tabletop: the vintage paper scan graded neutral (its own relief kept), folded once across the middle and opened (valley crease shading, the halves lit differently), laid a hair off square on the greyed wood with its shadow",
+  "six pictures, 2x3: the set drawn in code in ink line (penlib.brush_line): wall clock at 4:10 with its long case and pendulum (swinging left/right alternately), ticket window lettered TICKET, counter with hatched front, the memo slip on the counter (picture 1), the cupboard with its door open on the left jamb, the key on a hook on the door with its SERVICE tag, the shut SERVICE door with its card (pictures 5-6)",
+  "Munzel (Busch 1872) cut by hand from the Commons scan and laid on the counter in every picture, his head turned toward the bob, tilting with its swing",
+  "the agent = the les-caids porter cutout (Busch 1865, mm_031) cropped by the left edge; the stranger = the widow's bonnet (mm_016) behind the glass; a handmade pencil at his chin in picture 6",
+  "captions in the cat's voice (first person) in the shared pen hand, cap 46; the four canon lines as small grey cut-paper balloons at the edges (cap 40); folio by pen99.folio"
+ ],
+ "events": {
+  "E0": "picture 1: memo on the counter; the man at the left edge, rising ('Behind me, the man gets up')",
+  "E1": "picture 2: the bonnet behind the glass, the question in a grey balloon",
+  "E2": "picture 3: the man at the edge, head up to the clock (4:10), the answer",
+  "E3": "picture 4: the window empty, 'Much obliged!', 'The voice goes away'",
+  "E4": "picture 5: the cupboard open, the key on its hook with its tag ('A shiny thing on a hook')",
+  "E5": "picture 6: the man at the edge, pencil to chin, the forgetting line; key still on the hook, SERVICE door shut"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "none: the four lines verbatim, set small and grey (heard, not focused on)",
+ "beat": "the sheet fills picture by picture while the pendulum swings left, right, left in turn and the cat's head follows it; the people only pass at the edges",
+ "beat_frames": [
+  "b01: the sheet with pictures 1-1 (pendulum left in picture 1; E0 the man gets up at the edge)",
+  "b02: the sheet with pictures 1-2 (pendulum right in picture 2; E1 the voice at the glass)",
+  "b03: the sheet with pictures 1-3 (pendulum left in picture 3; E2 he looks up at the clock)",
+  "b04: the sheet with pictures 1-4 (pendulum right in picture 4; E3 the voice goes away)",
+  "b05: the sheet with pictures 1-5 (pendulum left in picture 5; E4 the cupboard open, key on its hook)",
+  "b06: the sheet with pictures 1-6 (pendulum right in picture 6; E5 he stands there; the cat watches the bob)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1185779,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "pictures": 6,
+  "caption_cap_px": 46,
+  "heard_line_cap_px": 40,
+  "check": "A reader names the cat as the one watching (maker's judgement from the full-size page: first-person captions about the bob, the cat in every picture; blind reading pending)",
+  "evidence": "measured (size, bytes) and perceptually judged (from frames) by the maker"
+ }
+}

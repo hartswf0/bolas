@@ -1,0 +1,1013 @@
+{
+ "slug": "monsieur-ripois",
+ "fps": 24,
+ "frames_total": 1056,
+ "base_plan": "films/swarm/monsieur-ripois/plan.md §6",
+ "time_base": "global film frames, 0 = film start",
+ "owner": "U1 dramaturg-sound",
+ "swarm_technique": "#47 Sound-to-Action: every gesture keyed to a speech or sound event; holds and silences are scored",
+ "title_card": {
+  "text": "« Rien n'y manquait »",
+  "on": 7,
+  "full": 19,
+  "fade": 36,
+  "off": 48,
+  "style": "white serif italic on black"
+ },
+ "caption_style": {
+  "font": "Liberation Serif Italic (system) or equivalent serif italic",
+  "size_px_at_960x540": 26,
+  "color": "#f4f2ec",
+  "edge": "1 px dark edge #101010 at 60 %",
+  "band": false,
+  "position": "bottom of 720x540 picture area, baseline 36 px above picture bottom",
+  "quotes": "« » with non-breaking spaces",
+  "label_S2": "« — selon lui — » top centre of picture, same face 18 px, 80 % opacity, every S2 frame 216-467"
+ },
+ "captions": [
+  {
+   "cue_id": "CAP-C1a",
+   "claim": "C1",
+   "shot": "S1",
+   "fr": "« Votre boîte… je l'ai rapportée chez votre tante le 14 mars, »",
+   "en": "Your box... I brought it back to your aunt's on the 14th of March,",
+   "parts": [
+    {
+     "text": "« Votre boîte… ",
+     "onset": 60
+    },
+    {
+     "text": "je l'ai rapportée ",
+     "onset": 82
+    },
+    {
+     "text": "chez votre tante le 14 mars, »",
+     "onset": 101
+    }
+   ],
+   "on": 60,
+   "off": 130,
+   "words": {
+    "rapportée": 82,
+    "14 mars": 115
+   }
+  },
+  {
+   "cue_id": "CAP-C1b",
+   "claim": "C1",
+   "shot": "S1",
+   "fr": "« en main propre. »",
+   "en": "into her own hands.",
+   "parts": [
+    {
+     "text": "« en main propre. »",
+     "onset": 130
+    }
+   ],
+   "on": 130,
+   "off": 158,
+   "words": {
+    "main propre": 134
+   }
+  },
+  {
+   "cue_id": "CAP-C2a",
+   "claim": "C2",
+   "shot": "S1",
+   "fr": "« Elle l'a ouverte devant moi. »",
+   "en": "She opened it in front of me.",
+   "parts": [
+    {
+     "text": "« Elle l'a ouverte devant moi. »",
+     "onset": 173
+    }
+   ],
+   "on": 173,
+   "off": 216,
+   "words": {
+    "ouverte": 182
+   }
+  },
+  {
+   "cue_id": "CAP-C2b",
+   "claim": "C2",
+   "shot": "S2c",
+   "fr": "« La bague y était. »",
+   "en": "The ring was in it.",
+   "parts": [
+    {
+     "text": "« La bague y était. »",
+     "onset": 355
+    }
+   ],
+   "on": 355,
+   "off": 394,
+   "words": {
+    "bague": 360
+   },
+   "note": "over the shadow play; « — selon lui — » label stays on top of picture"
+  },
+  {
+   "cue_id": "CAP-S2d",
+   "claim": "C3-prep (part of C2/C3 account)",
+   "shot": "S2d",
+   "fr": "« Je l'ai refermée, je la lui ai donnée. »",
+   "en": "I closed it, I gave it to her.",
+   "parts": [
+    {
+     "text": "« Je l'ai refermée, ",
+     "onset": 422
+    },
+    {
+     "text": "je la lui ai donnée. »",
+     "onset": 444
+    }
+   ],
+   "on": 422,
+   "off": 466,
+   "words": {
+    "refermée": 427
+   },
+   "note": "caption follows the swallow (frames 406-413): the lid is shut while hidden, the words name it afterwards"
+  },
+  {
+   "cue_id": "CAP-C3",
+   "claim": "C3",
+   "shot": "S3b",
+   "fr": "« Rien n'y manquait. »",
+   "en": "Nothing was missing from it.",
+   "parts": [
+    {
+     "text": "« Rien n'y",
+     "onset": 567
+    },
+    {
+     "text": " manquait. »",
+     "onset": 586
+    }
+   ],
+   "on": 567,
+   "off": 684,
+   "words": {
+    "manquait": 586
+   },
+   "spoken_end": 598,
+   "note": "split point « Rien n'y » / « manquait. »; the second half is appended on the same line (no re-layout) at 586 = CUE-3 onset; 567/586 are the approved test-shot frames (23.625 s / 24.417 s)"
+  }
+ ],
+ "viseme_track": {
+  "value": null,
+  "reason": "voice is captions only (no TTS, no foraged speech); the photo-cutout mouths are not animated, so there is no mouth flapping in silence. Speaking is carried by caption timing and his lean (CUE-1, CUE-3pre); her silence is scored as holds."
+ },
+ "gesture_keys": {
+  "master": [
+   {
+    "cue_id": "CUE-0",
+    "clause": "(silence; room tone in at 1.5 s)",
+    "onset_frame": 48,
+    "who": "her",
+    "action": "box HELD in both hands at lap height (fingers occlude box edges), head 0 deg",
+    "action_onset_frame": 48,
+    "action_end_frame": null,
+    "ease": "none",
+    "hold": "hold to CUE-1b",
+    "listener_action": true,
+    "notes": "expressive hold: she listens; no motion without a reason"
+   },
+   {
+    "cue_id": "CUE-1",
+    "clause": "CAP-C1a « je l'ai rapportée »",
+    "onset_frame": 82,
+    "who": "him",
+    "action": "lean in, torso/head 0 -> +3 deg (toward her), drawings on twos",
+    "action_onset_frame": 82,
+    "action_end_frame": 94,
+    "ease": "ease-in-out (smoothstep)",
+    "hold": "hold +3 to 106, back to 0 by 120",
+    "listener_action": false,
+    "value": 3.0,
+    "sound": "cushion creak at frame 82"
+   },
+   {
+    "cue_id": "CUE-1h",
+    "clause": "CAP-C1a + CAP-C1b (whole of C1)",
+    "onset_frame": 60,
+    "who": "her",
+    "action": "head HOLDS at 0 deg (no reaction to C1: P4 / no early suspicion)",
+    "action_onset_frame": 60,
+    "action_end_frame": null,
+    "ease": "none",
+    "hold": "0 deg until CUE-3",
+    "listener_action": true,
+    "value": 0.0
+   },
+   {
+    "cue_id": "CUE-1b",
+    "clause": "CAP-C1b « en main propre »",
+    "onset_frame": 130,
+    "who": "her",
+    "action": "sets the box down on her lap: hands lower 0 -> 1 (box drops ~38 px at 720x540), contact, 2 px settle bounce, fingers stay on box sides",
+    "action_onset_frame": 132,
+    "action_end_frame": 144,
+    "ease": "ease-in (accelerate) then contact at 144, 1-frame squash, settle by 150",
+    "hold": "hold box on lap (fingers on its sides) to end",
+    "listener_action": true,
+    "sound": "soft lap set-down at frame 144 (fabric-muffled wood/metal tick)",
+    "notes": "she accepts the object: E1 materially corroborates C1 in front of the viewer"
+   },
+   {
+    "cue_id": "CUE-2a",
+    "clause": "CAP-C2a « Elle l'a ouverte devant moi »",
+    "onset_frame": 173,
+    "who": "her",
+    "action": "thumbs press the clasp; lid lifts 0 -> 10 % (one drawing), held at the cut",
+    "action_onset_frame": 185,
+    "action_end_frame": 196,
+    "ease": "ease-out, 2 drawings",
+    "hold": "lid at 10 % to the cut at 216",
+    "listener_action": true,
+    "value": 0.1,
+    "sound": "clasp tick (dry) at frame 186",
+    "notes": "she checks the thing he names, with her hands, not her head (head still under C2); master only. Baseline: thumbs rest, lid stays closed"
+   },
+   {
+    "cue_id": "CUT-S2",
+    "clause": "end of CAP-C2a",
+    "onset_frame": 216,
+    "who": "edit",
+    "action": "hard cut to shadow theatre; warm paper +5 %, « — selon lui — », muffled reverberant bed",
+    "action_onset_frame": 216,
+    "action_end_frame": null,
+    "ease": "cut",
+    "hold": "S2 216-467",
+    "listener_action": false
+   },
+   {
+    "cue_id": "SH-1",
+    "clause": "(teller's image) door",
+    "onset_frame": 216,
+    "who": "shadow R.",
+    "action": "door opens (3 drawings), R. enters, 8-pose walk on twos, far arm bent behind back",
+    "action_onset_frame": 216,
+    "action_end_frame": 288,
+    "ease": "on twos",
+    "hold": "",
+    "listener_action": false,
+    "sound": "latch 220, hinge 222-236, footsteps 240 252 264 276 (muffled)"
+   },
+   {
+    "cue_id": "SH-2",
+    "clause": "(teller's image) offer",
+    "onset_frame": 288,
+    "who": "shadow R.",
+    "action": "offers box with near hand (6 drawings); far hand inside torso silhouette",
+    "action_onset_frame": 288,
+    "action_end_frame": 348,
+    "ease": "on twos",
+    "hold": "",
+    "listener_action": false,
+    "sound": "box tick into the aunt's hands at 341 (muffled)"
+   },
+   {
+    "cue_id": "SH-3",
+    "clause": "CAP-C2b « La bague y était »",
+    "onset_frame": 355,
+    "who": "shadow aunt",
+    "action": "aunt opens lid (4 drawings started at 348, before the line: the image shows what the line will name); ring as punched light ring; earring swings",
+    "action_onset_frame": 348,
+    "action_end_frame": 396,
+    "ease": "on twos; earring pendulum secondary",
+    "hold": "",
+    "listener_action": false,
+    "sound": "soft hinge creak 349-362 (muffled)",
+    "notes": "teller-side action: the image may precede the clause because it is his illustration, not a listener reaction (P4 applies to listener actions only)"
+   },
+   {
+    "cue_id": "SH-4",
+    "clause": "(teller's image) the swallow",
+    "onset_frame": 396,
+    "who": "shadow R.",
+    "action": "closes lid with near hand while body turns ~10 deg; box behind torso 406-413 (8 frames); elbow +6 deg; box re-emerges closed; handed to aunt, set on her lap",
+    "action_onset_frame": 406,
+    "action_end_frame": 468,
+    "ease": "on ones during swallow",
+    "hold": "",
+    "listener_action": false,
+    "sound": "lid shut, muffled, at 408 (inside the swallow; heard, not seen); set-down tick 456; NO ring sound (declared silence)"
+   },
+   {
+    "cue_id": "CUT-S3a",
+    "clause": "after CAP-S2d",
+    "onset_frame": 468,
+    "who": "edit",
+    "action": "hard cut to present insert: open box on her lap, ring slot EMPTY at the same normalised position as the ring in S2c; tint neutral; dry sound",
+    "action_onset_frame": 468,
+    "action_end_frame": null,
+    "ease": "cut",
+    "hold": "insert 468-515 (slight motion: 1.5 % slow push-in + her breathing lift 1 px)",
+    "listener_action": false,
+    "sound": "room tone + clock return dry on frame 468"
+   },
+   {
+    "cue_id": "CUT-S3b",
+    "clause": "(silence)",
+    "onset_frame": 516,
+    "who": "edit",
+    "action": "cut to two-shot, box open on her lap",
+    "action_onset_frame": 516,
+    "action_end_frame": null,
+    "ease": "cut",
+    "hold": "",
+    "listener_action": false
+   },
+   {
+    "cue_id": "CUE-3pre",
+    "clause": "(breath before C3)",
+    "onset_frame": 552,
+    "who": "him",
+    "action": "lean in starts, planned 0 -> +4 deg by 605",
+    "action_onset_frame": 552,
+    "action_end_frame": 605,
+    "ease": "ease-in-out",
+    "hold": "",
+    "listener_action": false,
+    "value": 4.0,
+    "notes": "he leans in to close the case"
+   },
+   {
+    "cue_id": "CUE-3",
+    "clause": "CAP-C3 « manquait. »",
+    "onset_frame": 586,
+    "who": "her",
+    "action": "head (with hat brim) drops -11 deg toward the box",
+    "action_onset_frame": 586,
+    "action_end_frame": 594,
+    "ease": "ease-out over 8 frames (586-594)",
+    "hold": "hold -11 deg to S4 turn at 734",
+    "listener_action": true,
+    "value": -11.0,
+    "notes": "first moving frame of her head == onset of « manquait » (acceptance 4: +-2 frames)"
+   },
+   {
+    "cue_id": "CUE-3s",
+    "clause": "CAP-C3 (her drop)",
+    "onset_frame": 586,
+    "who": "him",
+    "action": "lean STOPS where it is (~+2.6 deg); he holds still: he notices",
+    "action_onset_frame": 586,
+    "action_end_frame": 591,
+    "ease": "ease-out to stop",
+    "hold": "hold to CUE-3h",
+    "listener_action": false,
+    "notes": "last moving frame <= 592 (within 6 frames of the drop)"
+   },
+   {
+    "cue_id": "CUE-3h",
+    "clause": "(silence after C3: silence animates thought)",
+    "onset_frame": 648,
+    "who": "him",
+    "action": "far (right) hand comes forward from behind his thigh onto his knee: the hand the shadow hid",
+    "action_onset_frame": 648,
+    "action_end_frame": 672,
+    "ease": "ease-in-out, on twos",
+    "hold": "hold on knee to end",
+    "listener_action": false,
+    "sound": "small fabric rustle 648-672",
+    "notes": "answers the swallow: the gesture the telling concealed is now shown in the room"
+   },
+   {
+    "cue_id": "CUE-4",
+    "clause": "(object event) slip falls from his breast pocket",
+    "onset_frame": 706,
+    "who": "him/object",
+    "action": "folded slip slides out (accelerate), falls to the sofa cushion between them, one small bounce, settles",
+    "action_onset_frame": 706,
+    "action_end_frame": 725,
+    "ease": "gravity: accelerate 706-718, contact 718, bounce 6 px 718-722, settle 725",
+    "hold": "rest on cushion",
+    "listener_action": false,
+    "sound": "paper tick on contact 718, whisper 718-726"
+   },
+   {
+    "cue_id": "CUE-4L",
+    "clause": "slip landing sound (frame 718)",
+    "onset_frame": 718,
+    "who": "her",
+    "action": "head turns from the box toward the slip (-11 -> -6 deg, 4 deg toward him)",
+    "action_onset_frame": 734,
+    "action_end_frame": 744,
+    "ease": "ease-in-out 10 frames",
+    "hold": "hold to insert",
+    "listener_action": true,
+    "notes": "impact cue -> reaction spaced 16 frames (#47: impact and reaction appropriately spaced)"
+   },
+   {
+    "cue_id": "CUE-4i",
+    "clause": "(insert) receipt",
+    "onset_frame": 756,
+    "who": "her hand",
+    "action": "unfolds the receipt (3 drawings: 756, 770, 784); slow hold on the date line « Engagé le 14 mars 1953 »",
+    "action_onset_frame": 756,
+    "action_end_frame": 784,
+    "ease": "on drawings",
+    "hold": "hold 784-863",
+    "listener_action": true,
+    "sound": "fold opening 756, 770, 784; clock"
+   },
+   {
+    "cue_id": "CUE-5a",
+    "clause": "(no caption) receipt into slot",
+    "onset_frame": 888,
+    "who": "her",
+    "action": "lays the receipt in the empty slot",
+    "action_onset_frame": 893,
+    "action_end_frame": 922,
+    "ease": "ease-in-out",
+    "hold": "",
+    "listener_action": true,
+    "sound": "paper into velvet 918"
+   },
+   {
+    "cue_id": "CUE-5b",
+    "clause": "(no caption) lid",
+    "onset_frame": 940,
+    "who": "her",
+    "action": "closes the lid (2 drawings), click on contact",
+    "action_onset_frame": 940,
+    "action_end_frame": 948,
+    "ease": "ease-in",
+    "hold": "lid closed to end",
+    "listener_action": true,
+    "sound": "lid click (dry, close) at 948"
+   },
+   {
+    "cue_id": "CUE-5c",
+    "clause": "lid click (frame 948)",
+    "onset_frame": 948,
+    "who": "her",
+    "action": "turns her head away from him +8 deg (toward frame edge) and holds",
+    "action_onset_frame": 972,
+    "action_end_frame": 982,
+    "ease": "ease-in-out 10 frames",
+    "hold": "hold to black at 1032",
+    "listener_action": true,
+    "value": 8.0
+   },
+   {
+    "cue_id": "CUE-5d",
+    "clause": "(her turn away)",
+    "onset_frame": 972,
+    "who": "him",
+    "action": "does not move (declared hold)",
+    "action_onset_frame": 972,
+    "action_end_frame": null,
+    "ease": "none",
+    "hold": "hold to black",
+    "listener_action": false
+   },
+   {
+    "cue_id": "END",
+    "clause": "(silence)",
+    "onset_frame": 1008,
+    "who": "sound",
+    "action": "room tone fades 1008-1032; black 1032-1055; silence",
+    "action_onset_frame": 1008,
+    "action_end_frame": null,
+    "ease": "linear fade",
+    "hold": "",
+    "listener_action": false
+   }
+  ],
+  "late": [
+   {
+    "cue_id": "CUE-0",
+    "clause": "(silence; room tone in at 1.5 s)",
+    "onset_frame": 48,
+    "who": "her",
+    "action": "box HELD in both hands at lap height (fingers occlude box edges), head 0 deg",
+    "action_onset_frame": 48,
+    "action_end_frame": null,
+    "ease": "none",
+    "hold": "hold to CUE-1b",
+    "listener_action": true,
+    "notes": "expressive hold: she listens; no motion without a reason"
+   },
+   {
+    "cue_id": "CUE-1",
+    "clause": "CAP-C1a « je l'ai rapportée »",
+    "onset_frame": 82,
+    "who": "him",
+    "action": "lean in, torso/head 0 -> +3 deg (toward her), drawings on twos",
+    "action_onset_frame": 82,
+    "action_end_frame": 94,
+    "ease": "ease-in-out (smoothstep)",
+    "hold": "hold +3 to 106, back to 0 by 120",
+    "listener_action": false,
+    "value": 3.0,
+    "sound": "cushion creak at frame 82"
+   },
+   {
+    "cue_id": "CUE-1h",
+    "clause": "CAP-C1a + CAP-C1b (whole of C1)",
+    "onset_frame": 60,
+    "who": "her",
+    "action": "head HOLDS at 0 deg (no reaction to C1: P4 / no early suspicion)",
+    "action_onset_frame": 60,
+    "action_end_frame": null,
+    "ease": "none",
+    "hold": "0 deg until CUE-3",
+    "listener_action": true,
+    "value": 0.0
+   },
+   {
+    "cue_id": "CUE-1b",
+    "clause": "CAP-C1b « en main propre »",
+    "onset_frame": 130,
+    "who": "her",
+    "action": "sets the box down on her lap: hands lower 0 -> 1 (box drops ~38 px at 720x540), contact, 2 px settle bounce, fingers stay on box sides",
+    "action_onset_frame": 132,
+    "action_end_frame": 144,
+    "ease": "ease-in (accelerate) then contact at 144, 1-frame squash, settle by 150",
+    "hold": "hold box on lap (fingers on its sides) to end",
+    "listener_action": true,
+    "sound": "soft lap set-down at frame 144 (fabric-muffled wood/metal tick)",
+    "notes": "she accepts the object: E1 materially corroborates C1 in front of the viewer"
+   },
+   {
+    "cue_id": "CUE-2a",
+    "clause": "CAP-C2a « Elle l'a ouverte devant moi »",
+    "onset_frame": 173,
+    "who": "her",
+    "action": "thumbs press the clasp; lid lifts 0 -> 10 % (one drawing), held at the cut",
+    "action_onset_frame": 185,
+    "action_end_frame": 196,
+    "ease": "ease-out, 2 drawings",
+    "hold": "lid at 10 % to the cut at 216",
+    "listener_action": true,
+    "value": 0.1,
+    "sound": "clasp tick (dry) at frame 186",
+    "notes": "she checks the thing he names, with her hands, not her head (head still under C2); master only. Baseline: thumbs rest, lid stays closed"
+   },
+   {
+    "cue_id": "CUT-S2",
+    "clause": "end of CAP-C2a",
+    "onset_frame": 216,
+    "who": "edit",
+    "action": "hard cut to shadow theatre; warm paper +5 %, « — selon lui — », muffled reverberant bed",
+    "action_onset_frame": 216,
+    "action_end_frame": null,
+    "ease": "cut",
+    "hold": "S2 216-467",
+    "listener_action": false
+   },
+   {
+    "cue_id": "SH-1",
+    "clause": "(teller's image) door",
+    "onset_frame": 216,
+    "who": "shadow R.",
+    "action": "door opens (3 drawings), R. enters, 8-pose walk on twos, far arm bent behind back",
+    "action_onset_frame": 216,
+    "action_end_frame": 288,
+    "ease": "on twos",
+    "hold": "",
+    "listener_action": false,
+    "sound": "latch 220, hinge 222-236, footsteps 240 252 264 276 (muffled)"
+   },
+   {
+    "cue_id": "SH-2",
+    "clause": "(teller's image) offer",
+    "onset_frame": 288,
+    "who": "shadow R.",
+    "action": "offers box with near hand (6 drawings); far hand inside torso silhouette",
+    "action_onset_frame": 288,
+    "action_end_frame": 348,
+    "ease": "on twos",
+    "hold": "",
+    "listener_action": false,
+    "sound": "box tick into the aunt's hands at 341 (muffled)"
+   },
+   {
+    "cue_id": "SH-3",
+    "clause": "CAP-C2b « La bague y était »",
+    "onset_frame": 355,
+    "who": "shadow aunt",
+    "action": "aunt opens lid (4 drawings started at 348, before the line: the image shows what the line will name); ring as punched light ring; earring swings",
+    "action_onset_frame": 348,
+    "action_end_frame": 396,
+    "ease": "on twos; earring pendulum secondary",
+    "hold": "",
+    "listener_action": false,
+    "sound": "soft hinge creak 349-362 (muffled)",
+    "notes": "teller-side action: the image may precede the clause because it is his illustration, not a listener reaction (P4 applies to listener actions only)"
+   },
+   {
+    "cue_id": "SH-4",
+    "clause": "(teller's image) the swallow",
+    "onset_frame": 396,
+    "who": "shadow R.",
+    "action": "closes lid with near hand while body turns ~10 deg; box behind torso 406-413 (8 frames); elbow +6 deg; box re-emerges closed; handed to aunt, set on her lap",
+    "action_onset_frame": 406,
+    "action_end_frame": 468,
+    "ease": "on ones during swallow",
+    "hold": "",
+    "listener_action": false,
+    "sound": "lid shut, muffled, at 408 (inside the swallow; heard, not seen); set-down tick 456; NO ring sound (declared silence)"
+   },
+   {
+    "cue_id": "CUT-S3a",
+    "clause": "after CAP-S2d",
+    "onset_frame": 468,
+    "who": "edit",
+    "action": "hard cut to present insert: open box on her lap, ring slot EMPTY at the same normalised position as the ring in S2c; tint neutral; dry sound",
+    "action_onset_frame": 468,
+    "action_end_frame": null,
+    "ease": "cut",
+    "hold": "insert 468-515 (slight motion: 1.5 % slow push-in + her breathing lift 1 px)",
+    "listener_action": false,
+    "sound": "room tone + clock return dry on frame 468"
+   },
+   {
+    "cue_id": "CUT-S3b",
+    "clause": "(silence)",
+    "onset_frame": 516,
+    "who": "edit",
+    "action": "cut to two-shot, box open on her lap",
+    "action_onset_frame": 516,
+    "action_end_frame": null,
+    "ease": "cut",
+    "hold": "",
+    "listener_action": false
+   },
+   {
+    "cue_id": "CUE-3pre",
+    "clause": "(breath before C3)",
+    "onset_frame": 552,
+    "who": "him",
+    "action": "lean in starts, planned 0 -> +4 deg by 605",
+    "action_onset_frame": 552,
+    "action_end_frame": 605,
+    "ease": "ease-in-out",
+    "hold": "",
+    "listener_action": false,
+    "value": 4.0,
+    "notes": "he leans in to close the case"
+   },
+   {
+    "cue_id": "CUE-3",
+    "clause": "CAP-C3 « manquait. » (line spoken_end 598)",
+    "onset_frame": 586,
+    "who": "her",
+    "action": "head drops -11 deg toward the box",
+    "action_onset_frame": 610,
+    "action_end_frame": 618,
+    "ease": "ease-out over 8 frames",
+    "hold": "hold -11 deg to 734",
+    "value": -11.0,
+    "listener_action": true,
+    "notes": "--late: line end 598 + 12 = 610; the word lands, then she checks"
+   },
+   {
+    "cue_id": "CUE-3s",
+    "clause": "CAP-C3 (her late drop)",
+    "onset_frame": 586,
+    "who": "him",
+    "action": "lean completes to +4 deg at 605 (he is not stopped by her), then freezes when she drops",
+    "action_onset_frame": 610,
+    "action_end_frame": 610,
+    "ease": "none (already at rest)",
+    "hold": "hold +4 deg to CUE-3h",
+    "listener_action": false
+   },
+   {
+    "cue_id": "CUE-3h",
+    "clause": "(silence after C3: silence animates thought)",
+    "onset_frame": 648,
+    "who": "him",
+    "action": "far (right) hand comes forward from behind his thigh onto his knee: the hand the shadow hid",
+    "action_onset_frame": 648,
+    "action_end_frame": 672,
+    "ease": "ease-in-out, on twos",
+    "hold": "hold on knee to end",
+    "listener_action": false,
+    "sound": "small fabric rustle 648-672",
+    "notes": "answers the swallow: the gesture the telling concealed is now shown in the room"
+   },
+   {
+    "cue_id": "CUE-4",
+    "clause": "(object event) slip falls from his breast pocket",
+    "onset_frame": 706,
+    "who": "him/object",
+    "action": "folded slip slides out (accelerate), falls to the sofa cushion between them, one small bounce, settles",
+    "action_onset_frame": 706,
+    "action_end_frame": 725,
+    "ease": "gravity: accelerate 706-718, contact 718, bounce 6 px 718-722, settle 725",
+    "hold": "rest on cushion",
+    "listener_action": false,
+    "sound": "paper tick on contact 718, whisper 718-726"
+   },
+   {
+    "cue_id": "CUE-4L",
+    "clause": "slip landing sound (frame 718)",
+    "onset_frame": 718,
+    "who": "her",
+    "action": "head turns from the box toward the slip (-11 -> -6 deg, 4 deg toward him)",
+    "action_onset_frame": 734,
+    "action_end_frame": 744,
+    "ease": "ease-in-out 10 frames",
+    "hold": "hold to insert",
+    "listener_action": true,
+    "notes": "impact cue -> reaction spaced 16 frames (#47: impact and reaction appropriately spaced)"
+   },
+   {
+    "cue_id": "CUE-4i",
+    "clause": "(insert) receipt",
+    "onset_frame": 756,
+    "who": "her hand",
+    "action": "unfolds the receipt (3 drawings: 756, 770, 784); slow hold on the date line « Engagé le 14 mars 1953 »",
+    "action_onset_frame": 756,
+    "action_end_frame": 784,
+    "ease": "on drawings",
+    "hold": "hold 784-863",
+    "listener_action": true,
+    "sound": "fold opening 756, 770, 784; clock"
+   },
+   {
+    "cue_id": "CUE-5a",
+    "clause": "(no caption) receipt into slot",
+    "onset_frame": 888,
+    "who": "her",
+    "action": "lays the receipt in the empty slot",
+    "action_onset_frame": 893,
+    "action_end_frame": 922,
+    "ease": "ease-in-out",
+    "hold": "",
+    "listener_action": true,
+    "sound": "paper into velvet 918"
+   },
+   {
+    "cue_id": "CUE-5b",
+    "clause": "(no caption) lid",
+    "onset_frame": 940,
+    "who": "her",
+    "action": "closes the lid (2 drawings), click on contact",
+    "action_onset_frame": 940,
+    "action_end_frame": 948,
+    "ease": "ease-in",
+    "hold": "lid closed to end",
+    "listener_action": true,
+    "sound": "lid click (dry, close) at 948"
+   },
+   {
+    "cue_id": "CUE-5c",
+    "clause": "lid click (frame 948)",
+    "onset_frame": 948,
+    "who": "her",
+    "action": "turns her head away from him +8 deg (toward frame edge) and holds",
+    "action_onset_frame": 972,
+    "action_end_frame": 982,
+    "ease": "ease-in-out 10 frames",
+    "hold": "hold to black at 1032",
+    "listener_action": true,
+    "value": 8.0
+   },
+   {
+    "cue_id": "CUE-5d",
+    "clause": "(her turn away)",
+    "onset_frame": 972,
+    "who": "him",
+    "action": "does not move (declared hold)",
+    "action_onset_frame": 972,
+    "action_end_frame": null,
+    "ease": "none",
+    "hold": "hold to black",
+    "listener_action": false
+   },
+   {
+    "cue_id": "END",
+    "clause": "(silence)",
+    "onset_frame": 1008,
+    "who": "sound",
+    "action": "room tone fades 1008-1032; black 1032-1055; silence",
+    "action_onset_frame": 1008,
+    "action_end_frame": null,
+    "ease": "linear fade",
+    "hold": "",
+    "listener_action": false
+   }
+  ],
+  "late_diff": [
+   {
+    "cue_id": "CUE-3",
+    "clause": "CAP-C3 « manquait. » (line spoken_end 598)",
+    "onset_frame": 586,
+    "who": "her",
+    "action": "head drops -11 deg toward the box",
+    "action_onset_frame": 610,
+    "action_end_frame": 618,
+    "ease": "ease-out over 8 frames",
+    "hold": "hold -11 deg to 734",
+    "value": -11.0,
+    "listener_action": true,
+    "notes": "--late: line end 598 + 12 = 610; the word lands, then she checks"
+   },
+   {
+    "cue_id": "CUE-3s",
+    "clause": "CAP-C3 (her late drop)",
+    "onset_frame": 586,
+    "who": "him",
+    "action": "lean completes to +4 deg at 605 (he is not stopped by her), then freezes when she drops",
+    "action_onset_frame": 610,
+    "action_end_frame": 610,
+    "ease": "none (already at rest)",
+    "hold": "hold +4 deg to CUE-3h",
+    "listener_action": false
+   }
+  ],
+  "baseline": {
+   "definition": "same script, --baseline: identical timing; (1) S3a insert 468-515 replaced by the two-shot held with the lid CLOSED (CUE-2a lid lift omitted: thumbs rest on the lid); (2) her head 0 deg throughout (CUE-3, CUE-4L, CUE-5c removed); his lean CUE-3pre runs to +4 and holds (no stop, nothing to notice), CUE-3h kept; (3) S4/S5 (receipt fall, insert, receipt into slot, lid close, turn) removed: two-shot held 696-1008, then fade",
+   "sound": "identical beds; receipt, lid and slot sounds (718-948) removed; clock continues",
+   "expected_reading": "C1 and E2 consistent; nothing contests him"
+  }
+ },
+ "silences": [
+  {
+   "frames": [
+    586,
+    706
+   ],
+   "what": "no caption, no voice; clock only + his hand rustle at 648: the look is the event"
+  },
+  {
+   "frames": [
+    948,
+    1032
+   ],
+   "what": "no caption; lid click then clock; her turn away is the answer"
+  },
+  {
+   "frames": [
+    406,
+    413
+   ],
+   "what": "no ring sound during the swallow (declared silence; the lid shut is heard at 408)"
+  }
+ ],
+ "assertions": {
+  "rule": "P4: for every listener action, action_onset_frame >= onset_frame of its clause, in every cut",
+  "master": [
+   {
+    "cue_id": "CUE-0",
+    "onset_frame": 48,
+    "action_onset_frame": 48,
+    "holds": true
+   },
+   {
+    "cue_id": "CUE-1h",
+    "onset_frame": 60,
+    "action_onset_frame": 60,
+    "holds": true
+   },
+   {
+    "cue_id": "CUE-1b",
+    "onset_frame": 130,
+    "action_onset_frame": 132,
+    "holds": true
+   },
+   {
+    "cue_id": "CUE-2a",
+    "onset_frame": 173,
+    "action_onset_frame": 185,
+    "holds": true
+   },
+   {
+    "cue_id": "CUE-3",
+    "onset_frame": 586,
+    "action_onset_frame": 586,
+    "holds": true
+   },
+   {
+    "cue_id": "CUE-4L",
+    "onset_frame": 718,
+    "action_onset_frame": 734,
+    "holds": true
+   },
+   {
+    "cue_id": "CUE-4i",
+    "onset_frame": 756,
+    "action_onset_frame": 756,
+    "holds": true
+   },
+   {
+    "cue_id": "CUE-5a",
+    "onset_frame": 888,
+    "action_onset_frame": 893,
+    "holds": true
+   },
+   {
+    "cue_id": "CUE-5b",
+    "onset_frame": 940,
+    "action_onset_frame": 940,
+    "holds": true
+   },
+   {
+    "cue_id": "CUE-5c",
+    "onset_frame": 948,
+    "action_onset_frame": 972,
+    "holds": true
+   }
+  ],
+  "late": [
+   {
+    "cue_id": "CUE-0",
+    "onset_frame": 48,
+    "action_onset_frame": 48,
+    "holds": true
+   },
+   {
+    "cue_id": "CUE-1h",
+    "onset_frame": 60,
+    "action_onset_frame": 60,
+    "holds": true
+   },
+   {
+    "cue_id": "CUE-1b",
+    "onset_frame": 130,
+    "action_onset_frame": 132,
+    "holds": true
+   },
+   {
+    "cue_id": "CUE-2a",
+    "onset_frame": 173,
+    "action_onset_frame": 185,
+    "holds": true
+   },
+   {
+    "cue_id": "CUE-3",
+    "onset_frame": 586,
+    "action_onset_frame": 610,
+    "holds": true
+   },
+   {
+    "cue_id": "CUE-4L",
+    "onset_frame": 718,
+    "action_onset_frame": 734,
+    "holds": true
+   },
+   {
+    "cue_id": "CUE-4i",
+    "onset_frame": 756,
+    "action_onset_frame": 756,
+    "holds": true
+   },
+   {
+    "cue_id": "CUE-5a",
+    "onset_frame": 888,
+    "action_onset_frame": 893,
+    "holds": true
+   },
+   {
+    "cue_id": "CUE-5b",
+    "onset_frame": 940,
+    "action_onset_frame": 940,
+    "holds": true
+   },
+   {
+    "cue_id": "CUE-5c",
+    "onset_frame": 948,
+    "action_onset_frame": 972,
+    "holds": true
+   }
+  ],
+  "head_still_under_C1_C2": {
+   "frames": [
+    60,
+    585
+   ],
+   "her_head_deg": 0.0,
+   "holds": true
+  },
+  "master_head_on_word": {
+   "first_moving": 586,
+   "manquait_onset": 586,
+   "tol": 2,
+   "holds": true
+  },
+  "late_head_after_line": {
+   "first_moving": 610,
+   "line_end": 598,
+   "min_gap": 12,
+   "holds": true
+  },
+  "his_stop_within_6": {
+   "her_drop": 586,
+   "his_last_moving": 591,
+   "holds": true
+  },
+  "cut_back_frame_dry": {
+   "frame": 468,
+   "reverb_wet": 0.0,
+   "tint_shift": 0.0,
+   "label": false
+  }
+ }
+}

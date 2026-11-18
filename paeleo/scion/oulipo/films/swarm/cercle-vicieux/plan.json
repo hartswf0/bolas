@@ -1,0 +1,122 @@
+{
+ "slug": "cercle-vicieux",
+ "frozen": true,
+ "direction": "2 Shadow door (proposals/kf-2.png)",
+ "order": "A B C D E F G H X H G F E D C B A",
+ "pages": {
+  "p1": [
+   "A",
+   "B",
+   "C",
+   "D"
+  ],
+  "p2": [
+   "E",
+   "F",
+   "G",
+   "H"
+  ],
+  "p3": [
+   "X",
+   "H",
+   "G",
+   "F",
+   "E"
+  ],
+  "p4": [
+   "D",
+   "C",
+   "B",
+   "A"
+  ]
+ },
+ "acceptance": [
+  {
+   "id": "B1",
+   "kind": "blocking",
+   "evidence": "structurally verified",
+   "text": "Hard proof: four recto-only pages hold 9 unique panels in 17 occurrences in the flattened Z order A B C D E F G H X H G F E D C B A (p1 ABCD, p2 EFGH, p3 X HGFE, p4 DCBA); X is the single hinge, occurs once, and is the first panel of page 3 directly after the page 2 to 3 turn; A opens and closes the book. Verified from layout.json, the page PNGs and the film's edit list, not from the plan."
+  },
+  {
+   "id": "B2",
+   "kind": "blocking",
+   "evidence": "measured",
+   "text": "Section 7 fixture on real exports: validate.py passes [A,B,C,X,C,B,A] as single-centre and rejects [A,B,C,X,C,B',A] when B' changes one balloon word or one drawing pixel; on the actual page PNG every mirrored pair (i,16-i) has byte-identical panel crops, and in the actual mp4 every mirrored pair plays the identical canonical frame sequence (panel layer, before camera) and identical sound cue; the run is recorded in symmetry.json against the registry revision after every export."
+  },
+  {
+   "id": "B3",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "Blind reading: a reader who is not told the symmetry key, reading the page at normal pace (and separately watching the film once), points to X as the turning panel and says that the repeated first/last panel (the porter's outstretched arm, 'YOU! STAY RIGHT THERE.') means something different: an accusation at the start, protection from whoever is behind the door at the end. The back half is not described as a rewind or a mere repeat."
+  },
+  {
+   "id": "B4",
+   "kind": "blocking",
+   "evidence": "structurally verified",
+   "text": "Genuine material and animation: every visible element is handmade (polygon silhouette puppets with visible scissor-jog edges, pins and punched lace; bell, door, bench, key, envelope; hand lettering) or foraged with a recorded free licence in films/credits/cercle-vicieux.json (LoC profile heads printed solid black, archive or Commons sound); no filter or reference tracing. In the film, panels A and X at least are animated frame by frame on twos: limbs rotate about their pins without detaching (pin error <=1 px), the bell swings and decays with clapper lag, and in X the hand-shadow pulls the cord twice and the bell answers each pull. A viewer sees things move with weight, not pans and fades over stills."
+  },
+  {
+   "id": "B5",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "Once means once: the hand behind the frosted glass is clearly readable as a hand gripping a cord (thumb distinct, not a blob) in X and appears in no other panel; the service door is never drawn open; the frosted pane in A, G and E is plain lit glass. A viewer can say 'someone is behind the glass' at X and nowhere earlier."
+  },
+  {
+   "id": "B6",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "Aesthetic side by side: at equal size beside proposals/kf-2.png and assets/references/cercle1.webp, the page reads as a crisp black-and-white ink comic: solid black silhouettes, near-white neutral paper and screens, grey confined to backlit falloff, rear arches and the pane shadow; hand capitals in round tailed balloons; medium two-shots on a black floor band. It meets or beats kf-2 in craft (finer real profiles, lace, scissor edges) and is closer than kf-2 to the reference's black/white; page and film show identical art and lettering."
+  },
+  {
+   "id": "A1",
+   "kind": "advisory",
+   "evidence": "measured",
+   "text": "Legibility: balloon cap height >= 2% of page height (>= 27 px at 1350 px print page; >= 9 px when the page is shown 844 px wide on a landscape phone); every balloon readable in the film at 390 px display width."
+  },
+  {
+   "id": "A2",
+   "kind": "advisory",
+   "evidence": "measured",
+   "text": "Tone: pixels with luma 60-200 make up <= 30% of each page (kf-2: 42%; reference: 13%)."
+  },
+  {
+   "id": "A3",
+   "kind": "advisory",
+   "evidence": "measured",
+   "text": "Dynamics and sound: bell swing energy < 2% of peak at the end of every panel cycle (each cycle ends on its page still); the film is <= 75 s and <= 6 MB; each panel's sound cue is the same PCM at both occurrences; page turns are audible and the p2-to-p3 turn is preceded by a dip to near-silence."
+  },
+  {
+   "id": "A4",
+   "kind": "advisory",
+   "evidence": "perceptually judged",
+   "text": "Hinge comparison: hinge-comparison.png/.md compares X opening p3 after the turn against X as the fifth panel of p2 (no turn) and states which placement makes the hand land as a surprise and why."
+  }
+ ],
+ "reader_questions": [
+  "Read the four pages once at your normal pace. Which single panel changes how you understand the story? Name it by its page and position.",
+  "Is any drawing repeated? If so, which one means something different the second time, and what does it mean each time?",
+  "Who rang the bell?",
+  "In the very last panel, what is the porter doing, and why?",
+  "Is there anything in the story that you see only once?",
+  "Does the second half feel like a new reading of the same events, or like a repeat? Say where you felt it."
+ ],
+ "intended_reading": "The turning panel is X, the tall panel opening page 3 after the page turn: the caption 'THE BELL CAN ONLY BE RUNG FROM BEHIND THAT DOOR.' over the shadow of a hand behind the frosted glass of the service door pulling the bell cord. Someone hidden behind the never-opened service door rang the bell, not the visitor. The repeated drawing that changes most is A (the porter's outstretched arm, 'YOU! STAY RIGHT THERE.'): first an accusation that the newly arrived visitor rang the bell or is trespassing; last, protection, the porter holding the visitor back from the door whose occupant is calling. H ('THEN WHO RANG THE BELL?') also changes from a retort to a question with a dreadful answer, and G ('NOBODY GOES THROUGH THAT DOOR.') from a rule to a warning. The hand is seen only once; the door stays closed; the key is left on the bench.",
+ "deliverables": [
+  "/home/user/bolas/paeleo/scion/oulipo/assets/pages/cercle-vicieux.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/cercle-vicieux/pages/p1.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/cercle-vicieux/pages/p2.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/cercle-vicieux/pages/p3.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/cercle-vicieux/pages/p4.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/cercle-vicieux/registry.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/cercle-vicieux/layout.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/cercle-vicieux/validation/validate.py",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/cercle-vicieux/validation/symmetry.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/cercle-vicieux/hinge-comparison.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/cercle-vicieux/hinge-comparison.md",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/cercle-vicieux/reader-notes.md",
+  "/home/user/bolas/paeleo/scion/oulipo/assets/films/cercle-vicieux.mp4",
+  "/home/user/bolas/paeleo/scion/oulipo/films/cercle-vicieux.py",
+  "/home/user/bolas/paeleo/scion/oulipo/films/credits/cercle-vicieux.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/notes/cercle-vicieux.txt"
+ ]
+}

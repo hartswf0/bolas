@@ -1,0 +1,595 @@
+{
+ "rig_id": "visitor-bain-1909@1",
+ "units": "crop pixels of films/sources/exercices-de-style/forage/bain_03026_visitor_crop.png (804x2173); angles in degrees, +clockwise on screen (y down), local to parent",
+ "source": {
+  "title": "Judge Crane and Chief Clerk (Hains trial) [on sidewalk, New York], LC-B2-623-4; the unnamed man at right",
+  "crop_box_in_tif": [
+   3966,
+   1505,
+   4770,
+   3678
+  ]
+ },
+ "facing": "three-quarter left; forward = -x; positive thigh angle swings the foot forward (left)",
+ "root": "torso",
+ "root_pivot": "hip",
+ "fk_order": "world = parent_world @ T(pivot_parent_offset) @ R(angle) ; draw by z ascending",
+ "pieces": {
+  "head": {
+   "file": "films/sources/exercices-de-style/forage/visitor_head_rgba.png",
+   "size": [
+    327,
+    417
+   ],
+   "origin_in_crop": [
+    76,
+    69
+   ],
+   "pivot_local": [
+    224,
+    371
+   ],
+   "pivot_crop": [
+    300,
+    440
+   ],
+   "parent": "torso",
+   "z": 6,
+   "joint_name": "neck"
+  },
+  "torso": {
+   "file": "films/sources/exercices-de-style/forage/visitor_torso_rgba.png",
+   "size": [
+    599,
+    921
+   ],
+   "origin_in_crop": [
+    103,
+    380
+   ],
+   "pivot_local": [
+    327,
+    850
+   ],
+   "pivot_crop": [
+    430,
+    1230
+   ],
+   "parent": null,
+   "z": 4,
+   "joint_name": "hip"
+  },
+  "hem": {
+   "file": "films/sources/exercices-de-style/forage/visitor_hem_rgba.png",
+   "size": [
+    652,
+    450
+   ],
+   "origin_in_crop": [
+    78,
+    1150
+   ],
+   "pivot_local": [
+    352,
+    10
+   ],
+   "pivot_crop": [
+    430,
+    1160
+   ],
+   "parent": "torso",
+   "z": 5,
+   "joint_name": "coat_waist"
+  },
+  "upper_arm": {
+   "file": "films/sources/exercices-de-style/forage/visitor_upper_arm_rgba.png",
+   "size": [
+    270,
+    512
+   ],
+   "origin_in_crop": [
+    432,
+    432
+   ],
+   "pivot_local": [
+    98,
+    88
+   ],
+   "pivot_crop": [
+    530,
+    520
+   ],
+   "parent": "torso",
+   "z": 7,
+   "joint_name": "shoulder"
+  },
+  "forearm_hand": {
+   "file": "films/sources/exercices-de-style/forage/visitor_forearm_hand_rgba.png",
+   "size": [
+    339,
+    352
+   ],
+   "origin_in_crop": [
+    360,
+    809
+   ],
+   "pivot_local": [
+    320,
+    71
+   ],
+   "pivot_crop": [
+    680,
+    880
+   ],
+   "parent": "upper_arm",
+   "z": 8,
+   "joint_name": "elbow"
+  },
+  "thigh_front": {
+   "file": "films/sources/exercices-de-style/forage/visitor_thigh_front_rgba.png",
+   "size": [
+    111,
+    465
+   ],
+   "origin_in_crop": [
+    359,
+    1270
+   ],
+   "pivot_local": [
+    61,
+    30
+   ],
+   "pivot_crop": [
+    420,
+    1300
+   ],
+   "parent": "torso",
+   "z": 3,
+   "joint_name": "hip_front"
+  },
+  "shin_shoe_front": {
+   "file": "films/sources/exercices-de-style/forage/visitor_shin_shoe_front_rgba.png",
+   "size": [
+    196,
+    436
+   ],
+   "origin_in_crop": [
+    272,
+    1674
+   ],
+   "pivot_local": [
+    140,
+    26
+   ],
+   "pivot_crop": [
+    412,
+    1700
+   ],
+   "parent": "thigh_front",
+   "z": 3,
+   "joint_name": "knee_front"
+  },
+  "thigh_back": {
+   "file": "films/sources/exercices-de-style/forage/visitor_thigh_back_rgba.png",
+   "size": [
+    101,
+    465
+   ],
+   "origin_in_crop": [
+    466,
+    1270
+   ],
+   "pivot_local": [
+    39,
+    30
+   ],
+   "pivot_crop": [
+    505,
+    1300
+   ],
+   "parent": "torso",
+   "z": 1,
+   "joint_name": "hip_back"
+  },
+  "shin_shoe_back": {
+   "file": "films/sources/exercices-de-style/forage/visitor_shin_shoe_back_rgba.png",
+   "size": [
+    97,
+    436
+   ],
+   "origin_in_crop": [
+    455,
+    1674
+   ],
+   "pivot_local": [
+    48,
+    26
+   ],
+   "pivot_crop": [
+    503,
+    1700
+   ],
+   "parent": "thigh_back",
+   "z": 1,
+   "joint_name": "knee_back"
+  }
+ },
+ "z_order": [
+  "thigh_back",
+  "shin_shoe_back",
+  "thigh_front",
+  "shin_shoe_front",
+  "torso",
+  "hem",
+  "head",
+  "upper_arm",
+  "forearm_hand"
+ ],
+ "bone_lengths": {
+  "neck_to_hip": 800.6,
+  "shoulder_to_elbow": 390.0,
+  "elbow_to_hand": 361.0,
+  "hip_to_knee_front": 400.1,
+  "knee_to_ankle_front": 360.4,
+  "hip_to_knee_back": 400.0,
+  "knee_to_ankle_back": 360.2
+ },
+ "joint_limits": {
+  "head": [
+   -15,
+   18
+  ],
+  "upper_arm": [
+   -20,
+   80
+  ],
+  "forearm_hand": [
+   -110,
+   10
+  ],
+  "thigh_front": [
+   -25,
+   25
+  ],
+  "thigh_back": [
+   -25,
+   25
+  ],
+  "shin_shoe_front": [
+   -45,
+   0
+  ],
+  "shin_shoe_back": [
+   -45,
+   0
+  ],
+  "hem": [
+   -8,
+   8
+  ],
+  "torso": [
+   -5,
+   18
+  ]
+ },
+ "invariants": [
+  "bone lengths constant (pivots are fixed points of each piece)",
+  "head pivot stays on the collar pin (neck)",
+  "during a contact drawing the planted foot does not slide: root_dx per drawing equals the stance foot travel (0.035 of figure height)",
+  "door layer is not part of this rig"
+ ],
+ "walk_cycle": {
+  "drawings": 12,
+  "exposure": "on twos (each drawing held 2 frames at 24 fps): one cycle = 24 frames = 2 steps",
+  "step_sound_on": [
+   "drawing 4 (front heel)",
+   "drawing 10 (back heel)"
+  ],
+  "table": [
+   {
+    "drawing": 1,
+    "root_dx_frac": -0.0,
+    "bob_frac": -0.01,
+    "torso": 2.8,
+    "head": -1.02,
+    "hem": 2.58,
+    "upper_arm": -0.0,
+    "forearm_hand": 0.0,
+    "thigh_front": 0.0,
+    "shin_shoe_front": -32.0,
+    "thigh_back": -0.0,
+    "shin_shoe_back": -0.0,
+    "contact": null
+   },
+   {
+    "drawing": 2,
+    "root_dx_frac": -0.04,
+    "bob_frac": -0.01,
+    "torso": 2.4,
+    "head": -0.5,
+    "hem": 0.7,
+    "upper_arm": -1.25,
+    "forearm_hand": 0.5,
+    "thigh_front": 9.0,
+    "shin_shoe_front": -25.79,
+    "thigh_back": -9.0,
+    "shin_shoe_back": -0.0,
+    "contact": null
+   },
+   {
+    "drawing": 3,
+    "root_dx_frac": -0.07,
+    "bob_frac": 0.01,
+    "torso": 1.6,
+    "head": -0.98,
+    "hem": -1.36,
+    "upper_arm": -2.17,
+    "forearm_hand": 0.87,
+    "thigh_front": 15.59,
+    "shin_shoe_front": -11.31,
+    "thigh_back": -15.59,
+    "shin_shoe_back": -0.0,
+    "contact": null
+   },
+   {
+    "drawing": 4,
+    "root_dx_frac": -0.11,
+    "bob_frac": 0.01,
+    "torso": 1.2,
+    "head": -1.98,
+    "hem": -3.06,
+    "upper_arm": -2.5,
+    "forearm_hand": 1.0,
+    "thigh_front": 18.0,
+    "shin_shoe_front": -0.0,
+    "thigh_back": -18.0,
+    "shin_shoe_back": -0.0,
+    "contact": "front"
+   },
+   {
+    "drawing": 5,
+    "root_dx_frac": -0.14,
+    "bob_frac": 0.01,
+    "torso": 1.6,
+    "head": -2.5,
+    "hem": -3.94,
+    "upper_arm": -2.17,
+    "forearm_hand": 0.87,
+    "thigh_front": 15.59,
+    "shin_shoe_front": -0.0,
+    "thigh_back": -15.59,
+    "shin_shoe_back": -11.31,
+    "contact": null
+   },
+   {
+    "drawing": 6,
+    "root_dx_frac": -0.18,
+    "bob_frac": -0.01,
+    "torso": 2.4,
+    "head": -2.02,
+    "hem": -3.76,
+    "upper_arm": -1.25,
+    "forearm_hand": 0.5,
+    "thigh_front": 9.0,
+    "shin_shoe_front": -0.0,
+    "thigh_back": -9.0,
+    "shin_shoe_back": -25.79,
+    "contact": null
+   },
+   {
+    "drawing": 7,
+    "root_dx_frac": -0.21,
+    "bob_frac": -0.01,
+    "torso": 2.8,
+    "head": -1.02,
+    "hem": -2.58,
+    "upper_arm": -0.0,
+    "forearm_hand": 0.0,
+    "thigh_front": 0.0,
+    "shin_shoe_front": -0.0,
+    "thigh_back": -0.0,
+    "shin_shoe_back": -32.0,
+    "contact": null
+   },
+   {
+    "drawing": 8,
+    "root_dx_frac": -0.25,
+    "bob_frac": -0.01,
+    "torso": 2.4,
+    "head": -0.5,
+    "hem": -0.7,
+    "upper_arm": 1.25,
+    "forearm_hand": -0.5,
+    "thigh_front": -9.0,
+    "shin_shoe_front": -0.0,
+    "thigh_back": 9.0,
+    "shin_shoe_back": -25.79,
+    "contact": null
+   },
+   {
+    "drawing": 9,
+    "root_dx_frac": -0.28,
+    "bob_frac": 0.01,
+    "torso": 1.6,
+    "head": -0.98,
+    "hem": 1.36,
+    "upper_arm": 2.17,
+    "forearm_hand": -0.87,
+    "thigh_front": -15.59,
+    "shin_shoe_front": -0.0,
+    "thigh_back": 15.59,
+    "shin_shoe_back": -11.31,
+    "contact": null
+   },
+   {
+    "drawing": 10,
+    "root_dx_frac": -0.32,
+    "bob_frac": 0.01,
+    "torso": 1.2,
+    "head": -1.98,
+    "hem": 3.06,
+    "upper_arm": 2.5,
+    "forearm_hand": -1.0,
+    "thigh_front": -18.0,
+    "shin_shoe_front": -0.0,
+    "thigh_back": 18.0,
+    "shin_shoe_back": -0.0,
+    "contact": "back"
+   },
+   {
+    "drawing": 11,
+    "root_dx_frac": -0.35,
+    "bob_frac": 0.01,
+    "torso": 1.6,
+    "head": -2.5,
+    "hem": 3.94,
+    "upper_arm": 2.17,
+    "forearm_hand": -0.87,
+    "thigh_front": -15.59,
+    "shin_shoe_front": -11.31,
+    "thigh_back": 15.59,
+    "shin_shoe_back": -0.0,
+    "contact": null
+   },
+   {
+    "drawing": 12,
+    "root_dx_frac": -0.39,
+    "bob_frac": -0.01,
+    "torso": 2.4,
+    "head": -2.02,
+    "hem": 3.76,
+    "upper_arm": 1.25,
+    "forearm_hand": -0.5,
+    "thigh_front": -9.0,
+    "shin_shoe_front": -25.79,
+    "thigh_back": 9.0,
+    "shin_shoe_back": -0.0,
+    "contact": null
+   }
+  ]
+ },
+ "beat_poses": {
+  "E1_arrive": {
+   "note": "18:00 stands, envelope held at the pocket (hand in pocket pose of the negative)",
+   "torso": 1.5,
+   "head": 0.0,
+   "hem": 0.0,
+   "upper_arm": 0.0,
+   "forearm_hand": 0.0,
+   "thigh_front": 0.0,
+   "shin_shoe_front": 0.0,
+   "thigh_back": 0.0,
+   "shin_shoe_back": 0.0
+  },
+  "E2_bell": {
+   "note": "18:02 head jerks up toward the bell: +12 deg over 3 frames, then 6-frame overshoot to +15 and back to +12",
+   "torso": -1.0,
+   "head": 12.0,
+   "hem": 0.0,
+   "upper_arm": 0.0,
+   "forearm_hand": 0.0,
+   "thigh_front": 0.0,
+   "shin_shoe_front": 0.0,
+   "thigh_back": 0.0,
+   "shin_shoe_back": 0.0
+  },
+  "E3_tear": {
+   "note": "18:04 forearm raised to chest to tear; the tear itself is the handmade S5b paper",
+   "torso": 3.0,
+   "head": -6.0,
+   "hem": 0.0,
+   "upper_arm": 38.0,
+   "forearm_hand": -95.0,
+   "thigh_front": 0.0,
+   "shin_shoe_front": 0.0,
+   "thigh_back": 0.0,
+   "shin_shoe_back": 0.0
+  },
+  "E4_find": {
+   "note": "18:05 holds the key up at shoulder height, looking at it",
+   "torso": -1.0,
+   "head": -4.0,
+   "hem": 0.0,
+   "upper_arm": 70.0,
+   "forearm_hand": -60.0,
+   "thigh_front": 0.0,
+   "shin_shoe_front": 0.0,
+   "thigh_back": 0.0,
+   "shin_shoe_back": 0.0
+  },
+  "E5_leave": {
+   "note": "18:06 stoops to the bench: lean, knees give, arm forward and down",
+   "torso": 14.0,
+   "head": -8.0,
+   "hem": -6.0,
+   "upper_arm": 42.0,
+   "forearm_hand": -20.0,
+   "thigh_front": 12.0,
+   "shin_shoe_front": -14.0,
+   "thigh_back": -4.0,
+   "shin_shoe_back": -10.0
+  },
+  "E6_exit": {
+   "note": "18:07 walks away left: use walk_cycle drawings 1-12, at least 2 cycles, scale -3% per step",
+   "torso": 0.0,
+   "head": 0.0,
+   "hem": 0.0,
+   "upper_arm": 0.0,
+   "forearm_hand": 0.0,
+   "thigh_front": 0.0,
+   "shin_shoe_front": 0.0,
+   "thigh_back": 0.0,
+   "shin_shoe_back": 0.0
+  }
+ },
+ "inventions": [
+  {
+   "piece": "torso",
+   "region": "coat under the left arm (inpainted, cv2.INPAINT_TELEA r=15)",
+   "px": 120023
+  },
+  {
+   "piece": "thigh_front",
+   "region": "trouser cloth y 1270-1600 under the coat, tiled from the visible trouser top",
+   "px": 29748
+  },
+  {
+   "piece": "thigh_back",
+   "region": "trouser cloth y 1270-1600 under the coat, tiled from the visible trouser top",
+   "px": 29080
+  },
+  {
+   "piece": "all",
+   "region": "hat, face and trouser outlines are drawn scissor paths where the soft-focus negative gives GrabCut no edge (see build/cut_visitor.py HEAD/LEGS)",
+   "px": null
+  }
+ ],
+ "closeup_hand": {
+  "file": "films/sources/exercices-de-style/forage/rol_forearm_hand_rgba.png",
+  "size": [
+   629,
+   473
+  ],
+  "pivot_local": [
+   575,
+   52
+  ],
+  "grip_point_local": [
+   115,
+   377
+  ],
+  "note": "Close-up only (S5b slide-out, S5c lowering). It is the Agence Rol man's real right forearm: coat sleeve with its fold highlights, the white shirt cuff and the hand holding gloves. A different PD print from the full-figure visitor; both wear dark wool overcoats; declared continuity cut."
+ },
+ "fallback": {
+  "file": "films/sources/exercices-de-style/forage/man_rgba.png",
+  "note": "Agence Rol 1917 waist-up portrait, re-cut: hat with drawn brim, sleeve flower debris removed (magenta in man_failmask.png)"
+ },
+ "key": {
+  "file": "films/sources/exercices-de-style/forage/key_rgba.png",
+  "note": "Edna C. Rex watercolour, bow hole open; 299x800; pivot for settle at the bit-end contact point",
+  "settle_pivot_local": [
+   150,
+   790
+  ]
+ }
+}

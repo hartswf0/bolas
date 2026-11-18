@@ -1,0 +1,161 @@
+{
+ "slug": "les-caids-de-la-gaudriole",
+ "frozen": true,
+ "revision": "plan-r1 (2026-11-17)",
+ "direction": "Direction 1 'Le pli sur la table' (proposals/kf-1.png), ending on Direction 2's light-box shot (proposals/kf-2.png)",
+ "aesthetic": "Printed black-ink line comic (Busch 1865 engravings + single-stroke pen lettering) on real, near-neutral white paper (front-lit paper L 215-235, |R-B|<=15, ink L<=40, ink #141414 on #E0DDD8), handled physically on a dark neutral wood table (L 25-70). The reference (Lecroart, fold_extract-000.webp) is pure B&W: paper 255, ink ~10-16, ~11% ink cover, a single mid-grey only in hatching, tight panel framing with figures in the lower 60% and balloons in the top 40%, and small lettered triangle fold marks in the margins. Light is one warm-neutral key lamp from the upper left with soft contact shadows down-right, as in kf-1's oblique 25-35 deg view. The closing shot is a straight-down view on an animator's light box: transmitted light only, neutral glow (L 240-252), with the hidden layers as 15-35% density ghosts. kf-2's cream cast and its unmirrored ghost are flaws to correct. Texture is the real paper-scan grain with back-face show-through; there is no added grain filter. Reading shots frame one panel at ~90% of frame height. Typography is pen.py uppercase only. Pacing: stop-motion on twos (12 exposures/s), 1-3 s holds on each reading state, one defining beat followed by a still, flat hold.",
+ "techniques": [
+  {
+   "id": 40,
+   "title": "Physical Tabletop Capture - Paper Performance Swarm",
+   "why": "The film is a printed paper object performed on a table. Facets and puppet parts are per-piece rigid transforms, driven by a timestamped exposure event stream. Numeric invariant: no facet/ID swaps, crease lines stay on their computed 3D lines, the part right of B stays at z=0, and there is one sound tick per exposure (+-1 frame). Perceptual achievement: real paper moved by hand between exposures, with weight, curl, landing and settle. Shots 1, 2, 3, 5, 7."
+  },
+  {
+   "id": 45,
+   "title": "Occlusion Compositing - Who Is In Front?",
+   "why": "The fold is a question of layer order. An occlusion DAG is recomputed per exposure; holdout mattes cover the hinged puppet parts; contact shadows come from facet height; a transmission pass drives the light box. Numeric invariant: layer order is correct in every frame, with no pop at the vertical crossing. The flat folded composite equals V(x') exactly. Ghosts sit at 2A-x (mirrored) and x-D. Perceptual achievement: the viewer always knows which paper is on top and believes the shadows. Shots 2, 3, 5, 6, 8."
+  },
+  {
+   "id": 8,
+   "title": "Ivan Sutherland - Constraint Sketchpad Swarm",
+   "why": "The proof is geometry. B=2M-A, contact A==B, and seam crossings (frame, balloon borders, floor line, cuff/wrist) are encoded as constraints in strip/sheet.json, with a solver/fixture trace. Numeric invariant: seam residuals <= 5 u (0.5 mm) in print and 0 u digitally. Perceptual achievement: the sentence and the arm snap together with no fudge, and the fold feels inevitable. Shots 5, 6, 8, plus page bands 3-4."
+  }
+ ],
+ "thesis": "The same ink tells two stories. Opened out, the strip shows the porter at fault over a borrowed station key, while the miller swears it was not in his envelope. Folded once (one marked pleat, A to B), the miller's own balloon reads 'THE KEY? I HAD IT IN MY POCKET ALL ALONG.' His sleeve now ends in the hand holding the key, and the boys' 'OH? REALLY?' turns into an accusation. The viewer must feel the paper do it. A printed sheet curls, casts a shadow, lands and locks the sentence and the hand together, then a light box shows the hidden layers glowing through to prove that nothing was added. Bland means any of these: a wipe or cross-fade in place of a fold, rigid-card facets with no curl or shadow, captions explaining the joke, an ink-patched reveal, geometrically wrong ghosts, a sepia costume, or puppets that never bend at a joint.",
+ "defining_beat": "THE FOLD, 0:26-0:38 (shot 5 into the shot 6 hold). By stop-motion at 12 exposures/s, P1-left rises on mountain crease A (x=620) and the gutter valley M (x=1210). The middle sheet curls under, and P1-left comes down until mark A sits on mark B (x=1800). At about 0:34 (the first flat, settled exposure) and through the hold, a viewer can point to three things: (a) the seam, where 'THE KEY? | I HAD IT / IN MY | POCKET / ALL | ALONG.' meets as one balloon; (b) the miller's cuff at A continuing into the hand that holds the swinging brass key at B; (c) the margin triangles A and B coinciding top and bottom.",
+ "baseline": "Two baselines. (1) Lecroart's static reference page (assets/references/fold_extract-000.webp): panel | panel -> arrow -> combined panel. The film must match its readability of both states and add what it cannot: the physical fold, and evidence of the hidden layers. (2) The proposal keyframes. kf-1 is the mid-fold baseline to beat: it shows rigid card with no curl band. kf-2 is the light-box baseline to beat: its cream cast is wrong, and its A..M ghost text reads forwards when it must be mirrored.",
+ "geometry": {
+  "sheet_units": [
+   2400,
+   900
+  ],
+  "scale": "1 u = 0.1 mm (strip 240 x 90 mm); A3 page at 300 dpi -> 1 u = 1.1811 px",
+  "P1": [
+   40,
+   1180
+  ],
+  "P2": [
+   1220,
+   2360
+  ],
+  "panel_y": [
+   50,
+   850
+  ],
+  "A_mountain": 620,
+  "M_valley": 1210,
+  "B": 1800,
+  "D": 1180,
+  "map": "x<=A: x (up, layer1); A..M: 2A-x (down, layer2); M..B: x-D (up, layer3); x>=B: x-D (up)",
+  "seam_tolerance_print_u": 5,
+  "seam_tolerance_digital_u": 0
+ },
+ "acceptance": [
+  {
+   "id": "B1",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "HARD PROOF READS. In the page and the film, the open strip reads as a misunderstanding over a borrowed key with the porter apparently at fault: the miller says it is not in his envelope, and the porter produces it from his coat pocket. The folded state reads exactly 'THE KEY? I HAD IT IN MY POCKET ALL ALONG.' as the miller's single balloon, and the miller's own sleeve continues across the seam into the hand holding the key. A blind reader, given only the work, names the miller as the one who held the key and calls both readings coherent, without any caption or explanation in the work."
+  },
+  {
+   "id": "B2",
+   "kind": "blocking",
+   "evidence": "measured",
+   "text": "SECTION 7 FIXTURE PASSES (strip/fixture.json). (a) The flat folded view in the page and in the film's settled exposure equals V(x') = Sheet(x') for x'<A and Sheet(x'+D) for x'>=A, pixel for pixel, from the same strip-art.png: no pixel without an ink source, and max abs diff 0 outside resampling, <=2/255 after resampling. (b) All crease motion follows the reflections x->2f-x composed over A then M, and the light-box ghosts sit at 2A-x (mirrored) for A..M and at x-D (unmirrored) for M..B, within 2 u. (c) Seam residuals for the frame borders, balloon top and bottom borders, floor line and cuff/wrist are <=5 u (0.5 mm) at print scale, shown in the 100x seam crops. (d) The pre-fold rest frame equals strip-art.png: the puppets settle exactly into the printed pose."
+  },
+  {
+   "id": "B3",
+   "kind": "blocking",
+   "evidence": "structurally verified",
+   "text": "GENUINELY FORAGED/HANDMADE AND GENUINELY ANIMATED. The figures are real Busch 1865 plates (Commons, PD, extmetadata recorded), cut out and articulated. The paper and table are real scans under recorded PD/CC0/CC BY/BY-SA licences. Room tone, bell and paper sounds are foraged and credited in films/credits/les-caids-de-la-gaudriole.json. Lettering, balloons, marks, key, forearm, door and light box are handmade, with no font and no filter costume. The fold (shot 5) is stop-motion with >=90 distinct exposures on twos: each facet is its own warped piece of the printed sheet, with a curl band visibly bending at each crease, back-face show-through, and contact shadows that change with height. The puppets in shots 2-3 rotate about real joints frame by frame and settle. No shot in the film is only a pan or fade over a still."
+  },
+  {
+   "id": "B4",
+   "kind": "blocking",
+   "evidence": "perceptually judged",
+   "text": "AESTHETIC HOLDS SIDE BY SIDE. Viewed next to the reference and kf-1/kf-2, the strip is crisp black ink line art on near-neutral white paper (front-lit paper median L 215-235, |R-B|<=15; ink L<=40; not sepia or cream). Reading shots frame a panel as close as the reference. The mid-fold frame beats kf-1: a viewer sees paper bending, not card. The light-box frame beats kf-2: the glow is neutral, the ghosts are correctly mirrored or unmirrored, and at full lamp the punchline balloon still reads ahead of any ghost."
+  },
+  {
+   "id": "B5",
+   "kind": "blocking",
+   "evidence": "structurally verified",
+   "text": "PAGE DELIVERABLE IS COMPLETE AND SHARES THE ART. assets/pages/les-caids-de-la-gaudriole.png (>=2400 px long side; planned A3 4961x3508 at 300 dpi) and its .pdf carry: the print strip at 100% scale with crop marks; fold marks A, M and B with the mountain/valley distinction; a 0-240 mm scale ruler; the open-to-folded reference-style row with the folded panel; a pleat cross-section; the 100x seam insets; the fragment inventory; fold coordinates and tolerances; the 6-step assembly instructions; and both reading routes. The strip art on the page and in the film come from the same strip/strip-art.png (sha256 in strip/sheet.json), and a resampled diff shows no differing ink."
+  },
+  {
+   "id": "A1",
+   "kind": "advisory",
+   "evidence": "perceptually judged",
+   "text": "Sound is purposeful. There is one paper tick per stop-motion exposure, the station bell marks the incident (open reading) and the boys' line, and near silence carries the reveal hold. Nothing is decorative."
+  },
+  {
+   "id": "A2",
+   "kind": "advisory",
+   "evidence": "perceptually judged",
+   "text": "The open strip makes 'borrowed' and the common seed legible: envelope, station porter, brass key, and the closed service door drawn in P2."
+  },
+  {
+   "id": "A3",
+   "kind": "advisory",
+   "evidence": "measured",
+   "text": "Duration is 55-70 s and the file is <=6 MB. Every reading state (open, folded, light box) is held >=1.5 s with camera and lamp still."
+  },
+  {
+   "id": "A4",
+   "kind": "advisory",
+   "evidence": "structurally verified",
+   "text": "strip/second-fold.json records the visible faces and order of operations for a second pleat on a fresh copy (section 8). No content is added for it."
+  }
+ ],
+ "reader_questions": [
+  "Read the strip opened out. Who seems to have had the key, and what does the man carrying the sack say about it?",
+  "Fold the strip as the page instructs, or watch the fold in the film. Write exactly what the folded balloon says.",
+  "In the folded panel, whose hand holds the key? What in the picture tells you?",
+  "What appeared at the seam when the paper was folded?",
+  "Does anything in the folded panel appear that was not printed somewhere on the open strip? If so, what?",
+  "Do the open and the folded readings both make sense as the same incident? What does 'OH? REALLY?' mean in each?",
+  "In the light-box shot, what are the faint shapes and words inside the folded panel, and why do some of them read backwards?"
+ ],
+ "intended_reading": "Open: the miller (with the sack) insists 'THE KEY? I SWEAR, NOT IN MY ENVELOPE! ALL I CARRY IS PAPER.' The porter, asked 'WHO TOOK IT, THEN?', produces the key: 'HERE! SILLY ME - I HAD IT IN THE COAT POCKET ALL ALONG.' The boys' 'OH? REALLY?' reads as mild surprise, and the porter looks at fault. Folded at A/M so that B lands on A: the miller's balloon reads 'THE KEY? I HAD IT IN MY POCKET ALL ALONG.' His sleeve, cut at A, continues into the hand holding the key at B, so the miller had it and lied. The boys' 'OH? REALLY?' (unchanged, visible in both states) becomes sardonic and accusing. At the seam the reader sees the two halves of each balloon line join, the cuff meet the hand with the key, and the triangles A and B coincide. Nothing new appears: every word and line in the folded panel is printed on the open strip. In the light box the faint shapes are the hidden middle of the strip ('I SWEAR, NOT', 'ENVELOPE!', 'I CARRY IS PAPER.', 'WHO TOOK IT, THEN?', the porter figures, 'HERE! SILLY ME -', 'IN THE COAT'). The A..M part is folded face-down, so its ink reads mirrored; the M..B part is face-up again, so it reads forwards. That is the proof the reveal was already printed.",
+ "deliverables": [
+  "/home/user/bolas/paeleo/scion/oulipo/assets/pages/les-caids-de-la-gaudriole.png",
+  "/home/user/bolas/paeleo/scion/oulipo/assets/pages/les-caids-de-la-gaudriole.pdf",
+  "/home/user/bolas/paeleo/scion/oulipo/assets/films/les-caids-de-la-gaudriole.mp4",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/les-caids-de-la-gaudriole/strip/strip-art.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/les-caids-de-la-gaudriole/strip/strip-flat.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/les-caids-de-la-gaudriole/strip/strip-folded.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/les-caids-de-la-gaudriole/strip/sheet.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/les-caids-de-la-gaudriole/strip/fragments.csv",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/les-caids-de-la-gaudriole/strip/assembly.md",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/les-caids-de-la-gaudriole/strip/fixture.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/les-caids-de-la-gaudriole/strip/seam-100x.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/les-caids-de-la-gaudriole/strip/second-fold.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/les-caids-de-la-gaudriole/shots/contact-fold.jpg",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/les-caids-de-la-gaudriole/shots/lightbox-still.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/les-caids-de-la-gaudriole/shots/fold-events.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/les-caids-de-la-gaudriole.py",
+  "/home/user/bolas/paeleo/scion/oulipo/films/notes/les-caids-de-la-gaudriole.txt",
+  "/home/user/bolas/paeleo/scion/oulipo/films/credits/les-caids-de-la-gaudriole.json",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/les-caids-de-la-gaudriole/review/ (reader, tester, critic and reviewer evidence, written by the workflow)"
+ ],
+ "units": [
+  {
+   "role": "paper-engineer-writer",
+   "mode": "handmake",
+   "task": "Freeze strip/sheet.json rev 1 first (within ~10 min): sheet 2400x900 u at 0.1 mm/u, A=620 mountain, M=1210 valley, B=1800, D=1180, panel bounds, LINE_Y, tau=5 u, the constraint list, and the fragment inventory with sheet bbox and folded/ghost positions (also as strip/fragments.csv). Revise the balloon lines only within those bounds so that 'borrowed' is explicit in the open state and both readings stay coherent; keep the folded line exactly 'THE KEY? I HAD IT / IN MY POCKET / ALL ALONG.' and keep 'OH? REALLY?' wholly right of B. Build strip/fold.py, a pure geometry module: facet 3D poses for crease angles alpha (M) and beta (A), layer order, visibility masks, the folded view V(x'), and the light-box layer stack. Build strip/fixture.py, which writes strip/fixture.json: pixel equality of the folded view with V, seam residuals, a no-orphan-ink check, ghost positions, and the 100x seam crops (strip/seam-100x.png). Adopt U2's puppets/art-layers.png as strip/strip-art.png (sha256 into sheet.json). Render strip/strip-flat.png and strip/strip-folded.png. Build the A3 300-dpi page (assets/pages/les-caids-de-la-gaudriole.png and .pdf) to plan.md section 7, all lettering in pen.py on the re-verified paper scan; write strip/assembly.md and strip/second-fold.json. Re-verify the paper.jpg and wood.jpg licences through Commons extmetadata. Media goes in films/sources/les-caids-de-la-gaudriole/paper-engineer/.",
+   "output": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/les-caids-de-la-gaudriole/strip/sheet.json"
+  },
+  {
+   "role": "panel-artist-puppet-fabricator",
+   "mode": "both",
+   "task": "Working inside the frozen strip/sheet.json bounds, re-cut the Busch 1865 plates (mm_082 miller, mm_031 porter, mm_001 boys; re-verify PD on Commons) as articulated paper cutouts with real joint pivots: the miller's shoulder (printed rest 52 deg), the porter's elbow and wrist, the porter-P1 neck, and the key as a pendulum part. Pen-draw a Busch-style hatching pass on the porter's striped forearm, the bit-key, the floor lines and the closed service door behind the porter in P2. Align the meaningful edges: the miller's cuff crossing A and the porter's wrist crossing B must meet in y-band, slope and width within 5 u, and the frame, balloon borders and floor lines must be shared across A/B. Write puppets/rig.json (parts, pivots, rest angles, source plate and crop box), part PNGs, and puppets/poses.json: per-exposure joint angles on twos for shots 2-3 (the miller's shrug, the porter-P1 head tilt, the porter's key swing-out), every track ending exactly at the printed rest pose. Compose puppets/art-layers.png (the full strip art at rest) for U1. Media goes in films/sources/les-caids-de-la-gaudriole/panel-artist/.",
+   "output": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/les-caids-de-la-gaudriole/puppets/rig.json"
+  },
+  {
+   "role": "tabletop-lightbox-cinematographer-sound",
+   "mode": "both",
+   "task": "Read SCION #40, #45 and #8 in full. Using strip/strip-art.png, strip/fold.py and puppets/rig.json+poses.json (block out with proposals/strip-open.png until they land), render shots 1, 2, 3, 5, 7 and 8 of plan.md section 6 frame by frame at 12 exposures/s on twos in a 24 fps container. Each facet is its own perspective-warped piece of the printed sheet with a ~40 u curl band at each crease (sub-facets), back-face show-through when it turns away, contact shadows from height, the occlusion order recomputed per exposure, ~1 u stepped jitter and +-2% lamp flicker, a 3-exposure settle, and then a dead-still flat hold. For shot 8 (light box, straight down), composite by transmission: T^n falloff and blurred deeper ink, A..M ghosts mirrored at 2A-x and M..B ghosts at x-D; neutral glow; the punchline balloon must stay dominant at full lamp. Write shots/fold-events.json (per exposure: alpha, beta, jitter, lamp, sound tick). Forage sound: room tone from the Moving Image Archive cache first (forage.py; choose by listening/looking), plus a station or hand bell and paper rustle/fold foley from Commons (PD/CC0/CC BY/BY-SA only, extmetadata read); cut one paper tick per exposure. Record all items in shots/credits-draft.json. Output shots/shot-*.mp4 or PNG sequences, shots/contact-fold.jpg (every 4th exposure of shot 5), shots/lightbox-still.png and shots/sound/*.wav. Downloads under ~75 MB. Media goes in films/sources/les-caids-de-la-gaudriole/tabletop/.",
+   "output": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/les-caids-de-la-gaudriole/shots/fold-events.json"
+  }
+ ],
+ "editor_task": "Assemble films/les-caids-de-la-gaudriole.py with films/kit.py (do not edit kit.py), following the plan.md section 6 timeline (~62 s, 24 fps): the title card in pen lettering, then U3's shots 1-3, 5, 6 (hold and stepped push-in across the seam on the settled folded exposure), 7 and 8, and a pen-lettered credit card. Use only strip/strip-art.png for strip art, so the page and film are identical. Mix U3's foraged room tone, bell and per-exposure paper ticks with kit Mix (near silence on the reveal hold, a bell at 0:08 and 0:40). Render assets/films/les-caids-de-la-gaudriole.mp4 (<=6 MB, 55-70 s). Merge credits into films/credits/les-caids-de-la-gaudriole.json (Busch plates, paper, wood, sounds, archive clip in the archive credit format). Write films/notes/les-caids-de-la-gaudriole.txt (60-110 words, saying plainly what is foraged and what is handmade). Save stills at 0:12, 0:20, 0:30, 0:36 and 0:55 beside the reference and kf-1/kf-2 for the critic. Do not change plan.json; send any proposed bar change to amendments.md."
+}

@@ -1,0 +1,1328 @@
+{
+ "master_revision": "90f1417b48de31c0113ca2ec2e874d1bf3f9d2ec",
+ "edl": "picture/edl.json",
+ "editions": {
+  "A": {
+   "cues": [
+    {
+     "sound_event": "far vehicle passing (S1)",
+     "source": "car_pass",
+     "picture_event_id": "shot:S1",
+     "t_sound": 3.2,
+     "cue_frame": 77,
+     "offset_ms_declared": 0,
+     "offset_ms_from_cue_frame": -8.3,
+     "edl_event": "shot:S1",
+     "edl_frame": 0,
+     "cue_frame_minus_edl_frame": 77,
+     "edl_span": [
+      0,
+      191
+     ],
+     "cue_frame_in_span": true
+    },
+    {
+     "sound_event": "window latch",
+     "source": "latch_open",
+     "picture_event_id": "window_on:0",
+     "t_sound": 6.3433,
+     "cue_frame": 146,
+     "offset_ms_declared": 260,
+     "offset_ms_from_cue_frame": 260.0,
+     "edl_event": "win00_on",
+     "edl_frame": 146,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "cupboard shut (synth)",
+     "source": "HANDMADE:cupboard_synth",
+     "picture_event_id": "window_on:13",
+     "t_sound": 7.14,
+     "cue_frame": 168,
+     "offset_ms_declared": 140,
+     "offset_ms_from_cue_frame": 140.0,
+     "edl_event": "win13_on",
+     "edl_frame": 168,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "tap running",
+     "source": "faucet",
+     "picture_event_id": "window_on:26",
+     "t_sound": 8.2467,
+     "cue_frame": 190,
+     "offset_ms_declared": 330,
+     "offset_ms_from_cue_frame": 330.0,
+     "edl_event": "win26_on",
+     "edl_frame": 190,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "footstep (contact)",
+     "source": "footstep",
+     "picture_event_id": "step00",
+     "t_sound": 8.3333,
+     "cue_frame": 200,
+     "offset_ms_declared": 0,
+     "offset_ms_from_cue_frame": -0.0,
+     "edl_event": "step00",
+     "edl_frame": 200,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "footstep (contact)",
+     "source": "footstep",
+     "picture_event_id": "step01",
+     "t_sound": 8.875,
+     "cue_frame": 213,
+     "offset_ms_declared": 0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "step01",
+     "edl_frame": 213,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "spoon on a cup",
+     "source": "HANDMADE:spoon_cup",
+     "picture_event_id": "window_on:39",
+     "t_sound": 8.9817,
+     "cue_frame": 211,
+     "offset_ms_declared": 190,
+     "offset_ms_from_cue_frame": 190.0,
+     "edl_event": "win39_on",
+     "edl_frame": 211,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "footstep (contact)",
+     "source": "footstep",
+     "picture_event_id": "step02",
+     "t_sound": 9.4167,
+     "cue_frame": 226,
+     "offset_ms_declared": 0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "step02",
+     "edl_frame": 226,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "footstep (contact)",
+     "source": "footstep",
+     "picture_event_id": "step03",
+     "t_sound": 10.0,
+     "cue_frame": 240,
+     "offset_ms_declared": 0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "step03",
+     "edl_frame": 240,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "door handle creak",
+     "source": "handle_creak",
+     "picture_event_id": "window_on:52",
+     "t_sound": 10.0883,
+     "cue_frame": 233,
+     "offset_ms_declared": 380,
+     "offset_ms_from_cue_frame": 380.0,
+     "edl_event": "win52_on",
+     "edl_frame": 233,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "footstep (contact)",
+     "source": "footstep",
+     "picture_event_id": "step04",
+     "t_sound": 10.5417,
+     "cue_frame": 253,
+     "offset_ms_declared": 0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "step04",
+     "edl_frame": 253,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "distant door closing",
+     "source": "door_close",
+     "picture_event_id": "window_on:65",
+     "t_sound": 10.8033,
+     "cue_frame": 254,
+     "offset_ms_declared": 220,
+     "offset_ms_from_cue_frame": 220.0,
+     "edl_event": "win65_on",
+     "edl_frame": 254,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "footstep (contact)",
+     "source": "footstep",
+     "picture_event_id": "step05",
+     "t_sound": 11.0833,
+     "cue_frame": 266,
+     "offset_ms_declared": 0,
+     "offset_ms_from_cue_frame": -0.0,
+     "edl_event": "step05",
+     "edl_frame": 266,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "footstep (contact)",
+     "source": "footstep",
+     "picture_event_id": "step06",
+     "t_sound": 11.625,
+     "cue_frame": 279,
+     "offset_ms_declared": 0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "step06",
+     "edl_frame": 279,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "hummed two-note greeting (synth)",
+     "source": "HANDMADE:greeting_synth",
+     "picture_event_id": "window_on:78",
+     "t_sound": 11.9,
+     "cue_frame": 276,
+     "offset_ms_declared": 400,
+     "offset_ms_from_cue_frame": 400.0,
+     "edl_event": "win78_on",
+     "edl_frame": 276,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "footstep (contact)",
+     "source": "footstep",
+     "picture_event_id": "step07",
+     "t_sound": 12.1667,
+     "cue_frame": 292,
+     "offset_ms_declared": 0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "step07",
+     "edl_frame": 292,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "lock opened",
+     "source": "latch_open",
+     "picture_event_id": "window_on:91",
+     "t_sound": 12.5767,
+     "cue_frame": 298,
+     "offset_ms_declared": 160,
+     "offset_ms_from_cue_frame": 160.0,
+     "edl_event": "win91_on",
+     "edl_frame": 298,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "footstep (contact)",
+     "source": "footstep",
+     "picture_event_id": "step08",
+     "t_sound": 12.75,
+     "cue_frame": 306,
+     "offset_ms_declared": 0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "step08",
+     "edl_frame": 306,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "footstep (contact)",
+     "source": "footstep",
+     "picture_event_id": "step09",
+     "t_sound": 13.2917,
+     "cue_frame": 319,
+     "offset_ms_declared": 0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "step09",
+     "edl_frame": 319,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "tap running",
+     "source": "faucet",
+     "picture_event_id": "window_on:8",
+     "t_sound": 13.4217,
+     "cue_frame": 319,
+     "offset_ms_declared": 130,
+     "offset_ms_from_cue_frame": 130.0,
+     "edl_event": "win08_on",
+     "edl_frame": 319,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "footstep (contact)",
+     "source": "footstep",
+     "picture_event_id": "step10",
+     "t_sound": 13.8333,
+     "cue_frame": 332,
+     "offset_ms_declared": 0,
+     "offset_ms_from_cue_frame": -0.0,
+     "edl_event": "step10",
+     "edl_frame": 332,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "street door latch",
+     "source": "latch_open",
+     "picture_event_id": "door_open:C",
+     "t_sound": 13.9167,
+     "cue_frame": 334,
+     "offset_ms_declared": 0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "door_open",
+     "edl_frame": 334,
+     "cue_frame_minus_edl_frame": 0,
+     "edl_span": [
+      334,
+      346
+     ],
+     "cue_frame_in_span": true
+    },
+    {
+     "sound_event": "door creak (opening)",
+     "source": "handle_creak",
+     "picture_event_id": "door_open:C",
+     "t_sound": 14.0067,
+     "cue_frame": 334,
+     "offset_ms_declared": 90,
+     "offset_ms_from_cue_frame": 90.0,
+     "edl_event": "door_open",
+     "edl_frame": 334,
+     "cue_frame_minus_edl_frame": 0,
+     "edl_span": [
+      334,
+      346
+     ],
+     "cue_frame_in_span": true
+    },
+    {
+     "sound_event": "footstep (contact)",
+     "source": "footstep",
+     "picture_event_id": "step11",
+     "t_sound": 14.375,
+     "cue_frame": 345,
+     "offset_ms_declared": 0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "step11",
+     "edl_frame": 345,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "footstep (contact)",
+     "source": "footstep",
+     "picture_event_id": "walker_in",
+     "t_sound": 14.4167,
+     "cue_frame": 346,
+     "offset_ms_declared": 0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "walker_in",
+     "edl_frame": 346,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "spoon on a cup",
+     "source": "HANDMADE:spoon_cup",
+     "picture_event_id": "window_on:21",
+     "t_sound": 14.5583,
+     "cue_frame": 341,
+     "offset_ms_declared": 350,
+     "offset_ms_from_cue_frame": 350.0,
+     "edl_event": "win21_on",
+     "edl_frame": 341,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "cupboard shut (synth)",
+     "source": "HANDMADE:cupboard_synth",
+     "picture_event_id": "window_on:34",
+     "t_sound": 15.3233,
+     "cue_frame": 362,
+     "offset_ms_declared": 240,
+     "offset_ms_from_cue_frame": 240.0,
+     "edl_event": "win34_on",
+     "edl_frame": 362,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "street door shuts",
+     "source": "door_close",
+     "picture_event_id": "door_close:C",
+     "t_sound": 15.5833,
+     "cue_frame": 374,
+     "offset_ms_declared": 0,
+     "offset_ms_from_cue_frame": -0.0,
+     "edl_event": "door_close",
+     "edl_frame": 374,
+     "cue_frame_minus_edl_frame": 0,
+     "edl_span": [
+      365,
+      374
+     ],
+     "cue_frame_in_span": true
+    },
+    {
+     "sound_event": "music-box phrase (crossover: music only)",
+     "source": "HANDMADE:musicbox_synth",
+     "picture_event_id": "window_on:47",
+     "t_sound": 16.21,
+     "cue_frame": 384,
+     "offset_ms_declared": 210,
+     "offset_ms_from_cue_frame": 210.0,
+     "edl_event": "win47_on",
+     "edl_frame": 384,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "radio through a wall, an orchestral 78 mid-tune",
+     "source": "radio_song",
+     "picture_event_id": "window_on:60",
+     "t_sound": 17.0367,
+     "cue_frame": 406,
+     "offset_ms_declared": 120,
+     "offset_ms_from_cue_frame": 120.0,
+     "edl_event": "win60_on",
+     "edl_frame": 406,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "door handle creak",
+     "source": "handle_creak",
+     "picture_event_id": "window_on:73",
+     "t_sound": 18.1017,
+     "cue_frame": 427,
+     "offset_ms_declared": 310,
+     "offset_ms_from_cue_frame": 310.0,
+     "edl_event": "win73_on",
+     "edl_frame": 427,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "tap running",
+     "source": "faucet",
+     "picture_event_id": "window_on:86",
+     "t_sound": 18.8783,
+     "cue_frame": 449,
+     "offset_ms_declared": 170,
+     "offset_ms_from_cue_frame": 170.0,
+     "edl_event": "win86_on",
+     "edl_frame": 449,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "distant door closing",
+     "source": "door_close",
+     "picture_event_id": "window_on:3",
+     "t_sound": 19.8433,
+     "cue_frame": 470,
+     "offset_ms_declared": 260,
+     "offset_ms_from_cue_frame": 260.0,
+     "edl_event": "win03_on",
+     "edl_frame": 470,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "door latch (flat door opens)",
+     "source": "latch_open",
+     "picture_event_id": "window_on:16",
+     "t_sound": 20.65,
+     "cue_frame": 492,
+     "offset_ms_declared": 150,
+     "offset_ms_from_cue_frame": 150.0,
+     "edl_event": "win16_on",
+     "edl_frame": 492,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "kettle beginning to sing (rises with the silhouette)",
+     "source": "kettle",
+     "picture_event_id": "silhouette_rise:16",
+     "t_sound": 20.9167,
+     "cue_frame": 502,
+     "offset_ms_declared": 0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "silhouette_rise",
+     "edl_frame": 502,
+     "cue_frame_minus_edl_frame": 0,
+     "edl_span": [
+      502,
+      518
+     ],
+     "cue_frame_in_span": true
+    },
+    {
+     "sound_event": "spoon on a cup",
+     "source": "HANDMADE:spoon_cup",
+     "picture_event_id": "window_on:29",
+     "t_sound": 21.7967,
+     "cue_frame": 514,
+     "offset_ms_declared": 380,
+     "offset_ms_from_cue_frame": 380.0,
+     "edl_event": "win29_on",
+     "edl_frame": 514,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "window latch",
+     "source": "latch_open",
+     "picture_event_id": "window_on:42",
+     "t_sound": 22.4117,
+     "cue_frame": 535,
+     "offset_ms_declared": 120,
+     "offset_ms_from_cue_frame": 120.0,
+     "edl_event": "win42_on",
+     "edl_frame": 535,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "a warm hummed tune (synth)",
+     "source": "HANDMADE:hum",
+     "picture_event_id": "head_turn:16",
+     "t_sound": 22.6567,
+     "cue_frame": 538,
+     "offset_ms_declared": 240,
+     "offset_ms_from_cue_frame": 240.0,
+     "edl_event": "head_turn",
+     "edl_frame": 538,
+     "cue_frame_minus_edl_frame": 0,
+     "edl_span": [
+      538,
+      552
+     ],
+     "cue_frame_in_span": true
+    },
+    {
+     "sound_event": "distant door closing",
+     "source": "door_close",
+     "picture_event_id": "window_on:55",
+     "t_sound": 23.5083,
+     "cue_frame": 557,
+     "offset_ms_declared": 300,
+     "offset_ms_from_cue_frame": 300.0,
+     "edl_event": "win55_on",
+     "edl_frame": 557,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "cupboard shut (synth)",
+     "source": "HANDMADE:cupboard_synth",
+     "picture_event_id": "window_on:68",
+     "t_sound": 24.2933,
+     "cue_frame": 578,
+     "offset_ms_declared": 210,
+     "offset_ms_from_cue_frame": 210.0,
+     "edl_event": "win68_on",
+     "edl_frame": 578,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "door handle creak",
+     "source": "handle_creak",
+     "picture_event_id": "window_on:81",
+     "t_sound": 25.27,
+     "cue_frame": 600,
+     "offset_ms_declared": 270,
+     "offset_ms_from_cue_frame": 270.0,
+     "edl_event": "win81_on",
+     "edl_frame": 600,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "distant radio song from an open window (S4)",
+     "source": "radio_song",
+     "picture_event_id": "cut:S4",
+     "t_sound": 25.7,
+     "cue_frame": 624,
+     "offset_ms_declared": -300,
+     "offset_ms_from_cue_frame": -300.0,
+     "edl_event": "cut_624",
+     "edl_frame": 624,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "bus passing left to right with the track",
+     "source": "car_pass",
+     "picture_event_id": "cut:S4",
+     "t_sound": 26.0,
+     "cue_frame": 624,
+     "offset_ms_declared": 0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "cut_624",
+     "edl_frame": 624,
+     "cue_frame_minus_edl_frame": 0
+    }
+   ],
+   "n": 43,
+   "unresolved_ids": [],
+   "frame_drift": []
+  },
+  "B": {
+   "cues": [
+    {
+     "sound_event": "relay click (same sample)",
+     "source": "click_heating",
+     "picture_event_id": "win00_on",
+     "t_sound": 6.0833,
+     "cue_frame": 146,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": -0.0,
+     "edl_event": "win00_on",
+     "edl_frame": 146,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "relay click (same sample)",
+     "source": "click_heating",
+     "picture_event_id": "win13_on",
+     "t_sound": 7.0,
+     "cue_frame": 168,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "win13_on",
+     "edl_frame": 168,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "relay click (same sample)",
+     "source": "click_heating",
+     "picture_event_id": "win26_on",
+     "t_sound": 7.9167,
+     "cue_frame": 190,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "win26_on",
+     "edl_frame": 190,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "relay click (same sample)",
+     "source": "click_heating",
+     "picture_event_id": "win39_on",
+     "t_sound": 8.7917,
+     "cue_frame": 211,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "win39_on",
+     "edl_frame": 211,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "relay click (same sample)",
+     "source": "click_heating",
+     "picture_event_id": "win52_on",
+     "t_sound": 9.7083,
+     "cue_frame": 233,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": -0.0,
+     "edl_event": "win52_on",
+     "edl_frame": 233,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "relay click (same sample)",
+     "source": "click_heating",
+     "picture_event_id": "win65_on",
+     "t_sound": 10.5833,
+     "cue_frame": 254,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": -0.0,
+     "edl_event": "win65_on",
+     "edl_frame": 254,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "relay click (same sample)",
+     "source": "click_heating",
+     "picture_event_id": "win78_on",
+     "t_sound": 11.5,
+     "cue_frame": 276,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "win78_on",
+     "edl_frame": 276,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "relay click (same sample)",
+     "source": "click_heating",
+     "picture_event_id": "win91_on",
+     "t_sound": 12.4167,
+     "cue_frame": 298,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "win91_on",
+     "edl_frame": 298,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "relay click (same sample)",
+     "source": "click_heating",
+     "picture_event_id": "win08_on",
+     "t_sound": 13.2917,
+     "cue_frame": 319,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "win08_on",
+     "edl_frame": 319,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "relay click (same sample)",
+     "source": "click_heating",
+     "picture_event_id": "win21_on",
+     "t_sound": 14.2083,
+     "cue_frame": 341,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": -0.0,
+     "edl_event": "win21_on",
+     "edl_frame": 341,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "relay click (same sample)",
+     "source": "click_heating",
+     "picture_event_id": "win34_on",
+     "t_sound": 15.0833,
+     "cue_frame": 362,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": -0.0,
+     "edl_event": "win34_on",
+     "edl_frame": 362,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "relay click (same sample)",
+     "source": "click_heating",
+     "picture_event_id": "win73_on",
+     "t_sound": 17.7917,
+     "cue_frame": 427,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "win73_on",
+     "edl_frame": 427,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "relay click (same sample)",
+     "source": "click_heating",
+     "picture_event_id": "win86_on",
+     "t_sound": 18.7083,
+     "cue_frame": 449,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": -0.0,
+     "edl_event": "win86_on",
+     "edl_frame": 449,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "relay click (same sample)",
+     "source": "click_heating",
+     "picture_event_id": "win03_on",
+     "t_sound": 19.5833,
+     "cue_frame": 470,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": -0.0,
+     "edl_event": "win03_on",
+     "edl_frame": 470,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "relay click (same sample)",
+     "source": "click_heating",
+     "picture_event_id": "win16_on",
+     "t_sound": 20.5,
+     "cue_frame": 492,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "win16_on",
+     "edl_frame": 492,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "relay click (same sample)",
+     "source": "click_heating",
+     "picture_event_id": "win29_on",
+     "t_sound": 21.4167,
+     "cue_frame": 514,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "win29_on",
+     "edl_frame": 514,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "relay click (same sample)",
+     "source": "click_heating",
+     "picture_event_id": "win42_on",
+     "t_sound": 22.2917,
+     "cue_frame": 535,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "win42_on",
+     "edl_frame": 535,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "relay click (same sample)",
+     "source": "click_heating",
+     "picture_event_id": "win68_on",
+     "t_sound": 24.0833,
+     "cue_frame": 578,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": -0.0,
+     "edl_event": "win68_on",
+     "edl_frame": 578,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "relay click (same sample)",
+     "source": "click_heating",
+     "picture_event_id": "win81_on",
+     "t_sound": 25.0,
+     "cue_frame": 600,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "win81_on",
+     "edl_frame": 600,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "held silence (no click)",
+     "source": "",
+     "picture_event_id": "win55_on",
+     "t_sound": 23.2083,
+     "cue_frame": 557,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": -0.0,
+     "edl_event": "win55_on",
+     "edl_frame": 557,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "typewriter key",
+     "source": "typewriter_wws",
+     "picture_event_id": "step00",
+     "t_sound": 8.3333,
+     "cue_frame": 200,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": -0.0,
+     "edl_event": "step00",
+     "edl_frame": 200,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "typewriter key",
+     "source": "typewriter_wws",
+     "picture_event_id": "step01",
+     "t_sound": 8.875,
+     "cue_frame": 213,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "step01",
+     "edl_frame": 213,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "typewriter key",
+     "source": "typewriter_wws",
+     "picture_event_id": "step02",
+     "t_sound": 9.4167,
+     "cue_frame": 226,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "step02",
+     "edl_frame": 226,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "typewriter key",
+     "source": "typewriter_wws",
+     "picture_event_id": "step03",
+     "t_sound": 10.0,
+     "cue_frame": 240,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "step03",
+     "edl_frame": 240,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "typewriter key",
+     "source": "typewriter_wws",
+     "picture_event_id": "step04",
+     "t_sound": 10.5417,
+     "cue_frame": 253,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "step04",
+     "edl_frame": 253,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "typewriter key",
+     "source": "typewriter_wws",
+     "picture_event_id": "step05",
+     "t_sound": 11.0833,
+     "cue_frame": 266,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": -0.0,
+     "edl_event": "step05",
+     "edl_frame": 266,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "typewriter key",
+     "source": "typewriter_wws",
+     "picture_event_id": "step06",
+     "t_sound": 11.625,
+     "cue_frame": 279,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "step06",
+     "edl_frame": 279,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "typewriter key",
+     "source": "typewriter_wws",
+     "picture_event_id": "step07",
+     "t_sound": 12.1667,
+     "cue_frame": 292,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "step07",
+     "edl_frame": 292,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "typewriter key",
+     "source": "typewriter_wws",
+     "picture_event_id": "step08",
+     "t_sound": 12.75,
+     "cue_frame": 306,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "step08",
+     "edl_frame": 306,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "typewriter key",
+     "source": "typewriter_wws",
+     "picture_event_id": "step09",
+     "t_sound": 13.2917,
+     "cue_frame": 319,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "step09",
+     "edl_frame": 319,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "typewriter key",
+     "source": "typewriter_wws",
+     "picture_event_id": "step10",
+     "t_sound": 13.8333,
+     "cue_frame": 332,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": -0.0,
+     "edl_event": "step10",
+     "edl_frame": 332,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "typewriter key",
+     "source": "typewriter_wws",
+     "picture_event_id": "step11",
+     "t_sound": 14.375,
+     "cue_frame": 345,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "step11",
+     "edl_frame": 345,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "electric door buzzer (0.52 s)",
+     "source": "metro_buzzer",
+     "picture_event_id": "door_open",
+     "t_sound": 13.9167,
+     "cue_frame": 334,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "door_open",
+     "edl_frame": 334,
+     "cue_frame_minus_edl_frame": 0,
+     "edl_span": [
+      334,
+      346
+     ],
+     "cue_frame_in_span": true
+    },
+    {
+     "sound_event": "strike re-latch click",
+     "source": "click_heating",
+     "picture_event_id": "door_close",
+     "t_sound": 15.5833,
+     "cue_frame": 374,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": -0.0,
+     "edl_event": "door_close",
+     "edl_frame": 374,
+     "cue_frame_minus_edl_frame": 0,
+     "edl_span": [
+      365,
+      374
+     ],
+     "cue_frame_in_span": true
+    },
+    {
+     "sound_event": "typewriter carriage return (bell 0.32 s before, throw on the frame)",
+     "source": "typewriter_wws",
+     "picture_event_id": "silhouette_rise",
+     "t_sound": 21.5833,
+     "cue_frame": 518,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": -0.0,
+     "edl_event": "silhouette_rise",
+     "edl_frame": 502,
+     "cue_frame_minus_edl_frame": 16,
+     "edl_span": [
+      502,
+      518
+     ],
+     "cue_frame_in_span": true
+    },
+    {
+     "sound_event": "single camera shutter",
+     "source": "shutter_holga",
+     "picture_event_id": "curtain_slide",
+     "t_sound": 23.5833,
+     "cue_frame": 566,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": -0.0,
+     "edl_event": "curtain_slide",
+     "edl_frame": 552,
+     "cue_frame_minus_edl_frame": 14,
+     "edl_span": [
+      552,
+      566
+     ],
+     "cue_frame_in_span": true
+    },
+    {
+     "sound_event": "relay click (same sample)",
+     "source": "click_heating",
+     "picture_event_id": "win16_off",
+     "t_sound": 29.0,
+     "cue_frame": 696,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "win16_off",
+     "edl_frame": 696,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "radio voice, a man speaking, words indistinct (300-3000 Hz, saturated)",
+     "source": "LOC:jukebox-26299",
+     "picture_event_id": "win47_on",
+     "t_sound": 16.05,
+     "cue_frame": 384,
+     "offset_ms_declared": 50.0,
+     "offset_ms_from_cue_frame": 50.0,
+     "edl_event": "win47_on",
+     "edl_frame": 384,
+     "cue_frame_minus_edl_frame": 0
+    },
+    {
+     "sound_event": "radio key-off squelch",
+     "source": "HM:squelch",
+     "picture_event_id": "win60_on",
+     "t_sound": 16.9167,
+     "cue_frame": 406,
+     "offset_ms_declared": 0.0,
+     "offset_ms_from_cue_frame": 0.0,
+     "edl_event": "win60_on",
+     "edl_frame": 406,
+     "cue_frame_minus_edl_frame": 0
+    }
+   ],
+   "n": 39,
+   "unresolved_ids": [],
+   "frame_drift": []
+  }
+ },
+ "checks": {
+  "B_declared_silent_window_cues": [
+   "win55_on"
+  ],
+  "B_window_cues_within_42ms": {
+   "n": 19,
+   "fail": [],
+   "pass": true,
+   "rows": [
+    {
+     "event": "win00_on",
+     "frame": 146,
+     "declared_ms": -0.0,
+     "measured_onset_ms": 6.0
+    },
+    {
+     "event": "win13_on",
+     "frame": 168,
+     "declared_ms": 0.0,
+     "measured_onset_ms": 6.0
+    },
+    {
+     "event": "win26_on",
+     "frame": 190,
+     "declared_ms": 0.0,
+     "measured_onset_ms": 6.0
+    },
+    {
+     "event": "win39_on",
+     "frame": 211,
+     "declared_ms": 0.0,
+     "measured_onset_ms": 6.0
+    },
+    {
+     "event": "win52_on",
+     "frame": 233,
+     "declared_ms": -0.0,
+     "measured_onset_ms": 6.0
+    },
+    {
+     "event": "win65_on",
+     "frame": 254,
+     "declared_ms": -0.0,
+     "measured_onset_ms": 6.0
+    },
+    {
+     "event": "win78_on",
+     "frame": 276,
+     "declared_ms": 0.0,
+     "measured_onset_ms": 6.0
+    },
+    {
+     "event": "win91_on",
+     "frame": 298,
+     "declared_ms": 0.0,
+     "measured_onset_ms": 6.0
+    },
+    {
+     "event": "win08_on",
+     "frame": 319,
+     "declared_ms": 0.0,
+     "measured_onset_ms": 1.6
+    },
+    {
+     "event": "win21_on",
+     "frame": 341,
+     "declared_ms": -0.0,
+     "measured_onset_ms": 6.0
+    },
+    {
+     "event": "win34_on",
+     "frame": 362,
+     "declared_ms": -0.0,
+     "measured_onset_ms": 6.0
+    },
+    {
+     "event": "win73_on",
+     "frame": 427,
+     "declared_ms": 0.0,
+     "measured_onset_ms": 6.0
+    },
+    {
+     "event": "win86_on",
+     "frame": 449,
+     "declared_ms": -0.0,
+     "measured_onset_ms": 6.0
+    },
+    {
+     "event": "win03_on",
+     "frame": 470,
+     "declared_ms": -0.0,
+     "measured_onset_ms": 6.0
+    },
+    {
+     "event": "win16_on",
+     "frame": 492,
+     "declared_ms": 0.0,
+     "measured_onset_ms": 6.0
+    },
+    {
+     "event": "win29_on",
+     "frame": 514,
+     "declared_ms": 0.0,
+     "measured_onset_ms": 6.0
+    },
+    {
+     "event": "win42_on",
+     "frame": 535,
+     "declared_ms": 0.0,
+     "measured_onset_ms": 6.0
+    },
+    {
+     "event": "win68_on",
+     "frame": 578,
+     "declared_ms": -0.0,
+     "measured_onset_ms": 6.0
+    },
+    {
+     "event": "win81_on",
+     "frame": 600,
+     "declared_ms": 0.0,
+     "measured_onset_ms": 6.0
+    }
+   ],
+   "note": "measured onset = first sample of the stem's differenced fx signal above 30% of the local max within -30..+80 ms (the window avoids a typewriter key one frame earlier); win55_on is a declared silent cue inside the f538-566 hold"
+  },
+  "A_window_offsets": {
+   "n": 22,
+   "std_ms": 87.9,
+   "min_ms": 120.0,
+   "max_ms": 400.0,
+   "pass_std_ge_80": true,
+   "consecutive_same_sound": [],
+   "pass_no_consecutive_repeat": true,
+   "sequence": [
+    [
+     146,
+     "latch_open"
+    ],
+    [
+     168,
+     "HANDMADE:cupboard_synth"
+    ],
+    [
+     190,
+     "faucet"
+    ],
+    [
+     211,
+     "HANDMADE:spoon_cup"
+    ],
+    [
+     233,
+     "handle_creak"
+    ],
+    [
+     254,
+     "door_close"
+    ],
+    [
+     276,
+     "HANDMADE:greeting_synth"
+    ],
+    [
+     298,
+     "latch_open"
+    ],
+    [
+     319,
+     "faucet"
+    ],
+    [
+     341,
+     "HANDMADE:spoon_cup"
+    ],
+    [
+     362,
+     "HANDMADE:cupboard_synth"
+    ],
+    [
+     384,
+     "HANDMADE:musicbox_synth"
+    ],
+    [
+     406,
+     "radio_song"
+    ],
+    [
+     427,
+     "handle_creak"
+    ],
+    [
+     449,
+     "faucet"
+    ],
+    [
+     470,
+     "door_close"
+    ],
+    [
+     492,
+     "latch_open"
+    ],
+    [
+     514,
+     "HANDMADE:spoon_cup"
+    ],
+    [
+     535,
+     "latch_open"
+    ],
+    [
+     557,
+     "door_close"
+    ],
+    [
+     578,
+     "HANDMADE:cupboard_synth"
+    ],
+    [
+     600,
+     "handle_creak"
+    ]
+   ],
+   "note": "repeat test compares source_ledger_id (the recording or handmade generator), sorted by frame"
+  },
+  "crossover_16.0_17.5_peak_dbfs": {
+   "A": {
+    "voice": -240.0,
+    "music": -8.8,
+    "fx": -240.0,
+    "amb": -240.0
+   },
+   "B": {
+    "voice": -10.1,
+    "music": -240.0,
+    "fx": -240.0,
+    "amb": -240.0
+   },
+   "A_music_only": true,
+   "B_voice_only": true
+  },
+  "stem_samples": {
+   "all_1323000": true
+  },
+  "B_crossover_real_speech": {
+   "sources_on_f384": [
+    "LOC:jukebox-26299"
+   ],
+   "real_speech": true,
+   "voice_onset_ms_from_16.0": 0.7,
+   "energy_fraction_300_3000_hz": 0.978,
+   "pass": true,
+   "note": "intelligibility itself is a listening judgement; this checks the source is a real speech recording (Lingua Libre word, or the LoC 1917 spoken-word record, captioned as indistinct), its onset and its band"
+  }
+ },
+ "realignment": [
+  {
+   "edition": "A",
+   "what": "street door shut moved from f370 to the edl door_close frame f374 (door closes 365-374); build_A.py re-run, now reading walker_step ids and frames from edl.json",
+   "picture_retimed": false
+  },
+  {
+   "edition": "B",
+   "what": "build_B.py re-run against edl.json (asserts the window table); no shift needed",
+   "picture_retimed": false
+  },
+  {
+   "edition": "A",
+   "what": "repair 1: window cues re-assigned so no two consecutive windows share a source (f406 radio 78 replaces the second music-box note; f427 handle creak; f470 distant door)",
+   "picture_retimed": false
+  }
+ ],
+ "pass": true
+}

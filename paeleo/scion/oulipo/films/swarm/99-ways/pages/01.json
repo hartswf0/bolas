@@ -1,0 +1,154 @@
+{
+ "n": 1,
+ "id": "template",
+ "title": "Template",
+ "rule": "Eight panels, an objective eye-level view, every event E0-E5 shown in order with the four canonical lines.",
+ "medium": "photo-cutout",
+ "family": "layout and page grammar",
+ "canon_revision": "c1",
+ "file": "assets/pages/99-ways/01-template.jpg",
+ "master": "films/sources/99-ways/masters/01-template.png",
+ "beats_dir": "films/sources/99-ways/beats/01",
+ "sources": [
+  "99-ways-template:rothstein-randolph-agent-1937",
+  "99-ways-template:rothstein-tavern-clock-1937",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934"
+ ],
+ "made": [
+  "page re-laid from films/swarm/99-ways-template/page/rest/P1..P8 (b1 r2) with the b1 balloons left out",
+  "four new cut-paper balloons lettered with the canon c1 lines in the shared pen hand (penlib.balloon_piece)",
+  "hand-ruled borders (penlib.border_mask), page scaled 2550x3300 -> 2200x2850",
+  "folio line '01 / Template' (pen99.folio); glyph supplement films/swarm/99-ways/kit/glyphs99.json"
+ ],
+ "events": {
+  "E0": "P1 memo on the desk; P2 desk left; P3 walking past the SERVICE card",
+  "E1": "P4 question, tail out through the ticket window",
+  "E2": "P5 answer under the clock at 4:10",
+  "E3": "P6 thanks from the emptied window",
+  "E4": "P7 cupboard open, key on its hook",
+  "E5": "P8 the forgetting line, key unmoved, SERVICE card on the closed door"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "beat": "the reading performed: P1-P3 lie on the sheet, then P4 to P8 are laid one by one, each with its balloon; the last state brings the self-addressed line beside the key that stays on its hook",
+ "beat_frames": [
+  "b01: panels P1-P3",
+  "b02: panels P1-P4",
+  "b03: panels P1-P5",
+  "b04: panels P1-P6",
+  "b05: panels P1-P7",
+  "b06: panels P1-P8"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1186512,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "pct_L_gt_220": 45.8,
+  "pct_L_lt_40": 11.0,
+  "margin_band_ink_only_folio": "folio line drawn by pen99.folio at baseline y=2800",
+  "balloons": {
+   "P4": [
+    {
+     "event": "E1",
+     "speaker": "STRANGER",
+     "lines": [
+      "Pardon me —",
+      "have you the",
+      "right time?"
+     ],
+     "centre_panel_px": [
+      252.23999999999998,
+      173.4
+     ],
+     "radii_px": [
+      234.23999999999998,
+      155.4
+     ],
+     "tail_tip_panel_px": [
+      -30.0,
+      500.0
+     ],
+     "tail_target": "off-panel left, through the ticket-window glass (the platform)"
+    }
+   ],
+   "P5": [
+    {
+     "event": "E2",
+     "speaker": "AGENT",
+     "lines": [
+      "Ten past four,",
+      "by the clock."
+     ],
+     "centre_panel_px": [
+      325.95,
+      160.45000000000002
+     ],
+     "radii_px": [
+      307.95,
+      142.45000000000002
+     ],
+     "tail_tip_panel_px": [
+      579.4600459655517,
+      741.707971311843
+     ],
+     "tail_target": "clerk's mouth"
+    }
+   ],
+   "P6": [
+    {
+     "event": "E3",
+     "speaker": "STRANGER",
+     "lines": [
+      "Much",
+      "obliged!"
+     ],
+     "centre_panel_px": [
+      345.0,
+      178.8
+     ],
+     "radii_px": [
+      212.22,
+      160.8
+     ],
+     "tail_tip_panel_px": [
+      -30.0,
+      330.0
+     ],
+     "tail_target": "off-panel left, out through the ticket window (she is leaving)"
+    }
+   ],
+   "P8": [
+    {
+     "event": "E5",
+     "speaker": "AGENT",
+     "lines": [
+      "Well, here I am...",
+      "and what for?"
+     ],
+     "centre_panel_px": [
+      390.0,
+      160.45000000000002
+     ],
+     "radii_px": [
+      337.45,
+      142.45000000000002
+     ],
+     "tail_tip_panel_px": [
+      626.4760253296574,
+      657.6676712528213
+     ],
+     "tail_target": "clerk's mouth"
+    }
+   ]
+  }
+ }
+}

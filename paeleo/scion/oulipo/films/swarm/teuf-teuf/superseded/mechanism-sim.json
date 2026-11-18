@@ -1,0 +1,642 @@
+{
+ "about": "teuf-teuf parts and contact schema (plan 3, Olog), the [substitute] operation, asserts for invariants 1-3 (+7) with results, foraged-item evidence and handmade records. Written by sim.py.",
+ "revision": {
+  "sim": "films/swarm/teuf-teuf/sim.py",
+  "exposure": "films/swarm/teuf-teuf/exposure.json",
+  "register": "films/swarm/teuf-teuf/register.json",
+  "credits": "films/credits/teuf-teuf.json",
+  "date": "2026-11-16"
+ },
+ "input_force": {
+  "kind": "Push",
+  "N": "constant (same in every trial)",
+  "height_world_y": 451.0,
+  "second_hand_y": 471.0,
+  "window_tau_s": 7.0,
+  "note": "hands pinned to the stone's rear face at the same world height in every trial; the push clock tau runs 0-7 s in drag, rollers and wheel; the counter-check replays the wheel trial's input for tau 0-1.6"
+ },
+ "load": {
+  "outline_sha1": "19effbf5caf2478fd6df5ac86bd92786b7b63673",
+  "width_px": 250.0,
+  "same_mask_every_trial": true,
+  "front_at_0m_px": 330.0
+ },
+ "mechanisms": [
+  {
+   "name": "drag",
+   "period": {
+    "kind": "Unsourced",
+    "note": "shown as a demonstration, no date on screen"
+   },
+   "film_t": [
+    4.5,
+    11.5
+   ],
+   "parts": [
+    "stone",
+    "sledge runner (handmade)",
+    "rope (handmade)"
+   ],
+   "contacts": [
+    {
+     "a": "runner",
+     "b": "ground",
+     "kind": "slide",
+     "law": "stick-slip: static/kinetic friction, body as spring",
+     "params": {
+      "driver_m_s": 0.1798,
+      "omega": 19.63495,
+      "es": 0.12,
+      "ek": 0.06962
+     }
+    },
+    {
+     "a": "pusher hands",
+     "b": "stone rear face",
+     "kind": "grip"
+    },
+    {
+     "a": "carrier hands",
+     "b": "rope (over shoulder) to runner nose",
+     "kind": "grip"
+    },
+    {
+     "a": "feet",
+     "b": "ground",
+     "kind": "plant",
+     "law": "rear foot re-plants after every slip"
+    }
+   ],
+   "supported_action": {
+    "displacement_m": 1.2,
+    "in_s": 7.0
+   },
+   "failure_mode": {
+    "event": "stick-slip",
+    "slips": [
+     5.171,
+     5.912,
+     6.654,
+     7.396,
+     8.137,
+     8.879,
+     9.621,
+     10.363,
+     11.104
+    ],
+    "note": "nine lurches of 0.133 m; the stone thinks it over between them"
+   }
+  },
+  {
+   "name": "rollers",
+   "period": {
+    "kind": "Unsourced",
+    "note": "no date; roller-to-wheel lineage is contested (register R5)"
+   },
+   "film_t": [
+    14.0,
+    23.0
+   ],
+   "tau_map": [
+    [
+     14.0,
+     0.0
+    ],
+    [
+     16.95,
+     2.2
+    ],
+    [
+     21.0,
+     4.8
+    ],
+    [
+     23.0,
+     7.0
+    ]
+   ],
+   "parts": [
+    "stone",
+    "log A",
+    "log B",
+    "log C",
+    "log D (spare, set down in front)"
+   ],
+   "contacts": [
+    {
+     "a": "stone",
+     "b": "log",
+     "kind": "roll",
+     "law": "no slip: log centre at v/2, rotation (v/2)/R"
+    },
+    {
+     "a": "log",
+     "b": "ground",
+     "kind": "roll",
+     "law": "lowest outline point tangent to the ground"
+    },
+    {
+     "a": "carrier hands",
+     "b": "log D",
+     "kind": "grip"
+    },
+    {
+     "a": "pusher hands",
+     "b": "stone rear face",
+     "kind": "grip"
+    },
+    {
+     "a": "feet",
+     "b": "ground",
+     "kind": "plant"
+    }
+   ],
+   "supported_action": {
+    "displacement_m": 3.0,
+    "in_tau_s": 7.0
+   },
+   "failure_mode": {
+    "event": "logs drift back at v/2 and fall out behind; the load waits while a log is carried",
+    "log_A_release_t": 16.254,
+    "log_A_stop_t": 16.842,
+    "log_A_rest_behind_rear_edge_px": 191.2,
+    "load_waits_tau": [
+     2.2,
+     4.8
+    ],
+    "load_waits_film_t": [
+     16.95,
+     21.0
+    ],
+    "carry": {
+     "pickup": 16.95,
+     "set_down": 19.7,
+     "capture_by_stone": 21.671
+    }
+   }
+  },
+  {
+   "name": "wheel and axle",
+   "period": {
+    "kind": "SourcedClaim",
+    "register": "R3",
+    "note": "Copper Age / Baden culture (Commons categories of the wheel photograph); no number shown on screen"
+   },
+   "film_t": [
+    26.0,
+    33.0
+   ],
+   "parts": [
+    "stone",
+    "plank platform (handmade)",
+    "rear axle + wheel",
+    "front axle + wheel",
+    "axle hold-down beam and pin (handmade)",
+    "wheel image: GrabCut cutout of the Ljubljana Marshes wheel photograph (foraged)"
+   ],
+   "contacts": [
+    {
+     "a": "platform",
+     "b": "axle journals",
+     "kind": "axle",
+     "law": "axle turns in a bearing notch under the platform, held by the hold-down beam; the wheel is fixed to its axle (square hole, as in the Ljubljana wheel)"
+    },
+    {
+     "a": "wheel",
+     "b": "ground",
+     "kind": "roll",
+     "law": "no slip: theta = dx/R, wheel stays under the load"
+    },
+    {
+     "a": "pusher hands",
+     "b": "stone rear face",
+     "kind": "grip"
+    },
+    {
+     "a": "feet",
+     "b": "ground",
+     "kind": "plant",
+     "law": "step <= 0.75 m, so cadence must rise"
+    }
+   ],
+   "supported_action": {
+    "displacement_m": 8.0,
+    "in_s": 7.0,
+    "peak_speed_m_s": 1.6,
+    "pass_3m_t": 28.375
+   },
+   "failure_mode": {
+    "event": "none in the window; the pusher's walking becomes the limit",
+    "pusher_footfalls_per_s_by_second": [
+     2.0,
+     5.0,
+     4.0,
+     4.0,
+     4.0,
+     3.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "name": "counter-check: wheels without the axle contact",
+   "film_t": [
+    34.0,
+    38.0
+   ],
+   "substitution": "remove contact kind 'axle' only (pin pulled, beam lifts away); same cart, same push input",
+   "contacts": [
+    {
+     "a": "platform",
+     "b": "wheel",
+     "kind": "roll",
+     "law": "loose: wheel centre at v/2 under the platform"
+    },
+    {
+     "a": "wheel",
+     "b": "ground",
+     "kind": "roll"
+    },
+    {
+     "a": "platform rear end",
+     "b": "ground",
+     "kind": "slide",
+     "law": "after the drop: kinetic friction"
+    }
+   ],
+   "supported_action": {
+    "displacement_m": 0.9481
+   },
+   "failure_mode": {
+    "pin_pull_t": 34.6,
+    "wheel_drop_t": 36.067,
+    "platform_drop_t": 36.304,
+    "stop_t": 36.825
+   }
+  }
+ ],
+ "substitute": {
+  "operation": "Mechanism x Load -> Mechanism' x Load (moving_parts and contacts swapped; load, input force, frame, window kept)",
+  "preconditions": {
+   "a_load_mask_identical": "19effbf5caf2478fd6df5ac86bd92786b7b63673",
+   "b_push_height_and_window": {
+    "drag": {
+     "hand_y_world_untilted": 451.0,
+     "bottom": 552.0,
+     "hand_local_y": -101.0,
+     "on_face": true
+    },
+    "rollers": {
+     "hand_y_world_untilted": 451.0,
+     "bottom": 515.53,
+     "hand_local_y": -64.53,
+     "on_face": true
+    },
+    "wheel": {
+     "hand_y_world_untilted": 451.0,
+     "bottom": 511.0,
+     "hand_local_y": -60.0,
+     "on_face": true
+    },
+    "counter": {
+     "hand_y_world_untilted": 451.0,
+     "bottom": 511.0,
+     "hand_local_y": -60.0,
+     "on_face": true
+    }
+   },
+   "c_frame_ground_scale": [
+    1280,
+    720,
+    566.0,
+    100.0,
+    330.0
+   ],
+   "d_new_contact_kind": [
+    "slide",
+    "roll",
+    "axle"
+   ]
+  },
+  "consequences": {
+   "displacement_m": {
+    "drag": 1.2,
+    "rollers": 3.0,
+    "wheel": 8.0,
+    "counter": 0.9481
+   },
+   "labour": [
+    "strain (drag)",
+    "carrying (rollers)",
+    "walking to keep up (wheel)"
+   ],
+   "contact_sound": [
+    "scrape",
+    "tok",
+    "rumble"
+   ]
+  },
+  "counterexample": "wheels without the axle contact behave as rollers: rear wheel drops out, load stops at 0.9481 m"
+ },
+ "asserts": {
+  "invariant_1_same_challenge": {
+   "pass": true,
+   "stone_outline_sha1": "19effbf5caf2478fd6df5ac86bd92786b7b63673",
+   "load_transform_rigid_max_det_err": 1.0027800000145248e-05,
+   "load_front_at_push_start_px": {
+    "drag": 330.0,
+    "rollers": 330.0,
+    "wheel": 330.0,
+    "counter": 330.0
+   },
+   "hand_height": {
+    "drag": {
+     "hand_y_world_untilted": 451.0,
+     "bottom": 552.0,
+     "hand_local_y": -101.0,
+     "on_face": true
+    },
+    "rollers": {
+     "hand_y_world_untilted": 451.0,
+     "bottom": 515.53,
+     "hand_local_y": -64.53,
+     "on_face": true
+    },
+    "wheel": {
+     "hand_y_world_untilted": 451.0,
+     "bottom": 511.0,
+     "hand_local_y": -60.0,
+     "on_face": true
+    },
+    "counter": {
+     "hand_y_world_untilted": 451.0,
+     "bottom": 511.0,
+     "hand_local_y": -60.0,
+     "on_face": true
+    }
+   },
+   "push_window_tau_s": {
+    "drag": 7.0,
+    "rollers": 7.0,
+    "wheel": 7.0,
+    "counter": "tau 0-1.6 of the wheel trial's input"
+   },
+   "frame": [
+    1280,
+    720
+   ],
+   "ground_y": 566.0,
+   "px_per_m": 100.0,
+   "x0": 330.0,
+   "final_displacement_m": {
+    "drag": 1.2,
+    "rollers": 3.0,
+    "wheel": 8.0,
+    "counter": 0.9481
+   },
+   "drag_slips": 9
+  },
+  "invariant_2_contact": {
+   "pass": true,
+   "max_planted_foot_slide_px": {
+    "P": 0.0,
+    "C": 0.0
+   },
+   "max_hand_to_stone_face_px": 0.0077,
+   "max_roll_slip_px_per_frame": 0.0116,
+   "max_ground_tangency_error_px": 0.0,
+   "max_stone_into_log_px": 0.005
+  },
+  "invariant_3_continuity": {
+   "pass": true,
+   "max_excess_jump_px": 0.0,
+   "worst_t": null,
+   "declared_cuts_frames": [
+    306,
+    600,
+    816
+   ],
+   "declared_cuts_t": [
+    12.75,
+    25.0,
+    34.0
+   ],
+   "wide_and_closeup_share_state": "one sim state per instant; cam B frames (16.21-18.79 s) carry the same load record"
+  },
+  "invariant_7_secondary": {
+   "pass": true,
+   "stone_rock_deg": {
+    "impulses": 14,
+    "first_impulse_t": 5.1708,
+    "max_before_first_impulse": 0.0,
+    "worst_energy_ratio_after_0.6s": 0.000586,
+    "isolated_impulses_checked": 14
+   },
+   "P_head_nod_deg": {
+    "impulses": 15,
+    "first_impulse_t": 5.1708,
+    "max_before_first_impulse": 0.0,
+    "worst_energy_ratio_after_0.6s": 0.000764,
+    "isolated_impulses_checked": 14
+   },
+   "C_head_nod_deg": {
+    "impulses": 9,
+    "first_impulse_t": 5.1708,
+    "max_before_first_impulse": 0.0,
+    "worst_energy_ratio_after_0.6s": 0.000198,
+    "isolated_impulses_checked": 9
+   },
+   "rope_sag_px": {
+    "impulses": 9,
+    "first_impulse_t": 5.1708,
+    "max_before_first_impulse": 0.0,
+    "worst_energy_ratio_after_0.6s": 8.6e-05,
+    "isolated_impulses_checked": 9
+   },
+   "logA_rock_rad": {
+    "impulses": 2,
+    "first_impulse_t": 16.8417,
+    "max_before_first_impulse": 0.0,
+    "worst_energy_ratio_after_0.6s": 9.5e-05,
+    "isolated_impulses_checked": 2
+   },
+   "logD_sway_deg": {
+    "impulses": 5,
+    "first_impulse_t": 17.9375,
+    "max_before_first_impulse": 0.0,
+    "worst_energy_ratio_after_0.6s": 8.6e-05,
+    "isolated_impulses_checked": 1
+   },
+   "platform_bounce_deg": {
+    "impulses": 1,
+    "first_impulse_t": 36.3042,
+    "max_before_first_impulse": 0.0,
+    "worst_energy_ratio_after_0.6s": 0.0,
+    "isolated_impulses_checked": 1
+   }
+  },
+  "rollers_and_gait": {
+   "load_waits_tau_2.2_4.8_front_range_px": [
+    480.0,
+    480.0
+   ],
+   "log_A_release_t": 16.254,
+   "log_A_stop_t": 16.842,
+   "log_A_rest_behind_rear_edge_px": 191.2,
+   "max_step_px": 75.0,
+   "steps": 109,
+   "pusher_footfalls_per_s_by_second_26_to_33": [
+    2.0,
+    5.0,
+    4.0,
+    4.0,
+    4.0,
+    3.0,
+    0.0
+   ],
+   "pass": true
+  }
+ },
+ "caption_cues": [
+  {
+   "cause_t": 6.829,
+   "cause": "drag stick 4 begins (stone holds)",
+   "window": [
+    7.029,
+    7.429
+   ],
+   "planned_onset": 7.3,
+   "lag_s": 0.471,
+   "ok": true,
+   "text": "« La pierre avance d'un pas, puis elle réfléchit. »"
+  },
+  {
+   "cause_t": 16.842,
+   "cause": "log A stops on its bark, flat facet down (tok)",
+   "window": [
+    17.042,
+    17.442
+   ],
+   "planned_onset": 17.2,
+   "lag_s": 0.358,
+   "ok": true,
+   "text": "« Et moi ? » dit le rouleau qu'on laisse derrière."
+  },
+  {
+   "cause_t": 28.375,
+   "cause": "the cart passes the 3 m roller ghost",
+   "window": [
+    28.575,
+    28.975
+   ],
+   "planned_onset": 28.8,
+   "lag_s": 0.425,
+   "ok": true,
+   "text": "« La roue tourne sur place ; c'est tout le reste qui voyage. »"
+  },
+  {
+   "cause_t": 36.304,
+   "cause": "the platform's rear end hits the ground (thud), grind begins",
+   "window": [
+    36.504,
+    36.904
+   ],
+   "planned_onset": 36.6,
+   "lag_s": 0.296,
+   "ok": true,
+   "text": "« Sans essieu, la roue n'est qu'un rouleau qui se croit quelqu'un. »"
+  }
+ ],
+ "ik_reach_excess_px": {
+  "value": {
+   "P_leg": 1.72,
+   "P_arm": 6.47,
+   "C_leg": 11.81,
+   "C_arm": 14.53
+  },
+  "note": "max distance by which a foot/hand target exceeds the test-shot puppet's limb lengths (Puppet: thigh 63s, shin 61s, arms 48s+46s; P s=1.2, C s=1.15). The large C value is the shove follow-through (13.04 s) and seated leg extensions; the animator's ik2 clamps, so residuals there are expected and reported in animation.json"
+ },
+ "layout_warning": {
+  "pusher_hip_x_below_60px_intervals_s": [
+   [
+    0.0,
+    10.46
+   ],
+   [
+    12.75,
+    16.13
+   ],
+   [
+    25.0,
+    27.21
+   ],
+   [
+    34.0,
+    43.96
+   ]
+  ],
+  "n_frames": 628,
+  "why": "with x0 = 330 and the approved 250 px stone, the rear face is at x 80 at 0 m; the pusher's hip is 134 px behind his hands (40 deg lean), so at 0 m his hip sits at x ~ -54 and his rear foot near -140. During the whole drag (0-1.2 m) and the first second of every later trial he is half cropped at frame left. kf-1 had the same issue less badly (smaller figures).",
+  "options": [
+   "accept the crop (the reference frieze crops animals at the edges)",
+   "the director moves x0 to ~430 (8 m then reaches 1230; ticks and ghosts move with it)",
+   "narrow the stone to ~180 px (breaks the approved test-shot stone)"
+  ]
+ },
+ "deviations_from_plan": [
+  "Rollers push clock: tau 2.2 falls at 16.95 s (not 16.2) so that, as in the approved test shot, log A is squeezed out inside the close-up (release 16.25, stop 16.84, caption 17.2 = +0.36 s). tau 0-2.2 -> 14.0-16.95, tau 2.2-4.8 -> 16.95-21.0 (the wait), tau 4.8-7.0 -> 21.0-23.0.",
+  "Resets are declared cuts at 12.75 (scratch wipe 12.5-12.75), 25.0 (wipe 24.75-25.0) and 34.0 (dissolve 34.0-34.25); camera cuts at 16.2 and 18.8. Load x is continuous everywhere else.",
+  "Only the pusher walks in (0-3.4 s); the carrier stands at the rope from the start (walking in from either edge would need > 2 m/s with a 0.75 m step).",
+  "Log D is a fourth, spare log lying at x 700 from the rollers reset; the carrier walks to it, faces left, carries it back and sets it 30 px ahead of the waiting stone (19.70), steps clear by 22.0.",
+  "Log A comes to rest 191 px behind the stone's rear edge (review fix), between the pusher's feet: it rolls under his lead foot, which lifts 58 px and re-plants ahead of the log (contact-driven, #33). This spot also keeps A clear of the cart's rear wheel at 0 m (4 px gap) and of the fallen wheel in shot 6.",
+  "Counter-check caption is caused by the platform hitting the ground (36.30 -> 36.6, +0.30 s); the pin pull (34.6) is its own beat (click). Wheel drop 36.07, stop 36.83 at 0.95 m.",
+  "In profile the cart shows two wheels, each on its own axle in bearings under the platform; the 'axle' contact is held by one hold-down beam with a pin at the platform's rear end, which the pusher pulls.",
+  "Shot 6: the pusher sits on the forgotten log A (39.6); that contact is the impulse for its one last rock and tok (#41: no motion without a sim event)."
+ ],
+ "evidence_foraged": [
+  {
+   "id": "F1",
+   "title": "File:Cueva de las manos - detalle.jpg",
+   "author": "Suzko",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Cueva_de_las_manos_-_detalle.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Cueva_de_las_manos_-_detalle.jpg/960px-Cueva_de_las_manos_-_detalle.jpg",
+   "local_path": "films/sources/teuf-teuf/hands_cueva.jpg (960x720 thumbnail of the 1280x960 original)",
+   "what_it_shows": "Detail of a rock wall at Cueva de las Manos, Río Pinturas (Santa Cruz, Argentina; Monumento Histórico Nacional ID 876): negative hand stencils, animal figures (guanacos) and symbols. Photographed 2005-01-07 (EXIF), Wiki Loves Monuments 2012.",
+   "verified_date_or_place": "Commons API extmetadata re-read 2026-11-16: LicenseShortName 'CC BY-SA 3.0', License 'cc-by-sa-3.0', Artist 'Suzko', Credit 'Own work', Copyrighted True; wikitext {{self|cc-by-sa-3.0}}. Saved: films/sources/teuf-teuf/mechanic/extmeta.json",
+   "used_as": "the wall in every shot: real rock re-toned to the reference's cream wash, its real stencils as pale hands in dark blown halos, its guanaco silhouettes kept"
+  },
+  {
+   "id": "F2",
+   "title": "File:Ljubljana Marshes Wheel with axle (oldest wooden wheel yet discovered).jpg",
+   "author": "Petar Milošević",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Ljubljana_Marshes_Wheel_with_axle_(oldest_wooden_wheel_yet_discovered).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Ljubljana_Marshes_Wheel_with_axle_%28oldest_wooden_wheel_yet_discovered%29.jpg/1280px-Ljubljana_Marshes_Wheel_with_axle_%28oldest_wooden_wheel_yet_discovered%29.jpg",
+   "local_path": "films/sources/teuf-teuf/wheel_ljubljana.jpg (1280x980 thumbnail of the 4504x3448 original)",
+   "what_it_shows": "The Ljubljana Marshes wooden wheel with its axle as displayed (photographed 2020-02-08); Commons categories: Ljubljana Marshes Wheel, Cartwheels, Baden culture, Copper Age in Europe.",
+   "verified_date_or_place": "Commons API extmetadata re-read 2026-11-16: LicenseShortName 'CC BY-SA 4.0', License 'cc-by-sa-4.0', Artist 'Petar Milošević', Credit 'Own work'; wikitext {{self|cc-by-sa-4.0}}. Saved: films/sources/teuf-teuf/mechanic/extmeta.json",
+   "used_as": "the two cart wheels in the wheel trial and counter-check: a cv2.grabCut cutout of the real wheel, toned to charcoal, its square axle hole kept (the animator makes the cutout)"
+  }
+ ],
+ "handmade": [
+  {
+   "what": "the mechanism fixture: stick-slip drag, roller sim, wheel ease, axle-less counter-check, gait planner, springs",
+   "where": "films/swarm/teuf-teuf/sim.py -> exposure.json"
+  },
+  {
+   "what": "stone outline (cut card, seed 1956), log outlines (seeds 11-14, A with a flat facet), cart platform, axles, hold-down beam and pin, sledge runner, rope geometry",
+   "where": "sim.py (geometry and positions); drawn by the animator"
+  },
+  {
+   "what": "diagnostic sheets of the exposure (not for the film)",
+   "where": "films/sources/teuf-teuf/mechanic/exposure-check.jpg, load-x-chart.png"
+  }
+ ],
+ "absences": [
+  "Ljubljana wheel date and dimensions: the Commons category page (Category:Ljubljana Marshes Wheel, which carries the Wikidata infobox) could not be read: the Commons API answered 'too many requests' three times on 2026-11-16 and I stopped retrying. The file page itself gives no date or size, only the categories Copper Age in Europe / Baden culture. The numeric age (~5,150 years) therefore stays 'uncertain' in register.json and must not appear on screen.",
+  "No new searches or downloads were needed for this unit (sounds belong to commentary-sound). drag_djehutihotep.jpg and roll_nineveh_c.jpg remain in sources/ but are not used by direction 1 and are not credited."
+ ]
+}

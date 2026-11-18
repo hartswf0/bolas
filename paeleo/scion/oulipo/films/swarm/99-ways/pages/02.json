@@ -1,0 +1,102 @@
+{
+ "n": 2,
+ "id": "the-key-waits",
+ "title": "The key waits",
+ "rule": "Told from the brass key's place on its hook inside the closed cupboard: dark slits of light and voices until the door opens on E4.",
+ "medium": "cut-paper",
+ "family": "point of view",
+ "canon_revision": "c1",
+ "declares": "E0-E3 known only through cracks of light and lettered sound",
+ "file": "assets/pages/99-ways/02-the-key-waits.jpg",
+ "master": "films/sources/99-ways/masters/02-the-key-waits.png",
+ "beats_dir": "films/sources/99-ways/beats/02",
+ "sources": [
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "every shape HANDMADE cut paper in code (films/swarm/99-ways/kit/cutpaper99.py): polygons with hand jitter reduced to straight scissor facets, flat papers whose fibre is the LoC 1934 sheet's relative tone, one down-right paper shadow per piece",
+  "the cupboard door's inside (kraft planks, battens, brace, iron lock box) with four openings cut through: jamb crack, gap under the door, keyhole, knot hole; the view never moves, so the openings sit in the same place in panels P1-P6",
+  "the office behind (wall, wainscot, ticket window, wall clock straight across from the keyhole, pendant lamp, desk) and the agent (shirt sleeves, waistcoat, glasses, pencil) and the stranger (hat, coat) in cut paper",
+  "sound words ('scrape', 'step', 'click', 'creak') cut out of pale paper from the shared pen hand; the four lines in the shared cut-paper balloons (penlib.balloon_piece)",
+  "the key's own SERVICE tag on its string in the foreground of every panel (dim in the dark, lit after the door opens)",
+  "hand-ruled borders (penlib.border_mask); folio '02 / The key waits' (pen99.folio)"
+ ],
+ "events": {
+  "E0": "P1 chair legs and his boots under the desk through the gap, 'scrape'; P2 his boots cross the gap, 'step', a sleeve passes the crack",
+  "E1": "P3 the upper crack: her hat and face behind the ticket-window glass; the lower crack, below the counter: his shirt sleeve and waistcoat edge (he has stopped by the cupboard, head hidden by the door), his boots in the gap; question balloon tailed to her face",
+  "E2": "P4 the keyhole frames the wall clock at 4:10; his answer tailed low onto his sleeve and waistcoat in the lower crack, 366 px below her face",
+  "E3": "P5 her hat turning away in the window pane; thanks balloon tailed to her; his sleeve still below the counter",
+  "E4": "P6 his body darkens the crack, 'step', the latch 'click'; P7 the door swung open on its left jamb, light, he looks straight at the key",
+  "E5": "P8 pencil to his chin, eyes up, 'Well, here I am... and what for?'; the view (the key) has not moved"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "beat": "the key's view as the door is reached and swung open: boots in the gap, the crack goes dark, the latch clicks, the door swings out on its left jamb in three steps, light floods, he looks at the key, then the pencil goes to his chin with his line",
+ "beat_frames": [
+  "b01: closed; his boots cross the gap under the door (step)",
+  "b02: his body blocks the crack; the latch clicks",
+  "b03: the door swings open on its left jamb (12%), light comes in",
+  "b04: the door swings open on its left jamb (35%), light comes in",
+  "b05: the door swings open on its left jamb (65%), light comes in",
+  "b06: open: he looks straight at the key (E4)",
+  "b07: pencil to his chin, his line (E5); the key stays where it hangs"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 884623,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "pct_L_lt_60": 50.7,
+  "viewer_inside_cupboard": "structurally verified: P1-P6 are the door's inner face with the same four openings at the same coordinates; P7-P8 keep the opened door's inner face at left, the cupboard jamb at right and the sill at the bottom",
+  "lines_verbatim": true,
+  "crack_P3_P5": {
+   "P3": {
+    "stranger_rows": [
+     97,
+     380
+    ],
+    "agent_rows": [
+     454,
+     599
+    ],
+    "wall_strip_px": 73,
+    "pixels_touching": false
+   },
+   "P4": {
+    "stranger_rows": [
+     96,
+     381
+    ],
+    "agent_rows": [
+     454,
+     599
+    ],
+    "wall_strip_px": 72,
+    "pixels_touching": false
+   },
+   "P5": {
+    "stranger_rows": [
+     96,
+     380
+    ],
+    "agent_rows": [
+     453,
+     599
+    ],
+    "wall_strip_px": 72,
+    "pixels_touching": false
+   },
+   "P4_answer_tail_below_her_face_px": 366
+  },
+  "known_deviation": "the key's view faces the door, which places its hook on the cupboard's back; page 01 P7 shows the key hanging on the open door's inner face. Not a canon field (the canon says only 'a hook inside the cupboard door'), noted for continuity readers.",
+  "pending": "independent blind reading not run by the maker"
+ }
+}

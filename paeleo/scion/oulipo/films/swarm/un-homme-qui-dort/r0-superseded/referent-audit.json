@@ -1,0 +1,2161 @@
+{
+  "gate": "films/swarm/un-homme-qui-dort/gate.py",
+  "ledger": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/un-homme-qui-dort/clauses.json",
+  "base": "plan-r1",
+  "preconditions_checked": [
+    "G1 (3.2.1)",
+    "G2 (3.2.2)",
+    "G5 (3.2.5)",
+    "G6 (3.2.6)",
+    "G7 (3.2.7)",
+    "event exists (part of 3.2.3)",
+    "duration 1.6 s",
+    "no cue overlap",
+    "SRT files == ledger",
+    "diegetic track empty"
+  ],
+  "preconditions_not_checked_here": [
+    "3.2.3 subject/sound-of-place typing beyond existence",
+    "3.2.4 camera_viewpoint != eyes(P1) (picture unit / editor)",
+    "3.2.8 frame identity of passes (editor)"
+  ],
+  "verdict": "PASS",
+  "film_takes_pass": true,
+  "fixtures_as_expected": true,
+  "summary": {
+    "take_A": {
+      "pass": true,
+      "relations": [
+        "anticipates",
+        "anticipates",
+        "anticipates",
+        "anticipates",
+        "anticipates",
+        "anticipates",
+        "anticipates"
+      ]
+    },
+    "take_B": {
+      "pass": true,
+      "relations": [
+        "lags",
+        "lags",
+        "lags",
+        "lags",
+        "lags",
+        "lags",
+        "lags"
+      ]
+    },
+    "identical_words_A_B": true,
+    "srt": {
+      "A": true,
+      "B": true,
+      "film": true,
+      "baseline": true
+    },
+    "diegetic_speech_empty": true,
+    "fixtures": {
+      "F1-A": "PASS (expected PASS)",
+      "F1-B": "PASS (expected PASS)",
+      "F2": "FAIL (expected FAIL)",
+      "F2b": "FAIL (expected FAIL)",
+      "F3": "PASS (expected PASS)",
+      "F4": "FAIL (expected FAIL)",
+      "F5-A": "FAIL (expected FAIL)",
+      "F5-B": "FAIL (expected FAIL)",
+      "F6": "FAIL (expected FAIL)",
+      "F7": "FAIL (expected FAIL)",
+      "F8": "FAIL (expected FAIL)",
+      "F9": "FAIL (expected FAIL)"
+    }
+  },
+  "takes": {
+    "A": {
+      "take": "A",
+      "pass": true,
+      "relations": [
+        "anticipates",
+        "anticipates",
+        "anticipates",
+        "anticipates",
+        "anticipates",
+        "anticipates",
+        "anticipates"
+      ],
+      "cue_overlaps": [],
+      "clauses": [
+        {
+          "clause_id": "C1",
+          "take": "A",
+          "text": "You open your eyes.",
+          "onset": 0.3,
+          "offset": 1.9,
+          "gates": {
+            "G1_grammar": {
+              "pass": true,
+              "inferred_person": 2,
+              "reasons": []
+            },
+            "G2_addressee": {
+              "pass": true,
+              "reasons": []
+            },
+            "G5_identical_text": {
+              "pass": true,
+              "reasons": []
+            },
+            "event_exists": {
+              "pass": true,
+              "reasons": []
+            },
+            "G6_relation": {
+              "pass": true,
+              "d": -1.2,
+              "computed": "anticipates",
+              "reasons": []
+            },
+            "G7_silence_bounds": {
+              "pass": true,
+              "reasons": []
+            },
+            "duration": {
+              "pass": true,
+              "value": 1.6
+            }
+          },
+          "pass": true
+        },
+        {
+          "clause_id": "C2",
+          "take": "A",
+          "text": "You hear it through the wall.",
+          "onset": 5.2,
+          "offset": 6.8,
+          "gates": {
+            "G1_grammar": {
+              "pass": true,
+              "inferred_person": 2,
+              "reasons": []
+            },
+            "G2_addressee": {
+              "pass": true,
+              "reasons": []
+            },
+            "G5_identical_text": {
+              "pass": true,
+              "reasons": []
+            },
+            "event_exists": {
+              "pass": true,
+              "reasons": []
+            },
+            "G6_relation": {
+              "pass": true,
+              "d": -1.2,
+              "computed": "anticipates",
+              "reasons": []
+            },
+            "G7_silence_bounds": {
+              "pass": true,
+              "reasons": []
+            },
+            "duration": {
+              "pass": true,
+              "value": 1.6
+            }
+          },
+          "pass": true
+        },
+        {
+          "clause_id": "C3",
+          "take": "A",
+          "text": "You let it ring.",
+          "onset": 8.2,
+          "offset": 9.8,
+          "gates": {
+            "G1_grammar": {
+              "pass": true,
+              "inferred_person": 2,
+              "reasons": []
+            },
+            "G2_addressee": {
+              "pass": true,
+              "reasons": []
+            },
+            "G5_identical_text": {
+              "pass": true,
+              "reasons": []
+            },
+            "event_exists": {
+              "pass": true,
+              "reasons": []
+            },
+            "G6_relation": {
+              "pass": true,
+              "d": -1.2,
+              "computed": "anticipates",
+              "reasons": []
+            },
+            "G7_silence_bounds": {
+              "pass": true,
+              "reasons": []
+            },
+            "duration": {
+              "pass": true,
+              "value": 1.6
+            }
+          },
+          "pass": true
+        },
+        {
+          "clause_id": "C4",
+          "take": "A",
+          "text": "You take the stairs.",
+          "onset": 12.2,
+          "offset": 13.8,
+          "gates": {
+            "G1_grammar": {
+              "pass": true,
+              "inferred_person": 2,
+              "reasons": []
+            },
+            "G2_addressee": {
+              "pass": true,
+              "reasons": []
+            },
+            "G5_identical_text": {
+              "pass": true,
+              "reasons": []
+            },
+            "event_exists": {
+              "pass": true,
+              "reasons": []
+            },
+            "G6_relation": {
+              "pass": true,
+              "d": -1.2,
+              "computed": "anticipates",
+              "reasons": []
+            },
+            "G7_silence_bounds": {
+              "pass": true,
+              "reasons": []
+            },
+            "duration": {
+              "pass": true,
+              "value": 1.6
+            }
+          },
+          "pass": true
+        },
+        {
+          "clause_id": "C5",
+          "take": "A",
+          "text": "You take the stairs.",
+          "onset": 24.2,
+          "offset": 25.8,
+          "gates": {
+            "G1_grammar": {
+              "pass": true,
+              "inferred_person": 2,
+              "reasons": []
+            },
+            "G2_addressee": {
+              "pass": true,
+              "reasons": []
+            },
+            "G5_identical_text": {
+              "pass": true,
+              "reasons": []
+            },
+            "event_exists": {
+              "pass": true,
+              "reasons": []
+            },
+            "G6_relation": {
+              "pass": true,
+              "d": -1.2,
+              "computed": "anticipates",
+              "reasons": []
+            },
+            "G7_silence_bounds": {
+              "pass": true,
+              "reasons": []
+            },
+            "duration": {
+              "pass": true,
+              "value": 1.6
+            }
+          },
+          "pass": true
+        },
+        {
+          "clause_id": "C6",
+          "take": "A",
+          "text": "You are outside.",
+          "onset": 28.8,
+          "offset": 30.4,
+          "gates": {
+            "G1_grammar": {
+              "pass": true,
+              "inferred_person": 2,
+              "reasons": []
+            },
+            "G2_addressee": {
+              "pass": true,
+              "reasons": []
+            },
+            "G5_identical_text": {
+              "pass": true,
+              "reasons": []
+            },
+            "event_exists": {
+              "pass": true,
+              "reasons": []
+            },
+            "G6_relation": {
+              "pass": true,
+              "d": -1.2,
+              "computed": "anticipates",
+              "reasons": []
+            },
+            "G7_silence_bounds": {
+              "pass": true,
+              "reasons": []
+            },
+            "duration": {
+              "pass": true,
+              "value": 1.6
+            }
+          },
+          "pass": true
+        },
+        {
+          "clause_id": "C7",
+          "take": "A",
+          "text": "You do not go back.",
+          "onset": 30.8,
+          "offset": 32.4,
+          "gates": {
+            "G1_grammar": {
+              "pass": true,
+              "inferred_person": 2,
+              "reasons": []
+            },
+            "G2_addressee": {
+              "pass": true,
+              "reasons": []
+            },
+            "G5_identical_text": {
+              "pass": true,
+              "reasons": []
+            },
+            "event_exists": {
+              "pass": true,
+              "reasons": []
+            },
+            "G6_relation": {
+              "pass": true,
+              "d": -1.2,
+              "computed": "anticipates",
+              "reasons": []
+            },
+            "G7_silence_bounds": {
+              "pass": true,
+              "reasons": []
+            },
+            "duration": {
+              "pass": true,
+              "value": 1.6
+            }
+          },
+          "pass": true
+        }
+      ]
+    },
+    "B": {
+      "take": "B",
+      "pass": true,
+      "relations": [
+        "lags",
+        "lags",
+        "lags",
+        "lags",
+        "lags",
+        "lags",
+        "lags"
+      ],
+      "cue_overlaps": [],
+      "clauses": [
+        {
+          "clause_id": "C1",
+          "take": "B",
+          "text": "You open your eyes.",
+          "onset": 2.9,
+          "offset": 4.5,
+          "gates": {
+            "G1_grammar": {
+              "pass": true,
+              "inferred_person": 2,
+              "reasons": []
+            },
+            "G2_addressee": {
+              "pass": true,
+              "reasons": []
+            },
+            "G5_identical_text": {
+              "pass": true,
+              "reasons": []
+            },
+            "event_exists": {
+              "pass": true,
+              "reasons": []
+            },
+            "G6_relation": {
+              "pass": true,
+              "d": 1.4,
+              "computed": "lags",
+              "reasons": []
+            },
+            "G7_silence_bounds": {
+              "pass": true,
+              "reasons": []
+            },
+            "duration": {
+              "pass": true,
+              "value": 1.6
+            }
+          },
+          "pass": true
+        },
+        {
+          "clause_id": "C2",
+          "take": "B",
+          "text": "You hear it through the wall.",
+          "onset": 7.8,
+          "offset": 9.4,
+          "gates": {
+            "G1_grammar": {
+              "pass": true,
+              "inferred_person": 2,
+              "reasons": []
+            },
+            "G2_addressee": {
+              "pass": true,
+              "reasons": []
+            },
+            "G5_identical_text": {
+              "pass": true,
+              "reasons": []
+            },
+            "event_exists": {
+              "pass": true,
+              "reasons": []
+            },
+            "G6_relation": {
+              "pass": true,
+              "d": 1.4,
+              "computed": "lags",
+              "reasons": []
+            },
+            "G7_silence_bounds": {
+              "pass": true,
+              "reasons": []
+            },
+            "duration": {
+              "pass": true,
+              "value": 1.6
+            }
+          },
+          "pass": true
+        },
+        {
+          "clause_id": "C3",
+          "take": "B",
+          "text": "You let it ring.",
+          "onset": 10.8,
+          "offset": 12.4,
+          "gates": {
+            "G1_grammar": {
+              "pass": true,
+              "inferred_person": 2,
+              "reasons": []
+            },
+            "G2_addressee": {
+              "pass": true,
+              "reasons": []
+            },
+            "G5_identical_text": {
+              "pass": true,
+              "reasons": []
+            },
+            "event_exists": {
+              "pass": true,
+              "reasons": []
+            },
+            "G6_relation": {
+              "pass": true,
+              "d": 1.4,
+              "computed": "lags",
+              "reasons": []
+            },
+            "G7_silence_bounds": {
+              "pass": true,
+              "reasons": []
+            },
+            "duration": {
+              "pass": true,
+              "value": 1.6
+            }
+          },
+          "pass": true
+        },
+        {
+          "clause_id": "C4",
+          "take": "B",
+          "text": "You take the stairs.",
+          "onset": 14.8,
+          "offset": 16.4,
+          "gates": {
+            "G1_grammar": {
+              "pass": true,
+              "inferred_person": 2,
+              "reasons": []
+            },
+            "G2_addressee": {
+              "pass": true,
+              "reasons": []
+            },
+            "G5_identical_text": {
+              "pass": true,
+              "reasons": []
+            },
+            "event_exists": {
+              "pass": true,
+              "reasons": []
+            },
+            "G6_relation": {
+              "pass": true,
+              "d": 1.4,
+              "computed": "lags",
+              "reasons": []
+            },
+            "G7_silence_bounds": {
+              "pass": true,
+              "reasons": []
+            },
+            "duration": {
+              "pass": true,
+              "value": 1.6
+            }
+          },
+          "pass": true
+        },
+        {
+          "clause_id": "C5",
+          "take": "B",
+          "text": "You take the stairs.",
+          "onset": 26.8,
+          "offset": 28.4,
+          "gates": {
+            "G1_grammar": {
+              "pass": true,
+              "inferred_person": 2,
+              "reasons": []
+            },
+            "G2_addressee": {
+              "pass": true,
+              "reasons": []
+            },
+            "G5_identical_text": {
+              "pass": true,
+              "reasons": []
+            },
+            "event_exists": {
+              "pass": true,
+              "reasons": []
+            },
+            "G6_relation": {
+              "pass": true,
+              "d": 1.4,
+              "computed": "lags",
+              "reasons": []
+            },
+            "G7_silence_bounds": {
+              "pass": true,
+              "reasons": []
+            },
+            "duration": {
+              "pass": true,
+              "value": 1.6
+            }
+          },
+          "pass": true
+        },
+        {
+          "clause_id": "C6",
+          "take": "B",
+          "text": "You are outside.",
+          "onset": 31.4,
+          "offset": 33.0,
+          "gates": {
+            "G1_grammar": {
+              "pass": true,
+              "inferred_person": 2,
+              "reasons": []
+            },
+            "G2_addressee": {
+              "pass": true,
+              "reasons": []
+            },
+            "G5_identical_text": {
+              "pass": true,
+              "reasons": []
+            },
+            "event_exists": {
+              "pass": true,
+              "reasons": []
+            },
+            "G6_relation": {
+              "pass": true,
+              "d": 1.4,
+              "computed": "lags",
+              "reasons": []
+            },
+            "G7_silence_bounds": {
+              "pass": true,
+              "reasons": []
+            },
+            "duration": {
+              "pass": true,
+              "value": 1.6
+            }
+          },
+          "pass": true
+        },
+        {
+          "clause_id": "C7",
+          "take": "B",
+          "text": "You do not go back.",
+          "onset": 33.4,
+          "offset": 35.0,
+          "gates": {
+            "G1_grammar": {
+              "pass": true,
+              "inferred_person": 2,
+              "reasons": []
+            },
+            "G2_addressee": {
+              "pass": true,
+              "reasons": []
+            },
+            "G5_identical_text": {
+              "pass": true,
+              "reasons": []
+            },
+            "event_exists": {
+              "pass": true,
+              "reasons": []
+            },
+            "G6_relation": {
+              "pass": true,
+              "d": 1.4,
+              "computed": "lags",
+              "reasons": []
+            },
+            "G7_silence_bounds": {
+              "pass": true,
+              "reasons": []
+            },
+            "duration": {
+              "pass": true,
+              "value": 1.6
+            }
+          },
+          "pass": true
+        }
+      ]
+    }
+  },
+  "srt_checks": {
+    "A": {
+      "file": "takeA.srt",
+      "pass": true,
+      "cues": 7,
+      "reasons": []
+    },
+    "B": {
+      "file": "takeB.srt",
+      "pass": true,
+      "cues": 7,
+      "reasons": []
+    },
+    "film": {
+      "file": "captions-film.srt",
+      "pass": true,
+      "cues": 14,
+      "reasons": []
+    },
+    "baseline": {
+      "file": "baseline.srt",
+      "pass": true,
+      "cues": 8,
+      "reasons": []
+    }
+  },
+  "diegetic_speech": {
+    "track_id": "DIEG-1",
+    "declared": "empty",
+    "cues": [],
+    "note": "No one speaks on screen; the telephone is not answered. No caption is anyone's quoted speech."
+  },
+  "fixtures": [
+    {
+      "fixture": "F1-A",
+      "description": "'You hear it through the wall.' bound to E2, take A",
+      "expected": "PASS",
+      "got": "PASS",
+      "as_expected": true,
+      "detail": {
+        "clause_id": "C2",
+        "take": "A",
+        "text": "You hear it through the wall.",
+        "onset": 5.2,
+        "offset": 6.8,
+        "gates": {
+          "G1_grammar": {
+            "pass": true,
+            "inferred_person": 2,
+            "reasons": []
+          },
+          "G2_addressee": {
+            "pass": true,
+            "reasons": []
+          },
+          "G5_identical_text": {
+            "pass": true,
+            "reasons": []
+          },
+          "event_exists": {
+            "pass": true,
+            "reasons": []
+          },
+          "G6_relation": {
+            "pass": true,
+            "d": -1.2,
+            "computed": "anticipates",
+            "reasons": []
+          },
+          "G7_silence_bounds": {
+            "pass": true,
+            "reasons": []
+          },
+          "duration": {
+            "pass": true,
+            "value": 1.6
+          }
+        },
+        "pass": true
+      }
+    },
+    {
+      "fixture": "F1-B",
+      "description": "'You hear it through the wall.' bound to E2, take B",
+      "expected": "PASS",
+      "got": "PASS",
+      "as_expected": true,
+      "detail": {
+        "clause_id": "C2",
+        "take": "B",
+        "text": "You hear it through the wall.",
+        "onset": 7.8,
+        "offset": 9.4,
+        "gates": {
+          "G1_grammar": {
+            "pass": true,
+            "inferred_person": 2,
+            "reasons": []
+          },
+          "G2_addressee": {
+            "pass": true,
+            "reasons": []
+          },
+          "G5_identical_text": {
+            "pass": true,
+            "reasons": []
+          },
+          "event_exists": {
+            "pass": true,
+            "reasons": []
+          },
+          "G6_relation": {
+            "pass": true,
+            "d": 1.4,
+            "computed": "lags",
+            "reasons": []
+          },
+          "G7_silence_bounds": {
+            "pass": true,
+            "reasons": []
+          },
+          "duration": {
+            "pass": true,
+            "value": 1.6
+          }
+        },
+        "pass": true
+      }
+    },
+    {
+      "fixture": "F2",
+      "description": "Narrator shift: 'He hears it through the wall.' (writer left person=2)",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "as_expected": true,
+      "required_failing_gate": "G1_grammar",
+      "detail": {
+        "clause_id": "C2",
+        "take": "A",
+        "text": "He hears it through the wall.",
+        "onset": 5.2,
+        "offset": 6.8,
+        "gates": {
+          "G1_grammar": {
+            "pass": false,
+            "inferred_person": 3,
+            "reasons": [
+              "third-person narrating word(s): ['he']",
+              "subject is 'He', not 'You'",
+              "inferred person 3 != declared 2"
+            ]
+          },
+          "G2_addressee": {
+            "pass": true,
+            "reasons": []
+          },
+          "G5_identical_text": {
+            "pass": true,
+            "reasons": []
+          },
+          "event_exists": {
+            "pass": true,
+            "reasons": []
+          },
+          "G6_relation": {
+            "pass": true,
+            "d": -1.2,
+            "computed": "anticipates",
+            "reasons": []
+          },
+          "G7_silence_bounds": {
+            "pass": true,
+            "reasons": []
+          },
+          "duration": {
+            "pass": true,
+            "value": 1.6
+          }
+        },
+        "pass": false
+      }
+    },
+    {
+      "fixture": "F2b",
+      "description": "Same, declared honestly as person=3",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "as_expected": true,
+      "required_failing_gate": "G1_grammar",
+      "detail": {
+        "clause_id": "C2",
+        "take": "A",
+        "text": "He hears it through the wall.",
+        "onset": 5.2,
+        "offset": 6.8,
+        "gates": {
+          "G1_grammar": {
+            "pass": false,
+            "inferred_person": 3,
+            "reasons": [
+              "third-person narrating word(s): ['he']",
+              "subject is 'He', not 'You'",
+              "declared person 3 != 2"
+            ]
+          },
+          "G2_addressee": {
+            "pass": true,
+            "reasons": []
+          },
+          "G5_identical_text": {
+            "pass": true,
+            "reasons": []
+          },
+          "event_exists": {
+            "pass": true,
+            "reasons": []
+          },
+          "G6_relation": {
+            "pass": true,
+            "d": -1.2,
+            "computed": "anticipates",
+            "reasons": []
+          },
+          "G7_silence_bounds": {
+            "pass": true,
+            "reasons": []
+          },
+          "duration": {
+            "pass": true,
+            "value": 1.6
+          }
+        },
+        "pass": false
+      }
+    },
+    {
+      "fixture": "F3",
+      "description": "Same words, two timelines: A computes anticipates, B computes lags",
+      "expected": "PASS",
+      "got": "PASS",
+      "as_expected": true,
+      "A_relation": "anticipates",
+      "A_d": -1.2,
+      "B_relation": "lags",
+      "B_d": 1.4,
+      "detail": {
+        "pass": true,
+        "A": {
+          "clause_id": "C2",
+          "take": "A",
+          "text": "You hear it through the wall.",
+          "onset": 5.2,
+          "offset": 6.8,
+          "gates": {
+            "G1_grammar": {
+              "pass": true,
+              "inferred_person": 2,
+              "reasons": []
+            },
+            "G2_addressee": {
+              "pass": true,
+              "reasons": []
+            },
+            "G5_identical_text": {
+              "pass": true,
+              "reasons": []
+            },
+            "event_exists": {
+              "pass": true,
+              "reasons": []
+            },
+            "G6_relation": {
+              "pass": true,
+              "d": -1.2,
+              "computed": "anticipates",
+              "reasons": []
+            },
+            "G7_silence_bounds": {
+              "pass": true,
+              "reasons": []
+            },
+            "duration": {
+              "pass": true,
+              "value": 1.6
+            }
+          },
+          "pass": true
+        },
+        "B": {
+          "clause_id": "C2",
+          "take": "B",
+          "text": "You hear it through the wall.",
+          "onset": 7.8,
+          "offset": 9.4,
+          "gates": {
+            "G1_grammar": {
+              "pass": true,
+              "inferred_person": 2,
+              "reasons": []
+            },
+            "G2_addressee": {
+              "pass": true,
+              "reasons": []
+            },
+            "G5_identical_text": {
+              "pass": true,
+              "reasons": []
+            },
+            "event_exists": {
+              "pass": true,
+              "reasons": []
+            },
+            "G6_relation": {
+              "pass": true,
+              "d": 1.4,
+              "computed": "lags",
+              "reasons": []
+            },
+            "G7_silence_bounds": {
+              "pass": true,
+              "reasons": []
+            },
+            "duration": {
+              "pass": true,
+              "value": 1.6
+            }
+          },
+          "pass": true
+        }
+      }
+    },
+    {
+      "fixture": "F4",
+      "description": "C5-A onset moved 24.2 -> 23.4 (starts over the held room SIL-1 18.0-24.0)",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "as_expected": true,
+      "required_failing_gate": "G7_silence_bounds",
+      "detail": {
+        "clause_id": "C5",
+        "take": "A",
+        "text": "You take the stairs.",
+        "onset": 23.4,
+        "offset": 25.0,
+        "gates": {
+          "G1_grammar": {
+            "pass": true,
+            "inferred_person": 2,
+            "reasons": []
+          },
+          "G2_addressee": {
+            "pass": true,
+            "reasons": []
+          },
+          "G5_identical_text": {
+            "pass": true,
+            "reasons": []
+          },
+          "event_exists": {
+            "pass": true,
+            "reasons": []
+          },
+          "G6_relation": {
+            "pass": false,
+            "d": -2.0,
+            "computed": "anticipates",
+            "reasons": [
+              "d=-2.000 outside -1.2 +/- 0.1"
+            ]
+          },
+          "G7_silence_bounds": {
+            "pass": false,
+            "reasons": [
+              "[23.4, 25.0] intersects SIL-1 [18.0, 24.0]"
+            ]
+          },
+          "duration": {
+            "pass": true,
+            "value": 1.6
+          }
+        },
+        "pass": false
+      }
+    },
+    {
+      "fixture": "F5-A",
+      "description": "Collapse: C4 placed at d = 0 in take A (computes overlaps)",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "as_expected": true,
+      "required_failing_gate": "G6_relation",
+      "detail": {
+        "clause_id": "C4",
+        "take": "A",
+        "text": "You take the stairs.",
+        "onset": 13.4,
+        "offset": 15.0,
+        "gates": {
+          "G1_grammar": {
+            "pass": true,
+            "inferred_person": 2,
+            "reasons": []
+          },
+          "G2_addressee": {
+            "pass": true,
+            "reasons": []
+          },
+          "G5_identical_text": {
+            "pass": true,
+            "reasons": []
+          },
+          "event_exists": {
+            "pass": true,
+            "reasons": []
+          },
+          "G6_relation": {
+            "pass": false,
+            "d": 0.0,
+            "computed": "overlaps",
+            "reasons": [
+              "computed overlaps (d=+0.000), take A needs anticipates",
+              "d=+0.000 outside -1.2 +/- 0.1"
+            ]
+          },
+          "G7_silence_bounds": {
+            "pass": true,
+            "reasons": []
+          },
+          "duration": {
+            "pass": true,
+            "value": 1.6
+          }
+        },
+        "pass": false
+      }
+    },
+    {
+      "fixture": "F5-B",
+      "description": "Collapse: C4 placed at d = 0 in take B (computes overlaps)",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "as_expected": true,
+      "required_failing_gate": "G6_relation",
+      "detail": {
+        "clause_id": "C4",
+        "take": "B",
+        "text": "You take the stairs.",
+        "onset": 13.4,
+        "offset": 15.0,
+        "gates": {
+          "G1_grammar": {
+            "pass": true,
+            "inferred_person": 2,
+            "reasons": []
+          },
+          "G2_addressee": {
+            "pass": true,
+            "reasons": []
+          },
+          "G5_identical_text": {
+            "pass": true,
+            "reasons": []
+          },
+          "event_exists": {
+            "pass": true,
+            "reasons": []
+          },
+          "G6_relation": {
+            "pass": false,
+            "d": 0.0,
+            "computed": "overlaps",
+            "reasons": [
+              "computed overlaps (d=+0.000), take B needs lags",
+              "d=+0.000 outside +1.4 +/- 0.1"
+            ]
+          },
+          "G7_silence_bounds": {
+            "pass": true,
+            "reasons": []
+          },
+          "duration": {
+            "pass": true,
+            "value": 1.6
+          }
+        },
+        "pass": false
+      }
+    },
+    {
+      "fixture": "F6",
+      "description": "Unmarked addressee shift on C6 (ADDR-2)",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "as_expected": true,
+      "required_failing_gate": "G2_addressee",
+      "detail": {
+        "clause_id": "C6",
+        "take": "A",
+        "text": "You are outside.",
+        "onset": 28.8,
+        "offset": 30.4,
+        "gates": {
+          "G1_grammar": {
+            "pass": true,
+            "inferred_person": 2,
+            "reasons": []
+          },
+          "G2_addressee": {
+            "pass": false,
+            "reasons": [
+              "addressee_id 'ADDR-2' != 'ADDR-1'"
+            ]
+          },
+          "G5_identical_text": {
+            "pass": true,
+            "reasons": []
+          },
+          "event_exists": {
+            "pass": true,
+            "reasons": []
+          },
+          "G6_relation": {
+            "pass": true,
+            "d": -1.2,
+            "computed": "anticipates",
+            "reasons": []
+          },
+          "G7_silence_bounds": {
+            "pass": true,
+            "reasons": []
+          },
+          "duration": {
+            "pass": true,
+            "value": 1.6
+          }
+        },
+        "pass": false
+      }
+    },
+    {
+      "fixture": "F7",
+      "description": "C3 worded differently in B than in A",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "as_expected": true,
+      "required_failing_gate": "G5_identical_text",
+      "detail": {
+        "clause_id": "C3",
+        "take": "A",
+        "text": "You let it ring.",
+        "onset": 8.2,
+        "offset": 9.8,
+        "gates": {
+          "G1_grammar": {
+            "pass": true,
+            "inferred_person": 2,
+            "reasons": []
+          },
+          "G2_addressee": {
+            "pass": true,
+            "reasons": []
+          },
+          "G5_identical_text": {
+            "pass": false,
+            "reasons": [
+              "text differs: A='You let it ring.' B='You let the telephone ring.'"
+            ]
+          },
+          "event_exists": {
+            "pass": true,
+            "reasons": []
+          },
+          "G6_relation": {
+            "pass": true,
+            "d": -1.2,
+            "computed": "anticipates",
+            "reasons": []
+          },
+          "G7_silence_bounds": {
+            "pass": true,
+            "reasons": []
+          },
+          "duration": {
+            "pass": true,
+            "value": 1.6
+          }
+        },
+        "pass": false
+      }
+    },
+    {
+      "fixture": "F8",
+      "description": "Baseline (third person, synchronised, clause over the held shot) from the ledger",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "as_expected": true,
+      "required_failing_gate": "G1_grammar",
+      "failing_gates_per_clause": {
+        "BL1": [
+          "G1_grammar",
+          "G2_addressee",
+          "G5_identical_text",
+          "G6_relation"
+        ],
+        "BL2": [
+          "G1_grammar",
+          "G2_addressee",
+          "G5_identical_text",
+          "G6_relation"
+        ],
+        "BL3": [
+          "G1_grammar",
+          "G2_addressee",
+          "G5_identical_text",
+          "G6_relation"
+        ],
+        "BL4": [
+          "G1_grammar",
+          "G2_addressee",
+          "G5_identical_text",
+          "G6_relation"
+        ],
+        "BL5": [
+          "G1_grammar",
+          "G2_addressee",
+          "G5_identical_text",
+          "event_exists",
+          "G6_relation",
+          "G7_silence_bounds"
+        ],
+        "BL6": [
+          "G1_grammar",
+          "G2_addressee",
+          "G5_identical_text",
+          "G6_relation"
+        ],
+        "BL7": [
+          "G1_grammar",
+          "G2_addressee",
+          "G5_identical_text",
+          "G6_relation"
+        ],
+        "BL8": [
+          "G1_grammar",
+          "G2_addressee",
+          "G5_identical_text",
+          "G6_relation"
+        ]
+      },
+      "detail": {
+        "take": "baseline",
+        "pass": false,
+        "relations": [
+          "overlaps",
+          "overlaps",
+          "overlaps",
+          "overlaps",
+          "lags",
+          "overlaps",
+          "overlaps",
+          "overlaps"
+        ],
+        "cue_overlaps": [],
+        "clauses": [
+          {
+            "clause_id": "BL1",
+            "take": "baseline",
+            "text": "He opens his eyes.",
+            "onset": 1.5,
+            "offset": 3.1,
+            "gates": {
+              "G1_grammar": {
+                "pass": false,
+                "inferred_person": 3,
+                "reasons": [
+                  "third-person narrating word(s): ['he', 'his']",
+                  "subject is 'He', not 'You'",
+                  "declared person 3 != 2"
+                ]
+              },
+              "G2_addressee": {
+                "pass": false,
+                "reasons": [
+                  "addressee_id None != 'ADDR-1'"
+                ]
+              },
+              "G5_identical_text": {
+                "pass": false,
+                "reasons": [
+                  "clause has takes ['baseline'], needs exactly A and B"
+                ]
+              },
+              "event_exists": {
+                "pass": true,
+                "reasons": []
+              },
+              "G6_relation": {
+                "pass": false,
+                "d": 0.0,
+                "computed": "overlaps",
+                "reasons": [
+                  "take 'baseline' is neither A nor B; computed relation overlaps"
+                ]
+              },
+              "G7_silence_bounds": {
+                "pass": true,
+                "reasons": []
+              },
+              "duration": {
+                "pass": true,
+                "value": 1.6
+              }
+            },
+            "pass": false
+          },
+          {
+            "clause_id": "BL2",
+            "take": "baseline",
+            "text": "He hears it through the wall.",
+            "onset": 6.4,
+            "offset": 8.0,
+            "gates": {
+              "G1_grammar": {
+                "pass": false,
+                "inferred_person": 3,
+                "reasons": [
+                  "third-person narrating word(s): ['he']",
+                  "subject is 'He', not 'You'",
+                  "declared person 3 != 2"
+                ]
+              },
+              "G2_addressee": {
+                "pass": false,
+                "reasons": [
+                  "addressee_id None != 'ADDR-1'"
+                ]
+              },
+              "G5_identical_text": {
+                "pass": false,
+                "reasons": [
+                  "clause has takes ['baseline'], needs exactly A and B"
+                ]
+              },
+              "event_exists": {
+                "pass": true,
+                "reasons": []
+              },
+              "G6_relation": {
+                "pass": false,
+                "d": 0.0,
+                "computed": "overlaps",
+                "reasons": [
+                  "take 'baseline' is neither A nor B; computed relation overlaps"
+                ]
+              },
+              "G7_silence_bounds": {
+                "pass": true,
+                "reasons": []
+              },
+              "duration": {
+                "pass": true,
+                "value": 1.6
+              }
+            },
+            "pass": false
+          },
+          {
+            "clause_id": "BL3",
+            "take": "baseline",
+            "text": "He lets it ring.",
+            "onset": 9.4,
+            "offset": 11.0,
+            "gates": {
+              "G1_grammar": {
+                "pass": false,
+                "inferred_person": 3,
+                "reasons": [
+                  "third-person narrating word(s): ['he']",
+                  "subject is 'He', not 'You'",
+                  "declared person 3 != 2"
+                ]
+              },
+              "G2_addressee": {
+                "pass": false,
+                "reasons": [
+                  "addressee_id None != 'ADDR-1'"
+                ]
+              },
+              "G5_identical_text": {
+                "pass": false,
+                "reasons": [
+                  "clause has takes ['baseline'], needs exactly A and B"
+                ]
+              },
+              "event_exists": {
+                "pass": true,
+                "reasons": []
+              },
+              "G6_relation": {
+                "pass": false,
+                "d": 0.0,
+                "computed": "overlaps",
+                "reasons": [
+                  "take 'baseline' is neither A nor B; computed relation overlaps"
+                ]
+              },
+              "G7_silence_bounds": {
+                "pass": true,
+                "reasons": []
+              },
+              "duration": {
+                "pass": true,
+                "value": 1.6
+              }
+            },
+            "pass": false
+          },
+          {
+            "clause_id": "BL4",
+            "take": "baseline",
+            "text": "He takes the stairs.",
+            "onset": 13.4,
+            "offset": 15.0,
+            "gates": {
+              "G1_grammar": {
+                "pass": false,
+                "inferred_person": 3,
+                "reasons": [
+                  "third-person narrating word(s): ['he']",
+                  "subject is 'He', not 'You'",
+                  "declared person 3 != 2"
+                ]
+              },
+              "G2_addressee": {
+                "pass": false,
+                "reasons": [
+                  "addressee_id None != 'ADDR-1'"
+                ]
+              },
+              "G5_identical_text": {
+                "pass": false,
+                "reasons": [
+                  "clause has takes ['baseline'], needs exactly A and B"
+                ]
+              },
+              "event_exists": {
+                "pass": true,
+                "reasons": []
+              },
+              "G6_relation": {
+                "pass": false,
+                "d": 0.0,
+                "computed": "overlaps",
+                "reasons": [
+                  "take 'baseline' is neither A nor B; computed relation overlaps"
+                ]
+              },
+              "G7_silence_bounds": {
+                "pass": true,
+                "reasons": []
+              },
+              "duration": {
+                "pass": true,
+                "value": 1.6
+              }
+            },
+            "pass": false
+          },
+          {
+            "clause_id": "BL5",
+            "take": "baseline",
+            "text": "His room is empty.",
+            "onset": 20.0,
+            "offset": 21.6,
+            "gates": {
+              "G1_grammar": {
+                "pass": false,
+                "inferred_person": 3,
+                "reasons": [
+                  "third-person narrating word(s): ['his']",
+                  "subject is 'His', not 'You'",
+                  "declared person 3 != 2"
+                ]
+              },
+              "G2_addressee": {
+                "pass": false,
+                "reasons": [
+                  "addressee_id None != 'ADDR-1'"
+                ]
+              },
+              "G5_identical_text": {
+                "pass": false,
+                "reasons": [
+                  "clause has takes ['baseline'], needs exactly A and B"
+                ]
+              },
+              "event_exists": {
+                "pass": false,
+                "reasons": [
+                  "event 'E5' missing or is a silence span"
+                ]
+              },
+              "G6_relation": {
+                "pass": false,
+                "d": 2.0,
+                "computed": "lags",
+                "reasons": [
+                  "take 'baseline' is neither A nor B; computed relation lags",
+                  "declared 'overlaps' but computed 'lags'"
+                ]
+              },
+              "G7_silence_bounds": {
+                "pass": false,
+                "reasons": [
+                  "[20.0, 21.6] intersects SIL-1 [18.0, 24.0]"
+                ]
+              },
+              "duration": {
+                "pass": true,
+                "value": 1.6
+              }
+            },
+            "pass": false
+          },
+          {
+            "clause_id": "BL6",
+            "take": "baseline",
+            "text": "He takes the stairs.",
+            "onset": 25.4,
+            "offset": 27.0,
+            "gates": {
+              "G1_grammar": {
+                "pass": false,
+                "inferred_person": 3,
+                "reasons": [
+                  "third-person narrating word(s): ['he']",
+                  "subject is 'He', not 'You'",
+                  "declared person 3 != 2"
+                ]
+              },
+              "G2_addressee": {
+                "pass": false,
+                "reasons": [
+                  "addressee_id None != 'ADDR-1'"
+                ]
+              },
+              "G5_identical_text": {
+                "pass": false,
+                "reasons": [
+                  "clause has takes ['baseline'], needs exactly A and B"
+                ]
+              },
+              "event_exists": {
+                "pass": true,
+                "reasons": []
+              },
+              "G6_relation": {
+                "pass": false,
+                "d": 0.0,
+                "computed": "overlaps",
+                "reasons": [
+                  "take 'baseline' is neither A nor B; computed relation overlaps"
+                ]
+              },
+              "G7_silence_bounds": {
+                "pass": true,
+                "reasons": []
+              },
+              "duration": {
+                "pass": true,
+                "value": 1.6
+              }
+            },
+            "pass": false
+          },
+          {
+            "clause_id": "BL7",
+            "take": "baseline",
+            "text": "He is outside.",
+            "onset": 30.0,
+            "offset": 31.6,
+            "gates": {
+              "G1_grammar": {
+                "pass": false,
+                "inferred_person": 3,
+                "reasons": [
+                  "third-person narrating word(s): ['he']",
+                  "subject is 'He', not 'You'",
+                  "declared person 3 != 2"
+                ]
+              },
+              "G2_addressee": {
+                "pass": false,
+                "reasons": [
+                  "addressee_id None != 'ADDR-1'"
+                ]
+              },
+              "G5_identical_text": {
+                "pass": false,
+                "reasons": [
+                  "clause has takes ['baseline'], needs exactly A and B"
+                ]
+              },
+              "event_exists": {
+                "pass": true,
+                "reasons": []
+              },
+              "G6_relation": {
+                "pass": false,
+                "d": 0.0,
+                "computed": "overlaps",
+                "reasons": [
+                  "take 'baseline' is neither A nor B; computed relation overlaps"
+                ]
+              },
+              "G7_silence_bounds": {
+                "pass": true,
+                "reasons": []
+              },
+              "duration": {
+                "pass": true,
+                "value": 1.6
+              }
+            },
+            "pass": false
+          },
+          {
+            "clause_id": "BL8",
+            "take": "baseline",
+            "text": "He does not go back.",
+            "onset": 32.0,
+            "offset": 33.6,
+            "gates": {
+              "G1_grammar": {
+                "pass": false,
+                "inferred_person": 3,
+                "reasons": [
+                  "third-person narrating word(s): ['he']",
+                  "subject is 'He', not 'You'",
+                  "declared person 3 != 2"
+                ]
+              },
+              "G2_addressee": {
+                "pass": false,
+                "reasons": [
+                  "addressee_id None != 'ADDR-1'"
+                ]
+              },
+              "G5_identical_text": {
+                "pass": false,
+                "reasons": [
+                  "clause has takes ['baseline'], needs exactly A and B"
+                ]
+              },
+              "event_exists": {
+                "pass": true,
+                "reasons": []
+              },
+              "G6_relation": {
+                "pass": false,
+                "d": 0.0,
+                "computed": "overlaps",
+                "reasons": [
+                  "take 'baseline' is neither A nor B; computed relation overlaps"
+                ]
+              },
+              "G7_silence_bounds": {
+                "pass": true,
+                "reasons": []
+              },
+              "duration": {
+                "pass": true,
+                "value": 1.6
+              }
+            },
+            "pass": false
+          }
+        ]
+      }
+    },
+    {
+      "fixture": "F9",
+      "description": "baseline.srt read from disk",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "as_expected": true,
+      "detail": {
+        "pass": false,
+        "cues": 8,
+        "grammar_fail": [
+          "He opens his eyes.",
+          "He hears it through the wall.",
+          "He lets it ring.",
+          "He takes the stairs.",
+          "His room is empty.",
+          "He takes the stairs.",
+          "He is outside.",
+          "He does not go back."
+        ],
+        "cues_in_silence": [
+          [
+            20.0,
+            21.6
+          ]
+        ],
+        "labelled_baseline_only": true
+      }
+    }
+  ],
+  "referent_audit": {
+    "segments_source": "picture.json (U1) shots + stair_clip.segments",
+    "rows": [
+      {
+        "clause_id": "C1",
+        "take": "A",
+        "text": "You open your eyes.",
+        "interval": [
+          0.3,
+          1.9
+        ],
+        "lies_over": [
+          {
+            "from": 0.3,
+            "to": 1.5,
+            "image": "black (declared darkness)",
+            "P1_in_frame": false
+          },
+          {
+            "from": 1.5,
+            "to": 1.9,
+            "image": "SH1 bunk, lodger lying, eyes open (P-BUNK)",
+            "P1_in_frame": true
+          }
+        ],
+        "P1_in_frame_fraction": 0.25,
+        "reading": "crosses a cut between body and no body: the referent of 'you' is split"
+      },
+      {
+        "clause_id": "C1",
+        "take": "B",
+        "text": "You open your eyes.",
+        "interval": [
+          2.9,
+          4.5
+        ],
+        "lies_over": [
+          {
+            "from": 2.9,
+            "to": 4.5,
+            "image": "SH1 bunk, lodger lying, eyes open (P-BUNK)",
+            "P1_in_frame": true
+          }
+        ],
+        "P1_in_frame_fraction": 1.0,
+        "reading": "P1 in frame throughout: 'you' lands on the lodger and/or the viewer"
+      },
+      {
+        "clause_id": "C2",
+        "take": "A",
+        "text": "You hear it through the wall.",
+        "interval": [
+          5.2,
+          6.8
+        ],
+        "lies_over": [
+          {
+            "from": 5.2,
+            "to": 6.0,
+            "image": "SH1 bunk, lodger lying, eyes open (P-BUNK)",
+            "P1_in_frame": true
+          },
+          {
+            "from": 6.0,
+            "to": 6.8,
+            "image": "SH2 wall telephone, no one at it (P-TEL)",
+            "P1_in_frame": false
+          }
+        ],
+        "P1_in_frame_fraction": 0.5,
+        "reading": "crosses a cut between body and no body: the referent of 'you' is split"
+      },
+      {
+        "clause_id": "C2",
+        "take": "B",
+        "text": "You hear it through the wall.",
+        "interval": [
+          7.8,
+          9.4
+        ],
+        "lies_over": [
+          {
+            "from": 7.8,
+            "to": 8.5,
+            "image": "SH2 wall telephone, no one at it (P-TEL)",
+            "P1_in_frame": false
+          },
+          {
+            "from": 8.5,
+            "to": 9.4,
+            "image": "SH3 bunk, unmoved (P-BUNK)",
+            "P1_in_frame": true
+          }
+        ],
+        "P1_in_frame_fraction": 0.562,
+        "reading": "crosses a cut between body and no body: the referent of 'you' is split"
+      },
+      {
+        "clause_id": "C3",
+        "take": "A",
+        "text": "You let it ring.",
+        "interval": [
+          8.2,
+          9.8
+        ],
+        "lies_over": [
+          {
+            "from": 8.2,
+            "to": 8.5,
+            "image": "SH2 wall telephone, no one at it (P-TEL)",
+            "P1_in_frame": false
+          },
+          {
+            "from": 8.5,
+            "to": 9.8,
+            "image": "SH3 bunk, unmoved (P-BUNK)",
+            "P1_in_frame": true
+          }
+        ],
+        "P1_in_frame_fraction": 0.812,
+        "reading": "crosses a cut between body and no body: the referent of 'you' is split"
+      },
+      {
+        "clause_id": "C3",
+        "take": "B",
+        "text": "You let it ring.",
+        "interval": [
+          10.8,
+          12.4
+        ],
+        "lies_over": [
+          {
+            "from": 10.8,
+            "to": 12.0,
+            "image": "SH3 bunk, unmoved (P-BUNK)",
+            "P1_in_frame": true
+          },
+          {
+            "from": 12.0,
+            "to": 12.4,
+            "image": "SH4 empty stairwell (P-STAIR-EMPTY-1, from below)",
+            "P1_in_frame": false
+          }
+        ],
+        "P1_in_frame_fraction": 0.75,
+        "reading": "crosses a cut between body and no body: the referent of 'you' is split"
+      },
+      {
+        "clause_id": "C4",
+        "take": "A",
+        "text": "You take the stairs.",
+        "interval": [
+          12.2,
+          13.8
+        ],
+        "lies_over": [
+          {
+            "from": 12.2,
+            "to": 13.417,
+            "image": "SH4 empty stairwell (P-STAIR-EMPTY-1, from below)",
+            "P1_in_frame": false
+          },
+          {
+            "from": 13.417,
+            "to": 13.8,
+            "image": "SH4 lodger on the stair (P-STAIR-MAN, profile, from beside/below)",
+            "P1_in_frame": true
+          }
+        ],
+        "P1_in_frame_fraction": 0.24,
+        "reading": "crosses a cut between body and no body: the referent of 'you' is split"
+      },
+      {
+        "clause_id": "C4",
+        "take": "B",
+        "text": "You take the stairs.",
+        "interval": [
+          14.8,
+          16.4
+        ],
+        "lies_over": [
+          {
+            "from": 14.8,
+            "to": 15.417,
+            "image": "SH4 lodger on the stair (P-STAIR-MAN, profile, from beside/below)",
+            "P1_in_frame": true
+          },
+          {
+            "from": 15.417,
+            "to": 16.4,
+            "image": "SH4 empty stairwell (P-STAIR-EMPTY-2, from above)",
+            "P1_in_frame": false
+          }
+        ],
+        "P1_in_frame_fraction": 0.385,
+        "reading": "crosses a cut between body and no body: the referent of 'you' is split"
+      },
+      {
+        "clause_id": "C5",
+        "take": "A",
+        "text": "You take the stairs.",
+        "interval": [
+          24.2,
+          25.8
+        ],
+        "lies_over": [
+          {
+            "from": 24.2,
+            "to": 25.417,
+            "image": "SH6 empty stairwell (P-STAIR-EMPTY-1, from below)",
+            "P1_in_frame": false
+          },
+          {
+            "from": 25.417,
+            "to": 25.8,
+            "image": "SH6 lodger on the stair (P-STAIR-MAN, profile, from beside/below)",
+            "P1_in_frame": true
+          }
+        ],
+        "P1_in_frame_fraction": 0.24,
+        "reading": "crosses a cut between body and no body: the referent of 'you' is split"
+      },
+      {
+        "clause_id": "C5",
+        "take": "B",
+        "text": "You take the stairs.",
+        "interval": [
+          26.8,
+          28.4
+        ],
+        "lies_over": [
+          {
+            "from": 26.8,
+            "to": 27.417,
+            "image": "SH6 lodger on the stair (P-STAIR-MAN, profile, from beside/below)",
+            "P1_in_frame": true
+          },
+          {
+            "from": 27.417,
+            "to": 28.4,
+            "image": "SH6 empty stairwell (P-STAIR-EMPTY-2, from above)",
+            "P1_in_frame": false
+          }
+        ],
+        "P1_in_frame_fraction": 0.385,
+        "reading": "crosses a cut between body and no body: the referent of 'you' is split"
+      },
+      {
+        "clause_id": "C6",
+        "take": "A",
+        "text": "You are outside.",
+        "interval": [
+          28.8,
+          30.4
+        ],
+        "lies_over": [
+          {
+            "from": 28.8,
+            "to": 30.0,
+            "image": "SH6 empty stairwell (P-STAIR-EMPTY-2, from above)",
+            "P1_in_frame": false
+          },
+          {
+            "from": 30.0,
+            "to": 30.4,
+            "image": "SH7 house from across the street at night (P-HOUSE)",
+            "P1_in_frame": false
+          }
+        ],
+        "P1_in_frame_fraction": 0.0,
+        "reading": "no body in frame: 'you' can only land on the viewer (V) or the place; P1 only by inference"
+      },
+      {
+        "clause_id": "C6",
+        "take": "B",
+        "text": "You are outside.",
+        "interval": [
+          31.4,
+          33.0
+        ],
+        "lies_over": [
+          {
+            "from": 31.4,
+            "to": 33.0,
+            "image": "SH7 house from across the street at night (P-HOUSE)",
+            "P1_in_frame": false
+          }
+        ],
+        "P1_in_frame_fraction": 0.0,
+        "reading": "no body in frame: 'you' can only land on the viewer (V) or the place; P1 only by inference"
+      },
+      {
+        "clause_id": "C7",
+        "take": "A",
+        "text": "You do not go back.",
+        "interval": [
+          30.8,
+          32.4
+        ],
+        "lies_over": [
+          {
+            "from": 30.8,
+            "to": 32.4,
+            "image": "SH7 house from across the street at night (P-HOUSE)",
+            "P1_in_frame": false
+          }
+        ],
+        "P1_in_frame_fraction": 0.0,
+        "reading": "no body in frame: 'you' can only land on the viewer (V) or the place; P1 only by inference"
+      },
+      {
+        "clause_id": "C7",
+        "take": "B",
+        "text": "You do not go back.",
+        "interval": [
+          33.4,
+          35.0
+        ],
+        "lies_over": [
+          {
+            "from": 33.4,
+            "to": 35.0,
+            "image": "SH7 house from across the street at night (P-HOUSE)",
+            "P1_in_frame": false
+          }
+        ],
+        "P1_in_frame_fraction": 0.0,
+        "reading": "no body in frame: 'you' can only land on the viewer (V) or the place; P1 only by inference"
+      }
+    ],
+    "stair_frame_onsets": [
+      {
+        "clause_id": "C4",
+        "take": "A",
+        "ledger_event_onset": 13.4,
+        "frame_onset_of_lodger": 13.4167,
+        "d_against_frames": -1.2167,
+        "within_tolerance": true
+      },
+      {
+        "clause_id": "C4",
+        "take": "B",
+        "ledger_event_onset": 13.4,
+        "frame_onset_of_lodger": 13.4167,
+        "d_against_frames": 1.3833,
+        "within_tolerance": true
+      },
+      {
+        "clause_id": "C5",
+        "take": "A",
+        "ledger_event_onset": 25.4,
+        "frame_onset_of_lodger": 25.4167,
+        "d_against_frames": -1.2167,
+        "within_tolerance": true
+      },
+      {
+        "clause_id": "C5",
+        "take": "B",
+        "ledger_event_onset": 25.4,
+        "frame_onset_of_lodger": 25.4167,
+        "d_against_frames": 1.3833,
+        "within_tolerance": true
+      }
+    ],
+    "flags": [
+      "SH1/SH3 (P-BUNK): per picture.json the lodger looks toward the lens. 'You open your eyes' in take B lies over that gaze, which may pull 'you' onto the viewer more than onto him. Not a gate failure (camera_viewpoint is not his eyes); for the independent viewer.",
+      "C5-A (defining beat) lies over the empty stairwell for 1.217 s of its 1.6 s, before the lodger appears (frame 34 of the stair clip = p 25.417); C5-B lies 0.617 s over the lodger and then 0.983 s over the emptied stairwell (after frame 82 = p 27.417).",
+      "C6-A starts over the empty end of STAIR-2 and crosses the 30.0 cut to the house; C6/C7 otherwise lie over SH7 with no body in frame: 'you' there can only land on the viewer or the place.",
+      "Performer identity across P-BUNK and P-STAIR-MAN is unverified (montage-constructed); no clause names him, so the voice does not assert it."
+    ]
+  }
+}

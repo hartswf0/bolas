@@ -1,0 +1,1750 @@
+{
+ "slug": "la-mort-en-ce-jardin",
+ "editor_revision": "edit-r3",
+ "revision": "edit-r3",
+ "built_by": "films/la-mort-en-ce-jardin.py -> edit-build/edit_sound.py",
+ "supersedes": "sound-u3.json (U3 os-r1; kept unchanged)",
+ "timeline": "film seconds 0-73.0 (L local + 2.0, E local + 39.5)",
+ "have": {
+  "jungle": true,
+  "stream": true,
+  "tide": true,
+  "splash": true
+ },
+ "used": {
+  "stream": "stream.mp3 12.0-42.0 s looped (0.5 s crossfades), -30 dBFS RMS",
+  "tide": "Water over rocks as tide recedes.ogg (Commons mp3 transcode) 6.0-8.4 s, -28 dBFS RMS",
+  "jungle": "Jungle Sound Thailand Phuket.flac (Commons mp3 transcode) 1.0-47.9 s looped, -31 dBFS RMS",
+  "splash": "Bathtub water splashes.ogg (Commons mp3 transcode) 3.42-4.52 s"
+ },
+ "jungle_source": "FOR-AUD-JUNGLE",
+ "checks": {
+  "L_splash_rms_db": -17.2,
+  "L_step_median_rms_db": -28.9,
+  "L_rustle_rms_db": -25.4,
+  "L_bed_before_rustle_rms_db": -33.8,
+  "L_rustle_onset_vs_holder_change_frames": -1.0,
+  "E_splash_rms_db": -17.1,
+  "E_step_median_rms_db": -28.9,
+  "E_rustle_rms_db": -24.2,
+  "E_bed_before_rustle_rms_db": -32.8,
+  "E_rustle_onset_vs_holder_change_frames": -1.0,
+  "mix_peak": 0.7
+ },
+ "clearance_px": {
+  "L": 4.0,
+  "E": 6.0,
+  "definition": "trace clearance_px at the last crosser's minimum-clearance frame (the same value as ledger worlds.*.min_clearance_last_crosser_px)"
+ },
+ "splash_local_t": {
+  "L": 32.0417,
+  "E": 26.75
+ },
+ "synthesized": [
+  "HM-SYN-CREAK",
+  "HM-SYN-LIANA",
+  "HM-SYN-MUD",
+  "HM-SYN-PENCIL",
+  "HM-SYN-PLIP",
+  "HM-SYN-RUSTLE",
+  "HM-SYN-SCRATCH",
+  "HM-SYN-TAP"
+ ],
+ "foraged": [
+  "FOR-AUD-JUNGLE",
+  "FOR-AUD-SPLASH",
+  "FOR-AUD-STREAM",
+  "FOR-AUD-TIDE"
+ ],
+ "cues": [
+  {
+   "film_t": 0.0,
+   "dur": 2.0,
+   "version": "T",
+   "kind": "ambience",
+   "what": "water bed (stream) fades in under the title",
+   "source": "FOR-AUD-STREAM"
+  },
+  {
+   "film_t": 0.4,
+   "dur": 1.2,
+   "version": "T",
+   "kind": "foley",
+   "what": "pencil on the title card",
+   "source": "HM-SYN-PENCIL"
+  },
+  {
+   "film_t": 2.0,
+   "dur": 67.5,
+   "version": "L+E",
+   "kind": "ambience",
+   "what": "jungle bed (absent under title and cards)",
+   "source": "FOR-AUD-JUNGLE"
+  },
+  {
+   "film_t": 5.0,
+   "dur": 2.6,
+   "version": "L",
+   "kind": "foley",
+   "what": "pencil writing the ledger",
+   "source": "HM-SYN-PENCIL"
+  },
+  {
+   "film_t": 7.8,
+   "dur": 0.45,
+   "version": "L",
+   "kind": "foley",
+   "what": "A takes the liana: fibre creak",
+   "source": "HM-SYN-LIANA"
+  },
+  {
+   "film_t": 8.25,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 2.0 px), trace frame 150",
+   "source": "HM-SYN-CREAK",
+   "frame": 150
+  },
+  {
+   "film_t": 8.667,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 2.8 px), trace frame 160",
+   "source": "HM-SYN-CREAK",
+   "frame": 160
+  },
+  {
+   "film_t": 9.0,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 4.0 px), trace frame 168",
+   "source": "HM-SYN-CREAK",
+   "frame": 168
+  },
+  {
+   "film_t": 9.333,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 5.2 px), trace frame 176",
+   "source": "HM-SYN-CREAK",
+   "frame": 176
+  },
+  {
+   "film_t": 9.667,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 6.3 px), trace frame 184",
+   "source": "HM-SYN-CREAK",
+   "frame": 184
+  },
+  {
+   "film_t": 9.917,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 7.1 px), trace frame 190",
+   "source": "HM-SYN-CREAK",
+   "frame": 190
+  },
+  {
+   "film_t": 10.25,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 7.9 px), trace frame 198",
+   "source": "HM-SYN-CREAK",
+   "frame": 198
+  },
+  {
+   "film_t": 10.5,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the N bank (mud), trace frame 204",
+   "source": "HM-SYN-MUD",
+   "frame": 204
+  },
+  {
+   "film_t": 10.583,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 8.6 px), trace frame 206",
+   "source": "HM-SYN-CREAK",
+   "frame": 206
+  },
+  {
+   "film_t": 10.833,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 8.9 px), trace frame 212",
+   "source": "HM-SYN-CREAK",
+   "frame": 212
+  },
+  {
+   "film_t": 11.167,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 9.0 px), trace frame 220",
+   "source": "HM-SYN-CREAK",
+   "frame": 220
+  },
+  {
+   "film_t": 11.333,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the N bank (mud), trace frame 224",
+   "source": "HM-SYN-MUD",
+   "frame": 224
+  },
+  {
+   "film_t": 11.417,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 8.9 px), trace frame 226",
+   "source": "HM-SYN-CREAK",
+   "frame": 226
+  },
+  {
+   "film_t": 11.75,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 8.5 px), trace frame 234",
+   "source": "HM-SYN-CREAK",
+   "frame": 234
+  },
+  {
+   "film_t": 11.833,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the N bank (mud), trace frame 236",
+   "source": "HM-SYN-MUD",
+   "frame": 236
+  },
+  {
+   "film_t": 12.0,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 8.0 px), trace frame 240",
+   "source": "HM-SYN-CREAK",
+   "frame": 240
+  },
+  {
+   "film_t": 12.333,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 7.2 px), trace frame 248",
+   "source": "HM-SYN-CREAK",
+   "frame": 248
+  },
+  {
+   "film_t": 12.583,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 6.4 px), trace frame 254",
+   "source": "HM-SYN-CREAK",
+   "frame": 254
+  },
+  {
+   "film_t": 12.917,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 5.3 px), trace frame 262",
+   "source": "HM-SYN-CREAK",
+   "frame": 262
+  },
+  {
+   "film_t": 13.25,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 4.1 px), trace frame 270",
+   "source": "HM-SYN-CREAK",
+   "frame": 270
+  },
+  {
+   "film_t": 13.583,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the P bank (mud), trace frame 278",
+   "source": "HM-SYN-MUD",
+   "frame": 278
+  },
+  {
+   "film_t": 13.917,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the P bank (mud), trace frame 286",
+   "source": "HM-SYN-MUD",
+   "frame": 286
+  },
+  {
+   "film_t": 14.333,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the P bank (mud), trace frame 296",
+   "source": "HM-SYN-MUD",
+   "frame": 296
+  },
+  {
+   "film_t": 14.833,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the F bank (mud), trace frame 308",
+   "source": "HM-SYN-MUD",
+   "frame": 308
+  },
+  {
+   "film_t": 15.25,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "A step on the F bank (mud), trace frame 318",
+   "source": "HM-SYN-MUD",
+   "frame": 318
+  },
+  {
+   "film_t": 19.583,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "the shoe's hollow tap on the plank foot (layer frame 86)",
+   "source": "HM-SYN-TAP"
+  },
+  {
+   "film_t": 19.667,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the N bank (mud), trace frame 424",
+   "source": "HM-SYN-MUD",
+   "frame": 424
+  },
+  {
+   "film_t": 19.667,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the N bank (mud), trace frame 424",
+   "source": "HM-SYN-MUD",
+   "frame": 424
+  },
+  {
+   "film_t": 20.0,
+   "dur": 2.4,
+   "version": "L",
+   "kind": "water",
+   "what": "close lap at the plank foot (L-S5 / E-S4)",
+   "source": "FOR-AUD-TIDE"
+  },
+  {
+   "film_t": 20.375,
+   "dur": 0.6,
+   "version": "L",
+   "kind": "foley",
+   "what": "bag hand-off B.L -> C.R: card rustle (onset 1 frame before the holder change at trace frame 442)",
+   "source": "HM-SYN-RUSTLE",
+   "holder_change_film_frame": 490
+  },
+  {
+   "film_t": 21.4,
+   "dur": 0.6,
+   "version": "L",
+   "kind": "silence",
+   "what": "declared silence of the jungle while she takes the shoe",
+   "source": "FOR-AUD-JUNGLE"
+  },
+  {
+   "film_t": 21.6,
+   "dur": 0.12,
+   "version": "L",
+   "kind": "foley",
+   "what": "the shoe leaves the water (plip)",
+   "source": "HM-SYN-PLIP"
+  },
+  {
+   "film_t": 21.792,
+   "dur": 0.12,
+   "version": "L",
+   "kind": "foley",
+   "what": "drip from the lifted shoe (layer frame 139)",
+   "source": "HM-SYN-PLIP"
+  },
+  {
+   "film_t": 21.958,
+   "dur": 0.12,
+   "version": "L",
+   "kind": "foley",
+   "what": "drip from the lifted shoe (layer frame 143)",
+   "source": "HM-SYN-PLIP"
+  },
+  {
+   "film_t": 22.167,
+   "dur": 0.12,
+   "version": "L",
+   "kind": "foley",
+   "what": "drip from the lifted shoe (layer frame 148)",
+   "source": "HM-SYN-PLIP"
+  },
+  {
+   "film_t": 23.5,
+   "dur": 0.33,
+   "version": "L",
+   "kind": "foley",
+   "what": "pencil strike-through (8 frames)",
+   "source": "HM-SYN-SCRATCH"
+  },
+  {
+   "film_t": 23.95,
+   "dur": 1.45,
+   "version": "L",
+   "kind": "foley",
+   "what": "pencil rewriting the order",
+   "source": "HM-SYN-PENCIL"
+  },
+  {
+   "film_t": 25.083,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the N bank (mud), trace frame 554",
+   "source": "HM-SYN-MUD",
+   "frame": 554
+  },
+  {
+   "film_t": 25.333,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the N bank (mud), trace frame 560",
+   "source": "HM-SYN-MUD",
+   "frame": 560
+  },
+  {
+   "film_t": 25.5,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the N bank (mud), trace frame 564",
+   "source": "HM-SYN-MUD",
+   "frame": 564
+  },
+  {
+   "film_t": 25.75,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the N bank (mud), trace frame 570",
+   "source": "HM-SYN-MUD",
+   "frame": 570
+  },
+  {
+   "film_t": 25.8,
+   "dur": 0.45,
+   "version": "L",
+   "kind": "foley",
+   "what": "C takes the liana: fibre creak",
+   "source": "HM-SYN-LIANA"
+  },
+  {
+   "film_t": 25.917,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the N bank (mud), trace frame 574",
+   "source": "HM-SYN-MUD",
+   "frame": 574
+  },
+  {
+   "film_t": 26.0,
+   "dur": 12.0,
+   "version": "L",
+   "kind": "ambience",
+   "what": "water louder as the flood rises",
+   "source": "FOR-AUD-STREAM"
+  },
+  {
+   "film_t": 26.25,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 2.0 px), trace frame 582",
+   "source": "HM-SYN-CREAK",
+   "frame": 582
+  },
+  {
+   "film_t": 26.583,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 2.9 px), trace frame 590",
+   "source": "HM-SYN-CREAK",
+   "frame": 590
+  },
+  {
+   "film_t": 26.833,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 3.9 px), trace frame 596",
+   "source": "HM-SYN-CREAK",
+   "frame": 596
+  },
+  {
+   "film_t": 27.167,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 5.2 px), trace frame 604",
+   "source": "HM-SYN-CREAK",
+   "frame": 604
+  },
+  {
+   "film_t": 27.417,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 6.2 px), trace frame 610",
+   "source": "HM-SYN-CREAK",
+   "frame": 610
+  },
+  {
+   "film_t": 27.667,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 7.1 px), trace frame 616",
+   "source": "HM-SYN-CREAK",
+   "frame": 616
+  },
+  {
+   "film_t": 27.917,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 7.9 px), trace frame 622",
+   "source": "HM-SYN-CREAK",
+   "frame": 622
+  },
+  {
+   "film_t": 28.167,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 8.4 px), trace frame 628",
+   "source": "HM-SYN-CREAK",
+   "frame": 628
+  },
+  {
+   "film_t": 28.417,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 8.8 px), trace frame 634",
+   "source": "HM-SYN-CREAK",
+   "frame": 634
+  },
+  {
+   "film_t": 28.667,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 9.0 px), trace frame 640",
+   "source": "HM-SYN-CREAK",
+   "frame": 640
+  },
+  {
+   "film_t": 28.917,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 8.9 px), trace frame 646",
+   "source": "HM-SYN-CREAK",
+   "frame": 646
+  },
+  {
+   "film_t": 29.167,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 8.6 px), trace frame 652",
+   "source": "HM-SYN-CREAK",
+   "frame": 652
+  },
+  {
+   "film_t": 29.417,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 8.1 px), trace frame 658",
+   "source": "HM-SYN-CREAK",
+   "frame": 658
+  },
+  {
+   "film_t": 29.667,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 7.4 px), trace frame 664",
+   "source": "HM-SYN-CREAK",
+   "frame": 664
+  },
+  {
+   "film_t": 30.0,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 6.2 px), trace frame 672",
+   "source": "HM-SYN-CREAK",
+   "frame": 672
+  },
+  {
+   "film_t": 30.25,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 5.2 px), trace frame 678",
+   "source": "HM-SYN-CREAK",
+   "frame": 678
+  },
+  {
+   "film_t": 30.5,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 4.2 px), trace frame 684",
+   "source": "HM-SYN-CREAK",
+   "frame": 684
+  },
+  {
+   "film_t": 30.833,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the P bank (mud), trace frame 692",
+   "source": "HM-SYN-MUD",
+   "frame": 692
+  },
+  {
+   "film_t": 31.083,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the P bank (mud), trace frame 698",
+   "source": "HM-SYN-MUD",
+   "frame": 698
+  },
+  {
+   "film_t": 31.417,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the P bank (mud), trace frame 706",
+   "source": "HM-SYN-MUD",
+   "frame": 706
+  },
+  {
+   "film_t": 31.583,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the N bank (mud), trace frame 710",
+   "source": "HM-SYN-MUD",
+   "frame": 710
+  },
+  {
+   "film_t": 31.8,
+   "dur": 0.45,
+   "version": "L",
+   "kind": "foley",
+   "what": "B takes the liana: fibre creak",
+   "source": "HM-SYN-LIANA"
+  },
+  {
+   "film_t": 32.0,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the N bank (mud), trace frame 720",
+   "source": "HM-SYN-MUD",
+   "frame": 720
+  },
+  {
+   "film_t": 32.167,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 2.0 px), trace frame 724",
+   "source": "HM-SYN-CREAK",
+   "frame": 724
+  },
+  {
+   "film_t": 32.167,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "C step on the F bank (mud), trace frame 724",
+   "source": "HM-SYN-MUD",
+   "frame": 724
+  },
+  {
+   "film_t": 32.5,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 2.8 px), trace frame 732",
+   "source": "HM-SYN-CREAK",
+   "frame": 732
+  },
+  {
+   "film_t": 32.75,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 3.9 px), trace frame 738",
+   "source": "HM-SYN-CREAK",
+   "frame": 738
+  },
+  {
+   "film_t": 33.0,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 5.1 px), trace frame 744",
+   "source": "HM-SYN-CREAK",
+   "frame": 744
+  },
+  {
+   "film_t": 33.25,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 6.2 px), trace frame 750",
+   "source": "HM-SYN-CREAK",
+   "frame": 750
+  },
+  {
+   "film_t": 33.5,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 7.2 px), trace frame 756",
+   "source": "HM-SYN-CREAK",
+   "frame": 756
+  },
+  {
+   "film_t": 33.75,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 8.0 px), trace frame 762",
+   "source": "HM-SYN-CREAK",
+   "frame": 762
+  },
+  {
+   "film_t": 33.962,
+   "dur": 1.0,
+   "version": "L",
+   "kind": "foley",
+   "what": "splash on B's shins at the plank's lowest (trace clearance 4.0 px, local 32.042 s)",
+   "source": "FOR-AUD-SPLASH",
+   "clearance_px": 4.0,
+   "over_step_db_isolated": 14.0
+  },
+  {
+   "film_t": 34.0,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 8.6 px), trace frame 768",
+   "source": "HM-SYN-CREAK",
+   "frame": 768
+  },
+  {
+   "film_t": 34.167,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 8.8 px), trace frame 772",
+   "source": "HM-SYN-CREAK",
+   "frame": 772
+  },
+  {
+   "film_t": 34.417,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 9.0 px), trace frame 778",
+   "source": "HM-SYN-CREAK",
+   "frame": 778
+  },
+  {
+   "film_t": 34.667,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 8.9 px), trace frame 784",
+   "source": "HM-SYN-CREAK",
+   "frame": 784
+  },
+  {
+   "film_t": 34.833,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 8.6 px), trace frame 788",
+   "source": "HM-SYN-CREAK",
+   "frame": 788
+  },
+  {
+   "film_t": 35.083,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 8.0 px), trace frame 794",
+   "source": "HM-SYN-CREAK",
+   "frame": 794
+  },
+  {
+   "film_t": 35.333,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 7.2 px), trace frame 800",
+   "source": "HM-SYN-CREAK",
+   "frame": 800
+  },
+  {
+   "film_t": 35.583,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 6.2 px), trace frame 806",
+   "source": "HM-SYN-CREAK",
+   "frame": 806
+  },
+  {
+   "film_t": 35.75,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 5.4 px), trace frame 810",
+   "source": "HM-SYN-CREAK",
+   "frame": 810
+  },
+  {
+   "film_t": 36.0,
+   "dur": 0.35,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 4.2 px), trace frame 816",
+   "source": "HM-SYN-CREAK",
+   "frame": 816
+  },
+  {
+   "film_t": 36.333,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the P bank (mud), trace frame 824",
+   "source": "HM-SYN-MUD",
+   "frame": 824
+  },
+  {
+   "film_t": 36.583,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the P bank (mud), trace frame 830",
+   "source": "HM-SYN-MUD",
+   "frame": 830
+  },
+  {
+   "film_t": 36.833,
+   "dur": 0.16,
+   "version": "L",
+   "kind": "foley",
+   "what": "B step on the P bank (mud), trace frame 836",
+   "source": "HM-SYN-MUD",
+   "frame": 836
+  },
+  {
+   "film_t": 42.5,
+   "dur": 2.6,
+   "version": "E",
+   "kind": "foley",
+   "what": "pencil writing the ledger",
+   "source": "HM-SYN-PENCIL"
+  },
+  {
+   "film_t": 48.583,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the N bank (mud), trace frame 218",
+   "source": "HM-SYN-MUD",
+   "frame": 218
+  },
+  {
+   "film_t": 48.833,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the N bank (mud), trace frame 224",
+   "source": "HM-SYN-MUD",
+   "frame": 224
+  },
+  {
+   "film_t": 49.083,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the N bank (mud), trace frame 230",
+   "source": "HM-SYN-MUD",
+   "frame": 230
+  },
+  {
+   "film_t": 49.333,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the N bank (mud), trace frame 236",
+   "source": "HM-SYN-MUD",
+   "frame": 236
+  },
+  {
+   "film_t": 49.333,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the N bank (mud), trace frame 236",
+   "source": "HM-SYN-MUD",
+   "frame": 236
+  },
+  {
+   "film_t": 50.083,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "the shoe's hollow tap on the plank foot (layer frame 86)",
+   "source": "HM-SYN-TAP"
+  },
+  {
+   "film_t": 50.5,
+   "dur": 2.4,
+   "version": "E",
+   "kind": "water",
+   "what": "close lap at the plank foot (L-S5 / E-S4)",
+   "source": "FOR-AUD-TIDE"
+  },
+  {
+   "film_t": 50.875,
+   "dur": 0.6,
+   "version": "E",
+   "kind": "foley",
+   "what": "bag hand-off B.L -> A.R: card rustle (onset 1 frame before the holder change at trace frame 274)",
+   "source": "HM-SYN-RUSTLE",
+   "holder_change_film_frame": 1222
+  },
+  {
+   "film_t": 51.9,
+   "dur": 0.6,
+   "version": "E",
+   "kind": "silence",
+   "what": "declared silence of the jungle while she takes the shoe",
+   "source": "FOR-AUD-JUNGLE"
+  },
+  {
+   "film_t": 52.1,
+   "dur": 0.12,
+   "version": "E",
+   "kind": "foley",
+   "what": "the shoe leaves the water (plip)",
+   "source": "HM-SYN-PLIP"
+  },
+  {
+   "film_t": 52.292,
+   "dur": 0.12,
+   "version": "E",
+   "kind": "foley",
+   "what": "drip from the lifted shoe (layer frame 139)",
+   "source": "HM-SYN-PLIP"
+  },
+  {
+   "film_t": 52.458,
+   "dur": 0.12,
+   "version": "E",
+   "kind": "foley",
+   "what": "drip from the lifted shoe (layer frame 143)",
+   "source": "HM-SYN-PLIP"
+  },
+  {
+   "film_t": 52.667,
+   "dur": 0.12,
+   "version": "E",
+   "kind": "foley",
+   "what": "drip from the lifted shoe (layer frame 148)",
+   "source": "HM-SYN-PLIP"
+  },
+  {
+   "film_t": 52.9,
+   "dur": 0.33,
+   "version": "E",
+   "kind": "foley",
+   "what": "pencil strike-through (8 frames)",
+   "source": "HM-SYN-SCRATCH"
+  },
+  {
+   "film_t": 53.35,
+   "dur": 1.05,
+   "version": "E",
+   "kind": "foley",
+   "what": "pencil rewriting the order",
+   "source": "HM-SYN-PENCIL"
+  },
+  {
+   "film_t": 54.167,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the N bank (mud), trace frame 352",
+   "source": "HM-SYN-MUD",
+   "frame": 352
+  },
+  {
+   "film_t": 54.3,
+   "dur": 0.45,
+   "version": "E",
+   "kind": "foley",
+   "what": "B takes the liana: fibre creak",
+   "source": "HM-SYN-LIANA"
+  },
+  {
+   "film_t": 54.5,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the N bank (mud), trace frame 360",
+   "source": "HM-SYN-MUD",
+   "frame": 360
+  },
+  {
+   "film_t": 54.667,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 2.0 px), trace frame 364",
+   "source": "HM-SYN-CREAK",
+   "frame": 364
+  },
+  {
+   "film_t": 54.917,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 2.6 px), trace frame 370",
+   "source": "HM-SYN-CREAK",
+   "frame": 370
+  },
+  {
+   "film_t": 55.167,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 3.9 px), trace frame 376",
+   "source": "HM-SYN-CREAK",
+   "frame": 376
+  },
+  {
+   "film_t": 55.417,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 5.2 px), trace frame 382",
+   "source": "HM-SYN-CREAK",
+   "frame": 382
+  },
+  {
+   "film_t": 55.667,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 6.4 px), trace frame 388",
+   "source": "HM-SYN-CREAK",
+   "frame": 388
+  },
+  {
+   "film_t": 55.833,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 7.1 px), trace frame 392",
+   "source": "HM-SYN-CREAK",
+   "frame": 392
+  },
+  {
+   "film_t": 56.083,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 8.0 px), trace frame 398",
+   "source": "HM-SYN-CREAK",
+   "frame": 398
+  },
+  {
+   "film_t": 56.25,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 8.5 px), trace frame 402",
+   "source": "HM-SYN-CREAK",
+   "frame": 402
+  },
+  {
+   "film_t": 56.5,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 8.9 px), trace frame 408",
+   "source": "HM-SYN-CREAK",
+   "frame": 408
+  },
+  {
+   "film_t": 56.667,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 9.0 px), trace frame 412",
+   "source": "HM-SYN-CREAK",
+   "frame": 412
+  },
+  {
+   "film_t": 56.833,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 8.9 px), trace frame 416",
+   "source": "HM-SYN-CREAK",
+   "frame": 416
+  },
+  {
+   "film_t": 57.083,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 8.5 px), trace frame 422",
+   "source": "HM-SYN-CREAK",
+   "frame": 422
+  },
+  {
+   "film_t": 57.25,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 8.1 px), trace frame 426",
+   "source": "HM-SYN-CREAK",
+   "frame": 426
+  },
+  {
+   "film_t": 57.5,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 7.2 px), trace frame 432",
+   "source": "HM-SYN-CREAK",
+   "frame": 432
+  },
+  {
+   "film_t": 57.667,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 6.5 px), trace frame 436",
+   "source": "HM-SYN-CREAK",
+   "frame": 436
+  },
+  {
+   "film_t": 57.917,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 5.2 px), trace frame 442",
+   "source": "HM-SYN-CREAK",
+   "frame": 442
+  },
+  {
+   "film_t": 58.167,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the plank + creak (deflection 3.9 px), trace frame 448",
+   "source": "HM-SYN-CREAK",
+   "frame": 448
+  },
+  {
+   "film_t": 58.333,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the P bank (mud), trace frame 452",
+   "source": "HM-SYN-MUD",
+   "frame": 452
+  },
+  {
+   "film_t": 58.583,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the P bank (mud), trace frame 458",
+   "source": "HM-SYN-MUD",
+   "frame": 458
+  },
+  {
+   "film_t": 58.667,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the N bank (mud), trace frame 460",
+   "source": "HM-SYN-MUD",
+   "frame": 460
+  },
+  {
+   "film_t": 58.833,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the N bank (mud), trace frame 464",
+   "source": "HM-SYN-MUD",
+   "frame": 464
+  },
+  {
+   "film_t": 58.917,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the P bank (mud), trace frame 466",
+   "source": "HM-SYN-MUD",
+   "frame": 466
+  },
+  {
+   "film_t": 59.083,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the N bank (mud), trace frame 470",
+   "source": "HM-SYN-MUD",
+   "frame": 470
+  },
+  {
+   "film_t": 59.1,
+   "dur": 0.45,
+   "version": "E",
+   "kind": "foley",
+   "what": "A takes the liana: fibre creak",
+   "source": "HM-SYN-LIANA"
+  },
+  {
+   "film_t": 59.25,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the N bank (mud), trace frame 474",
+   "source": "HM-SYN-MUD",
+   "frame": 474
+  },
+  {
+   "film_t": 59.333,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the F bank (mud), trace frame 476",
+   "source": "HM-SYN-MUD",
+   "frame": 476
+  },
+  {
+   "film_t": 59.5,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 2.0 px), trace frame 480",
+   "source": "HM-SYN-CREAK",
+   "frame": 480
+  },
+  {
+   "film_t": 59.75,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 2.7 px), trace frame 486",
+   "source": "HM-SYN-CREAK",
+   "frame": 486
+  },
+  {
+   "film_t": 59.75,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "B step on the F bank (mud), trace frame 486",
+   "source": "HM-SYN-MUD",
+   "frame": 486
+  },
+  {
+   "film_t": 60.0,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 4.0 px), trace frame 492",
+   "source": "HM-SYN-CREAK",
+   "frame": 492
+  },
+  {
+   "film_t": 60.25,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 5.2 px), trace frame 498",
+   "source": "HM-SYN-CREAK",
+   "frame": 498
+  },
+  {
+   "film_t": 60.5,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 6.4 px), trace frame 504",
+   "source": "HM-SYN-CREAK",
+   "frame": 504
+  },
+  {
+   "film_t": 60.667,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 7.1 px), trace frame 508",
+   "source": "HM-SYN-CREAK",
+   "frame": 508
+  },
+  {
+   "film_t": 60.917,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 8.0 px), trace frame 514",
+   "source": "HM-SYN-CREAK",
+   "frame": 514
+  },
+  {
+   "film_t": 61.083,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 8.5 px), trace frame 518",
+   "source": "HM-SYN-CREAK",
+   "frame": 518
+  },
+  {
+   "film_t": 61.333,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 8.9 px), trace frame 524",
+   "source": "HM-SYN-CREAK",
+   "frame": 524
+  },
+  {
+   "film_t": 61.5,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 9.0 px), trace frame 528",
+   "source": "HM-SYN-CREAK",
+   "frame": 528
+  },
+  {
+   "film_t": 61.75,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 8.9 px), trace frame 534",
+   "source": "HM-SYN-CREAK",
+   "frame": 534
+  },
+  {
+   "film_t": 61.917,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 8.6 px), trace frame 538",
+   "source": "HM-SYN-CREAK",
+   "frame": 538
+  },
+  {
+   "film_t": 62.167,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 7.9 px), trace frame 544",
+   "source": "HM-SYN-CREAK",
+   "frame": 544
+  },
+  {
+   "film_t": 62.333,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 7.3 px), trace frame 548",
+   "source": "HM-SYN-CREAK",
+   "frame": 548
+  },
+  {
+   "film_t": 62.583,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 6.2 px), trace frame 554",
+   "source": "HM-SYN-CREAK",
+   "frame": 554
+  },
+  {
+   "film_t": 62.75,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 5.4 px), trace frame 558",
+   "source": "HM-SYN-CREAK",
+   "frame": 558
+  },
+  {
+   "film_t": 63.0,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the plank + creak (deflection 4.2 px), trace frame 564",
+   "source": "HM-SYN-CREAK",
+   "frame": 564
+  },
+  {
+   "film_t": 63.25,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the P bank (mud), trace frame 570",
+   "source": "HM-SYN-MUD",
+   "frame": 570
+  },
+  {
+   "film_t": 63.5,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the P bank (mud), trace frame 576",
+   "source": "HM-SYN-MUD",
+   "frame": 576
+  },
+  {
+   "film_t": 63.667,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the N bank (mud), trace frame 580",
+   "source": "HM-SYN-MUD",
+   "frame": 580
+  },
+  {
+   "film_t": 63.75,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the P bank (mud), trace frame 582",
+   "source": "HM-SYN-MUD",
+   "frame": 582
+  },
+  {
+   "film_t": 63.833,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the N bank (mud), trace frame 584",
+   "source": "HM-SYN-MUD",
+   "frame": 584
+  },
+  {
+   "film_t": 64.0,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the N bank (mud), trace frame 588",
+   "source": "HM-SYN-MUD",
+   "frame": 588
+  },
+  {
+   "film_t": 64.083,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the N bank (mud), trace frame 590",
+   "source": "HM-SYN-MUD",
+   "frame": 590
+  },
+  {
+   "film_t": 64.1,
+   "dur": 0.45,
+   "version": "E",
+   "kind": "foley",
+   "what": "C takes the liana: fibre creak",
+   "source": "HM-SYN-LIANA"
+  },
+  {
+   "film_t": 64.25,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 0.0 px), trace frame 594",
+   "source": "HM-SYN-CREAK",
+   "frame": 594
+  },
+  {
+   "film_t": 64.3,
+   "dur": 5.2,
+   "version": "E",
+   "kind": "ambience",
+   "what": "water louder for C's last crossing",
+   "source": "FOR-AUD-STREAM"
+  },
+  {
+   "film_t": 64.333,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the N bank (mud), trace frame 596",
+   "source": "HM-SYN-MUD",
+   "frame": 596
+  },
+  {
+   "film_t": 64.417,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "A step on the F bank (mud), trace frame 598",
+   "source": "HM-SYN-MUD",
+   "frame": 598
+  },
+  {
+   "film_t": 64.5,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 2.0 px), trace frame 600",
+   "source": "HM-SYN-CREAK",
+   "frame": 600
+  },
+  {
+   "film_t": 64.75,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 2.7 px), trace frame 606",
+   "source": "HM-SYN-CREAK",
+   "frame": 606
+  },
+  {
+   "film_t": 65.0,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 4.0 px), trace frame 612",
+   "source": "HM-SYN-CREAK",
+   "frame": 612
+  },
+  {
+   "film_t": 65.25,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 5.2 px), trace frame 618",
+   "source": "HM-SYN-CREAK",
+   "frame": 618
+  },
+  {
+   "film_t": 65.5,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 6.4 px), trace frame 624",
+   "source": "HM-SYN-CREAK",
+   "frame": 624
+  },
+  {
+   "film_t": 65.667,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 7.1 px), trace frame 628",
+   "source": "HM-SYN-CREAK",
+   "frame": 628
+  },
+  {
+   "film_t": 65.917,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 8.0 px), trace frame 634",
+   "source": "HM-SYN-CREAK",
+   "frame": 634
+  },
+  {
+   "film_t": 66.083,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 8.5 px), trace frame 638",
+   "source": "HM-SYN-CREAK",
+   "frame": 638
+  },
+  {
+   "film_t": 66.17,
+   "dur": 1.0,
+   "version": "E",
+   "kind": "foley",
+   "what": "splash on C's shins at the plank's lowest (trace clearance 6.0 px, local 26.750 s)",
+   "source": "FOR-AUD-SPLASH",
+   "clearance_px": 6.0,
+   "over_step_db_isolated": 14.0
+  },
+  {
+   "film_t": 66.333,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 8.9 px), trace frame 644",
+   "source": "HM-SYN-CREAK",
+   "frame": 644
+  },
+  {
+   "film_t": 66.5,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 9.0 px), trace frame 648",
+   "source": "HM-SYN-CREAK",
+   "frame": 648
+  },
+  {
+   "film_t": 66.75,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 8.9 px), trace frame 654",
+   "source": "HM-SYN-CREAK",
+   "frame": 654
+  },
+  {
+   "film_t": 66.917,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 8.6 px), trace frame 658",
+   "source": "HM-SYN-CREAK",
+   "frame": 658
+  },
+  {
+   "film_t": 67.167,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 7.9 px), trace frame 664",
+   "source": "HM-SYN-CREAK",
+   "frame": 664
+  },
+  {
+   "film_t": 67.333,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 7.3 px), trace frame 668",
+   "source": "HM-SYN-CREAK",
+   "frame": 668
+  },
+  {
+   "film_t": 67.583,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 6.2 px), trace frame 674",
+   "source": "HM-SYN-CREAK",
+   "frame": 674
+  },
+  {
+   "film_t": 67.75,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 5.4 px), trace frame 678",
+   "source": "HM-SYN-CREAK",
+   "frame": 678
+  },
+  {
+   "film_t": 68.0,
+   "dur": 0.35,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the plank + creak (deflection 4.2 px), trace frame 684",
+   "source": "HM-SYN-CREAK",
+   "frame": 684
+  },
+  {
+   "film_t": 68.25,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the P bank (mud), trace frame 690",
+   "source": "HM-SYN-MUD",
+   "frame": 690
+  },
+  {
+   "film_t": 68.5,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the P bank (mud), trace frame 696",
+   "source": "HM-SYN-MUD",
+   "frame": 696
+  },
+  {
+   "film_t": 68.75,
+   "dur": 0.16,
+   "version": "E",
+   "kind": "foley",
+   "what": "C step on the P bank (mud), trace frame 702",
+   "source": "HM-SYN-MUD",
+   "frame": 702
+  },
+  {
+   "film_t": 70.0,
+   "dur": 2.4,
+   "version": "cmp",
+   "kind": "foley",
+   "what": "pencil underlining on the comparison card",
+   "source": "HM-SYN-PENCIL"
+  }
+ ]
+}

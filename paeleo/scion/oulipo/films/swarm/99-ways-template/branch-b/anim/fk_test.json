@@ -1,0 +1,610 @@
+{
+ "per_shot": {
+  "S1": {
+   "pivot_drift_px_max": 0.0,
+   "n_poses": 9
+  },
+  "S2": {
+   "pivot_drift_px_max": 0.0,
+   "n_poses": 15
+  },
+  "S3": {
+   "pivot_drift_px_max": 0.0,
+   "n_poses": 22
+  },
+  "S4": {
+   "pivot_drift_px_max": 0.0,
+   "n_poses": 19
+  },
+  "S5": {
+   "pivot_drift_px_max": 0.0,
+   "n_poses": 9
+  },
+  "S6": {
+   "pivot_drift_px_max": null,
+   "n_poses": 9
+  },
+  "S7": {
+   "pivot_drift_px_max": 0.0,
+   "n_poses": 17,
+   "jamb_top_px_max_delta": 0.0,
+   "jamb_bottom_px_max_delta": 0.0,
+   "door_poses": [
+    {
+     "f": 0,
+     "theta_deg": 0.0,
+     "face": "outer",
+     "scaleX": 1.0
+    },
+    {
+     "f": 6,
+     "theta_deg": 0.0,
+     "face": "outer",
+     "scaleX": 1.0
+    },
+    {
+     "f": 8,
+     "theta_deg": 0.0,
+     "face": "outer",
+     "scaleX": 1.0
+    },
+    {
+     "f": 10,
+     "theta_deg": 0.0,
+     "face": "outer",
+     "scaleX": 1.0
+    },
+    {
+     "f": 12,
+     "theta_deg": 0.0,
+     "face": "outer",
+     "scaleX": 1.0
+    },
+    {
+     "f": 14,
+     "theta_deg": 0.0,
+     "face": "outer",
+     "scaleX": 1.0
+    },
+    {
+     "f": 16,
+     "theta_deg": 0.0,
+     "face": "outer",
+     "scaleX": 1.0
+    },
+    {
+     "f": 18,
+     "theta_deg": 0.0,
+     "face": "outer",
+     "scaleX": 1.0
+    },
+    {
+     "f": 20,
+     "theta_deg": 0.0,
+     "face": "outer",
+     "scaleX": 1.0
+    },
+    {
+     "f": 40,
+     "theta_deg": 4.0,
+     "face": "outer",
+     "scaleX": 0.998
+    },
+    {
+     "f": 42,
+     "theta_deg": 30.0,
+     "face": "outer",
+     "scaleX": 0.866
+    },
+    {
+     "f": 44,
+     "theta_deg": 55.0,
+     "face": "outer",
+     "scaleX": 0.574
+    },
+    {
+     "f": 46,
+     "theta_deg": 75.0,
+     "face": "outer",
+     "scaleX": 0.259
+    },
+    {
+     "f": 48,
+     "theta_deg": 88.0,
+     "face": "outer",
+     "scaleX": 0.035
+    },
+    {
+     "f": 50,
+     "theta_deg": 100.0,
+     "face": "inner",
+     "scaleX": 0.174
+    },
+    {
+     "f": 52,
+     "theta_deg": 113.0,
+     "face": "inner",
+     "scaleX": 0.391
+    },
+    {
+     "f": 54,
+     "theta_deg": 109.88,
+     "face": "inner",
+     "scaleX": 0.34
+    }
+   ],
+   "key_offset_px": [
+    0.0,
+    6.65
+   ],
+   "key_offset_max_delta_px": 0.0,
+   "key_hook_px_by_pose": [
+    {
+     "f": 50,
+     "hook": [
+      197.57,
+      488.21
+     ],
+     "ring": [
+      197.57,
+      494.86
+     ]
+    },
+    {
+     "f": 52,
+     "hook": [
+      158.57,
+      488.21
+     ],
+     "ring": [
+      158.57,
+      494.86
+     ]
+    },
+    {
+     "f": 54,
+     "hook": [
+      167.69,
+      488.21
+     ],
+     "ring": [
+      167.69,
+      494.86
+     ]
+    }
+   ]
+  },
+  "S8": {
+   "pivot_drift_px_max": 0.0,
+   "n_poses": 18,
+   "jamb_top_px_max_delta": 0.0,
+   "jamb_bottom_px_max_delta": 0.0,
+   "door_poses": [
+    {
+     "f": 0,
+     "theta_deg": 109.88,
+     "face": "inner",
+     "scaleX": 0.34
+    },
+    {
+     "f": 10,
+     "theta_deg": 109.88,
+     "face": "inner",
+     "scaleX": 0.34
+    },
+    {
+     "f": 14,
+     "theta_deg": 109.88,
+     "face": "inner",
+     "scaleX": 0.34
+    },
+    {
+     "f": 18,
+     "theta_deg": 109.88,
+     "face": "inner",
+     "scaleX": 0.34
+    },
+    {
+     "f": 26,
+     "theta_deg": 109.88,
+     "face": "inner",
+     "scaleX": 0.34
+    },
+    {
+     "f": 28,
+     "theta_deg": 109.88,
+     "face": "inner",
+     "scaleX": 0.34
+    },
+    {
+     "f": 30,
+     "theta_deg": 109.88,
+     "face": "inner",
+     "scaleX": 0.34
+    },
+    {
+     "f": 32,
+     "theta_deg": 109.88,
+     "face": "inner",
+     "scaleX": 0.34
+    },
+    {
+     "f": 34,
+     "theta_deg": 109.88,
+     "face": "inner",
+     "scaleX": 0.34
+    },
+    {
+     "f": 36,
+     "theta_deg": 109.88,
+     "face": "inner",
+     "scaleX": 0.34
+    },
+    {
+     "f": 58,
+     "theta_deg": 109.88,
+     "face": "inner",
+     "scaleX": 0.34
+    },
+    {
+     "f": 60,
+     "theta_deg": 109.88,
+     "face": "inner",
+     "scaleX": 0.34
+    },
+    {
+     "f": 62,
+     "theta_deg": 109.88,
+     "face": "inner",
+     "scaleX": 0.34
+    },
+    {
+     "f": 64,
+     "theta_deg": 109.88,
+     "face": "inner",
+     "scaleX": 0.34
+    },
+    {
+     "f": 81,
+     "theta_deg": 109.88,
+     "face": "inner",
+     "scaleX": 0.34
+    },
+    {
+     "f": 82,
+     "theta_deg": 109.88,
+     "face": "inner",
+     "scaleX": 0.34
+    },
+    {
+     "f": 83,
+     "theta_deg": 109.88,
+     "face": "inner",
+     "scaleX": 0.34
+    },
+    {
+     "f": 84,
+     "theta_deg": 109.88,
+     "face": "inner",
+     "scaleX": 0.34
+    }
+   ],
+   "key_offset_px": [
+    0.0,
+    8.4
+   ],
+   "key_offset_max_delta_px": 0.0,
+   "key_hook_px_by_pose": [
+    {
+     "f": 0,
+     "hook": [
+      144.62,
+      499.08
+     ],
+     "ring": [
+      144.62,
+      507.48
+     ]
+    },
+    {
+     "f": 10,
+     "hook": [
+      144.62,
+      499.08
+     ],
+     "ring": [
+      144.62,
+      507.48
+     ]
+    },
+    {
+     "f": 14,
+     "hook": [
+      144.62,
+      499.08
+     ],
+     "ring": [
+      144.62,
+      507.48
+     ]
+    },
+    {
+     "f": 18,
+     "hook": [
+      144.62,
+      499.08
+     ],
+     "ring": [
+      144.62,
+      507.48
+     ]
+    },
+    {
+     "f": 26,
+     "hook": [
+      144.62,
+      499.08
+     ],
+     "ring": [
+      144.62,
+      507.48
+     ]
+    },
+    {
+     "f": 28,
+     "hook": [
+      144.62,
+      499.08
+     ],
+     "ring": [
+      144.62,
+      507.48
+     ]
+    },
+    {
+     "f": 30,
+     "hook": [
+      144.62,
+      499.08
+     ],
+     "ring": [
+      144.62,
+      507.48
+     ]
+    },
+    {
+     "f": 32,
+     "hook": [
+      144.62,
+      499.08
+     ],
+     "ring": [
+      144.62,
+      507.48
+     ]
+    },
+    {
+     "f": 34,
+     "hook": [
+      144.62,
+      499.08
+     ],
+     "ring": [
+      144.62,
+      507.48
+     ]
+    },
+    {
+     "f": 36,
+     "hook": [
+      144.62,
+      499.08
+     ],
+     "ring": [
+      144.62,
+      507.48
+     ]
+    },
+    {
+     "f": 58,
+     "hook": [
+      144.62,
+      499.08
+     ],
+     "ring": [
+      144.62,
+      507.48
+     ]
+    },
+    {
+     "f": 60,
+     "hook": [
+      144.62,
+      499.08
+     ],
+     "ring": [
+      144.62,
+      507.48
+     ]
+    },
+    {
+     "f": 62,
+     "hook": [
+      144.62,
+      499.08
+     ],
+     "ring": [
+      144.62,
+      507.48
+     ]
+    },
+    {
+     "f": 64,
+     "hook": [
+      144.62,
+      499.08
+     ],
+     "ring": [
+      144.62,
+      507.48
+     ]
+    },
+    {
+     "f": 81,
+     "hook": [
+      144.62,
+      499.08
+     ],
+     "ring": [
+      144.62,
+      507.48
+     ]
+    },
+    {
+     "f": 82,
+     "hook": [
+      144.62,
+      499.08
+     ],
+     "ring": [
+      144.62,
+      507.48
+     ]
+    },
+    {
+     "f": 83,
+     "hook": [
+      144.62,
+      499.08
+     ],
+     "ring": [
+      144.62,
+      507.48
+     ]
+    },
+    {
+     "f": 84,
+     "hook": [
+      144.62,
+      499.08
+     ],
+     "ring": [
+      144.62,
+      507.48
+     ]
+    }
+   ],
+   "tip_to_chin_px_by_pose": [
+    {
+     "f": 0,
+     "tip_to_chin": 151.9
+    },
+    {
+     "f": 10,
+     "tip_to_chin": 151.4
+    },
+    {
+     "f": 14,
+     "tip_to_chin": 150.9
+    },
+    {
+     "f": 18,
+     "tip_to_chin": 150.3
+    },
+    {
+     "f": 26,
+     "tip_to_chin": 188.3
+    },
+    {
+     "f": 28,
+     "tip_to_chin": 104.2
+    },
+    {
+     "f": 30,
+     "tip_to_chin": 48.6
+    },
+    {
+     "f": 32,
+     "tip_to_chin": 18.8
+    },
+    {
+     "f": 34,
+     "tip_to_chin": 16.5
+    },
+    {
+     "f": 36,
+     "tip_to_chin": 16.0
+    },
+    {
+     "f": 58,
+     "tip_to_chin": 27.2
+    },
+    {
+     "f": 60,
+     "tip_to_chin": 16.0
+    },
+    {
+     "f": 62,
+     "tip_to_chin": 27.2
+    },
+    {
+     "f": 64,
+     "tip_to_chin": 16.0
+    },
+    {
+     "f": 81,
+     "tip_to_chin": 16.0
+    },
+    {
+     "f": 82,
+     "tip_to_chin": 16.0
+    },
+    {
+     "f": 83,
+     "tip_to_chin": 16.0
+    },
+    {
+     "f": 84,
+     "tip_to_chin": 16.0
+    }
+   ]
+  }
+ },
+ "criteria": {
+  "pivot_drift_px_max": 1.5,
+  "key_offset": "constant (|delta| <= 0.5 px)",
+  "jamb": "fixed (|delta| <= 0.5 px)"
+ },
+ "summary": {
+  "pivot_drift_px_max_all": 0.0,
+  "pivot_drift_pass": true,
+  "key_offset_max_delta_px": 0.0,
+  "key_offset_pass": true,
+  "jamb_max_delta_px": 0.0,
+  "jamb_pass": true,
+  "rest_identity": {
+   "S0": 0.0,
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S4": 0.0,
+   "S5": 0.0,
+   "S6": 0.0,
+   "S7": 0.0,
+   "S8": 0.0
+  },
+  "method": "drift = distance between a child's pivot carried by its parent's matrix and by its own matrix, for every distinct pose rendered (page px; panels are at page scale). Key offset = key ring minus hook point, per door pose. Jamb = door's hinge-edge endpoints per door pose."
+ },
+ "lamp_piece": {
+  "pivot": [
+   302.4662106703146,
+   0.0
+  ],
+  "fit": [
+   -0.01222884502638263,
+   302.4662106703146
+  ],
+  "fg_area": 8753,
+  "components": 1
+ }
+}

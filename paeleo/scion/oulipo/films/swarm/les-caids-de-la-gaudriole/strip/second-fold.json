@@ -1,0 +1,319 @@
+{
+ "id": "caids-strip-r1 / second pleat on a fresh copy (inquiry only, no content added)",
+ "pleat2": {
+  "A2_mountain": 1990,
+  "M2_valley": 2100,
+  "B2": 2210,
+  "D2": 220,
+  "check_B2_eq_2M2_minus_A2": true,
+  "check_2A2_minus_M2_gt_P2x0": true
+ },
+ "visible_faces_fresh_copy": "V2(x') = S(x') for x' < 1990; S(x' + 220) for x' >= 1990 (width 2180 u)",
+ "fragments": [
+  {
+   "id": "P1.miller.line1.L",
+   "text": "THE KEY?",
+   "sheet_bbox": [
+    378.8,
+    112,
+    608,
+    148
+   ],
+   "pleat2": "visible (unchanged)",
+   "pleat2_folded_x": [
+    378.8,
+    608
+   ]
+  },
+  {
+   "id": "P1.miller.line1.R",
+   "text": "I SWEAR, NOT",
+   "sheet_bbox": [
+    632,
+    112,
+    950.0,
+    148
+   ],
+   "pleat2": "visible (unchanged)",
+   "pleat2_folded_x": [
+    632,
+    950.0
+   ]
+  },
+  {
+   "id": "P1.miller.line2.L",
+   "text": "IN MY",
+   "sheet_bbox": [
+    477.2,
+    168,
+    608,
+    204
+   ],
+   "pleat2": "visible (unchanged)",
+   "pleat2_folded_x": [
+    477.2,
+    608
+   ]
+  },
+  {
+   "id": "P1.miller.line2.R",
+   "text": "ENVELOPE!",
+   "sheet_bbox": [
+    632,
+    168,
+    894.8,
+    204
+   ],
+   "pleat2": "visible (unchanged)",
+   "pleat2_folded_x": [
+    632,
+    894.8
+   ]
+  },
+  {
+   "id": "P1.miller.line3.L",
+   "text": "ALL",
+   "sheet_bbox": [
+    521.6,
+    224,
+    608,
+    260
+   ],
+   "pleat2": "visible (unchanged)",
+   "pleat2_folded_x": [
+    521.6,
+    608
+   ]
+  },
+  {
+   "id": "P1.miller.line3.R",
+   "text": "I CARRY IS PAPER.",
+   "sheet_bbox": [
+    632,
+    224,
+    1085.6,
+    260
+   ],
+   "pleat2": "visible (unchanged)",
+   "pleat2_folded_x": [
+    632,
+    1085.6
+   ]
+  },
+  {
+   "id": "P2.porter.line1.L",
+   "text": "HERE! SILLY ME -",
+   "sheet_bbox": [
+    1351.2,
+    112,
+    1788,
+    148
+   ],
+   "pleat2": "visible (unchanged)",
+   "pleat2_folded_x": [
+    1351.2,
+    1788
+   ]
+  },
+  {
+   "id": "P2.porter.line1.R",
+   "text": "I HAD IT",
+   "sheet_bbox": [
+    1812,
+    112,
+    2016.0,
+    148
+   ],
+   "pleat2": "cut by pleat 2: left part 1812-1990 visible; 1990-2016.0 hidden",
+   "pleat2_folded_x": null
+  },
+  {
+   "id": "P2.porter.line2.L",
+   "text": "IN THE COAT",
+   "sheet_bbox": [
+    1484.4,
+    168,
+    1788,
+    204
+   ],
+   "pleat2": "visible (unchanged)",
+   "pleat2_folded_x": [
+    1484.4,
+    1788
+   ]
+  },
+  {
+   "id": "P2.porter.line2.R",
+   "text": "POCKET",
+   "sheet_bbox": [
+    1812,
+    168,
+    1992.0,
+    204
+   ],
+   "pleat2": "cut by pleat 2: left part 1812-1990 visible; 1990-1992.0 hidden",
+   "pleat2_folded_x": null
+  },
+  {
+   "id": "P2.porter.line3.L",
+   "text": "ALL",
+   "sheet_bbox": [
+    1701.6,
+    224,
+    1788,
+    260
+   ],
+   "pleat2": "visible (unchanged)",
+   "pleat2_folded_x": [
+    1701.6,
+    1788
+   ]
+  },
+  {
+   "id": "P2.porter.line3.R",
+   "text": "ALONG.",
+   "sheet_bbox": [
+    1812,
+    224,
+    1974.0,
+    260
+   ],
+   "pleat2": "visible (unchanged)",
+   "pleat2_folded_x": [
+    1812,
+    1974.0
+   ]
+  },
+  {
+   "id": "P1.porter.ask",
+   "text": "WHO BORROWED / IT, THEN?",
+   "sheet_bbox": [
+    856.3,
+    315.4,
+    1163.7,
+    518.6
+   ],
+   "pleat2": "visible (unchanged)",
+   "pleat2_folded_x": [
+    856.3,
+    1163.7
+   ]
+  },
+  {
+   "id": "P2.boys.say",
+   "text": "OH? / REALLY?",
+   "sheet_bbox": [
+    2113.7,
+    373.4,
+    2316.3,
+    576.6
+   ],
+   "pleat2": "cut by pleat 2: right part 2210-2316.3 visible at 1990-2096.3; 2113.7-2210 hidden",
+   "pleat2_folded_x": null
+  },
+  {
+   "id": "P1.miller.body",
+   "text": "miller body, sack, sleeve cut at A (cuff crosses x=A)",
+   "sheet_bbox": [
+    44,
+    300,
+    620,
+    846
+   ],
+   "pleat2": "visible (unchanged)",
+   "pleat2_folded_x": [
+    44,
+    620
+   ]
+  },
+  {
+   "id": "P1.miller.hand-open",
+   "text": "miller's empty open hand reaching past A (open state only)",
+   "sheet_bbox": [
+    620,
+    420,
+    760,
+    640
+   ],
+   "pleat2": "visible (unchanged)",
+   "pleat2_folded_x": [
+    620,
+    760
+   ]
+  },
+  {
+   "id": "P1.porter",
+   "text": "porter (Busch farmer, mirrored) listening, neck joint",
+   "sheet_bbox": [
+    800,
+    330,
+    1176,
+    846
+   ],
+   "pleat2": "visible (unchanged)",
+   "pleat2_folded_x": [
+    800,
+    1176
+   ]
+  },
+  {
+   "id": "P2.porter",
+   "text": "porter (Busch farmer) with pen-drawn striped forearm to the wrist at B",
+   "sheet_bbox": [
+    1232,
+    290,
+    1800,
+    846
+   ],
+   "pleat2": "visible (unchanged)",
+   "pleat2_folded_x": [
+    1232,
+    1800
+   ]
+  },
+  {
+   "id": "P2.door",
+   "text": "closed service door, pen-drawn, behind the porter (common seed)",
+   "sheet_bbox": [
+    1236,
+    300,
+    1560,
+    790
+   ],
+   "pleat2": "visible (unchanged)",
+   "pleat2_folded_x": [
+    1236,
+    1560
+   ]
+  },
+  {
+   "id": "P2.hand-key",
+   "text": "hand + brass bit-key beyond B (reads as the miller's hand when folded)",
+   "sheet_bbox": [
+    1800,
+    420,
+    1960,
+    700
+   ],
+   "pleat2": "visible (unchanged)",
+   "pleat2_folded_x": [
+    1800,
+    1960
+   ]
+  },
+  {
+   "id": "P2.boys",
+   "text": "the two boys (Busch plate 001)",
+   "sheet_bbox": [
+    1880,
+    560,
+    2356,
+    846
+   ],
+   "pleat2": "cut by pleat 2: left part 1880-1990 visible; right part 2210-2356 visible at 1990-2136; 1990-2210 hidden",
+   "pleat2_folded_x": null
+  }
+ ],
+ "reading": "Pleat 2 does not hide 'OH? REALLY?' cleanly: the balloon (2114-2316) is cut at 2210, so the left of 'OH? / REALLY?' and the right end of 'I HAD IT' disappear and the boys lose their left half. It yields no coherent new utterance, which is why the work uses one pleat. To hide the boys' line wholly a pleat would need A2 <= 2102 and B2 >= 2328, i.e. D2 >= 226 with both edges inside P2 (for example A2 = 2090, M2 = 2210, B2 = 2330) - but that also cuts the boys' figures.",
+ "order_of_operations": "On a copy already folded with pleat 1 (A-first, then M), pleat 2 acts on the folded packet in x' coordinates: A2' = A2 - D = 810, M2' = 920. The visible faces are the same as folding pleat 2 first and then pleat 1 (they act on disjoint ranges: pleat 1 on 620-1800, pleat 2 on 1990-2210), but the light-box stack differs: pleat 2 adds two layers over x' 810-920 only."
+}

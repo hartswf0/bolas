@@ -1,0 +1,306 @@
+{
+ "unit": "montage editor (repair 1) — rewritten from what the film actually opens",
+ "date": "2026-11-17",
+ "rule": "every source file opened by films/exercices-de-style.py, anim/es_lib.py and anim/test_shot_s5c.py maps to exactly one item below; the same set is films/credits/exercices-de-style.json",
+ "items": [
+  {
+   "id": "rol57642",
+   "title": "Homme marchant dans la rue (Rol 57642), janvier 1920",
+   "author": "Agence Rol (BnF, Pho20Rol)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Homme_marchant_dans_la_rue_-_btv1b530359957.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Homme_marchant_dans_la_rue_-_btv1b530359957.jpg/1920px-Homme_marchant_dans_la_rue_-_btv1b530359957.jpg",
+   "licence_read": "Commons extmetadata: LicenseShortName='Public domain', Artist='Agence Rol', Credit='Bibliothèque nationale de France', date 1920 (Rol 57642, Pho20Rol), Copyrighted=False; recorded in animator-pagemaker/dl/homme_marchant.meta.json (read 2026-11-16/17); RE-READ 2026-11-17 from the Commons API (editor/dl/commons_meta.json): LicenseShortName='Public domain', Artist Agence Rol (Q18507700), Credit BnF, DateTimeOriginal 1920",
+   "local_paths": [
+    "films/sources/exercices-de-style/animator-pagemaker/dl/homme_marchant_1920.jpg",
+    "films/sources/exercices-de-style/animator-pagemaker/cut/rig_walker.json",
+    "films/sources/exercices-de-style/animator-pagemaker/cut/wk_head.png",
+    "films/sources/exercices-de-style/animator-pagemaker/cut/wk_arm.png",
+    "films/sources/exercices-de-style/animator-pagemaker/cut/wk_torso.png",
+    "films/sources/exercices-de-style/animator-pagemaker/cut/wk_hem.png",
+    "films/sources/exercices-de-style/animator-pagemaker/cut/wk_leg_straight.png",
+    "films/sources/exercices-de-style/animator-pagemaker/cut/wk_leg_bent.png",
+    "films/sources/exercices-de-style/animator-pagemaker/cut/walker_rgba_full.png"
+   ],
+   "opened_by": [
+    "anim/es_lib.py Visitor (rig_walker.json + wk_*.png)",
+    "anim/test_shot_s5c.py cells() (homme_marchant_1920.jpg, strip cell 1)"
+   ],
+   "what_it_shows": "genuinely B&W press print: a bearded man in long overcoat and wide-brim felt hat walking, full figure, cane; a second man at right not used",
+   "used_as": "THE visitor in S1, S2 tableaux, S5c (cut #29 GrabCut + head trimap + #31 matte; 6 pieces, FK rig, leg drawing substitution); his own right sleeve+hand is the close-up arm that lowers the key (S5b, S5c) and folds back into him; S3 Reiniger silhouette is rotoscoped from these mattes; S5 strip cell 1 (crop of the coat)"
+  },
+  {
+   "id": "key_rex",
+   "title": "Key (Index of American Design watercolour), 1935-1942, NGA 24027",
+   "author": "Edna C. Rex",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Edna_C._Rex,_Key,_1935-1942,_NGA_24027.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Edna_C._Rex%2C_Key%2C_1935-1942%2C_NGA_24027.jpg/1280px-Edna_C._Rex%2C_Key%2C_1935-1942%2C_NGA_24027.jpg",
+   "licence_read": "Commons extmetadata RE-READ 2026-11-17 (editor/dl/commons_meta.json): LicenseShortName='CC0', LicenseUrl http://creativecommons.org/publicdomain/zero/1.0/deed.en, Artist Edna C. Rex, DateTimeOriginal 1935/1942, NGA donation",
+   "local_paths": [
+    "films/sources/exercices-de-style/key2.jpg",
+    "films/sources/exercices-de-style/test-shot/key_cut.png"
+   ],
+   "opened_by": [
+    "anim/es_lib.py key() (test-shot/key_cut.png)"
+   ],
+   "what_it_shows": "watercolour rendering of an iron/brass key (Index of American Design)",
+   "used_as": "the narrating key: S1 placed, S4 drop + settle on the notice, S5c lowered/landed/settled; strip cells"
+  },
+  {
+   "id": "station",
+   "title": "Berlin: Symphony of a Great City (1927), platform shot",
+   "author": "Walther Ruttmann (dir.); accessed via movingimagearchive.com",
+   "license": "Public domain (US, published 1927; archive.org record: Public Domain Mark 1.0)",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+   "source_url": "https://www.movingimagearchive.com/sources/berlin-symphony-of-a-great-city-9eb528d5?clip=b6e217eb-832b-528a-9214-cb8174e2834f",
+   "file_url": "",
+   "archive_org": "https://archive.org/details/berlin-symphony-of-a-great-city-1927-tmdb222",
+   "licence_read": "archive.org metadata read 2026-11-17 (editor/dl/berlin-symphony-of-a-great-city-1927-tmdb222.meta.json): creator 'Walter Ruttmann', licenseurl https://creativecommons.org/publicdomain/mark/1.0/, 'first released 1927'",
+   "local_paths": [
+    "films/sources/exercices-de-style/forage/station_berlin1927.png"
+   ],
+   "opened_by": [
+    "films/exercices-de-style.py STATION (S1 deckled vignette, S2 tableaux)"
+   ],
+   "what_it_shows": "empty B&W elevated platform under an arched roof",
+   "used_as": "the station vignette in S1 (and inside the S2 tableaux)"
+  },
+  {
+   "id": "bell",
+   "title": "Communications and Our Town (1947), bell strike + belfry frame",
+   "author": "Holmes (Burton) Films, Inc.; sponsor Vocational Guidance Films, Inc.; accessed via movingimagearchive.com",
+   "license": "Public domain (Prelinger Archives; archive.org licenseurl http://creativecommons.org/licenses/publicdomain/)",
+   "license_url": "http://creativecommons.org/licenses/publicdomain/",
+   "source_url": "https://www.movingimagearchive.com/sources/communications-and-our-town-e75e0b4f?clip=381d177e-aa67-5119-9f0a-eca87325fd86",
+   "file_url": "",
+   "archive_org": "https://archive.org/details/Communic1947",
+   "licence_read": "archive.org metadata read 2026-11-17 (editor/dl/Communic1947.meta.json): collection prelinger, creator 'Holmes (Burton) Films, Inc.', sponsor 'Vocational Guidance Films, Inc.', date 1947, licenseurl http://creativecommons.org/licenses/publicdomain/",
+   "local_paths": [
+    "films/sources/exercices-de-style/forager-cutout-rigger/bell_strike_mia.wav",
+    "films/sources/exercices-de-style/animator-pagemaker/stills/bell_6.jpg"
+   ],
+   "opened_by": [
+    "films/exercices-de-style.py sound() (bell_strike_mia.wav)",
+    "anim/test_shot_s5c.py cells() (bell_6.jpg, strip cell 2)"
+   ],
+   "what_it_shows": "one clean bell strike (clip 4.20-5.56 s, before the narrator speaks); B&W belfry frame",
+   "used_as": "the one bell recording heard per point of hearing (S1 full, S2 reversed order, S3 through glass, S5a muffled, S6 one stroke); belfry frame as S5 strip cell 2"
+  },
+  {
+   "id": "room_tone",
+   "title": "Wreckless (1935), optical-track room tone",
+   "author": "Jam Handy Organization (Handy (Jam) Organization), sponsor Chevrolet Motor Company; accessed via movingimagearchive.com",
+   "license": "Public domain (Prelinger Archives; archive.org licenseurl http://creativecommons.org/licenses/publicdomain/)",
+   "license_url": "http://creativecommons.org/licenses/publicdomain/",
+   "source_url": "https://www.movingimagearchive.com/sources/wreckless-a46a460b?clip=ef7bfc89-ff77-5425-ab77-508a21f7c9db",
+   "file_url": "",
+   "archive_org": "https://archive.org/details/wreckless",
+   "licence_read": "archive.org metadata read 2026-11-17 (editor/dl/wreckless.meta.json): collection prelinger, publisher 'Handy (Jam) Organization', sponsor 'Chevrolet Motor Company', date 1935, licenseurl http://creativecommons.org/licenses/publicdomain/",
+   "local_paths": [
+    "films/sources/exercices-de-style/forager-cutout-rigger/room_tone_wreckless1935.wav",
+    "films/sources/exercices-de-style/test-shot/room.wav (identical bytes)"
+   ],
+   "opened_by": [
+    "films/exercices-de-style.py sound()",
+    "anim/test_shot_s5c.py sound() (standalone test shot only)"
+   ],
+   "what_it_shows": "quiet optical-track passage",
+   "used_as": "room tone bed 0-71.25 s"
+  },
+  {
+   "id": "steps",
+   "title": "Footstep on Gravel (Gravity Sound).mp3",
+   "author": "Gravity Sound (gravitysound.studio)",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Footstep_on_Gravel_(Gravity_Sound).mp3",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/f7/Footstep_on_Gravel_%28Gravity_Sound%29.mp3",
+   "licence_read": "Commons extmetadata read 2026-11-17 (editor/dl/footstep_gravel.meta.json): LicenseShortName='CC BY 4.0', Artist 'Gravity Sound'",
+   "local_paths": [
+    "films/sources/exercices-de-style/editor/dl/footstep_gravel.mp3",
+    "films/sources/exercices-de-style/editor/footstep_gravel.wav"
+   ],
+   "opened_by": [
+    "films/exercices-de-style.py sound()",
+    "anim/test_shot_s5c.py sound()"
+   ],
+   "what_it_shows": "one footfall on gravel",
+   "used_as": "every footstep (S1, S2, S3, S5a, S5c foot contacts); changes: trimmed to one grain, resampled 0.90-1.10x, low-passed, gain-shaped"
+  },
+  {
+   "id": "thud",
+   "title": "Dull thud",
+   "author": "gregoryweir",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Dull_thud.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Dull_thud.ogg",
+   "licence_read": "Commons extmetadata RE-READ 2026-11-17 (editor/dl/commons_meta.json): LicenseShortName='Public domain', Artist gregoryweir, Credit pdsounds.org, 2009-07-04",
+   "local_paths": [
+    "films/sources/exercices-de-style/forager-cutout-rigger/thud_dull.wav",
+    "films/sources/exercices-de-style/test-shot/thud.wav (identical bytes)"
+   ],
+   "opened_by": [
+    "films/exercices-de-style.py sound()",
+    "anim/test_shot_s5c.py sound()"
+   ],
+   "what_it_shows": "a dull thud",
+   "used_as": "the key's weight on the bench (S1, S2, S3 low-passed, S5c landing) and the S4 stamp"
+  }
+ ],
+ "not_used_on_screen": [
+  {
+   "id": "visitor",
+   "title": "Judge Crane and Chief Clerk (Hains trial) [on sidewalk, New York] (LC-B2-623-4): the unnamed man in overcoat and bowler at right",
+   "author": "Bain News Service (George Grantham Bain Collection, Library of Congress)",
+   "license": "No known restrictions on publication (Library of Congress; Bain negatives, c. 1908-09, public domain in the US)",
+   "license_url": "https://www.loc.gov/rr/print/res/274_bain.html",
+   "source_url": "https://www.loc.gov/item/2014683020/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/ggbain/03000/03026u.tif",
+   "local_path": "films/sources/exercices-de-style/forage/bain_03026u.tif",
+   "bytes": 24021182,
+   "what_it_shows": "Full-figure B&W glass negative: a man in dark overcoat and bowler, hands in pockets, three-quarter left, trousers and shoes visible on a lawn (soft focus). Chroma 0 (single-channel scan).",
+   "verified_date_or_place": "LoC item record read 2026-11-17: date 1900 [Hains trial 1908-09], Flushing/New York; rights_advisory as above; 1 glass negative 5x7 in.",
+   "used_as_originally_planned": "THE VISITOR: GrabCut + drawn scissor paths + trimap matte -> forage/visitor_rgba.png, split into 9 articulated pieces (visitor_*_rgba.png) driven by forage/rig.json; S1, S2, S5c walk-away; S3 silhouette rotoscoped from it",
+   "status": "NOT USED ON SCREEN in the final film (superseded by rol57642, the animator-pagemaker walker)"
+  },
+  {
+   "id": "visitor_crop",
+   "title": "(derived) crop of LC-B2-623-4",
+   "author": "derived",
+   "license": "as visitor",
+   "license_url": "https://www.loc.gov/rr/print/res/274_bain.html",
+   "source_url": "https://www.loc.gov/item/2014683020/",
+   "file_url": "",
+   "local_path": "films/sources/exercices-de-style/forage/bain_03026_visitor_crop.png",
+   "bytes": 814665,
+   "what_it_shows": "804x2173 crop, box [3966,1505,4770,3678] of the TIFF",
+   "verified_date_or_place": "derived 2026-11-17",
+   "used_as_originally_planned": "cut source; rig units",
+   "status": "NOT USED ON SCREEN in the final film (superseded by rol57642, the animator-pagemaker walker)"
+  },
+  {
+   "id": "walk_reference",
+   "title": "Mrs. W.G. Brokaw and her counsel A.J. Baldwin walking on sidewalk (LC-B2-929-11)",
+   "author": "Bain News Service",
+   "license": "No known restrictions on publication (LoC Bain, 1909)",
+   "license_url": "https://www.loc.gov/rr/print/res/274_bain.html",
+   "source_url": "https://www.loc.gov/item/2014684404/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/ggbain/04400/04410v.jpg",
+   "local_path": "films/sources/exercices-de-style/forage/bain_04410v.jpg",
+   "bytes": 140587,
+   "what_it_shows": "A man in overcoat and bowler mid-stride toward camera, beside a woman in furs",
+   "verified_date_or_place": "LoC item record read 2026-11-17, 1909",
+   "used_as_originally_planned": "timing/stride reference only for the walk cycle (not on screen)",
+   "status": "NOT USED ON SCREEN in the final film (superseded by rol57642, the animator-pagemaker walker)"
+  },
+  {
+   "id": "visitor_fallback",
+   "title": "Portrait d'homme en pardessus et chapeau melon (1917), Rol 49112, BnF btv1b53000537g",
+   "author": "Agence Rol. Agence photographique (commanditaire)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Portrait_d%27homme_en_pardessus_et_chapeau_melon_-_btv1b53000537g.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Portrait_d%27homme_en_pardessus_et_chapeau_melon_-_btv1b53000537g.jpg/1280px-Portrait_d%27homme_en_pardessus_et_chapeau_melon_-_btv1b53000537g.jpg",
+   "local_path": "films/sources/exercices-de-style/man.jpg",
+   "bytes": 544801,
+   "what_it_shows": "Waist-up B&W press portrait, bearded man in double-breasted overcoat and bowler, hand in pocket holding gloves",
+   "verified_date_or_place": "Commons extmetadata LicenseShortName=Public domain, DateTimeOriginal 1917, read 2026-11-16 (proposals/work/sources.jsonl; test-shot-ledger.json). Re-read on 2026-11-17 was blocked by repeated HTTP 429 from the Commons API.",
+   "used_as_originally_planned": "re-cut fallback figure forage/man_rgba.png (drawn hat brim, sleeve flower debris removed); its real right forearm+shirt cuff+gloved hand forage/rol_forearm_hand_rgba.png is the close-up hand that lowers the key in S5b/S5c (declared continuity cut: a different man from the full-figure visitor)",
+   "status": "NOT USED ON SCREEN in the final film (superseded by rol57642, the animator-pagemaker walker)"
+  },
+  {
+   "id": "steps",
+   "title": "Pasos en escalera de caracol (footsteps on a spiral staircase)",
+   "author": "Hippocampuz (Wikimedia Commons user)",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Pasos_en_escalera_de_caracol.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/0a/Pasos_en_escalera_de_caracol.ogg",
+   "local_path": "films/sources/exercices-de-style/forager-cutout-rigger/steps_pasos.wav",
+   "bytes": 257768,
+   "what_it_shows": "footsteps on stone stairs",
+   "verified_date_or_place": "Commons extmetadata read 2026-11-16 (test-shot ledger); re-read 2026-11-17 blocked by 429",
+   "used_as_originally_planned": "single step grains on the walk-cycle contact drawings (4 and 10)",
+   "status": "NOT USED (replaced 2026-11-17 by CC BY 4.0 Footstep on Gravel, to avoid a ShareAlike obligation)"
+  },
+  {
+   "id": "loc_05494v",
+   "local_path": "films/sources/exercices-de-style/animator-pagemaker/dl/loc_05494v.jpg",
+   "status": "downloaded by animator-pagemaker as a walking-figure candidate; NOT USED on screen"
+  }
+ ],
+ "reference_only": [
+  {
+   "id": "styleBook",
+   "path": "assets/references/styleBook.webp",
+   "use": "palette comparison sheets only (sheets()); never rendered into the film"
+  }
+ ],
+ "handmade": [
+  {
+   "id": "visitor_rig",
+   "what": "forage/rig.json: 9 pieces, pivots, parents, bone lengths, z-order, joint limits, 12-drawing walk cycle (on twos, contacts at drawings 4/10), six beat poses E1-E6; build/fk.py assembler",
+   "where": "films/swarm/exercices-de-style/forage/rig.json"
+  },
+  {
+   "id": "inventions",
+   "what": "Flagged inventions: torso coat under the arm inpainted (TELEA); thigh cloth under the coat tiled (mirrored) from the visible trouser top; hat/face/trouser outlines drawn as scissor paths where the soft negative gives no edge; Rol forearm piece has a straight scissor edge where it leaves the coat",
+   "where": "rig.json \"inventions\"; build/cut_visitor.py, build/pieces.py"
+  },
+  {
+   "id": "cutout_check",
+   "what": "cutout-check.jpg (light / dark / page grounds + failure masks) and *_failmask.png (red = unknown band, yellow = soft outer edge, blue = holes, magenta = knocked-out debris)",
+   "where": "films/sources/exercices-de-style/forage/"
+  },
+  {
+   "id": "page_objects",
+   "what": "page, ghost words, mixed-face titles, band, strip, cut-paper bench / door (anim/door.png) / guichet / frosted pane / notice / stamp / envelope / straight-ahead tear, S2 arrows, S3 envelope card, S6 matrix",
+   "where": "anim/es_lib.py, films/exercices-de-style.py"
+  }
+ ],
+ "kit_synth": [
+  "typewriter clicks (S4)",
+  "brass tick of the key",
+  "paper tear crackle (S1, S2, S3, S5b)",
+  "pen scratch (S2 arrows)"
+ ],
+ "absences": [
+  {
+   "searched": "Commons: Agence Rol / Gallica full-figure walking man (\"Arrivée d'un homme à chapeau melon - btv1b6953100h.jpg\", PD, 1917, 4176x3032, found and licence read)",
+   "result": "download blocked: upload.wikimedia.org answered HTTP 429 on ~10 retries over ~25 min (back-off 30-300 s); not used. Worth retrying later as an alternative visitor."
+  },
+  {
+   "searched": "Commons: empty Paris station / salle d'attente (e.g. \"Grève des cheminots en Angleterre, les quais déserts de la gare de Waterloo à Londres - btv1b53030400n.jpg\")",
+   "result": "found by search, not downloaded (429); the PD 1927 Berlin platform from MIA is used instead"
+  },
+  {
+   "searched": "MIA: 1900-1925 man in overcoat and bowler walking, full figure",
+   "result": "none in the cache (walking hits are later or crowds)"
+  },
+  {
+   "searched": "MIA/Commons: paper tear recording",
+   "result": "no clean openly licensed paper tear found (MIA hits are visual; Commons audio search blocked by 429). Editor: kit synth or foraged-steps grain, declared."
+  },
+  {
+   "searched": "MIA: footsteps on stone, metal key clink",
+   "result": "none clean; CC BY-SA Pasos steps and PD Dull thud reused; key clink stays a declared kit click"
+  },
+  {
+   "searched": "Commons extmetadata re-read of key2/man/Pasos/Dull thud on 2026-11-17",
+   "result": "blocked by HTTP 429; licences rest on the 2026-11-16 extmetadata reads recorded in proposals/work/sources.jsonl and test-shot-ledger.json"
+  },
+  {
+   "searched": "rejected: key.jpg (D.J. Grant, NGA 24024)",
+   "result": "rejected per plan (its wards read as a swastika); not used"
+  },
+  {
+   "searched": "PD/CC full-figure walking man in a bowler",
+   "result": "none found; the visitor wears a wide-brim felt hat (Rol 57642)"
+  }
+ ],
+ "new_download_bytes_editor": 18624
+}

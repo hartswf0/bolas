@@ -1,0 +1,44 @@
+{
+ "panel": "V2",
+ "page": "D2",
+ "bounds_page_px": [
+  150,
+  1320,
+  1245,
+  2160
+ ],
+ "composite": "over, in order, starting from 00_bg (opaque)",
+ "layers": [
+  {
+   "order": 0,
+   "file": "00_bg.png",
+   "name": "bg"
+  },
+  {
+   "order": 1,
+   "file": "01_interior_through_glass.png",
+   "name": "interior_through_glass",
+   "through_glass": "interior x t (t 0.8->0.52 down the pane) + window pixels x (1-t)"
+  },
+  {
+   "order": 2,
+   "file": "02_ticket_board.shadow.png",
+   "name": "ticket_board.shadow"
+  },
+  {
+   "order": 3,
+   "file": "03_ticket_board.png",
+   "name": "ticket_board"
+  },
+  {
+   "order": 4,
+   "file": "04_ticket_board.ink.png",
+   "name": "ticket_board.ink"
+  },
+  {
+   "order": 5,
+   "file": "05_border.png",
+   "name": "border"
+  }
+ ]
+}

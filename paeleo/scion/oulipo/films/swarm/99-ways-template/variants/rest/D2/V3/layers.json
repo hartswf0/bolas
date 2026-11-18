@@ -1,0 +1,59 @@
+{
+ "panel": "V3",
+ "page": "D2",
+ "bounds_page_px": [
+  1305,
+  1320,
+  2400,
+  2160
+ ],
+ "composite": "over, in order, starting from 00_bg (opaque)",
+ "layers": [
+  {
+   "order": 0,
+   "file": "00_bg.png",
+   "name": "bg"
+  },
+  {
+   "order": 1,
+   "file": "01_interior_through_glass.png",
+   "name": "interior_through_glass",
+   "through_glass": "interior x t (t 0.84->0.62 down the pane) + window pixels x (1-t)"
+  },
+  {
+   "order": 2,
+   "file": "02_ticket_board.shadow.png",
+   "name": "ticket_board.shadow"
+  },
+  {
+   "order": 3,
+   "file": "03_ticket_board.png",
+   "name": "ticket_board"
+  },
+  {
+   "order": 4,
+   "file": "04_ticket_board.ink.png",
+   "name": "ticket_board.ink"
+  },
+  {
+   "order": 5,
+   "file": "05_b_ten_past.shadow.png",
+   "name": "b_ten_past.shadow"
+  },
+  {
+   "order": 6,
+   "file": "06_b_ten_past.paper.png",
+   "name": "b_ten_past.paper"
+  },
+  {
+   "order": 7,
+   "file": "07_b_ten_past.ink.png",
+   "name": "b_ten_past.ink"
+  },
+  {
+   "order": 8,
+   "file": "08_border.png",
+   "name": "border"
+  }
+ ]
+}

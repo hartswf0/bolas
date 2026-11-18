@@ -1,0 +1,139 @@
+{
+ "n": 16,
+ "id": "fewest-marks",
+ "title": "Fewest marks",
+ "rule": "Each figure and object made of the fewest cut shapes that keep the incident readable.",
+ "medium": "cut-paper",
+ "family": "reduction and expansion",
+ "canon_revision": "c1",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/16-fewest-marks.jpg",
+ "master": "films/sources/99-ways/masters/16-fewest-marks.png",
+ "beats_dir": "films/sources/99-ways/beats/16",
+ "build": "films/swarm/99-ways/build/p16_fewest_marks.py",
+ "sources": [
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "every figure and object HANDMADE cut paper in code (films/swarm/99-ways/kit/cutpaper99.py: scissor-faceted polygons, flat papers with the LoC 1934 sheet's fibre as relative tone, one down-right paper shadow per piece)",
+  "AGENT 5 pieces (trousers, shirt cut in one with both sleeves, waistcoat, head with a nose as its only facial mark, hair) + PENCIL 1; STRANGER 3 (coat, head, hat); CLOCK 3 (face, hour hand, minute hand at 4:10); KEY 3 (hook, key with its bow hole, SERVICE tag); CUPBOARD 2 (dark carcass, door on the left jamb); SERVICE DOOR 2 (door, card); TICKET WINDOW 3 (glass, frame with the pane cut out, sill); MEMO 1; DESK 1",
+  "a parts strip across the head of the page: every figure laid out in its separate pieces with its count in the pen hand (agent: 5, pencil: 1, stranger: 3, clock: 3, key: 3, cupboard: 2, SERVICE door: 2, ticket window: 3, memo: 1, desk: 1)",
+  "six panels E0-E5 assembled from exactly those pieces; one wall paper and one floor paper per panel as ground",
+  "lettering (memo, tag, card, TICKET OFFICE) in the shared pen hand; the four canon lines in the shared cut-paper balloons (penlib.balloon_piece); hand-ruled borders (penlib.border_mask); folio '16 / Fewest marks' (pen99.folio)",
+  "the stranger's three pieces are scissored to the window opening (inside the frame, down to the sill's top edge, y = 452 in panel px) with cv2.intersectConvexConvex for the coat and head and a mask cut for the hat, so no paper of hers lies on the office wall"
+ ],
+ "events": {
+  "E0": "panel 1: memo on the desk, clock behind; he rises and turns to go",
+  "E1": "panel 2: walking; the stranger behind the ticket window glass; question balloon tailed to her",
+  "E2": "panel 3: head tipped back to the clock at 4:10; answer balloon tailed to him",
+  "E3": "panel 4: she has turned away and is stepping off past the right jamb, half hidden by the frame; thanks balloon; he walks on",
+  "E4": "panel 5: he holds the cupboard door open on its left jamb; key on its hook with the SERVICE tag",
+  "E5": "panel 6: pencil to his chin, forgetting balloon; key on hook; SERVICE door shut"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "beat": "the cupboard panel: the agent reaches the closed cupboard (two pieces), the door swings open on its left jamb showing the key's three pieces, then the E5 panel is laid and its balloon added",
+ "beat_frames": [
+  "b01: panels E0-E3 laid; the cupboard panels still empty sheet",
+  "b02: E4 panel: the agent arrives at the closed cupboard (carcass + door, 2 pieces)",
+  "b03: the cupboard door swings open on its left jamb; the key's 3 pieces (hook, key, tag) show",
+  "b04: E5 panel laid: pencil to his chin, no line yet",
+  "b05: + the forgetting balloon; key unmoved, SERVICE door shut (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1023774,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "pieces_per_figure_by_panel": {
+   "panel 1": {
+    "clock": 3,
+    "agent": 5,
+    "pencil": 1,
+    "desk": 1,
+    "memo": 1
+   },
+   "panel 2": {
+    "ticket window": 3,
+    "stranger": 3,
+    "agent": 5,
+    "pencil": 1
+   },
+   "panel 3": {
+    "ticket window": 3,
+    "stranger": 3,
+    "clock": 3,
+    "agent": 5,
+    "pencil": 1
+   },
+   "panel 4": {
+    "ticket window": 3,
+    "stranger": 3,
+    "agent": 5,
+    "pencil": 1
+   },
+   "panel 5": {
+    "SERVICE door": 2,
+    "cupboard": 2,
+    "key": 3,
+    "agent": 5,
+    "pencil": 1
+   },
+   "panel 6": {
+    "SERVICE door": 2,
+    "cupboard": 2,
+    "key": 3,
+    "agent": 5,
+    "pencil": 1
+   }
+  },
+  "max_pieces_any_figure": 5,
+  "le_five": true,
+  "parts_strip": [
+   "agent: 5",
+   "pencil: 1",
+   "stranger: 3",
+   "clock: 3",
+   "key: 3",
+   "cupboard: 2",
+   "SERVICE door: 2",
+   "ticket window: 3",
+   "memo: 1",
+   "desk: 1"
+  ],
+  "lines_verbatim": true,
+  "pending": "independent blind reading not run by the maker",
+  "coat_below_sill_px": {
+   "panel 2": 0,
+   "panel 3": 0,
+   "panel 4": 0
+  },
+  "coat_check": "master PNG, window region of panels 2-4: no coat-blue (#4a5d72 +/- 60) or bluish pixel at or below the sill top; coat ends at y 385-387 under the frame's lower rail",
+  "beat_frames": 5,
+  "evidence": "measured (size, pixel checks named in the repair) and judged from the full-size page by the repair maker; a fresh blind reading of the repair is pending"
+ },
+ "weaknesses": [
+  "figures are deliberately schematic (oval heads with a nose as the only facial mark); the agent reads by waistcoat, sleeves and pencil, not by likeness to Rothstein's agent",
+  "lettering (memo, tag, SERVICE card, TICKET OFFICE, balloons) is pen hand, not cut shapes, and is not counted in the piece totals; one wall and one floor paper per panel are ground, not counted",
+  "the parts strip's small pieces (clock hands, pencil, hook) are tiny at phone width; the counts are lettered beside them"
+ ],
+ "repairs": [
+  {
+   "date": "2026-11-17",
+   "by": "repair maker, batch 2",
+   "changed": [
+    "stranger's coat, head and hat cut to the window opening, ending at the sill top in P2-P4 (piece counts unchanged: 3)",
+    "P4: she is turned away and moved 128 px toward the right jamb, half behind the frame, leaving"
+   ],
+   "pass_test": "a full-size crop of each window shows the coat ending at or above the sill"
+  }
+ ]
+}

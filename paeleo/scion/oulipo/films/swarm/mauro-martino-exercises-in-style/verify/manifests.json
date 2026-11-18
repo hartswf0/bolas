@@ -1,0 +1,106 @@
+{
+ "schema": {
+  "Manifest": "{scene, camera, treatment, seeds, duration, fps, drawings_per_second, size, generator_rev, destination}",
+  "PromptDelta": "{baseline_hash, field, old, new, intended_effect}"
+ },
+ "canonical_form": "json.dumps(m, sort_keys=True, separators=(',', ':'), ensure_ascii=False); sha1 of UTF-8",
+ "baseline": {
+  "id": "baseline",
+  "manifest": {
+   "scene": "platform-bus encounter",
+   "camera": "street-side",
+   "treatment": "cut-paper",
+   "seeds": [
+    417,
+    418
+   ],
+   "duration": 7.0,
+   "fps": 24,
+   "drawings_per_second": 12,
+   "size": [
+    960,
+    540
+   ],
+   "generator_rev": "kit.py procedural animatic / stage-2 / rig-1",
+   "destination": "MADELEINE – BASTILLE"
+  },
+  "sha1": "6bb9bc5f4c9d4a1b7f4ce3a164be3cfba801fd6f"
+ },
+ "deltas": [
+  {
+   "id": "d-camera",
+   "baseline_hash": "6bb9bc5f4c9d4a1b7f4ce3a164be3cfba801fd6f",
+   "field": "camera",
+   "old": "street-side",
+   "new": "overhead",
+   "intended_effect": "plan view of the same world: the shove reads as a displacement of the man's hat disc onto the stanchion dot; same seeds, same anchor times, same runner count; long neck and seat-in-window predicted lost",
+   "manifest": {
+    "scene": "platform-bus encounter",
+    "camera": "overhead",
+    "treatment": "cut-paper",
+    "seeds": [
+     417,
+     418
+    ],
+    "duration": 7.0,
+    "fps": 24,
+    "drawings_per_second": 12,
+    "size": [
+     960,
+     540
+    ],
+    "generator_rev": "kit.py procedural animatic / stage-2 / rig-1",
+    "destination": "MADELEINE – BASTILLE"
+   },
+   "sha1": "6e7f609db52bb299d3eb2470a676b9cb665b50da",
+   "diff": {
+    "camera": {
+     "old": "street-side",
+     "new": "overhead"
+    }
+   },
+   "diff_keys": [
+    "camera"
+   ],
+   "assert_diff_eq_field": true
+  },
+  {
+   "id": "d-treatment",
+   "baseline_hash": "6bb9bc5f4c9d4a1b7f4ce3a164be3cfba801fd6f",
+   "field": "treatment",
+   "old": "cut-paper",
+   "new": "photographic-plate",
+   "intended_effect": "same outlines, photographic fill: every puppet outline identical (IoU 1.0), the bus, facade and cobbles refilled with Rol 1916 plate texture inside the baseline's carved outlines, crowd in the Rol 1919 cutouts' own greys, puppet parts filled with Rol 1919 cloth swatches",
+   "manifest": {
+    "scene": "platform-bus encounter",
+    "camera": "street-side",
+    "treatment": "photographic-plate",
+    "seeds": [
+     417,
+     418
+    ],
+    "duration": 7.0,
+    "fps": 24,
+    "drawings_per_second": 12,
+    "size": [
+     960,
+     540
+    ],
+    "generator_rev": "kit.py procedural animatic / stage-2 / rig-1",
+    "destination": "MADELEINE – BASTILLE"
+   },
+   "sha1": "f3344d0ab786b0bd1e5815d51ba9cb3ca2b3e255",
+   "diff": {
+    "treatment": {
+     "old": "cut-paper",
+     "new": "photographic-plate"
+    }
+   },
+   "diff_keys": [
+    "treatment"
+   ],
+   "assert_diff_eq_field": true
+  }
+ ],
+ "self_test_two_field_delta_refused": true
+}

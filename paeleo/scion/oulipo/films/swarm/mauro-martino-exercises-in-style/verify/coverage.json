@@ -1,0 +1,1421 @@
+{
+ "film": "mauro-martino-exercises-in-style",
+ "unit": "U4 verify",
+ "run_seconds": 245,
+ "generator_rev": "a81c80d6f3e3b7906f40295c401333a2fef97fd5",
+ "manifests": {
+  "baseline_sha1": "6bb9bc5f4c9d4a1b7f4ce3a164be3cfba801fd6f",
+  "deltas": {
+   "d-camera": {
+    "field": "camera",
+    "diff_keys": [
+     "camera"
+    ],
+    "ok": true
+   },
+   "d-treatment": {
+    "field": "treatment",
+    "diff_keys": [
+     "treatment"
+    ],
+    "ok": true
+   }
+  },
+  "two_field_delta_refused": true
+ },
+ "intended_effect_rate": {
+  "baseline": {
+   "n": 2,
+   "of": 2,
+   "rate": "2 of 2 inspected samples",
+   "per_seed": {
+    "417": {
+     "intended": true,
+     "criterion": "control: every protected anchor visible, replay byte-identical"
+    },
+    "418": {
+     "intended": true,
+     "criterion": "control: every protected anchor visible, replay byte-identical"
+    }
+   }
+  },
+  "d-treatment": {
+   "n": 2,
+   "of": 2,
+   "rate": "2 of 2 inspected samples",
+   "per_seed": {
+    "417": {
+     "intended": true,
+     "criterion": "puppet outline IoU 1.0 on every checked frame; bus-region fill changed (mean |ΔL| 47.4, grey levels/4 56 -> 48); all protected anchors visible"
+    },
+    "418": {
+     "intended": true,
+     "criterion": "puppet outline IoU 1.0 on every checked frame; bus-region fill changed (mean |ΔL| 46.9, grey levels/4 56 -> 47); all protected anchors visible"
+    }
+   }
+  },
+  "d-camera": {
+   "n": 2,
+   "of": 2,
+   "rate": "2 of 2 inspected samples",
+   "per_seed": {
+    "417": {
+     "intended": true,
+     "criterion": "plan projection; shove as displacement: man's hat-disc centroid moves 18.2 px from drawing 14 to 16, toward the stanchion dot; A3 contact visible; projector passes P4/runner-count/C4"
+    },
+    "418": {
+     "intended": true,
+     "criterion": "plan projection; shove as displacement: man's hat-disc centroid moves 18.2 px from drawing 14 to 16, toward the stanchion dot; A3 contact visible; projector passes P4/runner-count/C4"
+    }
+   }
+  }
+ },
+ "lost_anchor_ids": {
+  "baseline": [],
+  "d-treatment": [],
+  "d-camera": [
+   "A-neck",
+   "A4c",
+   "A6w"
+  ]
+ },
+ "partial_anchor_ids": {
+  "baseline": [],
+  "d-treatment": [],
+  "d-camera": [
+   "A-hat",
+   "A0",
+   "A1",
+   "A5",
+   "A5d",
+   "A7",
+   "A8"
+  ]
+ },
+ "predicted_losses_overhead": {
+  "predicted": [
+   "A-neck",
+   "A6w"
+  ],
+  "observed_lost": [
+   "A-neck",
+   "A6w"
+  ],
+  "unpredicted_losses": [
+   "A4c"
+  ],
+  "unpredicted_partials": [
+   "A-hat",
+   "A0",
+   "A1",
+   "A5",
+   "A5d",
+   "A7",
+   "A8"
+  ]
+ },
+ "samples": {
+  "baseline/0417": {
+   "A0": {
+    "status": "visible",
+    "px": 5952,
+    "t": 3.0,
+    "why": "board light-letter fraction 0.181, ink fraction 0.629 (side board)"
+   },
+   "A1": {
+    "status": "visible",
+    "px": 114438,
+    "t": 0.9,
+    "why": "bus layer 114438 px; layer slide stops at frame 22 (t 0.917); wheels rotate with travel and stop with it"
+   },
+   "A2": {
+    "status": "visible",
+    "px": 8027,
+    "t": 1.05,
+    "why": "7 runners in pose; street-mask px near the platform 8027"
+   },
+   "A3": {
+    "status": "visible",
+    "px": 129,
+    "t": 1.2,
+    "why": "jostler forearm/hand within 2 px of the man: 129 contact px"
+   },
+   "A4": {
+    "status": "visible",
+    "px": 234,
+    "t": 1.3333,
+    "why": "man's back within 3 px of the stanchion line x=710.4: 234 px; contact flag True"
+   },
+   "A4c": {
+    "status": "visible",
+    "px": 48,
+    "t": 1.5,
+    "why": "cord px (mask with cord minus without) 48 at t 1.50; 3-link braid end"
+   },
+   "A5": {
+    "status": "visible",
+    "px": 381,
+    "t": 2.6,
+    "why": "fore_n+arm_n px unoccluded 381 (of 381 drawn); man in group 'platform'"
+   },
+   "A5v": {
+    "status": "visible",
+    "px": 915,
+    "t": 4.0,
+    "why": "window-group px 915 at t 4.0 vs 1142 at t 3.5 (seed vacates A)"
+   },
+   "A5d": {
+    "status": "visible",
+    "px": 2241,
+    "t": 4.5,
+    "why": "man px unoccluded 2241 (of 2245 drawn); man in group 'platform'"
+   },
+   "A6": {
+    "status": "visible",
+    "px": 716,
+    "t": 5.5,
+    "why": "man px unoccluded 716 (of 716 drawn); man in group 'window'"
+   },
+   "A6w": {
+    "status": "visible",
+    "px": 716,
+    "t": 5.5,
+    "why": "man px unoccluded 716 (of 716 drawn); man in group 'window'"
+   },
+   "A7": {
+    "status": "visible",
+    "px": 462,
+    "t": 6.0,
+    "why": "conductor mask change 5.80 -> 6.00: 462 px; bell_pull 1.00; tassel drawn"
+   },
+   "A8": {
+    "status": "visible",
+    "px": 114007,
+    "t": 6.8,
+    "why": "bus dx at 6.80 = -28.8 px (pull-away); bus layer 114007 px"
+   },
+   "A-neck": {
+    "status": "visible",
+    "px": 172,
+    "t": 1.2,
+    "why": "neck px unoccluded 172 (of 172 drawn); man in group 'platform'"
+   },
+   "A-hat": {
+    "status": "visible",
+    "px": 259,
+    "t": 1.2,
+    "why": "hat px unoccluded 259 (of 259 drawn); man in group 'platform'"
+   }
+  },
+  "baseline/0418": {
+   "A0": {
+    "status": "visible",
+    "px": 5952,
+    "t": 3.0,
+    "why": "board light-letter fraction 0.204, ink fraction 0.607 (side board)"
+   },
+   "A1": {
+    "status": "visible",
+    "px": 114689,
+    "t": 0.9,
+    "why": "bus layer 114689 px; layer slide stops at frame 22 (t 0.917); wheels rotate with travel and stop with it"
+   },
+   "A2": {
+    "status": "visible",
+    "px": 10261,
+    "t": 1.05,
+    "why": "8 runners in pose; street-mask px near the platform 10261"
+   },
+   "A3": {
+    "status": "visible",
+    "px": 129,
+    "t": 1.2,
+    "why": "jostler forearm/hand within 2 px of the man: 129 contact px"
+   },
+   "A4": {
+    "status": "visible",
+    "px": 234,
+    "t": 1.3333,
+    "why": "man's back within 3 px of the stanchion line x=710.4: 234 px; contact flag True"
+   },
+   "A4c": {
+    "status": "visible",
+    "px": 48,
+    "t": 1.5,
+    "why": "cord px (mask with cord minus without) 48 at t 1.50; 3-link braid end"
+   },
+   "A5": {
+    "status": "visible",
+    "px": 381,
+    "t": 2.6,
+    "why": "fore_n+arm_n px unoccluded 381 (of 381 drawn); man in group 'platform'"
+   },
+   "A5v": {
+    "status": "visible",
+    "px": 915,
+    "t": 4.0,
+    "why": "window-group px 915 at t 4.0 vs 1142 at t 3.5 (seed vacates A)"
+   },
+   "A5d": {
+    "status": "visible",
+    "px": 2239,
+    "t": 4.5,
+    "why": "man px unoccluded 2239 (of 2245 drawn); man in group 'platform'"
+   },
+   "A6": {
+    "status": "visible",
+    "px": 716,
+    "t": 5.5,
+    "why": "man px unoccluded 716 (of 716 drawn); man in group 'window'"
+   },
+   "A6w": {
+    "status": "visible",
+    "px": 716,
+    "t": 5.5,
+    "why": "man px unoccluded 716 (of 716 drawn); man in group 'window'"
+   },
+   "A7": {
+    "status": "visible",
+    "px": 462,
+    "t": 6.0,
+    "why": "conductor mask change 5.80 -> 6.00: 462 px; bell_pull 1.00; tassel drawn"
+   },
+   "A8": {
+    "status": "visible",
+    "px": 114257,
+    "t": 6.8,
+    "why": "bus dx at 6.80 = -28.8 px (pull-away); bus layer 114257 px"
+   },
+   "A-neck": {
+    "status": "visible",
+    "px": 172,
+    "t": 1.2,
+    "why": "neck px unoccluded 172 (of 172 drawn); man in group 'platform'"
+   },
+   "A-hat": {
+    "status": "visible",
+    "px": 259,
+    "t": 1.2,
+    "why": "hat px unoccluded 259 (of 259 drawn); man in group 'platform'"
+   }
+  },
+  "d-treatment/0417": {
+   "A0": {
+    "status": "visible",
+    "px": 5952,
+    "t": 3.0,
+    "why": "board light-letter fraction 0.201, ink fraction 0.314 (side board)"
+   },
+   "A1": {
+    "status": "visible",
+    "px": 114438,
+    "t": 0.9,
+    "why": "bus layer 114438 px; layer slide stops at frame 22 (t 0.917); wheels rotate with travel and stop with it"
+   },
+   "A2": {
+    "status": "visible",
+    "px": 8027,
+    "t": 1.05,
+    "why": "7 runners in pose; street-mask px near the platform 8027"
+   },
+   "A3": {
+    "status": "visible",
+    "px": 129,
+    "t": 1.2,
+    "why": "jostler forearm/hand within 2 px of the man: 129 contact px"
+   },
+   "A4": {
+    "status": "visible",
+    "px": 234,
+    "t": 1.3333,
+    "why": "man's back within 3 px of the stanchion line x=710.4: 234 px; contact flag True"
+   },
+   "A4c": {
+    "status": "visible",
+    "px": 48,
+    "t": 1.5,
+    "why": "cord px (mask with cord minus without) 48 at t 1.50; 3-link braid end"
+   },
+   "A5": {
+    "status": "visible",
+    "px": 381,
+    "t": 2.6,
+    "why": "fore_n+arm_n px unoccluded 381 (of 381 drawn); man in group 'platform'"
+   },
+   "A5v": {
+    "status": "visible",
+    "px": 915,
+    "t": 4.0,
+    "why": "window-group px 915 at t 4.0 vs 1142 at t 3.5 (seed vacates A)"
+   },
+   "A5d": {
+    "status": "visible",
+    "px": 2241,
+    "t": 4.5,
+    "why": "man px unoccluded 2241 (of 2245 drawn); man in group 'platform'"
+   },
+   "A6": {
+    "status": "visible",
+    "px": 716,
+    "t": 5.5,
+    "why": "man px unoccluded 716 (of 716 drawn); man in group 'window'"
+   },
+   "A6w": {
+    "status": "visible",
+    "px": 716,
+    "t": 5.5,
+    "why": "man px unoccluded 716 (of 716 drawn); man in group 'window'"
+   },
+   "A7": {
+    "status": "visible",
+    "px": 462,
+    "t": 6.0,
+    "why": "conductor mask change 5.80 -> 6.00: 462 px; bell_pull 1.00; tassel drawn"
+   },
+   "A8": {
+    "status": "visible",
+    "px": 114007,
+    "t": 6.8,
+    "why": "bus dx at 6.80 = -28.8 px (pull-away); bus layer 114007 px"
+   },
+   "A-neck": {
+    "status": "visible",
+    "px": 172,
+    "t": 1.2,
+    "why": "neck px unoccluded 172 (of 172 drawn); man in group 'platform'"
+   },
+   "A-hat": {
+    "status": "visible",
+    "px": 259,
+    "t": 1.2,
+    "why": "hat px unoccluded 259 (of 259 drawn); man in group 'platform'"
+   }
+  },
+  "d-treatment/0418": {
+   "A0": {
+    "status": "visible",
+    "px": 5952,
+    "t": 3.0,
+    "why": "board light-letter fraction 0.195, ink fraction 0.319 (side board)"
+   },
+   "A1": {
+    "status": "visible",
+    "px": 114689,
+    "t": 0.9,
+    "why": "bus layer 114689 px; layer slide stops at frame 22 (t 0.917); wheels rotate with travel and stop with it"
+   },
+   "A2": {
+    "status": "visible",
+    "px": 10261,
+    "t": 1.05,
+    "why": "8 runners in pose; street-mask px near the platform 10261"
+   },
+   "A3": {
+    "status": "visible",
+    "px": 129,
+    "t": 1.2,
+    "why": "jostler forearm/hand within 2 px of the man: 129 contact px"
+   },
+   "A4": {
+    "status": "visible",
+    "px": 234,
+    "t": 1.3333,
+    "why": "man's back within 3 px of the stanchion line x=710.4: 234 px; contact flag True"
+   },
+   "A4c": {
+    "status": "visible",
+    "px": 48,
+    "t": 1.5,
+    "why": "cord px (mask with cord minus without) 48 at t 1.50; 3-link braid end"
+   },
+   "A5": {
+    "status": "visible",
+    "px": 381,
+    "t": 2.6,
+    "why": "fore_n+arm_n px unoccluded 381 (of 381 drawn); man in group 'platform'"
+   },
+   "A5v": {
+    "status": "visible",
+    "px": 915,
+    "t": 4.0,
+    "why": "window-group px 915 at t 4.0 vs 1142 at t 3.5 (seed vacates A)"
+   },
+   "A5d": {
+    "status": "visible",
+    "px": 2239,
+    "t": 4.5,
+    "why": "man px unoccluded 2239 (of 2245 drawn); man in group 'platform'"
+   },
+   "A6": {
+    "status": "visible",
+    "px": 716,
+    "t": 5.5,
+    "why": "man px unoccluded 716 (of 716 drawn); man in group 'window'"
+   },
+   "A6w": {
+    "status": "visible",
+    "px": 716,
+    "t": 5.5,
+    "why": "man px unoccluded 716 (of 716 drawn); man in group 'window'"
+   },
+   "A7": {
+    "status": "visible",
+    "px": 462,
+    "t": 6.0,
+    "why": "conductor mask change 5.80 -> 6.00: 462 px; bell_pull 1.00; tassel drawn"
+   },
+   "A8": {
+    "status": "visible",
+    "px": 114257,
+    "t": 6.8,
+    "why": "bus dx at 6.80 = -28.8 px (pull-away); bus layer 114257 px"
+   },
+   "A-neck": {
+    "status": "visible",
+    "px": 172,
+    "t": 1.2,
+    "why": "neck px unoccluded 172 (of 172 drawn); man in group 'platform'"
+   },
+   "A-hat": {
+    "status": "visible",
+    "px": 259,
+    "t": 1.2,
+    "why": "hat px unoccluded 259 (of 259 drawn); man in group 'platform'"
+   }
+  },
+  "d-camera/0417": {
+   "A0": {
+    "status": "partial",
+    "px": 6820,
+    "t": 3.0,
+    "why": "board light-letter fraction 0.032, ink fraction 0.819 (roof-edge board)"
+   },
+   "A1": {
+    "status": "partial",
+    "px": 96778,
+    "t": 0.9,
+    "why": "roof layer 96778 px slides and stops at frame 22, but the rotating wheels (the anchor's prop) are under the roof: stop reads only as the roof halting"
+   },
+   "A2": {
+    "status": "visible",
+    "px": 2529,
+    "t": 1.05,
+    "why": "7 runners in pose; street-mask px near the platform 2529"
+   },
+   "A3": {
+    "status": "visible",
+    "px": 57,
+    "t": 1.2,
+    "why": "jostler plan arm bar within 2 px of the man: 57 contact px"
+   },
+   "A4": {
+    "status": "visible",
+    "px": 220,
+    "t": 1.3333,
+    "why": "man's plan forms within 9.5 px of the stanchion dot: 220 px"
+   },
+   "A4c": {
+    "status": "lost",
+    "px": 0,
+    "t": 1.5,
+    "why": "cord px (mask with cord minus without) 0 at t 1.50; the plan cord tail falls inside the hat disc, so the swing adds no pixels: cord swing not readable from above"
+   },
+   "A5": {
+    "status": "partial",
+    "px": 174,
+    "t": 2.6,
+    "why": "plan arm bars of the man 174 px: the open hand raised toward the jostler projects only as a short bar; head turn not readable from above"
+   },
+   "A5v": {
+    "status": "visible",
+    "px": 186,
+    "t": 4.0,
+    "why": "roof-light cell: seated plan px 578 at t 3.5 vs 186 at t 4.0 (p1 slides out of seat A)"
+   },
+   "A5d": {
+    "status": "partial",
+    "px": 807,
+    "t": 4.5,
+    "why": "man plan px 807: his disc moves toward the bulkhead; the stoop itself has no plan form"
+   },
+   "A6": {
+    "status": "visible",
+    "px": 515,
+    "t": 5.5,
+    "why": "man's hat disc + cord ring inside the rear-bay roof-light cell at t 5.50: 515 px (seat A taken, seen from above)"
+   },
+   "A6w": {
+    "status": "lost",
+    "px": 0,
+    "t": 5.5,
+    "why": "the rear side pane is a feature of the side elevation; from above there is no window to see the seat through (the seat itself reads via the roof-light, A6)"
+   },
+   "A7": {
+    "status": "partial",
+    "px": 121,
+    "t": 6.0,
+    "why": "conductor present in plan (696 px), change 5.80 -> 6.00 121 px; the bell cord pull is vertical and has no plan form"
+   },
+   "A8": {
+    "status": "partial",
+    "px": 96765,
+    "t": 6.8,
+    "why": "bus dx at 6.80 = -28.8 px (pull-away); roof layer 96765 px slides and stops at frame 22, but the rotating wheels (the anchor's prop) are under the roof: stop reads only as the roof halting"
+   },
+   "A-neck": {
+    "status": "lost",
+    "px": 0,
+    "t": 1.2,
+    "why": "plan forms drawn for the man: ['foot', 'foot', 'arm', 'arm', 'shoulders', 'hat', 'ring']; the neck is a vertical part under the hat disc and has no plan form (0 px)"
+   },
+   "A-hat": {
+    "status": "partial",
+    "px": 400,
+    "t": 1.2,
+    "why": "hat disc + notched cord ring 400 px: hat legible, braid transformed into a ring of 14 notches"
+   }
+  },
+  "d-camera/0418": {
+   "A0": {
+    "status": "partial",
+    "px": 6820,
+    "t": 3.0,
+    "why": "board light-letter fraction 0.039, ink fraction 0.821 (roof-edge board)"
+   },
+   "A1": {
+    "status": "partial",
+    "px": 96778,
+    "t": 0.9,
+    "why": "roof layer 96778 px slides and stops at frame 22, but the rotating wheels (the anchor's prop) are under the roof: stop reads only as the roof halting"
+   },
+   "A2": {
+    "status": "visible",
+    "px": 2626,
+    "t": 1.05,
+    "why": "8 runners in pose; street-mask px near the platform 2626"
+   },
+   "A3": {
+    "status": "visible",
+    "px": 57,
+    "t": 1.2,
+    "why": "jostler plan arm bar within 2 px of the man: 57 contact px"
+   },
+   "A4": {
+    "status": "visible",
+    "px": 220,
+    "t": 1.3333,
+    "why": "man's plan forms within 9.5 px of the stanchion dot: 220 px"
+   },
+   "A4c": {
+    "status": "lost",
+    "px": 0,
+    "t": 1.5,
+    "why": "cord px (mask with cord minus without) 0 at t 1.50; the plan cord tail falls inside the hat disc, so the swing adds no pixels: cord swing not readable from above"
+   },
+   "A5": {
+    "status": "partial",
+    "px": 174,
+    "t": 2.6,
+    "why": "plan arm bars of the man 174 px: the open hand raised toward the jostler projects only as a short bar; head turn not readable from above"
+   },
+   "A5v": {
+    "status": "visible",
+    "px": 186,
+    "t": 4.0,
+    "why": "roof-light cell: seated plan px 578 at t 3.5 vs 186 at t 4.0 (p1 slides out of seat A)"
+   },
+   "A5d": {
+    "status": "partial",
+    "px": 807,
+    "t": 4.5,
+    "why": "man plan px 807: his disc moves toward the bulkhead; the stoop itself has no plan form"
+   },
+   "A6": {
+    "status": "visible",
+    "px": 515,
+    "t": 5.5,
+    "why": "man's hat disc + cord ring inside the rear-bay roof-light cell at t 5.50: 515 px (seat A taken, seen from above)"
+   },
+   "A6w": {
+    "status": "lost",
+    "px": 0,
+    "t": 5.5,
+    "why": "the rear side pane is a feature of the side elevation; from above there is no window to see the seat through (the seat itself reads via the roof-light, A6)"
+   },
+   "A7": {
+    "status": "partial",
+    "px": 121,
+    "t": 6.0,
+    "why": "conductor present in plan (696 px), change 5.80 -> 6.00 121 px; the bell cord pull is vertical and has no plan form"
+   },
+   "A8": {
+    "status": "partial",
+    "px": 96765,
+    "t": 6.8,
+    "why": "bus dx at 6.80 = -28.8 px (pull-away); roof layer 96765 px slides and stops at frame 22, but the rotating wheels (the anchor's prop) are under the roof: stop reads only as the roof halting"
+   },
+   "A-neck": {
+    "status": "lost",
+    "px": 0,
+    "t": 1.2,
+    "why": "plan forms drawn for the man: ['foot', 'foot', 'arm', 'arm', 'shoulders', 'hat', 'ring']; the neck is a vertical part under the hat disc and has no plan form (0 px)"
+   },
+   "A-hat": {
+    "status": "partial",
+    "px": 400,
+    "t": 1.2,
+    "why": "hat disc + notched cord ring 400 px: hat legible, braid transformed into a ring of 14 notches"
+   }
+  }
+ },
+ "outline_iou": {
+  "puppets": {
+   "frames_checked": 58,
+   "min": 1.0,
+   "all_equal_1": true,
+   "method": "rig.draw_side on a transparent layer with the film's cut-paper fill (ink + carved lines) vs its photographic fill (Rol 1919 swatches); alpha>127; IoU per frame, both seeds",
+   "worst": [
+    {
+     "seed": 417,
+     "f": 0,
+     "iou": 1.0
+    },
+    {
+     "seed": 417,
+     "f": 8,
+     "iou": 1.0
+    },
+    {
+     "seed": 417,
+     "f": 16,
+     "iou": 1.0
+    }
+   ]
+  },
+  "stage_layers_iou_seed417_418": {
+   "backdrop_key_blocks": [
+    1.0,
+    1.0
+   ],
+   "crowd": [
+    1.0,
+    1.0
+   ],
+   "bus_shadow": [
+    1.0,
+    1.0
+   ],
+   "bus_body": [
+    1.0,
+    1.0
+   ],
+   "bus_front": [
+    1.0,
+    1.0
+   ],
+   "bell_tassel": [
+    1.0,
+    1.0
+   ],
+   "wheel_front": [
+    1.0,
+    1.0
+   ],
+   "wheel_rear": [
+    1.0,
+    1.0
+   ]
+  },
+  "stage_min": 1.0,
+  "asserted": true,
+  "note": "Asserted 1.0 for puppets and every stage layer (backdrop key blocks as laid, crowd, bus shadow, bus body, bus front, bell tassel, both wheels): Δ treatment changes fill only."
+ },
+ "protected_mask_identity": {
+  "frames": 168,
+  "side_protected_max_abs_diff": 0.0,
+  "plan_protected_max_abs_diff": 0.0,
+  "identical": true,
+  "protected": [
+   "man",
+   "jostler",
+   "conductor"
+  ],
+  "seed_differences": {
+   "runner_count": {
+    "417": 7,
+    "418": 8
+   },
+   "vacate": {
+    "417": "A",
+    "418": "A"
+   },
+   "all_puppet_xor": [
+    {
+     "f": 29,
+     "all_puppet_mask_xor_px": 26636
+    },
+    {
+     "f": 132,
+     "all_puppet_mask_xor_px": 22334
+    }
+   ],
+   "note": "Both seeds happen to vacate seat A; the vacate draw is still seeded (rng(seed,'vacate'))."
+  }
+ },
+ "replay": {
+  "frames": [
+   0,
+   29,
+   132
+  ],
+  "method": "sha1 of RGB bytes; second render in a fresh python -I process",
+  "all_identical": true,
+  "samples": {
+   "baseline/0417/f000": {
+    "in_process": "45cdbfcb12927e0a6f268318aa4255bf0e3a7bad",
+    "fresh_process": "45cdbfcb12927e0a6f268318aa4255bf0e3a7bad",
+    "identical": true
+   },
+   "baseline/0417/f029": {
+    "in_process": "907138f782c39bceb518888a17cb400fae90e16a",
+    "fresh_process": "907138f782c39bceb518888a17cb400fae90e16a",
+    "identical": true
+   },
+   "baseline/0417/f132": {
+    "in_process": "e198f3e88727d60a0243edb330f154c96d5ce672",
+    "fresh_process": "e198f3e88727d60a0243edb330f154c96d5ce672",
+    "identical": true
+   },
+   "baseline/0418/f000": {
+    "in_process": "4887a083e8d975f105ae60568c9eddc79c83bea6",
+    "fresh_process": "4887a083e8d975f105ae60568c9eddc79c83bea6",
+    "identical": true
+   },
+   "baseline/0418/f029": {
+    "in_process": "0b5422a7bd098ad9053faa629ddd92bc69cd8645",
+    "fresh_process": "0b5422a7bd098ad9053faa629ddd92bc69cd8645",
+    "identical": true
+   },
+   "baseline/0418/f132": {
+    "in_process": "abf1b5d457822389389a7afcbc94c17818cca8d7",
+    "fresh_process": "abf1b5d457822389389a7afcbc94c17818cca8d7",
+    "identical": true
+   },
+   "d-treatment/0417/f000": {
+    "in_process": "fc676544498ad8203ca96acb2feac14bb5f69254",
+    "fresh_process": "fc676544498ad8203ca96acb2feac14bb5f69254",
+    "identical": true
+   },
+   "d-treatment/0417/f029": {
+    "in_process": "b9e61024fb81632af9d80df1951f111db6edb978",
+    "fresh_process": "b9e61024fb81632af9d80df1951f111db6edb978",
+    "identical": true
+   },
+   "d-treatment/0417/f132": {
+    "in_process": "33d5549a869767df4ea3be7ffbb626db83adcd52",
+    "fresh_process": "33d5549a869767df4ea3be7ffbb626db83adcd52",
+    "identical": true
+   },
+   "d-treatment/0418/f000": {
+    "in_process": "31869ea35f2a3a882a6fbcc54fd26fc8733c9f5f",
+    "fresh_process": "31869ea35f2a3a882a6fbcc54fd26fc8733c9f5f",
+    "identical": true
+   },
+   "d-treatment/0418/f029": {
+    "in_process": "1cf8d628ff2217dd7f147c718de42d92fdd1d42d",
+    "fresh_process": "1cf8d628ff2217dd7f147c718de42d92fdd1d42d",
+    "identical": true
+   },
+   "d-treatment/0418/f132": {
+    "in_process": "d18b35fcb8e2dc5ab92e14d28422a1a4c5a87367",
+    "fresh_process": "d18b35fcb8e2dc5ab92e14d28422a1a4c5a87367",
+    "identical": true
+   },
+   "d-camera/0417/f000": {
+    "in_process": "c9e5a8e3ff6bf736d7d98c49ccae55aad550b943",
+    "fresh_process": "c9e5a8e3ff6bf736d7d98c49ccae55aad550b943",
+    "identical": true
+   },
+   "d-camera/0417/f029": {
+    "in_process": "cec2391dee7e6e191aa783e6d3516828b0626f3c",
+    "fresh_process": "cec2391dee7e6e191aa783e6d3516828b0626f3c",
+    "identical": true
+   },
+   "d-camera/0417/f132": {
+    "in_process": "f86b9351adf96dbc68ffa3e51336480efd5e47ec",
+    "fresh_process": "f86b9351adf96dbc68ffa3e51336480efd5e47ec",
+    "identical": true
+   },
+   "d-camera/0418/f000": {
+    "in_process": "b8a631a63566970d195ee2944e1de7bbd1a51c7c",
+    "fresh_process": "b8a631a63566970d195ee2944e1de7bbd1a51c7c",
+    "identical": true
+   },
+   "d-camera/0418/f029": {
+    "in_process": "24a58429ca793d96c130e9fa97712974376b4cba",
+    "fresh_process": "24a58429ca793d96c130e9fa97712974376b4cba",
+    "identical": true
+   },
+   "d-camera/0418/f132": {
+    "in_process": "97ff147c851fe3dc9918c5727c801b0750ef180f",
+    "fresh_process": "97ff147c851fe3dc9918c5727c801b0750ef180f",
+    "identical": true
+   }
+  }
+ },
+ "audio_pcm": {
+  "status": "measured",
+  "rate": 44100,
+  "clips": {
+   "baseline/0417": {
+    "film_window": [
+     4.0,
+     11.0
+    ],
+    "samples": [
+     176400,
+     485100
+    ],
+    "pcm_sha1": "a4d07c3999c910ff21784c8cc04342aece3716ba"
+   },
+   "baseline/0418": {
+    "film_window": [
+     11.0,
+     18.0
+    ],
+    "samples": [
+     485100,
+     793800
+    ],
+    "pcm_sha1": "a4d07c3999c910ff21784c8cc04342aece3716ba"
+   },
+   "d-treatment/0417": {
+    "film_window": [
+     20.0,
+     27.0
+    ],
+    "samples": [
+     882000,
+     1190700
+    ],
+    "pcm_sha1": "a4d07c3999c910ff21784c8cc04342aece3716ba"
+   },
+   "d-treatment/0418": {
+    "film_window": [
+     27.0,
+     34.0
+    ],
+    "samples": [
+     1190700,
+     1499400
+    ],
+    "pcm_sha1": "a4d07c3999c910ff21784c8cc04342aece3716ba"
+   },
+   "d-camera/0417": {
+    "film_window": [
+     36.0,
+     43.0
+    ],
+    "samples": [
+     1587600,
+     1896300
+    ],
+    "pcm_sha1": "a4d07c3999c910ff21784c8cc04342aece3716ba"
+   },
+   "d-camera/0418": {
+    "film_window": [
+     43.0,
+     50.0
+    ],
+    "samples": [
+     1896300,
+     2205000
+    ],
+    "pcm_sha1": "a4d07c3999c910ff21784c8cc04342aece3716ba"
+   },
+   "grid/S9": {
+    "film_window": [
+     50.0,
+     57.0
+    ],
+    "samples": [
+     2205000,
+     2513700
+    ],
+    "pcm_sha1": "a4d07c3999c910ff21784c8cc04342aece3716ba"
+   }
+  },
+  "identical": true,
+  "windows": 7,
+  "stem_sha1": "6d7f6f470b30f0b757a44df453bccf114e38e50b",
+  "method": "kit.Mix rebuilt in-process from the film module's sound function, mastered exactly as Film.render does, s16 PCM sliced per 7.0 s window (6 clip windows + the S9 grid window), hashed BEFORE the AAC encode",
+  "aac_decoded": {
+   "file": "assets/films/mauro-martino-exercises-in-style.mp4",
+   "file_sha1": "0cc20f480759a7e013fe47d78d74abe539d994be",
+   "snr_db_vs_first_window": {
+    "baseline/0417": null,
+    "baseline/0418": 17.3,
+    "d-treatment/0417": 17.3,
+    "d-treatment/0418": 17.2,
+    "d-camera/0417": 17.4,
+    "d-camera/0418": 17.0,
+    "grid/S9": 17.7
+   },
+   "min_snr_db": 17.0,
+   "note": "the mp4's AAC 96 kb/s track is lossy and its 1024-sample frames do not align with the 7.0 s windows, so decoded windows are NOT bit-identical; identity is claimed for the PCM before encoding only"
+  }
+ },
+ "counterexample": {
+  "file": "films/swarm/mauro-martino-exercises-in-style/verify/rejected-drift.json",
+  "accepted_projector_passed": true,
+  "drift_projector_passed": false,
+  "broken": [
+   "P4_no_shared_rng",
+   "world_ids_preserved",
+   "world_xz_preserved",
+   "runner_count_equals_side",
+   "C4_protected_plan_masks_identical_across_seeds"
+  ],
+  "observed": {
+   "seed": 417,
+   "runners_side": 7,
+   "runners_overhead_drift": 8,
+   "runners_overhead_accepted": 7
+  }
+ },
+ "aesthetic": {
+  "baseline": {
+   "p2_25_50_75_98": [
+    33,
+    38,
+    130,
+    198,
+    232
+   ],
+   "mid_70_170": 0.278,
+   "chroma": 13.2,
+   "paper_rgb": [
+    238,
+    230,
+    214
+   ],
+   "ink_rgb": [
+    34,
+    33,
+    31
+   ],
+   "dE76_paper_to_eee6d6": 0.0,
+   "dE76_ink_to_22211f": 0.0,
+   "method": "L = Rec.601 luma; paper = median RGB of the top-decile L pixels; ink = median of the bottom decile; ΔE76 in CIELAB (D65)"
+  },
+  "baseline_frame": "film frame 125 (0:05.2), films/sources/mauro-martino-exercises-in-style/verify/film_0005.2.png",
+  "reference": {
+   "p2_25_50_75_98": [
+    25,
+    41,
+    92,
+    190,
+    238
+   ],
+   "mid_70_170": 0.241,
+   "chroma": 12.6,
+   "paper_rgb": [
+    240,
+    230,
+    215
+   ],
+   "ink_rgb": [
+    30,
+    29,
+    26
+   ],
+   "dE76_paper_to_eee6d6": 0.9,
+   "dE76_ink_to_22211f": 2.1,
+   "method": "L = Rec.601 luma; paper = median RGB of the top-decile L pixels; ink = median of the bottom decile; ΔE76 in CIELAB (D65)"
+  },
+  "bar5_baseline": {
+   "p2_ge_15": true,
+   "p98_222_242": true,
+   "mid_ge_12pct": true,
+   "chroma_le_20": true,
+   "paper_dE_le_10": true,
+   "ink_dE_le_10": true
+  },
+  "bar5_pass": true,
+  "all_samples": {
+   "baseline/0417": {
+    "p2_25_50_75_98": [
+     33,
+     40,
+     131,
+     200,
+     232
+    ],
+    "mid_70_170": 0.28,
+    "chroma": 13.3,
+    "paper_rgb": [
+     238,
+     230,
+     214
+    ],
+    "ink_rgb": [
+     34,
+     33,
+     31
+    ],
+    "dE76_paper_to_eee6d6": 0.0,
+    "dE76_ink_to_22211f": 0.0,
+    "method": "L = Rec.601 luma; paper = median RGB of the top-decile L pixels; ink = median of the bottom decile; ΔE76 in CIELAB (D65)"
+   },
+   "baseline/0418": {
+    "p2_25_50_75_98": [
+     33,
+     38,
+     130,
+     203,
+     232
+    ],
+    "mid_70_170": 0.261,
+    "chroma": 13.3,
+    "paper_rgb": [
+     238,
+     230,
+     214
+    ],
+    "ink_rgb": [
+     34,
+     33,
+     31
+    ],
+    "dE76_paper_to_eee6d6": 0.0,
+    "dE76_ink_to_22211f": 0.0,
+    "method": "L = Rec.601 luma; paper = median RGB of the top-decile L pixels; ink = median of the bottom decile; ΔE76 in CIELAB (D65)"
+   },
+   "d-treatment/0417": {
+    "p2_25_50_75_98": [
+     33,
+     64,
+     117,
+     191,
+     231
+    ],
+    "mid_70_170": 0.365,
+    "chroma": 12.9,
+    "paper_rgb": [
+     238,
+     230,
+     214
+    ],
+    "ink_rgb": [
+     34,
+     33,
+     31
+    ],
+    "dE76_paper_to_eee6d6": 0.0,
+    "dE76_ink_to_22211f": 0.0,
+    "method": "L = Rec.601 luma; paper = median RGB of the top-decile L pixels; ink = median of the bottom decile; ΔE76 in CIELAB (D65)"
+   },
+   "d-treatment/0418": {
+    "p2_25_50_75_98": [
+     33,
+     64,
+     116,
+     193,
+     231
+    ],
+    "mid_70_170": 0.35,
+    "chroma": 12.9,
+    "paper_rgb": [
+     238,
+     230,
+     214
+    ],
+    "ink_rgb": [
+     34,
+     33,
+     31
+    ],
+    "dE76_paper_to_eee6d6": 0.0,
+    "dE76_ink_to_22211f": 0.0,
+    "method": "L = Rec.601 luma; paper = median RGB of the top-decile L pixels; ink = median of the bottom decile; ΔE76 in CIELAB (D65)"
+   },
+   "d-camera/0417": {
+    "p2_25_50_75_98": [
+     33,
+     130,
+     157,
+     209,
+     233
+    ],
+    "mid_70_170": 0.414,
+    "chroma": 17.1,
+    "paper_rgb": [
+     239,
+     231,
+     215
+    ],
+    "ink_rgb": [
+     37,
+     36,
+     33
+    ],
+    "dE76_paper_to_eee6d6": 0.4,
+    "dE76_ink_to_22211f": 1.6,
+    "method": "L = Rec.601 luma; paper = median RGB of the top-decile L pixels; ink = median of the bottom decile; ΔE76 in CIELAB (D65)"
+   },
+   "d-camera/0418": {
+    "p2_25_50_75_98": [
+     33,
+     130,
+     157,
+     204,
+     233
+    ],
+    "mid_70_170": 0.418,
+    "chroma": 17.1,
+    "paper_rgb": [
+     239,
+     231,
+     215
+    ],
+    "ink_rgb": [
+     37,
+     36,
+     34
+    ],
+    "dE76_paper_to_eee6d6": 0.4,
+    "dE76_ink_to_22211f": 1.5,
+    "method": "L = Rec.601 luma; paper = median RGB of the top-decile L pixels; ink = median of the bottom decile; ΔE76 in CIELAB (D65)"
+   }
+  },
+  "frame_sha1": {
+   "baseline/0417": "907138f782c39bceb518888a17cb400fae90e16a",
+   "baseline/0418": "0b5422a7bd098ad9053faa629ddd92bc69cd8645",
+   "d-treatment/0417": "b9e61024fb81632af9d80df1951f111db6edb978",
+   "d-treatment/0418": "1cf8d628ff2217dd7f147c718de42d92fdd1d42d",
+   "d-camera/0417": "cec2391dee7e6e191aa783e6d3516828b0626f3c",
+   "d-camera/0418": "24a58429ca793d96c130e9fa97712974376b4cba"
+  }
+ },
+ "puppet_print": {
+  "open_strokes": {
+   "check": "every cream gouge line in the puppets is an open run of one part outline (run/contour < 0.5)",
+   "frames": "film 0:05.0-0:05.8 (clip frames 24-43, baseline 0417)",
+   "strokes": 504,
+   "max_run_fraction": 0.414,
+   "passed": true
+  },
+  "no_rim_on_cream": {
+   "check": "at 0:05.2, ring pixels 1-3 px outside street puppets on cream ground are not brighter than the paper beneath",
+   "ring_pixels_on_cream": 1443,
+   "p99_brightening": -1.0,
+   "mean_brightening": -24.91,
+   "passed": true
+  },
+  "bus_framing": {
+   "frame_width": 960,
+   "bus_x0": 140,
+   "bus_x1": 720,
+   "platform_x0": 614.4,
+   "span_with_platform_pct": 60.4,
+   "span_without_platform_pct": 49.4,
+   "bus_y_pct": [
+    29.3,
+    75.2
+   ],
+   "target": "bus long side 55-65 % of frame width, y about 32-75 %"
+  }
+ },
+ "capability_notes": {
+  "observed": [
+   "These results describe six inspected samples (3 conditions x seeds 0417, 0418) of one engine: 'kit.py procedural animatic' = stage.py + rig.py at generator_rev a81c80d6f3e3.",
+   "Seeds are repeatable in this engine: frames 0, 29, 132 of all six samples re-render byte-identically in a fresh process (True).",
+   "In this engine the seed governs only unprotected elements (runner count 7 vs 8, positions, phases, idle holds, print grain); protected masks are identical across seeds on all 168 frames, side and plan (True).",
+   "The treatment field changed fill only (puppet outline IoU min 1.0000).",
+   "The camera field changed projection and lost anchors ['A-neck', 'A4c', 'A6w']; partially kept ['A-hat', 'A0', 'A1', 'A5', 'A5d', 'A7', 'A8']."
+  ],
+  "not_claimed": [
+   "Nothing here is evidence about text-to-video or text-to-image generators in general, or about how Martino's own generator handled seeds, fixed actions or prompt deltas; the film is a stand-in engine whose isolation of seed streams is built in by design (P4).",
+   "An intended-effect rate of n of 2 is a count over two inspected samples, not an estimate of a probability.",
+   "The counterexample shows this harness detects one class of drift (projector drawing from a shared stream); it does not prove absence of other drift classes."
+  ]
+ },
+ "evidence": {
+  "foraged": [
+   {
+    "title": "1-6-16, nouvel autobus Madeleine-Bastille : [photographie de presse] / [Agence Rol]",
+    "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+    "license": "Public domain",
+    "license_url": "",
+    "source_url": "https://commons.wikimedia.org/wiki/File:1-6-16,_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/ee/1-6-16%2C_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+    "used_as": "the bus (rectified to a side elevation, GrabCut cut-out, printed two-tone in cut-paper; its own greys in photographic-plate), its two wheels as rotating cutouts, the real 1916 passengers in the windows; in photographic-plate, its rectified facade stone and cobbles as texture refilling the baseline's carved facade and pavement blocks (same outlines)",
+    "id": "F-rol1916",
+    "local_path": "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg",
+    "local_sha1": "bb5fd56ac6428b621ce0953c8aa0c21b04d88ba5",
+    "read_by_film_render": [
+     "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/bus_rect_rgba.png",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/plates.json",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_front.png",
+     "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_rear.png"
+    ],
+    "verified": "1916 (DateTimeOriginal), Paris; caption date 1-6-16; Gallica Rol 47052"
+   },
+   {
+    "title": "Mars 1919, baraque Vilgrain (foule devant l'épicerie à prix contenus)",
+    "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+    "license": "Public domain",
+    "license_url": "",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Mars_1919,_baraque_Vilgrain_(foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus)_-_btv1b53016631j.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg/1280px-Mars_1919%2C_baraque_Vilgrain_%28foule_devant_l%27%C3%A9picerie_%C3%A0_prix_contenus%29_-_btv1b53016631j.jpg",
+    "used_as": "the waiting crowd: eight GrabCut cutouts (A-H), one printed outline in both treatments: ink silhouettes with carved lines (cut-paper) or the cutouts' own greys (photographic-plate); coat and shawl textures filling the photographic puppets",
+    "id": "F-vilgrain1919",
+    "local_path": "films/sources/mauro-martino-exercises-in-style/plates/commons/vilgrain1919.jpg",
+    "local_sha1": "3f286fc83ce5d6d98cac9d7841cf16a1994a19ce",
+    "read_by_film_render": [
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/A_woman_shawl_rgba.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/B_woman_walking_rgba.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/C_man_overcoat_rgba.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/D_man_back_rgba.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/E_woman_white_rgba.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/F_woman_basket_rgba.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/G_man_bowler_right_rgba.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/crowd/H_man_far_rgba.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_black_shawl.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_dark_long.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_light_overcoat.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_dark.png"
+    ],
+    "verified": "1919 (DateTimeOriginal), Paris; Gallica Rol 52801"
+   },
+   {
+    "title": "14-3-19, la foule attendant l'arrivée du président Wilson",
+    "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+    "license": "Public domain",
+    "license_url": "",
+    "source_url": "https://commons.wikimedia.org/wiki/File:14-3-19,_la_foule_attendant_l%27arriv%C3%A9e_du_pr%C3%A9sident_Wilson_-_btv1b53016658h.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/14-3-19%2C_la_foule_attendant_l%27arriv%C3%A9e_du_pr%C3%A9sident_Wilson_-_btv1b53016658h.jpg/1280px-14-3-19%2C_la_foule_attendant_l%27arriv%C3%A9e_du_pr%C3%A9sident_Wilson_-_btv1b53016658h.jpg",
+    "used_as": "cape and trouser textures filling the photographic puppets",
+    "id": "F-wilson1919",
+    "local_path": "films/sources/mauro-martino-exercises-in-style/plates/commons/wilson1919.jpg",
+    "local_sha1": "5e5260870c8b59c44fe9ef13bc5a4da8e89cc125",
+    "read_by_film_render": [
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/cape_officer.png",
+     "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_wilson.png"
+    ],
+    "verified": "1919-03-14, Paris"
+   },
+   {
+    "title": "WWS CityBusMANSG220engine (MAN/Avtomontaža city bus, 1991, engine)",
+    "author": "Work With Sounds / Technical Museum of Slovenia",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:WWS_CityBusMANSG220engine.ogg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/69/WWS_CityBusMANSG220engine.ogg",
+    "used_as": "engine half of the one 7.0 s sound bed under every clip window; trimmed to 16.8-23.8 s and mixed with the street recording (modified). A 1991 bus engine standing in for 1916; declared",
+    "id": "F-engine",
+    "local_path": "films/sources/mauro-martino-exercises-in-style/plates/audio/engine_idle_pullaway_7.0s.wav",
+    "local_sha1": "9bce4e46b095432bd3df6d786ca38b0a5466ff2d",
+    "read_by_film_render": "audio: laid by the film's sound() (see audio_pcm)",
+    "verified": "2015-03-26 recording (Commons DateTimeOriginal)"
+   },
+   {
+    "title": "Bell-ring (a bicycle bell, single stroke)",
+    "author": "qubodup",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Bell-ring.flac",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Bell-ring.flac",
+    "used_as": "the conductor's bell at A7 (t 6.00) in every clip window (a bicycle bell; declared)",
+    "id": "F-bell",
+    "local_path": "films/sources/mauro-martino-exercises-in-style/plates/audio/bell_conductor_2.6s.wav",
+    "local_sha1": "995853d6bfa384c4a90c7788372d4b761297a27b",
+    "read_by_film_render": "audio: laid by the film's sound() (see audio_pcm)",
+    "verified": "unverified (no date given)"
+   },
+   {
+    "title": "Sunday in the city street noise1 (sounds outside my window, 4 May 2008)",
+    "author": "cori",
+    "license": "Public domain",
+    "license_url": "",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Sunday_in_the_city_street_noise1.ogg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/5d/Sunday_in_the_city_street_noise1.ogg",
+    "used_as": "street air in the 7.0 s bed and under the cards",
+    "id": "F-street",
+    "local_path": "films/sources/mauro-martino-exercises-in-style/plates/audio/street_bed_7.0s.wav",
+    "local_sha1": "7a3277d9c762d263432ca73eca28770e34983b96",
+    "read_by_film_render": "audio: laid by the film's sound() (see audio_pcm)",
+    "verified": "2008-05-04/05 (Commons DateTimeOriginal)"
+   }
+  ],
+  "files_read_by_film_renders": [
+   "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/A_woman_shawl_rgba.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/B_woman_walking_rgba.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/C_man_overcoat_rgba.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/D_man_back_rgba.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/E_woman_white_rgba.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/F_woman_basket_rgba.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/G_man_bowler_right_rgba.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/crowd/H_man_far_rgba.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/swatches/cape_officer.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_black_shawl.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_dark_long.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/swatches/coat_light_overcoat.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_dark.png",
+   "films/sources/mauro-martino-exercises-in-style/plates/swatches/trouser_wilson.png",
+   "films/sources/mauro-martino-exercises-in-style/test-shot/plates/bus_rect_rgba.png",
+   "films/sources/mauro-martino-exercises-in-style/test-shot/plates/plates.json",
+   "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_front.png",
+   "films/sources/mauro-martino-exercises-in-style/test-shot/plates/wheel_rear.png"
+  ],
+  "bourse1933_read_by_any_render": false,
+  "handmade": [
+   {
+    "item": "carved facade/arcade/pavement blocks, platform, board, plan stage, roof-light cell, puppets and their carved lines, cards",
+    "where": "stage/stage.py, rig/rig.py, films/mauro-martino-exercises-in-style.py"
+   },
+   {
+    "item": "coverage harness, per-anchor masks, outline IoU, replay, RNG probe",
+    "where": "films/swarm/mauro-martino-exercises-in-style/verify/coverage.py"
+   },
+   {
+    "item": "counterexample RNG-coupled overhead projector (rejected)",
+    "where": "films/swarm/mauro-martino-exercises-in-style/verify/coverage.py project_drift; frames in films/sources/mauro-martino-exercises-in-style/verify/quarantine"
+   },
+   {
+    "item": "comparison sheet, mask sheets, rejected-drift strip",
+    "where": "films/sources/mauro-martino-exercises-in-style/verify"
+   }
+  ],
+  "absences": [
+   {
+    "id": "F2-bourse1933",
+    "title": "Greve des autobus - Place de la Bourse, le public attendant la reprise (Peyriras, 1933)",
+    "status": "dropped: Commons tags it PD France only, with no US rationale; a 1933 photograph is probably under restored US copyright, so not verifiably PD",
+    "check": "no film render reads films/sources/mauro-martino-exercises-in-style/commons/bourse1933.jpg (traced: True)"
+   },
+   "nothing usable came from the Moving Image Archive cache (U1 logged the 28 sound-clip matches as narrated, scored or hiss)",
+   "no openly licensed pre-1930 motorbus engine or conductor's bell on Commons: a 1991 diesel and a bicycle bell stand in (declared)",
+   "U4 foraged nothing new"
+  ]
+ },
+ "outputs": {
+  "manifests": "films/swarm/mauro-martino-exercises-in-style/verify/manifests.json",
+  "render_attempts": "films/swarm/mauro-martino-exercises-in-style/verify/render-attempts.json",
+  "rejected_drift": "films/swarm/mauro-martino-exercises-in-style/verify/rejected-drift.json",
+  "comparison_sheet": "films/swarm/mauro-martino-exercises-in-style/verify/comparison-sheet.jpg",
+  "mask_sheets": "films/sources/mauro-martino-exercises-in-style/verify/masks",
+  "replay_frames": "films/sources/mauro-martino-exercises-in-style/verify/replay",
+  "samples_t1_20": [
+   "films/sources/mauro-martino-exercises-in-style/verify/sample_baseline_0417_t1.20.png",
+   "films/sources/mauro-martino-exercises-in-style/verify/sample_baseline_0418_t1.20.png",
+   "films/sources/mauro-martino-exercises-in-style/verify/sample_d-camera_0417_t1.20.png",
+   "films/sources/mauro-martino-exercises-in-style/verify/sample_d-camera_0418_t1.20.png",
+   "films/sources/mauro-martino-exercises-in-style/verify/sample_d-treatment_0417_t1.20.png",
+   "films/sources/mauro-martino-exercises-in-style/verify/sample_d-treatment_0418_t1.20.png"
+  ],
+  "quarantine": "films/sources/mauro-martino-exercises-in-style/verify/quarantine"
+ }
+}

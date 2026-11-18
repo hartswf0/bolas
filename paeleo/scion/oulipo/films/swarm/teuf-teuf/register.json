@@ -1,0 +1,134 @@
+{
+ "about": "teuf-teuf historical source register: every historical or causal claim the film makes or implies, its source and status. Status: sourced | uncertain | contested | staged compression | derived (asserted in sim.py) | original. Nothing marked uncertain or contested appears on screen as fact.",
+ "date": "2026-11-16 (repair 2)",
+ "claims": [
+  {
+   "id": "R1",
+   "claim": "Teuf-Teuf is a 1956 animated film by Jean Jabely, an animated history of means of transport staged on a cave-painting mural; Cité Films distributes it and supplies the reference still.",
+   "source_url": "https://citefilms.com/movie/teuf-teuf",
+   "status": "sourced",
+   "on_screen": "1.6-3.9 s, lower band: « d'après Teuf-Teuf de Jean Jabely (1956) · légendes originales » (the only date on screen)",
+   "note": "source anchor given in prompts/teuf-teuf.md; page not re-read in this session. The film itself was not seen beyond the one still: its sequence is unknown. Repair 2: named on screen as the film's lineage (homage), dated from this source anchor."
+  },
+  {
+   "id": "R2",
+   "claim": "Raymond Queneau wrote the commentary; a manuscript dossier places image descriptions beside it.",
+   "source_url": "https://www.gazette-drouot.com/en/lots/16816718-queneau-raymond-manuscri",
+   "status": "sourced",
+   "on_screen": false,
+   "note": "source anchor in prompts/teuf-teuf.md. Our captions are original Queneau-like lines, not Queneau's text (R13)."
+  },
+  {
+   "id": "R3",
+   "claim": "The Ljubljana Marshes wheel (with its axle) is a Copper Age wooden wheel of the Baden culture, described as the oldest wooden wheel yet discovered.",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Ljubljana_Marshes_Wheel_with_axle_(oldest_wooden_wheel_yet_discovered).jpg",
+   "status": "sourced",
+   "on_screen": "only as the wheel cutout and the end source line ('roue des marais de Ljubljana'); no date shown",
+   "note": "from the Commons file title and its categories (Ljubljana Marshes Wheel, Cartwheels, Baden culture, Copper Age in Europe), read 2026-11-16."
+  },
+  {
+   "id": "R3a",
+   "claim": "The wheel is about 5,150 years old (c. 3150 BCE); its dimensions.",
+   "source_url": "https://commons.wikimedia.org/wiki/Category:Ljubljana_Marshes_Wheel",
+   "status": "uncertain",
+   "on_screen": false,
+   "note": "the category page (Wikidata infobox) could not be read: Commons API rate-limited this session. The plan's '~5,150 years' is not verified here. Do not show a number."
+  },
+  {
+   "id": "R4",
+   "claim": "The Ljubljana wheel was fixed to a rotating axle through a square hole (wheel and axle turn together; the axle turns in bearings under the vehicle).",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Ljubljana_Marshes_Wheel_with_axle_(oldest_wooden_wheel_yet_discovered).jpg",
+   "status": "uncertain",
+   "on_screen": "implied by the cart's construction (wheel fixed to axle, axle in bearings)",
+   "note": "visual reading of the photograph (the axle is shown with the wheel; the hole reads as square); no text source verified this session."
+  },
+  {
+   "id": "R5",
+   "claim": "Rollers came before wheels / the wheel evolved from the roller.",
+   "source_url": "",
+   "status": "contested",
+   "on_screen": false,
+   "note": "the roller-to-wheel theory is disputed. The film shows a sequence of mechanisms under one load, not a lineage; the counter-check argues mechanically (contact kind), not historically."
+  },
+  {
+   "id": "R6",
+   "claim": "The wall is a real rock surface at Cueva de las Manos, Río Pinturas (Santa Cruz, Argentina; Monumento Histórico Nacional ID 876) with negative hand stencils, animal figures (guanacos) and symbols.",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Cueva_de_las_manos_-_detalle.jpg",
+   "status": "sourced",
+   "on_screen": "the wall itself; end source line 'Cueva de las Manos (Suzko, CC BY-SA 3.0)'",
+   "note": "file description (es): 'Detalle de pinturas de manos, animales y símbolos en una de las paredes de roca'; {{Monumento Argentino|876}}; coordinates -47.148, -70.656; photo 2005-01-07."
+  },
+  {
+   "id": "R7",
+   "claim": "The Cueva de las Manos stencils date to about 9,000-13,000 BP.",
+   "source_url": "",
+   "status": "uncertain",
+   "on_screen": false,
+   "note": "literature range quoted in plan.md; not verified in this session."
+  },
+  {
+   "id": "R8",
+   "claim": "Dragging, rolling on logs and the wheeled platform are shown on one wall, with the same load, the same two figures and the same 7 s push, one after the other.",
+   "source_url": "",
+   "status": "staged compression",
+   "on_screen": "declared in the end line: 'séquence mise en scène, non chronologique'",
+   "note": "the mechanisms belong to different places and periods; the film makes no claim that they happened here, in this order, or to one stone."
+  },
+  {
+   "id": "R9",
+   "claim": "Scale: the boulder is 1.8 m long and 1.26 m high (one 180 x 126 px mask in every trial) and the figures about 2.3 m tall at 100 px/m; the wheels are 0.68 m across; distances 1.2 / 3.0 / 8.0 m.",
+   "source_url": "",
+   "status": "staged compression",
+   "on_screen": "scratched ticks at 0, 1.2, 3 and 8 m (unlabelled)",
+   "note": "the ratios between trials are the proof, not absolute sizes. The 1.2/3.0/8.0 m outcomes come from the motion fixture films/swarm/teuf-teuf/animator-build/motion.py, verified on the rendered frames (verify_sheet.py); they are demonstrative, not measured historical performance. (Repair 2: updated from the superseded 2.5 m / 250 px stone.)"
+  },
+  {
+   "id": "R10",
+   "claim": "A load on loose rollers advances at twice the rollers' speed (rollers travel at v/2 with no slip), so rollers fall out behind and must be carried forward.",
+   "source_url": "",
+   "status": "derived (asserted in sim.py)",
+   "on_screen": "shot 3: logs drift back at v/2, log A falls out, log D carried",
+   "note": "rolling kinematics; asserted per frame: roll slip <= 0.5 px (max 0.012 px)."
+  },
+  {
+   "id": "R11",
+   "claim": "Dragging on a runner produces stick-slip (lurches) under a steady push.",
+   "source_url": "",
+   "status": "derived (asserted in sim.py)",
+   "on_screen": "shot 1: nine lurches",
+   "note": "static/kinetic friction with the pusher's body as the spring; the numbers are chosen, not measured."
+  },
+  {
+   "id": "R12",
+   "claim": "A wheel that is not held by an axle in bearings behaves as a roller: it drifts back under the load and drops out.",
+   "source_url": "",
+   "status": "derived (asserted in sim.py)",
+   "on_screen": "shot 5 counter-check",
+   "note": "same kinematics as R10 applied to the loose wheels."
+  },
+  {
+   "id": "R13",
+   "claim": "The captions are Queneau-like commentary.",
+   "source_url": "",
+   "status": "original",
+   "on_screen": true,
+   "note": "written for this film; no line is quoted from Queneau or from Teuf-Teuf."
+  },
+  {
+   "id": "R14",
+   "claim": "No frames, sound or text from Jabely's Teuf-Teuf are used.",
+   "source_url": "https://citefilms.com/movie/teuf-teuf",
+   "status": "sourced",
+   "on_screen": false,
+   "note": "the reference still (assets/references/teuf.webp) was only measured and viewed. The film's note (films/notes/teuf-teuf.txt) and the end card name the lineage: an homage after Jabely's Teuf-Teuf (1956), with original captions."
+  },
+  {
+   "id": "R15",
+   "claim": "Colossi were dragged on sledges (el-Bersheh relief of Djehutihotep, after Wilkinson); a bull colossus moved on a sledge over rollers (Kouyunjik relief, after Layard 1882).",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Colosse-dj%C3%A9houtih%C3%A9tep2.jpg",
+   "status": "sourced",
+   "on_screen": false,
+   "note": "background only: the two engravings remain in sources/ from an earlier version but are not used by direction 1 and are not credited. Layard plate: https://commons.wikimedia.org/wiki/File:Nineveh_and_Babylon_-_a_narrative_of_a_second_expedition_to_Assyria_during_the_years_1849,_1850,_and_1851_(1882)_(14580556070).jpg (licences not re-verified this session)."
+  }
+ ]
+}

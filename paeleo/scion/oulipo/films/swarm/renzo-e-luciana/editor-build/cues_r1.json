@@ -1,0 +1,832 @@
+{
+ "slug": "renzo-e-luciana",
+ "unit": "sound (U3)",
+ "base": "rules.json cues (authoritative) + plan.md section 5",
+ "fps": 24,
+ "rate": 44100,
+ "duration_s": 72.0,
+ "total_frames": 1728,
+ "channels": 2,
+ "files": {
+  "mix": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/renzo-e-luciana/sound.wav",
+  "mix_without_bells": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/renzo-e-luciana/sound-nobells.wav",
+  "stems": {
+   "bells": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/renzo-e-luciana/stems/bells.wav",
+   "steps": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/renzo-e-luciana/stems/steps.wav",
+   "foley": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/renzo-e-luciana/stems/foley.wav",
+   "room": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/renzo-e-luciana/stems/room.wav"
+  }
+ },
+ "editor_use": "stereo 16-bit 44.1 kHz. With kit.Mix: x=wav (N,2); mix.add(x[:,0]/1.414, 0, pan=-1); mix.add(x[:,1]/1.414, 0, pan=1). kit master() only attenuates (peak is -1 dBFS) so levels survive. Comparison: sound-off = mute; bell-restored = sound.wav; rule-only = sound-nobells.wav (no bells, everything else).",
+ "declared_silence": [
+  "A 7.0-14.3 (frames 168-343, the MEETING): room tone only, clock tick dropped, no steps, no bells; only the three bites (8.5, 11.0, 13.0), the lid tick at 13.6 and the core tap at 14.0 sound",
+  "slate 35.0-37.0 (frames 840-887): no room tone; only the card set down and the strip slide",
+  "no voice, no score anywhere"
+ ],
+ "deviations": [
+  "L break-end punch is at 71.5 s (frame 1716) as in rules.json, not 72.0; the hard cut to black at 72.0 ends the mix",
+  "Renzo's one bite in B is at 51.0 (rules.json), just before he rises, not at the 52-53.5 crossing"
+ ],
+ "absences": [
+  "apple bite: searched Commons audio for \"apple bite\", \"biting apple\", \"apple eating\", \"eating apple\", \"crunch eating\", \"chewing\", \"bite crisp\": no recording of an apple bite under PD/CC0/CC BY/BY-SA; used a real PD crunch (pistachio husks) as declared substitute",
+  "time-clock punch: Commons \"WWS Timeclock.ogg\" (CC BY 4.0, Work With Sounds) was found, but upload.wikimedia.org returned HTTP 429 (retry-after 600) for every attempt over ~60 min; substitute layered from two real recordings. Re-try later and set choice.json punch -> WWS_Timeclock.ogg",
+  "also found but not downloadable (429): Old school bell 1-5.ogg (PD hand bells), WWS Signalbell.ogg (CC BY 4.0), WWS Steamengineandsignalbell.ogg, WWS Edgeplaner.ogg (CC BY 4.0 machine shop; would add a far machine layer to the room tone), Food wrapper crumpling.ogg, Eating snacks.ogg, Mechanical tack.ogg",
+  "factory room tone with source sound in the Moving Image Archive cache: of the factory/machine-shop/shift/assembly/lathe/plant hits with audio, Master Hands (1936, both clips) carry an orchestral score, Look to Lockheed (1940) and the atom-plant/duPont/White Ammunition clips carry narration; Valley Town (1940) a11ba534 has diegetic plant sound but a steady 118/174 Hz fifth (probable Marc Blitzstein score) and was DROPPED in editor repair r1; the room tone is now a sub-200 Hz rumble from the PD Commons hall recording",
+  "footsteps on concrete: only \"Concrete Steps 2.ogg\" (two steps, 0.79 s) is clean; longer step recordings found (Church people walking steps with reverb, PD) carry crowd walla, so they are not used as steps (the hall recording appears only as a sub-200 Hz room rumble), so pacing is built from the two real steps",
+  "tin pail lid: no openly licensed tin-lid recording searched out in the time; a real cupboard-door click stands in (declared)",
+  "no kit-synthesized sound remains in the mix: every sounding element is a real recording (bites and punch are declared substitutes)"
+ ],
+ "levels": {
+  "bells": {
+   "rms_dbfs": -27.5,
+   "peak_dbfs": -4.2
+  },
+  "steps": {
+   "rms_dbfs": -43.8,
+   "peak_dbfs": -6.3
+  },
+  "foley": {
+   "rms_dbfs": -39.9,
+   "peak_dbfs": -4.9
+  },
+  "room": {
+   "rms_dbfs": -39.7,
+   "peak_dbfs": -14.4
+  },
+  "full": {
+   "rms_dbfs": -26.9,
+   "peak_dbfs": -1.0
+  },
+  "A_meeting_7_14.3": {
+   "bells": {
+    "rms_dbfs": -240.0,
+    "peak_dbfs": -240.0
+   },
+   "steps": {
+    "rms_dbfs": -228.4,
+    "peak_dbfs": -196.3
+   },
+   "foley": {
+    "rms_dbfs": -39.2,
+    "peak_dbfs": -8.2
+   },
+   "room": {
+    "rms_dbfs": -40.7,
+    "peak_dbfs": -28.3
+   }
+  }
+ },
+ "fallbacks_declared": [
+  {
+   "element": "bite@8.5",
+   "fallback": "substitute: a real crunch (pistachio husks ground in the fist, PDSounds), not an apple bite; no openly licensed apple-bite recording found"
+  },
+  {
+   "element": "bite@11.0",
+   "fallback": "substitute: a real crunch (pistachio husks ground in the fist, PDSounds), not an apple bite; no openly licensed apple-bite recording found"
+  },
+  {
+   "element": "bite@13.0",
+   "fallback": "substitute: a real crunch (pistachio husks ground in the fist, PDSounds), not an apple bite; no openly licensed apple-bite recording found"
+  },
+  {
+   "element": "punch@15.0",
+   "fallback": "substitute: no openly licensed time-clock recording could be downloaded (WWS Timeclock.ogg found, CC BY 4.0, but upload.wikimedia.org answered 429 throughout); the 'ka-chunk' is two real recordings layered: a cupboard door closing (CC BY-SA 3.0) and a knock on wood 75 ms later (PD)"
+  },
+  {
+   "element": "punch@20.0",
+   "fallback": "substitute: no openly licensed time-clock recording could be downloaded (WWS Timeclock.ogg found, CC BY 4.0, but upload.wikimedia.org answered 429 throughout); the 'ka-chunk' is two real recordings layered: a cupboard door closing (CC BY-SA 3.0) and a knock on wood 75 ms later (PD)"
+  },
+  {
+   "element": "bite@51.0",
+   "fallback": "substitute: a real crunch (pistachio husks ground in the fist, PDSounds), not an apple bite; no openly licensed apple-bite recording found"
+  },
+  {
+   "element": "punch@52.0",
+   "fallback": "substitute: no openly licensed time-clock recording could be downloaded (WWS Timeclock.ogg found, CC BY 4.0, but upload.wikimedia.org answered 429 throughout); the 'ka-chunk' is two real recordings layered: a cupboard door closing (CC BY-SA 3.0) and a knock on wood 75 ms later (PD)"
+  },
+  {
+   "element": "bite@55.0",
+   "fallback": "substitute: a real crunch (pistachio husks ground in the fist, PDSounds), not an apple bite; no openly licensed apple-bite recording found"
+  },
+  {
+   "element": "punch@71.5",
+   "fallback": "substitute: no openly licensed time-clock recording could be downloaded (WWS Timeclock.ogg found, CC BY 4.0, but upload.wikimedia.org answered 429 throughout); the 'ka-chunk' is two real recordings layered: a cupboard door closing (CC BY-SA 3.0) and a knock on wood 75 ms later (PD)"
+  }
+ ],
+ "processing": "decode ffmpeg -> 44.1 kHz mono wav; trims with 1-3 ms fade-in; per-sample peak levelling; +-3% speed and +-2 dB step variation; Schroeder-style room (wet .35, T60 .8 s) on the foreman's steps only; room beds tiled from random-offset crossfaded grains of the real recordings, low-passed (plant roar 400 Hz, machine shop 1.8 kHz, hall air 900 Hz)",
+ "cues": [
+  {
+   "cue": "bell",
+   "t": 0.0,
+   "frame": 0,
+   "tolerance_frames": 1,
+   "window_frames": [
+    -1,
+    1
+   ],
+   "stem": "bells",
+   "what": "work bell: both breaks begin (one ring ~2 s)",
+   "source": "File:Model 500 Telephone British ring.ogg",
+   "fallback": null,
+   "pan": 0.0,
+   "dur": 2.0,
+   "end_frame": 48,
+   "rules_cue": "work_bell",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "room",
+   "t": 0.0,
+   "frame": 0,
+   "tolerance_frames": 1,
+   "window_frames": [
+    -1,
+    1
+   ],
+   "stem": "room",
+   "what": "A room tone bed (plant roar + far machine shop + hall air); clock tick bed except 7.0-14.3 (meeting: room tone only)",
+   "source": null,
+   "fallback": null,
+   "pan": 0.0,
+   "dur": 35.0,
+   "end_frame": 840,
+   "rules_cue": "room_tone/clock_tick A",
+   "license": ""
+  },
+  {
+   "cue": "steps",
+   "t": 0.4,
+   "frame": 10,
+   "tolerance_frames": 1,
+   "window_frames": [
+    9,
+    11
+   ],
+   "stem": "steps",
+   "what": "foreman pacing in the doorway (FLOOR); stops at 5.0 when he turns (9 steps, every ~0.55 s, stop by 5.00)",
+   "source": "File:Concrete Steps 2.ogg",
+   "fallback": null,
+   "pan": -0.6,
+   "dur": 4.6,
+   "end_frame": 120,
+   "gain_db": -10.5,
+   "rules_cue": "footsteps_foreman 0.4",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "steps",
+   "t": 0.4,
+   "frame": 10,
+   "tolerance_frames": 1,
+   "window_frames": [
+    9,
+    11
+   ],
+   "stem": "steps",
+   "what": "Renzo walks on from the right (4 steps, every ~0.48 s, stop by 2.00)",
+   "source": "File:Concrete Steps 2.ogg",
+   "fallback": null,
+   "pan": 0.6,
+   "dur": 1.6,
+   "end_frame": 48,
+   "gain_db": -6.9,
+   "rules_cue": "footsteps 0.4",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "steps",
+   "t": 1.0,
+   "frame": 24,
+   "tolerance_frames": 1,
+   "window_frames": [
+    23,
+    25
+   ],
+   "stem": "steps",
+   "what": "Luciana walks on from the left (3 steps, every ~0.50 s, stop by 2.60)",
+   "source": "File:Concrete Steps 2.ogg",
+   "fallback": null,
+   "pan": -0.3,
+   "dur": 1.6,
+   "end_frame": 62,
+   "gain_db": -8.0,
+   "rules_cue": "footsteps 1.0",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "lid",
+   "t": 2.8,
+   "frame": 67,
+   "tolerance_frames": 1,
+   "window_frames": [
+    66,
+    68
+   ],
+   "stem": "foley",
+   "what": "L_lid open",
+   "source": "File:Cupboarddoorclose.ogg",
+   "fallback": null,
+   "pan": 0.0,
+   "rules_cue": "lid_tin",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "paper",
+   "t": 5.0,
+   "frame": 120,
+   "tolerance_frames": 1,
+   "window_frames": [
+    119,
+    121
+   ],
+   "stem": "foley",
+   "what": "FOREMAN TURNS to OFFICE: substitution front -> back photograph (12:01)",
+   "source": "File:Book paper pages assorted.ogg",
+   "fallback": null,
+   "pan": 0.0,
+   "rules_cue": "paper_rustle",
+   "license": "Public domain"
+  },
+  {
+   "cue": "bite",
+   "t": 8.5,
+   "frame": 204,
+   "tolerance_frames": 1,
+   "window_frames": [
+    203,
+    205
+   ],
+   "stem": "foley",
+   "what": "renzo bites: apple0->apple1",
+   "source": "File:Crunching munching grinding.ogg",
+   "fallback": "substitute: a real crunch (pistachio husks ground in the fist, PDSounds), not an apple bite; no openly licensed apple-bite recording found",
+   "pan": 0.0,
+   "rules_cue": "bite_crunch",
+   "license": "Public domain"
+  },
+  {
+   "cue": "bite",
+   "t": 11.0,
+   "frame": 264,
+   "tolerance_frames": 1,
+   "window_frames": [
+    263,
+    265
+   ],
+   "stem": "foley",
+   "what": "luciana bites: apple1->apple2",
+   "source": "File:Crunching munching grinding.ogg",
+   "fallback": "substitute: a real crunch (pistachio husks ground in the fist, PDSounds), not an apple bite; no openly licensed apple-bite recording found",
+   "pan": 0.0,
+   "rules_cue": "bite_crunch",
+   "license": "Public domain"
+  },
+  {
+   "cue": "paper",
+   "t": 12.0,
+   "frame": 288,
+   "tolerance_frames": 1,
+   "window_frames": [
+    287,
+    289
+   ],
+   "stem": "foley",
+   "what": "foreman turns a time sheet",
+   "source": "File:Book paper pages assorted.ogg",
+   "fallback": null,
+   "pan": 0.0,
+   "rules_cue": "paper_rustle",
+   "license": "Public domain"
+  },
+  {
+   "cue": "bite",
+   "t": 13.0,
+   "frame": 312,
+   "tolerance_frames": 1,
+   "window_frames": [
+    311,
+    313
+   ],
+   "stem": "foley",
+   "what": "renzo bites: apple2->apple3 (core)",
+   "source": "File:Crunching munching grinding.ogg",
+   "fallback": "substitute: a real crunch (pistachio husks ground in the fist, PDSounds), not an apple bite; no openly licensed apple-bite recording found",
+   "pan": 0.0,
+   "rules_cue": "bite_crunch",
+   "license": "Public domain"
+  },
+  {
+   "cue": "lid",
+   "t": 13.6,
+   "frame": 326,
+   "tolerance_frames": 1,
+   "window_frames": [
+    325,
+    327
+   ],
+   "stem": "foley",
+   "what": "R_lid open",
+   "source": "File:Cupboarddoorclose.ogg",
+   "fallback": null,
+   "pan": 0.0,
+   "rules_cue": "lid_tin",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "tap",
+   "t": 14.0,
+   "frame": 336,
+   "tolerance_frames": 1,
+   "window_frames": [
+    335,
+    337
+   ],
+   "stem": "foley",
+   "what": "Renzo sets the core in his pail lid (persists to 12:07)",
+   "source": "File:Knocking on wood or door.ogg",
+   "fallback": null,
+   "pan": 0.0,
+   "rules_cue": "tap_small",
+   "license": "Public domain"
+  },
+  {
+   "cue": "steps",
+   "t": 14.3,
+   "frame": 343,
+   "tolerance_frames": 1,
+   "window_frames": [
+    342,
+    344
+   ],
+   "stem": "steps",
+   "what": "Renzo rises and walks to the clock (2 steps, every ~0.35 s, stop by 15.00)",
+   "source": "File:Concrete Steps 2.ogg",
+   "fallback": null,
+   "pan": 0.1,
+   "dur": 0.7,
+   "end_frame": 360,
+   "gain_db": -6.9,
+   "rules_cue": "footsteps 14.3",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "punch",
+   "t": 15.0,
+   "frame": 360,
+   "tolerance_frames": 1,
+   "window_frames": [
+    359,
+    361
+   ],
+   "stem": "foley",
+   "what": "Renzo punches in (12:03, end of his break); his card drops a slot",
+   "source": "File:Cupboarddoorclose.ogg",
+   "fallback": "substitute: no openly licensed time-clock recording could be downloaded (WWS Timeclock.ogg found, CC BY 4.0, but upload.wikimedia.org answered 429 throughout); the 'ka-chunk' is two real recordings layered: a cupboard door closing (CC BY-SA 3.0) and a knock on wood 75 ms later (PD)",
+   "pan": 0.0,
+   "rules_cue": "timeclock_punch",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "lid",
+   "t": 18.0,
+   "frame": 432,
+   "tolerance_frames": 1,
+   "window_frames": [
+    431,
+    433
+   ],
+   "stem": "foley",
+   "what": "L_lid closed",
+   "source": "File:Cupboarddoorclose.ogg",
+   "fallback": null,
+   "pan": 0.0,
+   "rules_cue": "lid_tin",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "steps",
+   "t": 19.0,
+   "frame": 456,
+   "tolerance_frames": 1,
+   "window_frames": [
+    455,
+    457
+   ],
+   "stem": "steps",
+   "what": "Luciana walks from the corner to the clock (2 steps, every ~0.30 s, stop by 19.60)",
+   "source": "File:Concrete Steps 2.ogg",
+   "fallback": null,
+   "pan": -0.4,
+   "dur": 0.6,
+   "end_frame": 470,
+   "gain_db": -8.0,
+   "rules_cue": "footsteps 19.0",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "punch",
+   "t": 20.0,
+   "frame": 480,
+   "tolerance_frames": 1,
+   "window_frames": [
+    479,
+    481
+   ],
+   "stem": "foley",
+   "what": "Luciana punches in (12:04, end of her break)",
+   "source": "File:Cupboarddoorclose.ogg",
+   "fallback": "substitute: no openly licensed time-clock recording could be downloaded (WWS Timeclock.ogg found, CC BY 4.0, but upload.wikimedia.org answered 429 throughout); the 'ka-chunk' is two real recordings layered: a cupboard door closing (CC BY-SA 3.0) and a knock on wood 75 ms later (PD)",
+   "pan": 0.0,
+   "rules_cue": "timeclock_punch",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "steps",
+   "t": 20.05,
+   "frame": 481,
+   "tolerance_frames": 1,
+   "window_frames": [
+    480,
+    482
+   ],
+   "stem": "steps",
+   "what": "foreman pacing resumes, fading (25 steps, every ~0.60 s, stop by 35.00)",
+   "source": "File:Concrete Steps 2.ogg",
+   "fallback": null,
+   "pan": -0.6,
+   "dur": 14.95,
+   "end_frame": 840,
+   "gain_db": -10.5,
+   "rules_cue": "footsteps_foreman 20.0",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "slate",
+   "t": 35.0,
+   "frame": 840,
+   "tolerance_frames": 1,
+   "window_frames": [
+    839,
+    841
+   ],
+   "stem": "foley",
+   "what": "SLATE: handmade typed card + light box; whoosh as the card is set down",
+   "source": "File:Book paper pages assorted.ogg",
+   "fallback": null,
+   "pan": 0.0,
+   "rules_cue": "whoosh",
+   "license": "Public domain"
+  },
+  {
+   "cue": "slate",
+   "t": 35.25,
+   "frame": 846,
+   "tolerance_frames": 1,
+   "window_frames": [
+    845,
+    847
+   ],
+   "stem": "foley",
+   "what": "Luciana's strip slides 3 minutes right (12:00-12:04 -> 12:03-12:07)",
+   "source": "File:Book paper pages assorted.ogg",
+   "fallback": null,
+   "pan": 0.0,
+   "rules_cue": "card_slide",
+   "license": "Public domain"
+  },
+  {
+   "cue": "bell",
+   "t": 37.0,
+   "frame": 888,
+   "tolerance_frames": 1,
+   "window_frames": [
+    887,
+    889
+   ],
+   "stem": "bells",
+   "what": "work bell: Renzo's break only (single shorter ring)",
+   "source": "File:Model 500 Telephone British ring.ogg",
+   "fallback": null,
+   "pan": 0.0,
+   "dur": 1.2,
+   "end_frame": 917,
+   "rules_cue": "work_bell",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "room",
+   "t": 37.0,
+   "frame": 888,
+   "tolerance_frames": 1,
+   "window_frames": [
+    887,
+    889
+   ],
+   "stem": "room",
+   "what": "B room tone bed; clock tick rises from 42.0 to 52.0 (R waits alone), eases after the late bell",
+   "source": null,
+   "fallback": null,
+   "pan": 0.0,
+   "dur": 35.0,
+   "end_frame": 1728,
+   "rules_cue": "room_tone/clock_tick B",
+   "license": ""
+  },
+  {
+   "cue": "steps",
+   "t": 37.4,
+   "frame": 898,
+   "tolerance_frames": 1,
+   "window_frames": [
+    897,
+    899
+   ],
+   "stem": "steps",
+   "what": "B foreman pacing (FLOOR); stops at 42.0 (9 steps, every ~0.55 s, stop by 42.00)",
+   "source": "File:Concrete Steps 2.ogg",
+   "fallback": null,
+   "pan": -0.6,
+   "dur": 4.6,
+   "end_frame": 1008,
+   "gain_db": -10.5,
+   "rules_cue": "footsteps_foreman 37.4",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "steps",
+   "t": 37.4,
+   "frame": 898,
+   "tolerance_frames": 1,
+   "window_frames": [
+    897,
+    899
+   ],
+   "stem": "steps",
+   "what": "B Renzo walks on from the right (4 steps, every ~0.48 s, stop by 39.00)",
+   "source": "File:Concrete Steps 2.ogg",
+   "fallback": null,
+   "pan": 0.6,
+   "dur": 1.6,
+   "end_frame": 936,
+   "gain_db": -6.9,
+   "rules_cue": "footsteps 37.4",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "paper",
+   "t": 42.0,
+   "frame": 1008,
+   "tolerance_frames": 1,
+   "window_frames": [
+    1007,
+    1009
+   ],
+   "stem": "foley",
+   "what": "FOREMAN TURNS to OFFICE: substitution front -> back photograph (12:01)",
+   "source": "File:Book paper pages assorted.ogg",
+   "fallback": null,
+   "pan": 0.0,
+   "rules_cue": "paper_rustle",
+   "license": "Public domain"
+  },
+  {
+   "cue": "paper",
+   "t": 49.0,
+   "frame": 1176,
+   "tolerance_frames": 1,
+   "window_frames": [
+    1175,
+    1177
+   ],
+   "stem": "foley",
+   "what": "foreman turns a time sheet",
+   "source": "File:Book paper pages assorted.ogg",
+   "fallback": null,
+   "pan": 0.0,
+   "rules_cue": "paper_rustle",
+   "license": "Public domain"
+  },
+  {
+   "cue": "bite",
+   "t": 51.0,
+   "frame": 1224,
+   "tolerance_frames": 1,
+   "window_frames": [
+    1223,
+    1225
+   ],
+   "stem": "foley",
+   "what": "renzo bites: apple0->apple1 (his one bite, for her)",
+   "source": "File:Crunching munching grinding.ogg",
+   "fallback": "substitute: a real crunch (pistachio husks ground in the fist, PDSounds), not an apple bite; no openly licensed apple-bite recording found",
+   "pan": 0.0,
+   "rules_cue": "bite_crunch",
+   "license": "Public domain"
+  },
+  {
+   "cue": "steps",
+   "t": 51.3,
+   "frame": 1231,
+   "tolerance_frames": 1,
+   "window_frames": [
+    1230,
+    1232
+   ],
+   "stem": "steps",
+   "what": "B Renzo rises and walks to the clock (2 steps, every ~0.35 s, stop by 52.00)",
+   "source": "File:Concrete Steps 2.ogg",
+   "fallback": null,
+   "pan": 0.1,
+   "dur": 0.7,
+   "end_frame": 1248,
+   "gain_db": -6.9,
+   "rules_cue": "footsteps 51.3",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "bell",
+   "t": 52.0,
+   "frame": 1248,
+   "tolerance_frames": 1,
+   "window_frames": [
+    1247,
+    1249
+   ],
+   "stem": "bells",
+   "what": "LATE BELL (higher, different bell): Luciana's break begins 12:03",
+   "source": "File:WWS Minetelephone.ogg",
+   "fallback": null,
+   "pan": 0.0,
+   "dur": 1.6,
+   "end_frame": 1286,
+   "rules_cue": "late_bell",
+   "license": "CC BY 4.0"
+  },
+  {
+   "cue": "punch",
+   "t": 52.0,
+   "frame": 1248,
+   "tolerance_frames": 1,
+   "window_frames": [
+    1247,
+    1249
+   ],
+   "stem": "foley",
+   "what": "Renzo punches in (12:03), same frame as the late bell",
+   "source": "File:Cupboarddoorclose.ogg",
+   "fallback": "substitute: no openly licensed time-clock recording could be downloaded (WWS Timeclock.ogg found, CC BY 4.0, but upload.wikimedia.org answered 429 throughout); the 'ka-chunk' is two real recordings layered: a cupboard door closing (CC BY-SA 3.0) and a knock on wood 75 ms later (PD)",
+   "pan": 0.0,
+   "rules_cue": "timeclock_punch",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "steps",
+   "t": 52.0,
+   "frame": 1248,
+   "tolerance_frames": 1,
+   "window_frames": [
+    1247,
+    1249
+   ],
+   "stem": "steps",
+   "what": "B NEAR-MISS: Luciana crosses from the left (4 steps, every ~0.42 s, stop by 53.50)",
+   "source": "File:Concrete Steps 2.ogg",
+   "fallback": null,
+   "pan": -0.5,
+   "dur": 1.5,
+   "end_frame": 1284,
+   "gain_db": -7.5,
+   "rules_cue": "footsteps 52.0",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "steps",
+   "t": 52.4,
+   "frame": 1258,
+   "tolerance_frames": 1,
+   "window_frames": [
+    1257,
+    1259
+   ],
+   "stem": "steps",
+   "what": "B NEAR-MISS: Renzo walks back past the pile (3 steps, every ~0.40 s, stop by 53.50)",
+   "source": "File:Concrete Steps 2.ogg",
+   "fallback": null,
+   "pan": 0.3,
+   "dur": 1.1,
+   "end_frame": 1284,
+   "gain_db": -6.9,
+   "rules_cue": "footsteps 52.4",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "tap",
+   "t": 53.0,
+   "frame": 1272,
+   "tolerance_frames": 1,
+   "window_frames": [
+    1271,
+    1273
+   ],
+   "stem": "foley",
+   "what": "Renzo sets the once-bitten apple on Luciana's pail lid (wood tap)",
+   "source": "File:Knocking on wood or door.ogg",
+   "fallback": null,
+   "pan": 0.0,
+   "rules_cue": "tap_small",
+   "license": "Public domain"
+  },
+  {
+   "cue": "lid",
+   "t": 54.0,
+   "frame": 1296,
+   "tolerance_frames": 1,
+   "window_frames": [
+    1295,
+    1297
+   ],
+   "stem": "foley",
+   "what": "L_lid open",
+   "source": "File:Cupboarddoorclose.ogg",
+   "fallback": null,
+   "pan": 0.0,
+   "rules_cue": "lid_tin",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "bite",
+   "t": 55.0,
+   "frame": 1320,
+   "tolerance_frames": 1,
+   "window_frames": [
+    1319,
+    1321
+   ],
+   "stem": "foley",
+   "what": "luciana bites: apple1->apple2",
+   "source": "File:Crunching munching grinding.ogg",
+   "fallback": "substitute: a real crunch (pistachio husks ground in the fist, PDSounds), not an apple bite; no openly licensed apple-bite recording found",
+   "pan": 0.0,
+   "rules_cue": "bite_crunch",
+   "license": "Public domain"
+  },
+  {
+   "cue": "steps",
+   "t": 56.2,
+   "frame": 1349,
+   "tolerance_frames": 1,
+   "window_frames": [
+    1348,
+    1350
+   ],
+   "stem": "steps",
+   "what": "B Luciana moves to the open left end (2 steps, every ~0.30 s, stop by 56.80)",
+   "source": "File:Concrete Steps 2.ogg",
+   "fallback": null,
+   "pan": -0.3,
+   "dur": 0.6,
+   "end_frame": 1363,
+   "gain_db": -8.0,
+   "rules_cue": "footsteps 56.2",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "steps",
+   "t": 57.05,
+   "frame": 1369,
+   "tolerance_frames": 1,
+   "window_frames": [
+    1368,
+    1370
+   ],
+   "stem": "steps",
+   "what": "B foreman pacing resumes, fading (26 steps, every ~0.60 s, stop by 72.00)",
+   "source": "File:Concrete Steps 2.ogg",
+   "fallback": null,
+   "pan": -0.6,
+   "dur": 14.95,
+   "end_frame": 1728,
+   "gain_db": -10.5,
+   "rules_cue": "footsteps_foreman 57.0",
+   "license": "CC BY-SA 3.0"
+  },
+  {
+   "cue": "punch",
+   "t": 71.5,
+   "frame": 1716,
+   "tolerance_frames": 1,
+   "window_frames": [
+    1715,
+    1717
+   ],
+   "stem": "foley",
+   "what": "Luciana punches in (end of her late break, 12:06:54)",
+   "source": "File:Cupboarddoorclose.ogg",
+   "fallback": "substitute: no openly licensed time-clock recording could be downloaded (WWS Timeclock.ogg found, CC BY 4.0, but upload.wikimedia.org answered 429 throughout); the 'ka-chunk' is two real recordings layered: a cupboard door closing (CC BY-SA 3.0) and a knock on wood 75 ms later (PD)",
+   "pan": 0.0,
+   "rules_cue": "timeclock_punch",
+   "license": "CC BY-SA 3.0"
+  }
+ ]
+}

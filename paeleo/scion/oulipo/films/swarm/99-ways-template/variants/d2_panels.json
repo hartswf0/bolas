@@ -1,0 +1,147 @@
+{
+ "slug": "99-ways-template",
+ "derived_from": "b1",
+ "operator": "viewpoint: the VISITOR's side of the ticket window",
+ "page": "assets/pages/99-ways-template-platform.png",
+ "page_px": [
+  2550,
+  3300
+ ],
+ "dpi": 300,
+ "label_box_px": [
+  160,
+  168,
+  1275,
+  349
+ ],
+ "route": [
+  "V1",
+  "V2",
+  "V3",
+  "V4"
+ ],
+ "balloon_order": "top-left first within a panel",
+ "panels": [
+  {
+   "id": "V1",
+   "bounds_px": [
+    150,
+    330,
+    2400,
+    1250
+   ],
+   "speech": [
+    {
+     "id": "b_what_time",
+     "box_panel_px": [
+      1471,
+      91,
+      2123,
+      645
+     ],
+     "centre_panel_px": [
+      1848.369565217391,
+      250.0
+     ],
+     "tail_tip_panel_px": [
+      1478.369565217391,
+      637.608695652174
+     ],
+     "tail_exits_panel": false,
+     "cap_px": 66,
+     "lines": [
+      "What time",
+      "is it?"
+     ],
+     "speaker": "VISITOR",
+     "tail_target": "her mouth (she stands at the ticket window, on the platform)"
+    }
+   ],
+   "rest_layers": "films/swarm/99-ways-template/variants/rest/D2/V1/layers.json"
+  },
+  {
+   "id": "V2",
+   "bounds_px": [
+    150,
+    1320,
+    1245,
+    2160
+   ],
+   "speech": [],
+   "rest_layers": "films/swarm/99-ways-template/variants/rest/D2/V2/layers.json"
+  },
+  {
+   "id": "V3",
+   "bounds_px": [
+    1305,
+    1320,
+    2400,
+    2160
+   ],
+   "speech": [
+    {
+     "id": "b_ten_past",
+     "box_panel_px": [
+      47,
+      15,
+      542,
+      654
+     ],
+     "centre_panel_px": [
+      300.0,
+      175.0
+     ],
+     "tail_tip_panel_px": [
+      516.3653697529701,
+      647.1178730905708
+     ],
+     "tail_exits_panel": false,
+     "cap_px": 66,
+     "lines": [
+      "Ten past",
+      "four!"
+     ],
+     "speaker": "CLERK",
+     "tail_target": "clerk's mouth, through the glass"
+    }
+   ],
+   "rest_layers": "films/swarm/99-ways-template/variants/rest/D2/V3/layers.json"
+  },
+  {
+   "id": "V4",
+   "bounds_px": [
+    150,
+    2230,
+    2400,
+    3150
+   ],
+   "speech": [
+    {
+     "id": "b_thanks",
+     "box_panel_px": [
+      134,
+      264,
+      662,
+      659
+     ],
+     "centre_panel_px": [
+      446.660306562399,
+      366.08894852506546
+     ],
+     "tail_tip_panel_px": [
+      140.660306562399,
+      652.0889485250655
+     ],
+     "tail_exits_panel": false,
+     "cap_px": 64,
+     "lines": [
+      "Thanks!"
+     ],
+     "speaker": "VISITOR",
+     "tail_target": "her mouth, as she leaves along the platform"
+    }
+   ],
+   "rest_layers": "films/swarm/99-ways-template/variants/rest/D2/V4/layers.json"
+  }
+ ]
+}
