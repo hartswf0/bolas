@@ -1,0 +1,89 @@
+{
+ "n": 93,
+ "id": "pendulum",
+ "title": "Pendulum",
+ "family": "time and order",
+ "medium": "spiral-disc",
+ "canon_revision": "c1",
+ "rule": "Each panel is one swing of the clock's pendulum, which crosses every gutter; the count of swings is the page's only measure of time.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/93-pendulum.jpg",
+ "master": "films/sources/99-ways/masters/93-pendulum.png",
+ "beats_dir": "films/sources/99-ways/beats/93",
+ "build": "films/swarm/99-ways/build/p93_pendulum.py (b1m2 cut-paper figure model printed in ink, as pages 06/46; ring disc: films/swarm/anemic-cinema/optics.render_rings)",
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "none: the four lines verbatim",
+ "sources": [
+  "99-ways:handmade",
+  "anemic-cinema:o-a-engraved-ring-disc",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934"
+ ],
+ "made": [
+  "eight panels in four tiers of two on the LoC 1934 sheet; each panel an upright ink print of the b1m2 HANDMADE cut-paper office model (agent in waistcoat and shirt sleeves with pencil, stranger in cloche hat behind the TICKET OFFICE window, desk, memo pencilled 4:15 in red, wall clock at 4:10 drawn WITHOUT a pendulum, cupboard opening on its left jamb, SERVICE door with a red-lettered SERVICE card), the ANRC 1922 key cutout in brass with a SERVICE tag",
+  "the pendulum: a HANDMADE cut-card brass rod pinned with a brass pin in the gutter above each tier (tier 1 hangs from the clock case cut in the header), crossing the gutter into the panel; its bob a brass card disc printed with the anemic-cinema O_A engraved eccentric-ring disc (procedural), turned a step per swing, with the swing number 1-8 in red at its hub",
+  "the bob is on the left in left panels and on the right in right panels; in every panel a pencil-dotted arc and a ghost ring show the swing coming across the centre gutter from the other side",
+  "captions on pasted slips begin 'Swing 1.' ... 'Swing 8.'; no clock time or interval is stated in any caption (the clock face in panel 4 and the memo's 4:15 are objects of the story, and the canon answer names 4:10)",
+  "the four canon lines verbatim in cut-paper balloons (panels 3, 4, 5, 8); header in the pen hand: 'The station clock's pendulum: / one panel, one swing.'; folio '93 / Pendulum'"
+ ],
+ "events": {
+  "E0": "swings 1-2: memo on the desk (4:15 in red); he gets up and sets off",
+  "E1": "swing 3: question at the TICKET OFFICE window",
+  "E2": "swing 4: he looks up at the clock (4:10); answer",
+  "E3": "swing 5: thanks; swing 6: she turns away",
+  "E4": "swing 6: on to the cupboard; swing 7: he opens it, the brass key on its hook tagged SERVICE",
+  "E5": "swing 8: pencil to chin, forgetting line; caption: the key stays, the door stays shut"
+ },
+ "beat": "the pendulum swings once per frame: each frame adds the next panel and the bob arrives on the other side, its dotted path crossing the centre gutter",
+ "beat_frames": [
+  "b01: swing 1, panel 1 filled, bob left",
+  "b02: swing 2, panel 2 filled, bob right",
+  "b03: swing 3, panel 3 filled, bob left",
+  "b04: swing 4, panel 4 filled, bob right",
+  "b05: swing 5, panel 5 filled, bob left",
+  "b06: swing 6, panel 6 filled, bob right",
+  "b07: swing 7, panel 7 filled, bob left",
+  "b08: swing 8, panel 8 filled, bob right"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 930885,
+  "jpeg_quality": 90,
+  "in_target_0_4_1_2MB": true,
+  "beat_frames": 8,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "check": "A reader sees the pendulum alternate sides from panel to panel.",
+  "evidence": "perceptually judged by the maker at full size: bob left, right, left, right... with numbered bobs 1-8; captions measure time only in swings",
+  "pending": "independent blind reading not run by the maker",
+  "panels": 8,
+  "bob_sides": [
+   "left",
+   "right",
+   "left",
+   "right",
+   "left",
+   "right",
+   "left",
+   "right"
+  ],
+  "time_words_in_captions": "only 'Swing n.'"
+ },
+ "weaknesses": [
+  "four pivots (one per tier) rather than one continuous pendulum: each tier shows the same pendulum again; the rod crosses the horizontal gutter and the swing path the vertical gutter, not literally every gutter",
+  "alternation coincides with the two-column layout, so 'left/right' is also simply the column; the numbered bob and dotted path carry the swing",
+  "silhouette figures are small (about 300 px); the stranger in panel 6 is half hidden behind the rod; key and SERVICE tags need a close look",
+  "panel 8's caption is cut down to 'The key stays; the door stays shut.' to clear his head",
+  "spiral-disc medium is present only as the ring-printed bobs; the disc does not visibly spiral in a still"
+ ]
+}

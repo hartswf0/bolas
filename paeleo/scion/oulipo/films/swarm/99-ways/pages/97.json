@@ -1,0 +1,76 @@
+{
+ "n": 97,
+ "id": "six-words",
+ "title": "Six words",
+ "family": "reduction and expansion",
+ "medium": "pen-hand",
+ "canon_revision": "c1",
+ "rule": "Six panels, each captioned with a single word; no balloons.",
+ "declares": "the four lines replaced by six single words",
+ "file": "assets/pages/99-ways/97-six-words.jpg",
+ "master": "films/sources/99-ways/masters/97-six-words.png",
+ "beats_dir": "films/sources/99-ways/beats/97",
+ "build": "films/swarm/99-ways/build/p97_six_words.py (pen and panels: build/p51_pen_alone.py; figure model: build/b1m2.py)",
+ "sources": [
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "six panels in a 2x3 grid, each a pen drawing over a ruled caption band holding one word: Errand. / Time? / Clock. / Thanks. / Key. / Why?",
+  "drawings in page 51's one-weight pen (4.42 px, hidden lines lifted) over page 05's HANDMADE figure model (b1m2 agent with spectacles, waistcoat, pencil; stranger with hat behind the ticket window; desk, clock at 4:10, cupboard, key on its hook, SERVICE door)",
+  "everything page 51 lettered is drawn unlettered so no seventh word appears: the memo as a ruled slip of pen scribble lines, the ticket-window header blank, the SERVICE door card and the key tag as blank ruled boxes",
+  "caption words in the shared pen hand (pen99.letter, cap 116, weight 0.105); LoC 1934 sheet as the only ground; folio by pen99.folio"
+ ],
+ "events": {
+  "E0": "P1 'Errand.': memo slip on the desk, he walks from it toward the closed cupboard",
+  "E1": "P2 'Time?': she at the ticket window, he stopped facing her",
+  "E2": "P3 'Clock.': he looks up at the clock at 4:10",
+  "E3": "P4 'Thanks.': she turns and leaves the window",
+  "E4": "P5 'Key.': the cupboard open, the key on its hook",
+  "E5": "P6 'Why?': pencil to his chin; key still on its hook; the SERVICE door shut"
+ },
+ "words": [
+  "Errand.",
+  "Time?",
+  "Clock.",
+  "Thanks.",
+  "Key.",
+  "Why?"
+ ],
+ "substitutions": "the four lines become the single words Time? (question), Clock. (answer), Thanks. (thanks), Why? (forgetting); Errand. and Key. caption E0 and E4",
+ "beat": "the page written panel by panel: each picture drawn, then its one word lettered under it; the cupboard drawn shut then open; 'Why?' written last",
+ "beat_frames": [
+  "b01: frames ruled, P1 drawn (he has just left the desk), no word",
+  "b02: 'Errand.' written",
+  "b03: P2 and 'Time?'",
+  "b04: P3, P4 and 'Clock.', 'Thanks.'",
+  "b05: P5 with the cupboard shut",
+  "b06: the cupboard open, the key on its hook, 'Key.'",
+  "b07: P6 drawn, pencil at chin, no word",
+  "b08: 'Why?' written (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 791976,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "beat_frames": 8,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "words_outside_margin": 6,
+  "balloons": 0,
+  "check": "A reader counts exactly six words on the page outside the margin -> Errand, Time, Clock, Thanks, Key, Why; memo scribble, blank cards and tag carry no letters; the folio line is the margin",
+  "evidence": "measured (size, word lists) and perceptually judged from the full-size page by the maker; blind reading pending"
+ },
+ "weaknesses": [
+  "without the memo text, TICKET OFFICE and SERVICE lettering, the objects lean on their drawing and the six words: the SERVICE door is only 'a door with a blank card', and why the key matters is carried by 'Errand.' + 'Key.' alone",
+  "'Clock.' names what he looks at rather than what he answers; the exact time is legible only from the clock hands",
+  "the stranger is the b1m2 cut-paper model drawn in outline; her hat reads oddly behind the glazing bars",
+  "the caption rule sits just under the floor line, so each panel ends in a double rule"
+ ]
+}

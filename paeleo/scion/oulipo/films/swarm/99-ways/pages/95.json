@@ -1,0 +1,99 @@
+{
+ "n": 95,
+ "id": "intertitles",
+ "title": "Intertitles",
+ "family": "genre",
+ "medium": "rol-cutout",
+ "canon_revision": "c1",
+ "rule": "A silent picture: pantomime panels alternate with ornate title cards carrying the lines.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/95-intertitles.jpg",
+ "master": "films/sources/99-ways/masters/95-intertitles.png",
+ "beats_dir": "films/sources/99-ways/beats/95",
+ "build": "films/swarm/99-ways/build/p95_intertitles.py (rest layers: kit/build_page01; Rol cutout and print grammar: kit/build_page04)",
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "none: the four lines verbatim",
+ "sources": [
+  "99-ways-template:rothstein-randolph-agent-1937",
+  "99-ways-template:rothstein-tavern-clock-1937",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways:rol-34852-sainte-catherine-1913",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "a main title card across the head: 'THE SERVICE KEY / A photoplay in one reel - Randolph station, Vermont, 1937' (jumping pen lettering of the rol-cutout kit, in cream on black)",
+  "twelve cells in a checkerboard read row by row: picture, card, picture, card ...; six pantomime pictures and six title cards",
+  "pictures: the 99-ways-template Rothstein rest layers recomposed WITHOUT balloons (P1 desk and memo; P5 under the tavern clock at 4:10; P8 open cupboard, key on its hook tagged SERVICE, pencil to chin; last shot P8 without the agent, irised in on the key and tag); the stranger is the Agence Rol 34852 woman (page 04's cutout) laid behind the TICKET OFFICE glass of rest layer P6, its gilt letters laid back over her; for the thanks the cutout is reversed and bowed",
+  "every picture toned and printed inside a black film gate with rounded corners and a light vignette, pasted with its shadow",
+  "title cards: HANDMADE black cards (LoC sheet fibre in the card) with a pen-drawn cream double rule, corner scrolls and lozenges; cards carry the memo (expository), the four canon lines in quotation marks, and the outcome with THE END",
+  "folio '95 / Intertitles'"
+ ],
+ "reel": [
+  "desk",
+  "His memo: | open the SERVICE door | at 4:15. The key is | in the cupboard.",
+  "lady_ask",
+  "\"Pardon me — | have you the | right time?\"",
+  "clock",
+  "\"Ten past four, | by the clock.\"",
+  "lady_thanks",
+  "\"Much obliged!\"",
+  "cupboard",
+  "\"Well, here I am... | and what for?\"",
+  "iris_key",
+  "The key stays on its hook; | the SERVICE door | stays closed. | THE END"
+ ],
+ "events": {
+  "E0": "cell 1 picture (desk, memo) + cell 2 card (memo)",
+  "E1": "cell 3 picture (her at the glass) + cell 4 card (question)",
+  "E2": "cell 5 picture (clock 4:10) + cell 6 card (answer)",
+  "E3": "cell 7 picture (her bow, turning) + cell 8 card (thanks)",
+  "E4": "cell 9 picture (open cupboard, key)",
+  "E5": "cell 9 pose + cell 10 card (forgetting) + cell 11 iris on key + cell 12 card (outcome, THE END)"
+ },
+ "beat": "the reel projected: the main title, then cells appear in reading order, picture then title card, two at a time",
+ "beat_frames": [
+  "b01 main title",
+  "b02 + desk",
+  "b03 + memo card, lady",
+  "b04 + question, clock",
+  "b05 + answer, thanks picture",
+  "b06 + thanks card, cupboard",
+  "b07 + forgetting card, iris, THE END"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 1001923,
+  "jpeg_quality": 90,
+  "in_target_0_4_1_2MB": true,
+  "beat_frames": 7,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "check": "No balloon appears; every line is on a title card between pictures.",
+  "evidence": "by construction (panel_rest drops every b_ layer; no balloon code in the build) and by eye: each of the four line cards (cells 4, 6, 8, 10) has a picture before and after it",
+  "pending": "independent blind reading not run by the maker",
+  "balloons": 0,
+  "line_cards": [
+   4,
+   6,
+   8,
+   10
+  ]
+ },
+ "weaknesses": [
+  "the stranger is the Rol 1913 woman (festive bonnet), not Bubley's figure, as on pages 04/73/78; the two lady shots are nearly the same picture",
+  "the first and last title cards are expository (memo, outcome) as well as the four line cards; the end card follows the last picture directly",
+  "the rest-layer agent keeps the white scissor margins of page 01's cutouts, which read as cutouts more than as film",
+  "the iris shot's key and SERVICE tag are small at phone width"
+ ]
+}

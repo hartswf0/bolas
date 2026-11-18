@@ -1,0 +1,83 @@
+{
+ "n": 99,
+ "id": "marginalia",
+ "title": "Marginalia",
+ "family": "reader and object",
+ "medium": "photo-cutout",
+ "canon_revision": "c1",
+ "rule": "Page 01 reprinted small with an annotator's pencil notes pointing to the evidence for each event.",
+ "declares": "keeps E0-E5, the four lines and the outcome",
+ "file": "assets/pages/99-ways/99-marginalia.jpg",
+ "master": "films/sources/99-ways/masters/99-marginalia.png",
+ "beats_dir": "films/sources/99-ways/beats/99",
+ "build": "films/swarm/99-ways/build/p99_marginalia.py",
+ "sources": [
+  "99-ways-template:rothstein-randolph-agent-1937",
+  "99-ways-template:rothstein-tavern-clock-1937",
+  "99-ways-template:anrc-gold-key-1922",
+  "99-ways-template:loc-blank-sheet-1934",
+  "99-ways:handmade"
+ ],
+ "made": [
+  "page 01's own master (films/sources/99-ways/masters/01-template.png: the Rothstein 1937 agent and office, Rothstein tavern clock, ANRC 1922 key photo-cutouts) reprinted at 0.56 as a photographic print with a white border, one gentle neutral grade, laid 0.8 degrees askew with a cast shadow on the LoC 1934 sheet",
+  "HANDMADE pencil: notes in the shared pen hand drawn in graphite grey (62,62,70), broken by the sheet's own tooth (high-pass of the LoC sheet grain); pencil rings round each piece of evidence on the print and bowed leaders with arrowheads from each note (one leader bent along a gutter to reach the clock)",
+  "seven notes: a header 'p. 01, read again with a pencil: where does each event show?', notes E0-E5 each labelled with its event id, and a closing summary of the outcome",
+  "folio by pen99.folio"
+ ],
+ "events": {
+  "E0": "note E0 (top left): rings on P1's memo and P3's shut cupboard",
+  "E1": "note E1 (left): ring on P4's question balloon at the TICKET OFFICE glass",
+  "E2": "note E2 (right): ring on P5's clock at 4:10",
+  "E3": "note E3 (right): ring on P6's emptied window",
+  "E4": "note E4 (left): ring on P7's key on its hook, tag SERVICE",
+  "E5": "note E5 (bottom): rings on P8's pencil at the chin, the key still on its hook and the SERVICE card"
+ },
+ "lines": {
+  "question": "Pardon me — have you the right time?",
+  "answer": "Ten past four, by the clock.",
+  "thanks": "Much obliged!",
+  "forgetting": "Well, here I am... and what for?"
+ },
+ "substitutions": "none (the lines are page 01's, reprinted)",
+ "beat": "the annotator works through the reprint: the bare print first, then one pencil note with its rings and leaders per event, E0 to E5, and last the summary",
+ "beat_frames": [
+  "b01: the reprint alone (header only)",
+  "b02: + E0",
+  "b03: + E1",
+  "b04: + E2",
+  "b05: + E3",
+  "b06: + E4",
+  "b07: + E5 and the summary (= the page)"
+ ],
+ "self_check": {
+  "size_px": [
+   2200,
+   2850
+  ],
+  "jpeg_bytes": 997632,
+  "jpeg_quality": 90,
+  "in_target_0.4_1.2MB": true,
+  "beat_frames": 7,
+  "beat_size": [
+   960,
+   1242
+  ],
+  "notes": [
+   "E0",
+   "E1",
+   "E2",
+   "E3",
+   "E4",
+   "E5"
+  ],
+  "check": "A reader finds a note pointing to every event E0-E5 -> six labelled notes, each with a leader ending in a pencil ring on page 01's evidence",
+  "evidence": "measured (size, word lists) and perceptually judged from the full-size page by the maker; blind reading pending"
+ },
+ "weaknesses": [
+  "at 0.56 the reprinted page 01's own memo and key-tag lettering is tiny; the notes quote it so it need not be read there",
+  "the reprint is page 01's digital master scaled, not a rephotographed print; the 'photographic print' is the border, grade, tilt and shadow",
+  "the E0 leaders and the E5 leaders cross other panels of the reprint on their way to the evidence",
+  "page 01 never shows the stranger; the E1 note says so instead of pointing to her",
+  "the pencil is the shared pen hand in grey with paper tooth, not a separate pencil hand"
+ ]
+}
