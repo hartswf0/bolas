@@ -1,0 +1,183 @@
+{
+ "measured_frames": 562,
+ "skipped_frames": 14,
+ "I1": {
+  "ok": true,
+  "events": [
+   {
+    "t": 3.0,
+    "what": "turns_head",
+    "found_at": 3.0417,
+    "dt": 0.042,
+    "ok": true
+   },
+   {
+    "t": 4.5,
+    "what": "steps_out",
+    "found_at": 4.625,
+    "dt": 0.125,
+    "ok": true
+   },
+   {
+    "t": 6.0,
+    "what": "draws",
+    "found_at": 6.0417,
+    "dt": 0.042,
+    "ok": true
+   },
+   {
+    "t": 6.5,
+    "what": "raises_gun",
+    "found_at": 6.5833,
+    "dt": 0.083,
+    "ok": true
+   },
+   {
+    "t": 9.5,
+    "what": "hit_1",
+    "found_at": 9.5,
+    "dt": 0.0,
+    "ok": true
+   },
+   {
+    "t": 12.2,
+    "what": "knocked_down",
+    "found_at": 12.4167,
+    "dt": 0.217,
+    "ok": true
+   },
+   {
+    "t": 14.0,
+    "what": "gets_up",
+    "found_at": 13.875,
+    "dt": -0.125,
+    "ok": true
+   },
+   {
+    "t": 15.0,
+    "what": "hit_2",
+    "found_at": 15.0,
+    "dt": 0.0,
+    "ok": true
+   },
+   {
+    "t": 16.0,
+    "what": "hit_3",
+    "found_at": 16.0,
+    "dt": 0.0,
+    "ok": true
+   },
+   {
+    "t": 17.0,
+    "what": "hit_4",
+    "found_at": 17.0,
+    "dt": 0.0,
+    "ok": true
+   },
+   {
+    "t": 18.0,
+    "what": "hit_5",
+    "found_at": 18.0,
+    "dt": 0.0,
+    "ok": true
+   },
+   {
+    "t": 19.5,
+    "what": "shatter",
+    "found_at": 19.5,
+    "dt": 0.0,
+    "ok": true
+   },
+   {
+    "t": 22.0,
+    "what": "sits",
+    "found_at": 22.0417,
+    "dt": 0.042,
+    "ok": true
+   }
+  ]
+ },
+ "I2": {
+  "ok": true,
+  "window": [
+   0.88125,
+   0.11851851851851852,
+   0.9458333333333333,
+   0.6111111111111112
+  ],
+  "inside_before_4_5": 1.0,
+  "outside_after_5_5": 1.0,
+  "never_elsewhere_before": true
+ },
+ "I3": {
+  "ok": true,
+  "pieces": [
+   {
+    "shot": 1,
+    "t": 9.5,
+    "paint": "#2fd0d8",
+    "present_to_end": 1.0,
+    "colour_match": 0.7107507228730212,
+    "last_frame_pixels": 401,
+    "not_before": true,
+    "ok": true
+   },
+   {
+    "shot": 2,
+    "t": 15.0,
+    "paint": "#f2a83a",
+    "present_to_end": 1.0,
+    "colour_match": 0.6943728342766303,
+    "last_frame_pixels": 411,
+    "not_before": true,
+    "ok": true
+   },
+   {
+    "shot": 3,
+    "t": 16.0,
+    "paint": "#e85aa8",
+    "present_to_end": 1.0,
+    "colour_match": 0.6863026966980613,
+    "last_frame_pixels": 243,
+    "not_before": true,
+    "ok": true
+   },
+   {
+    "shot": 4,
+    "t": 17.0,
+    "paint": "#f2d04a",
+    "present_to_end": 1.0,
+    "colour_match": 0.7438842393412041,
+    "last_frame_pixels": 242,
+    "not_before": true,
+    "ok": true
+   },
+   {
+    "shot": 5,
+    "t": 18.0,
+    "paint": "#2a9a5a",
+    "present_to_end": 1.0,
+    "colour_match": 0.6255304076013269,
+    "last_frame_pixels": 284,
+    "not_before": true,
+    "ok": true
+   },
+   {
+    "shot": 6,
+    "t": 19.5,
+    "paint": "#d8342c",
+    "present_to_end": 1.0,
+    "colour_match": 0.7151755010256572,
+    "last_frame_pixels": 674,
+    "not_before": true,
+    "ok": true
+   }
+  ]
+ },
+ "I4": {
+  "ok": true,
+  "within_15pct": 1.0,
+  "r": 0.9991801669069966,
+  "frames": 335
+ }
+}
