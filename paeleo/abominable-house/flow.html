@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <title>The Abominable House · Full Flow</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Ten stops in one order through The Burning of the Abominable House, from the case in ten lines to the workstation, with the question each stop answers.">
+<meta name="description" content="Eleven stops in one order through The Burning of the Abominable House, from the case in ten lines to the workstation, with the question each stop answers.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=JetBrains+Mono:wght@400;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap" rel="stylesheet">
 <style>
@@ -24,15 +24,15 @@ li span{color:var(--mute);font-size:15px}li a:hover span{color:#1d1812}
 </style></head><body><main>
 <div class="crumb"><a href="./">THE ABOMINABLE HOUSE</a> / FULL FLOW</div>
 <h1>Who did what</h1>
-<p class="lede">A house burned. Four people died. A list of twelve crimes was found with no names on it. These ten stops go from that case to the machine that counts every possible story, in the order to see them.</p>
-<a class="go" href="watch.html" id="wa">WATCH ALL · 22 MIN</a> <a class="go" id="go" href="live/rerereorder.html" style="background:none;color:inherit;border:1.5px solid">START AT STOP 1</a>
+<p class="lede">A house burned. Four people died. A list of twelve crimes was found with no names on it. These eleven stops go from that case to the machine that counts every possible story, in the order to see them.</p>
+<a class="go" href="watch.html" id="wa">WATCH ALL · 22 MIN</a> <a class="go" id="go" href="live/mentalfilm.html" style="background:none;color:inherit;border:1.5px solid">START AT STOP 1</a>
 <div id="stops"></div>
 <p class="more">Around the flow: <a href="whole-house.html">the running order for presenting</a>, <a href="paper.html">the paper</a>, <a href="journal.html">the journal</a>, and two earlier films, <a href="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/abominable-house/">The Burning of the Abominable House</a> and <a href="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/by-what-light/index.html">By What Light</a>.</p>
 </main>
-<script>window.FLOW_HERE='flow.html';window.FLOW_MAP=window.FLOW_MAP||Object.fromEntries(['rerereorder','abom','player','film','guide','numbers','policies','reorder','rereorder','array'].map(n=>[n+'.html','live/'+n+'.html']).concat([['../flow.html','flow.html']]));</script>
+<script>window.FLOW_HERE='flow.html';window.FLOW_MAP=window.FLOW_MAP||Object.fromEntries(['mentalfilm','rerereorder','abom','player','film','guide','numbers','policies','reorder','rereorder','array'].map(n=>[n+'.html','live/'+n+'.html']).concat([['../flow.html','flow.html']]));</script>
 <script src="live/flow.js"></script>
 <script>
-const G=[['The case',[0,1]],['The machine',[2,3,4]],['The count',[5,6]],['The readings',[7,8,9]]],M=window.FLOW_MAP;
+const G=[['The frame',[0]],['The case',[1,2]],['The machine',[3,4,5]],['The count',[6,7]],['The readings',[8,9,10]]],M=window.FLOW_MAP;
 document.getElementById('stops').innerHTML=G.map(([h,ix])=>'<h2>'+h+'</h2><ol>'+ix.map(k=>{const s=FLOW[k];return '<li><a href="'+(M[s[0]]||s[0])+'"><b class="n">'+(k+1)+'</b><div><b class="t">'+s[1]+'</b><span>'+s[2]+'</span></div></a></li>'}).join('')+'</ol>').join('');
-document.getElementById('go').href=M['rerereorder.html'];
+document.getElementById('go').href=M['mentalfilm.html'];
 </script></body></html>
